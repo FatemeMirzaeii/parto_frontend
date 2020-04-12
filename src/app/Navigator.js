@@ -1,0 +1,63 @@
+import React from 'react';
+import { createSwitchNavigator } from 'react-navigation';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import { createStackNavigator } from 'react-navigation-stack';
+// import All Screens
+import Home from '../screens/HomeScreen/Home';
+
+
+
+
+const PagesNavigator = createStackNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: { headerShown: false },
+    },
+
+  },
+  { initialRouteName: 'Home' },
+);
+
+const DrawerNavigator = createDrawerNavigator(
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: { headerShown: false },
+    },
+
+    // },
+    // {
+    //   contentComponent: props => <DrawerView {...props} />,
+  },
+);
+
+const StackNavigator = createStackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: { headerShown: false },
+  },
+  // SplashScreen: {
+  //   screen: SplashScreen,
+  //   navigationOptions: { headerShown: false },
+  // },
+
+});
+export const AppSwitchNavigator = createSwitchNavigator(
+  {
+    Auth: {
+      screen: StackNavigator,
+      navigationOptions: { headerShown: false },
+    },
+    App: {
+      screen: DrawerNavigator,
+      navigationOptions: { headerShown: false },
+    },
+    Second: {
+      screen: PagesNavigator,
+      navigationOptions: { headerShown: false },
+    }
+  },
+  // { initialRouteName: 'Auth' },
+  { initialRouteName: 'App' },
+);
