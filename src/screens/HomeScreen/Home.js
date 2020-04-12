@@ -7,7 +7,7 @@ const { colors, size, fonts } = Theme
 const Home = (props) => {
     return (
         <Container >
-            <Text>پرتو نسخه 2</Text>
+            <Text style={{ fontFamily: fonts.bold }}>پرتو نسخه 2</Text>
         </Container >
     )
 };

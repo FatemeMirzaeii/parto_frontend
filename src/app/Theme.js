@@ -1,7 +1,8 @@
 import { Dimensions } from 'react-native';
-const _size = (((Dimensions.get('window').height) + (Dimensions.get('window').width)) / 10)
 export const Width = Math.round(Dimensions.get('window').width);
 export const Height = Math.round(Dimensions.get('window').height);
+const _size = (((Dimensions.get('window').height) + (Dimensions.get('window').width)) / 10)
+
 export const Theme = {
     colors: {
 
