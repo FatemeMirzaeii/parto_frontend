@@ -4,19 +4,24 @@ import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
+import Calendar from '../screens/CalendarScreen/Calendar';
 
 
 
 
 const PagesNavigator = createStackNavigator(
   {
+    Calendar: {
+      screen: Calendar,
+      navigationOptions: { headerShown: false },
+    },
     Home: {
       screen: Home,
       navigationOptions: { headerShown: false },
     },
 
   },
-  { initialRouteName: 'Home' },
+  // { initialRouteName: 'Home' },
 );
 
 const DrawerNavigator = createDrawerNavigator(
@@ -59,5 +64,5 @@ export const AppSwitchNavigator = createSwitchNavigator(
     }
   },
   // { initialRouteName: 'Auth' },
-  { initialRouteName: 'App' },
+  { initialRouteName: 'Second' },
 );
