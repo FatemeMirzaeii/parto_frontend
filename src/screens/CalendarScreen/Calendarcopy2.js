@@ -131,35 +131,56 @@ const CalendarClass = (props) => {
     return (
         <Container>
             <Agenda
-                style={styles.calendar}
+                jalali={jalali.jalaali}
+
                 current={'2020-05-16'}
-                markingType={'multi-dot'}
-                markedDates={{
-                    '2020-05-08': {
-                        selected: true,
-                        dots: [
-                            { key: 'vacation', color: 'blue', selectedDotColor: 'white' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'white' }
-                        ]
-                    },
-                    '2020-05-09': {
-                        disabled: true,
-                        dots: [
-                            { key: 'vacation', color: 'green', selectedDotColor: 'red' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'green' }
-                        ]
-                    },
-                    '2020-05-19': {
-                        disabled: false,
-                        dots: [
-                            { key: 'vacation', color: 'green', selectedDotColor: 'red' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'green' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'blue' }
-                        ]
+                minDate={'2020-05-10'}
+                markingType={'period'}
+                firstDay={6}
+                theme={{
+                    calendarBackground: '#F3E6FF',
+                    fontSize: 25,
+                    textSectionTitleColor: '#1E1B21',
+                    todayTextColor: '#CC33FF',
+
+                    selectedDayTextColor: '#CC33FF',
+                    monthTextColor: '#1E1B21',
+                    indicatorColor: 'red',
+                    selectedDayBackgroundColor: '#FFF9C4',
+                    elevation: 6,
+                    textDisabledColor: '#003366',
+                    textDayFontFamily: fonts.regular,
+                    textMonthFontFamily: fonts.regular,
+                    textDayHeaderFontFamily: fonts.regular,
+                    'stylesheet.calendar.header': {
+                        week: {
+                            marginTop: 5,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                        }
                     }
+                }}
+                markedDates={{
+                    '2020-05-17': { disabled: true },
+                    '2020-05-08': { textColor: '#009933' },
+                    '2020-05-09': { textColor: '#009933' },
+                    '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
+                    '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-05-24': { startingDay: true, color: '#FF57DD' },
+                    '2020-05-25': { color: '#FF57DD' },
+                    '2020-05-26': { endingDay: true, color: '#FF57DD' },
+                    '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+                    '2020-04-27': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                    '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
+                    '2020-05-05': { color: '#2EABFF', textColor: 'white' },
+                    '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                    '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
+                    '2020-05-30': { color: '#2EABFF', textColor: 'white' },
+                    '2020-06-10': { color: 'green', textColor: 'white', borderRadius: 0 },
 
                 }}
-
             />
         </Container>
 

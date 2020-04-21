@@ -5,12 +5,18 @@ import { createStackNavigator } from 'react-navigation-stack';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
+import Charts from '../screens/ChartsScreen/Charts';
 
 
 
 
 const PagesNavigator = createStackNavigator(
   {
+    Charts: {
+      screen: Charts,
+      navigationOptions: { headerShown: false },
+    },
+
     Calendar: {
       screen: Calendar,
       navigationOptions: { headerShown: false },
