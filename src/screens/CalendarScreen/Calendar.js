@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Agenda, Calendar, CalendarList } from 'react-native-calendars-persian';
-import { Container, Text, Button, Title } from 'native-base';
-import { StyleSheet } from 'react-native';
+import { Container, Text, Button, Title, View, Footer } from 'native-base';
+import { StyleSheet, ImageBackground, StatusBar } from 'react-native';
 import { Theme } from '../../app/Theme';
 const { colors, size, fonts } = Theme
 const testIDs = require('./testIDs');
@@ -129,39 +129,77 @@ const CalendarClass = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-        <Container>
+        <ImageBackground source={require('../../../assets/images/bg1.jpg')} style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
+            <View style={{ width: '100%', height: '100%', backgroundColor: '#AE94D6', opacity: 0.5, position: "absolute" }} />
+            <StatusBar translucent barStyle="light-content" backgroundColor='transparent' />
+            <View style={{
+                width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
+                position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
+            }}></View>
+            {/* <Container> */}
             <Agenda
+                jalali={jalali.jalaali}
                 style={styles.calendar}
                 current={'2020-05-16'}
-                markingType={'multi-dot'}
-                markedDates={{
-                    '2020-05-08': {
-                        selected: true,
-                        dots: [
-                            { key: 'vacation', color: 'blue', selectedDotColor: 'white' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'white' }
-                        ]
-                    },
-                    '2020-05-09': {
-                        disabled: true,
-                        dots: [
-                            { key: 'vacation', color: 'green', selectedDotColor: 'red' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'green' }
-                        ]
-                    },
-                    '2020-05-19': {
-                        disabled: false,
-                        dots: [
-                            { key: 'vacation', color: 'green', selectedDotColor: 'red' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'green' },
-                            { key: 'massage', color: 'red', selectedDotColor: 'blue' }
-                        ]
+                minDate={'2020-05-10'}
+                markingType={'period'}
+                firstDay={6}
+                theme={{
+                    backgroundColor: 'transparent',
+                    calendarBackground: 'white',
+                    opacity: 0,
+                    fontSize: 25,
+                    textSectionTitleColor: 'white',
+                    todayTextColor: '#CC33FF',
+
+                    selectedDayTextColor: '#CC33FF',
+                    monthTextColor: 'white',
+                    // indicatorColor: 'red',
+                    selectedDayBackgroundColor: 'red',
+                    elevation: 6,
+                    textDisabledColor: '#DEC1C7',
+                    textDayFontFamily: fonts.regular,
+                    textMonthFontFamily: fonts.regular,
+                    textDayHeaderFontFamily: fonts.regular,
+                    'stylesheet.calendar.header': {
+                        week: {
+                            marginTop: 5,
+                            flexDirection: 'row',
+                            justifyContent: 'space-between'
+                        }
                     }
+                }}
+                markedDates={{
+                    '2020-05-17': { disabled: true },
+                    '2020-05-08': { textColor: '#009933' },
+                    '2020-05-09': { textColor: '#009933' },
+                    '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
+                    '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-05-24': { startingDay: true, color: '#FF57DD' },
+                    '2020-05-25': { color: '#FF57DD' },
+                    '2020-05-26': { endingDay: true, color: '#FF57DD' },
+                    '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+                    '2020-04-27': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                    '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
+                    '2020-05-05': { color: '#2EABFF', textColor: 'white' },
+                    '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                    '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
+                    '2020-05-30': { color: '#2EABFF', textColor: 'white' },
+                    '2020-06-10': { color: 'green', textColor: 'white', borderRadius: 0 },
 
                 }}
-
             />
-        </Container>
+            <Footer style={{ backgroundColor: 'transparent', borderTopEndRadius: 30, borderTopStartRadius: 30, height: 60 }}>
+                <View
+                    style={{
+                        width: '100%', height: '100%', backgroundColor: 'white',
+                        borderTopEndRadius: 30, borderTopStartRadius: 30, opacity: 0.9
+                    }}
+                ></View>
+            </Footer>
+        </ImageBackground>
 
     )
 
@@ -169,7 +207,10 @@ const CalendarClass = (props) => {
 export default CalendarClass;
 const styles = StyleSheet.create({
     calendar: {
-        marginBottom: 10
+        // position: 'absolute',
+        width: '100%',
+        top: 30,
+        height: 130,
     },
     text: {
         textAlign: 'center',
