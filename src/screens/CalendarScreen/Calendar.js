@@ -9,8 +9,8 @@ const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
 moment2.loadPersian({ dialect: 'persian-modern' })
 const CalendarClass = (props) => {
-    const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'blue' };
-    const massage = { key: 'massage', color: 'blue', selectedDotColor: 'green' };
+    const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'green' };
+    const massage = { key: 'massage', color: '#15E307', selectedDotColor: 'green' };
     const workout = { key: 'workout', color: 'yellow' };
     const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' })
     const [state, setState] = useState({
@@ -141,23 +141,22 @@ const CalendarClass = (props) => {
                 jalali={jalali.jalaali}
                 style={styles.calendar}
                 current={'2020-05-16'}
-                minDate={'2020-05-10'}
-                markingType={'period'}
+                // minDate={'2020-05-10'}
+                markingType={'multi-dot'}
                 firstDay={6}
                 theme={{
-                    backgroundColor: 'transparent',
-                    calendarBackground: 'white',
-                    opacity: 0,
-                    fontSize: 25,
-                    textSectionTitleColor: 'white',
-                    todayTextColor: '#CC33FF',
 
-                    selectedDayTextColor: '#CC33FF',
+                    backgroundColor: 'transparent',
+                    calendarBackground: 'transparent',
+                    opacity: 0.5,
+                    textSectionTitleColor: '#35036B',
+                    todayTextColor: 'white',
+                    todayBackgroundColor: 'white',
+                    selectedDayTextColor: 'white',
                     monthTextColor: 'white',
-                    // indicatorColor: 'red',
-                    selectedDayBackgroundColor: 'red',
+                    selectedDayBackgroundColor: 'pink',
                     elevation: 6,
-                    textDisabledColor: '#DEC1C7',
+                    textDisabledColor: 'red',
                     textDayFontFamily: fonts.regular,
                     textMonthFontFamily: fonts.regular,
                     textDayHeaderFontFamily: fonts.regular,
@@ -171,7 +170,7 @@ const CalendarClass = (props) => {
                 }}
                 markedDates={{
                     '2020-05-17': { disabled: true },
-                    '2020-05-08': { textColor: '#009933' },
+                    '2020-04-21': { textColor: '#009933' },
                     '2020-05-09': { textColor: '#009933' },
                     '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
                     '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
@@ -187,7 +186,14 @@ const CalendarClass = (props) => {
                     '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
                     '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
                     '2020-05-30': { color: '#2EABFF', textColor: 'white' },
-                    '2020-06-10': { color: 'green', textColor: 'white', borderRadius: 0 },
+                    '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
+                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+
+                    '2020-04-25': { disabled: true, dotColor: 'green', dots: [vacation, massage, workout] },
+                    '2020-04-26': { disabled: true },
+                    '2020-04-27': { disabled: true, dots: [massage, workout] },
+                    '2020-04-29': {},
+                    '2020-04-30': { dots: [massage] },
 
                 }}
             />
