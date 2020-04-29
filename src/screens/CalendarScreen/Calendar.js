@@ -3,6 +3,7 @@ import { Agenda, Calendar, CalendarList } from 'react-native-calendars-persian';
 import { Container, Text, Button, Title, View, Footer } from 'native-base';
 import { StyleSheet, ImageBackground, StatusBar } from 'react-native';
 import { Theme } from '../../app/Theme';
+import { FlatList } from 'react-native-gesture-handler';
 const { colors, size, fonts } = Theme
 const testIDs = require('./testIDs');
 const moment2 = require('moment-jalaali');
@@ -48,6 +49,13 @@ const CalendarClass = (props) => {
         }
 
     })
+    const [weekDay, setweekDay] = useState(["شنبه"
+        , "یک‌شنبه"
+        , "دوشنبه",
+        "سه‌شنبه",
+        "چهارشنبه",
+        "پنج‌شنبه"
+        , "جمعه"])
     useEffect(() => {
         GetTimeNow();
     });
@@ -136,7 +144,16 @@ const CalendarClass = (props) => {
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
             }}></View>
-            {/* <Container> */}
+            <FlatList
+                horizontal={true}
+                data={weekDay}
+                style={{ top: 30, position: 'absolute', alignSelf: 'center', marginVertical: 10 }}
+                renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: 'white' }}>{item}</Text>}
+            />
+            {/* <View >
+
+            </View> */}
+            {/* <Text >شنبه</Text> */}
             <Agenda
                 jalali={jalali.jalaali}
                 style={styles.calendar}
@@ -213,10 +230,8 @@ const CalendarClass = (props) => {
 export default CalendarClass;
 const styles = StyleSheet.create({
     calendar: {
-        // position: 'absolute',
         width: '100%',
-        top: 30,
-        height: 130,
+        top: 60,
     },
     text: {
         textAlign: 'center',

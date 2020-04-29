@@ -5,7 +5,6 @@ const _size = (((Dimensions.get('window').height) + (Dimensions.get('window').wi
 
 export const Theme = {
     colors: {
-
     },
     fonts: {
         regular: 'IRANSansMobile',
