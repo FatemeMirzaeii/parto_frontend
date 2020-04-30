@@ -138,22 +138,20 @@ const CalendarClass = (props) => {
     // }
     return (
         <ImageBackground source={require('../../../assets/images/bg1.jpg')} style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
-            <View style={{ width: '100%', height: '100%', backgroundColor: '#AE94D6', opacity: 0.5, position: "absolute" }} />
+            <View style={{ width: '100%', height: '100%', backgroundColor: '#9C47C9', opacity: 0.3, position: "absolute" }} />
             <StatusBar translucent barStyle="light-content" backgroundColor='transparent' />
             <View style={{
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
             }}></View>
+            <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: 'white', alignSelf: 'center', marginTop: 10 }}>10 اردیبهشت 1399</Text>
             <FlatList
                 horizontal={true}
                 data={weekDay}
-                style={{ top: 30, position: 'absolute', alignSelf: 'center', marginVertical: 10 }}
+                style={{ top: 70, position: 'absolute', alignSelf: 'center', marginVertical: 10, }}
                 renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: 'white' }}>{item}</Text>}
             />
-            {/* <View >
 
-            </View> */}
-            {/* <Text >شنبه</Text> */}
             <Agenda
                 jalali={jalali.jalaali}
                 style={styles.calendar}
