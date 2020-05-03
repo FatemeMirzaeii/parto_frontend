@@ -11,63 +11,65 @@ import Charts from '../screens/ChartsScreen/Charts';
 
 
 const PagesNavigator = createStackNavigator(
-  {
-    Calendar: {
-      screen: Calendar,
-      navigationOptions: { headerShown: false },
-    },
-    Charts: {
-      screen: Charts,
-      navigationOptions: { headerShown: false },
-    },
-    Home: {
-      screen: Home,
-      navigationOptions: { headerShown: false },
-    },
+    {
+        Calendar: {
+            screen: Calendar,
+            navigationOptions: { headerShown: false },
+        },
 
-  },
-  // { initialRouteName: 'Home' },
+        Charts: {
+            screen: Charts,
+            navigationOptions: { headerShown: false },
+        },
+
+        Home: {
+            screen: Home,
+            navigationOptions: { headerShown: false },
+        },
+
+    },
+    // { initialRouteName: 'Home' },
 );
 
 const DrawerNavigator = createDrawerNavigator(
-  {
-    Home: {
-      screen: Home,
-      navigationOptions: { headerShown: false },
-    },
+    {
+        Home: {
+            screen: Home,
+            navigationOptions: { headerShown: false },
+        },
 
-    // },
-    // {
-    //   contentComponent: props => <DrawerView {...props} />,
-  },
+        // },
+        // {
+        //   contentComponent: props => <DrawerView {...props} />,
+    },
 );
 
 const StackNavigator = createStackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: { headerShown: false },
-  },
-  // SplashScreen: {
-  //   screen: SplashScreen,
-  //   navigationOptions: { headerShown: false },
-  // },
+    Home: {
+        screen: Home,
+        navigationOptions: { headerShown: false },
+    },
+    // SplashScreen: {
+    //   screen: SplashScreen,
+    //   navigationOptions: { headerShown: false },
+    // },
 
 });
 export const AppSwitchNavigator = createSwitchNavigator(
-  {
-    Auth: {
-      screen: StackNavigator,
-      navigationOptions: { headerShown: false },
+    {
+        Auth: {
+            screen: StackNavigator,
+            navigationOptions: { headerShown: false },
+        },
+        App: {
+            screen: DrawerNavigator,
+            navigationOptions: { headerShown: false },
+        },
+        Second: {
+            screen: PagesNavigator,
+            navigationOptions: { headerShown: false },
+        }
     },
-    App: {
-      screen: DrawerNavigator,
-      navigationOptions: { headerShown: false },
-    },
-    Second: {
-      screen: PagesNavigator,
-      navigationOptions: { headerShown: false },
-    }
-  },
-  // { initialRouteName: 'Auth' },
-  { initialRouteName: 'Second' },
+    // { initialRouteName: 'Auth' },
+    { initialRouteName: 'Second' },
 );

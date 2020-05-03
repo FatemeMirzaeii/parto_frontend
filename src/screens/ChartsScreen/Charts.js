@@ -1,5 +1,6 @@
 import { Content } from 'native-base';
 import React from 'react';
+import Svg, { G, Path, Text } from 'react-native-svg'
 import { StyleSheet, Dimensions } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import {
@@ -70,7 +71,7 @@ const Charts = (props) => {
         <Content >
             <LineChart
                 data={{
-                    labels: ["جاناوان", "February", "March", "April", "May", "June"],
+                    labels: ["جاناوان", "مهر", "آبان", "دی", "فروردین", "June"],
                     datasets: [
                         {
                             data: [
@@ -97,7 +98,6 @@ const Charts = (props) => {
                     color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                     style: {
-                        // borderRadius: 16
                     },
                     propsForDots: {
                         r: "6",
@@ -107,11 +107,14 @@ const Charts = (props) => {
                 }}
                 bezier
                 style={{
+
+                    direction: "ltr",
                     marginVertical: 8,
                     borderRadius: 16
                 }}
+                direction="rtl"
+                dir="rtl"
             />
-
             <ProgressChart
                 data={data}
                 width={Dimensions.get("window").width}

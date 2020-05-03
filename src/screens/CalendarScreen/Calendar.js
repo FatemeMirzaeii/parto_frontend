@@ -46,7 +46,10 @@ const CalendarClass = (props) => {
                     },
                 }
             }
-        }
+        },
+        thisDay: "",
+        thisMonth: "",
+        thisYear: ""
 
     })
     const [weekDay, setweekDay] = useState(["شنبه"
@@ -88,11 +91,9 @@ const CalendarClass = (props) => {
         }
     }
     const GetTimeNow = async () => {
-        var that = this;
-        var month1 = new Date().getMonth() + 1;
         var Persian = jalaali.toJalaali(new Date().getFullYear(), new Date().getMonth() + 1, new Date().getDate())
-        var month = this.checkSwitch(Persian.jm)
-        await that.promisedSetState({
+        var month = checkSwitch(Persian.jm)
+        setState({
             thisDay: Persian.jd,
             thisMonth: month,
             thisYear: Persian.jy,
@@ -144,7 +145,7 @@ const CalendarClass = (props) => {
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
             }}></View>
-            <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: 'white', alignSelf: 'center', marginTop: 10 }}>10 اردیبهشت 1399</Text>
+            <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: 'white', alignSelf: 'center', marginTop: 10 }}>{state.thisDay} {state.thisMonth} {state.thisYear}</Text>
             <FlatList
                 horizontal={true}
                 data={weekDay}
@@ -204,7 +205,7 @@ const CalendarClass = (props) => {
                     '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
                     '2020-04-26': { color: '#FF57DD', textColor: 'white' },
 
-                    '2020-04-25': { disabled: true, dotColor: 'green', dots: [vacation, massage, workout] },
+                    '2020-05-03': { disabled: true, dotColor: 'green', dots: [vacation, massage, workout] },
                     '2020-04-26': { disabled: true },
                     '2020-04-27': { disabled: true, dots: [massage, workout] },
                     '2020-04-29': {},
