@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Agenda, Calendar, CalendarList } from 'react-native-calendars-persian';
+import { Agenda, Calendar, CalendarList } from 'react-native-calendars-persianGit';
 import { Container, Text, Button, Title, View, Footer } from 'native-base';
 import { StyleSheet, ImageBackground, StatusBar } from 'react-native';
 import { Theme } from '../../app/Theme';
@@ -61,7 +61,8 @@ const CalendarClass = (props) => {
         , "جمعه"])
     useEffect(() => {
         GetTimeNow();
-    });
+    }, [state.thisDay]);
+    useEffect
     const checkSwitch = (param) => {
         switch (param) {
             case 1:
@@ -99,7 +100,7 @@ const CalendarClass = (props) => {
             thisYear: Persian.jy,
         });
 
-        MildaiTime = new Date().toISOString().slice(0, 10)
+        // MildaiTime = new Date().toISOString().slice(0, 10)
 
     }
 

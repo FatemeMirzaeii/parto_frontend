@@ -24,6 +24,7 @@
     "react-dom": "^16.13.1",
     "react-native": "0.61.5",
     "react-native-calendars-persian": "^1.20.4",
+    "react-native-calendars-persianGit": "git+https://makhzan.partobanoo.com/paknahad/react-native-calendars-persian",
     "react-native-chart-kit": "^5.5.0",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-linear-gradient": "^2.5.6",
