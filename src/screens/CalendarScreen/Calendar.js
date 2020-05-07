@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Agenda, Calendar, CalendarList } from 'react-native-calendars-persianGit';
-import { Container, Text, Button, Title, View, Footer } from 'native-base';
-import { StyleSheet, ImageBackground, StatusBar } from 'react-native';
-import { Theme } from '../../app/Theme';
-import { FlatList } from 'react-native-gesture-handler';
+import { Agendacalendar } from 'react-native-calendars-persianGit';
+import { Container, Text, Button, Title, View, Footer, Icon } from 'native-base';
+import { StyleSheet, ImageBackground, StatusBar, Image } from 'react-native';
+import { Theme, Width } from '../../app/Theme';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { RESTAPI } from '../../hooks/RESTAPI';
 const { colors, size, fonts } = Theme
 const testIDs = require('./testIDs');
 const moment2 = require('moment-jalaali');
+var restapi = new RESTAPI();
+
 var jalaali = require('jalaali-js');
 moment2.loadPersian({ dialect: 'persian-modern' })
 const CalendarClass = (props) => {
@@ -62,7 +65,16 @@ const CalendarClass = (props) => {
     useEffect(() => {
         GetTimeNow();
     }, [state.thisDay]);
-    useEffect
+    useEffect((async) => {
+        const x = restapi.request("https://api.partobanoo.com/user/signUp", {
+            "name": "fateme3",
+            "email": "fatemekarami3.smn@gmail.com",
+            "password": "123456"
+        }, 'POST')
+        console.log("x: ", x)
+    }
+    )
+
     const checkSwitch = (param) => {
         switch (param) {
             case 1:
@@ -139,90 +151,68 @@ const CalendarClass = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-        <ImageBackground source={require('../../../assets/images/bg1.jpg')} style={{ width: '100%', height: '100%', justifyContent: 'center' }}>
-            <View style={{ width: '100%', height: '100%', backgroundColor: '#9C47C9', opacity: 0.3, position: "absolute" }} />
-            <StatusBar translucent barStyle="light-content" backgroundColor='transparent' />
-            <View style={{
-                width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
-                position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
-            }}></View>
-            <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: 'white', alignSelf: 'center', marginTop: 10 }}>{state.thisDay} {state.thisMonth} {state.thisYear}</Text>
-            <FlatList
-                horizontal={true}
-                data={weekDay}
-                style={{ top: 70, position: 'absolute', alignSelf: 'center', marginVertical: 10, }}
-                renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: 'white' }}>{item}</Text>}
-            />
 
-            <Agenda
-                jalali={jalali.jalaali}
-                style={styles.calendar}
-                current={'2020-05-16'}
-                // minDate={'2020-05-10'}
-                markingType={'multi-dot'}
-                firstDay={6}
-                theme={{
 
-                    backgroundColor: 'transparent',
-                    calendarBackground: 'transparent',
-                    opacity: 0.5,
-                    textSectionTitleColor: '#35036B',
-                    todayTextColor: 'white',
-                    todayBackgroundColor: 'white',
-                    selectedDayTextColor: 'white',
-                    monthTextColor: 'white',
-                    selectedDayBackgroundColor: 'pink',
-                    elevation: 6,
-                    textDisabledColor: 'red',
-                    textDayFontFamily: fonts.regular,
-                    textMonthFontFamily: fonts.regular,
-                    textDayHeaderFontFamily: fonts.regular,
-                    'stylesheet.calendar.header': {
-                        week: {
-                            marginTop: 5,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
-                        }
+        <Agendacalendar
+            jalali={jalali.jalaali}
+            style={styles.calendar}
+            current={'2020-05-16'}
+            // minDate={'2020-05-10'}
+            markingType={'multi-dot'}
+            firstDay={6}
+            theme={{
+                // backgroundColor: 'transparent',
+                calendarBackground: 'pink',
+                opacity: 0.5,
+                textSectionTitleColor: '#35036B',
+                todayTextColor: 'white',
+                todayBackgroundColor: 'white',
+                selectedDayTextColor: 'white',
+                monthTextColor: 'white',
+                selectedDayBackgroundColor: 'pink',
+                elevation: 6,
+                textDisabledColor: 'red',
+                textDayFontFamily: fonts.regular,
+                textMonthFontFamily: fonts.regular,
+                textDayHeaderFontFamily: fonts.regular,
+                'stylesheet.calendar.header': {
+                    week: {
+                        marginTop: -2,
+                        flexDirection: 'row',
+                        justifyContent: 'space-between'
                     }
-                }}
-                markedDates={{
-                    '2020-05-17': { disabled: true },
-                    '2020-04-21': { textColor: '#009933' },
-                    '2020-05-09': { textColor: '#009933' },
-                    '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
-                    '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-05-24': { startingDay: true, color: '#FF57DD' },
-                    '2020-05-25': { color: '#FF57DD' },
-                    '2020-05-26': { endingDay: true, color: '#FF57DD' },
-                    '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
-                    '2020-04-27': { endingDay: true, color: '#2EABFF', textColor: 'white' },
-                    '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
-                    '2020-05-05': { color: '#2EABFF', textColor: 'white' },
-                    '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
-                    '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
-                    '2020-05-30': { color: '#2EABFF', textColor: 'white' },
-                    '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
-                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+                }
+            }}
+            markedDates={{
+                '2020-05-17': { disabled: true },
+                '2020-04-21': { textColor: '#009933' },
+                '2020-05-09': { textColor: '#009933' },
+                '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
+                '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
+                '2020-05-24': { startingDay: true, color: '#FF57DD' },
+                '2020-05-25': { color: '#FF57DD' },
+                '2020-05-26': { endingDay: true, color: '#FF57DD' },
+                '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+                '2020-04-27': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
+                '2020-05-05': { color: '#2EABFF', textColor: 'white' },
+                '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
+                '2020-05-30': { color: '#2EABFF', textColor: 'white' },
+                '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
+                '2020-04-26': { color: '#FF57DD', textColor: 'white' },
 
-                    '2020-05-03': { disabled: true, dotColor: 'green', dots: [vacation, massage, workout] },
-                    '2020-04-26': { disabled: true },
-                    '2020-04-27': { disabled: true, dots: [massage, workout] },
-                    '2020-04-29': {},
-                    '2020-04-30': { dots: [massage] },
+                '2020-05-03': { disabled: true, dotColor: 'green', dots: [vacation, massage, workout] },
+                '2020-04-26': { disabled: true },
+                '2020-04-27': { disabled: true, dots: [massage, workout] },
+                '2020-04-29': {},
+                '2020-04-30': { dots: [massage] },
 
-                }}
-            />
-            <Footer style={{ backgroundColor: 'transparent', borderTopEndRadius: 30, borderTopStartRadius: 30, height: 60 }}>
-                <View
-                    style={{
-                        width: '100%', height: '100%', backgroundColor: 'white',
-                        borderTopEndRadius: 30, borderTopStartRadius: 30, opacity: 0.9
-                    }}
-                ></View>
-            </Footer>
-        </ImageBackground>
+            }}
+        />
+
 
     )
 

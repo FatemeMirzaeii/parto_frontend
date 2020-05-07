@@ -16,16 +16,18 @@ const PagesNavigator = createStackNavigator(
             screen: Calendar,
             navigationOptions: { headerShown: false },
         },
+        Home: {
+            screen: Home,
+            navigationOptions: { headerShown: false },
+        },
+
 
         Charts: {
             screen: Charts,
             navigationOptions: { headerShown: false },
         },
 
-        Home: {
-            screen: Home,
-            navigationOptions: { headerShown: false },
-        },
+
 
     },
     // { initialRouteName: 'Home' },
