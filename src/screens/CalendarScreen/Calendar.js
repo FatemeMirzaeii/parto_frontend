@@ -52,7 +52,8 @@ const CalendarClass = (props) => {
         },
         thisDay: "",
         thisMonth: "",
-        thisYear: ""
+        thisYear: "",
+        ch: false
 
     })
     const [weekDay, setweekDay] = useState(["شنبه"
@@ -65,15 +66,18 @@ const CalendarClass = (props) => {
     useEffect(() => {
         GetTimeNow();
     }, [state.thisDay]);
-    useEffect((async) => {
-        const x = restapi.request("https://api.partobanoo.com/user/signUp", {
-            "name": "fateme3",
-            "email": "fatemekarami3.smn@gmail.com",
-            "password": "123456"
-        }, 'POST')
-        console.log("x: ", x)
-    }
-    )
+    useEffect(() => {
+        async function x() {
+            const x = await restapi.request("https://api.partobanoo.com/user/signUp", {
+                "name": "fatedsdme34",
+                "email": "assa13456718.smn@gmail.com",
+                "password": "12dsds3456"
+            }, 'POST')
+            console.log("x: ", x)
+        }
+        x()
+
+    })
 
     const checkSwitch = (param) => {
         switch (param) {

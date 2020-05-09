@@ -1,94 +1,35 @@
 
 import AsyncStorage from '@react-native-community/async-storage';
-import { Platform, } from 'react-native';
-
-
-var OSname = '';
-var DEVICEname = '';
-var Version = '';
-let _url = null;
-var Token = null;
+import { getData, storeData } from '../app/Functions'
 export class RESTAPI {
     constructor() {
         this.Date;
         this.state = {
-            _Response: {
-                _status: null,
-                _data: null,
-                _error: null,
-                _message: null,
-                _pagecount: null
-            },
+            _status: null,
+            _data: null,
+            _error: null,
+            _message: null,
             Token: null,
-            url: null,
         }
     }
-    getData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('@token')
-            if (value !== null) {
-                this.state.Token = value;
-            }
-            else {
-            }
-        } catch (e) {
-            // console.log('Error Async get')
-        }
+    getData = () => {
+        console.log("getData")
+        getData("@token")
     }
-    //   getUrlApi = async () => {
-    //     try {
-    //       const value = await AsyncStorage.getItem('@mazandUrl')
-    //       if (value !== null) {
-    //         this.state.url = value + '/';
-    //       }
-    //       else {
-    //       }
-    //     } catch (e) {
-    //       // console.log('Error Async get')
-    //     }
-    //   }
-
-    //   async SetUserAgent() {
-    //     DeviceInfo.getDeviceName().then(deviceName => {
-    //       DEVICEname = deviceName;
-    //     });
-    //     Version = DeviceInfo.getVersion();
-    //     if (Platform.OS == 'android') {
-    //       OSname = 'Android'
-    //     }
-    //     else if (Platform.OS == 'ios') {
-    //       OSname = 'iOS'
-    //     }
-    //     this.Date = new Date().getFullYear() + '/' + new Date().getMonth() + '/' + new Date().getDate()
-    //   }
-
-    async request(_url, _body = null, _method = 'POST', header2 = null, Isencrypt = null) {
-        console.log("1")
-        // await this.getData();
-        // await this.getUrlApi();
+    StoreToken = async (token) => {
+        console.log("storedata")
+        await storeData("@token", token)
+    }
+    async request(_url, _body = null, _method = 'POST', Isencrypt = null) {
+        token = getData()
+        console.log("token: ", token)
         _method = _method.toUpperCase();
-        // aes = new AES256('');
         var body1, header;
         header = new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'x-auth-token': '',
+            'x-auth-token': token,
         });
-        console.log("2")
-        // if (this.state.Token) {
-        //   header.append('x-access-token', this.state.Token)
-        // }
-        // await this.SetUserAgent()
-        var x =
-        {
-            'device': DEVICEname,
-            'OS': OSname,
-            'Date': this.Date,
-            'AppVersion': Version
-        }
-        if (header2 != null) {
-            header.append('X-USERAGENT', JSON.stringify(x))
-        }
         if (Isencrypt === 'LoginPage')
             body1 = aes.EncryptBody(_body);
         else
@@ -105,29 +46,28 @@ export class RESTAPI {
                 body: JSON.stringify(body1)
             };
         }
-        console.log("3")
         await this.FetchWithTimeOut((_url.includes("http://") || _url.includes("https://")) ? _url : this.state.url + _url, RI)
             .then((response) => {
-                console.log("res  ", response)
+                this.state.Token = response.headers.map.x_auth_token
+                if (response.headers.map.x_auth_token)
+                    this.StoreToken(response.headers.map.x_auth_token)
+                this.state._status = response.status
                 return response.json()
             })
-            // .then((responseJson) => {
-            //     if (Isencrypt === 'LoginPage') {
-            //         const DecryptedResponse = aes.DecryptBody(responseJson);
-            //         this.state._Response._data = DecryptedResponse.data ? DecryptedResponse.data : DecryptedResponse.error ? DecryptedResponse.error : null;
+            .then((responseJson) => {
+                // console.log("res2  ", responseJson)
+                this.state._data = responseJson
+                // if (Isencrypt === 'LoginPage') {
+                //     const DecryptedResponse = aes.DecryptBody(responseJson);
+                //     this.state._Response._data = DecryptedResponse.data ? DecryptedResponse.data : DecryptedResponse.error ? DecryptedResponse.error : null;
+                // }
 
-            //     }
-            //     this.state._Response._status = responseJson.status.code;
-            //     this.state._Response._data = responseJson.results;
-            //     this.state._Response._message = responseJson.status.text;
-            //     this.state._Response._pagecount = responseJson.status.PageCount;
-
-            // })
+            })
             .catch((error) => {
-                this.state._Response._error = error;
+                this.state._error = error
             });
 
-        return this.state._Response;
+        return this.state;
     }
 
     async FetchWithTimeOut(url, options, timeout = 5000) {
