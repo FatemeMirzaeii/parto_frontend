@@ -138,7 +138,7 @@ const Home = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-        <ImageBackground source={require('../../../assets/images/bg.png')} style={{ width: '100%', height: '100%', }}>
+        <ImageBackground source={require('../../../assets/images/bg1.png')} style={{ width: '100%', height: '100%', }}>
             <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' style={{}} />
             {/* <View style={{
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
@@ -213,7 +213,7 @@ const Home = (props) => {
                 }}
             />
             {/* <View style={{ width: '100%', }}> */}
-            <ImageBackground source={require('../../../assets/images/moon3.png')}
+            <ImageBackground source={require('../../../assets/images/moon1.png')}
                 style={{ width: 2.5 * size[130], height: 2.5 * size[130], alignSelf: 'center', top: -Width / 1.7, alignItems: 'center', justifyContent: 'center' }} >
                 <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}><Text style={{ color: '#121C3D', fontSize: size[30] }}>7</Text> روز</Text>
                 <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}> تا پریود بعدی</Text>

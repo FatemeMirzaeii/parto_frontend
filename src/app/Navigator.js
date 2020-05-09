@@ -12,12 +12,13 @@ import Charts from '../screens/ChartsScreen/Charts';
 
 const PagesNavigator = createStackNavigator(
     {
-        Calendar: {
-            screen: Calendar,
-            navigationOptions: { headerShown: false },
-        },
         Home: {
             screen: Home,
+            navigationOptions: { headerShown: false },
+        },
+
+        Calendar: {
+            screen: Calendar,
             navigationOptions: { headerShown: false },
         },
 

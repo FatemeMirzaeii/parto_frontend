@@ -1,6 +1,5 @@
 
-import AsyncStorage from '@react-native-community/async-storage';
-import { getData, storeData } from '../app/Functions'
+import { getData, storeData } from '../app/Functions';
 export class RESTAPI {
     constructor() {
         this.Date;
@@ -12,16 +11,13 @@ export class RESTAPI {
             Token: null,
         }
     }
-    getData = () => {
-        console.log("getData")
-        getData("@token")
-    }
+
     StoreToken = async (token) => {
         console.log("storedata")
         await storeData("@token", token)
     }
     async request(_url, _body = null, _method = 'POST', Isencrypt = null) {
-        token = getData()
+        token = await getData("@token")
         console.log("token: ", token)
         _method = _method.toUpperCase();
         var body1, header;
@@ -55,7 +51,6 @@ export class RESTAPI {
                 return response.json()
             })
             .then((responseJson) => {
-                // console.log("res2  ", responseJson)
                 this.state._data = responseJson
                 // if (Isencrypt === 'LoginPage') {
                 //     const DecryptedResponse = aes.DecryptBody(responseJson);
