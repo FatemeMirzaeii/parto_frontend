@@ -138,113 +138,118 @@ const Home = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-        <ImageBackground source={require('../../../assets/images/bg1.png')} style={{ width: '100%', height: '100%', }}>
-            <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' style={{}} />
+        <ImageBackground source={require('../../../assets/images/bg3.png')} style={{ width: '100%', height: '100%', }}>
+            <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
             {/* <View style={{
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
             }}></View> */}
-            <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', alignSelf: 'center', marginTop: 10 }}>{state.thisDay} {state.thisMonth} {state.thisYear}</Text>
-            <FlatList
-                horizontal={true}
-                data={weekDay}
-                style={{ top: 70, position: 'absolute', alignSelf: 'center', marginVertical: 10, }}
-                renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: '#121C3D' }}>{item}</Text>}
-            />
 
-            <Agenda
-                jalali={jalali.jalaali}
-                style={styles.calendar}
-                current={'2020-05-16'}
-                // minDate={'2020-05-10'}
-                markingType={'multi-dot'}
-                firstDay={6}
-                theme={{
 
-                    backgroundColor: 'transparent',
-                    calendarBackground: 'transparent',
-                    opacity: 0.5,
-                    textSectionTitleColor: '#35036B',
-                    todayTextColor: 'white',
-                    todayBackgroundColor: 'white',
-                    selectedDayTextColor: 'white',
-                    monthTextColor: 'white',
-                    selectedDayBackgroundColor: 'pink',
-                    elevation: 6,
-                    textDisabledColor: 'red',
-                    textDayFontFamily: fonts.regular,
-                    textMonthFontFamily: fonts.regular,
-                    textDayHeaderFontFamily: fonts.regular,
-                    'stylesheet.calendar.header': {
-                        week: {
-                            marginTop: -2,
-                            flexDirection: 'row',
-                            justifyContent: 'space-between'
-                        }
-                    }
-                }}
-                markedDates={{
-                    '2020-05-17': { disabled: true },
-                    '2020-04-21': { textColor: '#009933' },
-                    '2020-05-09': { textColor: '#009933' },
-                    '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
-                    '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-05-24': { startingDay: true, color: '#FF57DD' },
-                    '2020-05-25': { color: '#FF57DD' },
-                    '2020-05-26': { endingDay: true, color: '#FF57DD' },
-                    '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
-                    '2020-04-27': { endingDay: true, color: '#2EABFF', textColor: 'white' },
-                    '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
-                    '2020-05-05': { color: '#2EABFF', textColor: 'white' },
-                    '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
-                    '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
-                    '2020-05-30': { color: '#2EABFF', textColor: 'white' },
-                    '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
-                    '2020-04-26': { color: '#FF57DD', textColor: 'white' },
 
-                    '2020-05-03': { disabled: true, dots: [vacation, massage, workout] },
-                    '2020-04-26': { disabled: true },
-                    '2020-04-27': { disabled: true, dots: [massage, workout] },
-                    '2020-04-29': {},
-                    '2020-04-30': { dots: [massage] },
-
-                }}
-            />
             {/* <View style={{ width: '100%', }}> */}
-            <ImageBackground source={require('../../../assets/images/moon1.png')}
-                style={{ width: 2.5 * size[130], height: 2.5 * size[130], alignSelf: 'center', top: -Width / 1.7, alignItems: 'center', justifyContent: 'center' }} >
-                <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}><Text style={{ color: '#121C3D', fontSize: size[30] }}>7</Text> روز</Text>
-                <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}> تا پریود بعدی</Text>
-                <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 15 }}>17 اردیبهشت</Text>
-            </ImageBackground>
+            <ImageBackground source={require('../../../assets/images/moon3.png')}
+                style={{ width: Width, height: '100%', alignItems: 'center', alignSelf: 'center' }} >
+                <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: 30 }}>{state.thisDay} {state.thisMonth} {state.thisYear}</Text>
+                <FlatList
+                    horizontal={true}
+                    data={weekDay}
+                    style={{ alignSelf: 'center', marginTop: 40 }}
+                    renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: '#121C3D' }}>{item}</Text>}
+                />
+                <Agenda
+                    jalali={jalali.jalaali}
+                    style={styles.calendar}
+                    current={'2020-05-16'}
+                    // minDate={'2020-05-10'}
+                    markingType={'multi-period'}
+                    firstDay={6}
+                    theme={{
 
-            {/* </View>FCF3CA */}
-            <Footer style={{ backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
-                <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
-                    <TouchableOpacity style={{
-                        width: size[40], height: size[40], alignSelf: 'center',
-                        justifyContent: 'center',
-                    }}><Icon name="calendar" type="AntDesign"
-                        onPress={() => props.navigation.navigate("Calendar")}
-                        style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        backgroundColor: '#FCF3CA', borderRadius: 150,
-                        width: size[40], height: size[40], alignSelf: 'center',
-                        justifyContent: 'center',
-                    }}><Icon name="home" type="AntDesign" style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        width: size[40], height: size[40], alignSelf: 'center',
-                        justifyContent: 'center',
-                    }}><Icon name="linechart" type="AntDesign"
-                        onPress={() => props.navigation.navigate("Charts")}
-                        style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
-                    </TouchableOpacity>
+                        backgroundColor: 'transparent',
+                        calendarBackground: 'transparent',
+                        opacity: 0.5,
+                        // textSectionTitleColor: '#35036B',
+                        todayTextColor: 'white',
+                        todayBackgroundColor: 'white',
+                        selectedDayTextColor: 'white',
+                        monthTextColor: 'white',
+                        selectedDayBackgroundColor: '#008F00',
+                        elevation: 6,
+                        textDisabledColor: '#FF6363',
+                        textDayFontFamily: fonts.regular,
+                        textMonthFontFamily: fonts.regular,
+                        textDayHeaderFontFamily: fonts.regular,
+                        'stylesheet.calendar.header': {
+                            week: {
+                                marginTop: -1,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }
+                        }
+                    }}
+                    markedDates={{
+                        '2020-05-17': { disabled: true },
+                        '2020-04-21': { textColor: '#009933' },
+                        '2020-05-09': { textColor: '#009933' },
+                        '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
+                        '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                        '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
+                        '2020-05-24': { startingDay: true, color: '#FF57DD' },
+                        '2020-05-25': { color: '#FF57DD' },
+                        '2020-05-26': { endingDay: true, color: '#FF57DD' },
+                        '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
+                        '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+                        '2020-04-27': { endingDay: true, color: 'green', textColor: 'white' },
+                        '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
+                        '2020-05-05': { color: '#2EABFF', textColor: 'white' },
+                        '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
+                        '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
+                        '2020-05-30': { color: '#2EABFF', textColor: 'white' },
+                        '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
+                        '2020-04-26': { color: '#FF57DD', textColor: 'white' },
+
+                        '2020-05-09': { dots: [vacation, massage, workout], },
+                        '2020-05-11': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
+                        '2020-05-12': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-13': { disabled: true, dots: [massage, workout], periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-14': { disabled: true, periods: [{ startingDay: false, endingDay: true, color: 'red' }] },
+                        '2020-04-30': { dots: [massage] },
+
+                    }}
+                />
+                <View style={{
+                    top: -Width / 1.15, alignItems: 'center'
+                }}>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}><Text style={{ color: '#121C3D', fontSize: size[30] }}>19</Text> روز </Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>تا پریود بعدی</Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 15 }}>21 اردیبهشت</Text>
+
                 </View>
-                {/* <TouchableOpacity style={{
+                <Footer style={{ backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
+                    <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
+                        <TouchableOpacity style={{
+                            width: size[40], height: size[40], alignSelf: 'center',
+                            justifyContent: 'center',
+                        }}><Icon name="calendar" type="AntDesign"
+                            onPress={() => props.navigation.navigate("Calendar")}
+                            style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{
+                            backgroundColor: '#FCF3CA', borderRadius: 150,
+                            width: size[40], height: size[40], alignSelf: 'center',
+                            justifyContent: 'center',
+                        }}><Icon name="home" type="AntDesign" style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{
+                            width: size[40], height: size[40], alignSelf: 'center',
+                            justifyContent: 'center',
+                        }}><Icon name="linechart" type="AntDesign"
+                            onPress={() => props.navigation.navigate("Charts")}
+                            style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                    </View>
+                    {/* <TouchableOpacity style={{
                     width: size[50], height: size[50], alignSelf: 'center',
                     justifyContent: 'center',
                 }}><Icon name="calendar" type="AntDesign"
@@ -264,7 +269,10 @@ const Home = (props) => {
                     onPress={() => props.navigation.navigate("Charts")}
                     style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
                 </TouchableOpacity> */}
-            </Footer>
+                </Footer>
+            </ImageBackground>
+
+
         </ImageBackground>
 
     )
@@ -273,8 +281,9 @@ const Home = (props) => {
 export default Home;
 const styles = StyleSheet.create({
     calendar: {
+        // position: 'absolute',
         width: '100%',
-        top: 60,
+        top: -Width / 1.6
     },
     text: {
         textAlign: 'center',
