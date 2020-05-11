@@ -4,6 +4,8 @@ import { Container, Text, Button, Title, View, Footer, Icon } from 'native-base'
 import { StyleSheet, ImageBackground, StatusBar, Image } from 'react-native';
 import { Theme, Width } from '../../app/Theme';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { toPersianNum } from '../../app/Functions';
+
 const { colors, size, fonts } = Theme
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
@@ -15,37 +17,37 @@ const Home = (props) => {
     const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' })
     const [state, setState] = useState({
         items: [],
-        markedDates: {
-            '2020-03-28': {
-                startingDay: true,
-                customStyles: {
-                    container: {
-                        // backgroundColor: 'green',
-                        top: 10,
-                        startingDay: true,
-                    },
-                    text: {
-                        color: 'red',
-                        fontWeight: 'bold',
-                        marginTop: -5,
-                    },
-                },
-            },
-            '2020-03-29': {
-                customStyles: {
-                    container: {
-                        backgroundColor: 'pink',
-                        elevation: 2,
-                        top: 10
+        // markedDates: {
+        //     '2020-03-28': {
+        //         startingDay: true,
+        //         customStyles: {
+        //             container: {
+        //                 // backgroundColor: 'green',
+        //                 top: 10,
+        //                 startingDay: true,
+        //             },
+        //             text: {
+        //                 color: 'red',
+        //                 fontWeight: 'bold',
+        //                 marginTop: -5,
+        //             },
+        //         },
+        //     },
+        //     '2020-03-29': {
+        //         customStyles: {
+        //             container: {
+        //                 backgroundColor: 'pink',
+        //                 elevation: 2,
+        //                 top: 10
 
-                    },
-                    text: {
-                        marginTop: -5,
-                        color: 'white'
-                    },
-                }
-            }
-        },
+        //             },
+        //             text: {
+        //                 marginTop: -5,
+        //                 color: 'white'
+        //             },
+        //         }
+        //     }
+        // },
         thisDay: "",
         thisMonth: "",
         thisYear: ""
@@ -138,8 +140,9 @@ const Home = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-        <ImageBackground source={require('../../../assets/images/bg3.png')} style={{ width: '100%', height: '100%', }}>
-            <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
+        <ImageBackground source={require('../../../assets/images/bg7.png')} style={{ width: '100%', height: '100%', }}>
+            {/* <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' /> */}
+            <StatusBar hidden />
             {/* <View style={{
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
@@ -148,20 +151,24 @@ const Home = (props) => {
 
 
             {/* <View style={{ width: '100%', }}> */}
-            <ImageBackground source={require('../../../assets/images/moon3.png')}
-                style={{ width: Width, height: '100%', alignItems: 'center', alignSelf: 'center' }} >
-                <Text style={{ top: 30, fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: 30 }}>{state.thisDay} {state.thisMonth} {state.thisYear}</Text>
+            <ImageBackground source={require('../../../assets/images/moon7.png')}
+                style={{ width: Width, height: '100%', alignItems: 'center', alignSelf: 'center', top: 50 }} >
+                <Text style={{ fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: 10 }}>
+                    {/* {toPersianNum(state.thisDay)} */}{toPersianNum(27)}
+                    {" "}
+                    {/* {state.thisMonth} */}خرداد
+                    {" "}
+                    {toPersianNum(state.thisYear)}
+                </Text>
                 <FlatList
                     horizontal={true}
                     data={weekDay}
-                    style={{ alignSelf: 'center', marginTop: 40 }}
+                    style={{ alignSelf: 'center', marginTop: 10 }}
                     renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: '#121C3D' }}>{item}</Text>}
                 />
                 <Agenda
                     jalali={jalali.jalaali}
                     style={styles.calendar}
-                    current={'2020-05-16'}
-                    // minDate={'2020-05-10'}
                     markingType={'multi-period'}
                     firstDay={6}
                     theme={{
@@ -174,59 +181,58 @@ const Home = (props) => {
                         todayBackgroundColor: 'white',
                         selectedDayTextColor: 'white',
                         monthTextColor: 'white',
-                        selectedDayBackgroundColor: '#008F00',
+                        selectedDayBackgroundColor: 'pink',
                         elevation: 6,
-                        textDisabledColor: '#FF6363',
+                        textDisabledColor: '#FF4040',
+                        // FF4040   //1DD159
                         textDayFontFamily: fonts.regular,
                         textMonthFontFamily: fonts.regular,
                         textDayHeaderFontFamily: fonts.regular,
                         'stylesheet.calendar.header': {
                             week: {
-                                marginTop: -1,
+                                marginTop: -2,
                                 flexDirection: 'row',
                                 justifyContent: 'space-between'
                             }
                         }
                     }}
                     markedDates={{
-                        '2020-05-17': { disabled: true },
-                        '2020-04-21': { textColor: '#009933' },
-                        '2020-05-09': { textColor: '#009933' },
-                        '2020-05-14': { startingDay: true, color: 'green', endingDay: true, textColor: 'white' },
-                        '2020-05-21': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                        '2020-05-22': { endingDay: true, color: '#FF57DD', textColor: 'white' },
-                        '2020-05-24': { startingDay: true, color: '#FF57DD' },
-                        '2020-05-25': { color: '#FF57DD' },
-                        '2020-05-26': { endingDay: true, color: '#FF57DD' },
-                        '2020-04-25': { startingDay: true, color: '#FF57DD', textColor: 'white' },
-                        '2020-04-26': { color: '#FF57DD', textColor: 'white' },
-                        '2020-04-27': { endingDay: true, color: 'green', textColor: 'white' },
-                        '2020-05-04': { startingDay: true, color: 'green', textColor: 'white' },
-                        '2020-05-05': { color: '#2EABFF', textColor: 'white' },
-                        '2020-05-06': { endingDay: true, color: '#2EABFF', textColor: 'white' },
-                        '2020-05-18': { color: '#2EABFF', textColor: '#802BA8CFFEFF' },
-                        '2020-05-30': { color: '#2EABFF', textColor: 'white' },
-                        '2020-06-10': { color: 'red', textColor: 'white', borderRadius: 0 },
-                        '2020-04-26': { color: '#FF57DD', textColor: 'white' },
-
-                        '2020-05-09': { dots: [vacation, massage, workout], },
-                        '2020-05-11': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
-                        '2020-05-12': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
-                        '2020-05-13': { disabled: true, dots: [massage, workout], periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
-                        '2020-05-14': { disabled: true, periods: [{ startingDay: false, endingDay: true, color: 'red' }] },
-                        '2020-04-30': { dots: [massage] },
-
+                        // '2020-05-22': { dots: [vacation, massage, workout], },
+                        '2020-05-20': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
+                        '2020-05-19': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-20': { disabled: true, dots: [massage, workout], periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-21': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-22': { disabled: true, selected: true, periods: [{ startingDay: false, endingDay: true, color: 'red' }] },
+                        '2020-05-30': { disabled: true, },
+                        '2020-05-31': { disabled: true, },
+                        '2020-06-01': { disabled: true, },
+                        '2020-06-02': { disabled: true, },
+                        '2020-06-03': { disabled: true, },
+                        '2020-06-04': { disabled: true, selected: true },
+                        '2020-06-16': { disabled: true, selected: true },
+                        '2020-06-18': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
+                        '2020-06-19': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
                     }}
                 />
                 <View style={{
-                    top: -Width / 1.15, alignItems: 'center'
+                    top: -Width / 1.1, alignItems: 'center'
                 }}>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}><Text style={{ color: '#121C3D', fontSize: size[30] }}>19</Text> روز </Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>تا پریود بعدی</Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 15 }}>21 اردیبهشت</Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                        <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
+                            {toPersianNum(2)}</Text> روز </Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                        {/* دوره پریود */}
+                        تا پریود بعدی
+                        </Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
+                        {toPersianNum(27)} خرداد</Text>
+                    <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
+                        {/* احتمال بالای باروری */}
+                    </Text>
+
 
                 </View>
-                <Footer style={{ backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
+                {/* <Footer style={{ top: -20, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
                         <TouchableOpacity style={{
                             width: size[40], height: size[40], alignSelf: 'center',
@@ -248,8 +254,8 @@ const Home = (props) => {
                             onPress={() => props.navigation.navigate("Charts")}
                             style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
                         </TouchableOpacity>
-                    </View>
-                    {/* <TouchableOpacity style={{
+                    </View> */}
+                {/* <TouchableOpacity style={{
                     width: size[50], height: size[50], alignSelf: 'center',
                     justifyContent: 'center',
                 }}><Icon name="calendar" type="AntDesign"
@@ -269,7 +275,7 @@ const Home = (props) => {
                     onPress={() => props.navigation.navigate("Charts")}
                     style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
                 </TouchableOpacity> */}
-                </Footer>
+                {/* </Footer> */}
             </ImageBackground>
 
 
@@ -283,7 +289,7 @@ const styles = StyleSheet.create({
     calendar: {
         // position: 'absolute',
         width: '100%',
-        top: -Width / 1.6
+        top: -Width / 1.5
     },
     text: {
         textAlign: 'center',

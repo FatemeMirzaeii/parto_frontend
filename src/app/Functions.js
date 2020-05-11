@@ -56,19 +56,29 @@ export function TextCleaner(i) {
   });
   return filtered.join('، ');
 }
-export function toPersianNum(num, dontTrim) {
-  num = num.toLocaleString()
-  var i = 0,
-    dontTrim = dontTrim || false,
-    num = dontTrim ? num.toString() : num.toString().trim(), len = num.length,
-    res = '', pos,
-    persianNumbers = typeof persianNumber == 'undefined' ? ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'] : persianNumbers;
-  for (; i < len; i++)
-    if ((pos = persianNumbers[num.charAt(i)]))
-      res += pos;
-    else
-      res += num.charAt(i);
-  return res;
+export function toPersianNum(num) {
+  num = num.toString()
+  num = num.replace("00", "۰۰");
+  num = num.replace("11", "۱۱");
+  num = num.replace("22", "۲۲");
+  num = num.replace("33", "۳۳");
+  num = num.replace("44", "۴۴");
+  num = num.replace("55", "۵۵");
+  num = num.replace("66", "۶۶");
+  num = num.replace("77", "۷۷");
+  num = num.replace("88", "۸۸");
+  num = num.replace("99", "۹۹");
+  num = num.replace("0", "۰");
+  num = num.replace("1", "۱");
+  num = num.replace("2", "۲");
+  num = num.replace("3", "۳");
+  num = num.replace("4", "۴");
+  num = num.replace("5", "۵");
+  num = num.replace("6", "۶");
+  num = num.replace("7", "۷");
+  num = num.replace("8", "۸");
+  num = num.replace("9", "۹");
+  return num;
 }
 export function PersianDateToArray(PDate) {
   const Splitted = PDate.split(' ')
