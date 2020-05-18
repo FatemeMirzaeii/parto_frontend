@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Agendacalendar } from 'react-native-calendars-persianGit';
+import { Agenda } from 'react-native-calendars-persianGit';
 import { Container, Text, Button, Title, View, Footer, Icon } from 'native-base';
 import { StyleSheet, ImageBackground, StatusBar, Image } from 'react-native';
 import { Theme, Width } from '../../app/Theme';
@@ -68,11 +68,11 @@ const CalendarClass = (props) => {
     }, [state.thisDay]);
     useEffect(() => {
         async function x() {
-            const x = await restapi.request("https://api.partobanoo.com/user/signUp", {
-                "name": "fatedsdme34",
-                "email": "assa13456718.smn@gmail.com",
-                "password": "12dsds3456"
-            }, 'POST')
+            const x = await restapi.request("https://api.partobanoo.com/article/getArticleContent/1", {
+                // "name": "gfdg",
+                // "email": "gdfgg.smn@gmail.com",
+                // "password": "12dsیسds3456"
+            }, 'GET')
             console.log("x: ", x)
         }
         x()
@@ -156,8 +156,7 @@ const CalendarClass = (props) => {
     // }
     return (
 
-
-        <Agendacalendar
+        <Agenda
             jalali={jalali.jalaali}
             style={styles.calendar}
             current={'2020-05-16'}

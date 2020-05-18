@@ -167,6 +167,7 @@ const Home = (props) => {
                     renderItem={({ item }) => <Text style={{ marginHorizontal: 7, fontFamily: fonts.regular, fontSize: size[12], color: '#121C3D' }}>{item}</Text>}
                 />
                 <Agenda
+                    calendarHeight={20}
                     jalali={jalali.jalaali}
                     style={styles.calendar}
                     markingType={'multi-period'}

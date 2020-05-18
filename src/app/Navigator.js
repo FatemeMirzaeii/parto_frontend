@@ -6,27 +6,32 @@ import { createStackNavigator } from 'react-navigation-stack';
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
 import Charts from '../screens/ChartsScreen/Charts';
+import TestApk from '../screens/HomeScreen/TestApk';
 
 
 
 
 const PagesNavigator = createStackNavigator(
     {
+        Calendar: {
+            screen: Calendar,
+            navigationOptions: { headerShown: false },
+        },
+        Charts: {
+            screen: Charts,
+            navigationOptions: { headerShown: false },
+        },
+        TestApk: {
+            screen: TestApk,
+            navigationOptions: { headerShown: false },
+        },
+
         Home: {
             screen: Home,
             navigationOptions: { headerShown: false },
         },
 
-        Calendar: {
-            screen: Calendar,
-            navigationOptions: { headerShown: false },
-        },
 
-
-        Charts: {
-            screen: Charts,
-            navigationOptions: { headerShown: false },
-        },
 
 
 
