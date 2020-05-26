@@ -7,12 +7,20 @@ import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
 import Charts from '../screens/ChartsScreen/Charts';
 import TestApk from '../screens/HomeScreen/TestApk';
-
+import htmlLoader from '../screens/HomeScreen/htmlLoader';
 
 
 
 const PagesNavigator = createStackNavigator(
     {
+        Home: {
+            screen: Home,
+            navigationOptions: { headerShown: false },
+        },
+        htmlLoader: {
+            screen: htmlLoader,
+            navigationOptions: { headerShown: false },
+        },
         Calendar: {
             screen: Calendar,
             navigationOptions: { headerShown: false },
@@ -25,15 +33,6 @@ const PagesNavigator = createStackNavigator(
             screen: TestApk,
             navigationOptions: { headerShown: false },
         },
-
-        Home: {
-            screen: Home,
-            navigationOptions: { headerShown: false },
-        },
-
-
-
-
 
     },
     // { initialRouteName: 'Home' },

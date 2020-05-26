@@ -24,7 +24,7 @@ export class RESTAPI {
         header = new Headers({
             Accept: 'application/json',
             'Content-Type': 'application/json',
-            'x-auth-token': token,
+            'x-auth-token': "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTAyMjYxMjJ9.hb1F109VvHOSRByJ93KBsXmt2MHNAINBVc5oaoPBA9o",
         });
         if (Isencrypt === 'LoginPage')
             body1 = aes.EncryptBody(_body);
@@ -44,9 +44,10 @@ export class RESTAPI {
         }
         await this.FetchWithTimeOut((_url.includes("http://") || _url.includes("https://")) ? _url : this.state.url + _url, RI)
             .then((response) => {
-                this.state.Token = response.headers.map.x_auth_token
-                if (response.headers.map.x_auth_token)
-                    this.StoreToken(response.headers.map.x_auth_token)
+                console.log("res: ", response.headers.get('x-auth-token'))
+                this.state.Token = response.headers.get('x-auth-token')
+                if (response.headers.get('x-auth-token'))
+                    this.StoreToken(response.headers.get('x-auth-token'))
                 this.state._status = response.status
                 return response.json()
             })
