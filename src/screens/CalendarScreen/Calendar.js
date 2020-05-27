@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Agenda } from 'react-native-calendars-persianGit';
+import { Verticalcalendar } from 'react-native-calendars-persian';
 import { Container, Text, Button, Title, View, Footer, Icon } from 'native-base';
 import { StyleSheet, ImageBackground, StatusBar, Image } from 'react-native';
 import { Theme, Width } from '../../app/Theme';
@@ -68,11 +68,12 @@ const CalendarClass = (props) => {
     }, [state.thisDay]);
     useEffect(() => {
         async function x() {
-            const x = await restapi.request("https://api.partobanoo.com/article/getArticleContent/1", {
-                // "name": "gfdg",
-                // "email": "gdfgg.smn@gmail.com",
-                // "password": "12dsیسds3456"
-            }, 'GET')
+            // https://api.partobanoo.com/article/getArticleContent/1
+            const x = await restapi.request("https://api.partobanoo.com/user/signUp", {
+                "name": "gfdg",
+                "email": "gdfgdsdg.smn@gmail.com",
+                "password": "12dsیسds3456"
+            }, 'POST')
             console.log("x: ", x)
         }
         x()
@@ -155,8 +156,7 @@ const CalendarClass = (props) => {
     //     this.setState({ selected: day.dateString });
     // }
     return (
-
-        <Agenda
+        <Verticalcalendar
             jalali={jalali.jalaali}
             style={styles.calendar}
             current={'2020-05-16'}
@@ -173,7 +173,6 @@ const CalendarClass = (props) => {
                 selectedDayTextColor: 'white',
                 monthTextColor: 'white',
                 selectedDayBackgroundColor: 'pink',
-                elevation: 6,
                 textDisabledColor: 'red',
                 textDayFontFamily: fonts.regular,
                 textMonthFontFamily: fonts.regular,

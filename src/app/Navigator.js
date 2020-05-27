@@ -8,11 +8,16 @@ import Calendar from '../screens/CalendarScreen/Calendar';
 import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
 import Charts from '../screens/ChartsScreen/Charts';
 import TestApk from '../screens/HomeScreen/TestApk';
+import htmlLoader from '../screens/HomeScreen/htmlLoader';
 
 const PagesNavigator = createStackNavigator(
     {
         Home: {
             screen: Home,
+            navigationOptions: { headerShown: false },
+        },
+        htmlLoader: {
+            screen: htmlLoader,
             navigationOptions: { headerShown: false },
         },
         Calendar: {
