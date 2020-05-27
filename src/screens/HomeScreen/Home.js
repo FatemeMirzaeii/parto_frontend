@@ -4,7 +4,7 @@ import { Container, Text, Button, Title, View, Footer, Icon } from 'native-base'
 import { StyleSheet, ImageBackground, StatusBar, Image } from 'react-native';
 import { Theme, Width } from '../../app/Theme';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum } from '../../app/Functions';
+import { toPersianNum, seed } from '../../app/Functions';
 
 const { colors, size, fonts } = Theme
 const moment2 = require('moment-jalaali');
@@ -60,6 +60,7 @@ const Home = (props) => {
         "چهارشنبه",
         "پنج‌شنبه"
         , "جمعه"])
+    useEffect(() => { seed(); });
     useEffect(() => {
         GetTimeNow();
     }, [state.thisDay]);
@@ -104,7 +105,6 @@ const Home = (props) => {
         // MildaiTime = new Date().toISOString().slice(0, 10)
 
     }
-
     const loadItems = (day) => {
         setTimeout(() => {
             for (let i = -15; i < 185; i++) {
@@ -147,9 +147,6 @@ const Home = (props) => {
                 width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
                 position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
             }}></View> */}
-
-
-
             {/* <View style={{ width: '100%', }}> */}
             <ImageBackground source={require('../../../assets/images/moon7.png')}
                 style={{ width: Width, height: '100%', alignItems: 'center', alignSelf: 'center', top: 50 }} >
@@ -218,20 +215,22 @@ const Home = (props) => {
                 <View style={{
                     top: -Width / 1.1, alignItems: 'center'
                 }}>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
-                        <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
-                            {toPersianNum(2)}</Text> روز </Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
-                        {/* دوره پریود */}
+                    <TouchableOpacity onPress={() => {
+                        props.navigation.navigate('TrackingOptions');
+                    }}>
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                            <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
+                                {toPersianNum(2)}</Text> روز </Text>
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                            {/* دوره پریود */}
                         تا پریود بعدی
                         </Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
-                        {toPersianNum(27)} خرداد</Text>
-                    <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
-                        {/* احتمال بالای باروری */}
-                    </Text>
-
-
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
+                            {toPersianNum(27)} خرداد</Text>
+                        <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
+                            {/* احتمال بالای باروری */}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
                 {/* <Footer style={{ top: -20, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
@@ -278,12 +277,8 @@ const Home = (props) => {
                 </TouchableOpacity> */}
                 {/* </Footer> */}
             </ImageBackground>
-
-
         </ImageBackground>
-
     )
-
 };
 export default Home;
 const styles = StyleSheet.create({

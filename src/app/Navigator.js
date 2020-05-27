@@ -5,16 +5,22 @@ import { createStackNavigator } from 'react-navigation-stack';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
+import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
 import Charts from '../screens/ChartsScreen/Charts';
 import TestApk from '../screens/HomeScreen/TestApk';
 
-
-
-
 const PagesNavigator = createStackNavigator(
     {
+        Home: {
+            screen: Home,
+            navigationOptions: { headerShown: false },
+        },
         Calendar: {
             screen: Calendar,
+            navigationOptions: { headerShown: false },
+        },
+        TrackingOptions: {
+            screen: TrackingOptions,
             navigationOptions: { headerShown: false },
         },
         Charts: {
@@ -25,16 +31,6 @@ const PagesNavigator = createStackNavigator(
             screen: TestApk,
             navigationOptions: { headerShown: false },
         },
-
-        Home: {
-            screen: Home,
-            navigationOptions: { headerShown: false },
-        },
-
-
-
-
-
     },
     // { initialRouteName: 'Home' },
 );
