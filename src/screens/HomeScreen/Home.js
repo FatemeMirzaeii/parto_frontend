@@ -114,7 +114,7 @@ const Home = (props) => {
             <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
             <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100%', height: '100%', top: 30 }}>
 
-                <Text style={{ fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
+                <Text style={{ fontFamily: fonts.medium, fontSize: size[15], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
                     {toPersianNum(state.thisDay)}
                     {" "}
                     {state.thisMonth}
@@ -126,7 +126,7 @@ const Home = (props) => {
                     data={weekDay}
                     style={{ alignSelf: 'center', marginTop: 10 }}
                     renderItem={({ item }) => <Text style={{
-                        marginHorizontal: 8,
+                        marginHorizontal: Width / 40,
                         fontFamily: fonts.regular,
                         fontSize: size[12], height: size[50],
                         color: '#121C3D'
@@ -134,6 +134,7 @@ const Home = (props) => {
                 />
 
                 <Agenda
+                    onDayPress={() => props.navigation.navigate("Calendar")}
                     jalali={jalali.jalaali}
                     style={styles.calendar}
                     markingType={'multi-period'}
@@ -145,7 +146,6 @@ const Home = (props) => {
                         opacity: 0.5,
                         // textSectionTitleColor: '#35036B',
                         todayTextColor: 'white',
-                        todayBackgroundColor: 'white',
                         selectedDayTextColor: 'white',
                         monthTextColor: 'white',
                         selectedDayBackgroundColor: 'pink',
@@ -205,14 +205,15 @@ const Home = (props) => {
                         {/* احتمال بالای باروری  */}
                     </Text>
                 </View>
-                <Footer style={{ position: 'absolute', backgroundColor: 'green', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
-                    {/* <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
-                        <TouchableOpacity style={{
-                            width: size[40], height: size[40], alignSelf: 'center',
-                            justifyContent: 'center',
-                        }}><Icon name="calendar" type="AntDesign"
+                <Footer style={{ position: 'absolute', marginTop: -Height / 8, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
+                    <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
+                        <TouchableOpacity
                             onPress={() => props.navigation.navigate("Calendar")}
-                            style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                            style={{
+                                width: size[40], height: size[40], alignSelf: 'center',
+                                justifyContent: 'center',
+                            }}><Icon name="calendar" type="AntDesign"
+                                style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
                         </TouchableOpacity>
                         <TouchableOpacity style={{
                             backgroundColor: '#FCF3CA', borderRadius: 150,
@@ -220,14 +221,16 @@ const Home = (props) => {
                             justifyContent: 'center',
                         }}><Icon name="home" type="AntDesign" style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
                         </TouchableOpacity>
-                        <TouchableOpacity style={{
-                            width: size[40], height: size[40], alignSelf: 'center',
-                            justifyContent: 'center',
-                        }}><Icon name="linechart" type="AntDesign"
+                        <TouchableOpacity
                             onPress={() => props.navigation.navigate("Charts")}
-                            style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                            style={{
+                                width: size[40], height: size[40], alignSelf: 'center',
+                                justifyContent: 'center',
+                            }}><Icon name="linechart" type="AntDesign"
+
+                                style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
                         </TouchableOpacity>
-                    </View> */}
+                    </View>
                     {/* <TouchableOpacity style={{
                     width: size[50], height: size[50], alignSelf: 'center',
                     justifyContent: 'center',
