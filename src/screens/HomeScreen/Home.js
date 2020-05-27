@@ -123,7 +123,7 @@ const Home = (props) => {
                 <Text style={{ fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: 10 }}>
                     {/* {toPersianNum(state.thisDay)} */}{toPersianNum(27)}
                     <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
-                    <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100', height: '100', top: 30 }}>
+                    <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100%', height: '100%', top: 30 }}>
                         <Text style={{ fontFamily: fonts.medium, fontSize: size[15], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
                             {toPersianNum(state.thisDay)}
                             {" "}
