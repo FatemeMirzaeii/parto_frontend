@@ -9,17 +9,23 @@ import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
 import Charts from '../screens/ChartsScreen/Charts';
 import TestApk from '../screens/HomeScreen/TestApk';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
+import StartQuestion from '../screens/StartScreen/StartQuestion';
 
 const PagesNavigator = createStackNavigator(
     {
-        htmlLoader: {
-            screen: htmlLoader,
+        StartQuestion: {
+            screen: StartQuestion,
             navigationOptions: { headerShown: false },
         },
         Home: {
             screen: Home,
             navigationOptions: { headerShown: false },
         },
+        htmlLoader: {
+            screen: htmlLoader,
+            navigationOptions: { headerShown: false },
+        },
+
         htmlLoader: {
             screen: htmlLoader,
             navigationOptions: { headerShown: false },
