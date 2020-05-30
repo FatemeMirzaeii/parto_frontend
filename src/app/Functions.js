@@ -1,5 +1,8 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { PermissionsAndroid, } from "react-native"
+import { PermissionsAndroid, } from "react-native";
+import Realm from 'realm';
+import HealthTrackingCategorySchema from '../models/HealthTrackingCategorySchema';
+import HealthTrackingOptionSchema from '../models/HealthTrackingOptionSchema';
 
 export async function getData(key) {
   try {
@@ -18,7 +21,6 @@ export async function storeData(key, value) {
     console.error(e);
   }
 }
-
 export async function removeData(key) {
   try {
     await AsyncStorage.removeItem(key);
@@ -49,7 +51,6 @@ export function RemoveHTML(Text) {
   const result = Text.replace(regex, '');
   return entities.decode(result);
 }
-
 export function TextCleaner(i) {
   let filtered = i.filter(function (el) {
     return el != null;
@@ -93,4 +94,27 @@ export function wait(timeout) {
   return new Promise(resolve => {
     setTimeout(resolve, timeout);
   });
+}
+export function seed() {
+  //Realm.deleteFile(HealthTrackingCategorySchema);
+  Realm.open({
+    schema: [HealthTrackingCategorySchema, HealthTrackingOptionSchema]
+  }).then((realm) => {
+    realm.write(() => {
+      realm.deleteAll();
+      console.log('hey Im realm');
+      realm.create(HealthTrackingCategorySchema, { id: 1, title: 'خونریزی' });
+      realm.create(HealthTrackingCategorySchema, { id: 2, title: 'درد' });
+      realm.create(HealthTrackingCategorySchema, { id: 3, title: 'حال عمومی' });
+      realm.create(HealthTrackingCategorySchema, { id: 4, title: 'ترشحات' });
+      realm.create(HealthTrackingOptionSchema, { id: 1, title: 'لکه بینی', category_id: 1 });
+      realm.create(HealthTrackingOptionSchema, { id: 2, title: 'سبک', category_id: 1 });
+      realm.create(HealthTrackingOptionSchema, { id: 3, title: 'متوسط', category_id: 1 });
+      realm.create(HealthTrackingOptionSchema, { id: 4, title: 'سنگین', category_id: 1 });
+      console.log(realm.objects(HealthTrackingCategorySchema));
+      console.log(realm.objects(HealthTrackingOptionSchema));
+    });
+    realm.close();
+  }).catch(err =>
+    console.log(err));
 }

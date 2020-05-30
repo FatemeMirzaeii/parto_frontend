@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { ImageBackground, StatusBar, StyleSheet } from 'react-native';
 import { Agenda } from 'react-native-calendars-persian';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum } from '../../app/Functions';
+import { toPersianNum, seed } from '../../app/Functions';
 import { Theme, Width, Height } from '../../app/Theme';
 
 const { colors, size, fonts } = Theme
@@ -30,6 +30,7 @@ const Home = (props) => {
         "چهارشنبه",
         "پنج‌شنبه"
         , "جمعه"])
+    useEffect(() => { seed(); });
     useEffect(() => {
         GetTimeNow();
     }, [state.thisDay]);
@@ -74,7 +75,6 @@ const Home = (props) => {
         // MildaiTime = new Date().toISOString().slice(0, 10)
 
     }
-
     const loadItems = (day) => {
         setTimeout(() => {
             for (let i = -15; i < 185; i++) {
@@ -111,28 +111,39 @@ const Home = (props) => {
     // }
     return (
         <ImageBackground source={require('../../../assets/images/bg7.png')} style={{ width: '100%', height: '100%', }}>
-            <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
-            <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100%', height: '100%', top: 30 }}>
-
-                <Text style={{ fontFamily: fonts.medium, fontSize: size[15], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
-                    {toPersianNum(state.thisDay)}
-                    {" "}
-                    {state.thisMonth}
-                    {" "}
-                    {toPersianNum(state.thisYear)}
+            {/* <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' /> */}
+            <StatusBar hidden />
+            {/* <View style={{
+                width: 340, height: 325, borderRadius: 300, backgroundColor: 'white',
+                position: "absolute", alignSelf: 'center', top: 165, right: 30, opacity: 0.3
+            }}></View> */}
+            {/* <View style={{ width: '100%', }}> */}
+            <ImageBackground source={require('../../../assets/images/moon7.png')}
+                style={{ width: Width, height: '100%', alignItems: 'center', alignSelf: 'center', top: 50 }} >
+                <Text style={{ fontFamily: fonts.regular, fontSize: size[14], color: '#121C3D', marginTop: 10 }}>
+                    {/* {toPersianNum(state.thisDay)} */}{toPersianNum(27)}
+                    <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
+                    <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100%', height: '100%', top: 30 }}>
+                        <Text style={{ fontFamily: fonts.medium, fontSize: size[15], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
+                            {toPersianNum(state.thisDay)}
+                            {" "}
+                            {state.thisMonth}
+                            {" "}
+                            {toPersianNum(state.thisYear)}
+                        </Text>
+                        <FlatList
+                            horizontal={true}
+                            data={weekDay}
+                            style={{ alignSelf: 'center', marginTop: 10 }}
+                            renderItem={({ item }) => <Text style={{
+                                marginHorizontal: Width / 40,
+                                fontFamily: fonts.regular,
+                                fontSize: size[12], height: size[50],
+                                color: '#121C3D'
+                            }}>{item}</Text>}
+                        />
+                    </ImageBackground>
                 </Text>
-                <FlatList
-                    horizontal={true}
-                    data={weekDay}
-                    style={{ alignSelf: 'center', marginTop: 10 }}
-                    renderItem={({ item }) => <Text style={{
-                        marginHorizontal: Width / 40,
-                        fontFamily: fonts.regular,
-                        fontSize: size[12], height: size[50],
-                        color: '#121C3D'
-                    }}>{item}</Text>}
-                />
-
                 <Agenda
                     onDayPress={() => props.navigation.navigate("Calendar")}
                     jalali={jalali.jalaali}
@@ -191,20 +202,24 @@ const Home = (props) => {
                     position: 'absolute',
                     marginTop: Height / 5.5
                 }}>
-
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
-                        <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
-                            {toPersianNum(2)}</Text> روز </Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
-                        {/* دوره پریود */}
+                    <TouchableOpacity onPress={() => {
+                        props.navigation.navigate('TrackingOptions');
+                    }}>
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                            <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
+                                {toPersianNum(2)}</Text> روز </Text>
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                            {/* دوره پریود */}
                         تا پریود بعدی
-        </Text>
-                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
-                        {toPersianNum(27)} خرداد</Text>
-                    <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
-                        {/* احتمال بالای باروری  */}
-                    </Text>
+                        </Text>
+                        <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
+                            {toPersianNum(27)} خرداد</Text>
+                        <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
+                            {/* احتمال بالای باروری */}
+                        </Text>
+                    </TouchableOpacity>
                 </View>
+
                 <Footer style={{ position: 'absolute', marginTop: -Height / 9, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
                         <TouchableOpacity
@@ -237,9 +252,9 @@ const Home = (props) => {
 
             </ImageBackground>
 
+
         </ImageBackground>
     )
-
 };
 export default Home;
 const styles = StyleSheet.create({
