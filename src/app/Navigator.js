@@ -13,6 +13,10 @@ import htmlLoader from '../screens/HomeScreen/htmlLoader';
 
 const PagesNavigator = createStackNavigator(
     {
+        htmlLoader: {
+            screen: htmlLoader,
+            navigationOptions: { headerShown: false },
+        },
         Home: {
             screen: Home,
             navigationOptions: { headerShown: false },

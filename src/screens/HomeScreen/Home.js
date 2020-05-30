@@ -205,7 +205,7 @@ const Home = (props) => {
                         {/* احتمال بالای باروری  */}
                     </Text>
                 </View>
-                <Footer style={{ position: 'absolute', marginTop: -Height / 8, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
+                <Footer style={{ position: 'absolute', marginTop: -Height / 9, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
                     <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
                         <TouchableOpacity
                             onPress={() => props.navigation.navigate("Calendar")}
@@ -231,26 +231,7 @@ const Home = (props) => {
                                 style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
                         </TouchableOpacity>
                     </View>
-                    {/* <TouchableOpacity style={{
-                    width: size[50], height: size[50], alignSelf: 'center',
-                    justifyContent: 'center',
-                }}><Icon name="calendar" type="AntDesign"
-                    onPress={() => props.navigation.navigate("Calendar")}
-                    style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{
-                    backgroundColor: 'white', borderRadius: 150,
-                    width: size[50], height: size[50], alignSelf: 'center',
-                    justifyContent: 'center',
-                }}><Icon name="home" type="AntDesign" style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
-                </TouchableOpacity>
-                <TouchableOpacity style={{
-                    width: size[50], height: size[50], alignSelf: 'center',
-                    justifyContent: 'center',
-                }}><Icon name="linechart" type="AntDesign"
-                    onPress={() => props.navigation.navigate("Charts")}
-                    style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
-                </TouchableOpacity> */}
+
                 </Footer>
 
 

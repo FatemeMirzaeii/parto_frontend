@@ -13,7 +13,7 @@ const htmlLoader = (props) => {
     useEffect(() => {
         async function htmlPage() {
             // https://api.partobanoo.com/article/getArticleContent/1
-            const _html = await restapi.request("https://api.partobanoo.com/article/getArticleContent/fa/2", {
+            const _html = await restapi.request("https://api.partobanoo.com/article/getArticleContent/fa/1", {
                 // "name": "fatemek",
                 // "email": "emaiqwlo22121sdad2.smn@gmail.com",
                 // "password": "123456"
@@ -29,7 +29,7 @@ const htmlLoader = (props) => {
 
 
     return (
-        <WebView style={{ backgroundColor: 'pink', flex: 1, width: '100%', height: '100%' }} source={{ html: state.data }} />
+        <WebView style={{ backgroundColor: 'pink', flex: 1, marginTop: 50, width: '100%', height: '100%' }} source={{ html: state.data }} />
     )
 
 };
