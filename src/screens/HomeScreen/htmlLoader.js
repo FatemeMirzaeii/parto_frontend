@@ -31,7 +31,13 @@ const htmlLoader = (props) => {
 
   return (
     <WebView
-      style={{backgroundColor: 'pink', flex: 1, width: '100%', height: '100%'}}
+      style={{
+        backgroundColor: 'pink',
+        flex: 1,
+        marginTop: 50,
+        width: '100%',
+        height: '100%',
+      }}
       source={{html: state.data}}
     />
   );

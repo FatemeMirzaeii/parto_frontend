@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import {Footer, Icon, Text, View} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
@@ -5,6 +6,15 @@ import {Agenda} from 'react-native-calendars-persian';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {toPersianNum, seed} from '../../app/Functions';
 import {Theme, Width, Height} from '../../app/Theme';
+=======
+import { Footer, Icon, Text, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, StatusBar, StyleSheet } from 'react-native';
+import { Agenda } from 'react-native-calendars-persian';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { toPersianNum } from '../../app/Functions';
+import { Theme, Width, Height } from '../../app/Theme';
+>>>>>>> 9131ec9b5a57a9570760ea23fec93c8e5dfe7944
 
 const {colors, size, fonts} = Theme;
 const moment2 = require('moment-jalaali');
@@ -22,6 +32,7 @@ const Home = (props) => {
   const [state, setState] = useState({
     items: [],
 
+<<<<<<< HEAD
     thisDay: '',
     thisMonth: '',
     thisYear: '',
@@ -68,6 +79,51 @@ const Home = (props) => {
         return 'بهمن';
       case 12:
         return 'اسفند';
+=======
+        thisDay: "",
+        thisMonth: "",
+        thisYear: ""
+
+    })
+    const [weekDay, setweekDay] = useState(["شنبه"
+        , "یک‌شنبه"
+        , "دوشنبه",
+        "سه‌شنبه",
+        "چهارشنبه",
+        "پنج‌شنبه"
+        , "جمعه"])
+    useEffect(() => {
+        GetTimeNow();
+    }, [state.thisDay]);
+    useEffect
+    const checkSwitch = (param) => {
+        switch (param) {
+            case 1:
+                return 'فروردین'
+            case 2:
+                return 'اردیبهشت'
+            case 3:
+                return 'خرداد'
+            case 4:
+                return 'تیر'
+            case 5:
+                return 'مرداد'
+            case 6:
+                return 'شهریور'
+            case 7:
+                return 'مهر'
+            case 8:
+                return 'آبان'
+            case 9:
+                return 'آذر'
+            case 10:
+                return 'دی'
+            case 11:
+                return 'بهمن'
+            case 12:
+                return 'اسفند'
+        }
+>>>>>>> 9131ec9b5a57a9570760ea23fec93c8e5dfe7944
     }
   };
   const GetTimeNow = async () => {
@@ -83,13 +139,15 @@ const Home = (props) => {
       thisYear: Persian.jy,
     });
 
-    // MildaiTime = new Date().toISOString().slice(0, 10)
-  };
-  const loadItems = (day) => {
-    setTimeout(() => {
-      for (let i = -15; i < 185; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time);
+        // MildaiTime = new Date().toISOString().slice(0, 10)
+
+    }
+
+    const loadItems = (day) => {
+        setTimeout(() => {
+            for (let i = -15; i < 185; i++) {
+                const time = day.timestamp + i * 24 * 60 * 60 * 1000;
+                const strTime = timeToString(time);
 
         if (!state.items[strTime]) {
           state.items[strTime] = [];
@@ -99,6 +157,7 @@ const Home = (props) => {
               name: 'Item for ' + strTime,
               height: Math.max(50, Math.floor(Math.random() * 150)),
             });
+<<<<<<< HEAD
           }
         }
       }
@@ -398,6 +457,144 @@ const Home = (props) => {
           </TouchableOpacity>
         </View>
         {/* <TouchableOpacity style={{
+=======
+            setState({
+                items: newItems
+            });
+        }, 1000);
+
+    }
+    const timeToString = (time) => {
+        const date = new Date(time);
+        return date.toISOString().split('T')[0];
+    }
+    // onDayPress = (day) => {
+    //     this.setState({ selected: day.dateString });
+    // }
+    return (
+        <ImageBackground source={require('../../../assets/images/bg7.png')} style={{ width: '100%', height: '100%', }}>
+            <StatusBar translucent barStyle="dark-content" backgroundColor='transparent' />
+            <ImageBackground source={require('../../../assets/images/moon7.png')} style={{ width: '100%', height: '100%', top: 30 }}>
+
+                <Text style={{ fontFamily: fonts.medium, fontSize: size[15], color: '#121C3D', marginTop: Height / 14, alignSelf: 'center' }}>
+                    {toPersianNum(state.thisDay)}
+                    {" "}
+                    {state.thisMonth}
+                    {" "}
+                    {toPersianNum(state.thisYear)}
+                </Text>
+                <FlatList
+                    horizontal={true}
+                    data={weekDay}
+                    style={{ alignSelf: 'center', marginTop: 10 }}
+                    renderItem={({ item }) => <Text style={{
+                        marginHorizontal: Width / 40,
+                        fontFamily: fonts.regular,
+                        fontSize: size[12], height: size[50],
+                        color: '#121C3D'
+                    }}>{item}</Text>}
+                />
+
+                <Agenda
+                    onDayPress={() => props.navigation.navigate("Calendar")}
+                    jalali={jalali.jalaali}
+                    style={styles.calendar}
+                    markingType={'multi-period'}
+                    firstDay={6}
+                    theme={{
+
+                        backgroundColor: 'transparent',
+                        calendarBackground: 'transparent',
+                        opacity: 0.5,
+                        // textSectionTitleColor: '#35036B',
+                        todayTextColor: 'white',
+                        selectedDayTextColor: 'white',
+                        monthTextColor: 'white',
+                        selectedDayBackgroundColor: 'pink',
+                        elevation: 6,
+                        textDisabledColor: '#FF4040',
+                        // FF4040   //1DD159
+                        textDayFontFamily: fonts.regular,
+                        textMonthFontFamily: fonts.regular,
+                        textDayHeaderFontFamily: fonts.regular,
+                        'stylesheet.calendar.header': {
+                            week: {
+                                marginTop: -7,
+                                flexDirection: 'row',
+                                justifyContent: 'space-between'
+                            }
+                        }
+                    }}
+                    markedDates={{
+                        // '2020-05-22': { dots: [vacation, massage, workout], },
+                        '2020-05-20': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
+                        '2020-05-19': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-20': { disabled: true, dots: [massage, workout], periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-21': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                        '2020-05-22': { disabled: true, selected: true, periods: [{ startingDay: false, endingDay: true, color: 'red' }] },
+                        '2020-05-30': { disabled: true, },
+                        '2020-05-31': { disabled: true, },
+                        '2020-06-01': { disabled: true, },
+                        '2020-06-02': { disabled: true, },
+                        '2020-06-03': { disabled: true, },
+                        '2020-06-21': { disabled: true, selected: true },
+                        '2020-06-22': { disabled: true, selected: true },
+                        '2020-06-23': { disabled: true, periods: [{ startingDay: true, endingDay: false, color: 'red' }] },
+                        '2020-06-24': { disabled: true, periods: [{ startingDay: false, endingDay: false, color: 'red' }] },
+                    }}
+                >
+
+                </Agenda>
+                <View style={{
+                    width: '100%',
+                    height: '50%',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    position: 'absolute',
+                    marginTop: Height / 5.5
+                }}>
+
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                        <Text style={{ color: '#121C3D', fontSize: size[30], fontFamily: fonts.regular }}>
+                            {toPersianNum(2)}</Text> روز </Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.regular }}>
+                        {/* دوره پریود */}
+                        تا پریود بعدی
+        </Text>
+                    <Text style={{ color: '#121C3D', fontSize: size[24], fontFamily: fonts.medium, marginTop: 10 }}>
+                        {toPersianNum(27)} خرداد</Text>
+                    <Text style={{ color: '#7A0000', fontSize: size[15], fontFamily: fonts.regular }}>
+                        {/* احتمال بالای باروری  */}
+                    </Text>
+                </View>
+                <Footer style={{ position: 'absolute', marginTop: -Height / 8, backgroundColor: 'transparent', borderTopLeftRadius: 30, borderTopRightRadius: 30, height: size[60], elevation: 20 }}>
+                    <View style={{ backgroundColor: 'white', flexDirection: 'row', width: '100%', alignItems: 'center', borderTopLeftRadius: 30, borderTopRightRadius: 30, justifyContent: 'space-between', paddingHorizontal: 40 }}>
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate("Calendar")}
+                            style={{
+                                width: size[40], height: size[40], alignSelf: 'center',
+                                justifyContent: 'center',
+                            }}><Icon name="calendar" type="AntDesign"
+                                style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={{
+                            backgroundColor: '#FCF3CA', borderRadius: 150,
+                            width: size[40], height: size[40], alignSelf: 'center',
+                            justifyContent: 'center',
+                        }}><Icon name="home" type="AntDesign" style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => props.navigation.navigate("Charts")}
+                            style={{
+                                width: size[40], height: size[40], alignSelf: 'center',
+                                justifyContent: 'center',
+                            }}><Icon name="linechart" type="AntDesign"
+
+                                style={{ fontSize: size[30], alignSelf: 'center', color: '#121C3D' }} />
+                        </TouchableOpacity>
+                    </View>
+                    {/* <TouchableOpacity style={{
+>>>>>>> 9131ec9b5a57a9570760ea23fec93c8e5dfe7944
                     width: size[50], height: size[50], alignSelf: 'center',
                     justifyContent: 'center',
                 }}><Icon name="calendar" type="AntDesign"
@@ -417,10 +614,21 @@ const Home = (props) => {
                     onPress={() => props.navigation.navigate("Charts")}
                     style={{ fontSize: size[35], alignSelf: 'center', color: '#121C3D' }} />
                 </TouchableOpacity> */}
+<<<<<<< HEAD
         {/* </Footer> */}
       </Footer>
     </ImageBackground>
   );
+=======
+                </Footer>
+
+
+            </ImageBackground>
+
+        </ImageBackground>
+    )
+
+>>>>>>> 9131ec9b5a57a9570760ea23fec93c8e5dfe7944
 };
 export default Home;
 const styles = StyleSheet.create({
