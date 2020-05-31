@@ -1,7 +1,7 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
+import {createSwitchNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createStackNavigator} from 'react-navigation-stack';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
@@ -11,74 +11,71 @@ import TestApk from '../screens/HomeScreen/TestApk';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
 
 const PagesNavigator = createStackNavigator(
-    {
-        Home: {
-            screen: Home,
-            navigationOptions: { headerShown: false },
-        },
-        htmlLoader: {
-            screen: htmlLoader,
-            navigationOptions: { headerShown: false },
-        },
-        Calendar: {
-            screen: Calendar,
-            navigationOptions: { headerShown: false },
-        },
-        TrackingOptions: {
-            screen: TrackingOptions,
-            navigationOptions: { headerShown: false },
-        },
-        Charts: {
-            screen: Charts,
-            navigationOptions: { headerShown: false },
-        },
-        TestApk: {
-            screen: TestApk,
-            navigationOptions: { headerShown: false },
-        },
+  {
+    Home: {
+      screen: Home,
+      navigationOptions: {headerShown: false},
     },
-    // { initialRouteName: 'Home' },
+    htmlLoader: {
+      screen: htmlLoader,
+      navigationOptions: {headerShown: false},
+    },
+    Calendar: {
+      screen: Calendar,
+      navigationOptions: {headerShown: false},
+    },
+    TrackingOptions: {
+      screen: TrackingOptions,
+      navigationOptions: {headerShown: false},
+    },
+    Charts: {
+      screen: Charts,
+      navigationOptions: {headerShown: false},
+    },
+    TestApk: {
+      screen: TestApk,
+      navigationOptions: {headerShown: false},
+    },
+  },
+  // { initialRouteName: 'Home' },
 );
 
-const DrawerNavigator = createDrawerNavigator(
-    {
-        Home: {
-            screen: Home,
-            navigationOptions: { headerShown: false },
-        },
+const DrawerNavigator = createDrawerNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {headerShown: false},
+  },
 
-        // },
-        // {
-        //   contentComponent: props => <DrawerView {...props} />,
-    },
-);
+  // },
+  // {
+  //   contentComponent: props => <DrawerView {...props} />,
+});
 
 const StackNavigator = createStackNavigator({
-    Home: {
-        screen: Home,
-        navigationOptions: { headerShown: false },
-    },
-    // SplashScreen: {
-    //   screen: SplashScreen,
-    //   navigationOptions: { headerShown: false },
-    // },
-
+  Home: {
+    screen: Home,
+    navigationOptions: {headerShown: false},
+  },
+  // SplashScreen: {
+  //   screen: SplashScreen,
+  //   navigationOptions: { headerShown: false },
+  // },
 });
 export const AppSwitchNavigator = createSwitchNavigator(
-    {
-        Auth: {
-            screen: StackNavigator,
-            navigationOptions: { headerShown: false },
-        },
-        App: {
-            screen: DrawerNavigator,
-            navigationOptions: { headerShown: false },
-        },
-        Second: {
-            screen: PagesNavigator,
-            navigationOptions: { headerShown: false },
-        }
+  {
+    Auth: {
+      screen: StackNavigator,
+      navigationOptions: {headerShown: false},
     },
-    // { initialRouteName: 'Auth' },
-    { initialRouteName: 'Second' },
+    App: {
+      screen: DrawerNavigator,
+      navigationOptions: {headerShown: false},
+    },
+    Second: {
+      screen: PagesNavigator,
+      navigationOptions: {headerShown: false},
+    },
+  },
+  // { initialRouteName: 'Auth' },
+  {initialRouteName: 'Second'},
 );
