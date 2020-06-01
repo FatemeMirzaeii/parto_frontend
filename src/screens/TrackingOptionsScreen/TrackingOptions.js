@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -13,23 +13,22 @@ import HealthTrackingCategorySchema from '../../models/HealthTrackingCategorySch
 import HealthTrackingOptionSchema from '../../models/HealthTrackingOptionSchema';
 
 const TrackingOptions = () => {
-  //const [options, setOptions] = useState([]);
   const [state, setState] = useState({
     categories: [],
     options: [],
   });
+  const realm = useRef();
   useEffect(() => {
-    Realm.open({
+    realm.current = new Realm({
       schema: [HealthTrackingCategorySchema, HealthTrackingOptionSchema],
-    }).then((realm) => {
-      setState({
-        categories: realm.objects(HealthTrackingCategorySchema),
-        options: realm
-          .objects(HealthTrackingOptionSchema)
-          .filtered('category_id=1'),
-      });
     });
-  });
+    setState({
+      categories: realm.current.objects(HealthTrackingCategorySchema),
+      options: realm.current
+        .objects(HealthTrackingOptionSchema)
+        .filtered('category_id=1'),
+    });
+  }, []);
   const renderCategories = () => {
     return state.categories.map((c) => {
       return (
@@ -42,17 +41,12 @@ const TrackingOptions = () => {
     });
   };
   const onCategoryPress = (id) => {
-    Realm.open({
-      schema: [HealthTrackingCategorySchema, HealthTrackingOptionSchema],
-    }).then((realm) => {
-      setState({
-        categories: realm.objects(HealthTrackingCategorySchema),
-        options: realm
-          .objects(HealthTrackingOptionSchema)
-          .filtered('category_id=$0', id),
-      });
+    setState({
+      categories: realm.current.objects(HealthTrackingCategorySchema),
+      options: realm.current
+        .objects(HealthTrackingOptionSchema)
+        .filtered('category_id=$0', id),
     });
-    console.log(state.options);
   };
   const renderOptions = () => {
     return state.options.map((o) => {
