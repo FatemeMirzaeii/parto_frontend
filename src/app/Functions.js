@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { PermissionsAndroid, } from "react-native";
+import {PermissionsAndroid} from 'react-native';
 import Realm from 'realm';
 import HealthTrackingCategorySchema from '../models/HealthTrackingCategorySchema';
 import HealthTrackingOptionSchema from '../models/HealthTrackingOptionSchema';
@@ -30,7 +30,6 @@ export async function removeData(key) {
 }
 export async function requestSTORAGEPermission() {
   try {
-
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
     );
@@ -58,63 +57,100 @@ export function TextCleaner(i) {
   return filtered.join('، ');
 }
 export function toPersianNum(num) {
-  num = num.toString()
-  num = num.replace("00", "۰۰");
-  num = num.replace("11", "۱۱");
-  num = num.replace("22", "۲۲");
-  num = num.replace("33", "۳۳");
-  num = num.replace("44", "۴۴");
-  num = num.replace("55", "۵۵");
-  num = num.replace("66", "۶۶");
-  num = num.replace("77", "۷۷");
-  num = num.replace("88", "۸۸");
-  num = num.replace("99", "۹۹");
-  num = num.replace("0", "۰");
-  num = num.replace("1", "۱");
-  num = num.replace("2", "۲");
-  num = num.replace("3", "۳");
-  num = num.replace("4", "۴");
-  num = num.replace("5", "۵");
-  num = num.replace("6", "۶");
-  num = num.replace("7", "۷");
-  num = num.replace("8", "۸");
-  num = num.replace("9", "۹");
+  num = num.toString();
+  num = num.replace('00', '۰۰');
+  num = num.replace('11', '۱۱');
+  num = num.replace('22', '۲۲');
+  num = num.replace('33', '۳۳');
+  num = num.replace('44', '۴۴');
+  num = num.replace('55', '۵۵');
+  num = num.replace('66', '۶۶');
+  num = num.replace('77', '۷۷');
+  num = num.replace('88', '۸۸');
+  num = num.replace('99', '۹۹');
+  num = num.replace('0', '۰');
+  num = num.replace('1', '۱');
+  num = num.replace('2', '۲');
+  num = num.replace('3', '۳');
+  num = num.replace('4', '۴');
+  num = num.replace('5', '۵');
+  num = num.replace('6', '۶');
+  num = num.replace('7', '۷');
+  num = num.replace('8', '۸');
+  num = num.replace('9', '۹');
   return num;
 }
 export function PersianDateToArray(PDate) {
-  const Splitted = PDate.split(' ')
+  const Splitted = PDate.split(' ');
   switch (Splitted.length) {
     case 1:
-      return Splitted[0].split('/').map(digit => parseInt(digit))
+      return Splitted[0].split('/').map((digit) => parseInt(digit));
     case 2:
-      return Splitted[0].split('/').concat(Splitted[1].split(':')).map(digit => parseInt(digit))
+      return Splitted[0]
+        .split('/')
+        .concat(Splitted[1].split(':'))
+        .map((digit) => parseInt(digit));
   }
 }
 export function wait(timeout) {
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
 }
 export function seed() {
   //Realm.deleteFile(HealthTrackingCategorySchema);
   Realm.open({
-    schema: [HealthTrackingCategorySchema, HealthTrackingOptionSchema]
-  }).then((realm) => {
-    realm.write(() => {
-      realm.deleteAll();
-      console.log('hey Im realm');
-      realm.create(HealthTrackingCategorySchema, { id: 1, title: 'خونریزی' });
-      realm.create(HealthTrackingCategorySchema, { id: 2, title: 'درد' });
-      realm.create(HealthTrackingCategorySchema, { id: 3, title: 'حال عمومی' });
-      realm.create(HealthTrackingCategorySchema, { id: 4, title: 'ترشحات' });
-      realm.create(HealthTrackingOptionSchema, { id: 1, title: 'لکه بینی', category_id: 1 });
-      realm.create(HealthTrackingOptionSchema, { id: 2, title: 'سبک', category_id: 1 });
-      realm.create(HealthTrackingOptionSchema, { id: 3, title: 'متوسط', category_id: 1 });
-      realm.create(HealthTrackingOptionSchema, { id: 4, title: 'سنگین', category_id: 1 });
-      console.log(realm.objects(HealthTrackingCategorySchema));
-      console.log(realm.objects(HealthTrackingOptionSchema));
-    });
-    realm.close();
-  }).catch(err =>
-    console.log(err));
+    schema: [HealthTrackingCategorySchema, HealthTrackingOptionSchema],
+  })
+    .then((realm) => {
+      realm.write(() => {
+        realm.deleteAll();
+        realm.create(HealthTrackingCategorySchema, {id: 1, title: 'خونریزی'});
+        realm.create(HealthTrackingCategorySchema, {id: 2, title: 'درد'});
+        realm.create(HealthTrackingCategorySchema, {id: 3, title: 'حال عمومی'});
+        realm.create(HealthTrackingCategorySchema, {id: 4, title: 'ترشحات'});
+        realm.create(HealthTrackingOptionSchema, {
+          id: 1,
+          title: 'لکه بینی',
+          category_id: 1,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 2,
+          title: 'سبک',
+          category_id: 1,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 3,
+          title: 'متوسط',
+          category_id: 1,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 4,
+          title: 'سنگین',
+          category_id: 1,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 5,
+          title: 'سردرد',
+          category_id: 2,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 6,
+          title: 'گرفتگی عضلات',
+          category_id: 2,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 7,
+          title: 'حساس شدن سینه ها',
+          category_id: 2,
+        });
+        realm.create(HealthTrackingOptionSchema, {
+          id: 8,
+          title: 'تخمک گذاری',
+          category_id: 2,
+        });
+      });
+      realm.close();
+    })
+    .catch((err) => console.log(err));
 }

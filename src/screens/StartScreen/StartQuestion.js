@@ -1,3 +1,4 @@
+
 import { Content, Container, View, Left, Right, Radio, Body, Button, Title, } from 'native-base';
 import React, { useState } from 'react';
 import { StyleSheet, Dimensions, Text, ToastAndroid } from 'react-native';
@@ -5,7 +6,8 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Theme, Width } from '../../app/Theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
-const { colors, size, fonts } = Theme
+
+const { colors, size, fonts } = Theme;
 
 const Start1 = (props) => {
     const [selected, setSelected] = useState({
@@ -75,6 +77,7 @@ const Start1 = (props) => {
             ><Title style={styles.txtbtn}>ورود</Title></Button>
         </LinearGradient>
     )
+
 };
 export default Start1;
 const styles = StyleSheet.create({
