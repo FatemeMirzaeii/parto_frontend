@@ -230,48 +230,51 @@ const Home = (props) => {
             position: 'absolute',
             marginTop: Height / 5.5,
           }}>
-          <Text
-            style={{
-              color: '#121C3D',
-              fontSize: size[24],
-              fontFamily: fonts.regular,
-            }}>
+          <TouchableOpacity
+            onPress={() => props.navigation.navigate('TrackingOptions')}>
             <Text
               style={{
                 color: '#121C3D',
-                fontSize: size[30],
+                fontSize: size[24],
                 fontFamily: fonts.regular,
               }}>
-              {toPersianNum(2)}
-            </Text>{' '}
-            روز{' '}
-          </Text>
-          <Text
-            style={{
-              color: '#121C3D',
-              fontSize: size[24],
-              fontFamily: fonts.regular,
-            }}>
-            {/* دوره پریود */}
-            تا پریود بعدی
-          </Text>
-          <Text
-            style={{
-              color: '#121C3D',
-              fontSize: size[24],
-              fontFamily: fonts.medium,
-              marginTop: 10,
-            }}>
-            {toPersianNum(27)} خرداد
-          </Text>
-          <Text
-            style={{
-              color: '#7A0000',
-              fontSize: size[15],
-              fontFamily: fonts.regular,
-            }}>
-            {/* احتمال بالای باروری  */}
-          </Text>
+              <Text
+                style={{
+                  color: '#121C3D',
+                  fontSize: size[30],
+                  fontFamily: fonts.regular,
+                }}>
+                {toPersianNum(2)}
+              </Text>{' '}
+              روز{' '}
+            </Text>
+            <Text
+              style={{
+                color: '#121C3D',
+                fontSize: size[24],
+                fontFamily: fonts.regular,
+              }}>
+              {/* دوره پریود */}
+              تا پریود بعدی
+            </Text>
+            <Text
+              style={{
+                color: '#121C3D',
+                fontSize: size[24],
+                fontFamily: fonts.medium,
+                marginTop: 10,
+              }}>
+              {toPersianNum(27)} خرداد
+            </Text>
+            <Text
+              style={{
+                color: '#7A0000',
+                fontSize: size[15],
+                fontFamily: fonts.regular,
+              }}>
+              {/* احتمال بالای باروری  */}
+            </Text>
+          </TouchableOpacity>
         </View>
         <Footer
           style={{
