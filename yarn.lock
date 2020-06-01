@@ -8379,6 +8379,11 @@ react-native-screens@^2.5.0:
   dependencies:
     debounce "^1.2.0"
 
+react-native-smooth-picker@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/react-native-smooth-picker/-/react-native-smooth-picker-1.0.2.tgz#b6307afa2069690aadb7a03d8b2bebb21c23a67b"
+  integrity sha512-WkCNPjxN5NqezgMqoy41tonIEXwi4TqxsKJK5CvLpQDcKrPXMpckZaV3d6GjET10s9NLkeAcF/Oev/qLqBhxDg==
+
 react-native-svg-charts@^5.4.0:
   version "5.4.0"
   resolved "https://registry.yarnpkg.com/react-native-svg-charts/-/react-native-svg-charts-5.4.0.tgz#3817a4714c276b7024e60ae5c9f13191614aecc8"

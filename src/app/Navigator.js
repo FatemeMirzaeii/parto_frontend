@@ -10,11 +10,17 @@ import Charts from '../screens/ChartsScreen/Charts';
 import TestApk from '../screens/HomeScreen/TestApk';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
+import StartQuestion2 from '../screens/StartScreen/StartQuestion2';
+
 
 const PagesNavigator = createStackNavigator(
     {
         StartQuestion: {
             screen: StartQuestion,
+            navigationOptions: { headerShown: false },
+        },
+        StartQuestion2: {
+            screen: StartQuestion2,
             navigationOptions: { headerShown: false },
         },
         Home: {
