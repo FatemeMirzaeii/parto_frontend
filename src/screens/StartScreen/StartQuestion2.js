@@ -1,121 +1,19 @@
-// import { Content, Container, View, Left, Right, Radio, Body, Button, Title } from 'native-base';
-// import React, { useState } from 'react';
-// import { StyleSheet, Dimensions, Text, Picker } from 'react-native';
-// import LinearGradient from 'react-native-linear-gradient';
-// import { Theme, Width } from '../../app/Theme';
-// import { TouchableOpacity } from 'react-native-gesture-handler';
-// import SmoothPicker from "react-native-smooth-picker";
-// const { colors, size, fonts } = Theme
 
-// const Start2 = (props) => {
-//     const [selectedValue, setSelectedVlaue] = useState({
-//         selected: null,
-//         itemList: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-//     });
-//     const handleChange = index => {
-//         setSelectedVlaue({
-//             select: index
-//         });
-//     };
-//     return (
-//         <LinearGradient start={{ x: 0, y: 0 }}
-//             end={{ x: 0, y: 1 }} colors={['#D164A6', '#C2428F', '#780048']}
-//             style={styles.gradiant}>
-//             <View style={styles.view}>
-//                 <Text style={styles.txt}>آخرین بار ، دوره ماهانه تان</Text>
-//                 <Text style={styles.txt}>چه زمانی آغاز شد؟</Text>
-//                 <SmoothPicker
-//                     initialScrollToIndex={selected}
-//                     refFlatList={refPicker}
-//                     keyExtractor={(_, index) => index.toString()}
-//                     horizontal={true}
-//                     scrollAnimation
-//                     showsHorizontalScrollIndicator={false}
-//                     data={selectedValue.itemList}
-//                     renderItem={option => ItemToRender(option, selected, false)}
-//                 />
-
-//             </View>
-//             <Button rounded style={styles.btn}
-//                 onPress={() => props.navigation.navigate('startQuestion2')}
-//             ><Title style={styles.txtbtn}></Title></Button>
-//         </LinearGradient>
-//     )
-// };
-// export default Start2;
-// const styles = StyleSheet.create({
-//     gradiant: {
-//         flex: 1,
-//         justifyContent: 'center'
-//     },
-//     view: {
-//         backgroundColor: 'white',
-//         width: '90%',
-//         alignSelf: 'center',
-//         paddingVertical: 50,
-//         borderRadius: 5,
-//         paddingHorizontal: 20
-//     },
-//     view2: {
-//         flexDirection: 'row',
-//         alignItems: 'center'
-//     },
-//     txt: {
-//         fontFamily: fonts.regular,
-//         fontSize: size[15]
-//     },
-//     txt2: {
-//         marginTop: -10,
-//         color: 'gray',
-//         marginLeft: 30,
-//         marginVertical: 5,
-//         fontFamily: fonts.regular,
-//         fontSize: size[14]
-//     },
-//     btn: {
-//         width: '50%',
-//         alignSelf: 'center',
-//         justifyContent: 'center',
-//         marginTop: 30,
-//         backgroundColor: '#C2428F'
-//     },
-//     txtbtn: {
-//         fontFamily: fonts.regular
-//     }
-// });
-import React, { useRef, useState, useEffect } from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { Button, Title } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import SmoothPicker from 'react-native-smooth-picker';
+import { toPersianNum } from '../../app/Functions';
+import { Theme } from '../../app/Theme';
 
-// let data = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19];
 
-const dataCity = [
-    'Paris',
-    'Berlin',
-    'Lisbonne',
-    'Budapest',
-    'Londres',
-    'Prague',
-    'Rome',
-    'Barcelone',
-    'Amsterdam',
-    'Dublin',
-    'Vienne',
-    'Madrid',
-    'Cracovie',
-    'Reykjavik',
-    'Istambul',
-    'Florence',
-    'Copenhague',
-    'Zagreb',
-    'Stockholm',
-    'Thessalonique',
-    'Marseille',
-    'Porto',
-    'Lugano',
-    'Bruxelles',
-    'Lyon',
-];
+
+const { colors, size, fonts } = Theme;
+let day = []
+let month = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
+let year = []
+
 
 const opacities = {
     0: 1,
@@ -133,9 +31,9 @@ const sizeText = {
 const Item = React.memo(({ opacity, selected, vertical, fontSize, name }) => {
     return (
         <View
-            style={[styles.OptionWrapper, { opacity, borderColor: selected ? '#ABC9AF' : 'transparent', width: vertical ? 190 : 'auto' }]}
+            style={[styles.OptionWrapper, { opacity, borderColor: selected ? 'gray' : 'transparent', width: 100 }]}
         >
-            <Text style={{ fontSize }}>
+            <Text style={{ fontSize, fontFamily: fonts.regular }}>
                 {name}
             </Text>
         </View>
@@ -151,7 +49,7 @@ const ItemToRender = ({ item, index }, indexSelected, vertical) => {
 
     let opacity = opacities[gap];
     if (gap > 3) {
-        opacity = opacities[4];
+        opacity = opacities[2];
     }
     let fontSize = sizeText[gap];
     if (gap > 1) {
@@ -161,73 +59,109 @@ const ItemToRender = ({ item, index }, indexSelected, vertical) => {
     return <Item opacity={opacity} selected={selected} vertical={vertical} fontSize={fontSize} name={item} />;
 };
 
-const App = () => {
+const Start2 = (props) => {
+    useEffect(() => {
+        for (let j = 1340; j <= 1399; j++)
+            year.push(toPersianNum(j))
+        for (let i = 1; i <= 30; i++)
+            day.push(toPersianNum(i))
 
-    function handleChange(index) {
-        setSelected(index);
-        refPicker.current.scrollToIndex({
-            animated: false,
-            index: index,
-            viewOffset: -30,
-        });
+    })
+    function handleChangeday(index) {
+        setSelectedday(index);
+    }
+    function handleChangemonth(index) {
+        setSelectedmonth(index);
+    }
+    function handleChangeyear(index) {
+        setSelectedyear(index);
     }
 
-    const [selected, setSelected] = useState(4);
-    const refPicker = useRef(null);
+    const [selectedday, setSelectedday] = useState(4);
+    const [selectedmonth, setSelectedmonth] = useState(4);
+    const [selectedyear, setSelectedyear] = useState(4);
+
     return (
-        <View style={styles.container}>
-            {/* <View style={styles.wrapperHorizontal}>
-                <SmoothPicker
-                    initialScrollToIndex={selected}
-                    refFlatList={refPicker}
-                    keyExtractor={(_, index) => index.toString()}
-                    horizontal={true}
-                    scrollAnimation
-                    showsHorizontalScrollIndicator={false}
-                    data={dataCity}
-                    renderItem={option => ItemToRender(option, selected, false)}
-                />
-            </View>
-            <View style={styles.wrapperVertical}>
-                <SmoothPicker
-                    initialScrollToIndex={selected}
-                    onScrollToIndexFailed={() => { }}
-                    keyExtractor={(_, index) => index.toString()}
-                    showsVerticalScrollIndicator={false}
-                    data={dataCity}
-                    scrollAnimation
-                    onSelected={({ item, index }) => handleChange(index)}
-                    renderItem={option => ItemToRender(option, selected, true)}
-                    magnet
-                />
-            </View>
-            <View>
+        <LinearGradient start={{ x: 0, y: 0 }}
+            end={{ x: 0, y: 1 }} colors={['#D164A6', '#C2428F', '#780048']}
+            style={styles.gradiant}>
+            <View style={styles.view}>
+                <Text style={styles.txt}>آخرین بار ، دوره ماهانه تان</Text>
+                <Text style={styles.txt}>چه زمانی آغاز شد؟</Text>
+                <View style={{ flexDirection: 'row', marginTop: 60 }}>
+                    <View style={styles.wrapperVertical}>
+                        <SmoothPicker
+                            initialScrollToIndex={selectedday}
+                            onScrollToIndexFailed={() => { }}
+                            keyExtractor={(_, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            data={day}
+                            scrollAnimation
+                            onSelected={({ item, index }) => handleChangeday(index)}
+                            renderItem={option => ItemToRender(option, selectedday, true)}
+                            magnet
+                        />
+
+                    </View>
+                    <View style={[styles.wrapperVertical, { marginTop: -0.5 }]}>
+                        <SmoothPicker
+                            initialScrollToIndex={selectedmonth}
+                            onScrollToIndexFailed={() => { }}
+                            keyExtractor={(_, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            data={month}
+                            scrollAnimation
+                            onSelected={({ item, index }) => handleChangemonth(index)}
+                            renderItem={option => ItemToRender(option, selectedmonth, true)}
+                            magnet
+                        />
+                    </View>
+                    <View style={styles.wrapperVertical}>
+                        <SmoothPicker
+                            initialScrollToIndex={selectedyear}
+                            onScrollToIndexFailed={() => { }}
+                            keyExtractor={(_, index) => index.toString()}
+                            showsVerticalScrollIndicator={false}
+                            data={year}
+                            scrollAnimation
+                            onSelected={({ item, index }) => handleChangeyear(index)}
+                            renderItem={option => ItemToRender(option, selectedyear, true)}
+                            magnet
+                        />
+                    </View>
+                </View>
+                {/* <View>
                 <Text>{`Your selection is ${dataCity[selected]}`}</Text>
             </View> */}
-        </View>
+            </View>
+            <Button rounded style={styles.btn}
+                onPress={() => props.navigation.navigate('startQuestion2')}
+            ><Title style={styles.txtbtn}>بعدی</Title></Button>
+        </LinearGradient >
     );
 };
 
+
+export default Start2;
+
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 60,
-        paddingBottom: 30,
+    gradiant: {
         flex: 1,
-        flexDirection: 'column',
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
-        backgroundColor: '#F5FCFF',
+        justifyContent: 'center'
     },
-    wrapperHorizontal: {
-        height: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: 'auto',
-        color: 'black',
+    view: {
+        backgroundColor: 'white',
+        width: '90%',
+        alignSelf: 'center',
+        height: '60%',
+        paddingTop: 20,
+        // justifyContent: 'center',
+        borderRadius: 5,
+        paddingHorizontal: 20
     },
+
     wrapperVertical: {
-        width: 250,
-        height: 350,
+        height: 200,
         justifyContent: 'center',
         alignItems: 'center',
         margin: 'auto',
@@ -237,15 +171,36 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 10,
-        marginBottom: 10,
-        paddingTop: 10,
-        paddingBottom: 10,
-        paddingLeft: 30,
-        paddingRight: 30,
+        paddingLeft: 10,
+        paddingRight: 10,
         height: 50,
-        borderWidth: 3,
-        borderRadius: 10,
+        borderTopWidth: 1,
+        borderBottomWidth: 1,
     },
+    view2: {
+        flexDirection: 'row',
+        alignItems: 'center'
+    },
+    txt: {
+        fontFamily: fonts.regular,
+        fontSize: size[15]
+    },
+    txt2: {
+        marginTop: -10,
+        color: 'gray',
+        marginLeft: 30,
+        marginVertical: 5,
+        fontFamily: fonts.regular,
+        fontSize: size[14]
+    },
+    btn: {
+        width: '50%',
+        alignSelf: 'center',
+        justifyContent: 'center',
+        marginTop: 30,
+        backgroundColor: '#C2428F'
+    },
+    txtbtn: {
+        fontFamily: fonts.regular
+    }
 });
-
-export default App;

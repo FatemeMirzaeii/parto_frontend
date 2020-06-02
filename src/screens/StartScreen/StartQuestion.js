@@ -86,10 +86,11 @@ const styles = StyleSheet.create({
         justifyContent: 'center'
     },
     view: {
+        justifyContent: 'center',
+        height: '60%',
         backgroundColor: 'white',
         width: '90%',
         alignSelf: 'center',
-        paddingVertical: 50,
         borderRadius: 5,
         paddingHorizontal: 20
     },
