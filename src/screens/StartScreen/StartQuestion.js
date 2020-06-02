@@ -47,7 +47,6 @@ const Start1 = (props) => {
                         <Radio selected={selected.selected2}
                             color='#F700FF'
                             selectedColor='#F93DFF'
-
                             style={{
                                 marginRight: 10,
 

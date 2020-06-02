@@ -11,6 +11,10 @@ import TestApk from '../screens/HomeScreen/TestApk';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
 import StartQuestion2 from '../screens/StartScreen/StartQuestion2';
+import StartQuestion3 from '../screens/StartScreen/StartQuestion3';
+import StartQuestion4 from '../screens/StartScreen/StartQuestion4';
+
+
 
 
 const PagesNavigator = createStackNavigator(
@@ -22,6 +26,14 @@ const PagesNavigator = createStackNavigator(
     },
     StartQuestion2: {
       screen: StartQuestion2,
+      navigationOptions: { headerShown: false },
+    },
+    StartQuestion3: {
+      screen: StartQuestion3,
+      navigationOptions: { headerShown: false },
+    },
+    StartQuestion4: {
+      screen: StartQuestion4,
       navigationOptions: { headerShown: false },
     },
     Home: {

@@ -1,4 +1,3 @@
-
 import { Button, Title } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
@@ -7,12 +6,9 @@ import SmoothPicker from 'react-native-smooth-picker';
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 
-
-
 const { colors, size, fonts } = Theme;
 let day = []
-let month = ['فروردین', 'اردیبهشت', 'خرداد', 'تیر', 'مرداد', 'شهریور', 'مهر', 'آبان', 'آذر', 'دی', 'بهمن', 'اسفند']
-let year = []
+
 
 
 const opacities = {
@@ -59,90 +55,52 @@ const ItemToRender = ({ item, index }, indexSelected, vertical) => {
     return <Item opacity={opacity} selected={selected} vertical={vertical} fontSize={fontSize} name={item} />;
 };
 
-const Start2 = (props) => {
+const Start4 = (props) => {
     useEffect(() => {
-        for (let j = 1340; j <= 1399; j++)
-            year.push(toPersianNum(j))
-        for (let i = 1; i <= 30; i++)
+
+        for (let i = 20; i <= 100; i++)
             day.push(toPersianNum(i))
 
     })
-    function handleChangeday(index) {
+    const handleChangeday = (index) => {
         setSelectedday(index);
-    }
-    function handleChangemonth(index) {
-        setSelectedmonth(index);
-    }
-    function handleChangeyear(index) {
-        setSelectedyear(index);
     }
 
     const [selectedday, setSelectedday] = useState(4);
-    const [selectedmonth, setSelectedmonth] = useState(4);
-    const [selectedyear, setSelectedyear] = useState(4);
 
     return (
         <LinearGradient start={{ x: 0, y: 0 }}
             end={{ x: 0, y: 1 }} colors={['#D164A6', '#C2428F', '#780048']}
             style={styles.gradiant}>
             <View style={styles.view}>
-                <Text style={styles.txt}>آخرین بار ، دوره ماهانه تان</Text>
-                <Text style={styles.txt}>چه زمانی آغاز شد؟</Text>
-                <View style={{ flexDirection: 'row', marginTop: 60 }}>
-                    <View style={styles.wrapperVertical}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedday}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
-                            data={day}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangeday(index)}
-                            renderItem={option => ItemToRender(option, selectedday, true)}
-                            magnet
-                        />
+                <Text style={styles.txt}>بطور میانگین فاصله دوره هایتان چند روزه است؟</Text>
+                <View style={styles.wrapperVertical}>
+                    <SmoothPicker
+                        initialScrollToIndex={selectedday}
+                        onScrollToIndexFailed={() => { }}
+                        keyExtractor={(_, index) => index.toString()}
+                        showsVerticalScrollIndicator={false}
+                        data={day}
+                        scrollAnimation
+                        onSelected={({ item, index }) => handleChangeday(index)}
+                        renderItem={option => ItemToRender(option, selectedday, true)}
+                        magnet
+                    />
 
-                    </View>
-                    <View style={[styles.wrapperVertical, { marginTop: -0.5 }]}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedmonth}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
-                            data={month}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangemonth(index)}
-                            renderItem={option => ItemToRender(option, selectedmonth, true)}
-                            magnet
-                        />
-                    </View>
-                    <View style={styles.wrapperVertical}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedyear}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
-                            data={year}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangeyear(index)}
-                            renderItem={option => ItemToRender(option, selectedyear, true)}
-                            magnet
-                        />
-                    </View>
                 </View>
                 {/* <View>
                 <Text>{`Your selection is ${dataCity[selected]}`}</Text>
             </View> */}
             </View>
             <Button rounded style={styles.btn}
-                onPress={() => props.navigation.navigate('StartQuestion3')}
+                onPress={() => props.navigation.navigate('Home')}
             ><Title style={styles.txtbtn}>بعدی</Title></Button>
         </LinearGradient >
     );
 };
 
 
-export default Start2;
+export default Start4;
 
 const styles = StyleSheet.create({
     gradiant: {
@@ -161,6 +119,7 @@ const styles = StyleSheet.create({
     },
 
     wrapperVertical: {
+        marginTop: 60,
         height: 200,
         justifyContent: 'center',
         alignItems: 'center',
