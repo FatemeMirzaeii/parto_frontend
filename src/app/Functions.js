@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import { PermissionsAndroid } from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import Realm from 'realm';
 import HealthTrackingCategorySchema from '../models/HealthTrackingCategorySchema';
 import HealthTrackingOptionSchema from '../models/HealthTrackingOptionSchema';
@@ -59,8 +59,11 @@ export function TextCleaner(i) {
 export function toPersianNum(num) {
   const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
-  return num.toString().split('').map(x => farsiDigits[x]).join('');
-
+  return num
+    .toString()
+    .split('')
+    .map((x) => farsiDigits[x])
+    .join('');
 }
 export function PersianDateToArray(PDate) {
   const Splitted = PDate.split(' ');
@@ -87,10 +90,10 @@ export function seed() {
     .then((realm) => {
       realm.write(() => {
         realm.deleteAll();
-        realm.create(HealthTrackingCategorySchema, { id: 1, title: 'خونریزی' });
-        realm.create(HealthTrackingCategorySchema, { id: 2, title: 'درد' });
-        realm.create(HealthTrackingCategorySchema, { id: 3, title: 'حال عمومی' });
-        realm.create(HealthTrackingCategorySchema, { id: 4, title: 'ترشحات' });
+        realm.create(HealthTrackingCategorySchema, {id: 1, title: 'خونریزی'});
+        realm.create(HealthTrackingCategorySchema, {id: 2, title: 'درد'});
+        realm.create(HealthTrackingCategorySchema, {id: 3, title: 'حال عمومی'});
+        realm.create(HealthTrackingCategorySchema, {id: 4, title: 'ترشحات'});
         realm.create(HealthTrackingOptionSchema, {
           id: 1,
           title: 'لکه بینی',
