@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
 import {Agenda} from 'react-native-calendars-persian';
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
-import {toPersianNum} from '../../app/Functions';
+import {toPersianNum, seed} from '../../app/Functions';
 import {Theme, Width, Height} from '../../app/Theme';
 
 const {colors, size, fonts} = Theme;
@@ -35,6 +35,7 @@ const Home = (props) => {
     'جمعه',
   ]);
   useEffect(() => {
+    //seed();
     GetTimeNow();
   }, [state.thisDay]);
   useEffect;
