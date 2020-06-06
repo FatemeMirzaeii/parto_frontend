@@ -35,7 +35,6 @@ const Home = (props) => {
     'جمعه',
   ]);
   useEffect(() => {
-    //seed();
     GetTimeNow();
   }, [state.thisDay]);
   useEffect;
