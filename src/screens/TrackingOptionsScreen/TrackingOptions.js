@@ -6,22 +6,13 @@ import {
   StyleSheet,
   View,
   Text,
-  Dimensions,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Realm from 'realm';
-import HealthTrackingCategorySchema from '../../models/HealthTrackingCategorySchema';
-import HealthTrackingOptionSchema from '../../models/HealthTrackingOptionSchema';
-import UserTrackingOptionSchema from '../../models/UserTrackingOptionSchema';
-import SQLite from 'react-native-sqlite-storage';
+import Database from '../../app/Database';
 import {Theme, Width, Height} from '../../app/Theme';
 const {colors, size, fonts} = Theme;
 
 const TrackingOptions = (props) => {
-  const [state, setState] = useState({
-    categories: [],
-    options: [],
-  });
   const [categories, setCategories] = useState([
     {
       id: 1,
@@ -64,49 +55,16 @@ const TrackingOptions = (props) => {
       ],
     },
   ]);
-  //const realm = useRef();
   useEffect(() => {
-    var db = SQLite.openDatabase({
-      name: 'master',
-      createFromLocation: '~sqlite.db',
+    var db = new Database();
+    db.rawQuery('select * from health_tracking_category;').then((b) => {
+      console.log(b);
     });
-    db.transaction((tx) => {
-      tx.executeSql(
-        // "select json_object('id',c.id,'title',c.title,'options'," +
-        //   "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
-        //   ' from health_tracking_option o where category_id = c.id))) ' +
-        //   'from health_tracking_category c;',
-        // "select json_object('id',id,'title',title) from health_tracking_category;",
-        'select * from health_tracking_category;',
-        [],
-        (trx, results) => {
-          console.log('Query completed');
-          // Get rows with Web SQL Database spec compliance.
-          var len = results.rows.length;
-          console.log(`lllll: ${JSON.stringify(results)}`);
-          for (let i = 0; i < len; i++) {
-            let row = results.rows.item(i);
-            console.log(`Record: ${row.title}`);
-          }
-        },
-        (err) => {
-          console.log('Error: ' + (err.message || err));
-        },
-      );
-    });
-    // realm.current = new Realm({
-    //   schema: [
-    //     HealthTrackingCategorySchema,
-    //     HealthTrackingOptionSchema,
-    //     UserTrackingOptionSchema,
-    //   ],
-    // });
-    // setState({
-    //   categories: realm.current.objects(HealthTrackingCategorySchema),
-    //   options: realm.current
-    //     .objects(HealthTrackingOptionSchema)
-    //     .filtered('category_id=1'),
-    // });
+    // "select json_object('id',c.id,'title',c.title,'options'," +
+    // "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
+    // ' from health_tracking_option o where category_id = c.id))) ' +
+    // 'from health_tracking_category c;',
+    //"select json_object('id',id,'title',title) from health_tracking_category;",
   }, []);
   const getRandomColor = () => {
     return (
@@ -145,7 +103,7 @@ const TrackingOptions = (props) => {
           .find((c) => c.id === categoryId)
           .options.map((op) => {
             return (
-              <TouchableOpacity onPress={() => onOptionPress(op)}>
+              <TouchableOpacity key={op.id} onPress={() => onOptionPress(op)}>
                 <View style={[styles.option, {borderColor: color}]}>
                   <Text style={styles.txt}>{op.title}</Text>
                 </View>
@@ -195,8 +153,8 @@ const TrackingOptions = (props) => {
           layout={'default'}
           data={categories}
           renderItem={renderItem}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width - 110}
+          sliderWidth={Width}
+          itemWidth={Width - 110}
         />
       </ScrollView>
     </SafeAreaView>
@@ -220,8 +178,8 @@ const styles = StyleSheet.create({
   },
   option: {
     margin: 10,
-    width: Dimensions.get('window').width / 3 - 15,
-    height: Dimensions.get('window').height / 5 - 10,
+    width: Width / 3 - 15,
+    height: Height / 5 - 10,
     borderRadius: 20,
     borderColor: 'red',
     borderWidth: 5,
