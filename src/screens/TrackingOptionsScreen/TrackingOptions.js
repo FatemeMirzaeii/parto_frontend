@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -10,7 +10,6 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import Database from '../../app/Database';
 import {Theme, Width, Height} from '../../app/Theme';
-const {colors, size, fonts} = Theme;
 
 const TrackingOptions = (props) => {
   const [categories, setCategories] = useState([
@@ -193,8 +192,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txt: {
-    fontFamily: fonts.regular,
-    fontSize: size[15],
+    fontFamily: Theme.fonts.regular,
+    fontSize: Theme.size[15],
   },
 });
 export default TrackingOptions;

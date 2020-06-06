@@ -40,7 +40,7 @@ export default class Database {
     } else {
     }
   }
-  //function to get the list of products
+  //function to get the result of query
   async rawQuery(_Query, _Values = []) {
     return await new Promise((resolve) => {
       let arr = [];
