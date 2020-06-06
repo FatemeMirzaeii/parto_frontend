@@ -14,8 +14,10 @@ import HealthTrackingCategorySchema from '../../models/HealthTrackingCategorySch
 import HealthTrackingOptionSchema from '../../models/HealthTrackingOptionSchema';
 import UserTrackingOptionSchema from '../../models/UserTrackingOptionSchema';
 import SQLite from 'react-native-sqlite-storage';
+import {Theme, Width, Height} from '../../app/Theme';
+const {colors, size, fonts} = Theme;
 
-const TrackingOptions = () => {
+const TrackingOptions = (props) => {
   const [state, setState] = useState({
     categories: [],
     options: [],
@@ -129,7 +131,7 @@ const TrackingOptions = () => {
                 borderColor: clr,
               },
             ]}>
-            <Text>{item.title}</Text>
+            <Text style={styles.txt}>{item.title}</Text>
           </View>
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item.id, clr)}</View>
@@ -145,7 +147,7 @@ const TrackingOptions = () => {
             return (
               <TouchableOpacity onPress={() => onOptionPress(op)}>
                 <View style={[styles.option, {borderColor: color}]}>
-                  <Text>{op.title}</Text>
+                  <Text style={styles.txt}>{op.title}</Text>
                 </View>
               </TouchableOpacity>
             );
@@ -163,6 +165,7 @@ const TrackingOptions = () => {
   };
   const onOptionPress = (option) => {
     console.log(option);
+
     // switch (option.category_id) {
     //   case 1:
     //   // const o = realm.current
@@ -193,7 +196,7 @@ const TrackingOptions = () => {
           data={categories}
           renderItem={renderItem}
           sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width - 100}
+          itemWidth={Dimensions.get('window').width - 110}
         />
       </ScrollView>
     </SafeAreaView>
@@ -216,7 +219,7 @@ const styles = StyleSheet.create({
     borderWidth: 5,
   },
   option: {
-    margin: 15,
+    margin: 10,
     width: Dimensions.get('window').width / 3 - 15,
     height: Dimensions.get('window').height / 5 - 10,
     borderRadius: 20,
@@ -230,6 +233,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
     flexDirection: 'row',
+  },
+  txt: {
+    fontFamily: fonts.regular,
+    fontSize: size[15],
   },
 });
 export default TrackingOptions;
