@@ -231,7 +231,9 @@ const Home = (props) => {
             marginTop: Height / 5.5,
           }}>
           <TouchableOpacity
-            onPress={() => props.navigation.navigate('TrackingOptions')}>
+            onPress={() =>
+              props.navigation.navigate('TrackingOptions', {date: '2020-05-16'})
+            }>
             <Text
               style={{
                 alignSelf: 'center',
