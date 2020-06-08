@@ -1,25 +1,24 @@
-import { Footer, Icon, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, StatusBar, StyleSheet } from 'react-native';
+import {Footer, Icon, Text, View} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
 import TopAgenda from '../../components/TopAgenda';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum } from '../../app/Functions';
-import { Theme, Width, Height } from '../../app/Theme';
+import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
+import {toPersianNum} from '../../app/Functions';
+import {Theme, Width, Height} from '../../app/Theme';
 
-
-const { colors, size, fonts } = Theme;
+const {colors, size, fonts} = Theme;
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({ dialect: 'persian-modern' });
+moment2.loadPersian({dialect: 'persian-modern'});
 const Home = (props) => {
-  const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'green' };
+  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'green'};
   const massage = {
     key: 'massage',
     color: '#15E307',
     selectedDotColor: 'green',
   };
-  const workout = { key: 'workout', color: 'yellow' };
-  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
+  const workout = {key: 'workout', color: 'yellow'};
+  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
   const [state, setState] = useState({
     items: [],
     thisDay: '',
@@ -114,7 +113,7 @@ const Home = (props) => {
   return (
     <ImageBackground
       source={require('../../../assets/images/bg7.png')}
-      style={{ width: '100%', height: '100%' }}>
+      style={{width: '100%', height: '100%'}}>
       <StatusBar
         translucent
         barStyle="dark-content"
@@ -122,7 +121,7 @@ const Home = (props) => {
       />
       <ImageBackground
         source={require('../../../assets/images/moon7.png')}
-        style={{ width: '100%', height: '100%', top: 30 }}>
+        style={{width: '100%', height: '100%', top: 30}}>
         <Text
           style={{
             fontFamily: fonts.medium,
@@ -137,8 +136,8 @@ const Home = (props) => {
         <FlatList
           horizontal={true}
           data={weekDay}
-          style={{ alignSelf: 'center', marginTop: 10 }}
-          renderItem={({ item }) => (
+          style={{alignSelf: 'center', marginTop: 10}}
+          renderItem={({item}) => (
             <Text
               style={{
                 marginHorizontal: Width / 50,
@@ -151,9 +150,7 @@ const Home = (props) => {
             </Text>
           )}
         />
-
-        <TopAgenda />
-
+        <TopAgenda onDayPress={() => props.navigation.navigate('Calendar')} />
         <View
           style={{
             width: '100%',
@@ -165,7 +162,7 @@ const Home = (props) => {
           }}>
           <TouchableOpacity
             onPress={() =>
-              props.navigation.navigate('TrackingOptions', { date: '2020-05-16' })
+              props.navigation.navigate('TrackingOptions', {date: '2020-05-16'})
             }>
             <Text
               style={{
