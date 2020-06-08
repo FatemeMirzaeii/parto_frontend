@@ -1,10 +1,13 @@
 import {Footer, Icon, Text, View} from 'native-base';
 import React, {useEffect, useState} from 'react';
 import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
+
 import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
 import {toPersianNum} from '../../app/Functions';
 import {Height, Theme, Width} from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
+
+
 
 const {colors, size, fonts} = Theme;
 const moment2 = require('moment-jalaali');
@@ -150,9 +153,7 @@ const Home = (props) => {
             </Text>
           )}
         />
-
-        <TopAgenda />
-
+        <TopAgenda onDayPress={() => props.navigation.navigate('Calendar')} />
         <View
           style={{
             width: '100%',
