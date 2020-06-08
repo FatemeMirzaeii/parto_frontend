@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -6,108 +6,77 @@ import {
   StyleSheet,
   View,
   Text,
-  Dimensions,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Realm from 'realm';
-import HealthTrackingCategorySchema from '../../models/HealthTrackingCategorySchema';
-import HealthTrackingOptionSchema from '../../models/HealthTrackingOptionSchema';
-import UserTrackingOptionSchema from '../../models/UserTrackingOptionSchema';
-import SQLite from 'react-native-sqlite-storage';
+import Database from '../../app/Database';
 import {Theme, Width, Height} from '../../app/Theme';
-const {colors, size, fonts} = Theme;
 
 const TrackingOptions = (props) => {
-  const [state, setState] = useState({
-    categories: [],
-    options: [],
-  });
   const [categories, setCategories] = useState([
     {
       id: 1,
       title: 'خونریزی',
+      hasMultipleChoice: false,
       options: [
-        {id: 1, title: 'لکه بینی'},
-        {id: 2, title: 'سبک'},
-        {id: 3, title: 'متوسط'},
-        {id: 4, title: 'سنگین'},
+        {id: 1, title: 'لکه بینی', selected: []},
+        {id: 2, title: 'سبک', selected: []},
+        {id: 3, title: 'متوسط', selected: []},
+        {id: 4, title: 'سنگین', selected: []},
       ],
     },
     {
       id: 2,
       title: 'درد',
+      hasMultipleChoice: true,
       options: [
-        {id: 5, title: 'سردرد'},
-        {id: 6, title: 'کمردرد'},
-        {id: 7, title: 'حساس شدن سینه'},
-        {id: 8, title: 'تخمک گذاری'},
+        {id: 5, title: 'سردرد', selected: []},
+        {id: 6, title: 'کمردرد', selected: []},
+        {id: 7, title: 'حساس شدن سینه', selected: []},
+        {id: 8, title: 'تخمک گذاری', selected: []},
       ],
     },
     {
       id: 3,
       title: 'حال عمومی',
+      hasMultipleChoice: true,
       options: [
-        {id: 9, title: 'خوشحال'},
-        {id: 10, title: 'ناراحت'},
-        {id: 11, title: 'بی تفاوت'},
-        {id: 12, title: 'عصبانی'},
+        {id: 9, title: 'خوشحال', selected: [{id: 1}]},
+        {id: 10, title: 'ناراحت', selected: []},
+        {id: 11, title: 'بی تفاوت', selected: []},
+        {id: 12, title: 'عصبانی', selected: []},
       ],
     },
     {
       id: 4,
       title: 'ترشحات',
+      hasMultipleChoice: false,
       options: [
-        {id: 13, title: 'چسبنده'},
-        {id: 14, title: 'کرمی'},
-        {id: 15, title: 'تخم مرغی'},
-        {id: 16, title: 'آبکی'},
+        {id: 13, title: 'چسبنده', selected: [{id: 2}]},
+        {id: 14, title: 'کرمی', selected: []},
+        {id: 15, title: 'تخم مرغی', selected: []},
+        {id: 16, title: 'آبکی', selected: []},
       ],
     },
   ]);
-  //const realm = useRef();
+  var db = new Database();
   useEffect(() => {
-    var db = SQLite.openDatabase({
-      name: 'master',
-      createFromLocation: '~sqlite.db',
+    db.rawQuery('select * from health_tracking_category;').then((b) => {
+      //setCategories(b);
     });
-    db.transaction((tx) => {
-      tx.executeSql(
-        // "select json_object('id',c.id,'title',c.title,'options'," +
-        //   "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
-        //   ' from health_tracking_option o where category_id = c.id))) ' +
-        //   'from health_tracking_category c;',
-        // "select json_object('id',id,'title',title) from health_tracking_category;",
-        'select * from health_tracking_category;',
-        [],
-        (trx, results) => {
-          console.log('Query completed');
-          // Get rows with Web SQL Database spec compliance.
-          var len = results.rows.length;
-          console.log(`lllll: ${JSON.stringify(results)}`);
-          for (let i = 0; i < len; i++) {
-            let row = results.rows.item(i);
-            console.log(`Record: ${row.title}`);
-          }
-        },
-        (err) => {
-          console.log('Error: ' + (err.message || err));
-        },
-      );
-    });
-    // realm.current = new Realm({
-    //   schema: [
-    //     HealthTrackingCategorySchema,
-    //     HealthTrackingOptionSchema,
-    //     UserTrackingOptionSchema,
-    //   ],
-    // });
-    // setState({
-    //   categories: realm.current.objects(HealthTrackingCategorySchema),
-    //   options: realm.current
-    //     .objects(HealthTrackingOptionSchema)
-    //     .filtered('category_id=1'),
-    // });
-  }, []);
+    // "select json_object('id',c.id,'title',c.title,'options'," +
+    // "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
+    // ' from health_tracking_option o where category_id = c.id))) ' +
+    // 'from health_tracking_category c;',
+    ////////
+    //"select json_object('id',id,'title',title) from health_tracking_category;",
+    ///////
+    // "select json_object('id',c.id,'title',c.title,"+
+    // "'options',json_array((select GROUP_CONCAT(json_object('id',id,'title',title,"+
+    // "'selected',json_array((select GROUP_CONCAT(json_object('id',id,'tracking_option_id',tracking_option_id))"+
+    // "from user_tracking_option where tracking_option_id = o.id AND date=props.navigation.getParam('date')))))"+
+    // "from health_tracking_option o where category_id = c.id)))"+
+    // "from health_tracking_category c;"
+  }, [db, categories]);
   const getRandomColor = () => {
     return (
       'rgb(' +
@@ -123,70 +92,77 @@ const TrackingOptions = (props) => {
     const clr = getRandomColor();
     return (
       <View style={styles.sliderItem}>
-        <TouchableOpacity>
-          <View
+        <TouchableOpacity
+          style={[
+            styles.category,
+            {
+              borderColor: clr,
+            },
+          ]}>
+          <Text style={styles.txt}>{item.title}</Text>
+        </TouchableOpacity>
+        <View style={styles.options}>{renderOptions(item, clr)}</View>
+      </View>
+    );
+  };
+  const renderOptions = (category, color) => {
+    return categories
+      .find((c) => c.id === category.id)
+      .options.map((option) => {
+        return (
+          <TouchableOpacity
+            key={option.id}
+            onPress={() => onOptionPress(category, option)}
             style={[
-              styles.category,
+              styles.option,
+              {borderColor: color},
               {
-                borderColor: clr,
+                backgroundColor: option.selected.length > 0 ? color : 'white',
               },
             ]}>
-            <Text style={styles.txt}>{item.title}</Text>
-          </View>
-        </TouchableOpacity>
-        <View style={styles.options}>{renderOptions(item.id, clr)}</View>
-      </View>
-    );
+            <Text style={styles.txt}>{option.title}</Text>
+          </TouchableOpacity>
+        );
+      });
   };
-  const renderOptions = (categoryId, color) => {
-    return (
-      <View style={styles.options}>
-        {categories
-          .find((c) => c.id === categoryId)
-          .options.map((op) => {
-            return (
-              <TouchableOpacity onPress={() => onOptionPress(op)}>
-                <View style={[styles.option, {borderColor: color}]}>
-                  <Text style={styles.txt}>{op.title}</Text>
-                </View>
-              </TouchableOpacity>
-            );
-          })}
-      </View>
-    );
-    // return (
-    //   <ButtonGroup
-    //     onPress={(id) => onOptionPress(id)}
-    //     selectedIndex={selectedIndex}
-    //     buttons={state.options.map((o) => o.title)}
-    //     containerStyle={styles.option}
-    //   />
-    // );
-  };
-  const onOptionPress = (option) => {
-    console.log(option);
-
-    // switch (option.category_id) {
-    //   case 1:
-    //   // const o = realm.current
-    //   //   .objects(UserTrackingOptionSchema)
-    //   //   .filtered('category_id=1 && date=$0', new Date());
-    //   // o == null
-    //   //   ? insertOption(option.id)
-    //   //   : (o.tracking_option_id = option.id);
-    //   case 2:
-    //   case 3:
-    // }
-  };
-  const insertOption = (id) => {
-    // realm.current.write(() => {
-    //   realm.current.create(UserTrackingOptionSchema, {
-    //     user_id: 1,
-    //     tracking_option_id: id,
-    //     date: new Date(),
-    //   });
-    //   console.log(realm.current.objects(UserTrackingOptionSchema));
-    // });
+  const onOptionPress = (category, option) => {
+    if (option.selected.length > 0) {
+      // db.rawQuery(
+      //   `delete from user_tracking_option where tracking_option_id=${option.id} and date='2020-05-16'`,
+      // );
+      categories
+        .find((o) => o.id === category.id)
+        .options.find((o) => o.id === option.id)
+        .selected.pop();
+      setCategories(categories);
+    } else {
+      if (category.hasMultipleChoice) {
+        // db.rawQuery(
+        //   `insert into user_tracking_option tracking_option_id=${option.id} and date='2020-05-16'`,
+        // );
+        categories
+          .find((o) => o.id === category.id)
+          .options.find((o) => o.id === option.id)
+          .selected.push(option);
+        setCategories(categories);
+      } else {
+        // db.rawQuery(`delete from user_tracking_option where `)
+        categories
+          .find((o) => o.id === category.id)
+          .options.find((o) => o.id === option.id)
+          .selected.splice(
+            0,
+            categories
+              .find((o) => o.id === category.id)
+              .options.find((o) => o.id === option.id).selected.length,
+          );
+        categories
+          .find((o) => o.id === category.id)
+          .options.find((o) => o.id === option.id)
+          .selected.push(option);
+        setCategories(categories);
+      }
+    }
   };
   return (
     <SafeAreaView>
@@ -195,8 +171,8 @@ const TrackingOptions = (props) => {
           layout={'default'}
           data={categories}
           renderItem={renderItem}
-          sliderWidth={Dimensions.get('window').width}
-          itemWidth={Dimensions.get('window').width - 110}
+          sliderWidth={Width}
+          itemWidth={Width - 110}
         />
       </ScrollView>
     </SafeAreaView>
@@ -220,8 +196,8 @@ const styles = StyleSheet.create({
   },
   option: {
     margin: 10,
-    width: Dimensions.get('window').width / 3 - 15,
-    height: Dimensions.get('window').height / 5 - 10,
+    width: Width / 3 - 15,
+    height: Height / 5 - 10,
     borderRadius: 20,
     borderColor: 'red',
     borderWidth: 5,
@@ -235,8 +211,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   txt: {
-    fontFamily: fonts.regular,
-    fontSize: size[15],
+    fontFamily: Theme.fonts.regular,
+    fontSize: Theme.size[15],
   },
 });
 export default TrackingOptions;

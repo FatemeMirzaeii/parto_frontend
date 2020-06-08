@@ -33,17 +33,16 @@
     "react-native-reanimated": "^1.8.0",
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.5.0",
+    "react-native-smooth-picker": "^1.0.2",
     "react-native-snap-carousel": "^3.9.1",
     "react-native-sqlite-storage": "^5.0.0",
-    "react-native-smooth-picker": "^1.0.2",
     "react-native-svg": "^12.1.0",
     "react-native-svg-charts": "^5.4.0",
     "react-native-vector-icons": "^6.6.0",
     "react-native-webview": "^9.4.0",
     "react-navigation": "^4.3.7",
     "react-navigation-drawer": "^2.4.11",
-    "react-navigation-stack": "^2.3.12",
-    "realm": "^6.0.1"
+    "react-navigation-stack": "^2.3.12"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
