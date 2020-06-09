@@ -53,6 +53,8 @@ const Start1 = (props) => {
       //   // pregnant,
       //   // pregnancy_try,
       //   // use_lock)VALUES(?,?,?,?,?,?,?,?,?,?)`,
+      await db.rawQuery(`SELECT * FROM user_profile`)
+
       await db.rawQuery(`INSERT INTO user_profile (pregnant,pregnancy_try,created_at,updated_at) VALUES(?,?,?,?)`,
 
         [_pragnancy, _pregnancy_try, 2456572.84952685, 2456572.84952685]).then((result) => {
@@ -61,7 +63,6 @@ const Start1 = (props) => {
           console.log("Catche show :", err);
         })
       // console.log("X: ", x)
-      // await db.rawQuery(`SELECT * FROM user_profile`)
       props.navigation.navigate('StartQuestion2');
 
     }

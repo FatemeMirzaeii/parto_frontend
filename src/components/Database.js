@@ -56,9 +56,6 @@ export default class Database {
               if (arr.length > 0) {
                 resolve(arr);
               }
-              //   else {
-              //     resolve(EMPTY_TABLE);
-              //   }
             });
           })
             .then((result) => {
