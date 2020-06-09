@@ -15,8 +15,13 @@ import StartQuestion4 from '../screens/StartScreen/StartQuestion4';
 
 const PagesNavigator = createStackNavigator(
   {
+
     StartQuestion: {
       screen: StartQuestion,
+      navigationOptions: { headerShown: false },
+    },
+    Home: {
+      screen: Home,
       navigationOptions: { headerShown: false },
     },
     StartQuestion2: {
@@ -31,10 +36,7 @@ const PagesNavigator = createStackNavigator(
       screen: StartQuestion4,
       navigationOptions: { headerShown: false },
     },
-    Home: {
-      screen: Home,
-      navigationOptions: { headerShown: false },
-    },
+
     htmlLoader: {
       screen: htmlLoader,
       navigationOptions: { headerShown: false },
