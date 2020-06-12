@@ -66,6 +66,10 @@ const Start1 = (props) => {
           console.log("Catche show :", err);
         })
       // console.log("X: ", x)
+      if (selected.pregnancy_try == true || selected.period == true)
+        props.navigation.navigate("StartQuestion2")
+      else
+        props.navigation.navigate("StartQuestionpragnent")
 
 
     }
