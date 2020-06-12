@@ -58,12 +58,15 @@ const Start1 = (props) => {
       await db.rawQuery(`INSERT INTO user_profile (pregnant,pregnancy_try,created_at,updated_at) VALUES(?,?,?,?)`,
 
         [_pragnancy, _pregnancy_try, 2456572.84952685, 2456572.84952685]).then((result) => {
-          console.log("inseeeeeeeeeert: ", result)
+          console.log("result oooooooooooooooooooooooooooooooooooooooooooooook")
+          // props.navigation.navigate('StartQuestion2');
         }).catch((err) => {
+          console.log("222222222222222222222222222222222222222")
+
           console.log("Catche show :", err);
         })
       // console.log("X: ", x)
-      props.navigation.navigate('StartQuestion2');
+
 
     }
   };

@@ -28,17 +28,17 @@ export default class Database {
     });
   }
   //function for the close Database connection
-  closeDatabase(db) {
-    if (db) {
-      db.close()
-        .then((status) => {
-          console.info(status);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    } else {
-    }
+  closeDatabase(db = "master") {
+    // if (db) {
+    db.close()
+      .then((status) => {
+        console.info(status);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+    // } else {
+    // }
   }
   //function to get the result of query
   async rawQuery(_Query, _Values = []) {
