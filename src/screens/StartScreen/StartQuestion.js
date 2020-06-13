@@ -1,23 +1,12 @@
-import {
-  Content,
-  Container,
-  View,
-  Left,
-  Right,
-  Radio,
-  Body,
-  Button,
-  Title,
-} from 'native-base';
+import { Button, Radio, Title, View } from 'native-base';
 import React, { useState } from 'react';
-import { StyleSheet, Dimensions, Text, ToastAndroid } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { Theme, Width } from '../../app/Theme';
+import { StyleSheet, Text, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import Database from '../../components/Database'
+import LinearGradient from 'react-native-linear-gradient';
+import { Theme } from '../../app/Theme';
+import Database from '../../components/Database';
 
-let _pragnancy = 0;
-let _pregnancy_try = 0;
+let questionArray = [];
 const db = new Database();
 const { colors, size, fonts } = Theme;
 
@@ -27,7 +16,7 @@ const Start1 = (props) => {
     pregnancy_try: false,
     pregnant: false,
   });
-  const Login = async () => {
+  const nextPage = async () => {
     if (
       selected.period == true &&
       selected.pregnancy_try == true &&
@@ -38,33 +27,31 @@ const Start1 = (props) => {
         ToastAndroid.SHORT,
       );
     else {
+      questionArray = []
+      if (selected.pregnant == true)
+        questionArray.push({ pregnant: 1, pregnancy_try: 0, period: 0 })
+      if (selected.pregnancy_try == true)
+        questionArray.push({ pregnant: 0, pregnancy_try: 1, period: 0 })
+      if (selected.period == true)
+        questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 })
 
-      if (selected.pregnant == true) _pragnancy = 1
-      if (selected.pregnancy_try == true) _pregnancy_try = 1
+      // await db.rawQuery(`delete from ${PROFILE}`)
+      // const x = await db.rawQuery('select * from action')
+      // console.log("x: ", x)
 
-      // await db.rawQuery(`INSERT INTO user_profile (
-      //   // birthdate,
-      //   // avg_cycle_length,
-      //   // avg_period_length,
-      //   // avg_sleeping_hour,
-      //   // pms_length,
-      //   // height,
-      //   // weight,
-      //   // pregnant,
-      //   // pregnancy_try,
-      //   // use_lock)VALUES(?,?,?,?,?,?,?,?,?,?)`,
-      await db.rawQuery(`SELECT * FROM user_profile`)
+      // await db.rawQuery(`INSERT INTO ${PROFILE} (pregnant,pregnancy_try,created_at,updated_at) VALUES(?,?,?,?)`,
 
-      await db.rawQuery(`INSERT INTO user_profile (pregnant,pregnancy_try,created_at,updated_at) VALUES(?,?,?,?)`,
+      //   [_pragnancy, _pregnancy_try, 2456572.84952685, 2456572.84952685])
+      // .then((result) => {
+      //   // props.navigation.navigate('StartQuestion2');
+      // }).catch((err) => {
+      //   console.log("Catche show:", err);
+      // })
 
-        [_pragnancy, _pregnancy_try, 2456572.84952685, 2456572.84952685]).then((result) => {
-          console.log("inseeeeeeeeeert: ", result)
-        }).catch((err) => {
-          console.log("Catche show :", err);
-        })
-      // console.log("X: ", x)
-      props.navigation.navigate('StartQuestion2');
-
+      if (selected.pregnancy_try == true || selected.period == true)
+        props.navigation.navigate("StartQuestion2", { questionArray })
+      else
+        props.navigation.navigate("StartQuestionpragnent", { questionArray })
     }
   };
   return (
@@ -121,7 +108,7 @@ const Start1 = (props) => {
           <Text style={styles.txt2}>میخواهم شرایطم را ثبت کنم</Text>
         </TouchableOpacity>
       </View>
-      <Button rounded style={styles.btn} onPress={() => Login()}>
+      <Button rounded style={styles.btn} onPress={() => nextPage()}>
         <Title style={styles.txtbtn}>ورود</Title>
       </Button>
     </LinearGradient>

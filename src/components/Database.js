@@ -39,6 +39,7 @@ export default class Database {
         });
     } else {
     }
+
   }
   //function to get the result of query
   async rawQuery(_Query, _Values = []) {
@@ -47,20 +48,22 @@ export default class Database {
       this.initDatabse()
         .then((db) => {
           db.transaction((tx) => {
-            tx.executeSql(_Query, _Values).then(([tx, results]) => {
-              var len = results.rows.length;
-              for (let i = 0; i < len; i++) {
-                let row = results.rows.item(i);
-                arr.push(row);
-              }
-              if (arr.length > 0) {
-                resolve(arr);
-              }
-            });
+            tx.executeSql(_Query, _Values)
+              .then(([tx, results]) => {
+                var len = results.rows.length;
+                for (let i = 0; i < len; i++) {
+                  let row = results.rows.item(i);
+                  arr.push(row);
+                }
+                if (arr.length > 0) {
+                  resolve(arr);
+                }
+
+              });
+
+          }).then((result) => {
+            this.closeDatabase();
           })
-            .then((result) => {
-              this.closeDatabase();
-            })
             .catch((err) => {
               console.error(err);
             });

@@ -1,12 +1,12 @@
-import {Button, Title} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import { Button, Title } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SmoothPicker from 'react-native-smooth-picker';
-import {toPersianNum} from '../../app/Functions';
-import {Theme} from '../../app/Theme';
+import { toPersianNum } from '../../app/Functions';
+import { Theme } from '../../app/Theme';
 
-const {colors, size, fonts} = Theme;
+const { colors, size, fonts } = Theme;
 let day = [];
 
 const opacities = {
@@ -22,19 +22,19 @@ const sizeText = {
   2: 10,
 };
 
-const Item = React.memo(({opacity, selected, vertical, fontSize, name}) => {
+const Item = React.memo(({ opacity, selected, vertical, fontSize, name }) => {
   return (
     <View
       style={[
         styles.OptionWrapper,
-        {opacity, borderColor: selected ? 'gray' : 'transparent', width: 100},
+        { opacity, borderColor: selected ? 'gray' : 'transparent', width: 100 },
       ]}>
-      <Text style={{fontSize, fontFamily: fonts.regular}}>{name}</Text>
+      <Text style={{ fontSize, fontFamily: fonts.regular }}>{name}</Text>
     </View>
   );
 });
 
-const ItemToRender = ({item, index}, indexSelected, vertical) => {
+const ItemToRender = ({ item, index }, indexSelected, vertical) => {
   const selected = index === indexSelected;
   const gap = Math.abs(index - indexSelected);
 
@@ -70,8 +70,8 @@ const Start4 = (props) => {
 
   return (
     <LinearGradient
-      start={{x: 0, y: 0}}
-      end={{x: 0, y: 1}}
+      start={{ x: 0, y: 0 }}
+      end={{ x: 0, y: 1 }}
       colors={['#D164A6', '#C2428F', '#780048']}
       style={styles.gradiant}>
       <View style={styles.view}>
@@ -81,12 +81,12 @@ const Start4 = (props) => {
         <View style={styles.wrapperVertical}>
           <SmoothPicker
             initialScrollToIndex={selectedday}
-            onScrollToIndexFailed={() => {}}
+            onScrollToIndexFailed={() => { }}
             keyExtractor={(_, index) => index.toString()}
             showsVerticalScrollIndicator={false}
             data={day}
             scrollAnimation
-            onSelected={({item, index}) => handleChangeday(index)}
+            onSelected={({ item, index }) => handleChangeday(index)}
             renderItem={(option) => ItemToRender(option, selectedday, true)}
             magnet
           />
@@ -98,7 +98,7 @@ const Start4 = (props) => {
       <Button
         rounded
         style={styles.btn}
-        onPress={() => props.navigation.navigate('Home')}>
+        onPress={() => props.navigation.navigate('StartQuestion5')}>
         <Title style={styles.txtbtn}>بعدی</Title>
       </Button>
     </LinearGradient>
