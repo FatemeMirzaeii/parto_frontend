@@ -16,32 +16,8 @@ import StartQuestion5 from '../screens/StartScreen/StartQuestion5';
 import StartQuestionpragnent from '../screens/StartScreen/StartQuestionpragnent';
 const PagesNavigator = createStackNavigator(
   {
-    StartQuestion: {
-      screen: StartQuestion,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestionpragnent: {
-      screen: StartQuestionpragnent,
-      navigationOptions: { headerShown: false },
-    },
     Home: {
       screen: Home,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion2: {
-      screen: StartQuestion2,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion3: {
-      screen: StartQuestion3,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion4: {
-      screen: StartQuestion4,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion5: {
-      screen: StartQuestion5,
       navigationOptions: { headerShown: false },
     },
     htmlLoader: {
@@ -76,8 +52,28 @@ const DrawerNavigator = createDrawerNavigator({
 });
 
 const StackNavigator = createStackNavigator({
-  Home: {
-    screen: Home,
+  StartQuestion: {
+    screen: StartQuestion,
+    navigationOptions: { headerShown: false },
+  },
+  StartQuestionpragnent: {
+    screen: StartQuestionpragnent,
+    navigationOptions: { headerShown: false },
+  },
+  StartQuestion2: {
+    screen: StartQuestion2,
+    navigationOptions: { headerShown: false },
+  },
+  StartQuestion3: {
+    screen: StartQuestion3,
+    navigationOptions: { headerShown: false },
+  },
+  StartQuestion4: {
+    screen: StartQuestion4,
+    navigationOptions: { headerShown: false },
+  },
+  StartQuestion5: {
+    screen: StartQuestion5,
     navigationOptions: { headerShown: false },
   },
   // SplashScreen: {
@@ -100,6 +96,5 @@ export const AppSwitchNavigator = createSwitchNavigator(
       navigationOptions: { headerShown: false },
     },
   },
-  // { initialRouteName: 'Auth' },
-  { initialRouteName: 'Second' },
+  { initialRouteName: 'Auth' },
 );

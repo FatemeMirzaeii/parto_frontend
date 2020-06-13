@@ -148,7 +148,7 @@ const Start5 = (props) => {
             <Button
                 rounded
                 style={styles.btn}
-                onPress={() => props.navigation.navigate('StartQuestion3')}>
+                onPress={() => props.navigation.navigate('Home')}>
                 <Title style={styles.txtbtn}>بعدی</Title>
             </Button>
         </LinearGradient>
