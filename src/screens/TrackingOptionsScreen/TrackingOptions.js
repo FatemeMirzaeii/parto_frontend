@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -11,86 +11,41 @@ import Carousel from 'react-native-snap-carousel';
 import Database from '../../components/Database';
 import {Theme, Width, Height} from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
-import {Icon, Overlay, ButtonGroup} from 'react-native-elements';
+import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
 import {SvgXml} from 'react-native-svg';
+let db = new Database();
 const TrackingOptions = ({navigation}) => {
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      title: 'خونریزی',
-      hasMultipleChoice: false,
-      color: '#FF360C',
-      options: [
-        {id: 1, title: 'لکه بینی', selected: []},
-        {id: 2, title: 'سبک', selected: []},
-        {id: 3, title: 'متوسط', selected: []},
-        {id: 4, title: 'سنگین', selected: []},
-      ],
-    },
-    {
-      id: 2,
-      title: 'درد',
-      hasMultipleChoice: true,
-      color: '#1170A8',
-      options: [
-        {id: 5, title: 'سردرد', selected: []},
-        {id: 6, title: 'کمردرد', selected: []},
-        {id: 7, title: 'حساس شدن سینه', selected: []},
-        {id: 8, title: 'تخمک گذاری', selected: []},
-      ],
-    },
-    {
-      id: 3,
-      title: 'حال عمومی',
-      hasMultipleChoice: true,
-      color: '#FF780C',
-      options: [
-        {id: 9, title: 'خوشحال', selected: [{id: 1}]},
-        {id: 10, title: 'ناراحت', selected: []},
-        {id: 11, title: 'بی تفاوت', selected: []},
-        {id: 12, title: 'عصبانی', selected: []},
-      ],
-    },
-    {
-      id: 4,
-      title: 'ترشحات',
-      hasMultipleChoice: false,
-      color: '#FFDE0C',
-      options: [
-        {id: 13, title: 'چسبنده', selected: [{id: 2}]},
-        {id: 14, title: 'کرمی', selected: []},
-        {id: 15, title: 'تخم مرغی', selected: []},
-        {id: 16, title: 'آبکی', selected: []},
-      ],
-    },
-  ]);
-  var db = new Database();
+  const [categories, setCategories] = useState([]);
+  const getData = useCallback(() => {
+    db.rawQuery(
+      `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
+      'color',color,'icon',icon,'options',(
+        SELECT JSON_GROUP_ARRAY(
+                JSON_OBJECT('id',id,'title',title,'icon',icon,'selected',(
+                          SELECT JSON_GROUP_ARRAY(
+                                  JSON_OBJECT('id',id,'tracking_option_id',tracking_option_id)
+                                              )
+                              FROM user_tracking_option u WHERE u.tracking_option_id = o.id AND date=${date}
+                        )
+                      )
+                    ) 
+            FROM health_tracking_option o WHERE o.category_id = c.id
+          )         
+        )
+        AS data FROM health_tracking_category c`,
+      'health_tracking_category',
+    ).then((res) => {
+      console.log(res);
+      setCategories(res);
+    });
+  }, [date]);
   useEffect(() => {
-    setDetailPageId(null);
-    // db.rawQuery(
-    //   "SELECT JSON_OBJECT('id',id,'title',title) AS data FROM health_tracking_category",
-    // ).then((b) => {
-    //   //setCategories(b);
-    //   console.log(b);
-    // });
-    // "select json_object('id',c.id,'title',c.title,'options'," +
-    // "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
-    // ' from health_tracking_option o where category_id = c.id))) ' +
-    // 'from health_tracking_category c;',
-    ////////
-    //"select json_object('id',id,'title',title) from health_tracking_category;",
-    ///////
-    // "select json_object('id',c.id,'title',c.title,"+
-    // "'options',json_array((select GROUP_CONCAT(json_object('id',id,'title',title,"+
-    // "'selected',json_array((select GROUP_CONCAT(json_object('id',id,'tracking_option_id',tracking_option_id))"+
-    // "from user_tracking_option where tracking_option_id = o.id AND date=date))))"+
-    // "from health_tracking_option o where category_id = c.id)))"+
-    // "from health_tracking_category c;"
-  }, [categories, date]);
+    getData();
+  }, [getData]);
   const renderItem = ({item}) => {
     return (
       <View style={styles.sliderItem}>
@@ -101,6 +56,7 @@ const TrackingOptions = ({navigation}) => {
               borderColor: item.color,
             },
           ]}>
+          <SvgXml width="70%" height="70%" xml={item.icon} />
           <Text style={styles.txt}>{item.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -122,16 +78,6 @@ const TrackingOptions = ({navigation}) => {
       </View>
     );
   };
-  const loadIcon = (option, color) => {
-    db.rawQuery(
-      `select * from health_tracking_option where id=${option.id}`,
-    ).then((a) => {
-      console.log(a);
-    });
-    return `<svg version="1.1" id="Layer_1" xmlns="http:www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="566.93px" height="566.93px" viewBox="0 0 566.93 566.93" enable-background="new 0 0 566.93 566.93" xml:space="preserve"><path fill="${
-      option.selected.length > 0 ? 'white' : color
-    }" d="M292.582,163.253c-67.26,79.579-104.81,130.191-90.255,186.318c17.784,68.598,154.958,66.55,164.804-4.848c3.339-24.215-7.852-53.012-28.548-78.343C307.908,228.845,281.966,209.672,292.582,163.253L292.582,163.253z"/></svg>`;
-  };
   const renderOptions = (category, color) => {
     return categories
       .find((c) => c.id === category.id)
@@ -147,7 +93,7 @@ const TrackingOptions = ({navigation}) => {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
             ]}>
-            <SvgXml width="70%" height="70%" xml={loadIcon(option)} />
+            <SvgXml width="70%" height="70%" xml={option.icon} />
             <Text style={styles.txt}>{option.title}</Text>
           </TouchableOpacity>
         );
@@ -160,39 +106,58 @@ const TrackingOptions = ({navigation}) => {
     switch (detailPageId) {
       case 1:
         return (
-          <ButtonGroup
-            onPress={updateIndex}
-            selectedIndex={selectedIndex}
-            buttons={['روز', 'َشب']}
-            vertical={true}
-            containerStyle={{alignSelf: 'center', height: 75, width: 50}}
-            selectedButtonStyle={{backgroundColor: '#FF360C'}}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <ButtonGroup
+              onPress={updateIndex}
+              selectedIndex={selectedIndex}
+              buttons={['روز', 'َشب']}
+              vertical={true}
+              containerStyle={{alignSelf: 'center', height: 75, width: 50}}
+              selectedButtonStyle={{backgroundColor: '#FF360C'}}
+            />
+            <Input
+              placeholder="ساعت شروع پریود"
+              containerStyle={{
+                backgroundColor: 'white',
+                width: Width / 2,
+                borderRadius: 15,
+              }}
+              leftIcon={
+                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+              }
+            />
+          </View>
         );
-      case 2:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 3:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 4:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 5:
-        return <Text>اینجا مختص جزئیات است.</Text>;
       case 6:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-
+        return (
+          <View>
+            <Input
+              placeholder="مدت زمان ورزش"
+              containerStyle={{
+                backgroundColor: 'white',
+                width: Width / 1.5,
+                borderRadius: 15,
+              }}
+              leftIcon={
+                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+              }
+            />
+          </View>
+        );
       default:
     }
   };
   const onOptionPress = (category, option) => {
     if (option.selected.length > 0) {
       // db.rawQuery(
-      //   `delete from user_tracking_option where tracking_option_id=${option.id} and date='2020-05-16'`,
-      // );
+      //   `delete from user_tracking_option where tracking_option_id=${option.id}`,
+      // ).then((res) => {
+      //   console.log('ressss', res);
+      // });
       categories
         .find((o) => o.id === category.id)
         .options.find((o) => o.id === option.id)
         .selected.pop();
-      setCategories(categories);
     } else {
       if (category.hasMultipleChoice) {
         // db.rawQuery(
@@ -207,13 +172,7 @@ const TrackingOptions = ({navigation}) => {
         // db.rawQuery(`delete from user_tracking_option where `)
         categories
           .find((o) => o.id === category.id)
-          .options.find((o) => o.id === option.id)
-          .selected.splice(
-            0,
-            categories
-              .find((o) => o.id === category.id)
-              .options.find((o) => o.id === option.id).selected.length,
-          );
+          .options.find((o) => o.id === option.id).selected.length = 0;
         categories
           .find((o) => o.id === category.id)
           .options.find((o) => o.id === option.id)
@@ -228,9 +187,10 @@ const TrackingOptions = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={{height: 70, marginTop: 50}}>
+      <View style={{height: 100, marginTop: 50}}>
         <TopAgenda
           onDayPress={(day) => {
+            console.log(day.dateString);
             setDate(day.dateString);
           }}
         />
@@ -259,10 +219,10 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    elevation: 2,
+    //elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 5,
+    //borderWidth: 5,
   },
   option: {
     margin: 10,
@@ -283,6 +243,7 @@ const styles = StyleSheet.create({
   txt: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[15],
+    textAlign: 'center',
   },
   more: {
     borderRadius: 15,
