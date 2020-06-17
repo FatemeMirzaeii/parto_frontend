@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -6,10 +6,11 @@ import {
   StyleSheet,
   View,
   Text,
+  StatusBar
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
 import Database from '../../components/Database';
-import {Theme, Width, Height} from '../../app/Theme';
+import { Theme, Width, Height } from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
 
 const TrackingOptions = (props) => {
@@ -20,10 +21,10 @@ const TrackingOptions = (props) => {
       title: 'خونریزی',
       hasMultipleChoice: false,
       options: [
-        {id: 1, title: 'لکه بینی', selected: []},
-        {id: 2, title: 'سبک', selected: []},
-        {id: 3, title: 'متوسط', selected: []},
-        {id: 4, title: 'سنگین', selected: []},
+        { id: 1, title: 'لکه بینی', selected: [] },
+        { id: 2, title: 'سبک', selected: [] },
+        { id: 3, title: 'متوسط', selected: [] },
+        { id: 4, title: 'سنگین', selected: [] },
       ],
     },
     {
@@ -31,10 +32,10 @@ const TrackingOptions = (props) => {
       title: 'درد',
       hasMultipleChoice: true,
       options: [
-        {id: 5, title: 'سردرد', selected: []},
-        {id: 6, title: 'کمردرد', selected: []},
-        {id: 7, title: 'حساس شدن سینه', selected: []},
-        {id: 8, title: 'تخمک گذاری', selected: []},
+        { id: 5, title: 'سردرد', selected: [] },
+        { id: 6, title: 'کمردرد', selected: [] },
+        { id: 7, title: 'حساس شدن سینه', selected: [] },
+        { id: 8, title: 'تخمک گذاری', selected: [] },
       ],
     },
     {
@@ -42,10 +43,10 @@ const TrackingOptions = (props) => {
       title: 'حال عمومی',
       hasMultipleChoice: true,
       options: [
-        {id: 9, title: 'خوشحال', selected: [{id: 1}]},
-        {id: 10, title: 'ناراحت', selected: []},
-        {id: 11, title: 'بی تفاوت', selected: []},
-        {id: 12, title: 'عصبانی', selected: []},
+        { id: 9, title: 'خوشحال', selected: [{ id: 1 }] },
+        { id: 10, title: 'ناراحت', selected: [] },
+        { id: 11, title: 'بی تفاوت', selected: [] },
+        { id: 12, title: 'عصبانی', selected: [] },
       ],
     },
     {
@@ -53,10 +54,10 @@ const TrackingOptions = (props) => {
       title: 'ترشحات',
       hasMultipleChoice: false,
       options: [
-        {id: 13, title: 'چسبنده', selected: [{id: 2}]},
-        {id: 14, title: 'کرمی', selected: []},
-        {id: 15, title: 'تخم مرغی', selected: []},
-        {id: 16, title: 'آبکی', selected: []},
+        { id: 13, title: 'چسبنده', selected: [{ id: 2 }] },
+        { id: 14, title: 'کرمی', selected: [] },
+        { id: 15, title: 'تخم مرغی', selected: [] },
+        { id: 16, title: 'آبکی', selected: [] },
       ],
     },
   ]);
@@ -90,7 +91,7 @@ const TrackingOptions = (props) => {
       ')'
     );
   };
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     const clr = getRandomColor();
     return (
       <View style={styles.sliderItem}>
@@ -117,7 +118,7 @@ const TrackingOptions = (props) => {
             onPress={() => onOptionPress(category, option)}
             style={[
               styles.option,
-              {borderColor: color},
+              { borderColor: color },
               {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
@@ -168,12 +169,14 @@ const TrackingOptions = (props) => {
   };
   return (
     <SafeAreaView>
-      <View style={{height: 70, marginTop: 50}}>
+      <View style={{ height: 70, marginTop: 50, backgroundColor: 'pink' }}>
+
         <TopAgenda
           onDayPress={(day) => {
             setDate(day.dateString);
           }}
         />
+
       </View>
       <ScrollView>
         <Carousel
