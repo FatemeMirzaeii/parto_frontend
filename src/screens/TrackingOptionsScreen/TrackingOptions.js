@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -6,15 +6,21 @@ import {
   StyleSheet,
   View,
   Text,
-  StatusBar
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-import Database from '../../components/Database';
-import { Theme, Width, Height } from '../../app/Theme';
+import SQLite from 'react-native-sqlite-storage';
+// import Database from '../../components/Database';
+import {Theme, Width, Height} from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
-import {Icon, Overlay, ButtonGroup} from 'react-native-elements';
+import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
 import {SvgXml} from 'react-native-svg';
 const TrackingOptions = ({navigation}) => {
+  let db = SQLite.openDatabase({
+    name: 'parto.db',
+    createFromLocation: '~sqlite.db',
+  });
+  const [icn, setIcn] = useState();
+  const [cic, setCic] = useState();
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
@@ -24,59 +30,98 @@ const TrackingOptions = ({navigation}) => {
       id: 1,
       title: 'خونریزی',
       hasMultipleChoice: false,
-      color: '#FF360C',
+      color: '#F1719D',
       options: [
-        { id: 1, title: 'لکه بینی', selected: [] },
-        { id: 2, title: 'سبک', selected: [] },
-        { id: 3, title: 'متوسط', selected: [] },
-        { id: 4, title: 'سنگین', selected: [] },
+        {id: 1, title: 'لکه بینی', selected: []},
+        {id: 2, title: 'سبک', selected: []},
+        {id: 3, title: 'متوسط', selected: []},
+        {id: 4, title: 'سنگین', selected: []},
       ],
     },
     {
       id: 2,
-      title: 'درد',
-      hasMultipleChoice: true,
-      color: '#1170A8',
-      options: [
-        { id: 5, title: 'سردرد', selected: [] },
-        { id: 6, title: 'کمردرد', selected: [] },
-        { id: 7, title: 'حساس شدن سینه', selected: [] },
-        { id: 8, title: 'تخمک گذاری', selected: [] },
-      ],
-    },
-    {
-      id: 3,
-      title: 'حال عمومی',
-      hasMultipleChoice: true,
-      color: '#FF780C',
-      options: [
-        { id: 9, title: 'خوشحال', selected: [{ id: 1 }] },
-        { id: 10, title: 'ناراحت', selected: [] },
-        { id: 11, title: 'بی تفاوت', selected: [] },
-        { id: 12, title: 'عصبانی', selected: [] },
-      ],
-    },
-    {
-      id: 4,
       title: 'ترشحات',
       hasMultipleChoice: false,
       color: '#FFDE0C',
       options: [
-        { id: 13, title: 'چسبنده', selected: [{ id: 2 }] },
-        { id: 14, title: 'کرمی', selected: [] },
-        { id: 15, title: 'تخم مرغی', selected: [] },
-        { id: 16, title: 'آبکی', selected: [] },
+        {id: 9, title: 'چسبنده', selected: [{id: 2}]},
+        {id: 10, title: 'کرمی', selected: []},
+        {id: 11, title: 'تخم مرغی', selected: []},
+        {id: 12, title: 'غیرمعمول', selected: []},
+      ],
+    },
+    {
+      id: 3,
+      title: 'درد',
+      hasMultipleChoice: true,
+      color: '#00AEEF',
+      options: [
+        {id: 5, title: 'سردرد', selected: []},
+        {id: 6, title: 'حساس شدن سینه', selected: []},
+        {id: 7, title: 'تخمک گذاری', selected: []},
+        {id: 8, title: 'گرفتگی عضلات', selected: []},
+      ],
+    },
+    {
+      id: 4,
+      title: 'حال عمومی',
+      hasMultipleChoice: true,
+      color: '#F1719D',
+      options: [
+        {id: 13, title: 'شاد', selected: [{id: 1}]},
+        {id: 14, title: 'معمولی', selected: []},
+        {id: 15, title: 'غمگین', selected: []},
+        {id: 16, title: 'سندروم پیش از قاعدگی', selected: []},
+      ],
+    },
+    {
+      id: 5,
+      title: 'خواب',
+      hasMultipleChoice: false,
+      color: '#B6D442',
+      options: [
+        {id: 17, title: '0 تا 3 ساعت', selected: [{id: 2}]},
+        {id: 18, title: '3 تا 6 ساعت', selected: []},
+        {id: 19, title: '6 تا 9 ساعت', selected: []},
+        {id: 20, title: 'بیش از 9 ساعت', selected: []},
+      ],
+    },
+    {
+      id: 6,
+      title: 'ورزش',
+      hasMultipleChoice: true,
+      color: '#00AEEF',
+      options: [
+        {id: 21, title: 'دو', selected: [{id: 2}]},
+        {id: 22, title: 'شنا', selected: []},
+        {id: 23, title: 'باشگاه', selected: []},
+        {id: 24, title: 'نرمش', selected: []},
+      ],
+    },
+    {
+      id: 7,
+      title: 'همسرانگی',
+      hasMultipleChoice: false,
+      color: '#EF719C',
+      options: [
+        {id: 25, title: 'محافظت شده', selected: [{id: 2}]},
+        {id: 26, title: 'محافظت نشده', selected: []},
       ],
     },
   ]);
-  var db = new Database();
+  const getData = async () => {
+    const b = await db.executeSql(
+      "SELECT JSON_OBJECT('id',id,'title',title) AS data FROM health_tracking_category",
+    );
+    console.log('jjjjjjj', b);
+  };
   useEffect(() => {
-    setDetailPageId(null);
-    // db.rawQuery(
-    //   "SELECT JSON_OBJECT('id',id,'title',title) AS data FROM health_tracking_category",
-    // ).then((b) => {
-    //   //setCategories(b);
-    //   console.log(b);
+    getData();
+    // db.rawQuery('select * from health_tracking_option').then((a) => {
+    //   setIcn(a);
+    // });
+    // db.rawQuery('select * from health_tracking_category').then((a) => {
+    //   setCic(a);
     // });
     // "select json_object('id',c.id,'title',c.title,'options'," +
     // "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
@@ -91,25 +136,8 @@ const TrackingOptions = ({navigation}) => {
     // "from user_tracking_option where tracking_option_id = o.id AND date=date))))"+
     // "from health_tracking_option o where category_id = c.id)))"+
     // "from health_tracking_category c;"
-
-  }, [db, categories, date]);
-  const getRandomColor = () => {
-    return (
-      'rgb(' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ',' +
-      Math.floor(Math.random() * 256) +
-      ')'
-    );
-  };
-  const renderItem = ({ item }) => {
-    const clr = getRandomColor();
-
-  }, [categories, date]);
+  });
   const renderItem = ({item}) => {
-
     return (
       <View style={styles.sliderItem}>
         <TouchableOpacity
@@ -119,6 +147,7 @@ const TrackingOptions = ({navigation}) => {
               borderColor: item.color,
             },
           ]}>
+          <SvgXml width="70%" height="70%" xml={loadCatIcon(item)} />
           <Text style={styles.txt}>{item.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -141,14 +170,15 @@ const TrackingOptions = ({navigation}) => {
     );
   };
   const loadIcon = (option, color) => {
-    db.rawQuery(
-      `select * from health_tracking_option where id=${option.id}`,
-    ).then((a) => {
-      console.log(a);
-    });
-    return `<svg version="1.1" id="Layer_1" xmlns="http:www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="566.93px" height="566.93px" viewBox="0 0 566.93 566.93" enable-background="new 0 0 566.93 566.93" xml:space="preserve"><path fill="${
-      option.selected.length > 0 ? 'white' : color
-    }" d="M292.582,163.253c-67.26,79.579-104.81,130.191-90.255,186.318c17.784,68.598,154.958,66.55,164.804-4.848c3.339-24.215-7.852-53.012-28.548-78.343C307.908,228.845,281.966,209.672,292.582,163.253L292.582,163.253z"/></svg>`;
+    return icn !== undefined
+      ? icn.find((b) => b.id === option.id).icon
+      : '<svg></svg>';
+  };
+
+  const loadCatIcon = (item) => {
+    return cic !== undefined
+      ? cic.find((b) => b.id === item.id).icon
+      : '<svg></svg>';
   };
   const renderOptions = (category, color) => {
     return categories
@@ -160,12 +190,12 @@ const TrackingOptions = ({navigation}) => {
             onPress={() => onOptionPress(category, option)}
             style={[
               styles.option,
-              { borderColor: color },
+              {borderColor: color},
               {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
             ]}>
-            <SvgXml width="70%" height="70%" xml={loadIcon(option)} />
+            <SvgXml width="70%" height="70%" xml={loadIcon(option, color)} />
             <Text style={styles.txt}>{option.title}</Text>
           </TouchableOpacity>
         );
@@ -178,26 +208,44 @@ const TrackingOptions = ({navigation}) => {
     switch (detailPageId) {
       case 1:
         return (
-          <ButtonGroup
-            onPress={updateIndex}
-            selectedIndex={selectedIndex}
-            buttons={['روز', 'َشب']}
-            vertical={true}
-            containerStyle={{alignSelf: 'center', height: 75, width: 50}}
-            selectedButtonStyle={{backgroundColor: '#FF360C'}}
-          />
+          <View style={{flexDirection: 'row'}}>
+            <ButtonGroup
+              onPress={updateIndex}
+              selectedIndex={selectedIndex}
+              buttons={['روز', 'َشب']}
+              vertical={true}
+              containerStyle={{alignSelf: 'center', height: 75, width: 50}}
+              selectedButtonStyle={{backgroundColor: '#FF360C'}}
+            />
+            <Input
+              placeholder="ساعت شروع پریود"
+              containerStyle={{
+                backgroundColor: 'white',
+                width: Width / 2,
+                borderRadius: 15,
+              }}
+              leftIcon={
+                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+              }
+            />
+          </View>
         );
-      case 2:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 3:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 4:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-      case 5:
-        return <Text>اینجا مختص جزئیات است.</Text>;
       case 6:
-        return <Text>اینجا مختص جزئیات است.</Text>;
-
+        return (
+          <View>
+            <Input
+              placeholder="مدت زمان ورزش"
+              containerStyle={{
+                backgroundColor: 'white',
+                width: Width / 1.5,
+                borderRadius: 15,
+              }}
+              leftIcon={
+                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+              }
+            />
+          </View>
+        );
       default:
     }
   };
@@ -225,13 +273,7 @@ const TrackingOptions = ({navigation}) => {
         // db.rawQuery(`delete from user_tracking_option where `)
         categories
           .find((o) => o.id === category.id)
-          .options.find((o) => o.id === option.id)
-          .selected.splice(
-            0,
-            categories
-              .find((o) => o.id === category.id)
-              .options.find((o) => o.id === option.id).selected.length,
-          );
+          .options.find((o) => o.id === option.id).selected.length = 0;
         categories
           .find((o) => o.id === category.id)
           .options.find((o) => o.id === option.id)
@@ -246,14 +288,12 @@ const TrackingOptions = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={{ height: 70, marginTop: 50, backgroundColor: 'pink' }}>
-
+      <View style={{height: 70, marginTop: 50}}>
         <TopAgenda
           onDayPress={(day) => {
             setDate(day.dateString);
           }}
         />
-
       </View>
       <ScrollView>
         <Carousel
@@ -279,10 +319,10 @@ const styles = StyleSheet.create({
     width: 100,
     height: 100,
     borderRadius: 50,
-    elevation: 2,
+    //elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    borderWidth: 5,
+    //borderWidth: 5,
   },
   option: {
     margin: 10,
@@ -303,6 +343,7 @@ const styles = StyleSheet.create({
   txt: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[15],
+    textAlign: 'center',
   },
   more: {
     borderRadius: 15,
