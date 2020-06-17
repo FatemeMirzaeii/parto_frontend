@@ -58,7 +58,9 @@ export default class Database {
               var len = results.rows.length;
               for (let i = 0; i < len; i++) {
                 let row = results.rows.item(i);
-                arr.push(JSON.parse(row.data));
+                row.data === undefined
+                  ? arr.push(row)
+                  : arr.push(JSON.parse(row.data));
               }
               if (arr.length > 0) {
                 resolve(arr);
