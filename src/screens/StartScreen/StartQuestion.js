@@ -5,6 +5,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
+import { PROFILE } from '../../constants/TableDataBase';
 
 let questionArray = [];
 const db = new Database();
@@ -35,18 +36,15 @@ const Start1 = (props) => {
       if (selected.period == true)
         questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 })
 
-      // await db.rawQuery(`delete from ${PROFILE}`)
-      // const x = await db.rawQuery('select * from action')
-      // console.log("x: ", x)
 
       // await db.rawQuery(`INSERT INTO ${PROFILE} (pregnant,pregnancy_try,created_at,updated_at) VALUES(?,?,?,?)`,
 
       //   [_pragnancy, _pregnancy_try, 2456572.84952685, 2456572.84952685])
-      // .then((result) => {
-      //   // props.navigation.navigate('StartQuestion2');
-      // }).catch((err) => {
-      //   console.log("Catche show:", err);
-      // })
+      //   .then((result) => {
+      //     props.navigation.navigate('StartQuestion2');
+      //   }).catch((err) => {
+      //     console.log("Catche show:", err);
+      //   })
 
       if (selected.pregnancy_try == true || selected.period == true)
         props.navigation.navigate("StartQuestion2", { questionArray })

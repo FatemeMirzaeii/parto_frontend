@@ -94,6 +94,7 @@ const Start2 = (props) => {
     setSelectedyear(index);
   }
   function nextPage() {
+    props.navigation.navigate("StartQuestion3", { questionArray })
 
   }
   const [selectedday, setSelectedday] = useState(1);
