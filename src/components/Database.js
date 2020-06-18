@@ -4,8 +4,8 @@ import {EMPTY_TABLE} from '../constants/TableDataBase';
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
-const database_name = 'master';
-const database_location = '~sqlite.db';
+const database_name = 'parto.db';
+const database_location = '~parto.db';
 
 export default class Database {
   initDB(tableName) {

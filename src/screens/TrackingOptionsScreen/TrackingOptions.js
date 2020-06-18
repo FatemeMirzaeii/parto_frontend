@@ -7,22 +7,29 @@ import {
   View,
   Text,
 } from 'react-native';
-import Carousel from 'react-native-snap-carousel';
 import Database from '../../components/Database';
-import {Theme, Width, Height} from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
+import {Theme, Width, Height} from '../../app/Theme';
+import Carousel from 'react-native-snap-carousel';
 import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import {SvgXml} from 'react-native-svg';
+
 const db = new Database();
 const detailPageRef = createRef();
+
 const TrackingOptions = ({navigation}) => {
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
   const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    getData();
+  }, [getData]);
   const getData = useCallback(() => {
+    console.log('I get data for you again!');
     db.rawQuery(
       `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
       'color',color,'icon',icon,'options',(
@@ -38,16 +45,12 @@ const TrackingOptions = ({navigation}) => {
             FROM health_tracking_option o WHERE o.category_id = c.id
           )         
         )
-        AS data FROM health_tracking_category c`,
+        AS data FROM health_tracking_category c ORDER By id DESC`,
       'health_tracking_category',
     ).then((res) => {
-      console.log(res);
       setCategories(res);
     });
   }, [date]);
-  useEffect(() => {
-    getData();
-  }, [getData]);
   const renderItem = ({item}) => {
     return (
       <View style={styles.sliderItem}>
@@ -99,9 +102,6 @@ const TrackingOptions = ({navigation}) => {
         );
       });
   };
-  const updateIndex = (i) => {
-    setSelectedIndex(i);
-  };
   const renderDetailPage = () => {
     switch (detailPageId) {
       case 1:
@@ -141,41 +141,56 @@ const TrackingOptions = ({navigation}) => {
   };
   const onOptionPress = (category, option) => {
     if (option.selected.length > 0) {
-      // db.rawQuery(
-      //   `delete from user_tracking_option where tracking_option_id=${option.id}`,
-      // ).then((res) => {
-      //   console.log('ressss', res);
-      // });
-      categories
-        .find((o) => o.id === category.id)
-        .options.find((o) => o.id === option.id)
-        .selected.pop();
+      db.rawQuery(
+        `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date=${date}`,
+        'user_tracking_option',
+      ).then((res) => {
+        console.log('ressss', res);
+        getData();
+      });
+      // categories
+      //   .find((o) => o.id === category.id)
+      //   .options.find((o) => o.id === option.id)
+      //   .selected.pop();
     } else {
       if (category.hasMultipleChoice) {
-        // db.rawQuery(
-        //   `insert into user_tracking_option tracking_option_id=${option.id} and date='2020-05-16'`,
-        // );
-        categories
-          .find((o) => o.id === category.id)
-          .options.find((o) => o.id === option.id)
-          .selected.push(option);
-        setCategories(categories);
+        db.rawQuery(
+          `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+          'user_tracking_option',
+        ).then((res) => {
+          console.log('ressss', res);
+          getData();
+        });
+        // categories
+        //   .find((o) => o.id === category.id)
+        //   .options.find((o) => o.id === option.id)
+        //   .selected.push(option);
+        // setCategories(categories);
       } else {
-        // db.rawQuery(`delete from user_tracking_option where `)
-        categories
-          .find((o) => o.id === category.id)
-          .options.find((o) => o.id === option.id).selected.length = 0;
-        categories
-          .find((o) => o.id === category.id)
-          .options.find((o) => o.id === option.id)
-          .selected.push(option);
-        setCategories(categories);
+        db.rawQuery(
+          `DELETE FROM user_tracking_option WHERE date=${date};
+          INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+          'user_tracking_option',
+        ).then((res) => {
+          getData();
+        });
+        // categories
+        //   .find((o) => o.id === category.id)
+        //   .options.find((o) => o.id === option.id).selected.length = 0;
+        // categories
+        //   .find((o) => o.id === category.id)
+        //   .options.find((o) => o.id === option.id)
+        //   .selected.push(option);
+        // setCategories(categories);
       }
       setDetailPageId(category.id);
       if ((category.id === 1 && option.id !== 1) || category.id === 6) {
         detailPageRef.current?.setModalVisible();
       }
     }
+  };
+  const updateIndex = (i) => {
+    setSelectedIndex(i);
   };
   const toggleOverlay = () => {
     setVisible(!visible);
