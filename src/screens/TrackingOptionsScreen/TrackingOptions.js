@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, { useEffect, useState } from 'react';
+=======
+import React, {useEffect, useState, useCallback} from 'react';
+>>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -8,6 +12,7 @@ import {
   Text,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
+<<<<<<< HEAD
 import SQLite from 'react-native-sqlite-storage';
 // import Database from '../../components/Database';
 import { Theme, Width, Height } from '../../app/Theme';
@@ -21,10 +26,20 @@ const TrackingOptions = ({ navigation }) => {
   });
   const [icn, setIcn] = useState();
   const [cic, setCic] = useState();
+=======
+import Database from '../../components/Database';
+import {Theme, Width, Height} from '../../app/Theme';
+import TopAgenda from '../../components/TopAgenda';
+import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
+import {SvgXml} from 'react-native-svg';
+let db = new Database();
+const TrackingOptions = ({navigation}) => {
+>>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
+<<<<<<< HEAD
   const [categories, setCategories] = useState([
     {
       id: 1,
@@ -138,6 +153,36 @@ const TrackingOptions = ({ navigation }) => {
     // "from health_tracking_category c;"
   });
   const renderItem = ({ item }) => {
+=======
+  const [categories, setCategories] = useState([]);
+  const getData = useCallback(() => {
+    db.rawQuery(
+      `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
+      'color',color,'icon',icon,'options',(
+        SELECT JSON_GROUP_ARRAY(
+                JSON_OBJECT('id',id,'title',title,'icon',icon,'selected',(
+                          SELECT JSON_GROUP_ARRAY(
+                                  JSON_OBJECT('id',id,'tracking_option_id',tracking_option_id)
+                                              )
+                              FROM user_tracking_option u WHERE u.tracking_option_id = o.id AND date=${date}
+                        )
+                      )
+                    ) 
+            FROM health_tracking_option o WHERE o.category_id = c.id
+          )         
+        )
+        AS data FROM health_tracking_category c`,
+      'health_tracking_category',
+    ).then((res) => {
+      console.log(res);
+      setCategories(res);
+    });
+  }, [date]);
+  useEffect(() => {
+    getData();
+  }, [getData]);
+  const renderItem = ({item}) => {
+>>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
     return (
       <View style={styles.sliderItem}>
         <TouchableOpacity
@@ -147,7 +192,7 @@ const TrackingOptions = ({ navigation }) => {
               borderColor: item.color,
             },
           ]}>
-          <SvgXml width="70%" height="70%" xml={loadCatIcon(item)} />
+          <SvgXml width="70%" height="70%" xml={item.icon} />
           <Text style={styles.txt}>{item.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -169,17 +214,6 @@ const TrackingOptions = ({ navigation }) => {
       </View>
     );
   };
-  const loadIcon = (option, color) => {
-    return icn !== undefined
-      ? icn.find((b) => b.id === option.id).icon
-      : '<svg></svg>';
-  };
-
-  const loadCatIcon = (item) => {
-    return cic !== undefined
-      ? cic.find((b) => b.id === item.id).icon
-      : '<svg></svg>';
-  };
   const renderOptions = (category, color) => {
     return categories
       .find((c) => c.id === category.id)
@@ -195,7 +229,7 @@ const TrackingOptions = ({ navigation }) => {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
             ]}>
-            <SvgXml width="70%" height="70%" xml={loadIcon(option, color)} />
+            <SvgXml width="70%" height="70%" xml={option.icon} />
             <Text style={styles.txt}>{option.title}</Text>
           </TouchableOpacity>
         );
@@ -252,13 +286,14 @@ const TrackingOptions = ({ navigation }) => {
   const onOptionPress = (category, option) => {
     if (option.selected.length > 0) {
       // db.rawQuery(
-      //   `delete from user_tracking_option where tracking_option_id=${option.id} and date='2020-05-16'`,
-      // );
+      //   `delete from user_tracking_option where tracking_option_id=${option.id}`,
+      // ).then((res) => {
+      //   console.log('ressss', res);
+      // });
       categories
         .find((o) => o.id === category.id)
         .options.find((o) => o.id === option.id)
         .selected.pop();
-      setCategories(categories);
     } else {
       if (category.hasMultipleChoice) {
         // db.rawQuery(
@@ -288,9 +323,14 @@ const TrackingOptions = ({ navigation }) => {
   };
   return (
     <SafeAreaView>
+<<<<<<< HEAD
       <View style={{ height: 70, marginTop: 50 }}>
+=======
+      <View style={{height: 100, marginTop: 50}}>
+>>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
         <TopAgenda
           onDayPress={(day) => {
+            console.log(day.dateString);
             setDate(day.dateString);
           }}
         />

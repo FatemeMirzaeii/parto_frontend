@@ -1,4 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
+import {EMPTY_TABLE} from '../constants/TableDataBase';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
@@ -7,7 +8,8 @@ const database_name = 'master';
 const database_location = '~sqlite.db';
 
 export default class Database {
-  initDatabse() {
+  initDB(tableName) {
+    let db;
     return new Promise((resolve) => {
       SQLite.echoTest()
         .then(() => {
@@ -15,62 +17,64 @@ export default class Database {
             name: database_name,
             createFromLocation: database_location,
           })
-            .then((db) => {
+            .then((DB) => {
+              db = DB;
+              db.executeSql(`SELECT 1 FROM ${tableName} LIMIT 1`)
+                .then(() => {})
+                .catch((error) => {
+                  db.transaction((tx) => {
+                    tx.executeSql(
+                      'CREATE TABLE IF NOT EXISTS user_profile (id, name)',
+                    );
+                  })
+                    .then(() => {})
+                    .catch((error) => {});
+                });
               resolve(db);
             })
-            .catch((error) => {
-              console.error("Can't open database: " + error);
-            });
+            .catch((error) => {});
         })
-        .catch((error) => {
-          console.error(error);
-        });
+        .catch((error) => {});
     });
   }
   //function for the close Database connection
   closeDatabase(db) {
     if (db) {
       db.close()
-        .then((status) => {
-          console.info(status);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+        .then((status) => {})
+        .catch((error) => {});
     } else {
     }
-
   }
-  //function to get the result of query
-  async rawQuery(_Query, _Values = []) {
+  //function to get the results
+
+  async rawQuery(_Query, _Values = [], _Table) {
     return await new Promise((resolve) => {
       let arr = [];
-      this.initDatabse()
+      this.initDB(_Table)
         .then((db) => {
           db.transaction((tx) => {
-            tx.executeSql(_Query, _Values)
-              .then(([tx, results]) => {
-                var len = results.rows.length;
-                for (let i = 0; i < len; i++) {
-                  let row = results.rows.item(i);
-                  arr.push(row);
-                }
-                if (arr.length > 0) {
-                  resolve(arr);
-                }
-
-              });
-
-          }).then((result) => {
-            this.closeDatabase();
-          })
-            .catch((err) => {
-              console.error(err);
+            tx.executeSql(_Query, _Values).then(([tx, results]) => {
+              var len = results.rows.length;
+              for (let i = 0; i < len; i++) {
+                let row = results.rows.item(i);
+                row.data === undefined
+                  ? arr.push(row)
+                  : arr.push(JSON.parse(row.data));
+              }
+              if (arr.length > 0) {
+                resolve(arr);
+              } else {
+                resolve(EMPTY_TABLE);
+              }
             });
+          })
+            .then((result) => {
+              this.closeDatabase();
+            })
+            .catch((err) => {});
         })
-        .catch((err) => {
-          console.error(err);
-        });
+        .catch((err) => {});
     });
   }
 }
