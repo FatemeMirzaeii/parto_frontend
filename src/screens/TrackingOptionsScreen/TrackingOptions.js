@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect, useState } from 'react';
-=======
-import React, {useEffect, useState, useCallback} from 'react';
->>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
+import React, {useEffect, useState, useCallback, createRef} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -12,148 +8,19 @@ import {
   Text,
 } from 'react-native';
 import Carousel from 'react-native-snap-carousel';
-<<<<<<< HEAD
-import SQLite from 'react-native-sqlite-storage';
-// import Database from '../../components/Database';
-import { Theme, Width, Height } from '../../app/Theme';
-import TopAgenda from '../../components/TopAgenda';
-import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
-import { SvgXml } from 'react-native-svg';
-const TrackingOptions = ({ navigation }) => {
-  let db = SQLite.openDatabase({
-    name: 'parto.db',
-    createFromLocation: '~sqlite.db',
-  });
-  const [icn, setIcn] = useState();
-  const [cic, setCic] = useState();
-=======
 import Database from '../../components/Database';
 import {Theme, Width, Height} from '../../app/Theme';
 import TopAgenda from '../../components/TopAgenda';
 import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
+import ActionSheet from 'react-native-actions-sheet';
 import {SvgXml} from 'react-native-svg';
-let db = new Database();
+const db = new Database();
+const detailPageRef = createRef();
 const TrackingOptions = ({navigation}) => {
->>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
-<<<<<<< HEAD
-  const [categories, setCategories] = useState([
-    {
-      id: 1,
-      title: 'خونریزی',
-      hasMultipleChoice: false,
-      color: '#F1719D',
-      options: [
-        { id: 1, title: 'لکه بینی', selected: [] },
-        { id: 2, title: 'سبک', selected: [] },
-        { id: 3, title: 'متوسط', selected: [] },
-        { id: 4, title: 'سنگین', selected: [] },
-      ],
-    },
-    {
-      id: 2,
-      title: 'ترشحات',
-      hasMultipleChoice: false,
-      color: '#FFDE0C',
-      options: [
-        { id: 9, title: 'چسبنده', selected: [{ id: 2 }] },
-        { id: 10, title: 'کرمی', selected: [] },
-        { id: 11, title: 'تخم مرغی', selected: [] },
-        { id: 12, title: 'غیرمعمول', selected: [] },
-      ],
-    },
-    {
-      id: 3,
-      title: 'درد',
-      hasMultipleChoice: true,
-      color: '#00AEEF',
-      options: [
-        { id: 5, title: 'سردرد', selected: [] },
-        { id: 6, title: 'حساس شدن سینه', selected: [] },
-        { id: 7, title: 'تخمک گذاری', selected: [] },
-        { id: 8, title: 'گرفتگی عضلات', selected: [] },
-      ],
-    },
-    {
-      id: 4,
-      title: 'حال عمومی',
-      hasMultipleChoice: true,
-      color: '#F1719D',
-      options: [
-        { id: 13, title: 'شاد', selected: [{ id: 1 }] },
-        { id: 14, title: 'معمولی', selected: [] },
-        { id: 15, title: 'غمگین', selected: [] },
-        { id: 16, title: 'سندروم پیش از قاعدگی', selected: [] },
-      ],
-    },
-    {
-      id: 5,
-      title: 'خواب',
-      hasMultipleChoice: false,
-      color: '#B6D442',
-      options: [
-        { id: 17, title: '0 تا 3 ساعت', selected: [{ id: 2 }] },
-        { id: 18, title: '3 تا 6 ساعت', selected: [] },
-        { id: 19, title: '6 تا 9 ساعت', selected: [] },
-        { id: 20, title: 'بیش از 9 ساعت', selected: [] },
-      ],
-    },
-    {
-      id: 6,
-      title: 'ورزش',
-      hasMultipleChoice: true,
-      color: '#00AEEF',
-      options: [
-        { id: 21, title: 'دو', selected: [{ id: 2 }] },
-        { id: 22, title: 'شنا', selected: [] },
-        { id: 23, title: 'باشگاه', selected: [] },
-        { id: 24, title: 'نرمش', selected: [] },
-      ],
-    },
-    {
-      id: 7,
-      title: 'همسرانگی',
-      hasMultipleChoice: false,
-      color: '#EF719C',
-      options: [
-        { id: 25, title: 'محافظت شده', selected: [{ id: 2 }] },
-        { id: 26, title: 'محافظت نشده', selected: [] },
-      ],
-    },
-  ]);
-  const getData = async () => {
-    const b = await db.executeSql(
-      "SELECT JSON_OBJECT('id',id,'title',title) AS data FROM health_tracking_category",
-    );
-    console.log('jjjjjjj', b);
-  };
-  useEffect(() => {
-    getData();
-    // db.rawQuery('select * from health_tracking_option').then((a) => {
-    //   setIcn(a);
-    // });
-    // db.rawQuery('select * from health_tracking_category').then((a) => {
-    //   setCic(a);
-    // });
-    // "select json_object('id',c.id,'title',c.title,'options'," +
-    // "json_array((select GROUP_CONCAT(json_object('id',id,'title',title))" +
-    // ' from health_tracking_option o where category_id = c.id))) ' +
-    // 'from health_tracking_category c;',
-    ////////
-    //"select json_object('id',id,'title',title) from health_tracking_category;",
-    ///////
-    // "select json_object('id',c.id,'title',c.title,"+
-    // "'options',json_array((select GROUP_CONCAT(json_object('id',id,'title',title,"+
-    // "'selected',json_array((select GROUP_CONCAT(json_object('id',id,'tracking_option_id',tracking_option_id))"+
-    // "from user_tracking_option where tracking_option_id = o.id AND date=date))))"+
-    // "from health_tracking_option o where category_id = c.id)))"+
-    // "from health_tracking_category c;"
-  });
-  const renderItem = ({ item }) => {
-=======
   const [categories, setCategories] = useState([]);
   const getData = useCallback(() => {
     db.rawQuery(
@@ -182,7 +49,6 @@ const TrackingOptions = ({navigation}) => {
     getData();
   }, [getData]);
   const renderItem = ({item}) => {
->>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
     return (
       <View style={styles.sliderItem}>
         <TouchableOpacity
@@ -197,7 +63,7 @@ const TrackingOptions = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={toggleOverlay}
-          style={[styles.more, { backgroundColor: item.color }]}>
+          style={[styles.more, {backgroundColor: item.color}]}>
           <Icon name="ios-flash" type="ionicon" size={17} color="white" />
           <Text style={styles.moreText}>
             {'   '}
@@ -208,9 +74,7 @@ const TrackingOptions = ({navigation}) => {
           </Overlay>
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item, item.color)}</View>
-        <View style={styles.detailPage}>
-          {item.id === detailPageId ? renderDetailPage() : null}
-        </View>
+        {/* {item.id === detailPageId ? renderDetailPage() : null} */}
       </View>
     );
   };
@@ -224,7 +88,7 @@ const TrackingOptions = ({navigation}) => {
             onPress={() => onOptionPress(category, option)}
             style={[
               styles.option,
-              { borderColor: color },
+              {borderColor: color},
               {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
@@ -242,24 +106,20 @@ const TrackingOptions = ({navigation}) => {
     switch (detailPageId) {
       case 1:
         return (
-          <View style={{ flexDirection: 'row' }}>
+          <View style={{flexDirection: 'row'}}>
             <ButtonGroup
               onPress={updateIndex}
               selectedIndex={selectedIndex}
               buttons={['روز', 'َشب']}
               vertical={true}
-              containerStyle={{ alignSelf: 'center', height: 75, width: 50 }}
-              selectedButtonStyle={{ backgroundColor: '#FF360C' }}
+              containerStyle={styles.buttonGroup}
+              selectedButtonStyle={{backgroundColor: '#F1719D'}}
             />
             <Input
               placeholder="ساعت شروع پریود"
-              containerStyle={{
-                backgroundColor: 'white',
-                width: Width / 2,
-                borderRadius: 15,
-              }}
+              containerStyle={styles.input}
               leftIcon={
-                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+                <Icon name="ios-alarm" size={24} color="gray" type="ionicon" />
               }
             />
           </View>
@@ -269,13 +129,9 @@ const TrackingOptions = ({navigation}) => {
           <View>
             <Input
               placeholder="مدت زمان ورزش"
-              containerStyle={{
-                backgroundColor: 'white',
-                width: Width / 1.5,
-                borderRadius: 15,
-              }}
+              containerStyle={styles.input}
               leftIcon={
-                <Icon name="ios-alarm" size={24} color="black" type="ionicon" />
+                <Icon name="ios-alarm" size={24} color="gray" type="ionicon" />
               }
             />
           </View>
@@ -316,6 +172,9 @@ const TrackingOptions = ({navigation}) => {
         setCategories(categories);
       }
       setDetailPageId(category.id);
+      if ((category.id === 1 && option.id !== 1) || category.id === 6) {
+        detailPageRef.current?.setModalVisible();
+      }
     }
   };
   const toggleOverlay = () => {
@@ -323,11 +182,7 @@ const TrackingOptions = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-<<<<<<< HEAD
-      <View style={{ height: 70, marginTop: 50 }}>
-=======
       <View style={{height: 100, marginTop: 50}}>
->>>>>>> 7934469c4ac81721088c27c38470e0b5918467f9
         <TopAgenda
           onDayPress={(day) => {
             console.log(day.dateString);
@@ -344,6 +199,12 @@ const TrackingOptions = ({navigation}) => {
           itemWidth={Width - 110}
         />
       </ScrollView>
+      <ActionSheet
+        ref={detailPageRef}
+        gestureEnabled={true}
+        bounceOnOpen={true}>
+        <View style={styles.detailPage}>{renderDetailPage()}</View>
+      </ActionSheet>
     </SafeAreaView>
   );
 };
@@ -353,25 +214,25 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  detailPage: {},
+  detailPage: {
+    height: 200,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   category: {
     margin: 15,
     width: 100,
     height: 100,
-    borderRadius: 50,
-    //elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    //borderWidth: 5,
   },
   option: {
     margin: 10,
     width: Width / 3 - 15,
     height: Height / 5 - 10,
     borderRadius: 20,
-    borderColor: 'red',
     borderWidth: 5,
-    elevation: 2,
+    elevation: 5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -395,6 +256,15 @@ const styles = StyleSheet.create({
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[10],
     color: 'white',
+  },
+  input: {
+    width: Width / 1.5,
+  },
+  buttonGroup: {
+    borderRadius: 10,
+    alignSelf: 'center',
+    height: 75,
+    width: 50,
   },
 });
 export default TrackingOptions;
