@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SmoothPicker from 'react-native-smooth-picker';
+import { Calendar } from 'react-native-calendars-persian';
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 
@@ -78,7 +79,7 @@ const Start2 = (props) => {
 
   useEffect(() => {
     questionArray = props.navigation.state.params.questionArray
-    console.log("day: ", selectedday)
+    console.log("day: ", questionArray)
   }, [props]);
   useEffect(() => {
     for (let j = 1340; j <= 1399; j++) year.push(toPersianNum(j));
@@ -110,50 +111,34 @@ const Start2 = (props) => {
       <View style={styles.view}>
         <Text style={styles.txt}>آخرین بار ، دوره ماهانه تان</Text>
         <Text style={styles.txt}>چه زمانی آغاز شد؟</Text>
-        <View style={{ flexDirection: 'row', marginTop: 60 }}>
-          <View style={styles.wrapperVertical}>
-            <SmoothPicker
-              initialScrollToIndex={selectedday}
-              onScrollToIndexFailed={() => { }}
-              keyExtractor={(_, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              data={day}
-              scrollAnimation
-              onSelected={({ item, index }) => handleChangeday(index)}
-              renderItem={(option) => ItemToRender(option, selectedday, true)}
-              magnet
-            />
-          </View>
-          <View style={[styles.wrapperVertical, { marginTop: -0.5 }]}>
-            <SmoothPicker
-              initialScrollToIndex={selectedmonth}
-              onScrollToIndexFailed={() => { }}
-              keyExtractor={(_, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              data={month}
-              scrollAnimation
-              onSelected={({ item, index }) => handleChangemonth(index)}
-              renderItem={(option) => ItemToRender(option, selectedmonth, true)}
-              magnet
-            />
-          </View>
-          <View style={styles.wrapperVertical}>
-            <SmoothPicker
-              initialScrollToIndex={selectedyear}
-              onScrollToIndexFailed={() => { }}
-              keyExtractor={(_, index) => index.toString()}
-              showsVerticalScrollIndicator={false}
-              data={year}
-              scrollAnimation
-              onSelected={({ item, index }) => handleChangeyear(index)}
-              renderItem={(option) => ItemToRender(option, selectedyear, true)}
-              magnet
-            />
-          </View>
+        <View style={{ marginTop: 20 }}>
+
+          <Calendar
+            firstDay={6}
+            jalali={true}
+            markedDates={{
+              '2017-12-14': {
+                periods: [
+                  { startingDay: false, endingDay: true, color: '#5f9ea0' },
+                  { startingDay: false, endingDay: true, color: '#ffa500' },
+                  { startingDay: true, endingDay: false, color: '#f0e68c' },
+                ]
+              },
+              '2017-12-15': {
+                periods: [
+                  { startingDay: true, endingDay: false, color: '#ffa500' },
+                  { color: 'transparent' },
+                  { startingDay: false, endingDay: false, color: '#f0e68c' },
+                ]
+              },
+            }}
+            // Date marking style [simple/period/multi-dot/custom]. Default = 'simple'
+            markingType='multi-period'
+          />
+          {/* </View> */}
+          {/* <View>
+                <Text>{`Your selection is ${dataCity[selected]}`}</Text> */}
         </View>
-        {/* <View>
-                <Text>{`Your selection is ${dataCity[selected]}`}</Text>
-            </View> */}
       </View>
       <Button
         rounded
