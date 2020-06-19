@@ -29,7 +29,6 @@ const TrackingOptions = ({navigation}) => {
     getData();
   }, [getData]);
   const getData = useCallback(() => {
-    console.log('I get data for you again!');
     db.rawQuery(
       `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
       'color',color,'icon',icon,'options',(
@@ -46,6 +45,7 @@ const TrackingOptions = ({navigation}) => {
           )         
         )
         AS data FROM health_tracking_category c ORDER By id DESC`,
+      [],
       'health_tracking_category',
     ).then((res) => {
       setCategories(res);
@@ -72,9 +72,6 @@ const TrackingOptions = ({navigation}) => {
             {'   '}
             در مورد {item.title} بیشتر بدانید.
           </Text>
-          <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-            <Text>در دست تعمیر!</Text>
-          </Overlay>
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item, item.color)}</View>
         {/* {item.id === detailPageId ? renderDetailPage() : null} */}
@@ -143,51 +140,46 @@ const TrackingOptions = ({navigation}) => {
     if (option.selected.length > 0) {
       db.rawQuery(
         `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date=${date}`,
+        [],
         'user_tracking_option',
       ).then((res) => {
         console.log('ressss', res);
         getData();
       });
-      // categories
-      //   .find((o) => o.id === category.id)
-      //   .options.find((o) => o.id === option.id)
-      //   .selected.pop();
     } else {
       if (category.hasMultipleChoice) {
         db.rawQuery(
           `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+          [],
           'user_tracking_option',
         ).then((res) => {
           console.log('ressss', res);
           getData();
         });
-        // categories
-        //   .find((o) => o.id === category.id)
-        //   .options.find((o) => o.id === option.id)
-        //   .selected.push(option);
-        // setCategories(categories);
       } else {
         db.rawQuery(
-          `DELETE FROM user_tracking_option WHERE date=${date};
-          INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+          `DELETE FROM user_tracking_option WHERE date=${date};`,
+          [],
           'user_tracking_option',
-        ).then((res) => {
-          getData();
+        ).then(() => {
+          db.rawQuery(
+            `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+            [],
+            'user_tracking_option',
+          ).then((res) => {
+            getData();
+          });
         });
-        // categories
-        //   .find((o) => o.id === category.id)
-        //   .options.find((o) => o.id === option.id).selected.length = 0;
-        // categories
-        //   .find((o) => o.id === category.id)
-        //   .options.find((o) => o.id === option.id)
-        //   .selected.push(option);
-        // setCategories(categories);
       }
       setDetailPageId(category.id);
       if ((category.id === 1 && option.id !== 1) || category.id === 6) {
         detailPageRef.current?.setModalVisible();
       }
     }
+  };
+  const onDayPress = (day) => {
+    setDate(day.dateString);
+    getData();
   };
   const updateIndex = (i) => {
     setSelectedIndex(i);
@@ -198,12 +190,7 @@ const TrackingOptions = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={{height: 100, marginTop: 50}}>
-        <TopAgenda
-          onDayPress={(day) => {
-            console.log(day.dateString);
-            setDate(day.dateString);
-          }}
-        />
+        <TopAgenda onDayPress={(day) => onDayPress(day)} />
       </View>
       <ScrollView>
         <Carousel
@@ -214,6 +201,9 @@ const TrackingOptions = ({navigation}) => {
           itemWidth={Width - 110}
         />
       </ScrollView>
+      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
+        <Text>در دست تعمیر!</Text>
+      </Overlay>
       <ActionSheet
         ref={detailPageRef}
         gestureEnabled={true}
