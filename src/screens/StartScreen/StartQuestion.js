@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
 
-let questionArray = [];
+let questionArray = [{ pregnant: 1, pregnancy_try: 0, period: 0 }];
 const db = new Database();
 const { colors, size, fonts } = Theme;
 

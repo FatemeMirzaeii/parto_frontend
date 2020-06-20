@@ -2,72 +2,37 @@ import { Button, Title } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import SmoothPicker from 'react-native-smooth-picker';
-import { toPersianNum } from '../../app/Functions';
+import { WheelPicker } from "react-native-wheel-picker-android";
 import { Theme } from '../../app/Theme';
-
+import { toPersianNum } from '../../app/Functions';
+let questionArray = [];
 const { colors, size, fonts } = Theme;
-let day = [];
-
-const opacities = {
-  0: 1,
-  1: 1,
-  2: 0.6,
-  3: 0.3,
-  4: 0.1,
-};
-const sizeText = {
-  0: 20,
-  1: 15,
-  2: 10,
-};
-
-const Item = React.memo(({ opacity, selected, vertical, fontSize, name }) => {
-  return (
-    <View
-      style={[
-        styles.OptionWrapper,
-        { opacity, borderColor: selected ? 'gray' : 'transparent', width: 100 },
-      ]}>
-      <Text style={{ fontSize, fontFamily: fonts.regular }}>{name}</Text>
-    </View>
-  );
-});
-
-const ItemToRender = ({ item, index }, indexSelected, vertical) => {
-  const selected = index === indexSelected;
-  const gap = Math.abs(index - indexSelected);
-
-  let opacity = opacities[gap];
-  if (gap > 3) {
-    opacity = opacities[2];
-  }
-  let fontSize = sizeText[gap];
-  if (gap > 1) {
-    fontSize = sizeText[2];
-  }
-
-  return (
-    <Item
-      opacity={opacity}
-      selected={selected}
-      vertical={vertical}
-      fontSize={fontSize}
-      name={item}
-    />
-  );
-};
-
+let data = []
+const dataSet = () => {
+  for (let i = 15; i < 100; i++)
+    data.push(toPersianNum(i));
+}
+dataSet()
 const Start4 = (props) => {
+  const [state, setState] = useState({
+    items: [1],
+    selectedItem: 0,
+  })
+
   useEffect(() => {
-    for (let i = 20; i <= 100; i++) day.push(toPersianNum(i));
-  });
-  const handleChangeday = (index) => {
-    setSelectedday(index);
+    questionArray = props.navigation.state.params.questionArray
+    console.log("day: ", questionArray)
+  }, [props]);
+
+  const onItemSelected = selectedItem => {
+    console.log("selected: ", selectedItem + 15)
+    setState({ selectedItem });
   };
 
-  const [selectedday, setSelectedday] = useState(4);
-
+  const nextPress = () => {
+    questionArray.push({ periodlength: state.selectedItem + 15 })
+    props.navigation.navigate("StartQuestion5", { questionArray })
+  }
   return (
     <LinearGradient
       start={{ x: 0, y: 0 }}
@@ -75,20 +40,18 @@ const Start4 = (props) => {
       colors={['#D164A6', '#C2428F', '#780048']}
       style={styles.gradiant}>
       <View style={styles.view}>
-        <Text style={styles.txt}>
-          بطور میانگین فاصله دوره هایتان چند روزه است؟
-        </Text>
+        <Text style={styles.txt}>بطور میانگین فاصله دوره هایتان چند روزه است؟ </Text>
         <View style={styles.wrapperVertical}>
-          <SmoothPicker
-            initialScrollToIndex={selectedday}
-            onScrollToIndexFailed={() => { }}
-            keyExtractor={(_, index) => index.toString()}
-            showsVerticalScrollIndicator={false}
-            data={day}
-            scrollAnimation
-            onSelected={({ item, index }) => handleChangeday(index)}
-            renderItem={(option) => ItemToRender(option, selectedday, true)}
-            magnet
+          {/* <Text>Selected position: {state.selectedItem}</Text> */}
+          <WheelPicker
+            style={{ width: 200, height: 200 }}
+            isCyclic={true}
+            selectedItemTextFontFamily={fonts.regular}
+            selectedItemTextSize={20}
+            itemTextFontFamily={fonts.regular}
+            selectedItem={state.selectedItem}
+            data={data}
+            onItemSelected={onItemSelected}
           />
         </View>
         {/* <View>
@@ -98,7 +61,7 @@ const Start4 = (props) => {
       <Button
         rounded
         style={styles.btn}
-        onPress={() => props.navigation.navigate('StartQuestion5')}>
+        onPress={() => nextPress()}>
         <Title style={styles.txtbtn}>بعدی</Title>
       </Button>
     </LinearGradient>

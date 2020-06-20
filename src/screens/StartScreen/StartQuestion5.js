@@ -3,11 +3,18 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import SmoothPicker from 'react-native-smooth-picker';
+import { WheelPicker } from "react-native-wheel-picker-android";
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
+import Database from '../../components/Database';
+import { PROFILE } from '../../constants/TableDataBase'
 
 const { colors, size, fonts } = Theme;
+const db = new Database();
+
 let day = [];
+let year = [];
+let questionArray = [];
 let month = [
     'فروردین',
     'اردیبهشت',
@@ -22,76 +29,82 @@ let month = [
     'بهمن',
     'اسفند',
 ];
-let year = [];
-
-const opacities = {
-    0: 1,
-    1: 1,
-    2: 0.6,
-    3: 0.3,
-    4: 0.1,
-};
-const sizeText = {
-    0: 20,
-    1: 15,
-    2: 10,
-};
-
-const Item = React.memo(({ opacity, selected, vertical, fontSize, name }) => {
-    return (
-        <View
-            style={[
-                styles.OptionWrapper,
-                { opacity, borderColor: selected ? 'gray' : 'transparent', width: 100 },
-            ]}>
-            <Text style={{ fontSize, fontFamily: fonts.regular }}>{name}</Text>
-        </View>
-    );
-});
-
-const ItemToRender = ({ item, index }, indexSelected, vertical) => {
-    const selected = index === indexSelected;
-    const gap = Math.abs(index - indexSelected);
-
-    let opacity = opacities[gap];
-    if (gap > 3) {
-        opacity = opacities[2];
-    }
-    let fontSize = sizeText[gap];
-    if (gap > 1) {
-        fontSize = sizeText[2];
-    }
-
-    return (
-        <Item
-            opacity={opacity}
-            selected={selected}
-            vertical={vertical}
-            fontSize={fontSize}
-            name={item}
-        />
-    );
-};
-
+let data = []
+const dataSet = () => {
+    for (let j = 1340; j <= 1386; j++) year.push(toPersianNum(j));
+    for (let i = 1; i <= 30; i++) day.push(toPersianNum(i));
+}
+dataSet()
 const Start5 = (props) => {
+    const [selected1, setSelected1] = useState({
+        selectedItem: 0,
+    })
+    const [selected2, setSelected2] = useState({
+        selectedItem: 0,
+    })
+    const [selected3, setSelected3] = useState({
+        selectedItem: 0,
+    })
+
     useEffect(() => {
-        for (let j = 1340; j <= 1399; j++) year.push(toPersianNum(j));
-        for (let i = 1; i <= 30; i++) day.push(toPersianNum(i));
-    });
-    function handleChangeday(index) {
-        setSelectedday(index);
-    }
-    function handleChangemonth(index) {
-        setSelectedmonth(index);
-    }
-    function handleChangeyear(index) {
-        setSelectedyear(index);
-    }
+        questionArray = props.navigation.state.params.questionArray
+        console.log("day: ", questionArray)
+    }, [props]);
 
-    const [selectedday, setSelectedday] = useState(4);
-    const [selectedmonth, setSelectedmonth] = useState(4);
-    const [selectedyear, setSelectedyear] = useState(4);
+    const onItemSelected1 = selectedItem => {
+        console.log("selected: ", selectedItem + 1)
+        setSelected1({ selectedItem });
+    };
+    const onItemSelected2 = selectedItem => {
+        console.log("selected: ", selectedItem + 1)
+        setSelected2({ selectedItem });
+    };
+    const onItemSelected3 = selectedItem => {
+        console.log("selected: ", selectedItem + 1340)
+        setSelected3({ selectedItem });
+    };
 
+    const nextPress = () => {
+        let d, m, y = "";
+        if (selected1.selectedItem < 9) {
+            d = "0" + (selected1.selectedItem + 1)
+        }
+        else {
+            d = selected1.selectedItem + 1
+        }
+        if (selected2.selectedItem < 9) {
+            m = "0" + (selected2.selectedItem + 1)
+        }
+        else {
+            m = selected2.selectedItem + 1
+        }
+
+        y = selected3.selectedItem + 1340
+        console.log("date: ", y + '-' + m + '-' + d)
+
+        questionArray.push({ birthdate: y + '-' + m + '-' + d })
+        // props.navigation.navigate("Home", { questionArray })
+        console.log("day: ", questionArray)
+        saveToLocal()
+    }
+    const saveToLocal = () => {
+        // db.rawQuery(
+        //     `DELETE FROM ${PROFILE} where id=1`,
+        //     [],
+        //     PROFILE)
+        //     .then((res) => { console.log('resdel: ', res) })
+        db.rawQuery(
+            `INSERT INTO ${PROFILE}
+             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,updated_at)
+             VALUES(${questionArray[0].pregnant},${questionArray[0].pregnancy_try},${questionArray[2].periodDays},${questionArray[3].periodlength},${questionArray[4].birthdate},${questionArray[4].birthdate},${questionArray[4].birthdate})`,
+            [],
+            PROFILE)
+            .then((res) => { console.log('res: ', res) })
+        db.rawQuery(
+            `SELECT * FROM ${PROFILE}`, [], PROFILE
+        ).then((res) => { console.log('res select: ', res) })
+
+    }
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -100,46 +113,44 @@ const Start5 = (props) => {
             style={styles.gradiant}>
             <View style={styles.view}>
                 <Text style={styles.txt}>تاریخ تولد شما، چیست ؟</Text>
-                <View style={{ flexDirection: 'row', marginTop: 60 }}>
+                <View style={{ flexDirection: 'row', marginTop: 60, }}>
                     <View style={styles.wrapperVertical}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedday}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
+                        <WheelPicker
+                            style={{ width: 110, height: 200 }}
+                            isCyclic={true}
+                            selectedItemTextFontFamily={fonts.regular}
+                            selectedItemTextSize={20}
+                            itemTextFontFamily={fonts.regular}
+                            selectedItem={selected1.selectedItem}
                             data={day}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangeday(index)}
-                            renderItem={(option) => ItemToRender(option, selectedday, true)}
-                            magnet
-                        />
-                    </View>
-                    <View style={[styles.wrapperVertical, { marginTop: -0.5 }]}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedmonth}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
-                            data={month}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangemonth(index)}
-                            renderItem={(option) => ItemToRender(option, selectedmonth, true)}
-                            magnet
+                            onItemSelected={onItemSelected1}
                         />
                     </View>
                     <View style={styles.wrapperVertical}>
-                        <SmoothPicker
-                            initialScrollToIndex={selectedyear}
-                            onScrollToIndexFailed={() => { }}
-                            keyExtractor={(_, index) => index.toString()}
-                            showsVerticalScrollIndicator={false}
-                            data={year}
-                            scrollAnimation
-                            onSelected={({ item, index }) => handleChangeyear(index)}
-                            renderItem={(option) => ItemToRender(option, selectedyear, true)}
-                            magnet
+                        <WheelPicker
+                            style={{ width: 110, height: 200 }}
+                            isCyclic={true}
+                            selectedItemTextFontFamily={fonts.regular}
+                            selectedItemTextSize={20}
+                            itemTextFontFamily={fonts.regular}
+                            selectedItem={selected1.selectedItem}
+                            data={month}
+                            onItemSelected={onItemSelected2}
                         />
                     </View>
+                    <View style={styles.wrapperVertical}>
+                        <WheelPicker
+                            style={{ width: 110, height: 200 }}
+                            isCyclic={true}
+                            selectedItemTextFontFamily={fonts.regular}
+                            selectedItemTextSize={20}
+                            itemTextFontFamily={fonts.regular}
+                            selectedItem={selected3.selectedItem}
+                            data={year}
+                            onItemSelected={onItemSelected3}
+                        />
+                    </View>
+
                 </View>
                 {/* <View>
                 <Text>{`Your selection is ${dataCity[selected]}`}</Text>
@@ -148,7 +159,7 @@ const Start5 = (props) => {
             <Button
                 rounded
                 style={styles.btn}
-                onPress={() => props.navigation.navigate('Home')}>
+                onPress={() => nextPress()}>
                 <Title style={styles.txtbtn}>بعدی</Title>
             </Button>
         </LinearGradient>
