@@ -1,4 +1,5 @@
 import {getData, storeData} from '../app/Functions';
+const baseUrl = 'https://api.partobanoo.com/';
 export class RESTAPI {
   constructor() {
     this.Date;
@@ -15,18 +16,17 @@ export class RESTAPI {
     console.log('storedata');
     await storeData('@token', token);
   };
-  async request(_url, _body = null, _method = 'POST', Isencrypt = null) {
-    token = await getData('@token');
-    console.log('token: ', token);
+  async request(_url, _body = null, _method = 'POST', isEncrypt = null) {
+    const url = baseUrl + _url;
+    const token = await getData('@token');
     _method = _method.toUpperCase();
     var body1, header;
     header = new Headers({
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      'x-auth-token':
-        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1OTAyMjYxMjJ9.hb1F109VvHOSRByJ93KBsXmt2MHNAINBVc5oaoPBA9o',
+      'x-auth-token': token,
     });
-    if (Isencrypt === 'LoginPage') {
+    if (isEncrypt === 'LoginPage') {
       body1 = aes.EncryptBody(_body);
     } else {
       body1 = _body;
@@ -44,15 +44,14 @@ export class RESTAPI {
       };
     }
     await this.FetchWithTimeOut(
-      _url.includes('http://') || _url.includes('https://')
-        ? _url
-        : this.state.url + _url,
+      url.includes('http://') || url.includes('https://')
+        ? url
+        : this.state.url + url,
       RI,
     )
       .then((response) => {
-        console.log('res: ', response.headers.get('x-auth-token'));
         this.state.Token = response.headers.get('x-auth-token');
-        if (response.headers.get('x-auth-token')) {
+        if (this.state.Token) {
           this.StoreToken(response.headers.get('x-auth-token'));
         }
         this.state._status = response.status;
@@ -60,7 +59,7 @@ export class RESTAPI {
       })
       .then((responseJson) => {
         this.state._data = responseJson;
-        // if (Isencrypt === 'LoginPage') {
+        // if (isEncrypt === 'LoginPage') {
         //     const DecryptedResponse = aes.DecryptBody(responseJson);
         //     this.state._Response._data = DecryptedResponse.data ? DecryptedResponse.data : DecryptedResponse.error ? DecryptedResponse.error : null;
         // }

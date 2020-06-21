@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import Database from '../../components/Database';
 import TopAgenda from '../../components/TopAgenda';
-import styles from './style';
+import styles from './Styles';
 import {Width} from '../../app/Theme';
 import Carousel from 'react-native-snap-carousel';
 import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';

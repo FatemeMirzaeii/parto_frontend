@@ -1,11 +1,13 @@
 import React from 'react';
-import { createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
-import { createStackNavigator } from 'react-navigation-stack';
+import {createSwitchNavigator} from 'react-navigation';
+import {createDrawerNavigator} from 'react-navigation-drawer';
+import {createStackNavigator} from 'react-navigation-stack';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
 import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
+import SignUp from '../screens/SignUpScreen/SignUp';
+import Login from '../screens/LoginScreen/Login';
 import Charts from '../screens/ChartsScreen/Charts';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
@@ -18,23 +20,23 @@ const PagesNavigator = createStackNavigator(
   {
     Home: {
       screen: Home,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     htmlLoader: {
       screen: htmlLoader,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     Calendar: {
       screen: Calendar,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     TrackingOptions: {
       screen: TrackingOptions,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     Charts: {
       screen: Charts,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
   },
   // { initialRouteName: 'Home' },
@@ -43,7 +45,7 @@ const PagesNavigator = createStackNavigator(
 const DrawerNavigator = createDrawerNavigator({
   Home: {
     screen: Home,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
 
   // },
@@ -52,29 +54,37 @@ const DrawerNavigator = createDrawerNavigator({
 });
 
 const StackNavigator = createStackNavigator({
+  SignUp: {
+    screen: SignUp,
+    navigationOptions: {headerShown: false},
+  },
+  Login: {
+    screen: Login,
+    navigationOptions: {headerShown: false},
+  },
   StartQuestion: {
     screen: StartQuestion,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   StartQuestionpragnent: {
     screen: StartQuestionpragnent,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   StartQuestion2: {
     screen: StartQuestion2,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   StartQuestion3: {
     screen: StartQuestion3,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   StartQuestion4: {
     screen: StartQuestion4,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   StartQuestion5: {
     screen: StartQuestion5,
-    navigationOptions: { headerShown: false },
+    navigationOptions: {headerShown: false},
   },
   // SplashScreen: {
   //   screen: SplashScreen,
@@ -85,16 +95,16 @@ export const AppSwitchNavigator = createSwitchNavigator(
   {
     Auth: {
       screen: StackNavigator,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     App: {
       screen: DrawerNavigator,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
     Second: {
       screen: PagesNavigator,
-      navigationOptions: { headerShown: false },
+      navigationOptions: {headerShown: false},
     },
   },
-  { initialRouteName: 'Auth' },
+  {initialRouteName: 'Auth'},
 );

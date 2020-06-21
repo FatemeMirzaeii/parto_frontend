@@ -13,12 +13,7 @@ const htmlLoader = (props) => {
     async function htmlPage() {
       // https://api.partobanoo.com/article/getArticleContent/1
       const _html = await restapi.request(
-        'https://api.partobanoo.com/article/getArticleContent/fa/2',
-        {
-          // "name": "fatemek",
-          // "email": "emaiqwlo22121sdad2.smn@gmail.com",
-          // "password": "123456"
-        },
+        'article/getArticleContent/fa/2',
         'GET',
       );
       console.log('x: ', _html._data.data.content);
@@ -42,7 +37,6 @@ const htmlLoader = (props) => {
     />
   );
 };
-export default htmlLoader;
 const styles = StyleSheet.create({
   calendar: {
     width: '100%',
@@ -55,3 +49,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+export default htmlLoader;
