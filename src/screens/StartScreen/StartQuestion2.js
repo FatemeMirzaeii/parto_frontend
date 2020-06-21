@@ -14,10 +14,17 @@ const Start2 = (props) => {
 
   useEffect(() => {
     questionArray = props.navigation.state.params.questionArray
+
     console.log("day: ", questionArray)
   }, [props]);
 
   function dayPress(day) {
+    let foundIndex = questionArray.findIndex(obj => obj.periodDate)
+
+    if (foundIndex > 0)
+      questionArray.splice(foundIndex, 1)
+
+    console.log("q2: ", questionArray)
     questionArray.push({ periodDate: day.dateString })
     props.navigation.navigate("StartQuestion3", { questionArray })
 

@@ -2,72 +2,42 @@ import { Button, Title } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import SmoothPicker from 'react-native-smooth-picker';
+import { WheelPicker } from "react-native-wheel-picker-android";
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 
+
 const { colors, size, fonts } = Theme;
-let day = [];
-
-const opacities = {
-    0: 1,
-    1: 1,
-    2: 0.6,
-    3: 0.3,
-    4: 0.1,
-};
-const sizeText = {
-    0: 20,
-    1: 15,
-    2: 10,
-};
-
-const Item = React.memo(({ opacity, selected, vertical, fontSize, name }) => {
-    return (
-        <View
-            style={[
-                styles.OptionWrapper,
-                { opacity, borderColor: selected ? 'gray' : 'transparent', width: 100 },
-            ]}>
-            <Text style={{ fontSize, fontFamily: fonts.regular }}>{name}</Text>
-        </View>
-    );
-});
-
-const ItemToRender = ({ item, index }, indexSelected, vertical) => {
-    const selected = index === indexSelected;
-    const gap = Math.abs(index - indexSelected);
-
-    let opacity = opacities[gap];
-    if (gap > 3) {
-        opacity = opacities[2];
-    }
-    let fontSize = sizeText[gap];
-    if (gap > 1) {
-        fontSize = sizeText[2];
-    }
-
-    return (
-        <Item
-            opacity={opacity}
-            selected={selected}
-            vertical={vertical}
-            fontSize={fontSize}
-            name={item}
-        />
-    );
-};
+let weeks = []
+const dataSet = () => {
+    for (let i = 1; i <= 43; i++)
+        weeks.push(toPersianNum(i));
+}
+dataSet()
 
 const Startpragnent = (props) => {
+    const [state, setState] = useState({
+        selectedItem: 0
+    })
     useEffect(() => {
-        for (let i = 3; i <= 43; i++) day.push(toPersianNum(i));
-    });
-    function handleChangeday(index) {
-        setSelectedday(index);
+        questionArray = props.navigation.state.params.questionArray
+        console.log("day: ", questionArray)
+    }, [props]);
+
+    const onItemSelected = selectedItem => {
+        console.log("selected: ", selectedItem + 3)
+        setState({ selectedItem });
+    };
+    const nextPress = () => {
+
+        questionArray.splice(1, 4)
+        questionArray.push(
+            { periodDate: "" },
+            { periodDays: 0 },
+            { periodlength: 0 },
+            { pregnancyWeek: state.selectedItem + 3 })
+        props.navigation.navigate("StartQuestion5", { questionArray })
     }
-
-    const [selectedday, setSelectedday] = useState(4);
-
     return (
         <LinearGradient
             start={{ x: 0, y: 0 }}
@@ -77,26 +47,23 @@ const Startpragnent = (props) => {
             <View style={styles.view}>
                 <Text style={styles.txt}>چند هفته است که باردار هستید ؟</Text>
                 <View style={styles.wrapperVertical}>
-                    <SmoothPicker
-                        initialScrollToIndex={selectedday}
-                        onScrollToIndexFailed={() => { }}
-                        keyExtractor={(_, index) => index.toString()}
-                        showsVerticalScrollIndicator={false}
-                        data={day}
-                        scrollAnimation
-                        onSelected={({ item, index }) => handleChangeday(index)}
-                        renderItem={(option) => ItemToRender(option, selectedday, true)}
-                        magnet
+                    <WheelPicker
+                        style={{ width: 200, height: 200 }}
+                        isCyclic={true}
+                        selectedItemTextFontFamily={fonts.regular}
+                        selectedItemTextSize={20}
+                        itemTextFontFamily={fonts.regular}
+                        selectedItem={state.selectedItem}
+                        data={weeks}
+                        onItemSelected={onItemSelected}
                     />
                 </View>
-                {/* <View>
-                <Text>{`Your selection is ${dataCity[selected]}`}</Text>
-            </View> */}
+
             </View>
             <Button
                 rounded
                 style={styles.btn}
-                onPress={() => props.navigation.navigate('StartQuestion5')}>
+                onPress={() => nextPress()}>
                 <Title style={styles.txtbtn}>بعدی</Title>
             </Button>
         </LinearGradient>
@@ -116,7 +83,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: '60%',
         paddingTop: 20,
-        // justifyContent: 'center',
         borderRadius: 5,
         paddingHorizontal: 20,
     },
