@@ -213,6 +213,7 @@ const styles = StyleSheet.create({
   calendar: {
     width: '100%',
     height: 50,
+    marginTop: -Height * 0.9,
   },
   text: {
     textAlign: 'center',

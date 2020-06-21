@@ -1,0 +1,20 @@
+import {StyleSheet} from 'react-native';
+import {Theme, Width, Height} from '../../app/Theme';
+
+export default StyleSheet.create({
+  container: {
+    backgroundColor: '#ffffff',
+    elevation: 10,
+    justifyContent: 'center',
+    height: '80%',
+    width: '90%',
+    alignSelf: 'center',
+    borderRadius: 25,
+    top: '10%',
+  },
+  button: {
+    alignSelf: 'center',
+    bottom: -30,
+    position: 'absolute',
+  },
+});
