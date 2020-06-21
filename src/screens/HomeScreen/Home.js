@@ -1,26 +1,19 @@
-import {Footer, Icon, Text, View} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, StatusBar, StyleSheet} from 'react-native';
-
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
-import {toPersianNum} from '../../app/Functions';
-import {Height, Theme, Width} from '../../app/Theme';
-import TopAgenda from '../../components/TopAgenda';
+import { Footer, Icon, Text, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet } from 'react-native';
+import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
+import { toPersianNum } from '../../app/Functions';
+import { Height, Theme, Width } from '../../app/Theme';
 import Database from '../../components/Database';
+import TopAgenda from '../../components/TopAgenda';
 
-const {colors, size, fonts} = Theme;
+
+const { colors, size, fonts } = Theme;
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({dialect: 'persian-modern'});
+moment2.loadPersian({ dialect: 'persian-modern' });
 const Home = (props) => {
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'green'};
-  const massage = {
-    key: 'massage',
-    color: '#15E307',
-    selectedDotColor: 'green',
-  };
-  const workout = {key: 'workout', color: 'yellow'};
-  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
+
   const [state, setState] = useState({
     items: [],
     thisDay: '',
@@ -83,35 +76,7 @@ const Home = (props) => {
 
     // MildaiTime = new Date().toISOString().slice(0, 10)
   };
-  const loadItems = (day) => {
-    setTimeout(() => {
-      for (let i = -15; i < 185; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time);
 
-        if (!state.items[strTime]) {
-          state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            state.items[strTime].push({
-              name: 'Item for ' + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-            });
-            setState({
-              items: newItems,
-            });
-          }
-        }
-      }
-    }, 1000);
-  };
-  const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  };
-  // onDayPress = (day) => {
-  //     this.setState({ selected: day.dateString });
-  // }
   var db = new Database();
   useEffect(() => {
     db.rawQuery('select * from user_profile;').then((b) => {
@@ -123,10 +88,10 @@ const Home = (props) => {
   return (
     <ImageBackground
       source={require('../../../assets/images/bg7.png')}
-      style={{width: '100%', height: '100%'}}>
+      style={{ width: '100%', height: '100%' }}>
       <ImageBackground
         source={require('../../../assets/images/moon7.png')}
-        style={{width: '100%', height: '100%', top: 30}}>
+        style={{ width: '100%', height: '100%', top: 30 }}>
         <Text
           style={{
             fontFamily: fonts.medium,
@@ -141,8 +106,8 @@ const Home = (props) => {
         <FlatList
           horizontal={true}
           data={weekDay}
-          style={{alignSelf: 'center', marginTop: 10}}
-          renderItem={({item}) => (
+          style={{ alignSelf: 'center', marginTop: 10 }}
+          renderItem={({ item }) => (
             <Text
               style={{
                 marginHorizontal: Width / 50,

@@ -7,6 +7,7 @@ import { getData } from '../../app/Functions'
 
 const { colors, size, fonts } = Theme
 const Splash = (props) => {
+
     useEffect(() => {
         setTimeout(async () => {
             const start = await getData('@startPages');
@@ -19,8 +20,9 @@ const Splash = (props) => {
                         NavigationActions.navigate({ routeName: 'StartQuestion' })
                     ],
                 }));
-        }, 800);
+        }, 3000);
     })
+
     return (
         <View style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
             <Image style={{ alignSelf: 'center', borderRadius: 200, width: 200, height: 200, marginBottom: 50 }} source={require('../../../assets/images/parto.jpeg')} />

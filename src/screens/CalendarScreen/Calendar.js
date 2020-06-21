@@ -1,87 +1,28 @@
-import React, {useEffect, useState} from 'react';
-import {Verticalcalendar} from 'react-native-calendars-persian';
-import {Container, Text, Button, Title, View, Footer, Icon} from 'native-base';
-import {StyleSheet, ImageBackground, StatusBar, Image} from 'react-native';
-import {Theme, Width} from '../../app/Theme';
-import {FlatList, TouchableOpacity} from 'react-native-gesture-handler';
-import {RESTAPI} from '../../hooks/RESTAPI';
-const {colors, size, fonts} = Theme;
-const testIDs = require('./testIDs');
+import { Container, Text } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Verticalcalendar } from 'react-native-calendars-persian';
+import { toPersianNum } from '../../app/Functions';
+import { Theme, Height } from '../../app/Theme';
+
+const { colors, size, fonts } = Theme;
 const moment2 = require('moment-jalaali');
-var restapi = new RESTAPI();
 
 var jalaali = require('jalaali-js');
-moment2.loadPersian({dialect: 'persian-modern'});
+moment2.loadPersian({ dialect: 'persian-modern' });
 const CalendarClass = (props) => {
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'green'};
-  const massage = {key: 'massage', color: '#15E307', selectedDotColor: 'green'};
-  const workout = {key: 'workout', color: 'yellow'};
-  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
+  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
   const [state, setState] = useState({
     items: [],
-    markedDates: {
-      '2020-03-28': {
-        startingDay: true,
-        customStyles: {
-          container: {
-            // backgroundColor: 'green',
-            top: 10,
-            startingDay: true,
-          },
-          text: {
-            color: 'red',
-            fontWeight: 'bold',
-            marginTop: -5,
-          },
-        },
-      },
-      '2020-03-29': {
-        customStyles: {
-          container: {
-            backgroundColor: 'pink',
-            elevation: 2,
-            top: 10,
-          },
-          text: {
-            marginTop: -5,
-            color: 'white',
-          },
-        },
-      },
-    },
     thisDay: '',
     thisMonth: '',
     thisYear: '',
     ch: false,
   });
-  const [weekDay, setweekDay] = useState([
-    'شنبه',
-    'یک‌شنبه',
-    'دوشنبه',
-    'سه‌شنبه',
-    'چهارشنبه',
-    'پنج‌شنبه',
-    'جمعه',
-  ]);
+
   useEffect(() => {
     GetTimeNow();
   }, [state.thisDay]);
-  useEffect(() => {
-    async function x() {
-      // https://api.partobanoo.com/article/getArticleContent/1
-      const x = await restapi.request(
-        'https://api.partobanoo.com/user/signUp',
-        {
-          name: 'gfdg',
-          email: 'gdfgdsdg.smn@gmail.com',
-          password: '12dsیسds3456',
-        },
-        'POST',
-      );
-      console.log('x: ', x);
-    }
-    x();
-  });
 
   const checkSwitch = (param) => {
     switch (param) {
@@ -123,117 +64,70 @@ const CalendarClass = (props) => {
       thisMonth: month,
       thisYear: Persian.jy,
     });
-
-    // MildaiTime = new Date().toISOString().slice(0, 10)
   };
 
-  const loadItems = (day) => {
-    setTimeout(() => {
-      for (let i = -15; i < 185; i++) {
-        const time = day.timestamp + i * 24 * 60 * 60 * 1000;
-        const strTime = timeToString(time);
 
-        if (!state.items[strTime]) {
-          state.items[strTime] = [];
-          const numItems = Math.floor(Math.random() * 5);
-          for (let j = 0; j < numItems; j++) {
-            state.items[strTime].push({
-              name: 'Item for ' + strTime,
-              height: Math.max(50, Math.floor(Math.random() * 150)),
-            });
-          }
-        }
-      }
-      const newItems = {};
-      Object.keys(state.items).forEach((key) => {
-        newItems[key] = state.items[key];
-      });
-      setState({
-        items: newItems,
-      });
-    }, 1000);
-  };
-  const timeToString = (time) => {
-    const date = new Date(time);
-    return date.toISOString().split('T')[0];
-  };
-  // onDayPress = (day) => {
-  //     this.setState({ selected: day.dateString });
-  // }
   return (
-    <Verticalcalendar
-      jalali={jalali.jalaali}
-      style={styles.calendar}
-      current={'2020-05-16'}
-      // minDate={'2020-05-10'}
-      markingType={'multi-dot'}
-      firstDay={6}
-      theme={{
-        // backgroundColor: 'transparent',
-        calendarBackground: 'pink',
-        opacity: 0.5,
-        textSectionTitleColor: '#35036B',
-        todayTextColor: 'white',
-        todayBackgroundColor: 'white',
-        selectedDayTextColor: 'white',
-        monthTextColor: 'white',
-        selectedDayBackgroundColor: 'pink',
-        textDisabledColor: 'red',
-        textDayFontFamily: fonts.regular,
-        textMonthFontFamily: fonts.regular,
-        textDayHeaderFontFamily: fonts.regular,
-        'stylesheet.calendar.header': {
-          week: {
-            marginTop: -2,
-            flexDirection: 'row',
-            justifyContent: 'space-between',
+    <Container>
+      <Text
+        style={{
+          fontFamily: fonts.medium,
+          fontSize: size[15],
+          color: '#121C3D',
+          marginVertical: 10,
+          alignSelf: 'center',
+        }}>
+        {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
+        {toPersianNum(state.thisYear)}
+      </Text>
+      <Verticalcalendar
+        jalali={jalali.jalaali}
+        style={styles.calendar}
+        current={'2020-05-16'}
+        // minDate={'2020-05-10'}
+        markingType={'multi-dot'}
+        firstDay={6}
+        theme={{
+          opacity: 0.5,
+          textSectionTitleColor: '#35036B',
+          todayTextColor: 'white',
+          todayBackgroundColor: 'pink',
+          selectedDayTextColor: 'white',
+          monthTextColor: 'pink',
+          selectedDayBackgroundColor: 'pink',
+          textDisabledColor: 'red',
+          textDayFontFamily: fonts.regular,
+          textMonthFontFamily: fonts.regular,
+          textDayHeaderFontFamily: fonts.regular,
+          'stylesheet.calendar.header': {
+            week: {
+              marginTop: -2,
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+            },
           },
-        },
-      }}
-      markedDates={{
-        '2020-05-17': {disabled: true},
-        '2020-04-21': {textColor: '#009933'},
-        '2020-05-09': {textColor: '#009933'},
-        '2020-05-14': {
-          startingDay: true,
-          color: 'green',
-          endingDay: true,
-          textColor: 'white',
-        },
-        '2020-05-21': {startingDay: true, color: '#FF57DD', textColor: 'white'},
-        '2020-05-22': {endingDay: true, color: '#FF57DD', textColor: 'white'},
-        '2020-05-24': {startingDay: true, color: '#FF57DD'},
-        '2020-05-25': {color: '#FF57DD'},
-        '2020-05-26': {endingDay: true, color: '#FF57DD'},
-        '2020-04-25': {startingDay: true, color: '#FF57DD', textColor: 'white'},
-        '2020-04-26': {color: '#FF57DD', textColor: 'white'},
-        '2020-04-27': {endingDay: true, color: '#2EABFF', textColor: 'white'},
-        '2020-05-04': {startingDay: true, color: 'green', textColor: 'white'},
-        '2020-05-05': {color: '#2EABFF', textColor: 'white'},
-        '2020-05-06': {endingDay: true, color: '#2EABFF', textColor: 'white'},
-        '2020-05-18': {color: '#2EABFF', textColor: '#802BA8CFFEFF'},
-        '2020-05-30': {color: '#2EABFF', textColor: 'white'},
-        '2020-06-10': {color: 'red', textColor: 'white', borderRadius: 0},
-        '2020-04-26': {color: '#FF57DD', textColor: 'white'},
+        }}
+        markedDates={{
+          '2020-05-17': { disabled: true },
+          '2020-04-21': { textColor: '#009933' },
+          '2020-05-09': { textColor: '#009933' },
+          '2020-05-14': {
+            startingDay: true,
+            color: 'green',
+            endingDay: true,
+            textColor: 'white',
+          },
 
-        '2020-05-03': {
-          disabled: true,
-          dotColor: 'green',
-          dots: [vacation, massage, workout],
-        },
-        '2020-04-26': {disabled: true},
-        '2020-04-27': {disabled: true, dots: [massage, workout]},
-        '2020-04-29': {},
-        '2020-04-30': {dots: [massage]},
-      }}
-    />
+        }}
+      />
+    </Container>
   );
 };
 export default CalendarClass;
 const styles = StyleSheet.create({
   calendar: {
     width: '100%',
-    top: 60,
+    // top: 60,
   },
   text: {
     textAlign: 'center',
