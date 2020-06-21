@@ -10,7 +10,6 @@ let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
 
 const Start3 = (props) => {
   const [state, setState] = useState({
-    items: [1],
     selectedItem: 0
   })
 
@@ -25,6 +24,11 @@ const Start3 = (props) => {
   };
 
   const nextPress = () => {
+    let foundIndex = questionArray.findIndex(obj => obj.periodDays)
+
+    if (foundIndex > 0)
+      questionArray.splice(foundIndex, 1)
+
     questionArray.push({ periodDays: state.selectedItem + 3 })
     props.navigation.navigate("StartQuestion4", { questionArray })
   }
@@ -37,7 +41,6 @@ const Start3 = (props) => {
       <View style={styles.view}>
         <Text style={styles.txt}>اخیرا چند روزه پاک می شوید؟ </Text>
         <View style={styles.wrapperVertical}>
-          {/* <Text>Selected position: {state.selectedItem}</Text> */}
           <WheelPicker
             style={{ width: 200, height: 200 }}
             isCyclic={true}
@@ -49,9 +52,6 @@ const Start3 = (props) => {
             onItemSelected={onItemSelected}
           />
         </View>
-        {/* <View>
-                <Text>{`Your selection is ${dataCity[selected]}`}</Text>
-            </View> */}
       </View>
       <Button
         rounded

@@ -2,13 +2,12 @@ import { Button, Title } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import SmoothPicker from 'react-native-smooth-picker';
 import { WheelPicker } from "react-native-wheel-picker-android";
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
-import { PROFILE } from '../../constants/TableDataBase'
-
+import { PROFILE } from '../../constants/TableDataBase';
+import { storeData } from '../../app/Functions';
 const { colors, size, fonts } = Theme;
 const db = new Database();
 
@@ -32,7 +31,7 @@ let month = [
 let data = []
 const dataSet = () => {
     for (let j = 1340; j <= 1386; j++) year.push(toPersianNum(j));
-    for (let i = 1; i <= 30; i++) day.push(toPersianNum(i));
+    for (let i = 1; i <= 31; i++) day.push(toPersianNum(i));
 }
 dataSet()
 const Start5 = (props) => {
@@ -83,27 +82,32 @@ const Start5 = (props) => {
         console.log("date: ", y + '-' + m + '-' + d)
 
         questionArray.push({ birthdate: y + '-' + m + '-' + d })
-        // props.navigation.navigate("Home", { questionArray })
         console.log("day: ", questionArray)
         saveToLocal()
     }
     const saveToLocal = () => {
-        // db.rawQuery(
-        //     `DELETE FROM ${PROFILE} where id=1`,
-        //     [],
-        //     PROFILE)
-        //     .then((res) => { console.log('resdel: ', res) })
+
         db.rawQuery(
             `INSERT INTO ${PROFILE}
              (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,updated_at)
-             VALUES(${questionArray[0].pregnant},${questionArray[0].pregnancy_try},${questionArray[2].periodDays},${questionArray[3].periodlength},${questionArray[4].birthdate},${questionArray[4].birthdate},${questionArray[4].birthdate})`,
+             VALUES(${questionArray[0].pregnant},
+                ${questionArray[0].pregnancy_try},
+                ${questionArray[2].periodDays},
+                ${questionArray[3].periodlength},
+                ${questionArray[5].birthdate},
+                ${questionArray[5].birthdate},
+                ${questionArray[5].birthdate})`,
             [],
             PROFILE)
-            .then((res) => { console.log('res: ', res) })
+            .then((res) => { goToHome() })
         db.rawQuery(
             `SELECT * FROM ${PROFILE}`, [], PROFILE
         ).then((res) => { console.log('res select: ', res) })
 
+    }
+    const goToHome = async () => {
+        await storeData('@startPages', 'true')
+        props.navigation.navigate("Home")
     }
     return (
         <LinearGradient

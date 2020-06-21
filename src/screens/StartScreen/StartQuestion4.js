@@ -30,7 +30,13 @@ const Start4 = (props) => {
   };
 
   const nextPress = () => {
-    questionArray.push({ periodlength: state.selectedItem + 15 })
+    let foundIndex = questionArray.findIndex(obj => obj.periodlength)
+
+    if (foundIndex > 0)
+      questionArray.splice(foundIndex, 2)
+    questionArray.push(
+      { periodlength: state.selectedItem + 15 },
+      { pregnancyWeek: 0 })
     props.navigation.navigate("StartQuestion5", { questionArray })
   }
   return (

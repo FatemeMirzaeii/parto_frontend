@@ -14,6 +14,7 @@ import StartQuestion3 from '../screens/StartScreen/StartQuestion3';
 import StartQuestion4 from '../screens/StartScreen/StartQuestion4';
 import StartQuestion5 from '../screens/StartScreen/StartQuestion5';
 import StartQuestionpragnent from '../screens/StartScreen/StartQuestionpragnent';
+import Splash from '../screens/SplashScreen/Splash';
 const PagesNavigator = createStackNavigator(
   {
     Home: {
@@ -37,7 +38,7 @@ const PagesNavigator = createStackNavigator(
       navigationOptions: { headerShown: false },
     },
   },
-  // { initialRouteName: 'Home' },
+  { initialRouteName: 'Home' },
 );
 
 const DrawerNavigator = createDrawerNavigator({
@@ -52,6 +53,10 @@ const DrawerNavigator = createDrawerNavigator({
 });
 
 const StackNavigator = createStackNavigator({
+  Splash: {
+    screen: Splash,
+    navigationOptions: { headerShown: false },
+  },
   StartQuestion: {
     screen: StartQuestion,
     navigationOptions: { headerShown: false },
@@ -76,21 +81,20 @@ const StackNavigator = createStackNavigator({
     screen: StartQuestion5,
     navigationOptions: { headerShown: false },
   },
-  // SplashScreen: {
-  //   screen: SplashScreen,
-  //   navigationOptions: { headerShown: false },
-  // },
-});
+
+},
+  { initialRouteName: 'Splash' },
+);
 export const AppSwitchNavigator = createSwitchNavigator(
   {
     Auth: {
       screen: StackNavigator,
       navigationOptions: { headerShown: false },
     },
-    App: {
-      screen: DrawerNavigator,
-      navigationOptions: { headerShown: false },
-    },
+    // App: {
+    //   screen: DrawerNavigator,
+    //   navigationOptions: { headerShown: false },
+    // },
     Second: {
       screen: PagesNavigator,
       navigationOptions: { headerShown: false },
