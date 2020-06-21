@@ -33,7 +33,7 @@ const SignUp = ({navigation}) => {
         containerStyle={styles.close}
         size={35}
         onPress={() => {
-          navigation.navigate('Home');
+          navigation.navigate('StartQuestion');
         }}
       />
       <View style={styles.container}>

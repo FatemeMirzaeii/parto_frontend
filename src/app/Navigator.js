@@ -40,7 +40,7 @@ const PagesNavigator = createStackNavigator(
       navigationOptions: {headerShown: false},
     },
   },
-  { initialRouteName: 'Home' },
+  {initialRouteName: 'Home'},
 );
 
 const DrawerNavigator = createDrawerNavigator({
@@ -54,45 +54,46 @@ const DrawerNavigator = createDrawerNavigator({
   //   contentComponent: props => <DrawerView {...props} />,
 });
 
-const StackNavigator = createStackNavigator({
-  SignUp: {
-    screen: SignUp,
-    navigationOptions: {headerShown: false},
+const StackNavigator = createStackNavigator(
+  {
+    Splash: {
+      screen: Splash,
+      navigationOptions: {headerShown: false},
+    },
+    SignUp: {
+      screen: SignUp,
+      navigationOptions: {headerShown: false},
+    },
+    Login: {
+      screen: Login,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestion: {
+      screen: StartQuestion,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestionpragnent: {
+      screen: StartQuestionpragnent,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestion2: {
+      screen: StartQuestion2,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestion3: {
+      screen: StartQuestion3,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestion4: {
+      screen: StartQuestion4,
+      navigationOptions: {headerShown: false},
+    },
+    StartQuestion5: {
+      screen: StartQuestion5,
+      navigationOptions: {headerShown: false},
+    },
   },
-  Login: {
-    screen: Login,
-    navigationOptions: {headerShown: false},
-  Splash: {
-    screen: Splash,
-    navigationOptions: { headerShown: false },
-  },
-  StartQuestion: {
-    screen: StartQuestion,
-    navigationOptions: {headerShown: false},
-  },
-  StartQuestionpragnent: {
-    screen: StartQuestionpragnent,
-    navigationOptions: {headerShown: false},
-  },
-  StartQuestion2: {
-    screen: StartQuestion2,
-    navigationOptions: {headerShown: false},
-  },
-  StartQuestion3: {
-    screen: StartQuestion3,
-    navigationOptions: {headerShown: false},
-  },
-  StartQuestion4: {
-    screen: StartQuestion4,
-    navigationOptions: {headerShown: false},
-  },
-  StartQuestion5: {
-    screen: StartQuestion5,
-    navigationOptions: {headerShown: false},
-  },
-
-},
-  { initialRouteName: 'Splash' },
+  {initialRouteName: 'Splash'},
 );
 export const AppSwitchNavigator = createSwitchNavigator(
   {
@@ -100,17 +101,10 @@ export const AppSwitchNavigator = createSwitchNavigator(
       screen: StackNavigator,
       navigationOptions: {headerShown: false},
     },
-<<<<<<< HEAD
     App: {
       screen: DrawerNavigator,
       navigationOptions: {headerShown: false},
     },
-=======
-    // App: {
-    //   screen: DrawerNavigator,
-    //   navigationOptions: { headerShown: false },
-    // },
->>>>>>> ca8d8619ee68440350cc0b0cddae167a1f7b2287
     Second: {
       screen: PagesNavigator,
       navigationOptions: {headerShown: false},
