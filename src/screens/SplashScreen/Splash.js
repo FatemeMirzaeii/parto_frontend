@@ -7,7 +7,6 @@ import {getData} from '../../app/Functions';
 
 const {colors, size, fonts} = Theme;
 const Splash = (props) => {
-
   useEffect(() => {
     setTimeout(async () => {
       const start = await getData('@startPages');
@@ -16,7 +15,7 @@ const Splash = (props) => {
         props.navigation.dispatch(
           StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'SignUp'})],
+            actions: [NavigationActions.navigate({routeName: 'Login'})],
           }),
         );
     }, 800);

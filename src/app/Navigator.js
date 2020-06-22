@@ -60,12 +60,12 @@ const StackNavigator = createStackNavigator(
       screen: Splash,
       navigationOptions: {headerShown: false},
     },
-    SignUp: {
-      screen: SignUp,
-      navigationOptions: {headerShown: false},
-    },
     Login: {
       screen: Login,
+      navigationOptions: {headerShown: false},
+    },
+    SignUp: {
+      screen: SignUp,
       navigationOptions: {headerShown: false},
     },
     StartQuestion: {
