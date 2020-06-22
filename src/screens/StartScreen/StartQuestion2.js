@@ -26,7 +26,7 @@ const Start2 = (props) => {
 
     console.log("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay: ", day)
     questionArray.push({ periodDate: day })
-    props.navigation.navigate("StartQuestion3", { questionArray })
+    props.navigation.navigate("StartQuestion3", { questionArray: questionArray })
 
   }
 

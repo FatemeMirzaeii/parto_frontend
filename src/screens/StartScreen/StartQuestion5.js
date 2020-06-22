@@ -81,7 +81,7 @@ const Start5 = (props) => {
         y = selected3.selectedItem + 1340
         console.log("date: ", y + '-' + m + '-' + d)
 
-        questionArray.push({ birthdate: y + m + d })
+        questionArray.push({ birthdate: { "year": y, "month": m, "day": d } })
         console.log("day: ", questionArray)
         saveToLocal()
     }

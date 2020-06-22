@@ -1,8 +1,8 @@
-import React, {useState, useRef} from 'react';
-import {View} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View } from 'react-native';
 import styles from './Styles';
-import {RESTAPI} from '../../hooks/RESTAPI';
-import {Icon, Input} from 'react-native-elements';
+import { RESTAPI } from '../../Services/RESTAPI';
+import { Icon, Input } from 'react-native-elements';
 import validator from 'validator';
 const restapi = new RESTAPI();
 
@@ -41,7 +41,7 @@ const LoginForm = (props) => {
           <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
         }
         onChangeText={(value) => setEmail(value)}
-        errorStyle={{color: 'red'}}
+        errorStyle={{ color: 'red' }}
       />
       <Input
         ref={passInput}
@@ -56,7 +56,7 @@ const LoginForm = (props) => {
           <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
         }
         onChangeText={(value) => setPassword(value)}
-        errorStyle={{color: 'red'}}
+        errorStyle={{ color: 'red' }}
       />
       <Icon
         raised

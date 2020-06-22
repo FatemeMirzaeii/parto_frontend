@@ -1,8 +1,8 @@
-import React, {useState, useRef} from 'react';
-import {View} from 'react-native';
+import React, { useState, useRef } from 'react';
+import { View } from 'react-native';
 import styles from './Styles';
-import {Icon, Input} from 'react-native-elements';
-import {RESTAPI} from '../../hooks/RESTAPI';
+import { Icon, Input } from 'react-native-elements';
+import { RESTAPI } from '../../Services/RESTAPI';
 var restapi = new RESTAPI();
 
 const SignUpForm = (props) => {
