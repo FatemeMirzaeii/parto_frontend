@@ -81,7 +81,7 @@ const Start5 = (props) => {
         y = selected3.selectedItem + 1340
         console.log("date: ", y + '-' + m + '-' + d)
 
-        questionArray.push({ birthdate: y + '-' + m + '-' + d })
+        questionArray.push({ birthdate: y + m + d })
         console.log("day: ", questionArray)
         saveToLocal()
     }
@@ -89,14 +89,14 @@ const Start5 = (props) => {
 
         db.rawQuery(
             `INSERT INTO ${PROFILE}
-             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,updated_at)
+             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,last_period_date)
              VALUES(${questionArray[0].pregnant},
                 ${questionArray[0].pregnancy_try},
                 ${questionArray[2].periodDays},
                 ${questionArray[3].periodlength},
                 ${questionArray[5].birthdate},
                 ${questionArray[5].birthdate},
-                ${questionArray[5].birthdate})`,
+                ${questionArray[1].periodDate})`,
             [],
             PROFILE)
             .then((res) => { goToHome() })

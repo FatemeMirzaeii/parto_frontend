@@ -1,22 +1,22 @@
-import React, {useEffect, useState} from 'react';
-import {StyleSheet} from 'react-native';
-import {Agenda} from 'react-native-calendars-persian';
-import {Height, Theme} from '../app/Theme';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet } from 'react-native';
+import { Agenda } from 'react-native-calendars-persian';
+import { Height, Theme } from '../app/Theme';
 
-const {colors, size, fonts} = Theme;
+const { colors, size, fonts } = Theme;
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({dialect: 'persian-modern'});
+moment2.loadPersian({ dialect: 'persian-modern' });
 const TopAgenda = (props) => {
-  const vacation = {key: 'vacation', color: 'red', selectedDotColor: 'green'};
+  const vacation = { key: 'vacation', color: 'red', selectedDotColor: 'green' };
   const massage = {
     key: 'massage',
     color: '#15E307',
     selectedDotColor: 'green',
   };
 
-  const workout = {key: 'workout', color: 'yellow'};
-  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
+  const workout = { key: 'workout', color: 'yellow' };
+  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
 
   const [state, setState] = useState({
     items: [],
@@ -133,7 +133,7 @@ const TopAgenda = (props) => {
         textDayHeaderFontFamily: fonts.regular,
         'stylesheet.calendar.header': {
           week: {
-            marginTop: -7,
+            // marginTop: -5,
             flexDirection: 'row',
             justifyContent: 'space-between',
           },
@@ -144,65 +144,65 @@ const TopAgenda = (props) => {
         '2020-05-20': {
           disabled: true,
 
-          periods: [{startingDay: true, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: true, endingDay: false, color: 'red' }],
         },
         '2020-05-19': {
           disabled: true,
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
         },
         '2020-05-20': {
           disabled: true,
           dots: [massage, workout],
 
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
         },
         '2020-05-21': {
           disabled: true,
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
 
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
         },
         '2020-05-21': {
           disabled: true,
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
         },
         '2020-05-22': {
           disabled: true,
           selected: true,
 
-          periods: [{startingDay: false, endingDay: true, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: true, color: 'red' }],
         },
-        '2020-05-30': {disabled: true},
-        '2020-05-31': {disabled: true},
-        '2020-06-01': {disabled: true},
-        '2020-06-02': {disabled: true},
-        '2020-06-03': {disabled: true},
-        '2020-06-21': {disabled: true, selected: true},
-        '2020-06-22': {disabled: true, selected: true},
+        '2020-05-30': { disabled: true },
+        '2020-05-31': { disabled: true },
+        '2020-06-01': { disabled: true },
+        '2020-06-02': { disabled: true },
+        '2020-06-03': { disabled: true },
+        '2020-06-21': { disabled: true, selected: true },
+        '2020-06-22': { disabled: true, selected: true },
         '2020-06-23': {
           disabled: true,
-          periods: [{startingDay: true, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: true, endingDay: false, color: 'red' }],
         },
         '2020-06-24': {
           disabled: true,
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
 
-          periods: [{startingDay: false, endingDay: true, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: true, color: 'red' }],
         },
-        '2020-05-30': {disabled: true},
-        '2020-05-31': {disabled: true},
-        '2020-06-01': {disabled: true},
-        '2020-06-02': {disabled: true},
-        '2020-06-03': {disabled: true},
-        '2020-06-21': {disabled: true, selected: true},
-        '2020-06-22': {disabled: true, selected: true},
+        '2020-05-30': { disabled: true },
+        '2020-05-31': { disabled: true },
+        '2020-06-01': { disabled: true },
+        '2020-06-02': { disabled: true },
+        '2020-06-03': { disabled: true },
+        '2020-06-21': { disabled: true, selected: true },
+        '2020-06-22': { disabled: true, selected: true },
         '2020-06-23': {
           disabled: true,
-          periods: [{startingDay: true, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: true, endingDay: false, color: 'red' }],
         },
         '2020-06-24': {
           disabled: true,
-          periods: [{startingDay: false, endingDay: false, color: 'red'}],
+          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
         },
       }}
     />

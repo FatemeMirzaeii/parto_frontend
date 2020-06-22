@@ -24,12 +24,11 @@ const Start2 = (props) => {
     if (foundIndex > 0)
       questionArray.splice(foundIndex, 1)
 
-    console.log("q2: ", questionArray)
-    questionArray.push({ periodDate: day.dateString })
+    console.log("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay: ", day)
+    questionArray.push({ periodDate: day })
     props.navigation.navigate("StartQuestion3", { questionArray })
 
   }
-  const [selecteddate, setSelecteddate] = useState(null);
 
   return (
     <LinearGradient
@@ -46,6 +45,7 @@ const Start2 = (props) => {
             firstDay={6}
             jalali={true}
             onDayPress={(day) => { dayPress(day) }}
+
             theme={{
               selectedDayTextColor: 'white',
               selectedDayBackgroundColor: 'pink',
