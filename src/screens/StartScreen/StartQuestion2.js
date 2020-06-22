@@ -24,8 +24,7 @@ const Start2 = (props) => {
     if (foundIndex > 0)
       questionArray.splice(foundIndex, 1)
 
-    console.log("daaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaay: ", day)
-    questionArray.push({ periodDate: day })
+    questionArray.push({ periodDate: day.dateString })
     props.navigation.navigate("StartQuestion3", { questionArray: questionArray })
 
   }
