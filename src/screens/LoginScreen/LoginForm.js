@@ -3,6 +3,7 @@ import {View} from 'react-native';
 import styles from './Styles';
 import {RESTAPI} from '../../hooks/RESTAPI';
 import {Icon, Input} from 'react-native-elements';
+import validator from 'validator';
 const restapi = new RESTAPI();
 
 const LoginForm = (props) => {
@@ -32,34 +33,31 @@ const LoginForm = (props) => {
         label="ایمیل"
         placeholder="example@example.com"
         onSubmitEditing={(r) => {
-          // validate({
-          //   email: {email: true},
-          // });
           passInput.current.focus();
         }}
-        textContentType={email}
+        textContentType={'username'}
         containerStyle={styles.input}
         returnKeyType="next"
         leftIcon={
           <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
         }
         onChangeText={(value) => setEmail(value)}
+        errorStyle={{color: 'red'}}
       />
       <Input
         ref={passInput}
         label="رمز عبور"
         placeholder="*******"
-        onSubmitEditing={(r) => {
-          // validate({
-          //   password: {minlength: 8},
-          // });
-        }}
-        textContentType={password}
+        secureTextEntry={true}
+        // onSubmitEditing={(r) => {
+        // }}
+        textContentType={'password'}
         containerStyle={styles.input}
         leftIcon={
           <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
         }
         onChangeText={(value) => setPassword(value)}
+        errorStyle={{color: 'red'}}
       />
       <Icon
         raised

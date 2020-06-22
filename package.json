@@ -43,7 +43,8 @@
     "react-native-wheel-scroll-picker": "^0.2.4",
     "react-navigation": "^4.3.7",
     "react-navigation-drawer": "^2.4.11",
-    "react-navigation-stack": "^2.3.12"
+    "react-navigation-stack": "^2.3.12",
+    "validator": "^13.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

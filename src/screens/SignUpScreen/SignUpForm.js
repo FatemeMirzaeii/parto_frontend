@@ -35,7 +35,6 @@ const SignUpForm = (props) => {
         onSubmitEditing={(r) => {
           emailInput.current.focus();
         }}
-        blurOnSubmit={false}
         leftIcon={
           <Icon name="ios-woman" size={24} color="gray" type="ionicon" />
         }
@@ -48,7 +47,7 @@ const SignUpForm = (props) => {
         onSubmitEditing={(r) => {
           passInput.current.focus();
         }}
-        textContentType={email}
+        textContentType={'username'}
         containerStyle={styles.input}
         returnKeyType="next"
         leftIcon={
@@ -60,7 +59,8 @@ const SignUpForm = (props) => {
         ref={passInput}
         label="رمز عبور"
         placeholder="*******"
-        textContentType={password}
+        secureTextEntry={true}
+        textContentType={'password'}
         containerStyle={styles.input}
         leftIcon={
           <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
