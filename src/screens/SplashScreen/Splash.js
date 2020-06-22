@@ -4,20 +4,32 @@ import {Image, Text} from 'react-native';
 import {StackActions, NavigationActions} from 'react-navigation';
 import {Theme} from '../../app/Theme';
 import {getData} from '../../app/Functions';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const {colors, size, fonts} = Theme;
 const Splash = (props) => {
   useEffect(() => {
     setTimeout(async () => {
+      AsyncStorage.clear();
       const start = await getData('@startPages');
-      if (start == 'true') props.navigation.navigate('Home');
-      else
+      const token = await getData('@token');
+      if (start == 'true' && token) {
+        props.navigation.navigate('Home');
+      } else if (token) {
+        props.navigation.dispatch(
+          StackActions.reset({
+            index: 0,
+            actions: [NavigationActions.navigate({routeName: 'StartQuestion'})],
+          }),
+        );
+      } else {
         props.navigation.dispatch(
           StackActions.reset({
             index: 0,
             actions: [NavigationActions.navigate({routeName: 'Login'})],
           }),
         );
+      }
     }, 800);
   });
   return (
