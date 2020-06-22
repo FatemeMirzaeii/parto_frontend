@@ -17,4 +17,15 @@ export default StyleSheet.create({
     bottom: -30,
     position: 'absolute',
   },
+  login: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 100,
+    flexDirection: 'row',
+  },
+  close: {
+    position: 'absolute',
+    top: 5,
+    left: 10,
+  },
 });
