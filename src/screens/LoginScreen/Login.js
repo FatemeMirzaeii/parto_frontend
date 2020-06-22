@@ -19,7 +19,7 @@ const Login = ({navigation}) => {
         type="ionicon"
         color="#f50"
         containerStyle={styles.close}
-        size={35}
+        size={40}
         onPress={login}
       />
       <LoginForm onSubmit={login} />
