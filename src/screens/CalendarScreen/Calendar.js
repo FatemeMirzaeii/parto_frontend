@@ -1,9 +1,13 @@
 import { Container, Text } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, StatusBar } from 'react-native';
 import { Verticalcalendar } from 'react-native-calendars-persian';
 import { toPersianNum } from '../../app/Functions';
 import { Theme, Height } from '../../app/Theme';
+import Database from '../../components/Database';
+import { PROFILE } from '../../constants/TableDataBase';
+
+const db = new Database();
 
 const { colors, size, fonts } = Theme;
 const moment2 = require('moment-jalaali');
@@ -65,21 +69,29 @@ const CalendarClass = (props) => {
       thisYear: Persian.jy,
     });
   };
-
+  useEffect(() => {
+    db.rawQuery(
+      `SELECT * FROM ${PROFILE}`, [], PROFILE
+    ).then((res) => { console.log('res select: ', res[0]) })
+  })
 
   return (
     <Container>
+      <StatusBar translucent barStyle="dark-content" backgroundColor='white' />
+
       <Text
         style={{
+          marginTop: 40,
           fontFamily: fonts.medium,
           fontSize: size[15],
           color: '#121C3D',
-          marginVertical: 10,
+          marginBottom: 10,
           alignSelf: 'center',
         }}>
         {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
         {toPersianNum(state.thisYear)}
       </Text>
+
       <Verticalcalendar
         jalali={jalali.jalaali}
         style={styles.calendar}

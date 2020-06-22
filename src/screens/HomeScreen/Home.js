@@ -1,6 +1,6 @@
 import { Footer, Icon, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet } from 'react-native';
+import { ImageBackground, StyleSheet, StatusBar } from 'react-native';
 import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../app/Functions';
 import { Height, Theme, Width } from '../../app/Theme';
@@ -73,8 +73,6 @@ const Home = (props) => {
       thisMonth: month,
       thisYear: Persian.jy,
     });
-
-    // MildaiTime = new Date().toISOString().slice(0, 10)
   };
 
   var db = new Database();
@@ -92,6 +90,8 @@ const Home = (props) => {
       <ImageBackground
         source={require('../../../assets/images/moon7.png')}
         style={{ width: '100%', height: '100%', top: 30 }}>
+        <StatusBar translucent barStyle="light-content" backgroundColor='transparent' />
+
         <Text
           style={{
             fontFamily: fonts.medium,
