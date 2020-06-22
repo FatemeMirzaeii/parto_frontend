@@ -50,6 +50,9 @@ export class RESTAPI {
       RI,
     )
       .then((response) => {
+        //todo: we should storeToken only after SignUp and Login.
+        // but here we will repeat it for all requests.
+
         this.state.Token = response.headers.get('x-auth-token');
         if (this.state.Token) {
           this.StoreToken(response.headers.get('x-auth-token'));

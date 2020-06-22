@@ -23,7 +23,7 @@ const SignUpForm = (props) => {
       password: password,
     });
     if (res._status === 200) {
-      props.onSubmit;
+      props.onSubmit();
     }
   };
   return (
