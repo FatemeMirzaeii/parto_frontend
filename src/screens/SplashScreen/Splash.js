@@ -10,7 +10,6 @@ const {colors, size, fonts} = Theme;
 const Splash = (props) => {
   useEffect(() => {
     setTimeout(async () => {
-      AsyncStorage.clear();
       const start = await getData('@startPages');
       const token = await getData('@token');
       if (start == 'true' && token) {
