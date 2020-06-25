@@ -1,81 +1,127 @@
-import React, { useState, useRef } from 'react';
-import { View } from 'react-native';
+import React, {useRef, Fragment} from 'react';
+import {Alert, View, Text} from 'react-native';
+import {Icon, Input} from 'react-native-elements';
+import {Formik} from 'formik';
+import * as yup from 'yup';
 import styles from './Styles';
-import { Icon, Input } from 'react-native-elements';
-import { RESTAPI } from '../../Services/RESTAPI';
-var restapi = new RESTAPI();
+import {RESTAPI} from '../../services/RESTAPI';
+import {storeData} from '../../app/Functions';
 
 const SignUpForm = (props) => {
+  const restapi = new RESTAPI();
   const emailInput = useRef(null);
   const passInput = useRef(null);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const submit = async () => {
-    console.log({
-      name: name,
-      email: email,
-      password: password,
-    });
-    const res = await restapi.request('user/signUp/fa', {
-      name: name,
-      email: email,
-      password: password,
-    });
+
+  const submit = async (values) => {
+    const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
+      await storeData('@token', res._token);
       props.onSubmit();
+    } else {
+      Alert.alert(res._data.message);
     }
   };
   return (
     <View style={styles.container}>
-      <Input
-        label="نام"
-        containerStyle={styles.input}
-        returnKeyType="next"
-        onSubmitEditing={(r) => {
-          emailInput.current.focus();
-        }}
-        leftIcon={
-          <Icon name="ios-woman" size={24} color="gray" type="ionicon" />
-        }
-        onChangeText={(value) => setName(value)}
-      />
-      <Input
-        ref={emailInput}
-        label="ایمیل"
-        placeholder="example@example.com"
-        onSubmitEditing={(r) => {
-          passInput.current.focus();
-        }}
-        textContentType={'username'}
-        containerStyle={styles.input}
-        returnKeyType="next"
-        leftIcon={
-          <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
-        }
-        onChangeText={(value) => setEmail(value)}
-      />
-      <Input
-        ref={passInput}
-        label="رمز عبور"
-        placeholder="*******"
-        secureTextEntry={true}
-        textContentType={'password'}
-        containerStyle={styles.input}
-        leftIcon={
-          <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
-        }
-        onChangeText={(value) => setPassword(value)}
-      />
-      <Icon
-        raised
-        name="ios-checkmark"
-        type="ionicon"
-        color="#f50"
-        size={35}
-        containerStyle={styles.button}
-        onPress={submit}
-      />
+      <Formik
+        initialValues={{name: '', email: '', password: ''}}
+        onSubmit={(values) => submit(values)}
+        validationSchema={yup.object().shape({
+          name: yup.string().required('لطفا نام خود را وارد کنید.'),
+          email: yup
+            .string()
+            .email('ایمیل وارد شده معتبر نیست.')
+            .required('لطفا ایمیل خود را وارد کنید.'),
+          password: yup
+            .string()
+            .min(8, 'رمز عبور حداقل باید 8 کاراکتر باشد.')
+            .matches(
+              /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,
+              'رمز عبور باید دارای یک حرف کوچک، یک حرف بزرگ و یک عدد باشد.',
+            )
+            // .matches(/^(?=.*[a-z])/, 'رمز عبور باید دارای حروف کوچک باشد.')
+            // .matches(/^(?=.*[A-Z])/, 'رمز عبور باید دارای حروف بزرگ باشد.')
+            // .matches(/^(?=.*[0-9])/, 'رمز عبور باید حاوی اعداد باشد.')
+            .required('لطفا رمز عبور خود را وارد کنید.'),
+        })}>
+        {({
+          values,
+          handleChange,
+          errors,
+          setFieldTouched,
+          touched,
+          isValid,
+          handleSubmit,
+        }) => (
+          <Fragment>
+            {touched.name && errors.name && (
+              <Text style={styles.error}>{errors.name}</Text>
+            )}
+            <Input
+              value={values.name}
+              label="نام"
+              containerStyle={styles.input}
+              returnKeyType="next"
+              onSubmitEditing={(r) => {
+                emailInput.current.focus();
+              }}
+              onChangeText={handleChange('name')}
+              onBlur={() => setFieldTouched('name')}
+              leftIcon={
+                <Icon name="ios-woman" size={24} color="gray" type="ionicon" />
+              }
+            />
+            {touched.email && errors.email && (
+              <Text style={styles.error}>{errors.email}</Text>
+            )}
+            <Input
+              ref={emailInput}
+              value={values.email}
+              label="ایمیل"
+              placeholder="example@example.com"
+              onSubmitEditing={(r) => {
+                passInput.current.focus();
+              }}
+              onChangeText={handleChange('email')}
+              onBlur={() => setFieldTouched('email')}
+              textContentType={'username'}
+              containerStyle={styles.input}
+              returnKeyType="next"
+              leftIcon={
+                <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
+              }
+            />
+            {touched.password && errors.password && (
+              <Text style={styles.error}>{errors.password}</Text>
+            )}
+            <Input
+              value={values.password}
+              ref={passInput}
+              label="رمز عبور"
+              placeholder="*******"
+              secureTextEntry={true}
+              onChangeText={handleChange('password')}
+              onBlur={() => setFieldTouched('password')}
+              textContentType={'password'}
+              containerStyle={styles.input}
+              leftIcon={
+                <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
+              }
+            />
+
+            <Icon
+              raised
+              onPress={handleSubmit}
+              name="ios-checkmark"
+              type="ionicon"
+              color="#f50"
+              size={35}
+              disabled={!isValid}
+              containerStyle={styles.button}
+            />
+          </Fragment>
+        )}
+      </Formik>
     </View>
   );
 };

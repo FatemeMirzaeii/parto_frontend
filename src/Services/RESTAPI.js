@@ -1,4 +1,4 @@
-import {getData, storeData} from '../app/Functions';
+import {getData} from '../app/Functions';
 const baseUrl = 'https://api.partobanoo.com/';
 export class RESTAPI {
   constructor() {
@@ -8,19 +8,16 @@ export class RESTAPI {
       _data: null,
       _error: null,
       _message: null,
-      Token: null,
+      _token: null,
+      url: 'https://',
     };
   }
 
-  StoreToken = async (token) => {
-    console.log('storedata');
-    await storeData('@token', token);
-  };
   async request(_url, _body = null, _method = 'POST', isEncrypt = null) {
     const url = baseUrl + _url;
     const token = await getData('@token');
     _method = _method.toUpperCase();
-    var body1, header;
+    var body1, header, RI;
     header = new Headers({
       Accept: 'application/json',
       'Content-Type': 'application/json',
@@ -32,12 +29,12 @@ export class RESTAPI {
       body1 = _body;
     }
     if (_method === 'GET') {
-      var RI = {
+      RI = {
         method: _method,
         headers: header,
       };
     } else {
-      var RI = {
+      RI = {
         method: _method,
         headers: header,
         body: JSON.stringify(body1),
@@ -50,13 +47,8 @@ export class RESTAPI {
       RI,
     )
       .then((response) => {
-        //todo: we should storeToken only after SignUp and Login.
-        // but here we will repeat it for all requests.
-
-        this.state.Token = response.headers.get('x-auth-token');
-        if (this.state.Token) {
-          this.StoreToken(response.headers.get('x-auth-token'));
-        }
+        console.log(response);
+        this.state._token = response.headers.get('x-auth-token');
         this.state._status = response.status;
         return response.json();
       })
