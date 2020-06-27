@@ -5,7 +5,7 @@ SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
 const database_name = 'parto.db';
-const database_location = '~parto1.db';
+const database_location = '~parto.db';
 
 export default class Database {
   initDB(tableName) {

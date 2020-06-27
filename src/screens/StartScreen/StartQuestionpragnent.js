@@ -1,11 +1,13 @@
-import { Button, Title } from 'native-base';
+import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { WheelPicker } from "react-native-wheel-picker-android";
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 
+let questionArray = [];
+const toastText = 'نگران نباشید. پرتو به شما کمک خواهد کرد که از راه دیگری هفته های بارداری تان را مشخص کنید.'
 
 const { colors, size, fonts } = Theme;
 let weeks = []
@@ -25,18 +27,25 @@ const Startpragnent = (props) => {
     }, [props]);
 
     const onItemSelected = selectedItem => {
-        console.log("selected: ", selectedItem + 3)
         setState({ selectedItem });
     };
-    const nextPress = () => {
+    const nextPress = (item) => {
 
         questionArray.splice(1, 4)
         questionArray.push(
-            { periodDate: "" },
+            { periodDate: "0" },
             { periodDays: 0 },
             { periodlength: 0 },
-            { pregnancyWeek: state.selectedItem + 3 })
+            { pregnancyWeek: item })
         props.navigation.navigate("StartQuestion5", { questionArray })
+    }
+
+    function forgetPress() {
+        ToastAndroid.show(
+            toastText,
+            ToastAndroid.LONG,
+        );
+        setTimeout(async () => { props.navigation.navigate('StartQuestionPregnancyForget', { questionArray }) }, 1500)
     }
     return (
         <LinearGradient
@@ -60,12 +69,37 @@ const Startpragnent = (props) => {
                 </View>
 
             </View>
-            <Button
-                rounded
-                style={styles.btn}
-                onPress={() => nextPress()}>
-                <Title style={styles.txtbtn}>بعدی</Title>
-            </Button>
+            <TouchableOpacity
+                activeOpacity={0.6}
+                onPress={() => forgetPress()}>
+                <Text style={{
+                    marginTop: 5,
+                    alignSelf: 'center',
+                    fontFamily: fonts.regular,
+                    fontSize: size[15],
+                    color: colors.text1,
+                    borderBottomWidth: 0.2,
+                    paddingHorizontal: 10,
+                    borderBottomColor: 'white',
+                    color: 'white'
+                }}>فراموش کردم</Text>
+            </TouchableOpacity>
+            <View style={{ flexDirection: 'row' }}>
+                <Button
+                    rounded
+                    style={styles.btn}
+                    onPress={() => props.navigation.goBack()}>
+                    <Icon name="arrowright" type="AntDesign" />
+                    <Title style={[styles.txtbtn, { marginRight: 20 }]}>قبلی</Title>
+                </Button>
+                <Button
+                    rounded
+                    style={styles.btn}
+                    onPress={() => nextPress(state.selectedItem + 1)}>
+                    <Title style={[styles.txtbtn, { marginLeft: 20 }]}>بعدی</Title>
+                    <Icon name="arrowleft" type="AntDesign" />
+                </Button>
+            </View>
         </LinearGradient>
     );
 };
@@ -122,13 +156,15 @@ const styles = StyleSheet.create({
         fontSize: size[14],
     },
     btn: {
-        width: '50%',
-        alignSelf: 'center',
+        marginHorizontal: 20,
+        flexDirection: 'row',
+        width: '40%',
         justifyContent: 'center',
         marginTop: 30,
         backgroundColor: '#C2428F',
     },
     txtbtn: {
+        alignSelf: 'center',
         fontFamily: fonts.regular,
     },
 });

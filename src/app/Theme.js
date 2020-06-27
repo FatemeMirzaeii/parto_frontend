@@ -1,11 +1,13 @@
-import {Dimensions} from 'react-native';
+import { Dimensions } from 'react-native';
 export const Width = Math.round(Dimensions.get('window').width);
 export const Height = Math.round(Dimensions.get('window').height);
 const _size =
   (Dimensions.get('window').height + Dimensions.get('window').width) / 10;
 
 export const Theme = {
-  colors: {},
+  colors: {
+    text1: '#1A2D36'
+  },
   fonts: {
     regular: 'IRANSansMobile',
     medium: 'IRANSansMobileMedium',

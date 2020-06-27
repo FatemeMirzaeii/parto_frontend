@@ -1,14 +1,14 @@
-import { Button, Title } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import SmoothPicker from 'react-native-smooth-picker';
+import { Button, Icon, Title } from 'native-base';
+import React, { useEffect } from 'react';
+import { StyleSheet, Text, View, ToastAndroid } from 'react-native';
 import { Calendar } from 'react-native-calendars-persian';
-import { toPersianNum } from '../../app/Functions';
+import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const { colors, size, fonts } = Theme;
 let questionArray = [];
+const toastText = 'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید'
 
 const Start2 = (props) => {
 
@@ -23,10 +23,16 @@ const Start2 = (props) => {
 
     if (foundIndex > 0)
       questionArray.splice(foundIndex, 1)
-
-    questionArray.push({ periodDate: day.dateString })
+    console.log("day: ", day)
+    questionArray.push({ periodDate: '2020-11-10' })
     props.navigation.navigate("StartQuestion3", { questionArray: questionArray })
-
+  }
+  function forgetPress() {
+    ToastAndroid.show(
+      toastText,
+      ToastAndroid.LONG,
+    );
+    setTimeout(async () => { dayPress({ dateString: '0000-00-00' }) }, 2000)
   }
 
   return (
@@ -53,16 +59,32 @@ const Start2 = (props) => {
               textDayHeaderFontFamily: fonts.regular,
             }}
             markingType={'multi-period'}
-
           />
+
         </View>
       </View>
-      {/* <Button
+      <TouchableOpacity activeOpacity={0.6}
+        onPress={() => forgetPress()}>
+        <Text style={{
+          marginTop: 5,
+          alignSelf: 'center',
+          fontFamily: fonts.regular,
+          fontSize: size[15],
+          color: colors.text1,
+          borderBottomWidth: 0.2,
+          paddingHorizontal: 10,
+          borderBottomColor: 'white',
+          color: 'white'
+        }}>فراموش کردم</Text>
+      </TouchableOpacity>
+
+      <Button
         rounded
         style={styles.btn}
-        onPress={() => nextPage()}>
-        <Title style={styles.txtbtn}>بعدی</Title>
-      </Button> */}
+        onPress={() => props.navigation.goBack()}>
+        <Icon name="arrowright" type="AntDesign" />
+        <Title style={styles.txtbtn}>قبلی</Title>
+      </Button>
     </LinearGradient>
   );
 };
@@ -119,13 +141,16 @@ const styles = StyleSheet.create({
     fontSize: size[14],
   },
   btn: {
-    width: '50%',
-    alignSelf: 'center',
+    marginHorizontal: 20,
+    flexDirection: 'row',
+    width: '40%',
+    alignSelf: 'flex-start',
     justifyContent: 'center',
     marginTop: 30,
     backgroundColor: '#C2428F',
   },
   txtbtn: {
+    marginRight: 20,
     fontFamily: fonts.regular,
   },
 });

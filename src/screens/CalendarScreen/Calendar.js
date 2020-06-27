@@ -23,7 +23,7 @@ const CalendarClass = (props) => {
     thisYear: '',
     ch: false,
   });
-
+  const [periodDate, setPeriodDate] = useState('')
   useEffect(() => {
     GetTimeNow();
   }, [state.thisDay]);
@@ -57,6 +57,7 @@ const CalendarClass = (props) => {
     }
   };
   const GetTimeNow = async () => {
+
     var Persian = jalaali.toJalaali(
       new Date().getFullYear(),
       new Date().getMonth() + 1,
@@ -70,9 +71,13 @@ const CalendarClass = (props) => {
     });
   };
   useEffect(() => {
+    // strftime('%d-%m-%Y', last_period_date)
     db.rawQuery(
       `SELECT * FROM ${PROFILE}`, [], PROFILE
-    ).then((res) => { console.log('res select: ', res[0]) })
+    ).then((res) => {
+      setPeriodDate(res[0].birthdate)
+      console.log('res select: ', res)
+    })
   })
 
   return (
@@ -91,23 +96,33 @@ const CalendarClass = (props) => {
         {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
         {toPersianNum(state.thisYear)}
       </Text>
-
+      <Text
+        style={{
+          marginTop: 40,
+          fontFamily: fonts.medium,
+          fontSize: size[30],
+          color: 'red',
+          marginBottom: 10,
+          alignSelf: 'center',
+        }}>
+        {periodDate.replace(4, "-")}
+        {/* {"foo baz".splice(4, 0, "bar ")} */}
+      </Text>
       <Verticalcalendar
         jalali={jalali.jalaali}
         style={styles.calendar}
         current={'2020-05-16'}
-        // minDate={'2020-05-10'}
+        minDate={'2018-03-21'}
         markingType={'multi-dot'}
         firstDay={6}
         theme={{
-          opacity: 0.5,
           textSectionTitleColor: '#35036B',
           todayTextColor: 'white',
           todayBackgroundColor: 'pink',
           selectedDayTextColor: 'white',
           monthTextColor: 'pink',
           selectedDayBackgroundColor: 'pink',
-          textDisabledColor: 'red',
+          textDisabledColor: '#B82162',
           textDayFontFamily: fonts.regular,
           textMonthFontFamily: fonts.regular,
           textDayHeaderFontFamily: fonts.regular,

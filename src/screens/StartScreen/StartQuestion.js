@@ -18,9 +18,9 @@ const Start1 = (props) => {
   });
   const nextPage = async () => {
     if (
-      selected.period == true &&
-      selected.pregnancy_try == true &&
-      selected.pregnant == true
+      selected.period == false &&
+      selected.pregnancy_try == false &&
+      selected.pregnant == false
     )
       ToastAndroid.show(
         'لطفا یکی از گزینه ها را انتخاب نمایید',

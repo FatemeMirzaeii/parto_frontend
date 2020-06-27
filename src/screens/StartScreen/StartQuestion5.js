@@ -1,4 +1,4 @@
-import { Button, Title } from 'native-base';
+import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
@@ -14,6 +14,7 @@ const db = new Database();
 let day = [];
 let year = [];
 let questionArray = [];
+let forgetPragnancy = false
 let month = [
     'فروردین',
     'اردیبهشت',
@@ -47,19 +48,17 @@ const Start5 = (props) => {
 
     useEffect(() => {
         questionArray = props.navigation.state.params.questionArray
+        forgetPragnancy = props.navigation.state.params.forgetPragnancy
         console.log("day: ", questionArray)
     }, [props]);
 
     const onItemSelected1 = selectedItem => {
-        console.log("selected: ", selectedItem + 1)
         setSelected1({ selectedItem });
     };
     const onItemSelected2 = selectedItem => {
-        console.log("selected: ", selectedItem + 1)
         setSelected2({ selectedItem });
     };
     const onItemSelected3 = selectedItem => {
-        console.log("selected: ", selectedItem + 1340)
         setSelected3({ selectedItem });
     };
 
@@ -79,31 +78,34 @@ const Start5 = (props) => {
         }
 
         y = selected3.selectedItem + 1340
-        console.log("date: ", y + '-' + m + '-' + d)
-        let _date = (y + '-' + m + '-' + d).toString()
+        let _date = (y + m + d).toString()
         questionArray.push({ birthdate: _date })
         console.log("day: ", questionArray)
         saveToLocal()
     }
     const saveToLocal = () => {
-
-        db.rawQuery(
-            `INSERT INTO ${PROFILE}
+        if (forgetPragnancy == true) {
+            console.log('pragnancy ok')
+            goToHome()
+            // db.rawQuery(
+            //     `SELECT * FROM ${PROFILE}`, [], PROFILE
+            // ).then((res) => { console.log('res select: ', res) })
+        } else {
+            db.rawQuery(
+                `INSERT INTO ${PROFILE}
              (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,last_period_date)
              VALUES(${questionArray[0].pregnant},
                 ${questionArray[0].pregnancy_try},
                 ${questionArray[2].periodDays},
                 ${questionArray[3].periodlength},
-                ${questionArray[5].birthdate},
+                ${(questionArray[5].birthdate).toString()},
                 ${questionArray[5].birthdate},
                 ${questionArray[1].periodDate})`,
-            [],
-            PROFILE)
-            .then((res) => { goToHome() })
-        db.rawQuery(
-            `SELECT * FROM ${PROFILE}`, [], PROFILE
-        ).then((res) => { console.log('res select: ', res) })
+                [],
+                PROFILE)
+                .then((res) => { goToHome() })
 
+        }
     }
     const goToHome = async () => {
         await storeData('@startPages', 'true')
@@ -117,7 +119,7 @@ const Start5 = (props) => {
             style={styles.gradiant}>
             <View style={styles.view}>
                 <Text style={styles.txt}>تاریخ تولد شما، چیست ؟</Text>
-                <View style={{ flexDirection: 'row', marginTop: 60, }}>
+                <View style={{ flexDirection: 'row', marginTop: 60, alignSelf: 'center' }}>
                     <View style={styles.wrapperVertical}>
                         <WheelPicker
                             style={{ width: 110, height: 200 }}
@@ -154,18 +156,26 @@ const Start5 = (props) => {
                             onItemSelected={onItemSelected3}
                         />
                     </View>
-
                 </View>
-                {/* <View>
-                <Text>{`Your selection is ${dataCity[selected]}`}</Text>
-            </View> */}
             </View>
-            <Button
-                rounded
-                style={styles.btn}
-                onPress={() => nextPress()}>
-                <Title style={styles.txtbtn}>بعدی</Title>
-            </Button>
+            <View style={{ flexDirection: 'row' }}>
+                <Button
+                    rounded
+                    style={styles.btn}
+                    onPress={() => props.navigation.goBack()}>
+                    <Icon name="arrowright" type="AntDesign" />
+                    <Title style={[styles.txtbtn, { marginRight: 20 }]}>قبلی</Title>
+                </Button>
+                <Button
+                    rounded
+                    style={styles.btn}
+                    onPress={() => nextPress()}>
+                    <Title style={[styles.txtbtn, { marginLeft: 20 }]}>بعدی</Title>
+                    <Icon name="arrowleft" type="AntDesign" />
+
+                </Button>
+
+            </View>
         </LinearGradient>
     );
 };
@@ -183,7 +193,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
         height: '60%',
         paddingTop: 20,
-        // justifyContent: 'center',
         borderRadius: 5,
         paddingHorizontal: 20,
     },
@@ -222,13 +231,15 @@ const styles = StyleSheet.create({
         fontSize: size[14],
     },
     btn: {
-        width: '50%',
-        alignSelf: 'center',
+        marginHorizontal: 20,
+        flexDirection: 'row',
+        width: '40%',
         justifyContent: 'center',
         marginTop: 30,
         backgroundColor: '#C2428F',
     },
     txtbtn: {
+        alignSelf: 'center',
         fontFamily: fonts.regular,
     },
 });
