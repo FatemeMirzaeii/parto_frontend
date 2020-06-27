@@ -1,5 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
-import { EMPTY_TABLE } from '../constants/TableDataBase';
+import {EMPTY_TABLE} from '../constants/TableDataBase';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
@@ -20,29 +20,29 @@ export default class Database {
             .then((DB) => {
               db = DB;
               db.executeSql(`SELECT 1 FROM ${tableName} LIMIT 1`)
-                .then(() => { })
+                .then(() => {})
                 .catch((error) => {
                   db.transaction((tx) => {
                     tx.executeSql(
                       'CREATE TABLE IF NOT EXISTS user_profile (id, name)',
                     );
                   })
-                    .then(() => { })
-                    .catch((error) => { });
+                    .then(() => {})
+                    .catch((error) => {});
                 });
               resolve(db);
             })
-            .catch((error) => { });
+            .catch((error) => {});
         })
-        .catch((error) => { });
+        .catch((error) => {});
     });
   }
   //function for the close Database connection
   closeDatabase(db) {
     if (db) {
       db.close()
-        .then((status) => { })
-        .catch((error) => { });
+        .then((status) => {})
+        .catch((error) => {});
     } else {
     }
   }
@@ -65,16 +65,16 @@ export default class Database {
               if (arr.length > 0) {
                 resolve(arr);
               } else {
-                resolve({ rows: EMPTY_TABLE, insertId: results.insertId });
+                resolve({rows: EMPTY_TABLE, insertId: results.insertId});
               }
             });
           })
             .then((result) => {
               this.closeDatabase();
             })
-            .catch((err) => { });
+            .catch((err) => {});
         })
-        .catch((err) => { });
+        .catch((err) => {});
     });
   }
 }

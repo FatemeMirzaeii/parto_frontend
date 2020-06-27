@@ -28,4 +28,9 @@ export default StyleSheet.create({
     top: 15,
     left: 15,
   },
+  error: {
+    fontSize: 12,
+    color: 'red',
+    alignSelf: 'center',
+  },
 });
