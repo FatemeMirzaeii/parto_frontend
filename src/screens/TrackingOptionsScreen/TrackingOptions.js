@@ -7,7 +7,7 @@ import {
   Text,
 } from 'react-native';
 import Database from '../../components/Database';
-import TopAgenda from '../../components/TopAgenda';
+import WeekCalendar from '../../components/WeekCalendar';
 import styles from './Styles';
 import {Width} from '../../app/Theme';
 import Carousel from 'react-native-snap-carousel';
@@ -190,7 +190,7 @@ const TrackingOptions = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={{height: 100, marginTop: 50}}>
-        <TopAgenda onDayPress={(day) => onDayPress(day)} />
+        <WeekCalendar />
       </View>
       <ScrollView>
         <Carousel
