@@ -1,34 +1,32 @@
-import { Footer, Icon, Text, View } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, StatusBar } from 'react-native';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum } from '../../app/Functions';
-import { Height, Theme, Width } from '../../app/Theme';
+import {Footer, Icon, Text, View} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {ImageBackground, StyleSheet, StatusBar} from 'react-native';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {toPersianNum} from '../../app/Functions';
 import Database from '../../components/Database';
-import TopAgenda from '../../components/TopAgenda';
-
-
-const { colors, size, fonts } = Theme;
+// import TopAgenda from '../../components/TopAgenda';
+import WeekCalendar from '../../components/WeekCalendar';
+import styles from './Styles';
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({ dialect: 'persian-modern' });
+moment2.loadPersian({dialect: 'persian-modern'});
 const Home = (props) => {
-
   const [state, setState] = useState({
     items: [],
     thisDay: '',
     thisMonth: '',
     thisYear: '',
+    today: '',
   });
-  const [weekDay, setweekDay] = useState([
-    'شنبه',
-    'یک‌شنبه',
-    'دوشنبه',
-    'سه‌شنبه',
-    'چهارشنبه',
-    'پنج‌شنبه',
-    'جمعه',
-  ]);
+  // const [weekDay, setweekDay] = useState([
+  //   'شنبه',
+  //   'یک‌شنبه',
+  //   'دوشنبه',
+  //   'سه‌شنبه',
+  //   'چهارشنبه',
+  //   'پنج‌شنبه',
+  //   'جمعه',
+  // ]);
   useEffect(() => {
     GetTimeNow();
   }, [state.thisDay]);
@@ -62,36 +60,44 @@ const Home = (props) => {
     }
   };
   const GetTimeNow = async () => {
-    var Persian = jalaali.toJalaali(
+    const Persian = jalaali.toJalaali(
       new Date().getFullYear(),
       new Date().getMonth() + 1,
       new Date().getDate(),
     );
-    var month = checkSwitch(Persian.jm);
+    const month = checkSwitch(Persian.jm);
     setState({
       thisDay: Persian.jd,
       thisMonth: month,
       thisYear: Persian.jy,
+      today: toPersianNum(Persian.jd) + ' ' + month,
     });
   };
 
   var db = new Database();
   useEffect(() => {
-    db.rawQuery('select * from user_profile;').then((b) => {
-      //setCategories(b);
-    });
-    // db.rawQuery('select * from health_tracking_category;').then((b) => {
-    //setCategories(b);
+    db.rawQuery('select * from user_profile;').then((b) => {});
   });
   return (
     <ImageBackground
       source={require('../../../assets/images/bg7.png')}
-      style={{ width: '100%', height: '100%' }}>
+      style={styles.sky}>
+      <WeekCalendar
+        onDateChanged={(day, propUpdate) => {
+          if (propUpdate === 'dayPress') {
+            props.navigation.navigate('Calendar');
+          }
+        }}
+      />
       <ImageBackground
         source={require('../../../assets/images/moon7.png')}
-        style={{ width: '100%', height: '100%', top: 30 }}>
-        <StatusBar translucent barStyle="light-content" backgroundColor='transparent' />
-
+        style={styles.moon}>
+        <StatusBar
+          translucent
+          barStyle="light-content"
+          backgroundColor="transparent"
+        />
+        {/*
         <Text
           style={{
             fontFamily: fonts.medium,
@@ -106,8 +112,8 @@ const Home = (props) => {
         <FlatList
           horizontal={true}
           data={weekDay}
-          style={{ alignSelf: 'center', marginTop: 10 }}
-          renderItem={({ item }) => (
+          style={{alignSelf: 'center', marginTop: 10}}
+          renderItem={({item}) => (
             <Text
               style={{
                 marginHorizontal: Width / 50,
@@ -120,16 +126,8 @@ const Home = (props) => {
             </Text>
           )}
         />
-        <TopAgenda onDayPress={() => props.navigation.navigate('Calendar')} />
-        <View
-          style={{
-            width: '100%',
-            height: '50%',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'absolute',
-            marginTop: Height / 5.5,
-          }}>
+         <TopAgenda onDayPress={() => props.navigation.navigate('Calendar')} /> */}
+        <View style={styles.moonText}>
           <TouchableOpacity
             onPress={() =>
               props.navigation.navigate('TrackingOptions', {
@@ -141,148 +139,36 @@ const Home = (props) => {
                   new Date().getDate(),
               })
             }>
-            <Text
-              style={{
-                alignSelf: 'center',
-                color: '#121C3D',
-                fontSize: size[24],
-                fontFamily: fonts.regular,
-              }}>
-              <Text
-                style={{
-                  alignSelf: 'center',
-                  color: '#121C3D',
-                  fontSize: size[30],
-                  fontFamily: fonts.regular,
-                }}>
-                {toPersianNum(2)}
-              </Text>{' '}
-              روز{' '}
-            </Text>
-            <Text
-              style={{
-                alignSelf: 'center',
-                color: '#121C3D',
-                fontSize: size[24],
-                fontFamily: fonts.regular,
-              }}>
-              {/* دوره پریود */}
-              تا پریود بعدی
-            </Text>
-            <Text
-              style={{
-                alignSelf: 'center',
-                color: '#121C3D',
-                fontSize: size[24],
-                fontFamily: fonts.medium,
-                marginTop: 10,
-              }}>
-              {toPersianNum(27)} خرداد
-            </Text>
-            <Text
-              style={{
-                color: '#7A0000',
-                fontSize: size[15],
-                fontFamily: fonts.regular,
-              }}>
-              {/* احتمال بالای باروری  */}
-            </Text>
+            <Text style={styles.text}>{toPersianNum(2)} روز</Text>
+            <Text style={styles.text}>تا پریود بعدی</Text>
+            <Text style={styles.text}>{state.today}</Text>
+            <Text style={styles.text}>{/* احتمال بالای باروری  */}</Text>
           </TouchableOpacity>
         </View>
-        <Footer
-          style={{
-            position: 'absolute',
-            marginTop: -Height / 9,
-            backgroundColor: 'transparent',
-            borderTopLeftRadius: 30,
-            borderTopRightRadius: 30,
-            height: size[60],
-            elevation: 20,
-          }}>
-          <View
-            style={{
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              width: '100%',
-              alignItems: 'center',
-              borderTopLeftRadius: 30,
-              borderTopRightRadius: 30,
-              justifyContent: 'space-between',
-              paddingHorizontal: 40,
-            }}>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Calendar')}
-              style={{
-                width: size[40],
-                height: size[40],
-                alignSelf: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon
-                name="calendar"
-                type="AntDesign"
-                style={{
-                  fontSize: size[30],
-                  alignSelf: 'center',
-                  color: '#121C3D',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FCF3CA',
-                borderRadius: 150,
-                width: size[40],
-                height: size[40],
-                alignSelf: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon
-                name="home"
-                type="AntDesign"
-                style={{
-                  fontSize: size[30],
-                  alignSelf: 'center',
-                  color: '#121C3D',
-                }}
-              />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => props.navigation.navigate('Charts')}
-              style={{
-                width: size[40],
-                height: size[40],
-                alignSelf: 'center',
-                justifyContent: 'center',
-              }}>
-              <Icon
-                name="linechart"
-                type="AntDesign"
-                style={{
-                  fontSize: size[30],
-                  alignSelf: 'center',
-                  color: '#121C3D',
-                }}
-              />
-            </TouchableOpacity>
-          </View>
-        </Footer>
       </ImageBackground>
+      <Footer style={styles.footer}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('Calendar')}
+          style={styles.tab}>
+          <Icon name="calendar" type="AntDesign" style={styles.tabIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            styles.tab,
+            {
+              backgroundColor: '#FCF3CA',
+              borderRadius: 150,
+            },
+          ]}>
+          <Icon name="home" type="AntDesign" style={styles.tabIcon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('Charts')}
+          style={styles.tab}>
+          <Icon name="linechart" type="AntDesign" style={styles.tabIcon} />
+        </TouchableOpacity>
+      </Footer>
     </ImageBackground>
   );
 };
 export default Home;
-const styles = StyleSheet.create({
-  calendar: {
-    // position: 'absolute',
-    width: '100%',
-    //marginTop: -Height * 0.9,
-    height: 50,
-  },
-  text: {
-    textAlign: 'center',
-    padding: 10,
-    backgroundColor: 'lightgrey',
-    fontSize: 16,
-  },
-});

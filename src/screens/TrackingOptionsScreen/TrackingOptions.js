@@ -7,13 +7,15 @@ import {
   Text,
 } from 'react-native';
 import Database from '../../components/Database';
-import WeekCalendar from '../../components/WeekCalendar';
+//import WeekCalendar from '../../components/WeekCalendar';
 import styles from './Styles';
 import {Width} from '../../app/Theme';
 import Carousel from 'react-native-snap-carousel';
 import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import {SvgXml} from 'react-native-svg';
+import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
+import WeekCalendar from '../../components/WeekCalendar';
 
 const db = new Database();
 const detailPageRef = createRef();
@@ -178,6 +180,7 @@ const TrackingOptions = ({navigation}) => {
     }
   };
   const onDayPress = (day) => {
+    console.log('dayyyyyyyyy');
     setDate(day.dateString);
     getData();
   };
@@ -189,8 +192,8 @@ const TrackingOptions = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={{height: 100, marginTop: 50}}>
-        <WeekCalendar />
+      <View style={{height: 150}}>
+        <WeekCalendar onDateChanged={(day, propUpdate) => onDayPress(day)} />
       </View>
       <ScrollView>
         <Carousel
