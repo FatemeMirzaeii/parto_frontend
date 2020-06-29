@@ -82,13 +82,13 @@ const Home = (props) => {
     <ImageBackground
       source={require('../../../assets/images/bg7.png')}
       style={styles.sky}>
-      <WeekCalendar
+      {/* <WeekCalendar
         onDateChanged={(day, propUpdate) => {
           if (propUpdate === 'dayPress') {
             props.navigation.navigate('Calendar');
           }
         }}
-      />
+      /> */}
       <ImageBackground
         source={require('../../../assets/images/moon7.png')}
         style={styles.moon}>
