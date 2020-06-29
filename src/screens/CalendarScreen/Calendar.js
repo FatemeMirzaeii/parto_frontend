@@ -1,21 +1,21 @@
-import { Container, Text } from 'native-base';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
-import { Verticalcalendar } from 'react-native-calendars-persian';
-import { toPersianNum } from '../../app/Functions';
-import { Theme, Height } from '../../app/Theme';
+import {Container, Text} from 'native-base';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, StatusBar} from 'react-native';
+import {Verticalcalendar} from 'react-native-calendars-persian';
+import {toPersianNum} from '../../app/Functions';
+import {Theme, Height} from '../../app/Theme';
 import Database from '../../components/Database';
-import { PROFILE } from '../../constants/TableDataBase';
+import {PROFILE} from '../../constants/TableDataBase';
 
 const db = new Database();
-let date_ = '2020-06-30'
-const { colors, size, fonts } = Theme;
+
+const {colors, size, fonts} = Theme;
 const moment2 = require('moment-jalaali');
 
 var jalaali = require('jalaali-js');
-moment2.loadPersian({ dialect: 'persian-modern' });
+moment2.loadPersian({dialect: 'persian-modern'});
 const CalendarClass = (props) => {
-  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
+  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
   const [state, setState] = useState({
     items: [],
     thisDay: '',
@@ -24,7 +24,7 @@ const CalendarClass = (props) => {
     ch: false,
     markedDates: ''
   });
-  const [periodDate, setPeriodDate] = useState('')
+  const [periodDate, setPeriodDate] = useState('');
   useEffect(() => {
     GetTimeNow();
 
@@ -62,7 +62,6 @@ const CalendarClass = (props) => {
     }
   };
   const GetTimeNow = async () => {
-
     var Persian = jalaali.toJalaali(
       new Date().getFullYear(),
       new Date().getMonth() + 1,
@@ -94,9 +93,17 @@ const CalendarClass = (props) => {
       setState({ ...state, markedDates: mdate })
     })
   }, [periodDate])
+
+    // strftime('%d-%m-%Y', last_period_date)
+    db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
+      setPeriodDate(res[0].birthdate);
+      console.log('res select: ', res);
+    });
+  });
+
   return (
     <Container>
-      <StatusBar translucent barStyle="dark-content" backgroundColor='white' />
+      <StatusBar translucent barStyle="dark-content" backgroundColor="white" />
 
       <Text
         style={{
@@ -119,7 +126,9 @@ const CalendarClass = (props) => {
           marginBottom: 10,
           alignSelf: 'center',
         }}>
+
         {periodDate}
+
         {/* {"foo baz".splice(4, 0, "bar ")} */}
       </Text>
       <Verticalcalendar
@@ -148,6 +157,7 @@ const CalendarClass = (props) => {
             },
           },
         }}
+
         markedDates={state.markedDates}
       // markedDates={{
       //   date_: {
@@ -156,6 +166,7 @@ const CalendarClass = (props) => {
       //     ]
       //   },
       // }}
+
       />
     </Container>
   );

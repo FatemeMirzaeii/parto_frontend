@@ -193,7 +193,10 @@ const TrackingOptions = ({navigation}) => {
   return (
     <SafeAreaView>
       <View style={{height: 150}}>
-        <WeekCalendar onDateChanged={(day, propUpdate) => onDayPress(day)} />
+        <WeekCalendar
+          current={date}
+          onDateChanged={(day, propUpdate) => onDayPress(day)}
+        />
       </View>
       <ScrollView>
         <Carousel

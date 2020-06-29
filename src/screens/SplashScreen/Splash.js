@@ -1,11 +1,10 @@
-
-import { View } from 'native-base';
-import React, { useEffect } from 'react';
-import { Image, Text } from 'react-native';
-import { StackActions, NavigationActions } from 'react-navigation';
+import {View} from 'native-base';
+import React, {useEffect} from 'react';
+import {Image, Text} from 'react-native';
+import {StackActions, NavigationActions} from 'react-navigation';
 import TouchID from 'react-native-touch-id';
-import { Theme } from '../../app/Theme';
-import { getData } from '../../app/Functions';
+import {Theme} from '../../app/Theme';
+import {getData} from '../../app/Functions';
 import AsyncStorage from '@react-native-community/async-storage';
 import ReactNativeBiometrics from 'react-native-biometrics'
 const optionalConfigObject = {
@@ -52,6 +51,7 @@ const Splash = (props) => {
     setTimeout(async () => {
       const start = await getData('@startPages');
       const token = await getData('@token');
+      AsyncStorage.removeItem('@token');
       if (start == 'true' && token) {
         props.navigation.navigate('Home');
       } else if (token) {
