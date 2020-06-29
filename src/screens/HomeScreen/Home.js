@@ -1,15 +1,15 @@
-import {Footer, Icon, Text, View} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {ImageBackground, StyleSheet, StatusBar} from 'react-native';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {toPersianNum} from '../../app/Functions';
+import { Footer, Icon, Text, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { ImageBackground, StyleSheet, StatusBar } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import { toPersianNum } from '../../app/Functions';
 import Database from '../../components/Database';
 // import TopAgenda from '../../components/TopAgenda';
 import WeekCalendar from '../../components/WeekCalendar';
 import styles from './Styles';
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({dialect: 'persian-modern'});
+moment2.loadPersian({ dialect: 'persian-modern' });
 const Home = (props) => {
   const [state, setState] = useState({
     items: [],
@@ -76,7 +76,7 @@ const Home = (props) => {
 
   var db = new Database();
   useEffect(() => {
-    db.rawQuery('select * from user_profile;').then((b) => {});
+    db.rawQuery('select * from user_profile;').then((b) => { });
   });
   return (
     <ImageBackground
