@@ -4,12 +4,10 @@ import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
 
 const WeekCalendar = (props) => {
   return (
-    <CalendarProvider
-      date={Date()}
-      //current={Date()}
-      onDateChanged={props.onDateChanged}>
+    <CalendarProvider date={new Date()} onDateChanged={props.onDateChanged}>
       <ExpandableCalendar
-        firstDay={6}
+        current={props.current}
+        firstDay={1}
         disablePan={true}
         hideKnob={true}
         hideArrows={true}
