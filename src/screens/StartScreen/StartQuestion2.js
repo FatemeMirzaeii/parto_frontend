@@ -23,8 +23,14 @@ const Start2 = (props) => {
 
     if (foundIndex > 0)
       questionArray.splice(foundIndex, 1)
-    console.log("day: ", day)
-    questionArray.push({ periodDate: '2020-11-10' })
+    console.log("day: ", day.year + day.month + day.day)
+    let _day = "", _month = ""
+    if (day.day < 10) _day = "0" + day.day
+    else _day = day.day
+    if (day.month < 10) _month = "0" + day.month
+    else _month = day.month
+
+    questionArray.push({ periodDate: (day.year).toString() + (_month).toString() + (_day).toString() })
     props.navigation.navigate("StartQuestion3", { questionArray: questionArray })
   }
   function forgetPress() {

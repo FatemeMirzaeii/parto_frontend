@@ -22,11 +22,13 @@ const CalendarClass = (props) => {
     thisMonth: '',
     thisYear: '',
     ch: false,
+    markedDates: '',
   });
   const [periodDate, setPeriodDate] = useState('');
   useEffect(() => {
     GetTimeNow();
   }, [state.thisDay]);
+  useEffect(() => {}, [state.thisDay]);
 
   const checkSwitch = (param) => {
     switch (param) {
@@ -70,12 +72,37 @@ const CalendarClass = (props) => {
     });
   };
   useEffect(() => {
+    db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
+      // setPeriodDate(res[0].birthdate)
+      console.log('res select: ', res);
+      var str = res[0].last_period_date.split('');
+      var date = (
+        str[0] +
+        str[1] +
+        str[2] +
+        str[3] +
+        '-' +
+        str[4] +
+        str[5] +
+        '-' +
+        str[6] +
+        str[7]
+      ).toString();
+      setPeriodDate(date);
+      let mdate = {
+        [date]: {
+          periods: [{ startingDay: true, endingDay: false, color: 'red' }],
+        },
+      };
+      setState({ ...state, markedDates: mdate });
+    });
+
     // strftime('%d-%m-%Y', last_period_date)
     db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
       setPeriodDate(res[0].birthdate);
       console.log('res select: ', res);
     });
-  });
+  }, [periodDate]);
 
   return (
     <Container>
@@ -102,7 +129,8 @@ const CalendarClass = (props) => {
           marginBottom: 10,
           alignSelf: 'center',
         }}>
-        {periodDate.replace(4, '-')}
+        {periodDate}
+
         {/* {"foo baz".splice(4, 0, "bar ")} */}
       </Text>
       <Verticalcalendar
@@ -110,7 +138,7 @@ const CalendarClass = (props) => {
         style={styles.calendar}
         current={'2020-05-16'}
         minDate={'2018-03-21'}
-        markingType={'multi-dot'}
+        markingType={'multi-period'}
         firstDay={6}
         theme={{
           textSectionTitleColor: '#35036B',
@@ -131,17 +159,14 @@ const CalendarClass = (props) => {
             },
           },
         }}
-        markedDates={{
-          '2020-05-17': { disabled: true },
-          '2020-04-21': { textColor: '#009933' },
-          '2020-05-09': { textColor: '#009933' },
-          '2020-05-14': {
-            startingDay: true,
-            color: 'green',
-            endingDay: true,
-            textColor: 'white',
-          },
-        }}
+        markedDates={state.markedDates}
+        // markedDates={{
+        //   date_: {
+        //     periods: [
+        //       { startingDay: true, endingDay: false, color: 'red' },
+        //     ]
+        //   },
+        // }}
       />
     </Container>
   );

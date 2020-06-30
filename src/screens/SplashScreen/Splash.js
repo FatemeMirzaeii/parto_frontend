@@ -6,6 +6,7 @@ import TouchID from 'react-native-touch-id';
 import { Theme } from '../../app/Theme';
 import { getData } from '../../app/Functions';
 import AsyncStorage from '@react-native-community/async-storage';
+import ReactNativeBiometrics from 'react-native-biometrics';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -20,22 +21,31 @@ const optionalConfigObject = {
 
 const { colors, size, fonts } = Theme;
 const Splash = (props) => {
-  // useEffect(() => {
-  // TouchID.isSupported()
-  //   .then(biometryType => {
-  //     TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt
-  //       .then(success => {
-  //         console.log("open app ")
-  //       })
-  //       .catch(error => {
-  //         console.log("cannot open app ")
-  //       });
-  //   })
-  //   .catch(error => {
-  //     console.log("no suported")
-  //   });
-
-  // })
+  useEffect(() => {
+    async function bio() {
+      ReactNativeBiometrics.createKeys('Confirm fingerprint').then(
+        (resultObject) => {
+          const { publicKey } = resultObject;
+          console.log(publicKey);
+          sendPublicKeyToServer(publicKey);
+        },
+      );
+    }
+    bio();
+    // TouchID.isSupported()
+    //   .then(biometryType => {
+    //     TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt
+    //       .then(success => {
+    //         console.log("open app ")
+    //       })
+    //       .catch(error => {
+    //         console.log("cannot open app ")
+    //       });
+    //   })
+    //   .catch(error => {
+    //     console.log("no suported")
+    //   });
+  });
   useEffect(() => {
     setTimeout(async () => {
       const start = await getData('@startPages');
