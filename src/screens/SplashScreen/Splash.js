@@ -5,7 +5,6 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import TouchID from 'react-native-touch-id';
 import { Theme } from '../../app/Theme';
 import { getData } from '../../app/Functions';
-import AsyncStorage from '@react-native-community/async-storage';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -21,7 +20,6 @@ const optionalConfigObject = {
 const { colors, size, fonts } = Theme;
 const Splash = (props) => {
   useEffect(() => {
-
     // TouchID.isSupported()
     //   .then(biometryType => {
     //     TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt
@@ -35,20 +33,20 @@ const Splash = (props) => {
     //   .catch(error => {
     //     console.log("no suported")
     //   });
-
-  })
+  });
   useEffect(() => {
     setTimeout(async () => {
       const start = await getData('@startPages');
       const token = await getData('@token');
-      AsyncStorage.removeItem('@token');
       if (start == 'true' && token) {
         props.navigation.navigate('Home');
       } else if (token) {
         props.navigation.dispatch(
           StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({ routeName: 'StartQuestion' })],
+            actions: [
+              NavigationActions.navigate({ routeName: 'StartQuestion' }),
+            ],
           }),
         );
       } else {
@@ -62,7 +60,8 @@ const Splash = (props) => {
     }, 800);
   });
   return (
-    <View style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
+    <View
+      style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
       <Image
         style={{
           alignSelf: 'center',

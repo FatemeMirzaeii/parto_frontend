@@ -1,5 +1,5 @@
 import SQLite from 'react-native-sqlite-storage';
-import {EMPTY_TABLE} from '../constants/TableDataBase';
+import { EMPTY_TABLE } from '../constants/TableDataBase';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
@@ -65,7 +65,7 @@ export default class Database {
               if (arr.length > 0) {
                 resolve(arr);
               } else {
-                resolve({rows: EMPTY_TABLE, insertId: results.insertId});
+                resolve({ rows: EMPTY_TABLE, insertId: results.insertId });
               }
             });
           })

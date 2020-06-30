@@ -6,7 +6,7 @@ const _size =
 
 export const Theme = {
   colors: {
-    text1: '#1A2D36'
+    text1: '#1A2D36',
   },
   fonts: {
     regular: 'IRANSansMobile',

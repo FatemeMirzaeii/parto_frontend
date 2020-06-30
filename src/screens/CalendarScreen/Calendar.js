@@ -29,11 +29,8 @@ const CalendarClass = (props) => {
   const [periodDate, setPeriodDate] = useState('');
   useEffect(() => {
     GetTimeNow();
-
   }, [state.thisDay]);
-  useEffect(() => {
-
-  }, [state.thisDay])
+  useEffect(() => { }, [state.thisDay]);
 
   const checkSwitch = (param) => {
     switch (param) {
@@ -78,6 +75,7 @@ const CalendarClass = (props) => {
     });
   };
   useEffect(() => {
+
     db.rawQuery(
       `SELECT * FROM ${PROFILE}`, [], PROFILE
     ).then((res) => {
@@ -120,6 +118,7 @@ const CalendarClass = (props) => {
         {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
         {toPersianNum(state.thisYear)}
       </Text>
+
       <Verticalcalendar
         jalali={jalali.jalaali}
         style={styles.calendar}
@@ -146,7 +145,6 @@ const CalendarClass = (props) => {
             },
           },
         }}
-
         markedDates={state.markedDates}
       // markedDates={{
       //   date_: {
@@ -155,9 +153,8 @@ const CalendarClass = (props) => {
       //     ]
       //   },
       // }}
-
       />
-    </Container>
+    </Container >
   );
 };
 export default CalendarClass;

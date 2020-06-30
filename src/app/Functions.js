@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
-import {PermissionsAndroid} from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 
 export async function getData(key) {
   try {

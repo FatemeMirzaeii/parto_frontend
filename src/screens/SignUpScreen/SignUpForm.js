@@ -1,11 +1,11 @@
-import React, {useRef, useState, Fragment} from 'react';
-import {Alert, View, Text, ActivityIndicator} from 'react-native';
-import {Icon, Input} from 'react-native-elements';
-import {Formik} from 'formik';
+import React, { useRef, useState, Fragment } from 'react';
+import { Alert, View, Text, ActivityIndicator } from 'react-native';
+import { Icon, Input } from 'react-native-elements';
+import { Formik } from 'formik';
 import * as yup from 'yup';
 import styles from './Styles';
-import {RESTAPI} from '../../services/RESTAPI';
-import {storeData} from '../../app/Functions';
+import { RESTAPI } from '../../services/RESTAPI';
+import { storeData } from '../../app/Functions';
 
 const SignUpForm = (props) => {
   const restapi = new RESTAPI();
@@ -29,7 +29,7 @@ const SignUpForm = (props) => {
         <ActivityIndicator />
       ) : (
         <Formik
-          initialValues={{name: '', email: '', password: ''}}
+          initialValues={{ name: '', email: '', password: '' }}
           onSubmit={(values) => submit(values)}
           validationSchema={yup.object().shape({
             name: yup.string().required('لطفا نام خود را وارد کنید.'),

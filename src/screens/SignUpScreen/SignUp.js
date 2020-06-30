@@ -1,10 +1,10 @@
 import React from 'react';
-import {KeyboardAvoidingView} from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import styles from './Styles';
 import SignUpForm from './SignUpForm';
-import {Icon} from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
-const SignUp = ({navigation}) => {
+const SignUp = ({ navigation }) => {
   return (
     <KeyboardAvoidingView>
       <Icon
