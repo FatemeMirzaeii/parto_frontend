@@ -1,12 +1,11 @@
-import {View} from 'native-base';
-import React, {useEffect} from 'react';
-import {Image, Text} from 'react-native';
-import {StackActions, NavigationActions} from 'react-navigation';
+import { View } from 'native-base';
+import React, { useEffect } from 'react';
+import { Image, Text } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import TouchID from 'react-native-touch-id';
-import {Theme} from '../../app/Theme';
-import {getData} from '../../app/Functions';
+import { Theme } from '../../app/Theme';
+import { getData } from '../../app/Functions';
 import AsyncStorage from '@react-native-community/async-storage';
-import ReactNativeBiometrics from 'react-native-biometrics'
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -22,16 +21,7 @@ const optionalConfigObject = {
 const { colors, size, fonts } = Theme;
 const Splash = (props) => {
   useEffect(() => {
-    async function bio() {
 
-      ReactNativeBiometrics.createKeys('Confirm fingerprint')
-        .then((resultObject) => {
-          const { publicKey } = resultObject
-          console.log(publicKey)
-          sendPublicKeyToServer(publicKey)
-        })
-    }
-    bio()
     // TouchID.isSupported()
     //   .then(biometryType => {
     //     TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt

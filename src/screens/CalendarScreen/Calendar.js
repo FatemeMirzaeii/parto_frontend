@@ -1,28 +1,30 @@
 import { Container, Text } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, StatusBar } from 'react-native';
+import { StatusBar, StyleSheet } from 'react-native';
 import { Verticalcalendar } from 'react-native-calendars-persian';
 import { toPersianNum } from '../../app/Functions';
-import { Theme, Height } from '../../app/Theme';
+import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
 import { PROFILE } from '../../constants/TableDataBase';
-
+const moment2 = require('moment-jalaali');
+const moment = require('moment');
 const db = new Database();
 
-const { colors, size, fonts } = Theme;
-const moment2 = require('moment-jalaali');
+const { size, fonts } = Theme;
 
+let perioddatemark = []
 var jalaali = require('jalaali-js');
 moment2.loadPersian({ dialect: 'persian-modern' });
 const CalendarClass = (props) => {
   const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
+  const [periodlength, setperiodlength] = useState(null)
+  const [cyclelength, setcyclelength] = useState(null)
   const [state, setState] = useState({
-    items: [],
     thisDay: '',
     thisMonth: '',
     thisYear: '',
     ch: false,
-    markedDates: ''
+    markedDates: '',
   });
   const [periodDate, setPeriodDate] = useState('');
   useEffect(() => {
@@ -69,6 +71,7 @@ const CalendarClass = (props) => {
     );
     var month = checkSwitch(Persian.jm);
     setState({
+      ...state,
       thisDay: Persian.jd,
       thisMonth: month,
       thisYear: Persian.jy,
@@ -78,27 +81,27 @@ const CalendarClass = (props) => {
     db.rawQuery(
       `SELECT * FROM ${PROFILE}`, [], PROFILE
     ).then((res) => {
-      // setPeriodDate(res[0].birthdate)
-      console.log('res select: ', res)
+      console.log('res select: ', res[0])
+      setperiodlength(res[0].avg_period_length)
+      setcyclelength(res[0].avg_cycle_length)
       var str = (res[0].last_period_date).split('');
       var date = (str[0] + str[1] + str[2] + str[3] + "-" + str[4] + str[5] + "-" + str[6] + str[7]).toString()
       setPeriodDate(date)
-      let mdate = {
-        [date]: {
+      let mdate = {}
+
+      for (i = 1; i <= cyclelength; i++) {
+        let new_date = moment(moment(date).add(i, 'days').format('YYYY-MM-DD'));
+        perioddatemark.push(new_date._i)
+        mdate[new_date._i] = {
           periods: [
-            { startingDay: true, endingDay: false, color: 'red' },
+            { startingDay: false, endingDay: false, color: 'red' },
           ]
         }
       }
       setState({ ...state, markedDates: mdate })
+      console.log("new: ", mdate)
     })
 
-
-    // strftime('%d-%m-%Y', last_period_date)
-    db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
-      setPeriodDate(res[0].birthdate);
-      console.log('res select: ', res);
-    });
   }, [periodDate])
 
   return (
@@ -116,20 +119,6 @@ const CalendarClass = (props) => {
         }}>
         {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
         {toPersianNum(state.thisYear)}
-      </Text>
-      <Text
-        style={{
-          marginTop: 40,
-          fontFamily: fonts.medium,
-          fontSize: size[30],
-          color: 'red',
-          marginBottom: 10,
-          alignSelf: 'center',
-        }}>
-
-        {periodDate}
-
-        {/* {"foo baz".splice(4, 0, "bar ")} */}
       </Text>
       <Verticalcalendar
         jalali={jalali.jalaali}

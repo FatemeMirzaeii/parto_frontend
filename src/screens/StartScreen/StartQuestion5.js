@@ -8,7 +8,9 @@ import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
 import { PROFILE } from '../../constants/TableDataBase';
 import { storeData } from '../../app/Functions';
-const { colors, size, fonts } = Theme;
+const moment = require('moment');
+
+const { size, fonts } = Theme;
 const db = new Database();
 
 let day = [];
@@ -84,12 +86,10 @@ const Start5 = (props) => {
         saveToLocal()
     }
     const saveToLocal = () => {
+        const today = moment()
         if (forgetPragnancy == true) {
             console.log('pragnancy ok')
             goToHome()
-            // db.rawQuery(
-            //     `SELECT * FROM ${PROFILE}`, [], PROFILE
-            // ).then((res) => { console.log('res select: ', res) })
         } else {
             db.rawQuery(
                 `INSERT INTO ${PROFILE}
@@ -99,7 +99,7 @@ const Start5 = (props) => {
                 ${questionArray[2].periodDays},
                 ${questionArray[3].periodlength},
                 ${(questionArray[5].birthdate).toString()},
-                ${questionArray[5].birthdate},
+                ${today.format('YYYYMMDD')},
                 ${questionArray[1].periodDate})`,
                 [],
                 PROFILE)
