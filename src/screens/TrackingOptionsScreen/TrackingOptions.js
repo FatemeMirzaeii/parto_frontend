@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, createRef} from 'react';
+import React, { useEffect, useState, useCallback, createRef } from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -9,18 +9,17 @@ import {
 import Database from '../../components/Database';
 //import WeekCalendar from '../../components/WeekCalendar';
 import styles from './Styles';
-import {Width} from '../../app/Theme';
+import { Width } from '../../app/Theme';
 import Carousel from 'react-native-snap-carousel';
-import {Icon, Overlay, ButtonGroup, Input} from 'react-native-elements';
+import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
-import {SvgXml} from 'react-native-svg';
-import {CalendarProvider, ExpandableCalendar} from 'react-native-calendars';
+import { SvgXml } from 'react-native-svg';
 import WeekCalendar from '../../components/WeekCalendar';
 
 const db = new Database();
 const detailPageRef = createRef();
 
-const TrackingOptions = ({navigation}) => {
+const TrackingOptions = ({ navigation }) => {
   const [date, setDate] = useState(navigation.getParam('date'));
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
@@ -53,7 +52,7 @@ const TrackingOptions = ({navigation}) => {
       setCategories(res);
     });
   }, [date]);
-  const renderItem = ({item}) => {
+  const renderItem = ({ item }) => {
     return (
       <View style={styles.sliderItem}>
         <TouchableOpacity
@@ -68,7 +67,7 @@ const TrackingOptions = ({navigation}) => {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={toggleOverlay}
-          style={[styles.more, {backgroundColor: item.color}]}>
+          style={[styles.more, { backgroundColor: item.color }]}>
           <Icon name="ios-flash" type="ionicon" size={17} color="white" />
           <Text style={styles.moreText}>
             {'   '}
@@ -90,7 +89,7 @@ const TrackingOptions = ({navigation}) => {
             onPress={() => onOptionPress(category, option)}
             style={[
               styles.option,
-              {borderColor: color},
+              { borderColor: color },
               {
                 backgroundColor: option.selected.length > 0 ? color : 'white',
               },
@@ -105,14 +104,14 @@ const TrackingOptions = ({navigation}) => {
     switch (detailPageId) {
       case 1:
         return (
-          <View style={{flexDirection: 'row'}}>
+          <View style={{ flexDirection: 'row' }}>
             <ButtonGroup
               onPress={updateIndex}
               selectedIndex={selectedIndex}
               buttons={['روز', 'َشب']}
               vertical={true}
               containerStyle={styles.buttonGroup}
-              selectedButtonStyle={{backgroundColor: '#F1719D'}}
+              selectedButtonStyle={{ backgroundColor: '#F1719D' }}
             />
             <Input
               placeholder="ساعت شروع پریود"
@@ -192,7 +191,7 @@ const TrackingOptions = ({navigation}) => {
   };
   return (
     <SafeAreaView>
-      <View style={{height: 150}}>
+      <View style={{ height: 150 }}>
         <WeekCalendar
           current={date}
           onDateChanged={(day, propUpdate) => onDayPress(day)}

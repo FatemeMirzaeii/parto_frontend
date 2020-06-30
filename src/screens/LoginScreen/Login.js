@@ -1,11 +1,11 @@
 import React from 'react';
-import {KeyboardAvoidingView, View, Text} from 'react-native';
-import {Icon, Button} from 'react-native-elements';
-import {getData} from '../../app/Functions';
+import { KeyboardAvoidingView, View, Text } from 'react-native';
+import { Icon, Button } from 'react-native-elements';
+import { getData } from '../../app/Functions';
 import LoginForm from './LoginForm';
 import styles from './Styles';
 
-const Login = ({navigation}) => {
+const Login = ({ navigation }) => {
   const login = async () => {
     const interviewed = await getData('@startPages');
     interviewed

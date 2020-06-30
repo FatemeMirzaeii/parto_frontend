@@ -1,10 +1,10 @@
-import {View} from 'native-base';
-import React, {useEffect} from 'react';
-import {Image, Text} from 'react-native';
-import {StackActions, NavigationActions} from 'react-navigation';
+import { View } from 'native-base';
+import React, { useEffect } from 'react';
+import { Image, Text } from 'react-native';
+import { StackActions, NavigationActions } from 'react-navigation';
 import TouchID from 'react-native-touch-id';
-import {Theme} from '../../app/Theme';
-import {getData} from '../../app/Functions';
+import { Theme } from '../../app/Theme';
+import { getData } from '../../app/Functions';
 import AsyncStorage from '@react-native-community/async-storage';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
@@ -18,7 +18,7 @@ const optionalConfigObject = {
   // passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
 };
 
-const {colors, size, fonts} = Theme;
+const { colors, size, fonts } = Theme;
 const Splash = (props) => {
   // useEffect(() => {
   // TouchID.isSupported()
@@ -40,28 +40,30 @@ const Splash = (props) => {
     setTimeout(async () => {
       const start = await getData('@startPages');
       const token = await getData('@token');
-      AsyncStorage.removeItem('@token');
       if (start == 'true' && token) {
         props.navigation.navigate('Home');
       } else if (token) {
         props.navigation.dispatch(
           StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'StartQuestion'})],
+            actions: [
+              NavigationActions.navigate({ routeName: 'StartQuestion' }),
+            ],
           }),
         );
       } else {
         props.navigation.dispatch(
           StackActions.reset({
             index: 0,
-            actions: [NavigationActions.navigate({routeName: 'Login'})],
+            actions: [NavigationActions.navigate({ routeName: 'Login' })],
           }),
         );
       }
     }, 800);
   });
   return (
-    <View style={{backgroundColor: 'pink', flex: 1, justifyContent: 'center'}}>
+    <View
+      style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
       <Image
         style={{
           alignSelf: 'center',

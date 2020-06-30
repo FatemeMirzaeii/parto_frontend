@@ -76,7 +76,7 @@ const Home = (props) => {
 
   var db = new Database();
   useEffect(() => {
-    db.rawQuery('select * from user_profile;').then((b) => { });
+    db.rawQuery('select * from user_profile;').then((b) => {});
   });
   return (
     <ImageBackground
@@ -147,6 +147,11 @@ const Home = (props) => {
         </View>
       </ImageBackground>
       <Footer style={styles.footer}>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate('Profile')}
+          style={styles.tab}>
+          <Icon name="profile" type="AntDesign" style={styles.tabIcon} />
+        </TouchableOpacity>
         <TouchableOpacity
           onPress={() => props.navigation.navigate('Calendar')}
           style={styles.tab}>

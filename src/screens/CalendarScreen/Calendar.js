@@ -1,21 +1,21 @@
-import {Container, Text} from 'native-base';
-import React, {useEffect, useState} from 'react';
-import {StyleSheet, StatusBar} from 'react-native';
-import {Verticalcalendar} from 'react-native-calendars-persian';
-import {toPersianNum} from '../../app/Functions';
-import {Theme, Height} from '../../app/Theme';
+import { Container, Text } from 'native-base';
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, StatusBar } from 'react-native';
+import { Verticalcalendar } from 'react-native-calendars-persian';
+import { toPersianNum } from '../../app/Functions';
+import { Theme, Height } from '../../app/Theme';
 import Database from '../../components/Database';
-import {PROFILE} from '../../constants/TableDataBase';
+import { PROFILE } from '../../constants/TableDataBase';
 
 const db = new Database();
 
-const {colors, size, fonts} = Theme;
+const { colors, size, fonts } = Theme;
 const moment2 = require('moment-jalaali');
 
 var jalaali = require('jalaali-js');
-moment2.loadPersian({dialect: 'persian-modern'});
+moment2.loadPersian({ dialect: 'persian-modern' });
 const CalendarClass = (props) => {
-  const [jalali, setjalali] = useState({jalaali: true, text: 'میلادی'});
+  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
   const [state, setState] = useState({
     items: [],
     thisDay: '',
@@ -132,9 +132,9 @@ const CalendarClass = (props) => {
           },
         }}
         markedDates={{
-          '2020-05-17': {disabled: true},
-          '2020-04-21': {textColor: '#009933'},
-          '2020-05-09': {textColor: '#009933'},
+          '2020-05-17': { disabled: true },
+          '2020-04-21': { textColor: '#009933' },
+          '2020-05-09': { textColor: '#009933' },
           '2020-05-14': {
             startingDay: true,
             color: 'green',

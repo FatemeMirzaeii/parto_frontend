@@ -1,4 +1,4 @@
-import {getData} from '../app/Functions';
+import { getData } from '../app/Functions';
 const baseUrl = 'https://api.partobanoo.com/';
 export class RESTAPI {
   constructor() {

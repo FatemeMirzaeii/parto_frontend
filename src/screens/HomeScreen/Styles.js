@@ -1,10 +1,10 @@
-import {StyleSheet} from 'react-native';
-import {Theme, Width, Height} from '../../app/Theme';
-const {size, fonts} = Theme;
+import { StyleSheet } from 'react-native';
+import { Theme, Width, Height } from '../../app/Theme';
+const { size, fonts } = Theme;
 
 export default StyleSheet.create({
-  sky: {width: '100%', height: '100%'},
-  moon: {width: '100%', height: '80%', top: 25},
+  sky: { width: '100%', height: '100%' },
+  moon: { width: '100%', height: '80%', top: 25 },
   text: {
     alignSelf: 'center',
     color: '#121C3D',
