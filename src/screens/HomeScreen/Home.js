@@ -1,6 +1,6 @@
 import { Footer, Icon, Text, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, StyleSheet, StatusBar } from 'react-native';
+import { ImageBackground, SafeAreaView, StatusBar } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../app/Functions';
 import Database from '../../components/Database';
@@ -79,25 +79,26 @@ const Home = (props) => {
     db.rawQuery('select * from user_profile;').then((b) => {});
   });
   return (
-    <ImageBackground
-      source={require('../../../assets/images/bg7.png')}
-      style={styles.sky}>
-      {/* <WeekCalendar
-        onDateChanged={(day, propUpdate) => {
-          if (propUpdate === 'dayPress') {
-            props.navigation.navigate('Calendar');
-          }
-        }}
-      /> */}
+    <SafeAreaView>
       <ImageBackground
-        source={require('../../../assets/images/moon7.png')}
-        style={styles.moon}>
-        <StatusBar
-          translucent
-          barStyle="light-content"
-          backgroundColor="transparent"
+        source={require('../../../assets/images/bg7.png')}
+        style={styles.sky}>
+        <WeekCalendar
+          onDateChanged={(day, propUpdate) => {
+            if (propUpdate === 'dayPress') {
+              props.navigation.navigate('Calendar');
+            }
+          }}
         />
-        {/*
+        <ImageBackground
+          source={require('../../../assets/images/moon7.png')}
+          style={styles.moon}>
+          <StatusBar
+            translucent
+            barStyle="light-content"
+            backgroundColor="transparent"
+          />
+          {/*
         <Text
           style={{
             fontFamily: fonts.medium,
@@ -127,24 +128,25 @@ const Home = (props) => {
           )}
         />
          <TopAgenda onDayPress={() => props.navigation.navigate('Calendar')} /> */}
-        <View style={styles.moonText}>
-          <TouchableOpacity
-            onPress={() =>
-              props.navigation.navigate('TrackingOptions', {
-                date:
-                  new Date().getFullYear() +
-                  '-' +
-                  new Date().getMonth() +
-                  '-' +
-                  new Date().getDate(),
-              })
-            }>
-            <Text style={styles.text}>{toPersianNum(2)} روز</Text>
-            <Text style={styles.text}>تا پریود بعدی</Text>
-            <Text style={styles.text}>{state.today}</Text>
-            <Text style={styles.text}>{/* احتمال بالای باروری  */}</Text>
-          </TouchableOpacity>
-        </View>
+          <View style={styles.moonText}>
+            <TouchableOpacity
+              onPress={() =>
+                props.navigation.navigate('TrackingOptions', {
+                  date:
+                    new Date().getFullYear() +
+                    '-' +
+                    new Date().getMonth() +
+                    '-' +
+                    new Date().getDate(),
+                })
+              }>
+              <Text style={styles.text}>{toPersianNum(2)} روز</Text>
+              <Text style={styles.text}>تا پریود بعدی</Text>
+              <Text style={styles.text}>{state.today}</Text>
+              <Text style={styles.text}>{/* احتمال بالای باروری  */}</Text>
+            </TouchableOpacity>
+          </View>
+        </ImageBackground>
       </ImageBackground>
       <Footer style={styles.footer}>
         <TouchableOpacity
@@ -173,7 +175,7 @@ const Home = (props) => {
           <Icon name="linechart" type="AntDesign" style={styles.tabIcon} />
         </TouchableOpacity>
       </Footer>
-    </ImageBackground>
+    </SafeAreaView>
   );
 };
 export default Home;
