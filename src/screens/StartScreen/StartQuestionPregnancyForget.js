@@ -1,11 +1,10 @@
-import { Button, Radio, Title, View, Icon } from 'native-base';
-import React, { useState, useEffect } from 'react';
+import { Button, Icon, Radio, Title, View } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
-import Startpragnent from './StartQuestionpragnent';
 
 let questionArray = [{ zygosisDate: 1, childbirthDate: 0, lastPeriodDate: 0 }];
 const db = new Database();

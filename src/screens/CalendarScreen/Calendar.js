@@ -146,13 +146,6 @@ const CalendarClass = (props) => {
           },
         }}
         markedDates={state.markedDates}
-      // markedDates={{
-      //   date_: {
-      //     periods: [
-      //       { startingDay: true, endingDay: false, color: 'red' },
-      //     ]
-      //   },
-      // }}
       />
     </Container >
   );
@@ -161,7 +154,6 @@ export default CalendarClass;
 const styles = StyleSheet.create({
   calendar: {
     width: '100%',
-    // top: 60,
   },
   text: {
     textAlign: 'center',
