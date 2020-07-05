@@ -1,6 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { Theme, Width, Height } from '../../app/Theme';
-const { size, fonts } = Theme;
+const { size, fonts, colors } = Theme;
 
 export default StyleSheet.create({
   sky: { width: '100%', height: '100%' },
@@ -10,7 +10,13 @@ export default StyleSheet.create({
     color: '#121C3D',
     fontSize: size[24],
     fontFamily: fonts.medium,
-    marginTop: 10,
+    marginBottom: 10,
+  },
+  text2: {
+    alignSelf: 'center',
+    color: '#002A7D',
+    fontSize: size[14],
+    fontFamily: fonts.light,
   },
   tab: {
     width: size[40],
