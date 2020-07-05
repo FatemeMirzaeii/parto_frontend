@@ -56,7 +56,8 @@ const Start2 = (props) => {
             firstDay={6}
             jalali={true}
             onDayPress={(day) => { dayPress(day) }}
-
+            pastScrollRange={12}
+            maxDate={'2020-06-30'}
             theme={{
               selectedDayTextColor: 'white',
               selectedDayBackgroundColor: 'pink',
