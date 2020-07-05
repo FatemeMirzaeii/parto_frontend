@@ -150,7 +150,7 @@ const Home = (props) => {
       </ImageBackground>
       <Footer style={styles.footer}>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Profile')}
+          onPress={() => props.navigation.navigate('Menu')}
           style={styles.tab}>
           <Icon name="profile" type="AntDesign" style={styles.tabIcon} />
         </TouchableOpacity>

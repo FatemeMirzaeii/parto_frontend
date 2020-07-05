@@ -1,95 +1,91 @@
-import React, { createRef } from 'react';
+import React, { createRef, useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import { Card, ListItem, Icon, Button } from 'react-native-elements';
-import ActionSheet from 'react-native-actions-sheet';
-import UserInfo from './UserInfo';
+import { Card, ListItem, Input, Icon, Button } from 'react-native-elements';
 import styles from './Styles';
-import HealthProfile from './HealthProfile';
-const list = [
-  {
-    title: 'پروفایل سلامت',
-    icon: 'local-pharmacy',
-  },
-  {
-    title: 'یادآورها',
-    icon: 'alarm-on',
-  },
-  {
-    title: 'تنظیمات',
-    icon: 'settings',
-  },
-  {
-    title: 'خروج',
-    icon: 'exit-to-app',
-  },
-];
+import UserAvatar from './UserAvatar';
+import UserGoal from './UserGoal';
+import { WheelPicker } from 'react-native-wheel-picker-android';
 const Profile = ({ navigation }) => {
-  const healthProfileRef = createRef();
-  const onItemPress = (item) => {
-    switch (item) {
-      case 'پروفایل سلامت':
-        healthProfileRef.current?.setModalVisible();
-        break;
-      case '':
-        break;
-      case 'یادآورها':
-        break;
-      case 'تنظیمات':
-        break;
-      case 'خروج':
-    }
-  };
+  const [bloodTypePickervisible, setBloodTypePickerVisible] = useState(false);
+  const [heightPickervisible, setHeightPickerVisible] = useState(false);
+  const [weightPickervisible, setWeightPickerVisible] = useState(false);
+  const bloodTypes = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
+  const weight = ['45', '46', '47', '48', '49', '50', '51', '52'];
+  const height = [
+    '130',
+    '131',
+    '132',
+    '133',
+    '134',
+    '135',
+    '136',
+    '137',
+    '138',
+    '139',
+    '140',
+  ];
   return (
-    <ScrollView>
-      <UserInfo />
-      <Card title="هدف من" wrapperStyle={{ flexDirection: 'row' }}>
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
-        />
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
-        />
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
-        />
-      </Card>
+    <View>
+      <UserAvatar />
+      <UserGoal />
       <Card>
-        {list.map((item, i) => (
-          <ListItem
-            key={i}
-            title={item.title}
-            leftIcon={{ name: item.icon }}
-            bottomDivider
-            chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-            onPress={() => onItemPress(item.title)}
-          />
-        ))}
+        <ListItem
+          title="گروه خونی"
+          leftIcon={{ name: 'dashboard' }}
+          bottomDivider
+          chevron={
+            bloodTypePickervisible
+              ? { name: 'chevron-down', type: 'font-awesome' }
+              : { name: 'chevron-left', type: 'font-awesome' }
+          }
+          onPress={() =>
+            bloodTypePickervisible
+              ? setBloodTypePickerVisible(false)
+              : setBloodTypePickerVisible(true)
+          }
+        />
+        {bloodTypePickervisible ? <WheelPicker data={bloodTypes} /> : null}
+        <ListItem
+          title="قد"
+          leftIcon={{ name: 'dashboard' }}
+          bottomDivider
+          chevron={
+            heightPickervisible
+              ? { name: 'chevron-down', type: 'font-awesome' }
+              : { name: 'chevron-left', type: 'font-awesome' }
+          }
+          onPress={() =>
+            heightPickervisible
+              ? setHeightPickerVisible(false)
+              : setHeightPickerVisible(true)
+          }
+        />
+        {heightPickervisible ? <WheelPicker data={height} /> : null}
+        <ListItem
+          title="وزن"
+          leftIcon={{ name: 'dashboard' }}
+          bottomDivider
+          chevron={
+            weightPickervisible
+              ? { name: 'chevron-down', type: 'font-awesome' }
+              : { name: 'chevron-left', type: 'font-awesome' }
+          }
+          onPress={() =>
+            weightPickervisible
+              ? setWeightPickerVisible(false)
+              : setWeightPickerVisible(true)
+          }
+        />
+        {weightPickervisible ? <WheelPicker data={weight} /> : null}
+        <ListItem
+          title="میانگین ساعت خواب"
+          leftIcon={{ name: 'dashboard' }}
+          bottomDivider
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          //onPress={() => onItemPress()}
+        />
       </Card>
-      <ActionSheet
-        ref={healthProfileRef}
-        gestureEnabled={true}
-        bounceOnOpen={true}>
-        <HealthProfile />
-      </ActionSheet>
-    </ScrollView>
+    </View>
   );
 };
 export default Profile;

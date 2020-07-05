@@ -9,6 +9,7 @@ import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
 import SignUp from '../screens/SignUpScreen/SignUp';
 import Login from '../screens/LoginScreen/Login';
 import Profile from '../screens/ProfileScreen/Profile';
+import Menu from '../screens/MenuScreen/Menu';
 import Charts from '../screens/ChartsScreen/Charts';
 import htmlLoader from '../screens/HomeScreen/htmlLoader';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
@@ -28,6 +29,10 @@ const PagesNavigator = createStackNavigator(
     },
     Calendar: {
       screen: Calendar,
+      navigationOptions: { headerShown: false },
+    },
+    Menu: {
+      screen: Menu,
       navigationOptions: { headerShown: false },
     },
     TrackingOptions: {
