@@ -9,10 +9,16 @@ export default StyleSheet.create({
     paddingLeft: 20,
   },
   goal: {
-    borderRadius: 15,
-    width: Width / 3 - 10,
+    backgroundColor: 'transparent',
+    //borderWidth: 0,
+    borderRadius: 30,
+    width: Width / 1.1,
   },
-  text: { alignSelf: 'center', fontFamily: Theme.fonts.regular },
+  text: {
+    alignSelf: 'center',
+    fontFamily: Theme.fonts.regular,
+    //fontWeight: Theme.size[15],
+  },
   title: {
     margin: 10,
     paddingRight: 30,
