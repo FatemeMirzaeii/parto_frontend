@@ -4,6 +4,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-calendars-persian';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
+const moment = require('moment');
+const today = moment()
 
 const { colors, size, fonts } = Theme;
 let questionArray = [];
@@ -51,6 +53,8 @@ const pregnancyCalendar = (props) => {
                             <Calendar
                                 firstDay={6}
                                 jalali={true}
+                                maxDate={today.format('YYYY-MM-DD')}
+
                                 onDayPress={(day) => { dayPress(day) }}
 
                                 theme={{
@@ -90,6 +94,7 @@ const pregnancyCalendar = (props) => {
                                 firstDay={6}
                                 jalali={true}
                                 onDayPress={(day) => { dayPress(day) }}
+                                minDate={today.format('YYYY-MM-DD')}
 
                                 theme={{
                                     selectedDayTextColor: 'white',
@@ -129,6 +134,7 @@ const pregnancyCalendar = (props) => {
                                 firstDay={6}
                                 jalali={true}
                                 onDayPress={(day) => { dayPress(day) }}
+                                maxDate={today.format('YYYY-MM-DD')}
 
                                 theme={{
                                     selectedDayTextColor: 'white',

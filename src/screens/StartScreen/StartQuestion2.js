@@ -5,11 +5,11 @@ import { Calendar } from 'react-native-calendars-persian';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-
+const moment = require('moment');
 const { colors, size, fonts } = Theme;
 let questionArray = [];
 const toastText = 'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید'
-
+const today = moment()
 const Start2 = (props) => {
 
   useEffect(() => {
@@ -57,7 +57,7 @@ const Start2 = (props) => {
             jalali={true}
             onDayPress={(day) => { dayPress(day) }}
             pastScrollRange={12}
-            maxDate={'2020-06-30'}
+            maxDate={today.format('YYYY-MM-DD')}
             theme={{
               selectedDayTextColor: 'white',
               selectedDayBackgroundColor: 'pink',
