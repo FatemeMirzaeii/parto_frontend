@@ -1,5 +1,5 @@
 import React, { useRef, useState, Fragment } from 'react';
-import { Alert, View, Text, ActivityIndicator } from 'react-native';
+import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
@@ -21,7 +21,13 @@ const LoginForm = (props) => {
       await storeData('@token', res._token);
       props.onSubmit();
     } else {
-      Alert.alert(res._data.message);
+      if (res._status === 502) {
+        ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
+        setLoading(false);
+      } else {
+        ToastAndroid.show(res._data.message, ToastAndroid.LONG);
+        setLoading(false);
+      }
     }
   };
   return (
