@@ -8,6 +8,7 @@ const UserAvatar = (props) => {
     <Card>
       <Avatar
         rounded
+        showEditButton
         size="xlarge"
         icon={{ name: 'user', type: 'font-awesome' }}
         source={{

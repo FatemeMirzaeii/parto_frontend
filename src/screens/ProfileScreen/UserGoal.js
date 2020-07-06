@@ -1,40 +1,35 @@
-import React, { createRef } from 'react';
-import { ScrollView, View, Text } from 'react-native';
-import { Card, ListItem, Icon, Button } from 'react-native-elements';
+import React, { useState } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 import styles from './Styles';
-const UserGoal = ({ navigation }) => {
+const UserGoal = () => {
+  const [mode, setMode] = useState();
+  const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
   return (
-    <View>
-      <Card title="هدف من" wrapperStyle={{ flexDirection: 'row' }}>
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
+    <SafeAreaView>
+      <View>
+        <Text style={styles.title}>هدف من</Text>
+      </View>
+      <View style={styles.goals}>
+        <ButtonGroup
+          onPress={setMode}
+          selectedIndex={mode}
+          buttons={modes}
+          containerStyle={styles.goal}
+          selectedButtonStyle={{ backgroundColor: 'pink' }}
+          textStyle={styles.text}
         />
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
-        />
-        <Icon
-          raised
-          //onPress={handleSubmit}
-          name="ios-checkmark"
-          type="ionicon"
-          color="#f50"
-          size={35}
-          //containerStyle={styles.button}
-        />
-      </Card>
-    </View>
+        {/* <TouchableOpacity onPress={() => {}} style={styles.goal}>
+          <Text style={styles.text}></Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.goal}>
+          <Text style={styles.text}></Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.goal}>
+          <Text style={styles.text}></Text>
+        </TouchableOpacity> */}
+      </View>
+    </SafeAreaView>
   );
 };
 export default UserGoal;

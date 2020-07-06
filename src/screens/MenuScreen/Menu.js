@@ -39,9 +39,10 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="بارداری"
+          switch
           leftIcon={{ name: 'pregnant-woman' }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          //chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          //onPress={() => onItemPress()}
         />
       </Card>
       <Divider />
