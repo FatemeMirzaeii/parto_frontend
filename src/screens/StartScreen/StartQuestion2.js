@@ -72,17 +72,7 @@ const Start2 = (props) => {
       </View>
       <TouchableOpacity activeOpacity={0.6}
         onPress={() => forgetPress()}>
-        <Text style={{
-          marginTop: 5,
-          alignSelf: 'center',
-          fontFamily: fonts.regular,
-          fontSize: size[15],
-          color: colors.text1,
-          borderBottomWidth: 0.2,
-          paddingHorizontal: 10,
-          borderBottomColor: 'white',
-          color: 'white'
-        }}>فراموش کردم</Text>
+        <Text style={styles.forget}>فراموش کردم</Text>
       </TouchableOpacity>
 
       <Button
@@ -160,4 +150,15 @@ const styles = StyleSheet.create({
     marginRight: 20,
     fontFamily: fonts.regular,
   },
+  forget: {
+    marginTop: 5,
+    alignSelf: 'center',
+    fontFamily: fonts.regular,
+    fontSize: size[15],
+    color: colors.text1,
+    borderBottomWidth: 0.2,
+    paddingHorizontal: 10,
+    borderBottomColor: 'white',
+    color: 'white'
+  }
 });

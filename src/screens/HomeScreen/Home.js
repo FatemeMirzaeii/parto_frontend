@@ -1,4 +1,4 @@
-import { Footer, Icon, Text, View, Container } from 'native-base';
+import { Icon, Text, View, Container } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, SafeAreaView, StatusBar, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,6 +6,8 @@ import { toPersianNum } from '../../app/Functions';
 import Database from '../../components/Database';
 import TopAgenda from '../../components/TopAgenda';
 import { Theme, Height, Width } from '../../app/Theme';
+import { PROFILE } from '../../constants/TableDataBase';
+import Footer from './Footer';
 import styles from './Styles';
 const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
@@ -13,6 +15,7 @@ moment2.loadPersian({ dialect: 'persian-modern' });
 const moment = require('moment');
 const today = moment()
 var db = new Database();
+const _today = today.format('YYYYMMDD')
 const { colors, size, fonts } = Theme;
 
 const Home = (props) => {
@@ -23,7 +26,8 @@ const Home = (props) => {
     thisYear: '',
     today: '',
     daytonextperiod: 0,
-    type: ''
+    type: '',
+    pregnantweek: 0
   });
   const [responseDB, setResponseDB] = useState(null)
   const [Condition, setCondition] = useState(null)
@@ -83,36 +87,47 @@ const Home = (props) => {
       today: toPersianNum(Persian.jd) + ' ' + month,
     });
   };
-
-  useEffect(() => {
-    async function getDataDB() {
-      await db.rawQuery('select * from user_profile;').then((res) => {
-        console.log("rrrrrrrrrrrrrrrrrrrrrrrrrr: ", res[0])
-        setResponseDB(res[0])
-        if (res[0].pregnants == 1) setCondition("pregnant")
-        else setCondition("period")
-      });
-    }
-    getDataDB()
-    const _today = today.format('YYYY-MM-DD')
-
-    if (responseDB) {
-
+  async function setLatestPeriodCycle(diff) {
+    const lastPeriod = moment(moment(_today).add(-(diff - responseDB.avg_period_length), 'days').format('YYYYMMDD'));
+    //  _today(diff - responseDB.avg_period_length)
+    // let new_date = moment(moment(date).add(i, 'days').format('YYYY-MM-DD'));
+    console.log("today : ", _today)
+    console.log("lasttttttttttttttttt: ", lastPeriod)
+    await db.rawQuery(
+      `UPDATE ${PROFILE} set last_period_date=${lastPeriod._i} where id=1`,
+      [],
+      PROFILE)
+      .then((res) => { getDataDB(); checkPeriod() })
+  }
+  function checkPeriod() {
+    if (responseDB && responseDB.pregnant == 1) {
       const diff = (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
-      //  (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
-      //  (moment(_today, 'YYYYMMDD')).diff('20200603', 'days')
-      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmm ", responseDB.avg_period_length - diff + responseDB.avg_cycle_length)
-      console.log("mmmmmmmmmmmmmmmmmmmmmmmmmm ", responseDB.avg_period_length - diff)
-
-
+      console.log("diiiiif: ", diff)
+      // (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
       if (responseDB.avg_period_length - diff < 0 && responseDB.avg_period_length - diff + responseDB.avg_cycle_length >= 0)
         setState({ ...state, type: 'perioddate', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff)).toString() })
+      else if (diff > responseDB.avg_period_length)
+        setLatestPeriodCycle(diff)
       else {
         setState({ ...state, type: 'beforeperiod', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff + 1)).toString() })
       }
     }
+    else return true
+  }
+  async function getDataDB() {
+    await db.rawQuery(`select * from ${PROFILE}`).then((res) => {
+      console.log("rrrrrrrrrrrrrrrrrrrrrrrrrr: ", res[0])
+      if (res[0].pregnant == 1) setCondition("pregnant")
+      else if (res[0].pregnant == 0) setCondition("period")
+      setResponseDB(res[0])
 
-  }, [Condition]);
+    });
+  }
+  useEffect(() => {
+    getDataDB({})
+    checkPeriod({})
+
+  }, []);
 
   function typeOfState() {
     switch (Condition) {
@@ -153,8 +168,8 @@ const Home = (props) => {
                           new Date().getDate(),
                       })
                     }>
-                    <Text style={styles.text}>{toPersianNum(2)} روز</Text>
-                    <Text style={styles.text}>تا پریود بعدی</Text>
+                    <Text style={styles.text}> هفته {toPersianNum(parseInt(state.pregnantweek))}</Text>
+                    <Text style={styles.text}>فعال بودن حالت بارداری</Text>
                     <Text style={styles.text}>{state.today}</Text>
                     <Text style={styles.text}>{/* احتمال بالای باروری  */}</Text>
                   </TouchableOpacity>
@@ -178,13 +193,7 @@ const Home = (props) => {
                   backgroundColor="transparent"
                 />
                 <Text
-                  style={{
-                    fontFamily: fonts.medium,
-                    fontSize: size[15],
-                    color: '#121C3D',
-                    marginTop: Height / 20,
-                    alignSelf: 'center',
-                  }}>
+                  style={styles.numtxt}>
                   {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
                   {toPersianNum(state.thisYear)}
                 </Text>
@@ -220,44 +229,15 @@ const Home = (props) => {
             </ImageBackground>
           </View>
         )
-      default:
-        return (<View style={{ backgroundColor: 'green' }} />)
+
     }
   }
   return (
     <SafeAreaView>
       {typeOfState()}
-      <Footer style={styles.footer}>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Menu')}
-          style={styles.tab}>
-          <Icon name="profile" type="AntDesign" style={styles.tabIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Calendar')}
-          style={styles.tab}>
-          <Icon name="calendar" type="AntDesign" style={styles.tabIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[
-            styles.tab,
-            {
-              backgroundColor: '#FCF3CA',
-              borderRadius: 150,
-            },
-          ]}>
-          <Icon name="home" type="AntDesign" style={styles.tabIcon} />
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={() => props.navigation.navigate('Charts')}
-          style={styles.tab}>
-          <Icon name="linechart" type="AntDesign" style={styles.tabIcon} />
-        </TouchableOpacity>
-      </Footer>
+      <Footer />
     </SafeAreaView>
   );
-
-  // }
 
 };
 export default Home;
