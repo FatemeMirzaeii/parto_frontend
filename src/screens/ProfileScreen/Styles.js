@@ -3,26 +3,34 @@ import { Theme, Width, Height } from '../../app/Theme';
 
 export default StyleSheet.create({
   goals: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingRight: 20,
-    paddingLeft: 20,
-  },
-  goal: {
+    alignSelf: 'center',
+    justifyContent: 'center',
     backgroundColor: 'transparent',
-    //borderWidth: 0,
-    borderRadius: 30,
-    width: Width / 1.1,
+    borderWidth: 0,
+    width: Width / 1.2,
+    height: 26,
   },
+  goal: { borderRadius: 50 },
   text: {
     alignSelf: 'center',
     fontFamily: Theme.fonts.regular,
-    //fontWeight: Theme.size[15],
+    fontSize: Theme.size[14],
+  },
+  listItem: {
+    fontFamily: Theme.fonts.regular,
+    fontSize: Theme.size[14],
+  },
+  avatar: {
+    backgroundColor: '#f1f1f1',
+    elevation: 5,
+    alignSelf: 'center',
+    margin: 10,
   },
   title: {
     margin: 10,
-    paddingRight: 30,
+    paddingRight: 10,
     fontFamily: Theme.fonts.bold,
-    //fontWeight: Theme.size[30],
+    fontSize: Theme.size[24],
   },
+  picker: { alignItems: 'center' },
 });

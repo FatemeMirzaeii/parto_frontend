@@ -4,21 +4,9 @@ import { Card, ListItem, Icon, Button } from 'react-native-elements';
 import styles from './Styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
+
 const Menu = ({ navigation }) => {
-  const onItemPress = (item) => {
-    switch (item) {
-      case 'پروفایل سلامت':
-        healthProfileRef.current?.setModalVisible();
-        break;
-      case '':
-        break;
-      case 'یادآورها':
-        break;
-      case 'تنظیمات':
-        break;
-      case 'خروج':
-    }
-  };
+  const onItemPress = (item) => {};
   return (
     <ScrollView>
       <UserProfile onPress={() => navigation.navigate('Profile')} />
@@ -29,6 +17,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="تحلیل اطلاعات"
@@ -36,13 +25,14 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="بارداری"
           switch
           leftIcon={{ name: 'pregnant-woman' }}
-          //chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           //onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
       </Card>
       <Divider />
@@ -53,12 +43,14 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="ارتباط با کارشناسان"
           leftIcon={{ name: 'call' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
       </Card>
       <Divider />
@@ -69,6 +61,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="قفل نرم افزار"
@@ -76,12 +69,14 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
       </Card>
       <Divider />
@@ -92,6 +87,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="معرفی به دوستان"
@@ -99,6 +95,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="درباره پرتو"
@@ -106,12 +103,14 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
         <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => onItemPress()}
+          titleStyle={styles.listItem}
         />
       </Card>
     </ScrollView>

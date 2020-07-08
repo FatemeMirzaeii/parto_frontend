@@ -1,9 +1,8 @@
 import React from 'react';
-import { View, Text } from 'react-native';
-import { Card, Avatar, Icon, Button } from 'react-native-elements';
+import { View } from 'react-native';
 import styles from './Styles';
 
-const Divider = ({ navigation }) => {
-  return <View style={styles.divider}></View>;
+const Divider = () => {
+  return <View style={styles.divider} />;
 };
 export default Divider;
