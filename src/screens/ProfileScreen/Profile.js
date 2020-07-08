@@ -26,11 +26,14 @@ const Profile = ({ navigation }) => {
   const heightRange = setPickerRange(100, 250);
 
   const chooseChevronByItemStatus = (itemDetailIsVisible) => {
-    return itemDetailIsVisible
-      ? { name: 'chevron-down', type: 'font-awesome' }
-      : { name: 'chevron-left', type: 'font-awesome' };
+    return {
+      name: itemDetailIsVisible ? 'chevron-down' : 'chevron-left',
+      type: 'font-awesome',
+    };
   };
-
+  const renderRightTitle = (title) => {
+    return !title || title.includes('undefined') ? '' : title;
+  };
   const onBirthdateSelected = (date, persianDate) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
@@ -46,11 +49,7 @@ const Profile = ({ navigation }) => {
           bottomDivider
           chevron={chooseChevronByItemStatus(birthdatePickerVisible)}
           onPress={() => setBirthdatePickerVisible(!birthdatePickerVisible)}
-          rightTitle={
-            !persianDateString || persianDateString.includes('undefined')
-              ? ''
-              : persianDateString
-          }
+          rightTitle={renderRightTitle(persianDateString)}
           titleStyle={styles.listItem}
           rightTitleStyle={[
             styles.listItem,
@@ -70,8 +69,8 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={chooseChevronByItemStatus(bloodTypePickerVisible)}
-          onPress={() => setBirthdatePickerVisible(!bloodTypePickerVisible)}
-          rightTitle={!bloodTypes[bloodType] ? '' : bloodTypes[bloodType]}
+          onPress={() => setBloodTypePickerVisible(!bloodTypePickerVisible)}
+          rightTitle={renderRightTitle(bloodTypes[bloodType])}
           titleStyle={styles.listItem}
         />
         {bloodTypePickerVisible ? (
@@ -90,7 +89,7 @@ const Profile = ({ navigation }) => {
           bottomDivider
           chevron={chooseChevronByItemStatus(heightPickerVisible)}
           onPress={() => setHeightPickerVisible(!heightPickerVisible)}
-          rightTitle={!heightRange[height] ? '' : `${heightRange[height]} cm`}
+          rightTitle={`${renderRightTitle(heightRange[height])} cm`}
           titleStyle={styles.listItem}
           rightTitleStyle={styles.listItem}
         />
@@ -114,7 +113,7 @@ const Profile = ({ navigation }) => {
           bottomDivider
           chevron={chooseChevronByItemStatus(weightPickerVisible)}
           onPress={() => setWeightPickerVisible(!weightPickerVisible)}
-          rightTitle={!weightRange[weight] ? '' : `${weightRange[weight]} Kg`}
+          rightTitle={`${renderRightTitle(weightRange[weight])} Kg`}
           titleStyle={styles.listItem}
           rightTitleStyle={styles.listItem}
         />
