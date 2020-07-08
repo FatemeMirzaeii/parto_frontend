@@ -21,7 +21,7 @@ const LoginForm = (props) => {
       await storeData('@token', res._token);
       props.onSubmit();
     } else {
-      if (res._status === 502) {
+      if (res._status === 502 || res._status === null) {
         ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
         setLoading(false);
       } else {
