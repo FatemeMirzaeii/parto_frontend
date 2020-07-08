@@ -40,6 +40,7 @@ const PersianDatePicker = (props) => {
   });
   const setInitialDate = () => {
     if (props.initialDate) {
+      console.log('hi from component');
       const dateArr = props.initialDate.split('/');
       // if (dateArr.length === 3) {
       setDayIndex(parseInt(dateArr[2]) - 1);
@@ -111,7 +112,10 @@ const PersianDatePicker = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', alignSelf: 'center' },
+  container: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
   verticalWrapper: {
     height: 200,
     justifyContent: 'center',

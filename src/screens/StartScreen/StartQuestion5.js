@@ -27,10 +27,13 @@ const Start5 = (props) => {
     console.log('day: ', questionArray);
   }, [props]);
   const setDate = (date, persianDate) => {
-    const dateArray = date.split('/');
-    setDay(parseInt(dateArray[2]));
-    setMonth(parseInt(dateArray[1]));
-    setYear(parseInt(dateArray[0]));
+    console.log('hi from interview', date);
+    if (date) {
+      const dateArray = date.split('/');
+      setDay(parseInt(dateArray[2]));
+      setMonth(parseInt(dateArray[1]));
+      setYear(parseInt(dateArray[0]));
+    }
   };
   const nextPress = () => {
     let d,
@@ -120,8 +123,10 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
     height: '60%',
     paddingTop: 20,
+    paddingBottom: 100,
     borderRadius: 5,
     paddingHorizontal: 20,
+    justifyContent: 'space-between',
   },
   OptionWrapper: {
     justifyContent: 'center',

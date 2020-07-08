@@ -5,6 +5,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import TouchID from 'react-native-touch-id';
 import { Theme } from '../../app/Theme';
 import { getData } from '../../app/Functions';
+import AsyncStorage from '@react-native-community/async-storage';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -38,6 +39,7 @@ const Splash = (props) => {
     setTimeout(async () => {
       const start = await getData('@startPages');
       const token = await getData('@token');
+      AsyncStorage.clear();
       if (start == 'true' && token) {
         props.navigation.navigate('Home');
       } else if (token) {
