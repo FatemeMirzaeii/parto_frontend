@@ -39,7 +39,6 @@ const Splash = (props) => {
     setTimeout(async () => {
       const start = await getData('@startPages');
       const token = await getData('@token');
-      AsyncStorage.clear();
       if (start == 'true' && token) {
         props.navigation.navigate('Home');
       } else if (token) {
