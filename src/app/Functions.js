@@ -62,6 +62,15 @@ export function toPersianNum(num) {
     .map((x) => farsiDigits[x])
     .join('');
 }
+
+export function setPickerRange(min, max) {
+  let r = [];
+  for (let i = min; i <= max; i++) {
+    r.push(toPersianNum(i));
+  }
+  return r;
+}
+
 export function PersianDateToArray(PDate) {
   const Splitted = PDate.split(' ');
   switch (Splitted.length) {
