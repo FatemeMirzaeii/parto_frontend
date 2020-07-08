@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { Card, ListItem, Input, Icon, Button } from 'react-native-elements';
 import styles from './Styles';
+import { Theme } from '../../app/Theme';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
 import { WheelPicker } from 'react-native-wheel-picker-android';
@@ -30,9 +31,6 @@ const Profile = ({ navigation }) => {
       : { name: 'chevron-left', type: 'font-awesome' };
   };
 
-  const toggleVisibility = (item, setItemDetailVisible) => {
-    return item ? setItemDetailVisible(false) : setItemDetailVisible(true);
-  };
   const onBirthdateSelected = (date, persianDate) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
@@ -47,16 +45,17 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={chooseChevronByItemStatus(birthdatePickerVisible)}
-          onPress={() =>
-            toggleVisibility(birthdatePickerVisible, setBirthdatePickerVisible)
-          }
+          onPress={() => setBirthdatePickerVisible(!birthdatePickerVisible)}
           rightTitle={
             !persianDateString || persianDateString.includes('undefined')
               ? ''
               : persianDateString
           }
           titleStyle={styles.listItem}
-          rightTitleStyle={[styles.listItem, { width: 105 }]}
+          rightTitleStyle={[
+            styles.listItem,
+            { width: 105, alignSelf: 'flex-start' },
+          ]}
         />
         {birthdatePickerVisible ? (
           <View style={styles.picker}>
@@ -71,9 +70,7 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={chooseChevronByItemStatus(bloodTypePickerVisible)}
-          onPress={() =>
-            toggleVisibility(bloodTypePickerVisible, setBloodTypePickerVisible)
-          }
+          onPress={() => setBirthdatePickerVisible(!bloodTypePickerVisible)}
           rightTitle={!bloodTypes[bloodType] ? '' : bloodTypes[bloodType]}
           titleStyle={styles.listItem}
         />
@@ -84,7 +81,6 @@ const Profile = ({ navigation }) => {
               onItemSelected={setBloodType}
               data={bloodTypes}
               isCyclic={true}
-              //itemTextFontFamily={Theme.fonts.regular}
             />
           </View>
         ) : null}
@@ -93,11 +89,10 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={chooseChevronByItemStatus(heightPickerVisible)}
-          onPress={() =>
-            toggleVisibility(heightPickerVisible, setHeightPickerVisible)
-          }
+          onPress={() => setHeightPickerVisible(!heightPickerVisible)}
           rightTitle={!heightRange[height] ? '' : `${heightRange[height]} cm`}
           titleStyle={styles.listItem}
+          rightTitleStyle={styles.listItem}
         />
         {heightPickerVisible ? (
           <View style={styles.picker}>
@@ -106,6 +101,9 @@ const Profile = ({ navigation }) => {
               onItemSelected={setHeight}
               data={heightRange}
               isCyclic={true}
+              selectedItemTextSize={20}
+              itemTextFontFamily={Theme.fonts.regular}
+              selectedItemTextFontFamily={Theme.fonts.regular}
             />
           </View>
         ) : null}
@@ -115,11 +113,10 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={chooseChevronByItemStatus(weightPickerVisible)}
-          onPress={() =>
-            toggleVisibility(weightPickerVisible, setWeightPickerVisible)
-          }
+          onPress={() => setWeightPickerVisible(!weightPickerVisible)}
           rightTitle={!weightRange[weight] ? '' : `${weightRange[weight]} Kg`}
           titleStyle={styles.listItem}
+          rightTitleStyle={styles.listItem}
         />
         {weightPickerVisible ? (
           <View style={styles.picker}>
@@ -128,6 +125,9 @@ const Profile = ({ navigation }) => {
               onItemSelected={setWeight}
               data={weightRange}
               isCyclic={true}
+              selectedItemTextSize={20}
+              itemTextFontFamily={Theme.fonts.regular}
+              selectedItemTextFontFamily={Theme.fonts.regular}
             />
           </View>
         ) : null}
@@ -135,7 +135,7 @@ const Profile = ({ navigation }) => {
           title="میانگین ساعت خواب"
           input={{
             value: avgSleepingHours,
-            placeholder: '8',
+            placeholder: '۸',
             onChangeText: (value) => setAvgSleepingHours(value),
             containerStyle: {
               maxWidth: 60,

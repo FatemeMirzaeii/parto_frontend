@@ -40,7 +40,6 @@ const PersianDatePicker = (props) => {
   });
   const setInitialDate = () => {
     if (props.initialDate) {
-      console.log('hi from component');
       const dateArr = props.initialDate.split('/');
       // if (dateArr.length === 3) {
       setDayIndex(parseInt(dateArr[2]) - 1);
@@ -79,8 +78,8 @@ const PersianDatePicker = (props) => {
           onItemSelected={onDaySelected}
           isCyclic={true}
           style={styles.picker}
-          itemTextFontFamily={fonts.regular}
           selectedItemTextSize={20}
+          itemTextFontFamily={fonts.regular}
           selectedItemTextFontFamily={fonts.regular}
         />
       </View>
