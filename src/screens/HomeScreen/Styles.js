@@ -49,4 +49,11 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 40,
   },
+  numtxt: {
+    fontFamily: fonts.medium,
+    fontSize: size[15],
+    color: '#121C3D',
+    marginTop: Height / 20,
+    alignSelf: 'center',
+  }
 });
