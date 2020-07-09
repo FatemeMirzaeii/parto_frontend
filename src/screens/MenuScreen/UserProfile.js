@@ -6,7 +6,7 @@ import styles from './Styles';
 const UserProfile = (props) => {
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <Card wrapperStyle={{ flexDirection: 'row' }}>
+      <Card wrapperStyle={styles.avatarContainer}>
         <Avatar
           rounded
           size="large"
@@ -15,14 +15,9 @@ const UserProfile = (props) => {
             uri:
               'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
           }}
-          containerStyle={{
-            backgroundColor: '#f1f1f1',
-            elevation: 5,
-          }}
+          containerStyle={styles.avatar}
         />
-        <Text style={{ marginLeft: 15, alignSelf: 'center' }}>
-          فاطمه میرزایی
-        </Text>
+        <Text style={styles.text}>فاطمه میرزایی</Text>
       </Card>
     </TouchableOpacity>
   );

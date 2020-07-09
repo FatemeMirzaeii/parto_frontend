@@ -7,4 +7,18 @@ export default StyleSheet.create({
     backgroundColor: '#f1f1f1',
     justifyContent: 'center',
   },
+  avatar: {
+    backgroundColor: '#f1f1f1',
+    elevation: 5,
+  },
+  avatarContainer: { flexDirection: 'row' },
+  text: {
+    marginLeft: 15,
+    alignSelf: 'center',
+    fontFamily: Theme.fonts.regular,
+  },
+  listItem: {
+    fontFamily: Theme.fonts.regular,
+    fontSize: Theme.size[14],
+  },
 });

@@ -15,14 +15,9 @@ const UserAvatar = (props) => {
           uri:
             'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
         }}
-        containerStyle={{
-          backgroundColor: '#f1f1f1',
-          elevation: 5,
-          alignSelf: 'center',
-          margin: 10,
-        }}
+        containerStyle={styles.avatar}
       />
-      <Text style={{ marginLeft: 15, alignSelf: 'center' }}>فاطمه میرزایی</Text>
+      <Text style={styles.text}>فاطمه میرزایی</Text>
     </Card>
   );
 };
