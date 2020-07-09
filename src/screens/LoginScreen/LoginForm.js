@@ -35,77 +35,77 @@ const LoginForm = (props) => {
       {isLoading ? (
         <ActivityIndicator />
       ) : (
-        <Formik
-          initialValues={{ email: '', password: '' }}
-          onSubmit={(values) => submit(values)}
-          validationSchema={yup.object().shape({
-            email: yup
-              .string()
-              .email('ایمیل وارد شده معتبر نیست.')
-              .required('لطفا ایمیل خود را وارد کنید.'),
-            password: yup.string().required('لطفا رمزعبور خود را وارد کنید.'),
-          })}>
-          {({
-            values,
-            handleChange,
-            errors,
-            setFieldTouched,
-            touched,
-            isValid,
-            handleSubmit,
-          }) => (
-            <Fragment>
-              <Input
-                ref={emailInput}
-                value={values.email}
-                label="ایمیل"
-                placeholder="example@example.com"
-                onSubmitEditing={(r) => {
-                  passInput.current.focus();
-                }}
-                onChangeText={handleChange('email')}
-                onBlur={() => setFieldTouched('email')}
-                textContentType={'username'}
-                containerStyle={styles.input}
-                returnKeyType="next"
-                leftIcon={
-                  <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
-                }
-              />
-              {touched.email && errors.email && (
-                <Text style={styles.error}>{errors.email}</Text>
+          <Formik
+            initialValues={{ email: '', password: '' }}
+            onSubmit={(values) => submit(values)}
+            validationSchema={yup.object().shape({
+              email: yup
+                .string()
+                .email('ایمیل وارد شده معتبر نیست.')
+                .required('لطفا ایمیل خود را وارد کنید.'),
+              password: yup.string().required('لطفا رمزعبور خود را وارد کنید.'),
+            })}>
+            {({
+              values,
+              handleChange,
+              errors,
+              setFieldTouched,
+              touched,
+              isValid,
+              handleSubmit,
+            }) => (
+                <Fragment>
+                  <Input
+                    ref={emailInput}
+                    value={values.email}
+                    label="ایمیل"
+                    placeholder="example@example.com"
+                    onSubmitEditing={(r) => {
+                      passInput.current.focus();
+                    }}
+                    onChangeText={handleChange('email')}
+                    onBlur={() => setFieldTouched('email')}
+                    textContentType={'username'}
+                    containerStyle={styles.input}
+                    returnKeyType="next"
+                    leftIcon={
+                      <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
+                    }
+                  />
+                  {touched.email && errors.email && (
+                    <Text style={styles.error}>{errors.email}</Text>
+                  )}
+                  <Input
+                    value={values.password}
+                    ref={passInput}
+                    label="رمز عبور"
+                    placeholder="*******"
+                    secureTextEntry={true}
+                    onChangeText={handleChange('password')}
+                    onBlur={() => setFieldTouched('password')}
+                    textContentType={'password'}
+                    containerStyle={styles.input}
+                    leftIcon={
+                      <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
+                    }
+                  />
+                  {touched.password && errors.password && (
+                    <Text style={styles.error}>{errors.password}</Text>
+                  )}
+                  <Icon
+                    raised
+                    onPress={handleSubmit}
+                    name="ios-checkmark"
+                    type="ionicon"
+                    color="#f50"
+                    size={35}
+                    disabled={!isValid}
+                    containerStyle={styles.button}
+                  />
+                </Fragment>
               )}
-              <Input
-                value={values.password}
-                ref={passInput}
-                label="رمز عبور"
-                placeholder="*******"
-                secureTextEntry={true}
-                onChangeText={handleChange('password')}
-                onBlur={() => setFieldTouched('password')}
-                textContentType={'password'}
-                containerStyle={styles.input}
-                leftIcon={
-                  <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
-                }
-              />
-              {touched.password && errors.password && (
-                <Text style={styles.error}>{errors.password}</Text>
-              )}
-              <Icon
-                raised
-                onPress={handleSubmit}
-                name="ios-checkmark"
-                type="ionicon"
-                color="#f50"
-                size={35}
-                disabled={!isValid}
-                containerStyle={styles.button}
-              />
-            </Fragment>
-          )}
-        </Formik>
-      )}
+          </Formik>
+        )}
     </View>
   );
 };

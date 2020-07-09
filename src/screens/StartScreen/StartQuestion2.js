@@ -38,7 +38,7 @@ const Start2 = (props) => {
       toastText,
       ToastAndroid.LONG,
     );
-    setTimeout(async () => { dayPress({ dateString: '0000-00-00' }) }, 2000)
+    setTimeout(async () => { dayPress({ day: '00', month: '00', year: '00' }) }, 2000)
   }
 
   return (

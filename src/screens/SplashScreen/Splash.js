@@ -5,6 +5,7 @@ import { StackActions, NavigationActions } from 'react-navigation';
 import TouchID from 'react-native-touch-id';
 import { Theme } from '../../app/Theme';
 import { getData } from '../../app/Functions';
+import AppLock from '../../components/AppLock';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -62,6 +63,7 @@ const Splash = (props) => {
   return (
     <View
       style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
+      <AppLock />
       <Image
         style={{
           alignSelf: 'center',
