@@ -1,7 +1,9 @@
 import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
-import { createDrawerNavigator } from 'react-navigation-drawer';
+// import { createDrawerNavigator } from 'react-navigation-drawer';
 import { createStackNavigator } from 'react-navigation-stack';
+import { createBottomTabNavigator } from 'react-navigation-tabs';
+import AntDesign from 'react-native-vector-icons/AntDesign';
 // import All Screens
 import Home from '../screens/HomeScreen/Home';
 import Calendar from '../screens/CalendarScreen/Calendar';
@@ -21,114 +23,118 @@ import StartQuestionpragnent from '../screens/StartScreen/StartQuestionpragnent'
 import Splash from '../screens/SplashScreen/Splash';
 import StartQuestionPregnancyForget from '../screens/StartScreen/StartQuestionPregnancyForget';
 import pregnancyCalendar from '../screens/StartScreen/pregnancyCalendar';
-const PagesNavigator = createStackNavigator(
+
+const HomeStack = createStackNavigator(
   {
-    Home: {
-      screen: Home,
-      navigationOptions: { headerShown: false },
-    },
-    Calendar: {
-      screen: Calendar,
-      navigationOptions: { headerShown: false },
-    },
-    Menu: {
-      screen: Menu,
-      navigationOptions: { headerShown: false },
-    },
-    TrackingOptions: {
-      screen: TrackingOptions,
-      navigationOptions: { headerShown: false },
-    },
-    Charts: {
-      screen: Charts,
-      navigationOptions: { headerShown: false },
-    },
-    htmlLoader: {
-      screen: htmlLoader,
-      navigationOptions: { headerShown: false },
-    },
-    Profile: {
-      screen: Profile,
-      navigationOptions: { headerShown: false },
-    },
+    Home,
+    Calendar,
+    TrackingOptions,
+    htmlLoader,
   },
-  { initialRouteName: 'Home' },
+  {
+    defaultNavigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
 );
-
-const DrawerNavigator = createDrawerNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: { headerShown: false },
+const CalendarStack = createStackNavigator(
+  {
+    Calendar,
+    TrackingOptions,
   },
-
-  // },
-  // {
-  //   contentComponent: props => <DrawerView {...props} />,
+  {
+    defaultNavigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
+);
+const MenuStack = createStackNavigator(
+  {
+    Menu,
+    Profile,
+  },
+  {
+    defaultNavigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
+);
+const AuthStack = createStackNavigator(
+  {
+    Splash,
+    Login,
+    SignUp,
+  },
+  {
+    defaultNavigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
+);
+const InterviewStack = createStackNavigator(
+  {
+    StartQuestion,
+    StartQuestionpragnent,
+    StartQuestion2,
+    StartQuestion3,
+    StartQuestion4,
+    StartQuestion5,
+    StartQuestionPregnancyForget,
+    pregnancyCalendar,
+  },
+  {
+    defaultNavigationOptions: () => ({
+      headerShown: false,
+    }),
+  },
+);
+const TabNavigator = createBottomTabNavigator(
+  {
+    Menu: MenuStack,
+    Calendar: CalendarStack,
+    Home: HomeStack,
+    Charts,
+  },
+  {
+    defaultNavigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        switch (routeName) {
+          case 'Home':
+            iconName = focused ? 'home' : 'home';
+            break;
+          case 'Calendar':
+            iconName = focused ? 'calendar' : 'calendar';
+            break;
+          case 'Charts':
+            iconName = focused ? 'linechart' : 'linechart';
+            break;
+          case 'Menu':
+            iconName = focused ? 'profile' : 'profile';
+            break;
+          default:
+            break;
+        }
+        return <AntDesign name={iconName} size={30} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'tomato',
+      inactiveTintColor: 'gray',
+      showLabel: false,
+      style: {
+        borderTopRightRadius: 35,
+        borderTopLeftRadius: 35,
+        borderWidth: 1,
+        borderTopWidth: 1,
+        borderColor: 'gray',
+      },
+    },
+  },
+);
+export const AppSwitchNavigator = createSwitchNavigator({
+  Auth: AuthStack,
+  Interview: InterviewStack,
+  App: TabNavigator,
 });
-
-const StackNavigator = createStackNavigator(
-  {
-    Splash: {
-      screen: Splash,
-      navigationOptions: { headerShown: false },
-    },
-    Login: {
-      screen: Login,
-      navigationOptions: { headerShown: false },
-    },
-    SignUp: {
-      screen: SignUp,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion: {
-      screen: StartQuestion,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestionpragnent: {
-      screen: StartQuestionpragnent,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion2: {
-      screen: StartQuestion2,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion3: {
-      screen: StartQuestion3,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion4: {
-      screen: StartQuestion4,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestion5: {
-      screen: StartQuestion5,
-      navigationOptions: { headerShown: false },
-    },
-    StartQuestionPregnancyForget: {
-      screen: StartQuestionPregnancyForget,
-      navigationOptions: { headerShown: false },
-    },
-    pregnancyCalendar: {
-      screen: pregnancyCalendar,
-      navigationOptions: { headerShown: false },
-    },
-  },
-  { initialRouteName: 'Splash' },
-);
-export const AppSwitchNavigator = createSwitchNavigator(
-  {
-    Auth: {
-      screen: StackNavigator,
-      navigationOptions: { headerShown: false },
-    },
-    // App: {
-    //   screen: DrawerNavigator,
-    //   navigationOptions: {headerShown: false},
-    // },
-    Second: {
-      screen: PagesNavigator,
-      navigationOptions: { headerShown: false },
-    },
-  },
-  { initialRouteName: 'Auth' },
-);

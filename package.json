@@ -48,6 +48,7 @@
     "react-navigation": "^4.3.7",
     "react-navigation-drawer": "^2.4.11",
     "react-navigation-stack": "^2.3.12",
+    "react-navigation-tabs": "^2.9.0",
     "yup": "^0.29.1"
   },
   "devDependencies": {
