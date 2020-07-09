@@ -1,5 +1,5 @@
 import { Icon, Text, View, Container } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { ImageBackground, SafeAreaView, StatusBar, FlatList } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../app/Functions';
@@ -29,6 +29,7 @@ const Home = (props) => {
     type: '',
     pregnantweek: 0
   });
+  const isInitialMount = useRef(true);
   const [responseDB, setResponseDB] = useState(null)
   const [Condition, setCondition] = useState(null)
   const [weekDay, setweekDay] = useState([
@@ -100,19 +101,19 @@ const Home = (props) => {
       .then((res) => { getDataDB(); checkPeriod() })
   }
   function checkPeriod() {
-    if (responseDB && responseDB.pregnant == 1) {
-      const diff = (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
-      console.log("diiiiif: ", diff)
-      // (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
-      if (responseDB.avg_period_length - diff < 0 && responseDB.avg_period_length - diff + responseDB.avg_cycle_length >= 0)
-        setState({ ...state, type: 'perioddate', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff)).toString() })
-      else if (diff > responseDB.avg_period_length)
-        setLatestPeriodCycle(diff)
-      else {
-        setState({ ...state, type: 'beforeperiod', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff + 1)).toString() })
-      }
+
+    console.log("respDB", responseDB)
+
+    const diff = (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
+    console.log("diiiiif: ", diff)
+    // (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
+    if (responseDB.avg_period_length - diff < 0 && responseDB.avg_period_length - diff + responseDB.avg_cycle_length >= 0)
+      setState({ ...state, type: 'perioddate', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff)).toString() })
+    else if (diff > responseDB.avg_period_length)
+      setLatestPeriodCycle(diff)
+    else {
+      setState({ ...state, type: 'beforeperiod', daytonextperiod: (Math.abs(responseDB.avg_period_length - diff + 1)).toString() })
     }
-    else return true
   }
   async function getDataDB() {
     await db.rawQuery(`select * from ${PROFILE}`).then((res) => {
@@ -120,14 +121,25 @@ const Home = (props) => {
       if (res[0].pregnant == 1) setCondition("pregnant")
       else if (res[0].pregnant == 0) setCondition("period")
       setResponseDB(res[0])
+      checkPeriod()
+      // else console.log("else ok")
 
     });
   }
+  // useEffect(() => {
+  //   getDataDB()
+  // }, [Load]);
   useEffect(() => {
-    getDataDB({})
-    checkPeriod({})
+    // if (isInitialMount.current) {
+    //   isInitialMount.current = false;
+    //   console.log("ok")
+    // } else {
+    getDataDB()
+    console.log("ok no")
 
-  }, []);
+    // }
+    0
+  }, [responseDB != null]);
 
   function typeOfState() {
     switch (Condition) {
@@ -235,7 +247,7 @@ const Home = (props) => {
   return (
     <SafeAreaView>
       {typeOfState()}
-      <Footer />
+      <Footer {...props} />
     </SafeAreaView>
   );
 

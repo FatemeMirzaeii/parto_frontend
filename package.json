@@ -11,6 +11,7 @@
     "postinstall": "npx jetify"
   },
   "dependencies": {
+    "@haskkor/react-native-pincode": "^1.22.3",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.9",
     "@react-native-community/netinfo": "^5.7.1",
@@ -23,7 +24,7 @@
     "native-base": "^2.13.12",
     "react": "^16.9.0",
     "react-dom": "^16.13.1",
-    "react-native": "0.61.5",
+    "react-native": "^0.62.2",
     "react-native-actions-sheet": "^0.3.0",
     "react-native-calendars": "^1.300.0",
     "react-native-calendars-persian": "git+https://makhzan.partobanoo.com/paknahad/react-native-calendars-persian",
@@ -48,6 +49,7 @@
     "react-navigation": "^4.3.7",
     "react-navigation-drawer": "^2.4.11",
     "react-navigation-stack": "^2.3.12",
+    "react-pattern-lock": "^2.0.8",
     "yup": "^0.29.1"
   },
   "devDependencies": {
@@ -61,7 +63,7 @@
     "metro-react-native-babel-preset": "^0.59.0",
     "react-test-renderer": "16.9.0",
     "webpack": "^4.43.0",
-    "webpack-dev-server": "^3.10.3"
+    "webpack-dev-server": "^3.11.0"
   },
   "jest": {
     "preset": "react-native-web"

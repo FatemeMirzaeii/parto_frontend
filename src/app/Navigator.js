@@ -11,7 +11,6 @@ import Login from '../screens/LoginScreen/Login';
 import Profile from '../screens/ProfileScreen/Profile';
 import Menu from '../screens/MenuScreen/Menu';
 import Charts from '../screens/ChartsScreen/Charts';
-import htmlLoader from '../screens/HomeScreen/htmlLoader';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
 import StartQuestion2 from '../screens/StartScreen/StartQuestion2';
 import StartQuestion3 from '../screens/StartScreen/StartQuestion3';
@@ -41,10 +40,6 @@ const PagesNavigator = createStackNavigator(
     },
     Charts: {
       screen: Charts,
-      navigationOptions: { headerShown: false },
-    },
-    htmlLoader: {
-      screen: htmlLoader,
       navigationOptions: { headerShown: false },
     },
     Profile: {

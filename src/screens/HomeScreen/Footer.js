@@ -1,7 +1,7 @@
+import { Footer, Icon } from 'native-base';
 import React from 'react';
-import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Icon, Text, View, Container, Footer } from 'native-base';
-import styles from './Styles'
+import { TouchableOpacity } from 'react-native';
+import styles from './Styles';
 
 const FooterPage = (props) => {
 
