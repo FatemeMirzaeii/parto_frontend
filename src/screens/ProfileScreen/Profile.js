@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { ScrollView, View, Text } from 'react-native';
-import { Card, ListItem, Input, Icon, Button } from 'react-native-elements';
+import React, { useEffect, useState } from 'react';
+import { ScrollView, View } from 'react-native';
+import { Card, ListItem, Button } from 'react-native-elements';
+import DataBase from '../../components/Database';
 import styles from './Styles';
 import { Theme } from '../../app/Theme';
 import UserAvatar from './UserAvatar';
@@ -8,6 +9,7 @@ import UserGoal from './UserGoal';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../../app/Functions';
 import PersianDatePicker from '../../components/PersianDatePicker';
+const db = new DataBase();
 
 const Profile = ({ navigation }) => {
   const [birthdatePickerVisible, setBirthdatePickerVisible] = useState(false);
@@ -20,7 +22,21 @@ const Profile = ({ navigation }) => {
   const [weight, setWeight] = useState();
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
+  const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    db.rawQuery('SELECT * FROM user_profile;', 'user_profile').then((n) => {
+      const row = n[0];
+      if (row) {
+        console.log('roooooooooooooow', typeof row.birthdate, row.birthdate);
+        setBirthdate(row.birthdate);
+        setBloodType(row.blood_type);
+        setWeight(row.weight);
+        setHeight(row.height);
+        setAvgSleepingHours(row.avg_sleeping_hour);
+      }
+    });
+  }, []);
   const bloodTypes = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
   const weightRange = setPickerRange(30, 150);
   const heightRange = setPickerRange(100, 250);
@@ -37,6 +53,17 @@ const Profile = ({ navigation }) => {
   const onBirthdateSelected = (date, persianDate) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
+  };
+  const save = () => {
+    setLoading(true);
+    db.rawQuery(
+      `UPDATE user_profile SET blood_type=${bloodType},
+                               weight=${weight},
+                               height=${height},
+                               birthdate='${birthdate}',
+                               avg_sleeping_hour=${avgSleepingHours}`,
+      'user_profile',
+    ).then(() => setLoading(false));
   };
   return (
     <ScrollView>
@@ -99,6 +126,7 @@ const Profile = ({ navigation }) => {
               selectedItem={height}
               onItemSelected={setHeight}
               data={heightRange}
+              initPosition={60}
               isCyclic={true}
               selectedItemTextSize={20}
               itemTextFontFamily={Theme.fonts.regular}
@@ -123,6 +151,7 @@ const Profile = ({ navigation }) => {
               selectedItem={weight}
               onItemSelected={setWeight}
               data={weightRange}
+              initPosition={30}
               isCyclic={true}
               selectedItemTextSize={20}
               itemTextFontFamily={Theme.fonts.regular}
@@ -133,11 +162,11 @@ const Profile = ({ navigation }) => {
         <ListItem
           title="میانگین ساعت خواب"
           input={{
-            value: avgSleepingHours,
+            value: `${avgSleepingHours ? avgSleepingHours : ''}`,
             placeholder: '۸',
             onChangeText: (value) => setAvgSleepingHours(value),
             containerStyle: {
-              maxWidth: 60,
+              maxWidth: 70,
             },
           }}
           leftIcon={{ name: 'dashboard' }}
@@ -145,6 +174,17 @@ const Profile = ({ navigation }) => {
           //onPress={() => onItemPress()}
         />
       </Card>
+      <Button
+        raised
+        loading={loading}
+        title="ذخیره"
+        onPress={() => save()}
+        type="outline"
+        buttonStyle={styles.saveButton}
+        containerStyle={styles.saveContainer}
+        titleStyle={styles.saveTitle}
+        loadingStyle={{ color: 'tomato' }}
+      />
     </ScrollView>
   );
 };

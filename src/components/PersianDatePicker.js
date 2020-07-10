@@ -5,6 +5,9 @@ import { setPickerRange } from '../app/Functions';
 import { Theme } from '../app/Theme';
 const { size, fonts } = Theme;
 
+////todo: 1- should return both Gregorian date and jalali.
+////      2- should check if month has 31 days or not.
+
 const days = setPickerRange(1, 31);
 const years = setPickerRange(1340, 1386);
 const months = [
