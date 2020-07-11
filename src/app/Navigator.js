@@ -12,6 +12,7 @@ import SignUp from '../screens/SignUpScreen/SignUp';
 import Login from '../screens/LoginScreen/Login';
 import Profile from '../screens/ProfileScreen/Profile';
 import Menu from '../screens/MenuScreen/Menu';
+import CycleSettings from '../screens/CycleSettingsScreen/CycleSettings';
 import Charts from '../screens/ChartsScreen/Charts';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
 import StartQuestion2 from '../screens/StartScreen/StartQuestion2';
@@ -47,17 +48,14 @@ const CalendarStack = createStackNavigator(
     }),
   },
 );
-const MenuStack = createStackNavigator(
-  {
-    Menu,
-    Profile,
+const MenuStack = createStackNavigator({
+  Menu: {
+    screen: Menu,
+    navigationOptions: { headerShown: false },
   },
-  {
-    defaultNavigationOptions: () => ({
-      headerShown: false,
-    }),
-  },
-);
+  Profile,
+  CycleSettings,
+});
 const AuthStack = createStackNavigator(
   {
     Splash,
@@ -100,6 +98,7 @@ const TabNavigator = createBottomTabNavigator(
         const { routeName } = navigation.state;
         let iconName;
         switch (routeName) {
+          //todo: should change focused icon.
           case 'Home':
             iconName = focused ? 'home' : 'home';
             break;
