@@ -6,7 +6,7 @@ import styles from './Styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const db = new DataBase();
 
-const UserAvatar = (props) => {
+const UserAvatar = ({ navigation }) => {
   const [name, setName] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
@@ -30,11 +30,13 @@ const UserAvatar = (props) => {
   return (
     <SafeAreaView>
       {isRegistered ? null : (
-        <View style={styles.register}>
+        <TouchableOpacity
+          style={styles.register}
+          onPress={() => navigation.navigate('SignUp')}>
           <Text style={[styles.text, { color: '#ffffff' }]}>
             شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
           </Text>
-        </View>
+        </TouchableOpacity>
       )}
       <Card>
         {isEditing ? (

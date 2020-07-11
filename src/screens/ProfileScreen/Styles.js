@@ -15,7 +15,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontSize: Theme.size[12],
   },
   listItem: {
     fontFamily: Theme.fonts.regular,

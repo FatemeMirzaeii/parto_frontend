@@ -1,21 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import DataBase from '../../components/Database';
 import styles from './Styles';
-import { Theme } from '../../app/Theme';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
-import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../../app/Functions';
-import PersianDatePicker from '../../components/PersianDatePicker';
+import PickerListItem from '../../components/PickerListItem';
 const db = new DataBase();
 
 const Profile = ({ navigation }) => {
-  const [birthdatePickerVisible, setBirthdatePickerVisible] = useState(false);
-  const [bloodTypePickerVisible, setBloodTypePickerVisible] = useState(false);
-  const [heightPickerVisible, setHeightPickerVisible] = useState(false);
-  const [weightPickerVisible, setWeightPickerVisible] = useState(false);
   const [birthdate, setBirthdate] = useState();
   const [persianDateString, setPersianDateString] = useState();
   const [bloodType, setBloodType] = useState();
@@ -41,12 +35,6 @@ const Profile = ({ navigation }) => {
   const weightRange = setPickerRange(30, 150);
   const heightRange = setPickerRange(100, 250);
 
-  const chooseChevronByItemStatus = (itemDetailIsVisible) => {
-    return {
-      name: itemDetailIsVisible ? 'chevron-down' : 'chevron-left',
-      type: 'font-awesome',
-    };
-  };
   const renderRightTitle = (title) => {
     return !title || title.includes('undefined') ? '' : title;
   };
@@ -67,98 +55,43 @@ const Profile = ({ navigation }) => {
   };
   return (
     <ScrollView>
-      <UserAvatar />
+      <UserAvatar navigation={navigation} />
       <UserGoal />
       <Card>
-        <ListItem
+        <PickerListItem
+          DatePicker
           title="تاریخ تولد"
+          initialDate={birthdate}
+          onDateSelected={onBirthdateSelected}
           leftIcon={{ name: 'dashboard' }}
-          bottomDivider
-          chevron={chooseChevronByItemStatus(birthdatePickerVisible)}
-          onPress={() => setBirthdatePickerVisible(!birthdatePickerVisible)}
-          rightTitle={renderRightTitle(persianDateString)}
-          titleStyle={styles.listItem}
-          rightTitleStyle={[
-            styles.listItem,
-            { width: 105, alignSelf: 'flex-start' },
-          ]}
+          rightTitle={persianDateString}
         />
-        {birthdatePickerVisible ? (
-          <View style={styles.picker}>
-            <PersianDatePicker
-              initialDate={birthdate}
-              onDateSelected={onBirthdateSelected}
-            />
-          </View>
-        ) : null}
-        <ListItem
+        <PickerListItem
           title="گروه خونی"
+          data={bloodTypes}
+          selectedItem={parseInt(bloodType)}
+          onItemSelected={setBloodType}
           leftIcon={{ name: 'dashboard' }}
-          bottomDivider
-          chevron={chooseChevronByItemStatus(bloodTypePickerVisible)}
-          onPress={() => setBloodTypePickerVisible(!bloodTypePickerVisible)}
-          rightTitle={renderRightTitle(bloodTypes[bloodType])}
-          titleStyle={styles.listItem}
+          rightTitle={bloodTypes[bloodType]}
         />
-        {bloodTypePickerVisible ? (
-          <View style={styles.picker}>
-            <WheelPicker
-              selectedItem={bloodType}
-              onItemSelected={setBloodType}
-              data={bloodTypes}
-              isCyclic={true}
-            />
-          </View>
-        ) : null}
-        <ListItem
+        <PickerListItem
           title="قد"
+          selectedItem={height}
+          onItemSelected={setHeight}
+          range={{ min: 100, max: 250 }}
+          initPosition={60}
           leftIcon={{ name: 'dashboard' }}
-          bottomDivider
-          chevron={chooseChevronByItemStatus(heightPickerVisible)}
-          onPress={() => setHeightPickerVisible(!heightPickerVisible)}
           rightTitle={`${renderRightTitle(heightRange[height])} cm`}
-          titleStyle={styles.listItem}
-          rightTitleStyle={styles.listItem}
         />
-        {heightPickerVisible ? (
-          <View style={styles.picker}>
-            <WheelPicker
-              selectedItem={height}
-              onItemSelected={setHeight}
-              data={heightRange}
-              initPosition={60}
-              isCyclic={true}
-              selectedItemTextSize={20}
-              itemTextFontFamily={Theme.fonts.regular}
-              selectedItemTextFontFamily={Theme.fonts.regular}
-            />
-          </View>
-        ) : null}
-
-        <ListItem
+        <PickerListItem
           title="وزن"
+          selectedItem={weight}
+          onItemSelected={setWeight}
+          range={{ min: 30, max: 150 }}
+          initPosition={30}
           leftIcon={{ name: 'dashboard' }}
-          bottomDivider
-          chevron={chooseChevronByItemStatus(weightPickerVisible)}
-          onPress={() => setWeightPickerVisible(!weightPickerVisible)}
           rightTitle={`${renderRightTitle(weightRange[weight])} Kg`}
-          titleStyle={styles.listItem}
-          rightTitleStyle={styles.listItem}
         />
-        {weightPickerVisible ? (
-          <View style={styles.picker}>
-            <WheelPicker
-              selectedItem={weight}
-              onItemSelected={setWeight}
-              data={weightRange}
-              initPosition={30}
-              isCyclic={true}
-              selectedItemTextSize={20}
-              itemTextFontFamily={Theme.fonts.regular}
-              selectedItemTextFontFamily={Theme.fonts.regular}
-            />
-          </View>
-        ) : null}
         <ListItem
           title="میانگین ساعت خواب"
           input={{
@@ -188,4 +121,7 @@ const Profile = ({ navigation }) => {
     </ScrollView>
   );
 };
+Profile.navigationOptions = () => ({
+  title: 'حساب کاربری',
+});
 export default Profile;
