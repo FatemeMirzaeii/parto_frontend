@@ -3,6 +3,7 @@ import { ScrollView } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
 import DataBase from '../../components/Database';
+import { toEnglishNumber, toPersianNum } from '../../app/Functions';
 import styles from './Styles';
 const db = new DataBase();
 
@@ -15,7 +16,6 @@ const CycleSettings = ({ navigation }) => {
   const [periodCount, setPeriodCount] = useState(false);
 
   useEffect(() => {
-    navigation.setParams({ save });
     db.rawQuery(
       'SELECT avg_period_length, avg_cycle_length, pms_length FROM user_profile',
       'user_profile',
@@ -28,16 +28,18 @@ const CycleSettings = ({ navigation }) => {
       }
     });
   }, []);
-
-  const save = () => {
-    console.log('Im hereeeeeeee');
-    db.rawQuery(
-      `UPDATE user_profile SET avg_period_length='${periodLength}',
-                                         avg_cycle_length='${cycleLength}',
-                                         pms_length='${pmsLength}'`,
-      'user_profile',
-    );
-  };
+  useEffect(() => {
+    navigation.setParams({
+      save: () => {
+        db.rawQuery(
+          `UPDATE user_profile SET avg_period_length=${periodLength},
+                                           avg_cycle_length=${cycleLength},
+                                           pms_length=${pmsLength}`,
+          'user_profile',
+        );
+      },
+    });
+  }, [periodLength, cycleLength, pmsLength]);
 
   return (
     <ScrollView>
@@ -45,27 +47,25 @@ const CycleSettings = ({ navigation }) => {
         <PickerListItem
           title="طول روزهای خونریزی"
           range={{ min: 3, max: 10 }}
-          selectedItem={periodLength}
-          onItemSelected={setPeriodLength}
-          initPosition={4}
-          rightTitle={periodLength}
+          selectedItem={toPersianNum(periodLength)}
+          onItemSelected={(item) => setPeriodLength(toEnglishNumber(item))}
+          rightTitle={{ title: toPersianNum(periodLength), suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <PickerListItem
           title="طول چرخه قاعدگی"
           range={{ min: 15, max: 50 }}
-          selectedItem={cycleLength}
-          onItemSelected={setCycleLength}
-          initPosition={14}
-          rightTitle={cycleLength}
+          selectedItem={toPersianNum(cycleLength)}
+          onItemSelected={(item) => setCycleLength(toEnglishNumber(item))}
+          rightTitle={{ title: toPersianNum(cycleLength), suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <PickerListItem
           title="طول سندروم پیش از قاعدگی"
-          range={{ min: 3, max: 10 }}
-          selectedItem={pmsLength}
-          onItemSelected={setPmsLength}
-          rightTitle={pmsLength}
+          range={{ min: 1, max: 10 }}
+          selectedItem={toPersianNum(pmsLength)}
+          onItemSelected={(item) => setPmsLength(toEnglishNumber(item))}
+          rightTitle={{ title: toPersianNum(pmsLength), suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <ListItem

@@ -8,6 +8,15 @@ import PersianDatePicker from './PersianDatePicker';
 
 const PickerListItem = (props) => {
   const [pickerIsVisible, setPickerVisible] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(
+      props.range
+        ? setPickerRange(props.range.min, props.range.max)
+        : props.data,
+    );
+  }, []);
 
   const chooseChevron = (isVisible) => {
     return {
@@ -15,14 +24,19 @@ const PickerListItem = (props) => {
       type: 'font-awesome',
     };
   };
-  const renderRightTitle = (title) => {
-    return !title || title.includes('undefined') ? '' : title;
+
+  const renderRightTitle = (title, suffix) => {
+    return !title || (typeof title === 'string' && title.includes('undefined'))
+      ? ''
+      : suffix
+      ? title + ' ' + suffix
+      : title;
   };
-  const findIndex = (arr, element) => {
-    arr.findIndex((e) => {
-      e.value === element;
-    });
+
+  const onItemSelected = (item) => {
+    props.onItemSelected(data[item]);
   };
+
   return (
     <View>
       <ListItem
@@ -31,21 +45,20 @@ const PickerListItem = (props) => {
         bottomDivider
         chevron={chooseChevron(pickerIsVisible)}
         onPress={() => setPickerVisible(!pickerIsVisible)}
-        rightTitle={renderRightTitle(`${props.rightTitle}`)}
+        rightTitle={renderRightTitle(
+          props.rightTitle.title,
+          props.rightTitle.suffix,
+        )}
         titleStyle={styles.listItem}
-        rightTitleStyle={[styles.listItem, { width: 100 }]}
+        rightTitleStyle={[styles.listItem, { width: 90, textAlign: 'right' }]}
       />
       {pickerIsVisible ? (
         <View style={styles.picker}>
           {!props.DatePicker ? (
             <WheelPicker
-              selectedItem={props.selectedItem}
-              onItemSelected={props.onItemSelected}
-              data={
-                props.range
-                  ? setPickerRange(props.range.min, props.range.max)
-                  : props.data
-              }
+              selectedItem={data.findIndex((a) => a === props.selectedItem)}
+              onItemSelected={onItemSelected}
+              data={data}
               initPosition={props.initPosition}
               isCyclic={true}
               selectedItemTextSize={20}
@@ -68,6 +81,7 @@ const styles = StyleSheet.create({
   listItem: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
+    width: 200,
   },
 });
 export default PickerListItem;

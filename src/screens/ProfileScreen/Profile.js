@@ -5,7 +5,7 @@ import DataBase from '../../components/Database';
 import styles from './Styles';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
-import { setPickerRange } from '../../app/Functions';
+import { toEnglishNumber, toPersianNum } from '../../app/Functions';
 import PickerListItem from '../../components/PickerListItem';
 const db = new DataBase();
 
@@ -32,12 +32,7 @@ const Profile = ({ navigation }) => {
     });
   }, []);
   const bloodTypes = ['O+', 'O-', 'A+', 'A-', 'B+', 'B-', 'AB+', 'AB-'];
-  const weightRange = setPickerRange(30, 150);
-  const heightRange = setPickerRange(100, 250);
 
-  const renderRightTitle = (title) => {
-    return !title || title.includes('undefined') ? '' : title;
-  };
   const onBirthdateSelected = (date, persianDate) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
@@ -45,7 +40,7 @@ const Profile = ({ navigation }) => {
   const save = () => {
     setLoading(true);
     db.rawQuery(
-      `UPDATE user_profile SET blood_type=${bloodType},
+      `UPDATE user_profile SET blood_type='${bloodType}',
                                weight=${weight},
                                height=${height},
                                birthdate='${birthdate}',
@@ -64,33 +59,31 @@ const Profile = ({ navigation }) => {
           initialDate={birthdate}
           onDateSelected={onBirthdateSelected}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={persianDateString}
+          rightTitle={{ title: persianDateString }}
         />
         <PickerListItem
           title="گروه خونی"
           data={bloodTypes}
-          selectedItem={parseInt(bloodType)}
+          selectedItem={bloodType}
           onItemSelected={setBloodType}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={bloodTypes[bloodType]}
+          rightTitle={{ title: bloodType }}
         />
         <PickerListItem
           title="قد"
-          selectedItem={height}
-          onItemSelected={setHeight}
+          selectedItem={toPersianNum(height)}
+          onItemSelected={(item) => setHeight(toEnglishNumber(item))}
           range={{ min: 100, max: 250 }}
-          initPosition={60}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={`${renderRightTitle(heightRange[height])} cm`}
+          rightTitle={{ title: toPersianNum(height), suffix: 'cm' }}
         />
         <PickerListItem
           title="وزن"
-          selectedItem={weight}
-          onItemSelected={setWeight}
+          selectedItem={toPersianNum(weight)}
+          onItemSelected={(item) => setWeight(toEnglishNumber(item))}
           range={{ min: 30, max: 150 }}
-          initPosition={30}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={`${renderRightTitle(weightRange[weight])} Kg`}
+          rightTitle={{ title: toPersianNum(weight), suffix: 'Kg' }}
         />
         <ListItem
           title="میانگین ساعت خواب"
@@ -117,6 +110,7 @@ const Profile = ({ navigation }) => {
         containerStyle={styles.saveContainer}
         titleStyle={styles.saveTitle}
         loadingStyle={{ color: 'tomato' }}
+        // icon={{name: 'user'}}
       />
     </ScrollView>
   );
