@@ -62,9 +62,9 @@ const Splash = (props) => {
   });
   return (
     <View
-      style={{ backgroundColor: 'pink', flex: 1, justifyContent: 'center' }}>
+      style={{ backgroundColor: 'pink', justifyContent: 'center' }}>
       <AppLock />
-      <Image
+      {/* <Image
         style={{
           alignSelf: 'center',
           borderRadius: 200,
@@ -82,7 +82,7 @@ const Splash = (props) => {
         }}>
         {' '}
         پرتو دستیار هوشمند سلامت بانوان{' '}
-      </Text>
+      </Text> */}
     </View>
   );
 };

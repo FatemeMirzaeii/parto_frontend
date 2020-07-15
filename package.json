@@ -11,7 +11,6 @@
     "postinstall": "npx jetify"
   },
   "dependencies": {
-    "@haskkor/react-native-pincode": "^1.22.3",
     "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/masked-view": "^0.1.9",
     "@react-native-community/netinfo": "^5.7.1",
@@ -49,7 +48,6 @@
     "react-navigation": "^4.3.7",
     "react-navigation-drawer": "^2.4.11",
     "react-navigation-stack": "^2.3.12",
-    "react-pattern-lock": "^2.0.8",
     "yup": "^0.29.1"
   },
   "devDependencies": {

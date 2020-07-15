@@ -1,6 +1,6 @@
 import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
@@ -9,7 +9,7 @@ import { storeData } from '../../app/Functions';
 import PersianDatePicker from '../../components/PersianDatePicker';
 const moment = require('moment');
 
-const { size, fonts } = Theme;
+const { size, fonts, colors } = Theme;
 const db = new Database();
 
 let questionArray = [];
@@ -21,6 +21,7 @@ const Start5 = (props) => {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
+  const [forgetDate, setforgetDate] = useState(false)
   useEffect(() => {
     questionArray = props.navigation.state.params.questionArray;
     forgetPragnancy = props.navigation.state.params.forgetPragnancy;
@@ -53,15 +54,29 @@ const Start5 = (props) => {
     y = year;
     let _date = (y + m + d).toString();
     questionArray.push({ birthdate: _date });
+    console.log('date: ', day + " " + month + " " + year);
     console.log('day: ', questionArray);
     saveToLocal();
   };
   const saveToLocal = () => {
     const today = moment();
-    if (forgetPragnancy == true) {
-      console.log('pragnancy ok');
-      goToHome();
-    } else {
+    if (forgetDate == true) {
+      db.rawQuery(
+        `INSERT INTO ${PROFILE}
+             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,created_at,last_period_date)
+             VALUES(${questionArray[0].pregnant},
+                ${questionArray[0].pregnancy_try},
+                ${questionArray[2].periodDays},
+                ${questionArray[3].periodlength},
+                ${today.format('YYYYMMDD')},
+                ${questionArray[1].periodDate})`,
+        [],
+        PROFILE,
+      ).then((res) => {
+        goToHome();
+      });
+    }
+    else {
       db.rawQuery(
         `INSERT INTO ${PROFILE}
              (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,last_period_date)
@@ -79,6 +94,10 @@ const Start5 = (props) => {
       });
     }
   };
+  function nextStep() {
+    setforgetDate(true)
+    saveToLocal()
+  }
   const goToHome = async () => {
     await storeData('@startPages', 'true');
     props.navigation.navigate('Home');
@@ -93,6 +112,21 @@ const Start5 = (props) => {
         <Text style={styles.txt}>تاریخ تولد شما، چیست ؟</Text>
         <PersianDatePicker onDateSelected={setDate} />
       </View>
+      <TouchableOpacity
+        activeOpacity={0.6}
+        onPress={() => nextStep()}>
+        <Text style={{
+          marginTop: 5,
+          alignSelf: 'center',
+          fontFamily: fonts.regular,
+          fontSize: size[15],
+          color: colors.text1,
+          borderBottomWidth: 0.2,
+          paddingHorizontal: 10,
+          borderBottomColor: 'white',
+          color: 'white'
+        }}>بعدا وارد میکنم</Text>
+      </TouchableOpacity>
       <View style={{ flexDirection: 'row' }}>
         <Button
           rounded
