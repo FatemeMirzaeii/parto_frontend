@@ -1,9 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { Card, Avatar, Icon, Button } from 'react-native-elements';
+import { Card, Avatar } from 'react-native-elements';
+import DataBase from '../../components/Database';
 import styles from './Styles';
-
+const db = new DataBase();
 const UserProfile = (props) => {
+  const [name, setName] = useState('');
+  useEffect(() => {
+    db.rawQuery('SELECT name FROM user', 'user').then((n) => {
+      if (n[0]) {
+        setName(n[0].name);
+      }
+    });
+  }, [name]);
   return (
     <TouchableOpacity onPress={props.onPress}>
       <Card wrapperStyle={styles.avatarContainer}>
@@ -11,13 +20,9 @@ const UserProfile = (props) => {
           rounded
           size="large"
           icon={{ name: 'user', type: 'font-awesome' }}
-          source={{
-            uri:
-              'https://s3.amazonaws.com/uifaces/faces/twitter/adhamdannaway/128.jpg',
-          }}
           containerStyle={styles.avatar}
         />
-        <Text style={styles.text}>فاطمه میرزایی</Text>
+        <Text style={styles.text}>{name ? name : 'حساب کاربری بسازید!'}</Text>
       </Card>
     </TouchableOpacity>
   );

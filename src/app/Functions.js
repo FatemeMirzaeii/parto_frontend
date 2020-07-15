@@ -57,10 +57,20 @@ export function toPersianNum(num) {
   const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
 
   return num
-    .toString()
-    .split('')
-    .map((x) => farsiDigits[x])
-    .join('');
+    ? num
+        .toString()
+        .split('')
+        .map((x) => farsiDigits[x])
+        .join('')
+    : '';
+}
+
+export function toEnglishNumber(num) {
+  var persianDigits = '۰۱۲۳۴۵۶۷۸۹';
+  return num.replace(/[\u06F0-\u06F90]/g, function (m) {
+    const englishNumber = persianDigits.indexOf(m);
+    return parseInt(englishNumber);
+  });
 }
 
 export function setPickerRange(min, max) {

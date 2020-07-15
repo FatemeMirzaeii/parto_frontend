@@ -18,17 +18,6 @@ export default StyleSheet.create({
     fontSize: size[14],
     fontFamily: fonts.light,
   },
-  tab: {
-    width: size[40],
-    height: size[40],
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
-  tabIcon: {
-    fontSize: size[30],
-    alignSelf: 'center',
-    color: '#121C3D',
-  },
   moonText: {
     width: '100%',
     height: '50%',
@@ -37,23 +26,11 @@ export default StyleSheet.create({
     position: 'absolute',
     marginTop: Height / 12,
   },
-  footer: {
-    position: 'absolute',
-    borderTopLeftRadius: 30,
-    borderTopRightRadius: 30,
-    elevation: 30,
-    bottom: 0,
-    backgroundColor: 'white',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 40,
-  },
   numtxt: {
     fontFamily: fonts.medium,
     fontSize: size[15],
     color: '#121C3D',
     marginTop: Height / 20,
     alignSelf: 'center',
-  }
+  },
 });

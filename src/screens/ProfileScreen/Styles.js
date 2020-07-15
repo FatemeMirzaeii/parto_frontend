@@ -13,8 +13,9 @@ export default StyleSheet.create({
   goal: { borderRadius: 50 },
   text: {
     alignSelf: 'center',
+    textAlign: 'center',
     fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontSize: Theme.size[12],
   },
   listItem: {
     fontFamily: Theme.fonts.regular,
@@ -33,4 +34,36 @@ export default StyleSheet.create({
     fontSize: Theme.size[24],
   },
   picker: { alignItems: 'center' },
+  buttons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  register: {
+    backgroundColor: 'tomato',
+    borderRadius: 25,
+    width: Width / 1.1,
+    alignSelf: 'center',
+    padding: 5,
+    marginTop: 10,
+  },
+  name: {
+    borderTopWidth: 0.2,
+    borderBottomWidth: 0.2,
+    padding: 5,
+  },
+  saveButton: {
+    borderWidth: 0.7,
+    borderRadius: 30,
+    borderColor: 'tomato',
+  },
+  saveContainer: {
+    width: Width / 1.1,
+    alignSelf: 'center',
+    margin: 10,
+  },
+  saveTitle: {
+    color: 'tomato',
+    fontFamily: Theme.fonts.bold,
+    fontSize: Theme.size[18],
+  },
 });

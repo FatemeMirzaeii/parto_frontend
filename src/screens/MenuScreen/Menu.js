@@ -1,12 +1,29 @@
-import React, { createRef } from 'react';
-import { ScrollView, View, Text } from 'react-native';
-import { Card, ListItem, Icon, Button } from 'react-native-elements';
+import React, { useState } from 'react';
+import { ScrollView } from 'react-native';
+import { Card, ListItem } from 'react-native-elements';
+import Database from '../../components/Database';
 import styles from './Styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
+const db = new Database();
 
 const Menu = ({ navigation }) => {
-  const onItemPress = (item) => {};
+  const [pregnancyMode, setPregnancyMode] = useState(false);
+  const [isLock, setIsLock] = useState(false);
+  const navigateTo = (screen) => {
+    navigation.navigate(screen);
+  };
+  const changePregnancyMode = () => {
+    setPregnancyMode(!pregnancyMode);
+    db.rawQuery(
+      `UPDATE user_profile SET pregnant=${pregnancyMode}`,
+      'user_profile',
+    );
+  };
+  const setLock = () => {
+    setIsLock(!isLock);
+    db.rawQuery(`UPDATE user_profile SET use_lock=${isLock}`, 'user_profile');
+  };
   return (
     <ScrollView>
       <UserProfile onPress={() => navigation.navigate('Profile')} />
@@ -16,7 +33,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'local-pharmacy' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('CycleSettings')}
           titleStyle={styles.listItem}
         />
         <ListItem
@@ -24,14 +41,16 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'timeline' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
           title="بارداری"
-          switch
+          switch={{
+            value: pregnancyMode,
+            onValueChange: changePregnancyMode,
+          }}
           leftIcon={{ name: 'pregnant-woman' }}
-          //onPress={() => onItemPress()}
           titleStyle={styles.listItem}
         />
       </Card>
@@ -42,14 +61,14 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'art-track' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
           title="ارتباط با کارشناسان"
           leftIcon={{ name: 'call' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
       </Card>
@@ -60,22 +79,24 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'alarm-on' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
           title="قفل نرم افزار"
           leftIcon={{ name: 'lock' }}
+          switch={{
+            value: isLock,
+            onValueChange: setLock,
+          }}
           bottomDivider
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
           titleStyle={styles.listItem}
         />
         <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
       </Card>
@@ -86,7 +107,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
@@ -94,7 +115,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'loyalty' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
@@ -102,14 +123,14 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'touch-app' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
         <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => onItemPress()}
+          onPress={() => navigateTo('')}
           titleStyle={styles.listItem}
         />
       </Card>
