@@ -58,9 +58,9 @@ const Start5 = (props) => {
     console.log('day: ', questionArray);
     saveToLocal();
   };
-  const saveToLocal = () => {
+  const saveToLocal = (item) => {
     const today = moment();
-    if (forgetDate == true) {
+    if (item == "forget") {
       db.rawQuery(
         `INSERT INTO ${PROFILE}
              (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,created_at,last_period_date)
@@ -95,8 +95,7 @@ const Start5 = (props) => {
     }
   };
   function nextStep() {
-    setforgetDate(true)
-    saveToLocal()
+    saveToLocal("forget")
   }
   const goToHome = async () => {
     await storeData('@startPages', 'true');
