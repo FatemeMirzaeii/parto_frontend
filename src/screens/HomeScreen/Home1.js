@@ -1,5 +1,5 @@
 import { Icon, Text, View, Container } from 'native-base';
-import React, { useEffect, useState, useRef, Component } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -21,65 +21,81 @@ const today = moment();
 var db = new Database();
 const _today = today.format('YYYYMMDD');
 const { colors, size, fonts } = Theme;
-export default class Home extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      Condition: "",
-      thisDay: '',
-      thisMonth: '',
-      thisYear: '',
-      today: '',
-      daytonextperiod: 0,
-      type: '',
-      pregnantweek: 0,
-      responseDB: []
+
+const Home = (props) => {
+  const [state, setState] = useState({
+    items: [],
+    thisDay: '',
+    thisMonth: '',
+    thisYear: '',
+    today: '',
+    daytonextperiod: 0,
+    type: '',
+    pregnantweek: 0,
+  });
+  const isInitialMount = useRef(true);
+  const [responseDB, setResponseDB] = useState(null);
+  const [Condition, setCondition] = useState(null);
+  const [weekDay, setweekDay] = useState([
+    'شنبه',
+    'یک‌شنبه',
+    'دوشنبه',
+    'سه‌شنبه',
+    'چهارشنبه',
+    'پنج‌شنبه',
+    'جمعه',
+  ]);
+  useEffect(() => {
+    a();
+  }, [state.thisDay]);
+  useEffect;
+  const checkSwitch = (param) => {
+    switch (param) {
+      case 1:
+        return 'فروردین';
+      case 2:
+        return 'اردیبهشت';
+      case 3:
+        return 'خرداد';
+      case 4:
+        return 'تیر';
+      case 5:
+        return 'مرداد';
+      case 6:
+        return 'شهریور';
+      case 7:
+        return 'مهر';
+      case 8:
+        return 'آبان';
+      case 9:
+        return 'آذر';
+      case 10:
+        return 'دی';
+      case 11:
+        return 'بهمن';
+      case 12:
+        return 'اسفند';
     }
-  }
-  componentDidMount() {
-    this.getDataDB();
-  }
-  render() {
-    return (
-      <SafeAreaView>{this.typeOfState()}</SafeAreaView>
-    )
-  }
-  async getDataDB() {
-    await db.rawQuery(`select * from ${PROFILE}`).then((res) => {
-      console.log('rrrrrrrrrrrrrrrrrrrrrrrrrr: ', res[0]);
-      if (res[0].pregnant == 1) this.setState({ Condition: 'pregnant' });
-      else if (res[0].pregnant == 0) this.setState({ Condition: 'period' });
-      this.setState({ responseDB: res[0] })
-      this.checkPeriod();
-    });
-  }
-  checkPeriod() {
-    let response = this.state.responseDB;
-    const diff = moment(_today, 'YYYYMMDD').diff(
-      response.last_period_date,
-      'days',
+  };
+  const GetTimeNow = async () => {
+    const Persian = jalaali.toJalaali(
+      new Date().getFullYear(),
+      new Date().getMonth() + 1,
+      new Date().getDate(),
     );
-    console.log('diiiiif: ', diff);
-    if (
-      response.avg_period_length - diff < 0 &&
-      response.avg_period_length - diff + responseDB.avg_cycle_length >= 0
-    )
-      this.setState({
-        type: 'perioddate',
-        daytonextperiod: Math.abs(response.avg_period_length - diff,).toString(),
-      });
-    else if (diff > response.avg_period_length) this.setLatestPeriodCycle(diff);
-    else {
-      this.setState({
-        type: 'beforeperiod',
-        daytonextperiod: Math.abs(response.avg_period_length - diff + 1,).toString(),
-      });
-    }
-  }
-  async setLatestPeriodCycle(diff) {
+    const month = checkSwitch(Persian.jm);
+    setState({
+      ...state,
+      thisDay: Persian.jd,
+      thisMonth: month,
+      thisYear: Persian.jy,
+      today: toPersianNum(Persian.jd) + ' ' + month,
+    });
+  };
+  async function setLatestPeriodCycle(diff) {
     const lastPeriod = moment(
       moment(_today)
-        .add(-(diff - this.state.responseDB.avg_period_length), 'days')
+        .add(-(diff - responseDB.avg_period_length), 'days')
         .format('YYYYMMDD'),
     );
     //  _today(diff - responseDB.avg_period_length)
@@ -93,12 +109,68 @@ export default class Home extends Component {
         PROFILE,
       )
       .then((res) => {
-        this.getDataDB();
-        this.checkPeriod();
+        getDataDB();
+        checkPeriod();
       });
   }
-  typeOfState() {
-    switch (this.state.Condition) {
+  function checkPeriod() {
+    console.log('respDB', responseDB);
+
+    const diff = moment(_today, 'YYYYMMDD').diff(
+      responseDB.last_period_date,
+      'days',
+    );
+    console.log('diiiiif: ', diff);
+    // (moment(_today, 'YYYYMMDD')).diff(responseDB.last_period_date, 'days')
+    if (
+      responseDB.avg_period_length - diff < 0 &&
+      responseDB.avg_period_length - diff + responseDB.avg_cycle_length >= 0
+    )
+      setState({
+        ...state,
+        type: 'perioddate',
+        daytonextperiod: Math.abs(
+          responseDB.avg_period_length - diff,
+        ).toString(),
+      });
+    else if (diff > responseDB.avg_period_length) setLatestPeriodCycle(diff);
+    else {
+      setState({
+        ...state,
+        type: 'beforeperiod',
+        daytonextperiod: Math.abs(
+          responseDB.avg_period_length - diff + 1,
+        ).toString(),
+      });
+    }
+  }
+  async function getDataDB() {
+    await db.rawQuery(`select * from ${PROFILE}`).then((res) => {
+      console.log('rrrrrrrrrrrrrrrrrrrrrrrrrr: ', res[0]);
+      if (res[0].pregnant == 1) setCondition('pregnant');
+      else if (res[0].pregnant == 0) setCondition('period');
+      setResponseDB(res[0]);
+      checkPeriod();
+      // else console.log("else ok")
+    });
+  }
+  // useEffect(() => {
+  //   getDataDB()
+  // }, [Load]);
+  useEffect(() => {
+    // if (isInitialMount.current) {
+    //   isInitialMount.current = false;
+    //   console.log("ok")
+    // } else {
+    getDataDB();
+    console.log('ok no');
+
+    // }
+    0;
+  }, [responseDB != null]);
+
+  function typeOfState() {
+    switch (Condition) {
       case 'pregnant':
         return (
           <View>
@@ -121,8 +193,8 @@ export default class Home extends Component {
                     marginTop: Height / 20,
                     alignSelf: 'center',
                   }}>
-                  {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
-                  {toPersianNum(this.state.thisYear)}
+                  {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
+                  {toPersianNum(state.thisYear)}
                 </Text>
                 <View style={styles.moonText}>
                   <TouchableOpacity
@@ -138,10 +210,10 @@ export default class Home extends Component {
                     }>
                     <Text style={styles.text}>
                       {' '}
-                      هفته {toPersianNum(parseInt(this.state.pregnantweek))}
+                      هفته {toPersianNum(parseInt(state.pregnantweek))}
                     </Text>
                     <Text style={styles.text}>فعال بودن حالت بارداری</Text>
-                    <Text style={styles.text}>{this.state.today}</Text>
+                    <Text style={styles.text}>{state.today}</Text>
                     <Text style={styles.text}>
                       {/* احتمال بالای باروری  */}
                     </Text>
@@ -166,8 +238,8 @@ export default class Home extends Component {
                   backgroundColor="transparent"
                 />
                 <Text style={styles.numtxt}>
-                  {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
-                  {toPersianNum(this.state.thisYear)}
+                  {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
+                  {toPersianNum(state.thisYear)}
                 </Text>
                 <View style={styles.moonText}>
                   <TouchableOpacity
@@ -181,29 +253,29 @@ export default class Home extends Component {
                           new Date().getDate(),
                       })
                     }>
-                    {this.state.type == 'beforeperiod' ? (
+                    {state.type == 'beforeperiod' ? (
                       <View>
                         <Text style={styles.text}>
-                          {toPersianNum(parseInt(this.state.daytonextperiod))} روز
+                          {toPersianNum(parseInt(state.daytonextperiod))} روز
                         </Text>
                         <Text style={styles.text}>تا پریود بعدی</Text>
-                        <Text style={styles.text}>{this.state.today}</Text>
+                        <Text style={styles.text}>{state.today}</Text>
                         <Text style={styles.text2}>
                           {' '}
-                          {Math.abs(this.state.daytonextperiod) > 11 &&
-                            Math.abs(this.state.daytonextperiod) < 17
+                          {Math.abs(state.daytonextperiod) > 11 &&
+                            Math.abs(state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>
                       </View>
-                    ) : this.state.type == 'perioddate' ? (
+                    ) : state.type == 'perioddate' ? (
                       <View>
                         <Text style={styles.text}>
                           {' '}
-                          روز {toPersianNum(parseInt(this.state.daytonextperiod))}
+                          روز {toPersianNum(parseInt(state.daytonextperiod))}
                         </Text>
                         <Text style={styles.text}>دوره پریود</Text>
-                        <Text style={styles.text}>{this.state.today}</Text>
+                        <Text style={styles.text}>{state.today}</Text>
                       </View>
                     ) : null}
                   </TouchableOpacity>
@@ -214,4 +286,6 @@ export default class Home extends Component {
         );
     }
   }
-}
+  return <SafeAreaView>{typeOfState()}</SafeAreaView>;
+};
+export default Home;
