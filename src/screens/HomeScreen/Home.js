@@ -1,20 +1,14 @@
 import { Icon, Text, View, Container } from 'native-base';
 import React, { useEffect, useState, useRef, Component } from 'react';
-import {
-  ImageBackground,
-  SafeAreaView,
-  StatusBar,
-  FlatList,
-} from 'react-native';
+import { ImageBackground, SafeAreaView, StatusBar, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../app/Functions';
 import Database from '../../components/Database';
-import TopAgenda from '../../components/TopAgenda';
+import WeekCalendar from '../../components/WeekCalendar';
 import { Theme, Height, Width } from '../../app/Theme';
 import { PROFILE } from '../../constants/TableDataBase';
 import styles from './Styles';
 const moment2 = require('moment-jalaali');
-var jalaali = require('jalaali-js');
 moment2.loadPersian({ dialect: 'persian-modern' });
 const moment = require('moment');
 const today = moment();
@@ -23,9 +17,9 @@ const _today = today.format('YYYYMMDD');
 const { colors, size, fonts } = Theme;
 export default class Home extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
-      Condition: "",
+      Condition: '',
       thisDay: '',
       thisMonth: '',
       thisYear: '',
@@ -33,23 +27,21 @@ export default class Home extends Component {
       daytonextperiod: 0,
       type: '',
       pregnantweek: 0,
-      responseDB: []
-    }
+      responseDB: [],
+    };
   }
   componentDidMount() {
     this.getDataDB();
   }
   render() {
-    return (
-      <SafeAreaView>{this.typeOfState()}</SafeAreaView>
-    )
+    return <SafeAreaView>{this.typeOfState()}</SafeAreaView>;
   }
   async getDataDB() {
     await db.rawQuery(`select * from ${PROFILE}`).then((res) => {
       console.log('rrrrrrrrrrrrrrrrrrrrrrrrrr: ', res[0]);
       if (res[0].pregnant == 1) this.setState({ Condition: 'pregnant' });
       else if (res[0].pregnant == 0) this.setState({ Condition: 'period' });
-      this.setState({ responseDB: res[0] })
+      this.setState({ responseDB: res[0] });
       this.checkPeriod();
     });
   }
@@ -66,13 +58,15 @@ export default class Home extends Component {
     )
       this.setState({
         type: 'perioddate',
-        daytonextperiod: Math.abs(response.avg_period_length - diff,).toString(),
+        daytonextperiod: Math.abs(response.avg_period_length - diff).toString(),
       });
     else if (diff > response.avg_period_length) this.setLatestPeriodCycle(diff);
     else {
       this.setState({
         type: 'beforeperiod',
-        daytonextperiod: Math.abs(response.avg_period_length - diff + 1,).toString(),
+        daytonextperiod: Math.abs(
+          response.avg_period_length - diff + 1,
+        ).toString(),
       });
     }
   }
@@ -165,6 +159,15 @@ export default class Home extends Component {
                   barStyle="light-content"
                   backgroundColor="transparent"
                 />
+                <WeekCalendar />
+                <Button
+                  title="َشرح حال"
+                  onPress={() =>
+                    this.props.navigation.navigate('TrackingOptions', {
+                      today,
+                    })
+                  }
+                />
                 <Text style={styles.numtxt}>
                   {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
                   {toPersianNum(this.state.thisYear)}
@@ -172,26 +175,22 @@ export default class Home extends Component {
                 <View style={styles.moonText}>
                   <TouchableOpacity
                     onPress={() =>
-                      props.navigation.navigate('TrackingOptions', {
-                        date:
-                          new Date().getFullYear() +
-                          '-' +
-                          new Date().getMonth() +
-                          '-' +
-                          new Date().getDate(),
+                      this.props.navigation.navigate('TrackingOptions', {
+                        today,
                       })
                     }>
                     {this.state.type == 'beforeperiod' ? (
                       <View>
                         <Text style={styles.text}>
-                          {toPersianNum(parseInt(this.state.daytonextperiod))} روز
+                          {toPersianNum(parseInt(this.state.daytonextperiod))}{' '}
+                          روز
                         </Text>
                         <Text style={styles.text}>تا پریود بعدی</Text>
                         <Text style={styles.text}>{this.state.today}</Text>
                         <Text style={styles.text2}>
                           {' '}
                           {Math.abs(this.state.daytonextperiod) > 11 &&
-                            Math.abs(this.state.daytonextperiod) < 17
+                          Math.abs(this.state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>
@@ -200,7 +199,8 @@ export default class Home extends Component {
                       <View>
                         <Text style={styles.text}>
                           {' '}
-                          روز {toPersianNum(parseInt(this.state.daytonextperiod))}
+                          روز{' '}
+                          {toPersianNum(parseInt(this.state.daytonextperiod))}
                         </Text>
                         <Text style={styles.text}>دوره پریود</Text>
                         <Text style={styles.text}>{this.state.today}</Text>

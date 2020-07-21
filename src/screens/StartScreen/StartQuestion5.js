@@ -1,8 +1,6 @@
 import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
