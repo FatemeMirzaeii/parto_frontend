@@ -1,10 +1,9 @@
-import { View } from 'react-native';
-import React, { useEffect, useState } from 'react';
+import { View } from 'native-base';
+import React, { useEffect, useState, useRef } from 'react';
 import { Theme } from '../app/Theme';
 import TouchID from 'react-native-touch-id';
-// import RNLockScreen frsom 'react-native-lock-screen';
-// import PatternLock from "react-pattern-lock";
-// import PINCode from '@haskkor/react-native-pincode'
+
+var Password1 = '';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
   imageColor: '#e00606', // Android
@@ -19,27 +18,36 @@ const optionalConfigObject = {
 
 const { colors, size, fonts } = Theme;
 const AppLock = (props) => {
-  const [state, setState] = useState({ path: '' });
+  const inputRef = useRef('pg');
+  const [state, setState] = useState({
+    path: '',
+    status: '',
+    message: '',
+  });
+  // useEffect(() => {
+  //     TouchID.isSupported()
+  //         .then(biometryType => {
+  //             TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt
+  //                 .then(success => {
+  //                     console.log("open app ")
+  //                 })
+  //                 .catch(error => {
+  //                     console.log("cannot open app ")
+  //                 });
+  //         })
+  //         .catch(error => {
+  //             console.log("no suported")
+  //         });
+  // });
   useEffect(() => {
-    TouchID.isSupported()
-      .then((biometryType) => {
-        TouchID.authenticate('', optionalConfigObject) // Show the Touch ID prompt
-          .then((success) => {
-            console.log('open app ');
-          })
-          .catch((error) => {
-            console.log('cannot open app ');
-          });
-      })
-      .catch((error) => {
-        console.log('no suported');
-      });
+    async function a() {
+      await hasUserSetPinCode(serviceName);
+    }
+    a();
   });
 
   return (
-    <View style={{ backgroundColor: 'pink', justifyContent: 'center' }}>
-      {/* <PINCode status={'choose'} /> */}
-    </View>
+    <View style={{ backgroundColor: 'white', justifyContent: 'center' }}></View>
   );
 };
 export default AppLock;
