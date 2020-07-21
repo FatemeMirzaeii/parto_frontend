@@ -1,4 +1,4 @@
-import React, { useRef, useState, Fragment } from 'react';
+import React, { useRef, useState, Fragment, useContext } from 'react';
 import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
@@ -7,6 +7,7 @@ import DataBase from '../../components/Database';
 import styles from './Styles';
 import { RESTAPI } from '../../services/RESTAPI';
 import { storeData } from '../../app/Functions';
+import { AuthContext } from '../../contexts/AuthContext';
 const db = new DataBase();
 
 const SignUpForm = (props) => {
@@ -14,6 +15,7 @@ const SignUpForm = (props) => {
   const emailInput = useRef(null);
   const passInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const { signUp } = useContext(AuthContext);
 
   const submit = async (values) => {
     setLoading(true);
@@ -24,7 +26,7 @@ const SignUpForm = (props) => {
     const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
       await storeData('@token', res._token);
-      props.onSubmit();
+      signUp();
     } else {
       if (res._status === 502 || res._status === null) {
         ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
@@ -84,14 +86,7 @@ const SignUpForm = (props) => {
                 }}
                 onChangeText={handleChange('name')}
                 onBlur={() => setFieldTouched('name')}
-                leftIcon={
-                  <Icon
-                    name="ios-woman"
-                    size={24}
-                    color="gray"
-                    type="ionicon"
-                  />
-                }
+                leftIcon={<Icon name="person" size={20} color="gray" />}
               />
               {touched.email && errors.email && (
                 <Text style={styles.error}>{errors.email}</Text>
@@ -109,9 +104,7 @@ const SignUpForm = (props) => {
                 textContentType={'username'}
                 containerStyle={styles.input}
                 returnKeyType="next"
-                leftIcon={
-                  <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
-                }
+                leftIcon={<Icon name="mail" size={20} color="gray" />}
               />
               {touched.password && errors.password && (
                 <Text style={styles.error}>{errors.password}</Text>
@@ -126,16 +119,13 @@ const SignUpForm = (props) => {
                 onBlur={() => setFieldTouched('password')}
                 textContentType={'password'}
                 containerStyle={styles.input}
-                leftIcon={
-                  <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
-                }
+                leftIcon={<Icon name="lock" size={20} color="gray" />}
               />
 
               <Icon
                 raised
                 onPress={handleSubmit}
-                name="ios-checkmark"
-                type="ionicon"
+                name="check"
                 color="#f50"
                 size={35}
                 disabled={!isValid}

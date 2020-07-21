@@ -8,20 +8,15 @@ const SignUp = ({ navigation }) => {
   return (
     <KeyboardAvoidingView>
       <Icon
-        name="ios-close"
-        type="ionicon"
+        name="close"
         color="#f50"
         containerStyle={styles.close}
-        size={40}
+        size={30}
         onPress={() => {
-          navigation.navigate('StartQuestion');
+          navigation.pop();
         }}
       />
-      <SignUpForm
-        onSubmit={() => {
-          navigation.navigate('StartQuestion');
-        }}
-      />
+      <SignUpForm />
     </KeyboardAvoidingView>
   );
 };

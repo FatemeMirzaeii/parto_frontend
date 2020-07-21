@@ -3,4 +3,3 @@ import App from './src/app/App';
 import { name as appName } from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
-// AppRegistry.runApplication('App', { rootTag: document.getElementById('react-root') });

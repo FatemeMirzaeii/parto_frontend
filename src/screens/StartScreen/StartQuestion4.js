@@ -1,52 +1,54 @@
 import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { WheelPicker } from "react-native-wheel-picker-android";
+import { WheelPicker } from 'react-native-wheel-picker-android';
 import { Theme } from '../../app/Theme';
 import { toPersianNum } from '../../app/Functions';
 let questionArray = [];
 const { colors, size, fonts } = Theme;
-let data = []
-const toastText = 'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم'
+let data = [];
+const toastText =
+  'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
 
 const dataSet = () => {
-  for (let i = 15; i < 100; i++)
-    data.push(toPersianNum(i));
-}
-dataSet()
-const Start4 = (props) => {
+  for (let i = 15; i < 100; i++) data.push(toPersianNum(i));
+};
+dataSet();
+const Start4 = ({ route, navigation }) => {
   const [state, setState] = useState({
     items: [1],
     selectedItem: 0,
-  })
+  });
 
   useEffect(() => {
-    questionArray = props.navigation.state.params.questionArray
-    console.log("day: ", questionArray)
-  }, [props]);
+    questionArray = route.params.questionArray;
+    console.log('day: ', questionArray);
+  }, [route.params.questionArray]);
 
-  const onItemSelected = selectedItem => {
-    console.log("selected: ", selectedItem + 15)
+  const onItemSelected = (selectedItem) => {
+    console.log('selected: ', selectedItem + 15);
     setState({ selectedItem });
   };
 
   const nextPress = (item) => {
-    let foundIndex = questionArray.findIndex(obj => obj.periodlength)
+    let foundIndex = questionArray.findIndex((obj) => obj.periodlength);
 
-    if (foundIndex > 0)
-      questionArray.splice(foundIndex, 2)
-    questionArray.push(
-      { periodlength: item },
-      { pregnancyWeek: 0 })
-    props.navigation.navigate("StartQuestion5", { questionArray })
-  }
+    if (foundIndex > 0) questionArray.splice(foundIndex, 2);
+    questionArray.push({ periodlength: item }, { pregnancyWeek: 0 });
+    navigation.navigate('StartQuestion5', { questionArray });
+  };
   function forgetPress() {
-    ToastAndroid.show(
-      toastText,
-      ToastAndroid.LONG,
-    );
-    setTimeout(async () => { nextPress(28) }, 2000)
+    ToastAndroid.show(toastText, ToastAndroid.LONG);
+    setTimeout(async () => {
+      nextPress(28);
+    }, 2000);
   }
   return (
     <LinearGradient
@@ -55,7 +57,9 @@ const Start4 = (props) => {
       colors={['#D164A6', '#C2428F', '#780048']}
       style={styles.gradiant}>
       <View style={styles.view}>
-        <Text style={styles.txt}>بطور میانگین فاصله دوره هایتان چند روزه است؟ </Text>
+        <Text style={styles.txt}>
+          بطور میانگین فاصله دوره هایتان چند روزه است؟{' '}
+        </Text>
         <View style={styles.wrapperVertical}>
           {/* <Text>Selected position: {state.selectedItem}</Text> */}
           <WheelPicker
@@ -70,26 +74,24 @@ const Start4 = (props) => {
           />
         </View>
       </View>
-      <TouchableOpacity
-        activeOpacity={0.6}
-        onPress={() => forgetPress()}>
-        <Text style={{
-          marginTop: 5,
-          alignSelf: 'center',
-          fontFamily: fonts.regular,
-          fontSize: size[15],
-          color: colors.text1,
-          borderBottomWidth: 0.2,
-          paddingHorizontal: 10,
-          borderBottomColor: 'white',
-          color: 'white'
-        }}>فراموش کردم</Text>
+      <TouchableOpacity activeOpacity={0.6} onPress={() => forgetPress()}>
+        <Text
+          style={{
+            marginTop: 5,
+            alignSelf: 'center',
+            fontFamily: fonts.regular,
+            fontSize: size[15],
+            color: colors.text1,
+            borderBottomWidth: 0.2,
+            paddingHorizontal: 10,
+            borderBottomColor: 'white',
+            color: 'white',
+          }}>
+          فراموش کردم
+        </Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row' }}>
-        <Button
-          rounded
-          style={styles.btn}
-          onPress={() => props.navigation.goBack()}>
+        <Button rounded style={styles.btn} onPress={() => navigation.goBack()}>
           <Icon name="arrowright" type="AntDesign" />
           <Title style={[styles.txtbtn, { marginRight: 20 }]}>قبلی</Title>
         </Button>
@@ -99,9 +101,7 @@ const Start4 = (props) => {
           onPress={() => nextPress(state.selectedItem + 15)}>
           <Title style={[styles.txtbtn, { marginLeft: 20 }]}>بعدی</Title>
           <Icon name="arrowleft" type="AntDesign" />
-
         </Button>
-
       </View>
     </LinearGradient>
   );

@@ -115,7 +115,4 @@ const Profile = ({ navigation }) => {
     </ScrollView>
   );
 };
-Profile.navigationOptions = () => ({
-  title: 'حساب کاربری',
-});
 export default Profile;

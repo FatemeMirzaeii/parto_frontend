@@ -1,5 +1,5 @@
 import { Button, Title, Icon } from 'native-base';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../app/Theme';
@@ -7,6 +7,8 @@ import Database from '../../components/Database';
 import { PROFILE } from '../../constants/TableDataBase';
 import { storeData } from '../../app/Functions';
 import PersianDatePicker from '../../components/PersianDatePicker';
+import { AuthContext } from '../../contexts/AuthContext';
+
 const moment = require('moment');
 
 const { size, fonts } = Theme;
@@ -17,15 +19,17 @@ let forgetPragnancy = false;
 
 let data = [];
 
-const Start5 = (props) => {
+const Start5 = ({ route, navigation }) => {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
   const [year, setYear] = useState();
+  const { interview } = useContext(AuthContext);
+
   useEffect(() => {
-    questionArray = props.navigation.state.params.questionArray;
-    forgetPragnancy = props.navigation.state.params.forgetPragnancy;
+    questionArray = route.params.questionArray;
+    forgetPragnancy = route.params.forgetPragnancy;
     console.log('day: ', questionArray);
-  }, [props]);
+  }, [route.params.forgetPragnancy, route.params.questionArray]);
   const setDate = (date, persianDate) => {
     console.log('hi from interview', date);
     if (date) {
@@ -81,7 +85,7 @@ const Start5 = (props) => {
   };
   const goToHome = async () => {
     await storeData('@startPages', 'true');
-    props.navigation.navigate('Home');
+    interview();
   };
   return (
     <LinearGradient
@@ -94,10 +98,7 @@ const Start5 = (props) => {
         <PersianDatePicker onDateSelected={setDate} />
       </View>
       <View style={{ flexDirection: 'row' }}>
-        <Button
-          rounded
-          style={styles.btn}
-          onPress={() => props.navigation.goBack()}>
+        <Button rounded style={styles.btn} onPress={() => navigation.goBack()}>
           <Icon name="arrowright" type="AntDesign" />
           <Title style={[styles.txtbtn, { marginRight: 20 }]}>قبلی</Title>
         </Button>

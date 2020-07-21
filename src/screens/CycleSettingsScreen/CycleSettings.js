@@ -105,7 +105,6 @@ const CycleSettings = ({ navigation }) => {
   );
 };
 CycleSettings.navigationOptions = ({ navigation }) => ({
-  title: 'تنظیمات دوره ها',
   headerRight: () => (
     <Button
       title="ثبت"

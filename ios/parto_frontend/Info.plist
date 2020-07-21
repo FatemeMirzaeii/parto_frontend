@@ -55,6 +55,11 @@
 	<false/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>IRANSansMobile.ttf</string>
+		<string>IRANSansMobileBold.ttf</string>
+		<string>IRANSansMobileLight.ttf</string>
+		<string>IRANSansMobileMedium.ttf</string>
+		<string>IRANSansMobileUltraLight.ttf</string>
 		<string>AntDesign.ttf</string>
 		<string>Entypo.ttf</string>
 		<string>EvilIcons.ttf</string>
@@ -74,11 +79,6 @@
 		<string>rubicon-icon-font.ttf</string>
 		<string>SimpleLineIcons.ttf</string>
 		<string>Zocial.ttf</string>
-		<string>IRANSansMobile.ttf</string>
-		<string>IRANSansMobileBold.ttf</string>
-		<string>IRANSansMobileLight.ttf</string>
-		<string>IRANSansMobileMedium.ttf</string>
-		<string>IRANSansMobileUltraLight.ttf</string>
 	</array>
 </dict>
 </plist>

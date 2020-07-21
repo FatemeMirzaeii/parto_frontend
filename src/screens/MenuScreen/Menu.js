@@ -1,15 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { ScrollView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
 import Database from '../../components/Database';
 import styles from './Styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
+import { AuthContext } from '../../contexts/AuthContext';
+
 const db = new Database();
 
 const Menu = ({ navigation }) => {
   const [pregnancyMode, setPregnancyMode] = useState(false);
   const [isLock, setIsLock] = useState(false);
+  const { signOut } = useContext(AuthContext);
+
   const navigateTo = (screen) => {
     navigation.navigate(screen);
   };
@@ -26,7 +30,7 @@ const Menu = ({ navigation }) => {
   };
   return (
     <ScrollView>
-      <UserProfile onPress={() => navigation.navigate('Profile')} />
+      <UserProfile onPress={() => navigation.push('Profile')} />
       <Card>
         <ListItem
           title="اطلاعات دوره ها"
@@ -130,7 +134,7 @@ const Menu = ({ navigation }) => {
           title="خروج"
           leftIcon={{ name: 'exit-to-app' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('')}
+          onPress={() => signOut()}
           titleStyle={styles.listItem}
         />
       </Card>

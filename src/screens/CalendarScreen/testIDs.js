@@ -13,12 +13,12 @@ module.exports = {
     FIRST: 'first_calendar',
     LAST: 'last_calendar',
   },
-  calendarList: {CONTAINER: 'calendarList'},
-  horizontalList: {CONTAINER: 'horizontalList'},
+  calendarList: { CONTAINER: 'calendarList' },
+  horizontalList: { CONTAINER: 'horizontalList' },
   agenda: {
     CONTAINER: 'agenda',
     ITEM: 'item',
   },
-  expandableCalendar: {CONTAINER: 'expandableCalendar'},
-  weekCalendar: {CONTAINER: 'weekCalendar'},
+  expandableCalendar: { CONTAINER: 'expandableCalendar' },
+  weekCalendar: { CONTAINER: 'weekCalendar' },
 };
