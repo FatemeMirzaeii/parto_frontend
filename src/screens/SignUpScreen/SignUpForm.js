@@ -15,20 +15,22 @@ const SignUpForm = (props) => {
   const emailInput = useRef(null);
   const passInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
   const { signUp } = useContext(AuthContext);
 
   const submit = async (values) => {
     setLoading(true);
-    db.rawQuery(
-      `INSERT INTO user (name,email) VALUES (${values.name},${values.email})`,
-      'user',
-    );
     const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
       await storeData('@token', res._token);
+      db.rawQuery(
+        `INSERT INTO user (name,email) VALUES ('${values.name}','${values.email}')`,
+        'user',
+      );
       signUp();
     } else {
       if (res._status === 502 || res._status === null) {
+        console.log(res._status);
         ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
         setLoading(false);
       } else {
@@ -114,12 +116,20 @@ const SignUpForm = (props) => {
                 ref={passInput}
                 label="رمز عبور"
                 placeholder="*******"
-                secureTextEntry={true}
+                secureTextEntry={securePassword}
                 onChangeText={handleChange('password')}
                 onBlur={() => setFieldTouched('password')}
                 textContentType={'password'}
                 containerStyle={styles.input}
                 leftIcon={<Icon name="lock" size={20} color="gray" />}
+                rightIcon={
+                  <Icon
+                    name={securePassword ? 'visibility' : 'visibility-off'}
+                    size={20}
+                    color="gray"
+                    onPress={() => setSecurePassword(!securePassword)}
+                  />
+                }
               />
 
               <Icon

@@ -9,13 +9,10 @@ import {
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../app/Functions';
 import Database from '../../components/Database';
-import TopAgenda from '../../components/TopAgenda';
 import { Theme, Height, Width } from '../../app/Theme';
 import { PROFILE } from '../../constants/TableDataBase';
 import styles from './Styles';
-const moment2 = require('moment-jalaali');
 var jalaali = require('jalaali-js');
-moment2.loadPersian({ dialect: 'persian-modern' });
 const moment = require('moment');
 const today = moment();
 var db = new Database();
@@ -263,7 +260,7 @@ const Home = (props) => {
                         <Text style={styles.text2}>
                           {' '}
                           {Math.abs(state.daytonextperiod) > 11 &&
-                            Math.abs(state.daytonextperiod) < 17
+                          Math.abs(state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>

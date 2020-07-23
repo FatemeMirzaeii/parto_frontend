@@ -11,14 +11,20 @@ export default StyleSheet.create({
     backgroundColor: '#f1f1f1',
     elevation: 5,
   },
-  avatarContainer: { flexDirection: 'row' },
+  avatarContainer: { flexDirection: 'row-reverse' },
   text: {
     marginLeft: 15,
     alignSelf: 'center',
     fontFamily: Theme.fonts.regular,
   },
-  listItem: {
+  listItemText: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
+  },
+  listItem: {
+    flexDirection: 'row-reverse',
+  },
+  listItemContent: {
+    alignItems: 'flex-end',
   },
 });

@@ -9,6 +9,7 @@ export default StyleSheet.create({
     borderWidth: 0,
     width: Width / 1.2,
     height: 26,
+    flexDirection: 'row-reverse',
   },
   goal: { borderRadius: 50 },
   text: {
@@ -17,9 +18,15 @@ export default StyleSheet.create({
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[12],
   },
-  listItem: {
+  listItemText: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
+  },
+  listItem: {
+    flexDirection: 'row-reverse',
+  },
+  listItemContent: {
+    alignItems: 'flex-end',
   },
   avatar: {
     backgroundColor: '#f1f1f1',
@@ -35,7 +42,7 @@ export default StyleSheet.create({
   },
   picker: { alignItems: 'center' },
   buttons: {
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
     justifyContent: 'space-between',
   },
   register: {

@@ -17,11 +17,12 @@ export default StyleSheet.create({
     bottom: -30,
     position: 'absolute',
   },
+  //input: { flexDirection: 'row-reverse', backgroundColor: 'red' },
   login: {
     justifyContent: 'center',
     alignItems: 'center',
     top: 100,
-    flexDirection: 'row',
+    flexDirection: 'row-reverse',
   },
   close: {
     position: 'absolute',

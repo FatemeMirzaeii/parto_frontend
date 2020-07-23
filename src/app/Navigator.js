@@ -3,7 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import { AuthContext } from '../contexts/AuthContext';
-import { getData } from '../app/Functions';
+import { getData, removeData } from '../app/Functions';
 // import All Screens
 import Splash from '../screens/SplashScreen/Splash';
 import SignUp from '../screens/SignUpScreen/SignUp';
@@ -23,7 +23,6 @@ import StartQuestion5 from '../screens/StartScreen/StartQuestion5';
 import StartQuestionpragnent from '../screens/StartScreen/StartQuestionpragnent';
 import StartQuestionPregnancyForget from '../screens/StartScreen/StartQuestionPregnancyForget';
 import pregnancyCalendar from '../screens/StartScreen/pregnancyCalendar';
-import AsyncStorage from '@react-native-community/async-storage';
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
@@ -61,13 +60,14 @@ const MenuStackScreen = () => {
       <MenuStack.Screen
         name="Profile"
         component={Profile}
-        options={{ title: 'حساب کاربری' }}
+        options={{ headerShown: false }}
       />
       <MenuStack.Screen
         name="CycleSettings"
         component={CycleSettings}
         options={{
           title: 'تنظیمات دوره ها',
+          headerTitleStyle: { alignSelf: 'center' },
         }}
       />
     </MenuStack.Navigator>
@@ -217,11 +217,11 @@ const AppNavigator = () => {
       signIn: async (dummyToken) => {
         dispatch({
           type: 'SIGN_IN',
-          token: await getData('@token'),
+          token: dummyToken ? dummyToken : await getData('@token'),
         });
       },
       signOut: async () => {
-        dispatch({ type: 'SIGN_OUT' });
+        dispatch({ type: 'SIGN_OUT', token: await removeData('@token') });
       },
       signUp: async (data) => {
         dispatch({ type: 'SIGN_IN', token: await getData('@token') });

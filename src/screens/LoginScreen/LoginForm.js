@@ -14,6 +14,7 @@ const LoginForm = (props) => {
   const emailInput = useRef(null);
   const passInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
 
   const submit = async (values) => {
     setLoading(true);
@@ -68,7 +69,7 @@ const LoginForm = (props) => {
                 onChangeText={handleChange('email')}
                 onBlur={() => setFieldTouched('email')}
                 textContentType={'username'}
-                containerStyle={styles.input}
+                //containerStyle={styles.input}
                 returnKeyType="next"
                 leftIcon={<Icon name="mail" size={20} color="gray" />}
               />
@@ -80,12 +81,20 @@ const LoginForm = (props) => {
                 ref={passInput}
                 label="رمز عبور"
                 placeholder="*******"
-                secureTextEntry={true}
+                secureTextEntry={securePassword}
                 onChangeText={handleChange('password')}
                 onBlur={() => setFieldTouched('password')}
                 textContentType={'password'}
-                containerStyle={styles.input}
+                //containerStyle={styles.input}
                 leftIcon={<Icon name="lock" size={20} color="gray" />}
+                rightIcon={
+                  <Icon
+                    name={securePassword ? 'visibility' : 'visibility-off'}
+                    size={20}
+                    color="gray"
+                    onPress={() => setSecurePassword(!securePassword)}
+                  />
+                }
               />
               {touched.password && errors.password && (
                 <Text style={styles.error}>{errors.password}</Text>

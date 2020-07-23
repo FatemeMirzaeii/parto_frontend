@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
@@ -14,6 +14,26 @@ const CycleSettings = ({ navigation }) => {
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerRight: () => (
+        <Button
+          title="ثبت"
+          type="clear"
+          onPress={() => save()}
+          titleStyle={{ color: 'tomato' }}
+        />
+      ),
+    });
+    const save = () => {
+      db.rawQuery(
+        `UPDATE user_profile SET avg_period_length=${periodLength},
+                                         avg_cycle_length=${cycleLength},
+                                         pms_length=${pmsLength}`,
+        'user_profile',
+      ).then(() => navigation.pop());
+    };
+  }, [navigation, cycleLength, periodLength, pmsLength]);
 
   useEffect(() => {
     db.rawQuery(
@@ -28,18 +48,6 @@ const CycleSettings = ({ navigation }) => {
       }
     });
   }, []);
-  useEffect(() => {
-    navigation.setParams({
-      save: () => {
-        db.rawQuery(
-          `UPDATE user_profile SET avg_period_length=${periodLength},
-                                           avg_cycle_length=${cycleLength},
-                                           pms_length=${pmsLength}`,
-          'user_profile',
-        );
-      },
-    });
-  }, [periodLength, cycleLength, pmsLength]);
 
   return (
     <ScrollView>
@@ -77,7 +85,10 @@ const CycleSettings = ({ navigation }) => {
             onValueChange: () => setPregnancyPrediction(!pregnancyPrediction),
           }}
           subtitle="با خاموش کردن این بخش فقط روزهای تخمک گذاری برای شما نمایش داده میشود."
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          subtitleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="پیش بینی هوشمند"
@@ -88,7 +99,10 @@ const CycleSettings = ({ navigation }) => {
             onValueChange: () => setForcast(!forcast),
           }}
           subtitle="با فعال کردن این گزینه در شرایطی که قاعدگی نامنظم دارید، از اطلاعات شرح حال برای پیش بینی دوره های شما استفاده میشود."
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          subtitleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="نمایش شمارش روزهای قرمز"
@@ -98,20 +112,13 @@ const CycleSettings = ({ navigation }) => {
             onValueChange: () => setPeriodCount(!periodCount),
           }}
           subtitle="با فعال کردن این گزینه بالای تقویم تعداد روزهای قرمز شما شمارش میشوند."
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          subtitleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
     </ScrollView>
   );
 };
-CycleSettings.navigationOptions = ({ navigation }) => ({
-  headerRight: () => (
-    <Button
-      title="ثبت"
-      type="clear"
-      onPress={() => navigation.getParam('save')()}
-      titleStyle={{ color: 'tomato' }}
-    />
-  ),
-});
 export default CycleSettings;

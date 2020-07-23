@@ -38,7 +38,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('CycleSettings')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="تحلیل اطلاعات"
@@ -46,7 +48,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="بارداری"
@@ -55,7 +59,9 @@ const Menu = ({ navigation }) => {
             onValueChange: changePregnancyMode,
           }}
           leftIcon={{ name: 'pregnant-woman' }}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
       <Divider />
@@ -66,14 +72,18 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="ارتباط با کارشناسان"
           leftIcon={{ name: 'call' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
       <Divider />
@@ -84,7 +94,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="قفل نرم افزار"
@@ -94,14 +106,18 @@ const Menu = ({ navigation }) => {
             onValueChange: setLock,
           }}
           bottomDivider
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
       <Divider />
@@ -112,7 +128,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="معرفی به دوستان"
@@ -120,7 +138,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="درباره پرتو"
@@ -128,14 +148,18 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
         <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => signOut()}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
     </ScrollView>

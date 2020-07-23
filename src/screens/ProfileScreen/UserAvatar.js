@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { Card, Avatar, Input, Button } from 'react-native-elements';
 import DataBase from '../../components/Database';
+import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 const db = new DataBase();
@@ -10,8 +11,9 @@ const UserAvatar = ({ navigation }) => {
   const [name, setName] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
+  const { signUp } = useContext(AuthContext);
   useEffect(() => {
-    db.rawQuery('SELECT name FROM user').then((n) => {
+    db.rawQuery('SELECT id, name, email FROM user').then((n) => {
       if ((n.rows && n.rows === 'EMPTY_TABLE') || !n[0].email) {
         setIsRegistered(false);
       }
@@ -19,20 +21,19 @@ const UserAvatar = ({ navigation }) => {
     });
   }, []);
   const done = () => {
-    setIsEditing(false);
     db.rawQuery(
-      `INSERT INTO user (id, name) VALUES (1, '${name}') 
+      `INSERT INTO user (id, name) VALUES (2, '${name}') 
                     ON CONFLICT(id) DO 
                  UPDATE SET name='${name}'`,
       'user',
-    );
+    ).then((res) => {
+      setIsEditing(false);
+    });
   };
   return (
     <SafeAreaView>
       {isRegistered ? null : (
-        <TouchableOpacity
-          style={styles.register}
-          onPress={() => navigation.navigate('SignUp')}>
+        <TouchableOpacity style={styles.register} onPress={() => signUp()}>
           <Text style={[styles.text, { color: '#ffffff' }]}>
             شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
           </Text>
