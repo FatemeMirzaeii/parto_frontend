@@ -96,7 +96,9 @@ const Profile = ({ navigation }) => {
             },
           }}
           leftIcon={{ name: 'dashboard' }}
-          titleStyle={styles.listItem}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
           //onPress={() => onItemPress()}
         />
       </Card>
@@ -115,7 +117,4 @@ const Profile = ({ navigation }) => {
     </ScrollView>
   );
 };
-Profile.navigationOptions = () => ({
-  title: 'حساب کاربری',
-});
 export default Profile;

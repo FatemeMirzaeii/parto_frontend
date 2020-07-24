@@ -1,7 +1,6 @@
-import { Container, Text } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet } from 'react-native';
-import { Verticalcalendar } from 'react-native-calendars-persian';
+import { StatusBar, StyleSheet, Text } from 'react-native';
+import { CalendarList } from 'react-native-jalali-calendars';
 import { toPersianNum } from '../../app/Functions';
 import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
@@ -12,13 +11,14 @@ const db = new Database();
 
 const { size, fonts } = Theme;
 
-let perioddatemark = []
+let perioddatemark = [];
 var jalaali = require('jalaali-js');
 moment2.loadPersian({ dialect: 'persian-modern' });
-const CalendarClass = (props) => {
+
+const Calendar = (props) => {
   const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
-  const [periodlength, setperiodlength] = useState(null)
-  const [cyclelength, setcyclelength] = useState(null)
+  const [periodlength, setperiodlength] = useState(null);
+  const [cyclelength, setcyclelength] = useState(null);
   const [state, setState] = useState({
     thisDay: '',
     thisMonth: '',
@@ -75,37 +75,64 @@ const CalendarClass = (props) => {
     });
   };
   useEffect(() => {
+    db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
+      console.log('res select: ', res[0]);
+      setperiodlength(res[0].avg_period_length);
+      setcyclelength(res[0].avg_cycle_length);
+      var str = res[0].last_period_date.toString().split('');
+      console.log(str);
+      var date = (
+        str[0] +
+        str[1] +
+        str[2] +
+        str[3] +
+        '-' +
+        str[4] +
+        str[5] +
+        '-' +
+        str[6] +
+        str[7]
+      ).toString();
+      console.log(date);
+      setPeriodDate(date);
+      let mdate = {};
 
-    db.rawQuery(
-      `SELECT * FROM ${PROFILE}`, [], PROFILE
-    ).then((res) => {
-      console.log('res select: ', res[0])
-      setperiodlength(res[0].avg_period_length)
-      setcyclelength(res[0].avg_cycle_length)
-      var str = (res[0].last_period_date).split('');
-      var date = (str[0] + str[1] + str[2] + str[3] + "-" + str[4] + str[5] + "-" + str[6] + str[7]).toString()
-      setPeriodDate(date)
-      let mdate = {}
-
-      for (i = 1; i <= cyclelength; i++) {
-        let new_date = moment(moment(date).add(i, 'days').format('YYYY-MM-DD'));
-        perioddatemark.push(new_date._i)
-        mdate[new_date._i] = {
-          periods: [
-            { startingDay: false, endingDay: false, color: 'red' },
-          ]
+      for (j = 0; j <= 6; j++) {
+        if (j == 0) {
+          for (i = 1; i <= cyclelength; i++) {
+            let new_date = moment(
+              moment(date).add(i, 'days').format('YYYY-MM-DD'),
+            );
+            perioddatemark.push(new_date._i);
+            mdate[new_date._i] = {
+              periods: [{ startingDay: false, endingDay: false, color: 'red' }],
+            };
+          }
+        } else {
+          for (i = 1; i <= cyclelength; i++) {
+            let new_date = moment(
+              moment(date)
+                .add(i + 30 * j, 'days')
+                .format('YYYY-MM-DD'),
+            );
+            perioddatemark.push(new_date._i);
+            mdate[new_date._i] = {
+              periods: [
+                { startingDay: false, endingDay: false, color: 'pink' },
+              ],
+            };
+          }
         }
       }
-      setState({ ...state, markedDates: mdate })
-      console.log("new: ", mdate)
-    })
 
-  }, [periodDate])
+      setState({ ...state, markedDates: mdate });
+      console.log('new: ', mdate);
+    });
+  });
 
   return (
-    <Container>
+    <>
       <StatusBar translucent barStyle="dark-content" backgroundColor="white" />
-
       <Text
         style={{
           marginTop: 40,
@@ -119,8 +146,8 @@ const CalendarClass = (props) => {
         {toPersianNum(state.thisYear)}
       </Text>
 
-      <Verticalcalendar
-        jalali={jalali.jalaali}
+      <CalendarList
+        jalali={true}
         style={styles.calendar}
         current={'2020-05-16'}
         minDate={'2018-03-21'}
@@ -147,10 +174,9 @@ const CalendarClass = (props) => {
         }}
         markedDates={state.markedDates}
       />
-    </Container >
+    </>
   );
 };
-export default CalendarClass;
 const styles = StyleSheet.create({
   calendar: {
     width: '100%',
@@ -162,3 +188,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 });
+export default Calendar;

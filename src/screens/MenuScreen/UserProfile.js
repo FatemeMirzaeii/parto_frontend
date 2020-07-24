@@ -12,7 +12,7 @@ const UserProfile = (props) => {
         setName(n[0].name);
       }
     });
-  }, [name]);
+  });
   return (
     <TouchableOpacity onPress={props.onPress}>
       <Card wrapperStyle={styles.avatarContainer}>
@@ -22,7 +22,10 @@ const UserProfile = (props) => {
           icon={{ name: 'user', type: 'font-awesome' }}
           containerStyle={styles.avatar}
         />
-        <Text style={styles.text}>{name ? name : 'حساب کاربری بسازید!'}</Text>
+        <Text style={styles.text}>
+          {name ? name : 'حساب کاربری بسازید!'}
+          {'  '}
+        </Text>
       </Card>
     </TouchableOpacity>
   );

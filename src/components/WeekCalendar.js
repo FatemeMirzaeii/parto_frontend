@@ -1,20 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet } from 'react-native';
-import { CalendarProvider, ExpandableCalendar } from 'react-native-calendars';
-
+import {
+  CalendarProvider,
+  ExpandableCalendar,
+} from 'react-native-jalali-calendars';
+const testIDs = require('../screens/CalendarScreen/testIDs');
 const WeekCalendar = (props) => {
+  const today = new Date().toISOString().split('T')[0];
   return (
-    <CalendarProvider date={new Date()} onDateChanged={props.onDateChanged}>
+    <CalendarProvider
+      jalali={true}
+      date={today}
+      onDateChanged={props.onDateChanged}
+      //showTodayButton
+    >
       <ExpandableCalendar
-        current={props.current}
-        firstDay={1}
-        disablePan={true}
-        hideKnob={true}
-        hideArrows={true}
+        jalali={true}
+        firstDay={6}
+        //disablePan
+        //hideKnob
+        hideArrows
+        testID={testIDs.expandableCalendar.CONTAINER}
         theme={{
-          calendarBackground: 'transparent',
+          calendarBackground: '#f6f6f6',
         }}
-        style={styles.calendar}
+        // style={styles.calendar}
       />
     </CalendarProvider>
   );

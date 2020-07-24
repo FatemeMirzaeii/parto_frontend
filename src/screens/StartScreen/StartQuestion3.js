@@ -1,44 +1,49 @@
 import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, ToastAndroid } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ToastAndroid,
+} from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
-import { WheelPicker } from "react-native-wheel-picker-android";
+import { WheelPicker } from 'react-native-wheel-picker-android';
 import { Theme } from '../../app/Theme';
 let questionArray = [];
 const { colors, size, fonts } = Theme;
 let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
-const toastText = 'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم'
+const toastText =
+  'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
 
-const Start3 = (props) => {
+const Start3 = ({ route, navigation }) => {
   const [state, setState] = useState({
-    selectedItem: 0
-  })
+    selectedItem: 0,
+  });
 
   useEffect(() => {
-    questionArray = props.navigation.state.params.questionArray
-    console.log("day: ", questionArray)
-  }, [props]);
+    questionArray = route.params.questionArray;
+    console.log('day: ', questionArray);
+  }, [route.params.questionArray]);
 
-  const onItemSelected = selectedItem => {
-    console.log("selected: ", selectedItem + 3)
+  const onItemSelected = (selectedItem) => {
+    console.log('selected: ', selectedItem + 3);
     setState({ selectedItem });
   };
 
   const nextPress = (item) => {
-    let foundIndex = questionArray.findIndex(obj => obj.periodDays)
+    let foundIndex = questionArray.findIndex((obj) => obj.periodDays);
 
-    if (foundIndex > 0)
-      questionArray.splice(foundIndex, 1)
+    if (foundIndex > 0) questionArray.splice(foundIndex, 1);
 
-    questionArray.push({ periodDays: item })
-    props.navigation.navigate("StartQuestion4", { questionArray })
-  }
+    questionArray.push({ periodDays: item });
+    navigation.navigate('StartQuestion4', { questionArray });
+  };
   function forgetPress() {
-    ToastAndroid.show(
-      toastText,
-      ToastAndroid.LONG,
-    );
-    setTimeout(async () => { nextPress(7) }, 2000)
+    ToastAndroid.show(toastText, ToastAndroid.LONG);
+    setTimeout(async () => {
+      nextPress(7);
+    }, 2000);
   }
   return (
     <LinearGradient
@@ -60,28 +65,25 @@ const Start3 = (props) => {
             onItemSelected={onItemSelected}
           />
         </View>
-
       </View>
-      <TouchableOpacity
-        activeOpacity={0.6}
-        onPress={() => forgetPress()}>
-        <Text style={{
-          marginTop: 5,
-          alignSelf: 'center',
-          fontFamily: fonts.regular,
-          fontSize: size[15],
-          color: colors.text1,
-          borderBottomWidth: 0.2,
-          paddingHorizontal: 10,
-          borderBottomColor: 'white',
-          color: 'white'
-        }}>فراموش کردم</Text>
+      <TouchableOpacity activeOpacity={0.6} onPress={() => forgetPress()}>
+        <Text
+          style={{
+            marginTop: 5,
+            alignSelf: 'center',
+            fontFamily: fonts.regular,
+            fontSize: size[15],
+            color: colors.text1,
+            borderBottomWidth: 0.2,
+            paddingHorizontal: 10,
+            borderBottomColor: 'white',
+            color: 'white',
+          }}>
+          فراموش کردم
+        </Text>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row' }}>
-        <Button
-          rounded
-          style={styles.btn}
-          onPress={() => props.navigation.goBack()}>
+        <Button rounded style={styles.btn} onPress={() => navigation.goBack()}>
           <Icon name="arrowright" type="AntDesign" />
           <Title style={[styles.txtbtn, { marginRight: 20 }]}>قبلی</Title>
         </Button>
@@ -91,11 +93,8 @@ const Start3 = (props) => {
           onPress={() => nextPress(state.selectedItem + 3)}>
           <Title style={[styles.txtbtn, { marginLeft: 20 }]}>بعدی</Title>
           <Icon name="arrowleft" type="AntDesign" />
-
         </Button>
-
       </View>
-
     </LinearGradient>
   );
 };

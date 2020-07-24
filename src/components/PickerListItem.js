@@ -49,8 +49,13 @@ const PickerListItem = (props) => {
           props.rightTitle.title,
           props.rightTitle.suffix,
         )}
-        titleStyle={styles.listItem}
-        rightTitleStyle={[styles.listItem, { width: 90, textAlign: 'right' }]}
+        titleStyle={styles.listItemText}
+        containerStyle={styles.listItem}
+        contentContainerStyle={styles.listItemContent}
+        rightTitleStyle={[
+          styles.listItemText,
+          { width: 90, textAlign: 'right' },
+        ]}
       />
       {pickerIsVisible ? (
         <View style={styles.picker}>
@@ -78,10 +83,16 @@ const PickerListItem = (props) => {
 };
 const styles = StyleSheet.create({
   picker: { alignItems: 'center' },
-  listItem: {
+  listItemText: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
     width: 200,
+  },
+  listItem: {
+    flexDirection: 'row-reverse',
+  },
+  listItemContent: {
+    alignItems: 'flex-end',
   },
 });
 export default PickerListItem;

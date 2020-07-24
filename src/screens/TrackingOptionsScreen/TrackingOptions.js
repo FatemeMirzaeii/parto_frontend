@@ -7,20 +7,20 @@ import {
   Text,
 } from 'react-native';
 import Database from '../../components/Database';
-//import WeekCalendar from '../../components/WeekCalendar';
+import WeekCalendar from '../../components/WeekCalendar';
 import styles from './Styles';
 import { Width } from '../../app/Theme';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgXml } from 'react-native-svg';
-import WeekCalendar from '../../components/WeekCalendar';
 
 const db = new Database();
 const detailPageRef = createRef();
 
-const TrackingOptions = ({ navigation }) => {
-  const [date, setDate] = useState(navigation.getParam('date'));
+const TrackingOptions = ({ route, navigation }) => {
+  const { today } = route.params;
+  const [date, setDate] = useState(today);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -45,7 +45,7 @@ const TrackingOptions = ({ navigation }) => {
             FROM health_tracking_option o WHERE o.category_id = c.id
           )         
         )
-        AS data FROM health_tracking_category c ORDER By id DESC`,
+        AS data FROM health_tracking_category c ORDER By id ASC`,
       [],
       'health_tracking_category',
     ).then((res) => {
@@ -192,10 +192,7 @@ const TrackingOptions = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={{ height: 150 }}>
-        <WeekCalendar
-          current={date}
-          onDateChanged={(day, propUpdate) => onDayPress(day)}
-        />
+        <WeekCalendar onDateChanged={(day, propUpdate) => onDayPress(day)} />
       </View>
       <ScrollView>
         <Carousel
@@ -204,6 +201,7 @@ const TrackingOptions = ({ navigation }) => {
           renderItem={renderItem}
           sliderWidth={Width}
           itemWidth={Width - 110}
+          inverted={true}
         />
       </ScrollView>
       <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>

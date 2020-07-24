@@ -7,8 +7,14 @@ export default StyleSheet.create({
   //   alignSelf: 'center',
   //   fontFamily: Theme.fonts.regular,
   // },
-  listItem: {
+  listItemText: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
+  },
+  listItem: {
+    flexDirection: 'row-reverse',
+  },
+  listItemContent: {
+    alignItems: 'flex-end',
   },
 });

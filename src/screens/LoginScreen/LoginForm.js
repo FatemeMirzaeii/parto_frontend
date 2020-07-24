@@ -1,4 +1,4 @@
-import React, { useRef, useState, Fragment } from 'react';
+import React, { useRef, useState, Fragment, useContext } from 'react';
 import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
@@ -6,12 +6,15 @@ import * as yup from 'yup';
 import styles from './Styles';
 import { RESTAPI } from '../../services/RESTAPI';
 import { storeData } from '../../app/Functions';
+import { AuthContext } from '../../contexts/AuthContext';
 
 const LoginForm = (props) => {
   const restapi = new RESTAPI();
+  const { signIn } = useContext(AuthContext);
   const emailInput = useRef(null);
   const passInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
+  const [securePassword, setSecurePassword] = useState(true);
 
   const submit = async (values) => {
     setLoading(true);
@@ -19,7 +22,7 @@ const LoginForm = (props) => {
     console.log(res);
     if (res._status === 200) {
       await storeData('@token', res._token);
-      props.onSubmit();
+      signIn();
     } else {
       if (res._status === 502 || res._status === null) {
         ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
@@ -66,11 +69,9 @@ const LoginForm = (props) => {
                 onChangeText={handleChange('email')}
                 onBlur={() => setFieldTouched('email')}
                 textContentType={'username'}
-                containerStyle={styles.input}
+                //containerStyle={styles.input}
                 returnKeyType="next"
-                leftIcon={
-                  <Icon name="ios-mail" size={24} color="gray" type="ionicon" />
-                }
+                leftIcon={<Icon name="mail" size={20} color="gray" />}
               />
               {touched.email && errors.email && (
                 <Text style={styles.error}>{errors.email}</Text>
@@ -80,13 +81,19 @@ const LoginForm = (props) => {
                 ref={passInput}
                 label="رمز عبور"
                 placeholder="*******"
-                secureTextEntry={true}
+                secureTextEntry={securePassword}
                 onChangeText={handleChange('password')}
                 onBlur={() => setFieldTouched('password')}
                 textContentType={'password'}
-                containerStyle={styles.input}
-                leftIcon={
-                  <Icon name="ios-lock" size={24} color="gray" type="ionicon" />
+                //containerStyle={styles.input}
+                leftIcon={<Icon name="lock" size={20} color="gray" />}
+                rightIcon={
+                  <Icon
+                    name={securePassword ? 'visibility' : 'visibility-off'}
+                    size={20}
+                    color="gray"
+                    onPress={() => setSecurePassword(!securePassword)}
+                  />
                 }
               />
               {touched.password && errors.password && (
@@ -95,10 +102,9 @@ const LoginForm = (props) => {
               <Icon
                 raised
                 onPress={handleSubmit}
-                name="ios-checkmark"
-                type="ionicon"
+                name="check"
                 color="#f50"
-                size={35}
+                size={30}
                 disabled={!isValid}
                 containerStyle={styles.button}
               />

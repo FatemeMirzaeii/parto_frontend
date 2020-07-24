@@ -1,16 +1,16 @@
+import 'react-native-gesture-handler';
 import React from 'react';
-import { createAppContainer } from 'react-navigation';
-import { AppSwitchNavigator } from './Navigator';
+import { StyleSheet, StatusBar } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
+import AppNavigator from './Navigator';
 
-console.disableYellowBox = true;
-
-const AppContainer = createAppContainer(AppSwitchNavigator);
-
-const App = (props) => {
+const App: () => React$Node = () => {
   return (
-    // <Provider >
-    <AppContainer />
-    // </Provider>
+    <NavigationContainer>
+      <StatusBar barStyle="dark-content" />
+      <AppNavigator />
+    </NavigationContainer>
   );
 };
+
 export default App;
