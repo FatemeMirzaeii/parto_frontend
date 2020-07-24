@@ -18,7 +18,7 @@ import {
 import { Theme, Height, Width } from '../../app/Theme';
 const { fonts, size, colors } = Theme
 
-const ContactUs = () => {
+const ContactUs = (props) => {
   return (
     <Container style={{ flex: 1 }}>
       <Header style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>

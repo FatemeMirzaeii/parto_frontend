@@ -30,7 +30,7 @@ const Calendar = (props) => {
   useEffect(() => {
     GetTimeNow();
   }, [state.thisDay]);
-  useEffect(() => {}, [state.thisDay]);
+  useEffect(() => { }, [state.thisDay]);
 
   const checkSwitch = (param) => {
     switch (param) {
@@ -79,7 +79,8 @@ const Calendar = (props) => {
       console.log('res select: ', res[0]);
       setperiodlength(res[0].avg_period_length);
       setcyclelength(res[0].avg_cycle_length);
-      var str = res[0].last_period_date.split('');
+      var str = res[0].last_period_date.toString().split('');
+      console.log(str);
       var date = (
         str[0] +
         str[1] +
@@ -92,20 +93,42 @@ const Calendar = (props) => {
         str[6] +
         str[7]
       ).toString();
+      console.log(date);
       setPeriodDate(date);
       let mdate = {};
 
-      for (i = 1; i <= cyclelength; i++) {
-        let new_date = moment(moment(date).add(i, 'days').format('YYYY-MM-DD'));
-        perioddatemark.push(new_date._i);
-        mdate[new_date._i] = {
-          periods: [{ startingDay: false, endingDay: false, color: 'red' }],
-        };
+      for (j = 0; j <= 6; j++) {
+        if (j == 0) {
+          for (i = 1; i <= cyclelength; i++) {
+            let new_date = moment(
+              moment(date).add(i, 'days').format('YYYY-MM-DD'),
+            );
+            perioddatemark.push(new_date._i);
+            mdate[new_date._i] = {
+              periods: [{ startingDay: false, endingDay: false, color: 'red' }],
+            };
+          }
+        } else {
+          for (i = 1; i <= cyclelength; i++) {
+            let new_date = moment(
+              moment(date)
+                .add(i + 30 * j, 'days')
+                .format('YYYY-MM-DD'),
+            );
+            perioddatemark.push(new_date._i);
+            mdate[new_date._i] = {
+              periods: [
+                { startingDay: false, endingDay: false, color: 'pink' },
+              ],
+            };
+          }
+        }
       }
+
       setState({ ...state, markedDates: mdate });
       console.log('new: ', mdate);
     });
-  }, [periodDate]);
+  }, []);
 
   return (
     <>
