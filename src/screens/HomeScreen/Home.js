@@ -7,7 +7,6 @@ import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
 import { Theme, Height, Width } from '../../app/Theme';
 import { PROFILE } from '../../constants/TableDataBase';
-import { SendNotification } from '../../app/Functions';
 import styles from './Styles';
 const moment2 = require('moment-jalaali');
 moment2.loadPersian({ dialect: 'persian-modern' });
@@ -45,8 +44,6 @@ export default class Home extends Component {
       this.setState({ responseDB: res[0] });
       this.checkPeriod();
     });
-    await SendNotification(this.state.responseDB.last_period_date, this.state.responseDB.avg_period_length)
-
   }
   checkPeriod() {
     let response = this.state.responseDB;
@@ -57,16 +54,13 @@ export default class Home extends Component {
     console.log('diiiiif: ', diff);
     if (
       response.avg_period_length - diff < 0 &&
-      response.avg_period_length - diff + this.state.responseDB.avg_cycle_length >= 0
+      response.avg_period_length - diff + responseDB.avg_cycle_length >= 0
     )
       this.setState({
         type: 'perioddate',
         daytonextperiod: Math.abs(response.avg_period_length - diff).toString(),
       });
-    else if (diff > response.avg_period_length) {
-      // this.setLatestPeriodCycle(diff);
-      console.log("ثبت جدید")
-    }
+    else if (diff > response.avg_period_length) this.setLatestPeriodCycle(diff);
     else {
       this.setState({
         type: 'beforeperiod',
@@ -174,16 +168,6 @@ export default class Home extends Component {
                     })
                   }
                 />
-                <Button
-                  title="َارتباط با ما"
-                  onPress={() =>
-                    this.props.navigation.navigate('ContactUs')}
-                />
-                <Button
-                  title="َامتیازدهی"
-                  onPress={() =>
-                    this.props.navigation.navigate('Scoring')}
-                />
                 <Text style={styles.numtxt}>
                   {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
                   {toPersianNum(this.state.thisYear)}
@@ -206,7 +190,7 @@ export default class Home extends Component {
                         <Text style={styles.text2}>
                           {' '}
                           {Math.abs(this.state.daytonextperiod) > 11 &&
-                            Math.abs(this.state.daytonextperiod) < 17
+                          Math.abs(this.state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>

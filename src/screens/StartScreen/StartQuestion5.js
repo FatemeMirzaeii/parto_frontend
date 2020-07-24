@@ -17,6 +17,8 @@ const db = new Database();
 let questionArray = [];
 let forgetPragnancy = false;
 
+let data = [];
+
 const Start5 = ({ route, navigation }) => {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
