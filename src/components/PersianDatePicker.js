@@ -79,7 +79,7 @@ const PersianDatePicker = (props) => {
           data={years}
           selectedItem={yearIndex}
           onItemSelected={onYearSelected}
-          isCyclic={true}
+          isCyclic
           style={styles.picker}
           selectedItemTextSize={20}
           itemTextFontFamily={fonts.regular}
@@ -91,7 +91,7 @@ const PersianDatePicker = (props) => {
           data={months}
           selectedItem={monthIndex}
           onItemSelected={onMonthSelected}
-          isCyclic={true}
+          isCyclic
           style={styles.picker}
           selectedItemTextSize={20}
           itemTextFontFamily={fonts.regular}
@@ -103,7 +103,7 @@ const PersianDatePicker = (props) => {
           data={days}
           selectedItem={dayIndex}
           onItemSelected={onDaySelected}
-          isCyclic={true}
+          isCyclic
           style={styles.picker}
           selectedItemTextSize={20}
           itemTextFontFamily={fonts.regular}

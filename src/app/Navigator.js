@@ -14,6 +14,8 @@ import TrackingOptions from '../screens/TrackingOptionsScreen/TrackingOptions';
 import Menu from '../screens/MenuScreen/Menu';
 import Profile from '../screens/ProfileScreen/Profile';
 import CycleSettings from '../screens/CycleSettingsScreen/CycleSettings';
+import Reminders from '../screens/RemindersScreen/Reminders';
+import ReminderSetting from '../screens/RemindersScreen/ReminderSetting';
 import Charts from '../screens/ChartsScreen/Charts';
 import StartQuestion from '../screens/StartScreen/StartQuestion';
 import StartQuestion2 from '../screens/StartScreen/StartQuestion2';
@@ -66,7 +68,23 @@ const MenuStackScreen = () => {
         name="CycleSettings"
         component={CycleSettings}
         options={{
-          title: 'تنظیمات دوره ها',
+          title: 'تنظیمات دوره‌ها',
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="Reminders"
+        component={Reminders}
+        options={{
+          title: 'یادآوری‌ها',
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="ReminderSetting"
+        component={ReminderSetting}
+        options={{
+          title: 'یادآوری',
           headerTitleStyle: { alignSelf: 'center' },
         }}
       />
