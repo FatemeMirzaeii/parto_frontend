@@ -25,7 +25,8 @@ import StartQuestion5 from '../screens/StartScreen/StartQuestion5';
 import StartQuestionpragnent from '../screens/StartScreen/StartQuestionpragnent';
 import StartQuestionPregnancyForget from '../screens/StartScreen/StartQuestionPregnancyForget';
 import pregnancyCalendar from '../screens/StartScreen/pregnancyCalendar';
-
+import ContactUs from '../screens/ContactUsScreen/ContactUs';
+import Scoring from '../screens/ScoringScreen/Scoring';
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
@@ -33,6 +34,9 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="Home" component={Home} />
       <HomeStack.Screen name="Calendar" component={Calendar} />
       <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
+      <HomeStack.Screen name="ContactUs" component={ContactUs} />
+      <HomeStack.Screen name="Scoring" component={Scoring} />
+
     </HomeStack.Navigator>
   );
 };
@@ -259,8 +263,8 @@ const AppNavigator = () => {
       ) : !state.userToken ? (
         <AuthStackScreen />
       ) : (
-        <InterviewStackScreen />
-      )}
+              <InterviewStackScreen />
+            )}
     </AuthContext.Provider>
   );
 };

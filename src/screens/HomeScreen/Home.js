@@ -2,7 +2,7 @@ import { Icon, Text, View, Container } from 'native-base';
 import React, { useEffect, useState, useRef, Component } from 'react';
 import { ImageBackground, SafeAreaView, StatusBar, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum } from '../../app/Functions';
+import { toPersianNum, SendNotification } from '../../app/Functions';
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
 import { Theme, Height, Width } from '../../app/Theme';
@@ -42,8 +42,11 @@ export default class Home extends Component {
       if (res[0].pregnant == 1) this.setState({ Condition: 'pregnant' });
       else if (res[0].pregnant == 0) this.setState({ Condition: 'period' });
       this.setState({ responseDB: res[0] });
-      this.checkPeriod();
+      // this.checkPeriod();
     });
+    console.log(this.state.responseDB.last_period_date + "    " + this.state.responseDB.avg_period_length)
+    SendNotification(this.state.responseDB.last_period_date, this.state.responseDB.avg_period_length)
+
   }
   checkPeriod() {
     let response = this.state.responseDB;
@@ -168,6 +171,16 @@ export default class Home extends Component {
                     })
                   }
                 />
+                <Button
+                  title="َامتیازدهی"
+                  onPress={() =>
+                    this.props.navigation.navigate('Scoring')
+                  }
+                />
+                <Button
+                  title="تماس با ما"
+                  onPress={() =>
+                    this.props.navigation.navigate('ContactUs')} />
                 <Text style={styles.numtxt}>
                   {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
                   {toPersianNum(this.state.thisYear)}
@@ -190,7 +203,7 @@ export default class Home extends Component {
                         <Text style={styles.text2}>
                           {' '}
                           {Math.abs(this.state.daytonextperiod) > 11 &&
-                          Math.abs(this.state.daytonextperiod) < 17
+                            Math.abs(this.state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>
