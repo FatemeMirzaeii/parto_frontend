@@ -1,18 +1,16 @@
-import { Button, Icon, Title } from 'native-base';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet,
-  Text,
-  View,
-  ToastAndroid,
-  StatusBar,
-  TouchableOpacity,
-  ImageBackground,
   Image,
+  StatusBar,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { Calendar } from 'react-native-jalali-calendars';
-import LinearGradient from 'react-native-linear-gradient';
-import { Theme, Width, Height } from '../../app/Theme';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { Theme } from '../../app/Theme';
+import styles from './Styles';
 const moment = require('moment');
 const { colors, size, fonts } = Theme;
 let questionArray = [];
@@ -20,39 +18,44 @@ const toastText =
   'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید';
 const today = moment();
 const StartQuestion2 = ({ route, navigation }) => {
+  const [dayselect, setDayselect] = useState();
   useEffect(() => {
     questionArray = route.params.questionArray;
-
-    console.log('day: ', questionArray);
   }, [route.params]);
 
   function dayPress(day) {
-    let foundIndex = questionArray.findIndex((obj) => obj.periodDate);
+    setDayselect(day);
+  }
+  function nextPage() {
+    if (dayselect != undefined) {
+      let foundIndex = questionArray.findIndex((obj) => obj.periodDate);
 
-    if (foundIndex > 0) questionArray.splice(foundIndex, 1);
-    console.log('day: ', day.year + day.month + day.day);
-    let _day = '',
-      _month = '';
-    if (day.day < 10) _day = '0' + day.day;
-    else _day = day.day;
-    if (day.month < 10) _month = '0' + day.month;
-    else _month = day.month;
+      if (foundIndex > 0) questionArray.splice(foundIndex, 1);
+      let _day = '',
+        _month = '';
+      if (dayselect.day < 10) _day = '0' + dayselect.day;
+      else _day = dayselect.day;
+      if (dayselect.month < 10) _month = '0' + dayselect.month;
+      else _month = dayselect.month;
 
-    questionArray.push({
-      periodDate: day.year.toString() + _month.toString() + _day.toString(),
-    });
-    navigation.navigate('StartQuestion3', {
-      questionArray: questionArray,
-    });
+      questionArray.push({
+        periodDate:
+          dayselect.year.toString() + _month.toString() + _day.toString(),
+      });
+      navigation.navigate('StartQuestion3', {
+        questionArray: questionArray,
+      });
+    } else ToastAndroid.show('لطفا تاریخی را انتخاب کنید', ToastAndroid.LONG);
   }
   function forgetPress() {
     ToastAndroid.show(toastText, ToastAndroid.LONG);
     setTimeout(async () => {
-      dayPress({ day: '00', month: '00', year: '00' });
-    }, 2000);
+      questionArray.push({ day: '00', month: '00', year: '00' });
+      navigation.navigate('StartQuestion3', { questionArray });
+    }, 1500);
   }
   return (
-    <View
+    <SafeAreaView
       style={{
         flex: 1,
         backgroundColor: colors.bgColor,
@@ -61,105 +64,34 @@ const StartQuestion2 = ({ route, navigation }) => {
         translucent
         barStyle="dark-content"
         backgroundColor="transparent"></StatusBar>
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.viewParent}>
         <Image
           source={require('../../../assets/images/start/pink3.png')}
-          style={{
-            width: Width * 1.22,
-            height: Height * 0.8,
-            position: 'absolute',
-          }}></Image>
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}>
+          style={styles.img1q2}></Image>
+        <View style={styles.v1q2}>
           <View style={{ flex: 1.5 }}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '80%',
-                  height: '30%',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.v2q2}>
+              <View style={styles.v3q3}>
                 <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.currentPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                  }}></View>
+                  style={[
+                    styles.viewtop,
+                    { backgroundColor: colors.currentPage },
+                  ]}></View>
+                <View style={styles.viewtop}></View>
+                <View style={styles.viewtop}></View>
+                <View style={styles.viewtop}></View>
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '85%',
-                  height: '90%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                <Text style={styles.textStyle1}>
+            <View style={styles.v4q2}>
+              <View style={styles.v5q2}>
+                <Text style={styles.textq2}>
                   تاریخ شروع آخرین پریود خود را وارد کنید
                 </Text>
               </View>
             </View>
           </View>
-          <View
-            style={{
-              flex: 2.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            <View
-              style={{
-                width: '90%',
-                height: '95%',
-                elevation: 0,
-              }}>
+          <View style={styles.v6q2}>
+            <View style={styles.v7q2}>
               <Calendar
                 firstDay={6}
                 jalali={true}
@@ -169,13 +101,15 @@ const StartQuestion2 = ({ route, navigation }) => {
                 pastScrollRange={12}
                 maxDate={today.format('YYYY-MM-DD')}
                 theme={{
+                  calendarBackground: 'transparent',
                   selectedDayTextColor: 'white',
-                  selectedDayBackgroundColor: 'pink',
+                  textDisabledColor: colors.nextPage,
                   textDayFontFamily: fonts.regular,
                   textMonthFontFamily: fonts.regular,
                   textDayHeaderFontFamily: fonts.regular,
+                  selectedDayBackgroundColor: '#00adf5',
                 }}
-                markingType={'multi-period'}
+                markingType="multi-period"
               />
             </View>
           </View>
@@ -184,103 +118,37 @@ const StartQuestion2 = ({ route, navigation }) => {
               flex: 1.5,
               justifyContent: 'flex-end',
             }}>
-            <View
-              style={{
-                flex: 1.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity style={{ padding: 15 }} activeOpacity={0.5}>
-                <Text
-                  style={{
-                    fontFamily: fonts.regular,
-                    fontSize: size[17],
-                    textDecorationLine: 'underline',
-                    opacity: 0.7,
-                  }}>
-                  فراموش کردم
-                </Text>
+            <View style={styles.viewforget}>
+              <TouchableOpacity
+                onPress={() => forgetPress()}
+                style={{ padding: 15 }}
+                activeOpacity={0.5}>
+                <Text style={styles.txtforget}>فراموش کردم</Text>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                flex: 1.2,
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row',
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.btnsview}>
+              <View style={[styles.viewforget, { flex: 1 }]}>
                 <TouchableOpacity
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: 'white',
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  onPress={() => navigation.goBack()}
+                  style={styles.btnback}
                   activeOpacity={0.7}>
-                  <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبل
-                  </Text>
+                  <Text style={styles.txtbtn}>قبل</Text>
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+              <View style={[styles.viewforget, { flex: 1 }]}>
                 <TouchableOpacity
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: colors.btn,
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  onPress={() => nextPage()}
+                  style={[styles.btnback, { backgroundColor: colors.btn }]}
                   activeOpacity={0.7}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.regular,
-                      fontSize: 14,
-                      color: 'white',
-                    }}>
-                    بعدی
-                  </Text>
+                  <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
                 </TouchableOpacity>
               </View>
             </View>
           </View>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
 export default StartQuestion2;
-
-const styles = StyleSheet.create({
-  textStyle: {
-    alignSelf: 'center',
-    fontSize: size[14],
-    fontFamily: fonts.medium,
-    marginTop: 7,
-    opacity: 0.7,
-  },
-  textStyle1: {
-    alignSelf: 'center',
-    fontSize: size[17],
-    fontFamily: fonts.medium,
-    marginTop: 3,
-    opacity: 0.7,
-  },
-});

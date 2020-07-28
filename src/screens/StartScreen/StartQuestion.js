@@ -9,12 +9,13 @@ import {
 } from 'react-native';
 import { Theme } from '../../app/Theme';
 import styles from './Styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
 let questionArray = [];
 const { colors } = Theme;
 
 const StartQuestion = (props) => {
   return (
-    <View style={{ backgroundColor: colors.bgColor, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: colors.bgColor, flex: 1 }}>
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
@@ -74,7 +75,7 @@ const StartQuestion = (props) => {
       <ImageBackground
         source={require('./../../../assets/images/start/pink2.png')}
         style={styles.imgendq1}></ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 };
 export default StartQuestion;
