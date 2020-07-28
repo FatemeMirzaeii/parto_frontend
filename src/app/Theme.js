@@ -7,6 +7,10 @@ const _size =
 export const Theme = {
   colors: {
     text1: '#1A2D36',
+    bgColor: '#FCF5F7',
+    btn: '#FF488A',
+    currentPage: '#79EBEE',
+    nextPage: '#E0E0E0',
   },
   fonts: {
     regular: 'IRANSansMobile',
