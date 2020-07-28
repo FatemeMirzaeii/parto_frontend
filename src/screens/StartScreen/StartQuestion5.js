@@ -25,7 +25,6 @@ const Start5 = ({ route, navigation }) => {
   const [year, setYear] = useState();
   const { interview } = useContext(AuthContext);
 
-  const [forgetDate, setforgetDate] = useState(false);
   useEffect(() => {
     questionArray = route.params.questionArray;
     forgetPragnancy = route.params.forgetPragnancy;
