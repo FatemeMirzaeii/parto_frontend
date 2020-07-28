@@ -87,7 +87,6 @@ const MenuStackScreen = () => {
         name="ReminderSetting"
         component={ReminderSetting}
         options={{
-          title: 'یادآوری',
           headerTitleStyle: { alignSelf: 'center' },
         }}
       />

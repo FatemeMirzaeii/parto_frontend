@@ -2,14 +2,13 @@ import { Icon, Text, View, Container } from 'native-base';
 import React, { useEffect, useState, useRef, Component } from 'react';
 import { ImageBackground, SafeAreaView, StatusBar, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { toPersianNum, SendNotification } from '../../app/Functions';
+import { toPersianNum } from '../../app/Functions';
+import { periodLate } from '../../notifications/Notifications';
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
 import { Theme, Height, Width } from '../../app/Theme';
 import { PROFILE } from '../../constants/TableDataBase';
 import styles from './Styles';
-const moment2 = require('moment-jalaali');
-moment2.loadPersian({ dialect: 'persian-modern' });
 const moment = require('moment');
 const today = moment();
 var db = new Database();
@@ -44,9 +43,15 @@ export default class Home extends Component {
       this.setState({ responseDB: res[0] });
       // this.checkPeriod();
     });
-    console.log(this.state.responseDB.last_period_date + "    " + this.state.responseDB.avg_period_length)
-    SendNotification(this.state.responseDB.last_period_date, this.state.responseDB.avg_period_length)
-
+    console.log(
+      this.state.responseDB.last_period_date +
+        '    ' +
+        this.state.responseDB.avg_period_length,
+    );
+    periodLate(
+      this.state.responseDB.last_period_date,
+      this.state.responseDB.avg_period_length,
+    );
   }
   checkPeriod() {
     let response = this.state.responseDB;
@@ -124,7 +129,7 @@ export default class Home extends Component {
                 <View style={styles.moonText}>
                   <TouchableOpacity
                     onPress={() =>
-                      props.navigation.navigate('TrackingOptions', {
+                      this.props.navigation.navigate('TrackingOptions', {
                         date:
                           new Date().getFullYear() +
                           '-' +
@@ -173,14 +178,12 @@ export default class Home extends Component {
                 />
                 <Button
                   title="َامتیازدهی"
-                  onPress={() =>
-                    this.props.navigation.navigate('Scoring')
-                  }
+                  onPress={() => this.props.navigation.navigate('Scoring')}
                 />
                 <Button
                   title="تماس با ما"
-                  onPress={() =>
-                    this.props.navigation.navigate('ContactUs')} />
+                  onPress={() => this.props.navigation.navigate('ContactUs')}
+                />
                 <Text style={styles.numtxt}>
                   {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
                   {toPersianNum(this.state.thisYear)}
@@ -203,7 +206,7 @@ export default class Home extends Component {
                         <Text style={styles.text2}>
                           {' '}
                           {Math.abs(this.state.daytonextperiod) > 11 &&
-                            Math.abs(this.state.daytonextperiod) < 17
+                          Math.abs(this.state.daytonextperiod) < 17
                             ? ' احتمال بالای باروری '
                             : ''}
                         </Text>
