@@ -36,7 +36,6 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
       <HomeStack.Screen name="ContactUs" component={ContactUs} />
       <HomeStack.Screen name="Scoring" component={Scoring} />
-
     </HomeStack.Navigator>
   );
 };
@@ -88,7 +87,6 @@ const MenuStackScreen = () => {
         name="ReminderSetting"
         component={ReminderSetting}
         options={{
-          title: 'یادآوری',
           headerTitleStyle: { alignSelf: 'center' },
         }}
       />
@@ -263,8 +261,8 @@ const AppNavigator = () => {
       ) : !state.userToken ? (
         <AuthStackScreen />
       ) : (
-              <InterviewStackScreen />
-            )}
+        <InterviewStackScreen />
+      )}
     </AuthContext.Provider>
   );
 };

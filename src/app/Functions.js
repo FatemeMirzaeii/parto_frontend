@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { PermissionsAndroid } from 'react-native';
-import PushNotification from 'react-native-push-notification';
 
 export async function getData(key) {
   try {
@@ -59,10 +58,10 @@ export function toPersianNum(num) {
 
   return num
     ? num
-      .toString()
-      .split('')
-      .map((x) => farsiDigits[x])
-      .join('')
+        .toString()
+        .split('')
+        .map((x) => farsiDigits[x])
+        .join('')
     : '';
 }
 
@@ -98,28 +97,4 @@ export function wait(timeout) {
   return new Promise((resolve) => {
     setTimeout(resolve, timeout);
   });
-}
-export async function SendNotification(lastPeriodDate, periodLength) {
-  var str = lastPeriodDate.toString().split('', 4).join('');
-  var str1 = lastPeriodDate.toString().replace(str.toString(), '');
-  var str2 = str1.toString().split('', 2).join('');
-  var str3 = str1.toString().replace(str2.toString(), '');
-  var last = new Date(
-    str2.toString() + '/' + str3.toString() + '/' + str.toString(),
-  );
-  var today = new Date();
-  var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-  const diffTime = Math.abs(today - last);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  if (diffDays > periodLength - 1) {
-    console.log('diffrentdDay: ', diffDays);
-    PushNotification.localNotification({
-      vibrate: true,
-      vibration: 1000,
-      title: toPersianNum(diffDays) + " روز از تاریخ آخرین پریود شما گذشته است ",
-      playSound: true,
-      visibility: 'public',
-      message: 'تاریخ جدیدی ثبت کنید',
-    });
-  }
 }

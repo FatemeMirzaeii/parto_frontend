@@ -8,10 +8,9 @@ const db = new DataBase();
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   useEffect(() => {
-    db.rawQuery(
-      'SELECT * FROM reminder WHERE type_id=1',
-      'reminder',
-    ).then((res) => setReminders(res));
+    db.rawQuery('SELECT * FROM reminder', 'reminder').then((res) =>
+      setReminders(res),
+    );
   }, []);
   return (
     <ScrollView>
@@ -21,7 +20,9 @@ const Reminders = ({ navigation }) => {
             <ListItem
               key={r.id}
               title={r.title}
-              onPress={() => navigation.navigate('ReminderSetting')}
+              onPress={() =>
+                navigation.navigate('ReminderSetting', { reminder: r })
+              }
               //rightTitle={{ title: toPersianNum(periodLength), suffix: 'روز' }}
               bottomDivider
               leftIcon={{ name: 'alarm' }}
