@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { WheelPicker } from 'react-native-wheel-picker-android';
+import { WheelPicker, TimePicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../app/Functions';
 import { Theme } from '../app/Theme';
 import PersianDatePicker from './PersianDatePicker';
+import PersianTimePicker from './PersianTimePicker';
 
 const PickerListItem = (props) => {
-  const [pickerIsVisible, setPickerVisible] = useState(false);
+  const [isVisible, setVisible] = useState(false);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -18,9 +19,9 @@ const PickerListItem = (props) => {
     );
   }, []);
 
-  const chooseChevron = (isVisible) => {
+  const chooseChevron = (visible) => {
     return {
-      name: isVisible ? 'chevron-down' : 'chevron-left',
+      name: visible ? 'chevron-down' : 'chevron-left',
       type: 'font-awesome',
     };
   };
@@ -43,40 +44,57 @@ const PickerListItem = (props) => {
         title={props.title}
         leftIcon={props.leftIcon}
         bottomDivider
-        chevron={chooseChevron(pickerIsVisible)}
-        onPress={() => setPickerVisible(!pickerIsVisible)}
-        rightTitle={renderRightTitle(
-          props.rightTitle.title,
-          props.rightTitle.suffix,
-        )}
+        chevron={chooseChevron(isVisible)}
+        onPress={() => setVisible(!isVisible)}
+        rightTitle={
+          props.rightTitle
+            ? renderRightTitle(props.rightTitle.title, props.rightTitle.suffix)
+            : null
+        }
+        subtitle={props.subtitle}
         titleStyle={styles.listItemText}
         containerStyle={styles.listItem}
         contentContainerStyle={styles.listItemContent}
         rightTitleStyle={[
           styles.listItemText,
-          { width: 90, textAlign: 'right' },
+          {
+            maxWidth: 90,
+            textAlign: 'right',
+          },
         ]}
       />
-      {pickerIsVisible ? (
-        <View style={styles.picker}>
-          {!props.DatePicker ? (
-            <WheelPicker
-              selectedItem={data.findIndex((a) => a === props.selectedItem)}
-              onItemSelected={onItemSelected}
-              data={data}
-              initPosition={props.initPosition}
-              isCyclic={true}
-              selectedItemTextSize={20}
-              itemTextFontFamily={Theme.fonts.regular}
-              selectedItemTextFontFamily={Theme.fonts.regular}
-            />
-          ) : (
-            <PersianDatePicker
-              initialDate={props.initialDate}
-              onDateSelected={props.onDateSelected}
-            />
-          )}
-        </View>
+      {isVisible ? (
+        props.customComponent ? (
+          props.customComponent
+        ) : (
+          <View style={styles.picker}>
+            {!props.DatePicker && !props.TimePicker ? (
+              <WheelPicker
+                selectedItem={data.findIndex((a) => a === props.selectedItem)}
+                onItemSelected={onItemSelected}
+                data={data}
+                initPosition={props.initPosition}
+                isCyclic={true}
+                selectedItemTextSize={20}
+                itemTextFontFamily={Theme.fonts.regular}
+                selectedItemTextFontFamily={Theme.fonts.regular}
+              />
+            ) : props.DatePicker ? (
+              <PersianDatePicker
+                initialDate={props.initialDate}
+                onDateSelected={props.onDateSelected}
+              />
+            ) : (
+              <TimePicker
+                //format24
+                onTimeSelected={props.onTimeSelected}
+                selectedItemTextSize={20}
+                itemTextFontFamily={Theme.fonts.regular}
+                selectedItemTextFontFamily={Theme.fonts.regular}
+              />
+            )}
+          </View>
+        )
       ) : null}
     </View>
   );
@@ -86,7 +104,7 @@ const styles = StyleSheet.create({
   listItemText: {
     fontFamily: Theme.fonts.regular,
     fontSize: Theme.size[14],
-    width: 200,
+    maxWidth: 200,
   },
   listItem: {
     flexDirection: 'row-reverse',

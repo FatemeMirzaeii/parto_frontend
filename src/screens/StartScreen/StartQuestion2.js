@@ -1,17 +1,25 @@
 import { Button, Icon, Title } from 'native-base';
 import React, { useEffect } from 'react';
-import { StyleSheet, Text, View, ToastAndroid } from 'react-native';
+import {
+  StyleSheet,
+  Text,
+  View,
+  ToastAndroid,
+  StatusBar,
+  TouchableOpacity,
+  ImageBackground,
+  Image,
+} from 'react-native';
 import { Calendar } from 'react-native-jalali-calendars';
 import LinearGradient from 'react-native-linear-gradient';
-import { Theme } from '../../app/Theme';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Theme, Width, Height } from '../../app/Theme';
 const moment = require('moment');
 const { colors, size, fonts } = Theme;
 let questionArray = [];
 const toastText =
   'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید';
 const today = moment();
-const Start2 = ({ route, navigation }) => {
+const StartQuestion2 = ({ route, navigation }) => {
   useEffect(() => {
     questionArray = route.params.questionArray;
 
@@ -43,121 +51,236 @@ const Start2 = ({ route, navigation }) => {
       dayPress({ day: '00', month: '00', year: '00' });
     }, 2000);
   }
-
   return (
-    <LinearGradient
-      start={{ x: 0, y: 0 }}
-      end={{ x: 0, y: 1 }}
-      colors={['#D164A6', '#C2428F', '#780048']}
-      style={styles.gradiant}>
-      <View style={styles.view}>
-        <Text style={styles.txt}>آخرین بار ، دوره ماهانه تان</Text>
-        <Text style={styles.txt}>چه زمانی آغاز شد؟</Text>
-        <View style={{ marginTop: 20 }}>
-          <Calendar
-            firstDay={6}
-            jalali={true}
-            onDayPress={(day) => {
-              dayPress(day);
-            }}
-            pastScrollRange={12}
-            maxDate={today.format('YYYY-MM-DD')}
-            theme={{
-              selectedDayTextColor: 'white',
-              selectedDayBackgroundColor: 'pink',
-              textDayFontFamily: fonts.regular,
-              textMonthFontFamily: fonts.regular,
-              textDayHeaderFontFamily: fonts.regular,
-            }}
-            markingType={'multi-period'}
-          />
+    <View
+      style={{
+        flex: 1,
+        backgroundColor: colors.bgColor,
+      }}>
+      <StatusBar
+        translucent
+        barStyle="dark-content"
+        backgroundColor="transparent"></StatusBar>
+      <View
+        style={{
+          position: 'absolute',
+          width: '100%',
+          height: '100%',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+        <Image
+          source={require('../../../assets/images/start/pink3.png')}
+          style={{
+            width: Width * 1.22,
+            height: Height * 0.8,
+            position: 'absolute',
+          }}></Image>
+        <View
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+          }}>
+          <View style={{ flex: 1.5 }}>
+            <View
+              style={{
+                flex: 0.5,
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  width: '80%',
+                  height: '30%',
+                  flexDirection: 'row',
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <View
+                  style={{
+                    width: Width * 0.083,
+                    height: Height * 0.008,
+                    backgroundColor: colors.currentPage,
+                    borderRadius: 50,
+                    marginHorizontal: 5,
+                  }}></View>
+                <View
+                  style={{
+                    width: Width * 0.083,
+                    height: Height * 0.008,
+                    backgroundColor: colors.nextPage,
+                    borderRadius: 50,
+                  }}></View>
+                <View
+                  style={{
+                    width: Width * 0.083,
+                    height: Height * 0.008,
+                    backgroundColor: colors.nextPage,
+                    borderRadius: 50,
+                    marginHorizontal: 5,
+                  }}></View>
+                <View
+                  style={{
+                    width: Width * 0.083,
+                    height: Height * 0.008,
+                    backgroundColor: colors.nextPage,
+                    borderRadius: 50,
+                  }}></View>
+              </View>
+            </View>
+            <View
+              style={{
+                flex: 1,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <View
+                style={{
+                  width: '85%',
+                  height: '90%',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}>
+                <Text style={styles.textStyle1}>
+                  تاریخ شروع آخرین پریود خود را وارد کنید
+                </Text>
+              </View>
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 2.2,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <View
+              style={{
+                width: '90%',
+                height: '95%',
+                elevation: 0,
+              }}>
+              <Calendar
+                firstDay={6}
+                jalali={true}
+                onDayPress={(day) => {
+                  dayPress(day);
+                }}
+                pastScrollRange={12}
+                maxDate={today.format('YYYY-MM-DD')}
+                theme={{
+                  selectedDayTextColor: 'white',
+                  selectedDayBackgroundColor: 'pink',
+                  textDayFontFamily: fonts.regular,
+                  textMonthFontFamily: fonts.regular,
+                  textDayHeaderFontFamily: fonts.regular,
+                }}
+                markingType={'multi-period'}
+              />
+            </View>
+          </View>
+          <View
+            style={{
+              flex: 1.5,
+              justifyContent: 'flex-end',
+            }}>
+            <View
+              style={{
+                flex: 1.5,
+                justifyContent: 'center',
+                alignItems: 'center',
+              }}>
+              <TouchableOpacity style={{ padding: 15 }} activeOpacity={0.5}>
+                <Text
+                  style={{
+                    fontFamily: fonts.regular,
+                    fontSize: size[17],
+                    textDecorationLine: 'underline',
+                    opacity: 0.7,
+                  }}>
+                  فراموش کردم
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View
+              style={{
+                flex: 1.2,
+                alignItems: 'center',
+                justifyContent: 'center',
+                flexDirection: 'row',
+              }}>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    height: '40%',
+                    width: '80%',
+                    backgroundColor: 'white',
+                    borderRadius: 40,
+                    elevation: 3,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  activeOpacity={0.7}>
+                  <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
+                    قبل
+                  </Text>
+                </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}>
+                <TouchableOpacity
+                  style={{
+                    height: '40%',
+                    width: '80%',
+                    backgroundColor: colors.btn,
+                    borderRadius: 40,
+                    elevation: 3,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                  }}
+                  activeOpacity={0.7}>
+                  <Text
+                    style={{
+                      fontFamily: fonts.regular,
+                      fontSize: 14,
+                      color: 'white',
+                    }}>
+                    بعدی
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
         </View>
       </View>
-      <TouchableOpacity activeOpacity={0.6} onPress={() => forgetPress()}>
-        <Text style={styles.forget}>فراموش کردم</Text>
-      </TouchableOpacity>
-
-      <Button rounded style={styles.btn} onPress={() => navigation.goBack()}>
-        <Icon name="arrowright" type="AntDesign" />
-        <Title style={styles.txtbtn}>قبلی</Title>
-      </Button>
-    </LinearGradient>
+    </View>
   );
 };
 
-export default Start2;
+export default StartQuestion2;
 
 const styles = StyleSheet.create({
-  gradiant: {
-    flex: 1,
-    justifyContent: 'center',
-  },
-  view: {
-    backgroundColor: 'white',
-    width: '90%',
+  textStyle: {
     alignSelf: 'center',
-    height: '60%',
-    paddingTop: 20,
-    // justifyContent: 'center',
-    borderRadius: 5,
-    paddingHorizontal: 20,
-  },
-
-  wrapperVertical: {
-    height: 200,
-    justifyContent: 'center',
-    alignItems: 'center',
-    margin: 'auto',
-    color: 'black',
-  },
-  OptionWrapper: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 10,
-    paddingLeft: 10,
-    paddingRight: 10,
-    height: 50,
-    borderTopWidth: 1,
-    borderBottomWidth: 1,
-  },
-  view2: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  txt: {
-    fontFamily: fonts.regular,
-    fontSize: size[15],
-  },
-  txt2: {
-    marginTop: -10,
-    color: 'gray',
-    marginLeft: 30,
-    marginVertical: 5,
-    fontFamily: fonts.regular,
     fontSize: size[14],
+    fontFamily: fonts.medium,
+    marginTop: 7,
+    opacity: 0.7,
   },
-  btn: {
-    marginHorizontal: 20,
-    flexDirection: 'row',
-    width: '40%',
-    alignSelf: 'flex-start',
-    justifyContent: 'center',
-    marginTop: 30,
-    backgroundColor: '#C2428F',
-  },
-  txtbtn: {
-    marginRight: 20,
-    fontFamily: fonts.regular,
-  },
-  forget: {
-    marginTop: 5,
+  textStyle1: {
     alignSelf: 'center',
-    fontFamily: fonts.regular,
-    fontSize: size[15],
-    color: colors.text1,
-    borderBottomWidth: 0.2,
-    paddingHorizontal: 10,
-    borderBottomColor: 'white',
-    //color: 'white',
+    fontSize: size[17],
+    fontFamily: fonts.medium,
+    marginTop: 3,
+    opacity: 0.7,
   },
 });

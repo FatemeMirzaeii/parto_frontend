@@ -41,7 +41,7 @@ const Menu = ({ navigation }) => {
       <UserProfile onPress={() => navigation.push('Profile')} />
       <Card>
         <ListItem
-          title="اطلاعات دوره ها"
+          title="اطلاعات دوره‌ها"
           leftIcon={{ name: 'local-pharmacy' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -97,11 +97,11 @@ const Menu = ({ navigation }) => {
       <Divider />
       <Card>
         <ListItem
-          title="یادآوری ها"
+          title="یادآوری‌ها"
           leftIcon={{ name: 'alarm-on' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('')}
+          onPress={() => navigateTo('Reminders')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
