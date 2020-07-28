@@ -11,6 +11,7 @@ export const Theme = {
     btn: '#FF488A',
     currentPage: '#79EBEE',
     nextPage: '#E0E0E0',
+    textColor: '#757575',
   },
   fonts: {
     regular: 'IRANSansMobile',
