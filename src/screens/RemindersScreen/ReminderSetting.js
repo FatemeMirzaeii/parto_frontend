@@ -1,29 +1,57 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ScrollView } from 'react-native';
-import { Card, ListItem, Button, Input } from 'react-native-elements';
+import { ScrollView, TextInput } from 'react-native';
+import { Card, ListItem, Button } from 'react-native-elements';
 import DataBase from '../../components/Database';
-import { toEnglishNumber, toPersianNum } from '../../app/Functions';
-import styles from './Styles';
 import PickerListItem from '../../components/PickerListItem';
-import { TextInput } from 'react-native-gesture-handler';
+import styles from './Styles';
 const db = new DataBase();
 
-const ReminderSetting = ({ navigation }) => {
+const ReminderSetting = ({ navigation, route }) => {
+  const { reminder } = route.params;
   const [isActive, activate] = useState();
   const [time, setTime] = useState();
-  const [text, setText] = useState('دو روز به سیکل بعدی باقی مانده است.');
+  const [message, setMessage] = useState(reminder.message);
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: reminder.title,
+      headerRight: () => (
+        <Button
+          title="ثبت"
+          type="clear"
+          onPress={() => save()}
+          titleStyle={{ color: 'tomato' }}
+        />
+      ),
+    });
+    const save = () => {
+      db.rawQuery(
+        `INSERT INTO user_reminder (reminder_id, activate, custom_message) VALUES (${
+          reminder.id
+        }, ${isActive ? 1 : 0}, '${message}')
+        ON CONFLICT(reminder_id) DO UPDATE SET activate=${
+          isActive ? 1 : 0
+        }, custom_message='${message}'`,
+        'user_reminder',
+      ).then(() => navigation.pop());
+    };
+  }, [isActive, message, navigation, reminder.id, reminder.title]);
+
   useEffect(() => {
-    // db.rawQuery(
-    //   'SELECT * FROM reminder WHERE type_id=1',
-    //   'reminder',
-    // ).then((n) => setReminders(n));
-  }, []);
+    db.rawQuery(
+      `SELECT * FROM user_reminder WHERE reminder_id=${reminder.id}`,
+      'user_reminder',
+    ).then((n) => {
+      if (n.rows !== 'EMPTY_TABLE') {
+        console.log('dddddetail', n);
+        setMessage(n.custom_message);
+      }
+    });
+  }, [reminder.id]);
   return (
     <ScrollView>
       <Card>
         <ListItem
           title="فعال"
-          //leftIcon={{ name: 'lock' }}
           switch={{
             value: isActive,
             onValueChange: activate,
@@ -48,18 +76,19 @@ const ReminderSetting = ({ navigation }) => {
                     minHeight: 100,
                     textAlignVertical: 'top',
                   }}
-                  value={text}
-                  onChangeText={setText}
+                  value={message}
+                  onChangeText={setMessage}
                 />
               }
-              subtitle={text}
+              subtitle={message}
             />
             <PickerListItem
               TimePicker
               title="زمان"
-              onTimeSelected={() => console.log('time', time)}
-              //leftIcon={{ name: 'lock' }}
-              rightTitle={{ title: time }}
+              onTimeSelected={setTime}
+              rightTitle={{
+                title: time ? `${time.getHours()}:${time.getMinutes()}` : null,
+              }}
             />
           </>
         ) : null}

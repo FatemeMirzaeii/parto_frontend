@@ -1,91 +1,40 @@
-import { Button, Radio, Title, View } from 'native-base';
-import React, { useState } from 'react';
+import { View } from 'native-base';
+import React from 'react';
 import {
-  StyleSheet,
-  Text,
-  ToastAndroid,
   Image,
   ImageBackground,
   StatusBar,
+  Text,
   TouchableOpacity,
 } from 'react-native';
-import LinearGradient from 'react-native-linear-gradient';
-import { Theme, Width, Height } from '../../app/Theme';
-import Database from '../../components/Database';
-
-let questionArray = [{ pregnant: 1, pregnancy_try: 0, period: 0 }];
-const db = new Database();
-const { colors, size, fonts } = Theme;
+import { Theme } from '../../app/Theme';
+import styles from './Styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+let questionArray = [];
+const { colors } = Theme;
 
 const StartQuestion = (props) => {
   return (
-    <View style={{ backgroundColor: colors.bgColor, flex: 1 }}>
+    <SafeAreaView style={{ backgroundColor: colors.bgColor, flex: 1 }}>
       <StatusBar
         barStyle="dark-content"
         backgroundColor="transparent"
         translucent></StatusBar>
+
       <ImageBackground
-        //source={require('../../../assets/images/start/pink1.png')}
-        style={{
-          width: '100%',
-          height: Height * 0.27,
-        }}>
-        <ImageBackground
-          source={require('../../../assets/images/start/pink1.png')}
-          style={{
-            width: (Height * 0.27) / 0.72,
-            height: Height * 0.27,
-            alignSelf: 'flex-end',
-          }}></ImageBackground>
-        <Image
-          source={require('./../../../assets/images/start/flower.png')}
-          style={{ position: 'absolute' }}></Image>
-      </ImageBackground>
-      <View
-        style={{
-          position: 'absolute',
-          alignSelf: 'center',
-          top: Height * 0.16,
-        }}>
-        <Text
-          style={{
-            fontFamily: fonts.medium,
-            fontSize: size[14],
-            textAlign: 'center',
-            opacity: 0.5,
-          }}>
-          خوش آمدی دوست عزیز
-        </Text>
-        <Text
-          style={{
-            fontFamily: fonts.medium,
-            fontSize: size[14],
-            textAlign: 'center',
-            opacity: 0.5,
-            marginTop: 25,
-          }}>
+        source={require('../../../assets/images/start/pink1.png')}
+        style={styles.imgbackground1}></ImageBackground>
+      <Image
+        source={require('./../../../assets/images/start/flower.png')}
+        style={{ position: 'absolute' }}></Image>
+      <View style={styles.viq1}>
+        <Text style={styles.txtTop}>خوش آمدی دوست عزیز</Text>
+        <Text style={[styles.txtTop, { marginTop: 25 }]}>
           به ما بگو در کدوم یکی از موارد زیر میتونیم به
         </Text>
-        <Text
-          style={{
-            fontFamily: fonts.medium,
-            fontSize: size[14],
-            textAlign: 'center',
-            opacity: 0.5,
-          }}>
-          شما کمک کنیم.
-        </Text>
+        <Text style={styles.txtTop}>شما کمک کنیم.</Text>
       </View>
-      <View
-        style={{
-          position: 'absolute',
-          //backgroundColor: 'red',
-          height: Height * 0.32,
-          width: Width * 1,
-          top: Height * 0.4,
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}>
+      <View style={styles.viewbtnsq1}>
         <TouchableOpacity
           style={styles.BTNStyle}
           activeOpacity={0.7}
@@ -106,7 +55,7 @@ const StartQuestion = (props) => {
             });
           }}>
           <Text style={styles.TextBTNStyle}>باردار هستم</Text>
-          <Text style={styles.TextBTNStyle1}>میخواهم شرایط م را ثبت کنم</Text>
+          <Text style={styles.TextBTNStyle1}>میخواهم شرایطم را ثبت کنم</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.BTNStyle}
@@ -125,33 +74,8 @@ const StartQuestion = (props) => {
       </View>
       <ImageBackground
         source={require('./../../../assets/images/start/pink2.png')}
-        style={{
-          width: (Height * 0.2) / 0.4,
-          height: Height * 0.2,
-          position: 'absolute',
-          bottom: 0,
-          left: -91,
-        }}></ImageBackground>
-    </View>
+        style={styles.imgendq1}></ImageBackground>
+    </SafeAreaView>
   );
 };
 export default StartQuestion;
-const styles = StyleSheet.create({
-  BTNStyle: {
-    backgroundColor: 'white',
-    marginVertical: 5,
-    borderRadius: 40,
-    width: Width * 0.9,
-    height: Height * 0.094,
-    elevation: 2,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  TextBTNStyle: {
-    fontFamily: fonts.medium,
-    fontSize: size[14],
-    opacity: 0.7,
-    marginBottom: 10,
-  },
-  TextBTNStyle1: { fontFamily: fonts.medium, fontSize: size[14], opacity: 0.5 },
-});
