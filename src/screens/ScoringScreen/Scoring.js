@@ -17,9 +17,11 @@ import {
   Left,
   Icon,
 } from 'native-base';
+import { RESTAPI } from '../../services/RESTAPI';
 import { Theme, Height, Width } from '../../app/Theme';
-const { fonts, size, colors } = Theme
-const supportedURL = 'https://cafebazaar.ir/app/ir.parto.parto';
+const { fonts, size, colors } = Theme;
+const supportedURL = 'https://cafebazaar.ir/app/ir.partoparto.parto';
+const restapi = new RESTAPI();
 
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -41,31 +43,43 @@ const OpenURLButton = ({ url, children }) => {
 const Scoring = (props) => {
   return (
     <Container style={{ flex: 1 }}>
-      <Header style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
-        <Right style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, }}>
-
-        </Right>
-        <Body style={{
-          flex: 4,
-          alignItems: 'center'
-        }}>
-          <Text style={{
-            fontFamily: fonts.medium
-          }}>امتیازدهی به پرتو</Text>
+      <Header
+        style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
+        <Right
+          style={{
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            flex: 1,
+          }}></Right>
+        <Body
+          style={{
+            flex: 4,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontFamily: fonts.medium,
+            }}>
+            امتیازدهی به پرتو
+          </Text>
         </Body>
 
-
         <Left style={{ flex: 1, alignItems: 'flex-end' }}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}
-            style={{ padding: 4, backgroundColor: '#FF4A8A', borderRadius: 30 }}>
-            <Icon name="arrow-forward" type="MaterialIcons" style={{ color: 'white' }}></Icon>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{
+              padding: 4,
+              backgroundColor: '#FF4A8A',
+              borderRadius: 30,
+            }}>
+            <Icon
+              name="arrow-forward"
+              type="MaterialIcons"
+              style={{ color: 'white' }}></Icon>
           </TouchableOpacity>
         </Left>
       </Header>
-      {/* <StatusBar
-        //translucent
-        barStyle="dark-content"
-        backgroundColor="transparent"></StatusBar> */}
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <View style={{ flex: 1 }}>
         <View style={{ flex: 1.2 }}>
           <View style={{ flex: 2.3 }}>
@@ -83,7 +97,14 @@ const Scoring = (props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text style={{ fontSize: size[17], fontFamily: fonts.regular, marginVertical: 10 }}>چه امتیازی به پرتو میدی؟</Text>
+              <Text
+                style={{
+                  fontSize: size[17],
+                  fontFamily: fonts.regular,
+                  marginVertical: 10,
+                }}>
+                چه امتیازی به پرتو میدی؟
+              </Text>
             </View>
             <View
               style={{
@@ -174,12 +195,20 @@ const Scoring = (props) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <Text style={{ fontSize: 14, opacity: 0.65, fontFamily: fonts.regular, }}>بد</Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  opacity: 0.65,
+                  fontFamily: fonts.regular,
+                }}>
+                بد
+              </Text>
             </View>
           </View>
         </View>
         <View style={{ flex: 1.2, borderTopWidth: 0.7 }}>
-          <View style={{ flex: 5, backgroundColor: 'pink', flexDirection: 'row' }}>
+          <View
+            style={{ flex: 5, backgroundColor: 'pink', flexDirection: 'row' }}>
             <View style={{ flex: 1, alignItems: 'center', marginTop: 5 }}>
               <Text style={{ fontFamily: fonts.regular }}>نقاط قوت</Text>
             </View>
@@ -210,7 +239,12 @@ const Scoring = (props) => {
                   backgroundColor: '#FF4A8A',
                   borderRadius: 30,
                 }}>
-                <Text style={{ color: 'white', fontSize: 17, fontFamily: fonts.regular }}>
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: 17,
+                    fontFamily: fonts.regular,
+                  }}>
                   ثبت بازخورد
                 </Text>
               </TouchableOpacity>
@@ -231,7 +265,9 @@ const Scoring = (props) => {
                   borderWidth: 1,
                   borderRadius: 30,
                 }}>
-                <Text style={{ fontSize: 17, fontFamily: fonts.regular }}>ثبت دیدگاه</Text>
+                <Text style={{ fontSize: 17, fontFamily: fonts.regular }}>
+                  ثبت دیدگاه
+                </Text>
               </TouchableOpacity>
             </View>
           </View>

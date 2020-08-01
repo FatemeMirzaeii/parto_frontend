@@ -12,6 +12,7 @@ export const Theme = {
     currentPage: '#79EBEE',
     nextPage: '#E0E0E0',
     textColor: '#757575',
+    textColorDark: '#424242',
   },
   fonts: {
     regular: 'IRANSansMobile',

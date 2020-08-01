@@ -1,22 +1,18 @@
-import { Button, Icon, Title } from 'native-base';
-import React, { useEffect, useState, useContext } from 'react';
+import { Icon } from 'native-base';
+import React, { useContext, useEffect, useState } from 'react';
 import {
+  Image,
+  StatusBar,
   StyleSheet,
   Text,
-  View,
-  ToastAndroid,
-  StatusBar,
   TouchableOpacity,
-  ImageBackground,
-  Image,
+  View,
 } from 'react-native';
-import { Calendar } from 'react-native-jalali-calendars';
-import LinearGradient from 'react-native-linear-gradient';
-import { Theme, Width, Height } from '../../app/Theme';
-import Database from '../../components/Database';
-import { PROFILE } from '../../constants/TableDataBase';
 import { storeData } from '../../app/Functions';
+import { Height, Theme, Width } from '../../app/Theme';
+import Database from '../../components/Database';
 import PersianDatePicker from '../../components/PersianDatePicker';
+import { PROFILE } from '../../constants/TableDataBase';
 import { AuthContext } from '../../contexts/AuthContext';
 const moment = require('moment');
 const { colors, size, fonts } = Theme;
@@ -25,7 +21,6 @@ const db = new Database();
 let questionArray = [];
 let forgetPragnancy = false;
 
-let data = [];
 const StartQuestion5 = ({ route, navigation }) => {
   const [day, setDay] = useState();
   const [month, setMonth] = useState();
@@ -40,6 +35,7 @@ const StartQuestion5 = ({ route, navigation }) => {
   const setDate = (date, persianDate) => {
     console.log('hi from interview', date);
     if (date) {
+      console.log('dont undefined');
       const dateArray = date.split('/');
       setDay(parseInt(dateArray[2]));
       setMonth(parseInt(dateArray[1]));
@@ -226,13 +222,27 @@ const StartQuestion5 = ({ route, navigation }) => {
               <PersianDatePicker onDateSelected={setDate} />
             </View>
           </View>
-          <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
+          <View style={{ flex: 2, justifyContent: 'flex-end' }}>
             <View
               style={{
                 flex: 1.5,
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
+              <TouchableOpacity
+                onPress={() => nextStep()}
+                style={{ padding: 15 }}
+                activeOpacity={0.5}>
+                <Text
+                  style={{
+                    fontFamily: fonts.regular,
+                    fontSize: size[17],
+                    textDecorationLine: 'underline',
+                    opacity: 0.7,
+                  }}>
+                  بعدا وارد میکنم
+                </Text>
+              </TouchableOpacity>
               <View
                 style={{
                   height: '100%',
@@ -251,7 +261,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                     }}>
                     <Text
                       style={{
-                        opacity: 0.7,
+                        color: colors.textColorDark,
                         marginHorizontal: 10,
                         fontFamily: fonts.medium,
                         fontSize: size[12],
@@ -272,10 +282,8 @@ const StartQuestion5 = ({ route, navigation }) => {
                     flex: 1.5,
                   }}>
                   <Text style={styles.textStyle}>
-                    دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد
-                  </Text>
-                  <Text style={styles.textStyle}>
-                    که می توانید آن را دانلود کنید
+                    دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد که می
+                    توانید آن را دانلود کنید
                   </Text>
                 </View>
               </View>
@@ -294,6 +302,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
+                  onPress={() => navigation.goBack()}
                   style={{
                     height: '40%',
                     width: '80%',
@@ -305,7 +314,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                   }}
                   activeOpacity={0.7}>
                   <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبل
+                    قبلی
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -316,6 +325,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
+                  onPress={() => nextPress()}
                   style={{
                     height: '40%',
                     width: '80%',
@@ -352,13 +362,13 @@ const styles = StyleSheet.create({
     fontSize: size[14],
     fontFamily: fonts.medium,
     marginTop: 7,
-    opacity: 0.7,
+    width: '95%',
+    color: colors.textColorDark,
   },
   textStyle1: {
     alignSelf: 'center',
     fontSize: size[17],
     fontFamily: fonts.medium,
     marginTop: 3,
-    opacity: 0.7,
   },
 });
