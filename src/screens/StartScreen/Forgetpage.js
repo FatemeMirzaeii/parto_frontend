@@ -18,13 +18,27 @@ import {
   Left,
   Icon,
 } from 'native-base';
+import { storeData } from '../../app/Functions';
 import { Theme, Height, Width } from '../../app/Theme';
 const { fonts, size, colors } = Theme;
 const Forgetpage = (props) => {
+  // const goToHome = async () => {
+  //   await storeData('@startPages', 'true');
+  //   console.log('a');
+  //   props.navigation.navigate('Home');
+  // };
   return (
     <Container style={{ flex: 1, backgroundColor: 'white' }}>
-      <Image source={require('../../../assets/images/Group-5366.png')} />
-      <Image source={require('../../../assets/images/Group-5365.png')} />
+      <View style={{ marginTop: Width / 12, alignItems: 'flex-end' }}>
+        <Image
+          source={require('../../../assets/images/Group-5366.png')}
+          style={{ marginRight: 80 }}
+        />
+        <Image
+          source={require('../../../assets/images/Group-5365.png')}
+          style={{ marginTop: 10, margin: 20 }}
+        />
+      </View>
       <Text
         style={{
           color: '#424242',
@@ -40,6 +54,10 @@ const Forgetpage = (props) => {
           fontFamily: fonts.regular,
           fontSize: 16,
           alignSelf: 'center',
+          marginRight: 10,
+          marginLeft: 10,
+          textAlign: 'center',
+          marginTop: 20,
         }}>
         در صورتی که تعداد روزهای پریود خود را به یاد ندارید، ما برای شما به صورت
         پیش فرض 7 روز را در نظر میگیریم.
@@ -50,11 +68,26 @@ const Forgetpage = (props) => {
           fontFamily: fonts.regular,
           fontSize: 16,
           alignSelf: 'center',
+          marginTop: 20,
         }}>
         ( شما قادر به ویرایش آن خواهید بود){' '}
       </Text>
-      <View style={{ flexDirection: 'row' }}>
-        <Image source={require('../../../assets/images/Group-4484.png')} />
+      <View
+        style={{
+          flexDirection: 'row',
+          // backgroundColor: 'yellow',
+          marginTop: 40,
+          flex: 2.5,
+        }}>
+        <Image
+          source={require('../../../assets/images/Group-4484.png')}
+          style={{
+            // backgroundColor: 'red',
+            flex: 0.5,
+            height: '100%',
+            marginLeft: -20,
+          }}
+        />
 
         <Image source={require('../../../assets/images/Group-5364.png')} />
       </View>
@@ -65,10 +98,10 @@ const Forgetpage = (props) => {
           alignItems: 'center',
         }}>
         <TouchableOpacity
-          onPress={() => nextPress()}
+          // onPress={() => goToHome()}
           style={{
             height: '40%',
-            width: '80%',
+            width: '50%',
             backgroundColor: colors.btn,
             borderRadius: 40,
             elevation: 3,

@@ -128,6 +128,7 @@ const InterviewStackScreen = () => {
       <InterviewStack.Screen name="StartQuestion4" component={StartQuestion4} />
       <InterviewStack.Screen name="StartQuestion5" component={StartQuestion5} />
       <InterviewStack.Screen name="Forgetpage" component={Forgetpage} />
+
       <InterviewStack.Screen
         name="StartQuestionPregnancyForget"
         component={StartQuestionPregnancyForget}
