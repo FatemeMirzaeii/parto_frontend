@@ -27,12 +27,10 @@ export default class Rating extends Component<{}> {
       //To set the max number of Stars
     };
     //Filled Star. You can also give the path from local
-    this.Star = <Icon name="heart" type="FontAwesome" />;
-    //   'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_filled.png';
+    this.Star = require('../../assets/images/Ellipse-305.png');
 
     //Empty Star. You can also give the path from local
-    this.Star_With_Border = <Icon name="heart-o" type="FontAwesome" />;
-    //   'https://raw.githubusercontent.com/AboutReact/sampleresource/master/star_corner.png';
+    this.Star_With_Border = require('../../assets/images/unfill.png');
   }
   UpdateRating(key) {
     this.setState({ Default_Rating: key });
@@ -57,7 +55,7 @@ export default class Rating extends Component<{}> {
           {/* <Icon
             style={styles.StarImage}
             name={ */}
-          {i <= this.state.Default_Rating ? (
+          {/* {i <= this.state.Default_Rating ? (
             <Icon
               name="heart-circle"
               type="Ionicons"
@@ -69,7 +67,18 @@ export default class Rating extends Component<{}> {
               type="Ionicons"
               style={styles.StarImage}
             />
-          )}
+          )} */}
+          <Image
+            style={
+              i <= this.state.Default_Rating
+                ? styles.StarImage
+                : styles.StarImage1
+            }
+            source={
+              i <= this.state.Default_Rating ? this.Star : this.Star_With_Border
+            }
+            resizeMode="cover"
+          />
 
           {/* this.TextRating.bind(this, i) */}
           {/* } */}
@@ -101,12 +110,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     // backgroundColor: 'red',
     // paddingTop: Platform.OS === 'ios' ? 20 : 0,
-    // marginTop: 10,
+    marginTop: -30,
   },
   childView: {
     justifyContent: 'center',
     flexDirection: 'row',
-    // marginTop: 30,
+    marginTop: 5,
+    marginLeft: 15,
   },
   button: {
     justifyContent: 'center',
@@ -116,10 +126,20 @@ const styles = StyleSheet.create({
     backgroundColor: '#8ad24e',
   },
   StarImage: {
-    width: 40,
-    height: 40,
-    resizeMode: 'cover',
+    width: 60,
+    height: 60,
+
     color: colors.btn,
+    marginLeft: -5,
+    marginTop: 20,
+  },
+  StarImage1: {
+    width: 38,
+    height: 38,
+    // marginLeft: 5,
+    color: colors.btn,
+    marginRight: 15,
+    marginTop: 28,
   },
   textStyle: {
     textAlign: 'center',

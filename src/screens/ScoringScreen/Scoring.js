@@ -233,7 +233,8 @@ const Scoring = (props) => {
       <View
         style={{
           // backgroundColor: 'green',
-          height: Height / 3,
+          // height: Height / 3,
+          flex: 1.25,
           justifyContent: 'flex-start',
           borderTopColor: colors.reView,
           borderTopWidth: 0.5,
@@ -260,7 +261,8 @@ const Scoring = (props) => {
       <OpenURLButton url={supportedURL}>ثبت امتیاز در بازار</OpenURLButton>
       <View
         style={{
-          height: Height / 10,
+          // height: Height / 10,
+          flex: 0.35,
           flexDirection: 'row',
           // backgroundColor: 'yellow',
         }}>
