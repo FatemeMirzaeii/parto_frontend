@@ -22,6 +22,7 @@
     "react-native": "0.63.1",
     "react-native-actions-sheet": "^0.3.1",
     "react-native-chart-kit": "^6.4.0",
+    "react-native-charts-wrapper": "^0.5.7",
     "react-native-elements": "^2.0.4",
     "react-native-gesture-handler": "^1.6.1",
     "react-native-jalali-calendars": "github:fatememirzaeii/react-native-jalali-calendars",
