@@ -17,10 +17,16 @@ import {
   Left,
   Icon,
 } from 'native-base';
+import { getData } from '../../app/Functions';
 import { RESTAPI } from '../../services/RESTAPI';
 import { Theme, Height, Width } from '../../app/Theme';
 const { fonts, size, colors } = Theme;
-const supportedURL = 'https://cafebazaar.ir/app/ir.partoparto.parto';
+import {
+  survayQuestion,
+  CafeBazarLink,
+  survayAnswer,
+} from '../../services/ApiNames';
+const supportedURL = CafeBazarLink;
 const restapi = new RESTAPI();
 
 const OpenURLButton = ({ url, children }) => {
@@ -40,7 +46,28 @@ const OpenURLButton = ({ url, children }) => {
   return <Button title={children} onPress={handlePress} />;
 };
 
+const _SurvayAnswer = async () => {
+  let _email = await getData('@email');
+
+  console.log(_email);
+  let body = {
+    email: _email,
+  };
+  return await restapi.request(survayAnswer, body, 'PUT');
+};
+const _SurvayQuestion = async () => {
+  let _email = await getData('@email');
+
+  console.log(_email);
+  let body = {
+    email: _email,
+  };
+  return await restapi.request(survayQuestion, body, 'POST');
+};
 const Scoring = (props) => {
+  useEffect(() => {
+    _SurvayQuestion();
+  }, []);
   return (
     <Container style={{ flex: 1 }}>
       <Header
