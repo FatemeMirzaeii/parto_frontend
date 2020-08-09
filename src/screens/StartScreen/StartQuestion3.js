@@ -15,12 +15,12 @@ import LinearGradient from 'react-native-linear-gradient';
 import { Theme, Width, Height } from '../../app/Theme';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 const moment = require('moment');
-const { colors, size, fonts } = Theme;
 let questionArray = [];
+const { colors, size, fonts } = Theme;
 let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
 const toastText =
   'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
-const today = moment();
+
 const StartQuestion3 = ({ route, navigation }) => {
   const [state, setState] = useState({
     selectedItem: 0,
@@ -32,6 +32,7 @@ const StartQuestion3 = ({ route, navigation }) => {
   }, [route.params.questionArray]);
 
   const onItemSelected = (selectedItem) => {
+    // let item=selecte
     console.log('selected: ', selectedItem + 3);
     setState({ selectedItem });
   };
@@ -48,7 +49,7 @@ const StartQuestion3 = ({ route, navigation }) => {
     ToastAndroid.show(toastText, ToastAndroid.LONG);
     setTimeout(async () => {
       nextPress(7);
-    }, 2000);
+    }, 1500);
   }
   return (
     <View
@@ -174,7 +175,10 @@ const StartQuestion3 = ({ route, navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <TouchableOpacity style={{ padding: 15 }} activeOpacity={0.5}>
+              <TouchableOpacity
+                onPress={() => forgetPress()}
+                style={{ padding: 15 }}
+                activeOpacity={0.5}>
                 <Text
                   style={{
                     fontFamily: fonts.regular,
@@ -200,6 +204,7 @@ const StartQuestion3 = ({ route, navigation }) => {
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
+                  onPress={() => navigation.goBack()}
                   style={{
                     height: '40%',
                     width: '80%',
@@ -211,7 +216,7 @@ const StartQuestion3 = ({ route, navigation }) => {
                   }}
                   activeOpacity={0.7}>
                   <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبل
+                    قبلی
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -232,11 +237,7 @@ const StartQuestion3 = ({ route, navigation }) => {
                     alignItems: 'center',
                   }}
                   activeOpacity={0.7}
-                  onPress={() =>
-                    navigation.navigate('StartQuestion4', {
-                      questionArray: questionArray,
-                    })
-                  }>
+                  onPress={() => nextPress(state.selectedItem + 3)}>
                   <Text
                     style={{
                       fontFamily: fonts.regular,

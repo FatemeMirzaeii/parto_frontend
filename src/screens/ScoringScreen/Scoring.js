@@ -7,6 +7,7 @@ import {
   ImageBackground,
   Linking,
   Button,
+  Dimensions,
 } from 'react-native';
 import {
   Container,
@@ -17,10 +18,28 @@ import {
   Left,
   Icon,
 } from 'native-base';
+import { getData } from '../../app/Functions';
+import { RESTAPI } from '../../services/RESTAPI';
+// import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Theme, Height, Width } from '../../app/Theme';
-const { fonts, size, colors } = Theme
-const supportedURL = 'https://cafebazaar.ir/app/ir.parto.parto';
+import Rating from '../../components/Rating';
+import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
+import { FlatList } from 'react-native-gesture-handler';
+const { fonts, size, colors } = Theme;
 
+import {
+  survayQuestion,
+  CafeBazarLink,
+  survayAnswer,
+} from '../../services/ApiNames';
+const supportedURL = CafeBazarLink;
+const restapi = new RESTAPI();
+
+const initialLayout = { width: Dimensions.get('window').width };
+const supportedURL = 'https://cafebazaar.ir/app/ir.partoparto.parto';
+
+const restapi = new RESTAPI();
+const DATA = ['1', '2', '3', '4', '5', '6'];
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
     // Checking if the link is supported for links with custom URL scheme.
@@ -38,205 +57,307 @@ const OpenURLButton = ({ url, children }) => {
   return <Button title={children} onPress={handlePress} />;
 };
 
+
+const _SurvayAnswer = async () => {
+  let _email = await getData('@email');
+
+  console.log(_email);
+  let body = {
+    email: _email,
+  };
+  return await restapi.request(survayAnswer, body, 'PUT');
+};
+const _SurvayQuestion = async () => {
+  let _email = await getData('@email');
+
+  console.log(_email);
+  let body = {
+    email: _email,
+  };
+  return await restapi.request(survayQuestion, body, 'POST');
+};
 const Scoring = (props) => {
+  useEffect(() => {
+    _SurvayQuestion();
+  }, []);
+
+const array = ['ضعیف', 'بد', 'متوسط', 'خوب', 'خیلی خوب'];
+const FirstRoute = () => (
+  <FlatList
+    showsVerticalScrollIndicator={false}
+    numColumns={2}
+    data={DATA}
+    renderItem={({ item }) => (
+      <View
+        style={{
+          width: '45%',
+          height: Height / 16,
+          borderRadius: 30,
+          borderWidth: 1,
+          borderColor: colors.btn,
+          marginHorizontal: 10,
+          marginVertical: 10,
+        }}></View>
+    )}
+    // keyExtractor={(item) => item.title.toString()}
+  />
+);
+const SecondRoute = () => (
+  <FlatList
+    showsVerticalScrollIndicator={false}
+    numColumns={2}
+    data={DATA}
+    renderItem={({ item }) => (
+      <View
+        style={{
+          width: '45%',
+          height: Height / 16,
+          borderRadius: 30,
+          borderWidth: 1,
+          borderColor: colors.btn,
+          marginHorizontal: 10,
+          marginVertical: 10,
+        }}></View>
+    )}
+    // keyExtractor={(item) => item.title.toString()}
+  />
+);
+const Scoring = (props) => {
+  const [index, setIndex] = React.useState(0);
+  const [routes] = React.useState([
+    { key: 'first', title: 'نقاط ضعف' },
+    { key: 'second', title: 'نقاط قوت' },
+  ]);
+  const renderScene = SceneMap({
+    first: FirstRoute,
+    second: SecondRoute,
+  });
+  const renderTabBar = (props) => {
+    const inputRange = props.navigationState.routes.map((x, i) => i);
+
+    return (
+      <TabBar
+        {...props}
+        activeColor={colors.textColorDark}
+        inactiveColor={colors.reView}
+        // pressColor={'red'}
+        indicatorStyle={{
+          height: '100%',
+          backgroundColor: 'transparent',
+          // borderTopStartRadius: 10,
+          // borderTopEndRadius: 10,
+          width: '45%',
+          marginLeft: 12,
+          marginRight: 5,
+          alignItems: 'center',
+          justifyContent: 'center',
+          alignSelf: 'center',
+          color: colors.reView,
+          borderBottomColor: colors.btn,
+          borderBottomWidth: 2,
+        }}
+        style={{ elevation: 0, backgroundColor: 'transparent' }}
+        renderLabel={({ route, focused, color }) => (
+          <Text
+            style={{
+              color,
+              margin: 0,
+              fontFamily: fonts.regular,
+            }}>
+            {route.title}
+          </Text>
+        )}></TabBar>
+    );
+  };
+
+
   return (
     <Container style={{ flex: 1 }}>
-      <Header style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
-        <Right style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, }}>
-
-        </Right>
-        <Body style={{
-          flex: 4,
-          alignItems: 'center'
-        }}>
-          <Text style={{
-            fontFamily: fonts.medium
-          }}>امتیازدهی به پرتو</Text>
+      <Header
+        style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
+        <Right
+          style={{
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            flex: 1,
+          }}></Right>
+        <Body
+          style={{
+            flex: 4,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontFamily: fonts.medium,
+              color: colors.textColor,
+              fontSize: size[16],
+            }}>
+            امتیازدهی به پرتو
+          </Text>
         </Body>
 
-
         <Left style={{ flex: 1, alignItems: 'flex-end' }}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}
-            style={{ padding: 4, backgroundColor: '#FF4A8A', borderRadius: 30 }}>
-            <Icon name="arrow-forward" type="MaterialIcons" style={{ color: 'white' }}></Icon>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{
+              padding: 4,
+              backgroundColor: '#FF4A8A',
+              borderRadius: 30,
+            }}>
+            <Icon
+              name="arrow-forward"
+              type="MaterialIcons"
+              style={{ color: 'white' }}></Icon>
           </TouchableOpacity>
         </Left>
       </Header>
-      {/* <StatusBar
-        //translucent
-        barStyle="dark-content"
-        backgroundColor="transparent"></StatusBar> */}
-      <View style={{ flex: 1 }}>
-        <View style={{ flex: 1.2 }}>
-          <View style={{ flex: 2.3 }}>
-            <ImageBackground
-              style={{ flex: 1 }}
-              source={{
-                uri:
-                  'https://www.komar.de/en/media/catalog/product/cache/5/image/9df78eab33525d08d6e5fb8d27136e95/s/h/sh041-vd4_into_the_jungle_web.jpg',
-              }}></ImageBackground>
-          </View>
-          <View style={{ flex: 1 }}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{ fontSize: size[17], fontFamily: fonts.regular, marginVertical: 10 }}>چه امتیازی به پرتو میدی؟</Text>
-            </View>
-            <View
-              style={{
-                flex: 1.5,
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF4A8A',
-                  width: Width * 0.09,
-                  height: Width * 0.09,
-                  borderRadius: 1000,
-                  marginHorizontal: 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="heart"
-                  type="AntDesign"
-                  style={{ color: 'white', fontSize: 18 }}></Icon>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF4A8A',
-                  width: Width * 0.09,
-                  height: Width * 0.09,
-                  borderRadius: 1000,
-                  marginHorizontal: 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="heart"
-                  type="AntDesign"
-                  style={{ color: 'white', fontSize: 18 }}></Icon>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF4A8A',
-                  width: Width * 0.09,
-                  height: Width * 0.09,
-                  borderRadius: 1000,
-                  marginHorizontal: 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="heart"
-                  type="AntDesign"
-                  style={{ color: 'white', fontSize: 18 }}></Icon>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF4A8A',
-                  width: Width * 0.09,
-                  height: Width * 0.09,
-                  borderRadius: 1000,
-                  marginHorizontal: 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="heart"
-                  type="AntDesign"
-                  style={{ color: 'white', fontSize: 18 }}></Icon>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={{
-                  backgroundColor: '#FF4A8A',
-                  width: Width * 0.09,
-                  height: Width * 0.09,
-                  borderRadius: 1000,
-                  marginHorizontal: 7,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="heart"
-                  type="AntDesign"
-                  style={{ color: 'white', fontSize: 18 }}></Icon>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Text style={{ fontSize: 14, opacity: 0.65, fontFamily: fonts.regular, }}>بد</Text>
-            </View>
-          </View>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
+      {/* <View style={{ flex: 1 }}> */}
+      <View style={{ flex: 1.2 }}>
+        <View style={{ flex: 2.3 }}>
+          <ImageBackground
+            style={{ flex: 1 }}
+            source={require('../../../assets/images/emtiyaz.png')}
+            resizeMode="contain"></ImageBackground>
         </View>
-        <View style={{ flex: 1.2, borderTopWidth: 0.7 }}>
-          <View style={{ flex: 5, backgroundColor: 'pink', flexDirection: 'row' }}>
-            <View style={{ flex: 1, alignItems: 'center', marginTop: 5 }}>
-              <Text style={{ fontFamily: fonts.regular }}>نقاط قوت</Text>
-            </View>
-            <View style={{ flex: 1, alignItems: 'center', marginTop: 5 }}>
-              <Text style={{ fontFamily: fonts.regular }}>نقاط ضعف</Text>
-            </View>
+        <View style={{ flex: 1 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: 'red',
+              marginTop: -20,
+            }}>
+            <Text
+              style={{
+                fontSize: size[14],
+                fontFamily: fonts.medium,
+                color: colors.textColor,
+                // marginVertical: 10,
+              }}>
+              چه امتیازی به پرتو میدی؟
+            </Text>
           </View>
-          <OpenURLButton url={supportedURL}>ثبت امتیاز در بازار</OpenURLButton>
-
           <View
             style={{
               flex: 1.8,
               flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center',
+              // backgroundColor: 'yellow',
             }}>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  marginRight: -30,
-                  width: '80%',
-                  height: '50%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  backgroundColor: '#FF4A8A',
-                  borderRadius: 30,
-                }}>
-                <Text style={{ color: 'white', fontSize: 17, fontFamily: fonts.regular }}>
-                  ثبت بازخورد
-                </Text>
-              </TouchableOpacity>
-            </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <TouchableOpacity
-                style={{
-                  marginLeft: -30,
-                  width: '80%',
-                  height: '50%',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  borderWidth: 1,
-                  borderRadius: 30,
-                }}>
-                <Text style={{ fontSize: 17, fontFamily: fonts.regular }}>ثبت دیدگاه</Text>
-              </TouchableOpacity>
-            </View>
+            <Rating />
           </View>
+          {/* <View
+            style={{
+              flex: 1,
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                fontSize: 14,
+                opacity: 0.65,
+                fontFamily: fonts.regular,
+              }}>
+              بد
+            </Text>
+          </View> */}
         </View>
       </View>
+      <View
+        style={{
+          // backgroundColor: 'green',
+          // height: Height / 3,
+          flex: 1.25,
+          justifyContent: 'flex-start',
+          borderTopColor: colors.reView,
+          borderTopWidth: 0.5,
+        }}>
+        <TabView
+          indicatorStyle={{ backgroundColor: 'red', height: 2 }}
+          style={{
+            // position: 'absolute',
+            // height: '20%',
+            width: '100%',
+            alignSelf: 'center',
+            backgroundColor: 'transparent',
+            // marginTop: size[90],
+            flex: 5,
+            // backgroundColor: 'pink',
+          }}
+          navigationState={{ index, routes }}
+          renderScene={renderScene}
+          renderTabBar={renderTabBar}
+          onIndexChange={setIndex}
+          initialLayout={initialLayout}
+        />
+      </View>
+      <OpenURLButton url={supportedURL}>ثبت امتیاز در بازار</OpenURLButton>
+      <View
+        style={{
+          // height: Height / 10,
+          flex: 0.35,
+          flexDirection: 'row',
+          // backgroundColor: 'yellow',
+        }}>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            style={{
+              marginRight: -30,
+              width: '80%',
+              height: '50%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              borderWidth: 0.5,
+              borderRadius: 30,
+              borderColor: colors.textColor,
+            }}>
+            <Text
+              style={{
+                color: colors.textColor,
+                fontSize: 14,
+                fontFamily: fonts.regular,
+              }}>
+              ثبت دیدگاه
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}>
+          <TouchableOpacity
+            style={{
+              marginLeft: -30,
+              width: '80%',
+              height: '50%',
+              justifyContent: 'center',
+              alignItems: 'center',
+              backgroundColor: '#FF4A8A',
+              borderRadius: 30,
+              elevation: 5,
+            }}>
+            <Text
+              style={{
+                fontSize: 14,
+                fontFamily: fonts.regular,
+                color: 'white',
+              }}>
+              ثبت بازخورد
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+      {/* </View> */}
     </Container>
   );
 };

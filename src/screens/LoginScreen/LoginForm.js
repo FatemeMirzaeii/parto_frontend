@@ -22,6 +22,8 @@ const LoginForm = (props) => {
     console.log(res);
     if (res._status === 200) {
       await storeData('@token', res._token);
+      await storeData('@email', values.email);
+
       signIn();
     } else {
       if (res._status === 502 || res._status === null) {

@@ -180,7 +180,10 @@ const StartQuestion4 = ({ route, navigation }) => {
                 justifyContent: 'center',
                 alignItems: 'center',
               }}>
-              <TouchableOpacity style={{ padding: 15 }} activeOpacity={0.5}>
+              <TouchableOpacity
+                onPress={() => forgetPress()}
+                style={{ padding: 15 }}
+                activeOpacity={0.5}>
                 <Text
                   style={{
                     fontFamily: fonts.regular,
@@ -206,6 +209,7 @@ const StartQuestion4 = ({ route, navigation }) => {
                   alignItems: 'center',
                 }}>
                 <TouchableOpacity
+                  onPress={() => navigation.goBack()}
                   style={{
                     height: '40%',
                     width: '80%',
@@ -217,7 +221,7 @@ const StartQuestion4 = ({ route, navigation }) => {
                   }}
                   activeOpacity={0.7}>
                   <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبل
+                    قبلی
                   </Text>
                 </TouchableOpacity>
               </View>
@@ -238,11 +242,7 @@ const StartQuestion4 = ({ route, navigation }) => {
                     alignItems: 'center',
                   }}
                   activeOpacity={0.7}
-                  onPress={() =>
-                    navigation.navigate('StartQuestion5', {
-                      questionArray: questionArray,
-                    })
-                  }>
+                  onPress={() => nextPress(state.selectedItem + 15)}>
                   <Text
                     style={{
                       fontFamily: fonts.regular,

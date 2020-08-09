@@ -1,5 +1,5 @@
 import { getData } from '../app/Functions';
-const baseUrl = 'https://api.partobanoo.com/';
+import { baseUrl } from './ApiNames';
 export class RESTAPI {
   constructor() {
     this.Date;
@@ -15,7 +15,9 @@ export class RESTAPI {
 
   async request(_url, _body = null, _method = 'POST', isEncrypt = null) {
     const url = baseUrl + _url;
+    console.log(url);
     const token = await getData('@token');
+    console.log(token);
     _method = _method.toUpperCase();
     var body1, header, RI;
     header = new Headers({
@@ -40,6 +42,7 @@ export class RESTAPI {
         body: JSON.stringify(body1),
       };
     }
+    // console.log(body);
     await this.FetchWithTimeOut(
       url.includes('http://') || url.includes('https://')
         ? url
@@ -53,6 +56,7 @@ export class RESTAPI {
         return response.json();
       })
       .then((responseJson) => {
+        console.log('responseJson: ', responseJson);
         this.state._data = responseJson;
         // if (isEncrypt === 'LoginPage') {
         //     const DecryptedResponse = aes.DecryptBody(responseJson);

@@ -15,242 +15,350 @@ import {
   Left,
   Icon,
 } from 'native-base';
+// import TouchableOpacity from 'react-native-gesture-handler';
 import { Theme, Height, Width } from '../../app/Theme';
-const { fonts, size, colors } = Theme
+const { fonts, size, colors } = Theme;
 
 const ContactUs = (props) => {
   return (
     <Container style={{ flex: 1 }}>
-      <Header style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
-        <Right style={{ alignItems: 'center', justifyContent: 'flex-start', flex: 1, }}>
-
-        </Right>
-        <Body style={{
-          flex: 4,
-          alignItems: 'center'
-        }}>
-          <Text style={{
-            fontFamily: fonts.medium
-          }}>ارتباط با پرتو</Text>
+      <Header
+        style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
+        <Right
+          style={{
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+            flex: 1,
+          }}></Right>
+        <Body
+          style={{
+            flex: 4,
+            alignItems: 'center',
+          }}>
+          <Text
+            style={{
+              fontFamily: fonts.medium,
+              color: '#757575',
+            }}>
+            ارتباط با پرتو
+          </Text>
         </Body>
 
-
         <Left style={{ flex: 1, alignItems: 'flex-end' }}>
-          <TouchableOpacity onPress={() => props.navigation.goBack()}
-            style={{ padding: 4, backgroundColor: '#FF4A8A', borderRadius: 30 }}>
-            <Icon name="arrow-forward" type="MaterialIcons" style={{ color: 'white' }}></Icon>
+          <TouchableOpacity
+            onPress={() => props.navigation.goBack()}
+            style={{
+              padding: 4,
+              backgroundColor: '#FF4A8A',
+              borderRadius: 30,
+            }}>
+            <Icon
+              name="arrow-forward"
+              type="MaterialIcons"
+              style={{ color: 'white' }}></Icon>
           </TouchableOpacity>
         </Left>
       </Header>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
 
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 1 }}>
-          <View style={{ flex: 1.5 }}>
-            <ImageBackground
-              style={{ flex: 1 }}
-              source={{
-                uri:
-                  'https://www.komar.de/en/media/catalog/product/cache/5/image/9df78eab33525d08d6e5fb8d27136e95/s/h/sh041-vd4_into_the_jungle_web.jpg',
-              }}></ImageBackground>
-          </View>
-          <View
-            style={{
-              flex: 0.4,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              flexDirection: 'row',
-            }}>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF4A8A',
-                width: Width * 0.12,
-                height: Width * 0.12,
-                borderRadius: 1000,
-                marginHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="instagram"
-                type="AntDesign"
-                style={{ color: 'white' }}></Icon>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF4A8A',
-                width: Width * 0.12,
-                height: Width * 0.12,
-                borderRadius: 1000,
-                marginHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="info"
-                type="AntDesign"
-                style={{ color: 'white' }}></Icon>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF4A8A',
-                width: Width * 0.12,
-                height: Width * 0.12,
-                borderRadius: 1000,
-                marginHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="whatsapp"
-                type="Fontisto"
-                style={{ color: 'white' }}></Icon>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={{
-                backgroundColor: '#FF4A8A',
-                width: Width * 0.12,
-                height: Width * 0.12,
-                borderRadius: 1000,
-                marginHorizontal: 10,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <Icon
-                name="sc-telegram"
-                type="EvilIcons"
-                style={{ color: 'white', fontSize: 35 }}></Icon>
-            </TouchableOpacity>
-          </View>
-        </View>
+        {/* <View style={{ flex: 1, backgroundColor: 'blue' }}> */}
+        <ImageBackground
+          style={{
+            // backgroundColor: 'pink',
+            width: Width,
+            height: Height / 4,
+          }}
+          source={require('../../../assets/images/letter.png')}
+          resizeMode="contain"></ImageBackground>
+        {/* </View> */}
         <View
-          style={{ flex: 0.8, justifyContent: 'center', alignItems: 'center' }}>
-          <View
+          style={{
+            justifyContent: 'flex-end',
+            alignItems: 'center',
+            flexDirection: 'row',
+            // backgroundColor: 'green',
+            marginTop: 20,
+          }}>
+          <TouchableOpacity
             style={{
-              width: '90%',
-              height: '90%',
-              elevation: 3,
-              backgroundColor: 'transparent',
+              backgroundColor: '#FF4A8A',
+              width: Width * 0.12,
+              height: Width * 0.12,
+              borderRadius: 1000,
+              marginHorizontal: 10,
               justifyContent: 'center',
               alignItems: 'center',
+              elevation: 5,
             }}>
-            <TouchableOpacity
+            <Icon
+              name="sc-telegram"
+              type="EvilIcons"
+              style={{ color: 'white', fontSize: size[35] }}></Icon>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF4A8A',
+              width: Width * 0.12,
+              height: Width * 0.12,
+              borderRadius: 1000,
+              marginHorizontal: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              elevation: 5,
+            }}>
+            <Icon
+              name="whatsapp"
+              type="Fontisto"
+              style={{ color: 'white', fontSize: size[30] }}></Icon>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF4A8A',
+              width: Width * 0.12,
+              height: Width * 0.12,
+              borderRadius: 1000,
+              marginHorizontal: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              elevation: 5,
+            }}>
+            <Icon
+              name="linkedin"
+              type="Entypo"
+              style={{ color: 'white', fontSize: size[30] }}></Icon>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{
+              backgroundColor: '#FF4A8A',
+              width: Width * 0.12,
+              height: Width * 0.12,
+              borderRadius: 1000,
+              marginHorizontal: 10,
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginRight: 20,
+              elevation: 5,
+            }}>
+            <Icon
+              name="instagram"
+              type="AntDesign"
+              style={{ color: 'white', fontSize: size[30] }}></Icon>
+          </TouchableOpacity>
+        </View>
+        {/* </View> */}
+        <View
+          style={{
+            // flex: 0.8,
+            height: Height / 3,
+            width: Width / 1.15,
+            justifyContent: 'center',
+            alignItems: 'center',
+            alignSelf: 'center',
+            elevation: 2,
+            // backgroundColor: 'pink',
+            marginTop: 50,
+          }}>
+          <TouchableOpacity
+            // onPress={() => props.navigation.navigate('ClientInformation')}
+            style={{
+              flexDirection: 'row',
+              width: '90%',
+              height: '25%',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              // backgroundColor: 'green',
+            }}>
+            <Left style={{}}></Left>
+
+            <Body
               style={{
-                flex: 1,
-                borderBottomWidth: 0.7,
-                width: '85%',
-                flexDirection: 'row',
+                // backgroundColor: 'yellow',
+                flex: 2,
+                alignItems: 'flex-start',
               }}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  // textAlign: 'left',
+                  // fontSize: 18,
+                  // opacity: 0.7,
+                  textAlign: 'right',
+                  fontFamily: fonts.regular,
+                  fontSize: size[14],
+                  color: '#707070',
+                  marginLeft: 60,
                 }}>
-                <Icon
-                  name="phone"
-                  type="FontAwesome"
-                  style={{ opacity: 0.5 }}></Icon>
-              </View>
-              <View
+                09981070258
+              </Text>
+            </Body>
+            <Right style={{ flex: 0.35 }}>
+              <Icon
+                name="phone"
+                type="FontAwesome"
                 style={{
-                  flex: 5,
-                  justifyContent: 'center',
-                  //alignItems: 'center',
-                }}>
-                <Text style={{ textAlign: 'left', fontSize: 18, opacity: 0.7 }}>
-                  09981070258
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
+                  // opacity: 0.5,
+                  textAlign: 'left',
+                  color: colors.nextPage,
+                }}></Icon>
+            </Right>
+          </TouchableOpacity>
+          <View
+            style={{
+              // position: 'absolute',
+              borderBottomWidth: 0.5,
+              paddingHorizontal: 160,
+              // marginTop: 75,
+              // marginBottom: 10,
+              alignSelf: 'center',
+              margin: 0,
+
+              borderColor: '#707070',
+            }}></View>
+          <TouchableOpacity
+            // onPress={() => props.navigation.navigate('ClientInformation')}
+            style={{
+              flexDirection: 'row',
+              width: '90%',
+              height: '25%',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              // backgroundColor: 'green',
+            }}>
+            <Right style={{}}></Right>
+            <Body
               style={{
-                flex: 1,
-                borderBottomWidth: 0.7,
-                width: '85%',
-                flexDirection: 'row',
+                // backgroundColor: 'yellow',
+                flex: 2,
+                alignItems: 'flex-start',
               }}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
+                  // opacity: 0.7,
+                  textAlign: 'right',
+                  fontFamily: fonts.regular,
+                  fontSize: size[14],
+                  color: '#707070',
+                  marginLeft: 10,
                 }}>
-                <Icon
-                  name="envelope"
-                  type="SimpleLineIcons"
-                  style={{ opacity: 0.5 }}></Icon>
-              </View>
-              <View
+                info@partobanoo.ir
+              </Text>
+            </Body>
+            <Left style={{ flex: 0.35 }}>
+              <Icon
+                name="envelope"
+                type="SimpleLineIcons"
                 style={{
-                  flex: 5,
-                  justifyContent: 'center',
-                  //alignItems: 'center',
-                }}>
-                <Text style={{ textAlign: 'left', fontSize: 18, opacity: 0.7 }}>
-                  info@partobanoo.ir
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
+                  // opacity: 0.5,
+                  textAlign: 'right',
+                  color: colors.nextPage,
+                }}></Icon>
+            </Left>
+          </TouchableOpacity>
+          <View
+            style={{
+              // position: 'absolute',
+              borderBottomWidth: 0.5,
+              paddingHorizontal: 160,
+              // marginTop: 75,
+              // marginBottom: 10,
+              alignSelf: 'center',
+              margin: 0,
+
+              borderColor: '#707070',
+            }}></View>
+          <TouchableOpacity
+            // onPress={() => props.navigation.navigate('ClientInformation')}
+            style={{
+              flexDirection: 'row',
+              width: '90%',
+              height: '25%',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              // backgroundColor: 'green',
+            }}>
+            <Right style={{}}></Right>
+            <Body
               style={{
-                flex: 1,
-                borderBottomWidth: 0.7,
-                width: '85%',
-                flexDirection: 'row',
+                // backgroundColor: 'yellow',
+                flex: 2,
+                alignItems: 'flex-start',
               }}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'flex-end',
+                  // opacity: 0.7,
+                  textAlign: 'right',
+                  fontFamily: fonts.regular,
+                  fontSize: size[14],
+                  color: '#707070',
+                  marginLeft: 30,
                 }}>
-                <Icon
-                  name="message-square"
-                  type="Feather"
-                  style={{ opacity: 0.5 }}></Icon>
-              </View>
-              <View
+                ارسال سریع بازخورد
+              </Text>
+            </Body>
+            <Left style={{ flex: 0.35 }}>
+              <Icon
+                name="message-square"
+                type="Feather"
                 style={{
-                  flex: 5,
-                  justifyContent: 'center',
-                  //alignItems: 'center',
-                }}>
-                <Text style={{ textAlign: 'left', fontSize: 18, opacity: 0.7 }}>
-                  ارسال سریع بازخورد
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
+                  // opacity: 0.5,
+                  textAlign: 'right',
+                  color: colors.nextPage,
+                }}></Icon>
+            </Left>
+          </TouchableOpacity>
+          <View
+            style={{
+              // position: 'absolute',
+              borderBottomWidth: 0.5,
+              paddingHorizontal: 160,
+              // marginTop: 75,
+              // marginBottom: 10,
+              alignSelf: 'center',
+              margin: 0,
+
+              borderColor: '#707070',
+            }}></View>
+          <TouchableOpacity
+            // onPress={() => props.navigation.navigate('ClientInformation')}
+            style={{
+              flexDirection: 'row',
+              width: '90%',
+              height: '25%',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              // backgroundColor: 'green',
+            }}>
+            <Right style={{}}></Right>
+            <Body
               style={{
-                flex: 1,
-                width: '85%',
-                flexDirection: 'row',
+                // backgroundColor: 'yellow',
+                flex: 2,
+                alignItems: 'flex-start',
               }}>
-              <View
+              <Text
                 style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
-                <Icon
-                  name="copy1"
-                  type="AntDesign"
-                  style={{ opacity: 0.5 }}></Icon>
-              </View>
-              <View
-                style={{
-                  flex: 5,
-                  justifyContent: 'center',
-                  //alignItems: 'center',
-                }}>
-                <Text style={{ textAlign: 'left', fontSize: 18, opacity: 0.7 }}>
-                  داستان پرتو
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </View>
+                  // opacity: 0.7,
+                  textAlign: 'right',
+                  fontFamily: fonts.regular,
+                  fontSize: size[14],
+                  marginLeft: 80,
+                  color: '#79EBEE',
+                }}
+                onPress={() => props.navigation.navigate('Story')}>
+                داستان پرتو
+              </Text>
+            </Body>
+            <Left style={{ flex: 0.35 }}>
+              <Icon
+                name="copy1"
+                type="AntDesign"
+                style={{ textAlign: 'right', color: '#79EBEE' }}
+                onPress={() => props.navigation.navigate('Story')}></Icon>
+            </Left>
+          </TouchableOpacity>
         </View>
       </View>
+      {/* </View> */}
     </Container>
   );
 };

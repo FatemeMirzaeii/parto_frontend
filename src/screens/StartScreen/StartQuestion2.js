@@ -132,7 +132,7 @@ const StartQuestion2 = ({ route, navigation }) => {
                   onPress={() => navigation.goBack()}
                   style={styles.btnback}
                   activeOpacity={0.7}>
-                  <Text style={styles.txtbtn}>قبل</Text>
+                  <Text style={styles.txtbtn}>قبلی</Text>
                 </TouchableOpacity>
               </View>
               <View style={[styles.viewforget, { flex: 1 }]}>
