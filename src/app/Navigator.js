@@ -27,6 +27,8 @@ import StartQuestionPregnancyForget from '../screens/StartScreen/StartQuestionPr
 import pregnancyCalendar from '../screens/StartScreen/pregnancyCalendar';
 import ContactUs from '../screens/ContactUsScreen/ContactUs';
 import Scoring from '../screens/ScoringScreen/Scoring';
+import Story from '../screens/StoryScreen/Story';
+import Forgetpage from '../screens/StartScreen/Forgetpage';
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
@@ -36,6 +38,7 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
       <HomeStack.Screen name="ContactUs" component={ContactUs} />
       <HomeStack.Screen name="Scoring" component={Scoring} />
+      <HomeStack.Screen name="Story" component={Story} />
     </HomeStack.Navigator>
   );
 };
@@ -90,6 +93,13 @@ const MenuStackScreen = () => {
           headerTitleStyle: { alignSelf: 'center' },
         }}
       />
+      {/* <MenuStack.Screen
+        name="Story"
+        // component={ReminderSetting}
+        options={{
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      /> */}
     </MenuStack.Navigator>
   );
 };
@@ -117,6 +127,8 @@ const InterviewStackScreen = () => {
       <InterviewStack.Screen name="StartQuestion3" component={StartQuestion3} />
       <InterviewStack.Screen name="StartQuestion4" component={StartQuestion4} />
       <InterviewStack.Screen name="StartQuestion5" component={StartQuestion5} />
+      <InterviewStack.Screen name="Forgetpage" component={Forgetpage} />
+
       <InterviewStack.Screen
         name="StartQuestionPregnancyForget"
         component={StartQuestionPregnancyForget}

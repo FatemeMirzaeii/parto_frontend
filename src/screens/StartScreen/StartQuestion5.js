@@ -79,7 +79,8 @@ const StartQuestion5 = ({ route, navigation }) => {
         [],
         PROFILE,
       ).then((res) => {
-        goToHome();
+        navigation.navigate('Forgetpage', { questionArray });
+        //goToHome();
       });
     } else {
       db.rawQuery(
@@ -95,7 +96,8 @@ const StartQuestion5 = ({ route, navigation }) => {
         [],
         PROFILE,
       ).then((res) => {
-        goToHome();
+        navigation.navigate('Forgetpage', { questionArray });
+        // goToHome();
       });
     }
   };
