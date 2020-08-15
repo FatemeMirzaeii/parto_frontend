@@ -1,32 +1,26 @@
-import { View } from 'native-base';
 import React from 'react';
 import {
+  SafeAreaView,
+  View,
   Image,
   ImageBackground,
-  StatusBar,
   Text,
   TouchableOpacity,
 } from 'react-native';
-import { Theme } from '../../app/Theme';
 import styles from './Styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 let questionArray = [];
-const { colors } = Theme;
 
 const StartQuestion = (props) => {
   return (
-    <SafeAreaView style={{ backgroundColor: colors.bgColor, flex: 1 }}>
-      <StatusBar
-        barStyle="dark-content"
-        backgroundColor="transparent"
-        translucent></StatusBar>
-
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require('../../../assets/images/start/pink1.png')}
-        style={styles.imgbackground1}></ImageBackground>
+        style={styles.imgbackground1}
+      />
       <Image
         source={require('./../../../assets/images/start/flower.png')}
-        style={{ position: 'absolute' }}></Image>
+        style={{ position: 'absolute' }}
+      />
       <View style={styles.viq1}>
         <Text style={styles.txtTop}>خوش آمدی دوست عزیز</Text>
         <Text style={[styles.txtTop, { marginTop: 25 }]}>
@@ -39,7 +33,7 @@ const StartQuestion = (props) => {
           style={styles.BTNStyle}
           activeOpacity={0.7}
           onPress={() => {
-            questionArray.push({ pregnant: 0, pregnancy_try: 1, period: 0 });
+            questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 });
             props.navigation.navigate('StartQuestion2', { questionArray });
           }}>
           <Text style={styles.TextBTNStyle}>ثبت دوره</Text>
@@ -61,7 +55,7 @@ const StartQuestion = (props) => {
           style={styles.BTNStyle}
           activeOpacity={0.7}
           onPress={() => {
-            questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 });
+            questionArray.push({ pregnant: 0, pregnancy_try: 1, period: 0 });
             props.navigation.navigate('StartQuestion2', {
               questionArray,
             });
@@ -74,7 +68,8 @@ const StartQuestion = (props) => {
       </View>
       <ImageBackground
         source={require('./../../../assets/images/start/pink2.png')}
-        style={styles.imgendq1}></ImageBackground>
+        style={styles.imgendq1}
+      />
     </SafeAreaView>
   );
 };

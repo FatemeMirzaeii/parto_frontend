@@ -1,27 +1,10 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
-import {
-  Text,
-  View,
-  StatusBar,
-  TouchableOpacity,
-  ImageBackground,
-  Linking,
-  Button,
-  Image,
-} from 'react-native';
-import {
-  Container,
-  Header,
-  Footer,
-  Body,
-  Right,
-  Left,
-  Icon,
-} from 'native-base';
-import { Theme, Height, Width } from '../../app/Theme';
-const { fonts, size, colors } = Theme;
+import React from 'react';
+import { Text, View, StatusBar, TouchableOpacity, Image } from 'react-native';
+import { Container, Header, Body, Right, Left, Icon } from 'native-base';
+import { Theme, Height } from '../../app/Theme';
+const { fonts, colors } = Theme;
 
-const Story = (props) => {
+const AboutUs = (props) => {
   return (
     <Container style={{ flex: 1, backgroundColor: 'white' }}>
       <Header
@@ -31,7 +14,8 @@ const Story = (props) => {
             alignItems: 'center',
             justifyContent: 'flex-start',
             flex: 1,
-          }}></Right>
+          }}
+        />
         <Body
           style={{
             flex: 4,
@@ -58,7 +42,8 @@ const Story = (props) => {
             <Icon
               name="arrow-forward"
               type="MaterialIcons"
-              style={{ color: 'white' }}></Icon>
+              style={{ color: 'white' }}
+            />
           </TouchableOpacity>
         </Left>
       </Header>
@@ -112,4 +97,4 @@ const Story = (props) => {
     </Container>
   );
 };
-export default Story;
+export default AboutUs;

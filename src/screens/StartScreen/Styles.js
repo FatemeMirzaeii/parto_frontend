@@ -4,14 +4,8 @@ const { colors, size, fonts } = Theme;
 
 export default StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
-    elevation: 10,
-    justifyContent: 'center',
-    height: '80%',
-    width: '90%',
-    alignSelf: 'center',
-    borderRadius: 25,
-    top: '10%',
+    backgroundColor: colors.bgColor,
+    flex: 1,
   },
   button: {
     alignSelf: 'center',
@@ -102,14 +96,14 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  viewParent: {
+  parentView: {
     position: 'absolute',
     width: '100%',
     height: '100%',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  viewtop: {
+  stepper: {
     width: Width * 0.083,
     height: Height * 0.008,
     backgroundColor: colors.nextPage,
@@ -173,5 +167,26 @@ export default StyleSheet.create({
   txtbtn: {
     fontFamily: fonts.regular,
     fontSize: 14,
+  },
+  textStyle: {
+    alignSelf: 'center',
+    fontSize: size[14],
+    fontFamily: fonts.medium,
+    marginTop: 7,
+    opacity: 0.7,
+  },
+  textStyle1: {
+    alignSelf: 'center',
+    fontSize: size[17],
+    fontFamily: fonts.medium,
+    marginTop: 3,
+    opacity: 0.7,
+  },
+  textStyle2: {
+    alignSelf: 'center',
+    fontSize: size[14],
+    fontFamily: fonts.regular,
+    marginTop: 10,
+    opacity: 0.5,
   },
 });

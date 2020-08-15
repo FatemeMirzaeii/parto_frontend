@@ -9,7 +9,11 @@ console.disableYellowBox = true;
 const App: () => React$Node = () => {
   return (
     <NavigationContainer>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar
+        translucent
+        barStyle="dark-content"
+        backgroundColor="transparent"
+      />
       <AppNavigator />
       {/* <DataAnalysis /> */}
     </NavigationContainer>

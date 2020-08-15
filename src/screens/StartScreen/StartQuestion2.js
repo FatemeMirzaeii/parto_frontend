@@ -1,53 +1,45 @@
 import React, { useEffect, useState } from 'react';
 import {
+  SafeAreaView,
   Image,
-  StatusBar,
   Text,
   ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
 import { Calendar } from 'react-native-jalali-calendars';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { Theme } from '../../app/Theme';
 import styles from './Styles';
 const moment = require('moment');
-const { colors, size, fonts } = Theme;
+const { colors, fonts } = Theme;
 let questionArray = [];
-const toastText =
+const toastText = //todo: toast should turn into a compelete page
   'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید';
 const today = moment();
 const StartQuestion2 = ({ route, navigation }) => {
-  const [dayselect, setDayselect] = useState();
+  const [selectedDay, setSelectedDay] = useState();
   useEffect(() => {
     questionArray = route.params.questionArray;
   }, [route.params]);
 
-  function dayPress(day) {
-    setDayselect(day);
-  }
   function nextPage() {
-    if (dayselect != undefined) {
-      let foundIndex = questionArray.findIndex((obj) => obj.periodDate);
+    if (selectedDay !== undefined) {
+      const index = questionArray.findIndex((obj) => obj.periodDate);
 
-      if (foundIndex > 0) questionArray.splice(foundIndex, 1);
-      let _day = '',
-        _month = '';
-      if (dayselect.day < 10) _day = '0' + dayselect.day;
-      else _day = dayselect.day;
-      if (dayselect.month < 10) _month = '0' + dayselect.month;
-      else _month = dayselect.month;
-
+      if (index > 0) {
+        questionArray.splice(index, 1);
+      }
       questionArray.push({
-        periodDate:
-          dayselect.year.toString() + _month.toString() + _day.toString(),
+        periodDate: selectedDay,
       });
       navigation.navigate('StartQuestion3', {
         questionArray: questionArray,
       });
-    } else ToastAndroid.show('لطفا تاریخی را انتخاب کنید', ToastAndroid.LONG);
+    } else {
+      ToastAndroid.show('لطفا تاریخی را انتخاب کنید', ToastAndroid.LONG);
+    }
   }
-  function forgetPress() {
+  function onForgotPress() {
     ToastAndroid.show(toastText, ToastAndroid.LONG);
     setTimeout(async () => {
       questionArray.push({ day: '00', month: '00', year: '00' });
@@ -55,31 +47,25 @@ const StartQuestion2 = ({ route, navigation }) => {
     }, 1500);
   }
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.bgColor,
-      }}>
-      <StatusBar
-        translucent
-        barStyle="dark-content"
-        backgroundColor="transparent"></StatusBar>
-      <View style={styles.viewParent}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.parentView}>
         <Image
           source={require('../../../assets/images/start/pink3.png')}
-          style={styles.img1q2}></Image>
+          style={styles.img1q2}
+        />
         <View style={styles.v1q2}>
           <View style={{ flex: 1.5 }}>
             <View style={styles.v2q2}>
               <View style={styles.v3q3}>
                 <View
                   style={[
-                    styles.viewtop,
+                    styles.stepper,
                     { backgroundColor: colors.currentPage },
-                  ]}></View>
-                <View style={styles.viewtop}></View>
-                <View style={styles.viewtop}></View>
-                <View style={styles.viewtop}></View>
+                  ]}
+                />
+                <View style={styles.stepper} />
+                <View style={styles.stepper} />
+                <View style={styles.stepper} />
               </View>
             </View>
             <View style={styles.v4q2}>
@@ -96,10 +82,11 @@ const StartQuestion2 = ({ route, navigation }) => {
                 firstDay={6}
                 jalali={true}
                 onDayPress={(day) => {
-                  dayPress(day);
+                  setSelectedDay(day.dateString);
                 }}
-                pastScrollRange={12}
                 maxDate={today.format('YYYY-MM-DD')}
+                disableAllTouchEventsForDisabledDays={true}
+                hideExtraDays={true}
                 theme={{
                   calendarBackground: 'transparent',
                   selectedDayTextColor: 'white',
@@ -108,6 +95,10 @@ const StartQuestion2 = ({ route, navigation }) => {
                   textMonthFontFamily: fonts.regular,
                   textDayHeaderFontFamily: fonts.regular,
                   selectedDayBackgroundColor: '#00adf5',
+                  textDayHeaderFontSize: 8,
+                }}
+                markedDates={{
+                  [selectedDay]: { selected: true },
                 }}
                 markingType="multi-period"
               />
@@ -120,7 +111,7 @@ const StartQuestion2 = ({ route, navigation }) => {
             }}>
             <View style={styles.viewforget}>
               <TouchableOpacity
-                onPress={() => forgetPress()}
+                onPress={() => onForgotPress()}
                 style={{ padding: 15 }}
                 activeOpacity={0.5}>
                 <Text style={styles.txtforget}>فراموش کردم</Text>

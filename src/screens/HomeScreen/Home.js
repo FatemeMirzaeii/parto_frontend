@@ -1,4 +1,4 @@
-import { Icon, Text, View, Container } from 'native-base';
+import { Text, View } from 'native-base';
 import React, { useEffect, useState, useRef, Component } from 'react';
 import { ImageBackground, SafeAreaView, StatusBar, Button } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -6,14 +6,14 @@ import { toPersianNum } from '../../app/Functions';
 import { periodLate } from '../../notifications/Notifications';
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
-import { Theme, Height, Width } from '../../app/Theme';
+import { Theme, Height } from '../../app/Theme';
 import { PROFILE } from '../../constants/TableDataBase';
 import styles from './Styles';
 const moment = require('moment');
 const today = moment();
 var db = new Database();
 const _today = today.format('YYYYMMDD');
-const { colors, size, fonts } = Theme;
+const { size, fonts } = Theme;
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -178,7 +178,7 @@ export default class Home extends Component {
                 />
                 <Button
                   title="َامتیازدهی"
-                  onPress={() => this.props.navigation.navigate('Scoring')}
+                  onPress={() => this.props.navigation.navigate('Rating')}
                 />
                 <Button
                   title="تماس با ما"

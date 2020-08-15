@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
   Text,
   View,
@@ -6,16 +6,7 @@ import {
   TouchableOpacity,
   ImageBackground,
 } from 'react-native';
-import {
-  Container,
-  Header,
-  Footer,
-  Body,
-  Right,
-  Left,
-  Icon,
-} from 'native-base';
-// import TouchableOpacity from 'react-native-gesture-handler';
+import { Container, Header, Body, Right, Left, Icon } from 'native-base';
 import { Theme, Height, Width } from '../../app/Theme';
 const { fonts, size, colors } = Theme;
 
@@ -29,7 +20,8 @@ const ContactUs = (props) => {
             alignItems: 'center',
             justifyContent: 'flex-start',
             flex: 1,
-          }}></Right>
+          }}
+        />
         <Body
           style={{
             flex: 4,
@@ -55,7 +47,8 @@ const ContactUs = (props) => {
             <Icon
               name="arrow-forward"
               type="MaterialIcons"
-              style={{ color: 'white' }}></Icon>
+              style={{ color: 'white' }}
+            />
           </TouchableOpacity>
         </Left>
       </Header>
@@ -70,7 +63,8 @@ const ContactUs = (props) => {
             height: Height / 4,
           }}
           source={require('../../../assets/images/letter.png')}
-          resizeMode="contain"></ImageBackground>
+          resizeMode="contain"
+        />
         {/* </View> */}
         <View
           style={{
@@ -94,7 +88,8 @@ const ContactUs = (props) => {
             <Icon
               name="sc-telegram"
               type="EvilIcons"
-              style={{ color: 'white', fontSize: size[35] }}></Icon>
+              style={{ color: 'white', fontSize: size[35] }}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -110,7 +105,8 @@ const ContactUs = (props) => {
             <Icon
               name="whatsapp"
               type="Fontisto"
-              style={{ color: 'white', fontSize: size[30] }}></Icon>
+              style={{ color: 'white', fontSize: size[30] }}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -126,7 +122,8 @@ const ContactUs = (props) => {
             <Icon
               name="linkedin"
               type="Entypo"
-              style={{ color: 'white', fontSize: size[30] }}></Icon>
+              style={{ color: 'white', fontSize: size[30] }}
+            />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
@@ -143,7 +140,8 @@ const ContactUs = (props) => {
             <Icon
               name="instagram"
               type="AntDesign"
-              style={{ color: 'white', fontSize: size[30] }}></Icon>
+              style={{ color: 'white', fontSize: size[30] }}
+            />
           </TouchableOpacity>
         </View>
         {/* </View> */}
@@ -169,7 +167,7 @@ const ContactUs = (props) => {
               alignSelf: 'center',
               // backgroundColor: 'green',
             }}>
-            <Left style={{}}></Left>
+            <Left style={{}} />
 
             <Body
               style={{
@@ -199,7 +197,8 @@ const ContactUs = (props) => {
                   // opacity: 0.5,
                   textAlign: 'left',
                   color: colors.nextPage,
-                }}></Icon>
+                }}
+              />
             </Right>
           </TouchableOpacity>
           <View
@@ -213,7 +212,8 @@ const ContactUs = (props) => {
               margin: 0,
 
               borderColor: '#707070',
-            }}></View>
+            }}
+          />
           <TouchableOpacity
             // onPress={() => props.navigation.navigate('ClientInformation')}
             style={{
@@ -224,7 +224,7 @@ const ContactUs = (props) => {
               alignSelf: 'center',
               // backgroundColor: 'green',
             }}>
-            <Right style={{}}></Right>
+            <Right style={{}} />
             <Body
               style={{
                 // backgroundColor: 'yellow',
@@ -251,7 +251,8 @@ const ContactUs = (props) => {
                   // opacity: 0.5,
                   textAlign: 'right',
                   color: colors.nextPage,
-                }}></Icon>
+                }}
+              />
             </Left>
           </TouchableOpacity>
           <View
@@ -265,7 +266,8 @@ const ContactUs = (props) => {
               margin: 0,
 
               borderColor: '#707070',
-            }}></View>
+            }}
+          />
           <TouchableOpacity
             // onPress={() => props.navigation.navigate('ClientInformation')}
             style={{
@@ -276,7 +278,7 @@ const ContactUs = (props) => {
               alignSelf: 'center',
               // backgroundColor: 'green',
             }}>
-            <Right style={{}}></Right>
+            <Right style={{}} />
             <Body
               style={{
                 // backgroundColor: 'yellow',
@@ -303,7 +305,8 @@ const ContactUs = (props) => {
                   // opacity: 0.5,
                   textAlign: 'right',
                   color: colors.nextPage,
-                }}></Icon>
+                }}
+              />
             </Left>
           </TouchableOpacity>
           <View
@@ -317,7 +320,8 @@ const ContactUs = (props) => {
               margin: 0,
 
               borderColor: '#707070',
-            }}></View>
+            }}
+          />
           <TouchableOpacity
             // onPress={() => props.navigation.navigate('ClientInformation')}
             style={{
@@ -328,7 +332,7 @@ const ContactUs = (props) => {
               alignSelf: 'center',
               // backgroundColor: 'green',
             }}>
-            <Right style={{}}></Right>
+            <Right style={{}} />
             <Body
               style={{
                 // backgroundColor: 'yellow',
@@ -344,7 +348,7 @@ const ContactUs = (props) => {
                   marginLeft: 80,
                   color: '#79EBEE',
                 }}
-                onPress={() => props.navigation.navigate('Story')}>
+                onPress={() => props.navigation.navigate('AboutUs')}>
                 داستان پرتو
               </Text>
             </Body>
@@ -353,7 +357,8 @@ const ContactUs = (props) => {
                 name="copy1"
                 type="AntDesign"
                 style={{ textAlign: 'right', color: '#79EBEE' }}
-                onPress={() => props.navigation.navigate('Story')}></Icon>
+                onPress={() => props.navigation.navigate('AboutUs')}
+              />
             </Left>
           </TouchableOpacity>
         </View>

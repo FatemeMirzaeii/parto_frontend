@@ -1,19 +1,13 @@
 import { Icon } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
-import {
-  Image,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { storeData } from '../../app/Functions';
-import { Height, Theme, Width } from '../../app/Theme';
+import { Theme } from '../../app/Theme';
 import Database from '../../components/Database';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { PROFILE } from '../../constants/TableDataBase';
 import { AuthContext } from '../../contexts/AuthContext';
+import styles from './Styles';
 const moment = require('moment');
 const { colors, size, fonts } = Theme;
 const db = new Database();
@@ -22,9 +16,7 @@ let questionArray = [];
 let forgetPragnancy = false;
 
 const StartQuestion5 = ({ route, navigation }) => {
-  const [day, setDay] = useState();
-  const [month, setMonth] = useState();
-  const [year, setYear] = useState();
+  const [birthdate, setBirthdate] = useState();
   const { interview } = useContext(AuthContext);
 
   useEffect(() => {
@@ -35,69 +27,50 @@ const StartQuestion5 = ({ route, navigation }) => {
   const setDate = (date, persianDate) => {
     console.log('hi from interview', date);
     if (date) {
-      console.log('dont undefined');
-      const dateArray = date.split('/');
-      setDay(parseInt(dateArray[2]));
-      setMonth(parseInt(dateArray[1]));
-      setYear(parseInt(dateArray[0]));
+      setBirthdate(date);
     }
   };
   const nextPress = () => {
-    let d,
-      m,
-      y = '';
-    if (day < 9) {
-      d = '0' + day;
-    } else {
-      d = day;
-    }
-    if (month < 9) {
-      m = '0' + month;
-    } else {
-      m = month;
-    }
-
-    y = year;
-    let _date = (y + m + d).toString();
-    questionArray.push({ birthdate: _date });
-    console.log('date: ', day + ' ' + month + ' ' + year);
-    console.log('day: ', questionArray);
+    questionArray.push({ birthdate });
     saveToLocal();
   };
   const saveToLocal = (item) => {
     const today = moment();
-    if (item == 'forget') {
+    if (item === 'forget') {
       db.rawQuery(
         `INSERT INTO ${PROFILE}
-             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,created_at,last_period_date)
+             (pregnant, pregnancy_try, avg_period_length, avg_cycle_length,
+              created_at, last_period_date)
              VALUES(${questionArray[0].pregnant},
                 ${questionArray[0].pregnancy_try},
-                ${questionArray[2].periodDays},
-                ${questionArray[3].periodlength},
+                ${questionArray[2].periodLength},
+                ${questionArray[3].cycleLength},
                 ${today.format('YYYYMMDD')},
                 ${questionArray[1].periodDate})`,
         [],
         PROFILE,
       ).then((res) => {
         navigation.navigate('Forgetpage', { questionArray });
-        //goToHome();
+        goToHome();
       });
     } else {
       db.rawQuery(
         `INSERT INTO ${PROFILE}
-             (pregnant,pregnancy_try,avg_cycle_length,avg_period_length,birthdate,created_at,last_period_date)
-             VALUES(${questionArray[0].pregnant},
+             (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
+              birthdate, created_at, last_period_date)
+             VALUES(
+                ${questionArray[0].pregnant},
                 ${questionArray[0].pregnancy_try},
-                ${questionArray[2].periodDays},
-                ${questionArray[3].periodlength},
-                ${questionArray[5].birthdate.toString()},
-                ${today.format('YYYYMMDD')},
+                ${questionArray[2].periodLength},
+                ${questionArray[3].cycleLength},
+                ${birthdate},
+                ${today.format('YYYY-MM-DD')},
                 ${questionArray[1].periodDate})`,
         [],
         PROFILE,
       ).then((res) => {
         navigation.navigate('Forgetpage', { questionArray });
-        // goToHome();
+        goToHome();
       });
     }
   };
@@ -109,96 +82,29 @@ const StartQuestion5 = ({ route, navigation }) => {
     interview();
   };
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.bgColor,
-      }}>
-      <StatusBar
-        translucent
-        barStyle="dark-content"
-        backgroundColor="transparent"></StatusBar>
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+    <View style={styles.container}>
+      <View style={styles.parentView}>
         <Image
           source={require('../../../assets/images/start/pink3.png')}
-          style={{
-            width: Width * 1.22,
-            height: Height * 0.8,
-            position: 'absolute',
-          }}></Image>
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}>
+          style={styles.img1q2}
+        />
+        <View style={styles.v1q2}>
           <View style={{ flex: 1.5 }}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '80%',
-                  height: '30%',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.v2q2}>
+              <View style={styles.v3q3}>
+                <View style={styles.stepper} />
+                <View style={styles.stepper} />
+                <View style={styles.stepper} />
                 <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.currentPage,
-                    borderRadius: 50,
-                  }}></View>
+                  style={[
+                    styles.stepper,
+                    { backgroundColor: colors.currentPage },
+                  ]}
+                />
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '85%',
-                  height: '90%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+            <View style={styles.v4q2}>
+              <View style={styles.v5q2}>
                 <Text style={styles.textStyle1}>
                   لطفا با وارد کردن تاریخ تولدت به ما در
                 </Text>
@@ -208,12 +114,7 @@ const StartQuestion5 = ({ route, navigation }) => {
               </View>
             </View>
           </View>
-          <View
-            style={{
-              flex: 2.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={styles.v6q2}>
             <View
               style={{
                 width: '90%',
@@ -225,25 +126,12 @@ const StartQuestion5 = ({ route, navigation }) => {
             </View>
           </View>
           <View style={{ flex: 2, justifyContent: 'flex-end' }}>
-            <View
-              style={{
-                flex: 1.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View style={styles.viewforget}>
               <TouchableOpacity
                 onPress={() => nextStep()}
                 style={{ padding: 15 }}
                 activeOpacity={0.5}>
-                <Text
-                  style={{
-                    fontFamily: fonts.regular,
-                    fontSize: size[17],
-                    textDecorationLine: 'underline',
-                    opacity: 0.7,
-                  }}>
-                  بعدا وارد میکنم
-                </Text>
+                <Text style={styles.txtforget}>بعدا وارد میکنم</Text>
               </TouchableOpacity>
               <View
                 style={{
@@ -253,7 +141,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                   borderRadius: 20,
                 }}>
                 <View style={{ flex: 1, flexDirection: 'row' }}>
-                  <View style={{ flex: 3 }}></View>
+                  <View style={{ flex: 3 }} />
                   <View
                     style={{
                       flex: 1,
@@ -276,7 +164,8 @@ const StartQuestion5 = ({ route, navigation }) => {
                       style={{
                         fontSize: 14,
                         color: '#FFD158',
-                      }}></Icon>
+                      }}
+                    />
                   </View>
                 </View>
                 <View
@@ -285,67 +174,26 @@ const StartQuestion5 = ({ route, navigation }) => {
                   }}>
                   <Text style={styles.textStyle}>
                     دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد که می
-                    توانید آن را دانلود کنید
+                    توانید آن را دانلود کنید.
                   </Text>
                 </View>
               </View>
             </View>
-            <View
-              style={{
-                flex: 1.2,
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row',
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.btnsview}>
+              <View style={styles.v4q2}>
                 <TouchableOpacity
                   onPress={() => navigation.goBack()}
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: 'white',
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  style={styles.btnback}
                   activeOpacity={0.7}>
-                  <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبلی
-                  </Text>
+                  <Text style={styles.txtbtn}>قبلی</Text>
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+              <View style={styles.v4q2}>
                 <TouchableOpacity
                   onPress={() => nextPress()}
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: colors.btn,
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  style={[styles.btnback, { backgroundColor: colors.btn }]}
                   activeOpacity={0.7}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.regular,
-                      fontSize: 14,
-                      color: 'white',
-                    }}>
-                    بعدی
-                  </Text>
+                  <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -357,20 +205,3 @@ const StartQuestion5 = ({ route, navigation }) => {
 };
 
 export default StartQuestion5;
-
-const styles = StyleSheet.create({
-  textStyle: {
-    alignSelf: 'center',
-    fontSize: size[14],
-    fontFamily: fonts.medium,
-    marginTop: 7,
-    width: '95%',
-    color: colors.textColorDark,
-  },
-  textStyle1: {
-    alignSelf: 'center',
-    fontSize: size[17],
-    fontFamily: fonts.medium,
-    marginTop: 3,
-  },
-});

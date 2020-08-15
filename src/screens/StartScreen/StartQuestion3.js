@@ -1,48 +1,35 @@
-import { Button, Icon, Title } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  StyleSheet,
   Text,
   View,
   ToastAndroid,
-  StatusBar,
   TouchableOpacity,
-  ImageBackground,
   Image,
 } from 'react-native';
-import { Calendar } from 'react-native-jalali-calendars';
-import LinearGradient from 'react-native-linear-gradient';
-import { Theme, Width, Height } from '../../app/Theme';
+import { Theme } from '../../app/Theme';
+import styles from './Styles';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-const moment = require('moment');
 let questionArray = [];
-const { colors, size, fonts } = Theme;
+const { colors, fonts } = Theme;
 let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
 const toastText =
   'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
 
 const StartQuestion3 = ({ route, navigation }) => {
-  const [state, setState] = useState({
-    selectedItem: 0,
-  });
+  const [selectedItem, setSelectedItem] = useState();
 
   useEffect(() => {
     questionArray = route.params.questionArray;
     console.log('day: ', questionArray);
   }, [route.params.questionArray]);
 
-  const onItemSelected = (selectedItem) => {
-    // let item=selecte
-    console.log('selected: ', selectedItem + 3);
-    setState({ selectedItem });
-  };
-
   const nextPress = (item) => {
-    let foundIndex = questionArray.findIndex((obj) => obj.periodDays);
+    let index = questionArray.findIndex((obj) => obj.periodLength);
 
-    if (foundIndex > 0) questionArray.splice(foundIndex, 1);
-
-    questionArray.push({ periodDays: item });
+    if (index > 0) {
+      questionArray.splice(index, 1);
+    }
+    questionArray.push({ periodLength: item });
     navigation.navigate('StartQuestion4', { questionArray });
   };
   function forgetPress() {
@@ -52,96 +39,29 @@ const StartQuestion3 = ({ route, navigation }) => {
     }, 1500);
   }
   return (
-    <View
-      style={{
-        flex: 1,
-        backgroundColor: colors.bgColor,
-      }}>
-      <StatusBar
-        translucent
-        barStyle="dark-content"
-        backgroundColor="transparent"></StatusBar>
-      <View
-        style={{
-          position: 'absolute',
-          width: '100%',
-          height: '100%',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+    <View style={styles.container}>
+      <View style={styles.parentView}>
         <Image
           source={require('../../../assets/images/start/pink3.png')}
-          style={{
-            width: Width * 1.22,
-            height: Height * 0.8,
-            position: 'absolute',
-          }}></Image>
-        <View
-          style={{
-            position: 'absolute',
-            width: '100%',
-            height: '100%',
-          }}>
+          style={styles.img1q2}
+        />
+        <View style={styles.v1q2}>
           <View style={{ flex: 1.5 }}>
-            <View
-              style={{
-                flex: 0.5,
-                justifyContent: 'flex-end',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '80%',
-                  height: '30%',
-                  flexDirection: 'row',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.v2q2}>
+              <View style={styles.v3q3}>
+                <View style={styles.stepper} />
                 <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.currentPage,
-                    borderRadius: 50,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                    marginHorizontal: 5,
-                  }}></View>
-                <View
-                  style={{
-                    width: Width * 0.083,
-                    height: Height * 0.008,
-                    backgroundColor: colors.nextPage,
-                    borderRadius: 50,
-                  }}></View>
+                  style={[
+                    styles.stepper,
+                    { backgroundColor: colors.currentPage },
+                  ]}
+                />
+                <View style={styles.stepper} />
+                <View style={styles.stepper} />
               </View>
             </View>
-            <View
-              style={{
-                flex: 1,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
-              <View
-                style={{
-                  width: '85%',
-                  height: '90%',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
+            <View style={styles.v4q2}>
+              <View style={styles.v5q2}>
                 <Text style={styles.textStyle1}>
                   میانگین روزهای پریود شما چند روز است؟
                 </Text>
@@ -149,103 +69,43 @@ const StartQuestion3 = ({ route, navigation }) => {
               </View>
             </View>
           </View>
-          <View
-            style={{
-              flex: 2.2,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          <View style={styles.v6q2}>
             <WheelPicker
               style={{ width: '60%', height: '50%' }}
-              //backgroundColor="red"
               isCyclic={true}
               selectedItemTextFontFamily={fonts.regular}
               selectedItemTextSize={21}
               itemTextSize={21}
               itemTextFontFamily={fonts.regular}
-              selectedItem={state.selectedItem}
+              selectedItem={selectedItem}
               data={wheelPickerData}
-              onItemSelected={onItemSelected}
+              onItemSelected={setSelectedItem}
             />
           </View>
           <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
-            <View
-              style={{
-                flex: 1.5,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View style={styles.viewforget}>
               <TouchableOpacity
                 onPress={() => forgetPress()}
                 style={{ padding: 15 }}
                 activeOpacity={0.5}>
-                <Text
-                  style={{
-                    fontFamily: fonts.regular,
-                    fontSize: size[17],
-                    textDecorationLine: 'underline',
-                    opacity: 0.7,
-                  }}>
-                  فراموش کردم
-                </Text>
+                <Text style={styles.txtforget}>فراموش کردم</Text>
               </TouchableOpacity>
             </View>
-            <View
-              style={{
-                flex: 1.2,
-                alignItems: 'center',
-                justifyContent: 'center',
-                flexDirection: 'row',
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+            <View style={styles.btnsview}>
+              <View style={styles.v4q2}>
                 <TouchableOpacity
                   onPress={() => navigation.goBack()}
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: 'white',
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  style={styles.btnback}
                   activeOpacity={0.7}>
-                  <Text style={{ fontFamily: fonts.regular, fontSize: 14 }}>
-                    قبلی
-                  </Text>
+                  <Text style={styles.txtbtn}>قبلی</Text>
                 </TouchableOpacity>
               </View>
-              <View
-                style={{
-                  flex: 1,
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                }}>
+              <View style={styles.v4q2}>
                 <TouchableOpacity
-                  style={{
-                    height: '40%',
-                    width: '80%',
-                    backgroundColor: colors.btn,
-                    borderRadius: 40,
-                    elevation: 3,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                  }}
+                  style={[styles.btnback, { backgroundColor: colors.btn }]}
                   activeOpacity={0.7}
-                  onPress={() => nextPress(state.selectedItem + 3)}>
-                  <Text
-                    style={{
-                      fontFamily: fonts.regular,
-                      fontSize: 14,
-                      color: 'white',
-                    }}>
-                    بعدی
-                  </Text>
+                  onPress={() => nextPress(selectedItem + 3)}>
+                  <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -257,27 +117,3 @@ const StartQuestion3 = ({ route, navigation }) => {
 };
 
 export default StartQuestion3;
-
-const styles = StyleSheet.create({
-  textStyle: {
-    alignSelf: 'center',
-    fontSize: size[14],
-    fontFamily: fonts.medium,
-    marginTop: 7,
-    opacity: 0.7,
-  },
-  textStyle1: {
-    alignSelf: 'center',
-    fontSize: size[17],
-    fontFamily: fonts.medium,
-    marginTop: 3,
-    opacity: 0.7,
-  },
-  textStyle2: {
-    alignSelf: 'center',
-    fontSize: size[14],
-    fontFamily: fonts.regular,
-    marginTop: 10,
-    opacity: 0.5,
-  },
-});

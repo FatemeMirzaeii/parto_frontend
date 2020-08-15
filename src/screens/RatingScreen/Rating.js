@@ -1,28 +1,20 @@
-import React, { Component, useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Text,
   View,
-  StatusBar,
+  Alert,
   TouchableOpacity,
   ImageBackground,
   Linking,
   Button,
   Dimensions,
 } from 'react-native';
-import {
-  Container,
-  Header,
-  Footer,
-  Body,
-  Right,
-  Left,
-  Icon,
-} from 'native-base';
+import { Container, Header, Body, Right, Left, Icon } from 'native-base';
 import { getData } from '../../app/Functions';
 import { RESTAPI } from '../../services/RESTAPI';
-// import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
-import { Theme, Height, Width } from '../../app/Theme';
-import Rating from '../../components/Rating';
+import { Theme, Height } from '../../app/Theme';
+import Rate from '../../components/Rating';
+// import { Rating as Rate, AirbnbRating } from 'react-native-elements';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { FlatList } from 'react-native-gesture-handler';
 const { fonts, size, colors } = Theme;
@@ -36,9 +28,8 @@ const supportedURL = CafeBazarLink;
 const restapi = new RESTAPI();
 
 const initialLayout = { width: Dimensions.get('window').width };
-const supportedURL = 'https://cafebazaar.ir/app/ir.partoparto.parto';
+//supportedURL = 'https://cafebazaar.ir/app/ir.partoparto.parto';
 
-const restapi = new RESTAPI();
 const DATA = ['1', '2', '3', '4', '5', '6'];
 const OpenURLButton = ({ url, children }) => {
   const handlePress = useCallback(async () => {
@@ -56,7 +47,6 @@ const OpenURLButton = ({ url, children }) => {
 
   return <Button title={children} onPress={handlePress} />;
 };
-
 
 const _SurvayAnswer = async () => {
   let _email = await getData('@email');
@@ -76,53 +66,54 @@ const _SurvayQuestion = async () => {
   };
   return await restapi.request(survayQuestion, body, 'POST');
 };
-const Scoring = (props) => {
+const Rating = (props) => {
   useEffect(() => {
     _SurvayQuestion();
   }, []);
 
-const array = ['ضعیف', 'بد', 'متوسط', 'خوب', 'خیلی خوب'];
-const FirstRoute = () => (
-  <FlatList
-    showsVerticalScrollIndicator={false}
-    numColumns={2}
-    data={DATA}
-    renderItem={({ item }) => (
-      <View
-        style={{
-          width: '45%',
-          height: Height / 16,
-          borderRadius: 30,
-          borderWidth: 1,
-          borderColor: colors.btn,
-          marginHorizontal: 10,
-          marginVertical: 10,
-        }}></View>
-    )}
-    // keyExtractor={(item) => item.title.toString()}
-  />
-);
-const SecondRoute = () => (
-  <FlatList
-    showsVerticalScrollIndicator={false}
-    numColumns={2}
-    data={DATA}
-    renderItem={({ item }) => (
-      <View
-        style={{
-          width: '45%',
-          height: Height / 16,
-          borderRadius: 30,
-          borderWidth: 1,
-          borderColor: colors.btn,
-          marginHorizontal: 10,
-          marginVertical: 10,
-        }}></View>
-    )}
-    // keyExtractor={(item) => item.title.toString()}
-  />
-);
-const Scoring = (props) => {
+  const array = ['ضعیف', 'بد', 'متوسط', 'خوب', 'خیلی خوب'];
+  const FirstRoute = () => (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      numColumns={2}
+      data={DATA}
+      renderItem={({ item }) => (
+        <View
+          style={{
+            width: '45%',
+            height: Height / 16,
+            borderRadius: 30,
+            borderWidth: 1,
+            borderColor: colors.btn,
+            marginHorizontal: 10,
+            marginVertical: 10,
+          }}
+        />
+      )}
+      // keyExtractor={(item) => item.title.toString()}
+    />
+  );
+  const SecondRoute = () => (
+    <FlatList
+      showsVerticalScrollIndicator={false}
+      numColumns={2}
+      data={DATA}
+      renderItem={({ item }) => (
+        <View
+          style={{
+            width: '45%',
+            height: Height / 16,
+            borderRadius: 30,
+            borderWidth: 1,
+            borderColor: colors.btn,
+            marginHorizontal: 10,
+            marginVertical: 10,
+          }}
+        />
+      )}
+      // keyExtractor={(item) => item.title.toString()}
+    />
+  );
   const [index, setIndex] = React.useState(0);
   const [routes] = React.useState([
     { key: 'first', title: 'نقاط ضعف' },
@@ -166,10 +157,10 @@ const Scoring = (props) => {
             }}>
             {route.title}
           </Text>
-        )}></TabBar>
+        )}
+      />
     );
   };
-
 
   return (
     <Container style={{ flex: 1 }}>
@@ -180,7 +171,8 @@ const Scoring = (props) => {
             alignItems: 'center',
             justifyContent: 'flex-start',
             flex: 1,
-          }}></Right>
+          }}
+        />
         <Body
           style={{
             flex: 4,
@@ -207,18 +199,19 @@ const Scoring = (props) => {
             <Icon
               name="arrow-forward"
               type="MaterialIcons"
-              style={{ color: 'white' }}></Icon>
+              style={{ color: 'white' }}
+            />
           </TouchableOpacity>
         </Left>
       </Header>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       {/* <View style={{ flex: 1 }}> */}
       <View style={{ flex: 1.2 }}>
         <View style={{ flex: 2.3 }}>
           <ImageBackground
             style={{ flex: 1 }}
             source={require('../../../assets/images/emtiyaz.png')}
-            resizeMode="contain"></ImageBackground>
+            resizeMode="contain"
+          />
         </View>
         <View style={{ flex: 1 }}>
           <View
@@ -247,7 +240,7 @@ const Scoring = (props) => {
               alignItems: 'center',
               // backgroundColor: 'yellow',
             }}>
-            <Rating />
+            <Rate />
           </View>
           {/* <View
             style={{
@@ -362,4 +355,4 @@ const Scoring = (props) => {
   );
 };
 
-export default Scoring;
+export default Rating;
