@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../app/Functions';
-import { Theme } from '../app/Theme';
-const { size, fonts } = Theme;
+import { setPickerRange } from '../lib/func';
+import { Theme } from '../styles/Theme';
+const { fonts } = Theme;
 
 ////todo: 1- should return both Gregorian date and jalali.
 ////      2- should check if month has 31 days or not.

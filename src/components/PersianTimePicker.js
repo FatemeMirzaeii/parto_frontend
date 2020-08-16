@@ -5,8 +5,8 @@ import {
   hourTo24Format,
   hourTo12Format,
 } from 'react-native-wheel-picker-android/src/Utils';
-import { toEnglishNumber, toPersianNum } from '../app/Functions';
-import { Theme } from '../app/Theme';
+import { toEnglishNumber, toPersianNum } from '../lib/func';
+import { Theme } from '../styles/Theme';
 const { size, fonts } = Theme;
 
 const getHoursArray = (format24) => {

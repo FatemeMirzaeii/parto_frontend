@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { WheelPicker, TimePicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../app/Functions';
-import { Theme } from '../app/Theme';
+import { setPickerRange } from '../lib/func';
+import { Theme } from '../styles/Theme';
 import PersianDatePicker from './PersianDatePicker';
-import PersianTimePicker from './PersianTimePicker';
+//import PersianTimePicker from './PersianTimePicker';
 
 const PickerListItem = (props) => {
   const [isVisible, setVisible] = useState(false);

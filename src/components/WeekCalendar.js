@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { StyleSheet } from 'react-native';
 import {
   CalendarProvider,
   ExpandableCalendar,
 } from 'react-native-jalali-calendars';
-const testIDs = require('../screens/CalendarScreen/testIDs');
+const testIDs = require('../screens/calendar/testIDs');
 const WeekCalendar = (props) => {
   const today = new Date().toISOString().split('T')[0];
   return (
@@ -17,20 +17,19 @@ const WeekCalendar = (props) => {
       <ExpandableCalendar
         jalali={true}
         firstDay={6}
-        //disablePan
-        //hideKnob
+        disablePan
+        hideKnob
         hideArrows
         testID={testIDs.expandableCalendar.CONTAINER}
-        theme={{
-          calendarBackground: '#f6f6f6',
-        }}
-        // style={styles.calendar}
+        theme={props.theme}
+        style={[props.style, styles.calendar]}
       />
     </CalendarProvider>
   );
 };
 const styles = StyleSheet.create({
   calendar: {
+    elevation: 0,
     top: 25,
   },
 });

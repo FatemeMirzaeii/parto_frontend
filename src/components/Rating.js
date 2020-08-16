@@ -12,11 +12,11 @@ import {
 } from 'react-native';
 import { Icon } from 'native-base';
 
-import { Theme, Height, Width } from '../app/Theme';
+import { Theme, Height, Width } from '../styles/Theme';
 const { fonts, size, colors } = Theme;
 //import all the components we are going to use.
 
-export default class Rating extends Component<{}> {
+export default class Rating extends Component {
   constructor() {
     super();
     this.state = {
