@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme, Width, Height } from '../../styles/Theme';
+import { Theme } from '../../styles/Theme';
 
 export default StyleSheet.create({
   divider: {
