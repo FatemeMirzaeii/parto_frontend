@@ -5,7 +5,6 @@ import DataBase from '../../components/Database';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
-import { toEnglishNumber, toPersianNum } from '../../lib/func';
 import PickerListItem from '../../components/PickerListItem';
 const db = new DataBase();
 
@@ -71,19 +70,19 @@ const Profile = ({ navigation }) => {
         />
         <PickerListItem
           title="قد"
-          selectedItem={toPersianNum(height)}
-          onItemSelected={(item) => setHeight(toEnglishNumber(item))}
+          selectedItem={height}
+          onItemSelected={setHeight}
           range={{ min: 100, max: 250 }}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: toPersianNum(height), suffix: 'cm' }}
+          rightTitle={{ title: height, suffix: 'cm' }}
         />
         <PickerListItem
           title="وزن"
-          selectedItem={toPersianNum(weight)}
-          onItemSelected={(item) => setWeight(toEnglishNumber(item))}
+          selectedItem={weight}
+          onItemSelected={setWeight}
           range={{ min: 30, max: 150 }}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: toPersianNum(weight), suffix: 'Kg' }}
+          rightTitle={{ title: weight, suffix: 'Kg' }}
         />
         <ListItem
           title="میانگین ساعت خواب"

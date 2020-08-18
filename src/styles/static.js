@@ -13,11 +13,12 @@ export const COLOR = {
   story: '#322C6D',
 };
 export const FONT = {
-  regular: 'IRANSansMobile',
-  medium: 'IRANSansMobileMedium',
-  bold: 'IRANSansMobileBold',
-  light: 'IRANSansMobileLight',
-  ultra_light: 'IRANSansMobileUltraLight',
+  regular: 'IRANSansMobile(FaNum)',
+  medium: 'IRANSansMobile(FaNum)_Medium',
+  bold: 'IRANSansMobile(FaNum)_Bold',
+  light: 'IRANSansMobile(FaNum)_Light',
+  ultra_light: 'IRANSansMobile(FaNum)_UltraLight',
+  black: 'IRANSansMobile(FaNum)_Black',
 };
 const _size =
   (Dimensions.get('window').height + Dimensions.get('window').width) / 10;

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, Text } from 'react-native';
 import { CalendarList } from 'react-native-jalali-calendars';
-import { toPersianNum } from '../../lib/func';
 import { FONT, SIZE } from '../../styles/static';
 import Database from '../../components/Database';
 import { PROFILE } from '../../constants/database-tables';
@@ -140,8 +139,7 @@ const Calendar = (props) => {
           marginBottom: 10,
           alignSelf: 'center',
         }}>
-        {toPersianNum(state.thisDay)} {state.thisMonth}{' '}
-        {toPersianNum(state.thisYear)}
+        {state.thisDay} {state.thisMonth} {state.thisYear}
       </Text>
 
       <CalendarList

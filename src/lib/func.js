@@ -76,7 +76,7 @@ export function toEnglishNumber(num) {
 export function setPickerRange(min, max) {
   let r = [];
   for (let i = min; i <= max; i++) {
-    r.push(toPersianNum(i));
+    r.push(i);
   }
   return r;
 }

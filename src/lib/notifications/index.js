@@ -1,5 +1,4 @@
 import NotificationService from './NotificationService';
-import { toPersianNum } from '../func';
 
 const notification = new NotificationService();
 
@@ -22,7 +21,7 @@ export async function periodLate(lastPeriodDate, periodLength) {
   if (diffDays > periodLength - 1) {
     console.log('diffrentdDay: ', diffDays);
     notification.local(
-      toPersianNum(diffDays) + ' روز از تاریخ آخرین پریود شما گذشته است ',
+      diffDays + ' روز از تاریخ آخرین پریود شما گذشته است ',
       'تاریخ جدیدی ثبت کنید',
     );
   }

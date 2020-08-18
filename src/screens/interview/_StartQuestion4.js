@@ -10,17 +10,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { Theme } from '../../styles/Theme';
-import { toPersianNum } from '../../lib/func';
+import { setPickerRange } from '../../lib/func';
 let questionArray = [];
 const { colors, size, fonts } = Theme;
-let data = [];
 const toastText =
   'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
 
-const dataSet = () => {
-  for (let i = 15; i < 100; i++) data.push(toPersianNum(i));
-};
-dataSet();
 const Start4 = ({ route, navigation }) => {
   const [state, setState] = useState({
     items: [1],
@@ -69,7 +64,7 @@ const Start4 = ({ route, navigation }) => {
             selectedItemTextSize={20}
             itemTextFontFamily={fonts.regular}
             selectedItem={state.selectedItem}
-            data={data}
+            data={setPickerRange(15, 100)}
             onItemSelected={onItemSelected}
           />
         </View>

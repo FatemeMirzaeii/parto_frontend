@@ -23,7 +23,6 @@ const Reminders = ({ navigation }) => {
               onPress={() =>
                 navigation.navigate('ReminderSetting', { reminder: r })
               }
-              //rightTitle={{ title: toPersianNum(periodLength), suffix: 'روز' }}
               bottomDivider
               leftIcon={{ name: 'alarm' }}
               titleStyle={styles.listItemText}

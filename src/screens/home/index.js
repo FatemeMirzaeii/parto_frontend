@@ -6,7 +6,6 @@ import {
   Text,
   View,
 } from 'react-native';
-import { toPersianNum } from '../../lib/func';
 import { periodLate } from '../../lib/notifications';
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
@@ -118,8 +117,8 @@ export default class Home extends Component {
                   marginTop: HEIGHT / 20,
                   alignSelf: 'center',
                 }}>
-                {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
-                {toPersianNum(this.state.thisYear)}
+                {this.state.thisDay} {this.state.thisMonth}{' '}
+                {this.state.thisYear}
               </Text>
               <View style={styles.moonText}>
                 <TouchableOpacity
@@ -135,7 +134,7 @@ export default class Home extends Component {
                   }>
                   <Text style={styles.text}>
                     {' '}
-                    هفته {toPersianNum(parseInt(this.state.pregnancyWeek))}
+                    هفته {parseInt(this.state.pregnancyWeek)}
                   </Text>
                   <Text style={styles.text}>فعال بودن حالت بارداری</Text>
                   <Text style={styles.text}>{this.state.today}</Text>
@@ -159,14 +158,14 @@ export default class Home extends Component {
               source={require('../../../assets/images/moon7.png')}
               style={styles.moon}>
               <Text style={styles.numtxt}>
-                {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}
-                {toPersianNum(this.state.thisYear)}
+                {this.state.thisDay} {this.state.thisMonth}{' '}
+                {this.state.thisYear}
               </Text>
               <View style={styles.moonText}>
                 {this.state.type === 'beforePeriod' ? (
                   <View>
                     <Text style={styles.text}>
-                      {toPersianNum(parseInt(this.state.dayToNextPeriod))} روز
+                      {parseInt(this.state.dayToNextPeriod)} روز
                     </Text>
                     <Text style={styles.text}>تا پریود بعدی</Text>
                     <Text style={styles.text}>{this.state.today}</Text>
@@ -182,7 +181,7 @@ export default class Home extends Component {
                   <View>
                     <Text style={styles.text}>
                       {' '}
-                      روز {toPersianNum(parseInt(this.state.dayToNextPeriod))}
+                      روز {parseInt(this.state.dayToNextPeriod)}
                     </Text>
                     <Text style={styles.text}>دوره پریود</Text>
                     <Text style={styles.text}>{this.state.today}</Text>

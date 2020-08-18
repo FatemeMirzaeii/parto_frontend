@@ -9,18 +9,12 @@ import {
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { toPersianNum } from '../../lib/func';
+import { setPickerRange } from '../../lib/func';
 import { FONT, SIZE, COLOR } from '../../styles/static';
 
 let questionArray = [];
 const toastText =
   'نگران نباشید. پرتو به شما کمک خواهد کرد که از راه دیگری هفته های بارداری تان را مشخص کنید.';
-
-let weeks = [];
-const dataSet = () => {
-  for (let i = 1; i <= 43; i++) weeks.push(toPersianNum(i));
-};
-dataSet();
 
 const Startpragnent = ({ route, navigation }) => {
   const [state, setState] = useState({
@@ -69,7 +63,7 @@ const Startpragnent = ({ route, navigation }) => {
             selectedItemTextSize={20}
             itemTextFontFamily={FONT.regular}
             selectedItem={state.selectedItem}
-            data={weeks}
+            data={setPickerRange(1, 43)}
             onItemSelected={onItemSelected}
           />
         </View>

@@ -3,7 +3,6 @@ import { ScrollView } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
 import DataBase from '../../components/Database';
-import { toEnglishNumber, toPersianNum } from '../../lib/func';
 import styles from './styles';
 const db = new DataBase();
 
@@ -55,25 +54,25 @@ const CycleSetting = ({ navigation }) => {
         <PickerListItem
           title="طول روزهای خونریزی"
           range={{ min: 3, max: 10 }}
-          selectedItem={toPersianNum(periodLength)}
-          onItemSelected={(item) => setPeriodLength(toEnglishNumber(item))}
-          rightTitle={{ title: toPersianNum(periodLength), suffix: 'روز' }}
+          selectedItem={periodLength}
+          onItemSelected={setPeriodLength}
+          rightTitle={{ title: periodLength, suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <PickerListItem
           title="طول چرخه قاعدگی"
           range={{ min: 15, max: 50 }}
-          selectedItem={toPersianNum(cycleLength)}
-          onItemSelected={(item) => setCycleLength(toEnglishNumber(item))}
-          rightTitle={{ title: toPersianNum(cycleLength), suffix: 'روز' }}
+          selectedItem={cycleLength}
+          onItemSelected={setCycleLength}
+          rightTitle={{ title: cycleLength, suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <PickerListItem
           title="طول سندروم پیش از قاعدگی"
           range={{ min: 1, max: 10 }}
-          selectedItem={toPersianNum(pmsLength)}
-          onItemSelected={(item) => setPmsLength(toEnglishNumber(item))}
-          rightTitle={{ title: toPersianNum(pmsLength), suffix: 'روز' }}
+          selectedItem={pmsLength}
+          onItemSelected={setPmsLength}
+          rightTitle={{ title: pmsLength, suffix: 'روز' }}
           leftIcon={{ name: 'restore' }}
         />
         <ListItem
