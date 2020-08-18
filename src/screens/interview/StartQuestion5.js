@@ -2,14 +2,13 @@ import { Icon } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { storeData } from '../../lib/func';
-import { Theme } from '../../styles/Theme';
+import { COLOR, FONT, SIZE } from '../../styles/static';
 import Database from '../../components/Database';
 import PersianDatePicker from '../../components/PersianDatePicker';
-import { PROFILE } from '../../constants/TableDataBase';
+import { PROFILE } from '../../constants/database-tables';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Styles';
 const moment = require('moment');
-const { colors, size, fonts } = Theme;
 const db = new Database();
 
 let questionArray = [];
@@ -98,7 +97,7 @@ const StartQuestion5 = ({ route, navigation }) => {
                 <View
                   style={[
                     styles.stepper,
-                    { backgroundColor: colors.currentPage },
+                    { backgroundColor: COLOR.currentPage },
                   ]}
                 />
               </View>
@@ -151,10 +150,10 @@ const StartQuestion5 = ({ route, navigation }) => {
                     }}>
                     <Text
                       style={{
-                        color: colors.textColorDark,
+                        color: COLOR.textColorDark,
                         marginHorizontal: 10,
-                        fontFamily: fonts.medium,
-                        fontSize: size[12],
+                        fontFamily: FONT.medium,
+                        fontSize: SIZE[12],
                       }}>
                       توجه !
                     </Text>
@@ -191,7 +190,7 @@ const StartQuestion5 = ({ route, navigation }) => {
               <View style={styles.v4q2}>
                 <TouchableOpacity
                   onPress={() => nextPress()}
-                  style={[styles.btnback, { backgroundColor: colors.btn }]}
+                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
                   activeOpacity={0.7}>
                   <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
                 </TouchableOpacity>

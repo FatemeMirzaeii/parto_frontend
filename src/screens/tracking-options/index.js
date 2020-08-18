@@ -9,7 +9,7 @@ import {
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
 import styles from './styles';
-import { Width } from '../../styles/Theme';
+import { WIDTH } from '../../styles/static';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
@@ -204,8 +204,8 @@ const TrackingOptions = ({ route, navigation }) => {
           layout={'default'}
           data={categories}
           renderItem={renderItem}
-          sliderWidth={Width}
-          itemWidth={Width - 110}
+          sliderWidth={WIDTH}
+          itemWidth={WIDTH - 110}
           inverted={true}
         />
       </ScrollView>

@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react';
 import { Image, View, Text } from 'react-native';
 import TouchID from 'react-native-touch-id';
-import { Theme } from '../../styles/Theme';
 import Lock from '../../components/Lock';
 const optionalConfigObject = {
   title: 'حسگر اثر انگشت', // Android
@@ -15,7 +14,6 @@ const optionalConfigObject = {
   // passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
 };
 
-const { colors, size, fonts } = Theme;
 const Splash = (props) => {
   useEffect(() => {
     // TouchID.isSupported()

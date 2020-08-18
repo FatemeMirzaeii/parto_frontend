@@ -4,7 +4,7 @@ import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { Theme } from '../../styles/Theme';
 import Database from '../../components/Database';
-import { PROFILE } from '../../constants/TableDataBase';
+import { PROFILE } from '../../constants/database-tables';
 import { storeData } from '../../lib/func';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts/AuthContext';

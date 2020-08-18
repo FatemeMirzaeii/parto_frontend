@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme, Width } from '../../styles/Theme';
+import { FONT, SIZE, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   goals: {
@@ -7,7 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     borderWidth: 0,
-    width: Width / 1.2,
+    width: WIDTH / 1.2,
     height: 26,
     flexDirection: 'row-reverse',
   },
@@ -15,12 +15,12 @@ export default StyleSheet.create({
   text: {
     alignSelf: 'center',
     textAlign: 'center',
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[12],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[12],
   },
   listItemText: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   listItem: {
     flexDirection: 'row-reverse',
@@ -37,8 +37,8 @@ export default StyleSheet.create({
   title: {
     margin: 10,
     paddingRight: 10,
-    fontFamily: Theme.fonts.bold,
-    fontSize: Theme.size[24],
+    fontFamily: FONT.bold,
+    fontSize: SIZE[24],
   },
   picker: { alignItems: 'center' },
   buttons: {
@@ -48,7 +48,7 @@ export default StyleSheet.create({
   register: {
     backgroundColor: 'tomato',
     borderRadius: 25,
-    width: Width / 1.1,
+    width: WIDTH / 1.1,
     alignSelf: 'center',
     padding: 5,
     marginTop: 10,
@@ -64,13 +64,13 @@ export default StyleSheet.create({
     borderColor: 'tomato',
   },
   saveContainer: {
-    width: Width / 1.1,
+    width: WIDTH / 1.1,
     alignSelf: 'center',
     margin: 10,
   },
   saveTitle: {
     color: 'tomato',
-    fontFamily: Theme.fonts.bold,
-    fontSize: Theme.size[18],
+    fontFamily: FONT.bold,
+    fontSize: SIZE[18],
   },
 });

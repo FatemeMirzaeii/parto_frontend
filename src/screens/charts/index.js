@@ -10,10 +10,8 @@ import {
   ContributionGraph,
   StackedBarChart,
 } from 'react-native-chart-kit';
-import { Theme, Width } from '../../styles/Theme';
+import { SIZE, FONT } from '../../styles/static';
 import { ScrollView } from 'react-native-gesture-handler';
-
-const { colors, size, fonts } = Theme;
 
 const Charts = (props) => {
   return (
@@ -135,17 +133,17 @@ const Charts = (props) => {
         }}>
         <Text
           style={{
-            fontFamily: fonts.medium,
+            fontFamily: FONT.medium,
             alignSelf: 'center',
-            fontSize: size[12],
+            fontSize: SIZE[12],
           }}>
           نمودار افقی : روزهای دوره{' '}
         </Text>
         <Text
           style={{
-            fontFamily: fonts.medium,
+            fontFamily: FONT.medium,
             alignSelf: 'center',
-            fontSize: size[12],
+            fontSize: SIZE[12],
           }}>
           نمودار عمودی : درجه حرارت (سانتی گراد)
         </Text>

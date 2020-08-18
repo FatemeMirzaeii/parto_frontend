@@ -19,8 +19,7 @@ import {
   Icon,
 } from 'native-base';
 import { storeData } from '../../lib/func';
-import { Theme, Height, Width } from '../../styles/Theme';
-const { fonts, size, colors } = Theme;
+import { FONT, WIDTH, COLOR } from '../../styles/static';
 const Forgetpage = (props) => {
   // const goToHome = async () => {
   //   await storeData('@startPages', 'true');
@@ -29,7 +28,7 @@ const Forgetpage = (props) => {
   // };
   return (
     <Container style={{ flex: 1, backgroundColor: 'white' }}>
-      <View style={{ marginTop: Width / 12, alignItems: 'flex-end' }}>
+      <View style={{ marginTop: WIDTH / 12, alignItems: 'flex-end' }}>
         <Image
           source={require('../../../assets/images/Group-5366.png')}
           style={{ marginRight: 80 }}
@@ -42,7 +41,7 @@ const Forgetpage = (props) => {
       <Text
         style={{
           color: '#424242',
-          fontFamily: fonts.regular,
+          fontFamily: FONT.regular,
           fontSize: 16,
           alignSelf: 'center',
         }}>
@@ -51,7 +50,7 @@ const Forgetpage = (props) => {
       <Text
         style={{
           color: '#424242',
-          fontFamily: fonts.regular,
+          fontFamily: FONT.regular,
           fontSize: 16,
           alignSelf: 'center',
           marginRight: 10,
@@ -65,7 +64,7 @@ const Forgetpage = (props) => {
       <Text
         style={{
           color: '#424242',
-          fontFamily: fonts.regular,
+          fontFamily: FONT.regular,
           fontSize: 16,
           alignSelf: 'center',
           marginTop: 20,
@@ -102,7 +101,7 @@ const Forgetpage = (props) => {
           style={{
             height: '40%',
             width: '50%',
-            backgroundColor: colors.btn,
+            backgroundColor: COLOR.btn,
             borderRadius: 40,
             elevation: 3,
             justifyContent: 'center',
@@ -111,7 +110,7 @@ const Forgetpage = (props) => {
           activeOpacity={0.7}>
           <Text
             style={{
-              fontFamily: fonts.regular,
+              fontFamily: FONT.regular,
               fontSize: 14,
               color: 'white',
             }}>

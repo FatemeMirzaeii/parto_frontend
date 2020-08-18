@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme, Width, Height } from '../../styles/Theme';
+import { WIDTH, HEIGHT, FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
   sliderItem: {
@@ -20,8 +20,8 @@ export default StyleSheet.create({
   },
   option: {
     margin: 10,
-    width: Width / 3 - 15,
-    height: Height / 5 - 10,
+    width: WIDTH / 3 - 15,
+    height: HEIGHT / 5 - 10,
     borderRadius: 20,
     borderWidth: 5,
     elevation: 5,
@@ -34,8 +34,8 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   txt: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[15],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[15],
     textAlign: 'center',
   },
   more: {
@@ -45,12 +45,12 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   moreText: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[10],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[10],
     color: 'white',
   },
   input: {
-    width: Width / 1.5,
+    width: WIDTH / 1.5,
   },
   buttonGroup: {
     borderRadius: 10,

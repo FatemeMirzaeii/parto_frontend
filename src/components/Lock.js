@@ -1,6 +1,5 @@
 import { View } from 'native-base';
 import React, { useEffect, useState, useRef } from 'react';
-import { Theme } from '../styles/Theme';
 import TouchID from 'react-native-touch-id';
 
 var Password1 = '';
@@ -16,7 +15,6 @@ const optionalConfigObject = {
   // passcodeFallback: false, // iOS - allows the device to fall back to using the passcode, if faceid/touch is not available. this does not mean that if touchid/faceid fails the first few times it will revert to passcode, rather that if the former are not enrolled, then it will use the passcode.
 };
 
-const { colors, size, fonts } = Theme;
 const Lock = (props) => {
   const inputRef = useRef('pg');
   const [state, setState] = useState({

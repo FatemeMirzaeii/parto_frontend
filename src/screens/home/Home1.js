@@ -10,7 +10,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { toPersianNum } from '../../lib/func';
 import Database from '../../components/Database';
 import { Theme, Height, Width } from '../../styles/Theme';
-import { PROFILE } from '../../constants/TableDataBase';
+import { PROFILE } from '../../constants/database-tables';
 import styles from './Styles';
 var jalaali = require('jalaali-js');
 const moment = require('moment');

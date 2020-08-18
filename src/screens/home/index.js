@@ -10,15 +10,14 @@ import { toPersianNum } from '../../lib/func';
 import { periodLate } from '../../lib/notifications';
 import Database from '../../components/Database';
 import WeekCalendar from '../../components/WeekCalendar';
-import { Theme, Height } from '../../styles/Theme';
-import { PROFILE } from '../../constants/TableDataBase';
+import { SIZE, FONT, HEIGHT } from '../../styles/static';
+import { PROFILE } from '../../constants/database-tables';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 const moment = require('moment');
 const today = moment();
 var db = new Database();
 const _today = today.format('YYYYMMDD');
-const { size, fonts } = Theme;
 export default class Home extends Component {
   constructor(props) {
     super(props);
@@ -113,10 +112,10 @@ export default class Home extends Component {
               style={styles.moon}>
               <Text
                 style={{
-                  fontFamily: fonts.medium,
-                  fontSize: size[15],
+                  fontFamily: FONT.medium,
+                  fontSize: SIZE[15],
                   color: '#121C3D',
-                  marginTop: Height / 20,
+                  marginTop: HEIGHT / 20,
                   alignSelf: 'center',
                 }}>
                 {toPersianNum(this.state.thisDay)} {this.state.thisMonth}{' '}

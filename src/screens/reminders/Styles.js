@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme, Width, Height } from '../../styles/Theme';
+import { FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
   // text: {
@@ -8,8 +8,8 @@ export default StyleSheet.create({
   //   fontFamily: Theme.fonts.regular,
   // },
   listItemText: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   listItem: {
     flexDirection: 'row-reverse',

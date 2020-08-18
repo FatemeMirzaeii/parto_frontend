@@ -6,10 +6,9 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Theme } from '../../styles/Theme';
+import { COLOR, FONT } from '../../styles/static';
 import styles from './Styles';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-const { colors, fonts } = Theme;
 let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
 const toastText =
   'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
@@ -46,7 +45,7 @@ const StartQuestion3 = ({ route, navigation }) => {
                 <View
                   style={[
                     styles.stepper,
-                    { backgroundColor: colors.currentPage },
+                    { backgroundColor: COLOR.currentPage },
                   ]}
                 />
                 <View style={styles.stepper} />
@@ -66,10 +65,10 @@ const StartQuestion3 = ({ route, navigation }) => {
             <WheelPicker
               style={{ width: '60%', height: '50%' }}
               isCyclic={true}
-              selectedItemTextFontFamily={fonts.regular}
+              selectedItemTextFontFamily={FONT.regular}
               selectedItemTextSize={21}
               itemTextSize={21}
-              itemTextFontFamily={fonts.regular}
+              itemTextFontFamily={FONT.regular}
               selectedItem={selectedItem}
               data={wheelPickerData}
               onItemSelected={setSelectedItem}
@@ -95,7 +94,7 @@ const StartQuestion3 = ({ route, navigation }) => {
               </View>
               <View style={styles.v4q2}>
                 <TouchableOpacity
-                  style={[styles.btnback, { backgroundColor: colors.btn }]}
+                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
                   activeOpacity={0.7}
                   onPress={() => nextPress(selectedItem + 3)}>
                   <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>

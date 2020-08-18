@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme, Width, Height } from '../../styles/Theme';
-const { size, fonts, colors } = Theme;
+import { SIZE, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   sky: { width: '100%', height: '100%' },
@@ -8,15 +7,15 @@ export default StyleSheet.create({
   text: {
     alignSelf: 'center',
     color: '#121C3D',
-    fontSize: size[24],
-    fontFamily: fonts.medium,
+    fontSize: SIZE[24],
+    fontFamily: FONT.medium,
     marginBottom: 10,
   },
   text2: {
     alignSelf: 'center',
     color: '#002A7D',
-    fontSize: size[14],
-    fontFamily: fonts.light,
+    fontSize: SIZE[14],
+    fontFamily: FONT.light,
   },
   moonText: {
     width: '100%',
@@ -24,13 +23,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     position: 'absolute',
-    marginTop: Height / 12,
+    marginTop: HEIGHT / 12,
   },
   numtxt: {
-    fontFamily: fonts.medium,
-    fontSize: size[15],
+    fontFamily: FONT.medium,
+    fontSize: SIZE[15],
     color: '#121C3D',
-    marginTop: Height / 20,
+    marginTop: HEIGHT / 20,
     alignSelf: 'center',
   },
 });

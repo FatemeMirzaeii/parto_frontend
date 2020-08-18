@@ -3,12 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
-import { Theme } from '../../styles/Theme';
+import { FONT, SIZE } from '../../styles/static';
 import Database from '../../components/Database';
 
 let questionArray = [{ zygosisDate: 1, childbirthDate: 0, lastPeriodDate: 0 }];
 const db = new Database();
-const { colors, size, fonts } = Theme;
 
 const Startpragnentforget = ({ route, navigation }) => {
   const [selected, setSelected] = useState({
@@ -140,16 +139,16 @@ const styles = StyleSheet.create({
   },
   txt: {
     marginVertical: 10,
-    fontFamily: fonts.regular,
-    fontSize: size[15],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[15],
   },
   txt2: {
     marginTop: -10,
     color: 'gray',
     marginLeft: 30,
     marginVertical: 10,
-    fontFamily: fonts.regular,
-    fontSize: size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   btn: {
     marginHorizontal: 20,
@@ -161,6 +160,6 @@ const styles = StyleSheet.create({
   },
   txtbtn: {
     alignSelf: 'center',
-    fontFamily: fonts.regular,
+    fontFamily: FONT.regular,
   },
 });

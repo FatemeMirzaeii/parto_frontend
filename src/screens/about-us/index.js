@@ -1,8 +1,7 @@
 import React from 'react';
 import { Text, View, StatusBar, TouchableOpacity, Image } from 'react-native';
 import { Container, Header, Body, Right, Left, Icon } from 'native-base';
-import { Theme, Height } from '../../styles/Theme';
-const { fonts, colors } = Theme;
+import { COLOR, FONT, Height } from '../../styles/static';
 
 const AboutUs = (props) => {
   return (
@@ -23,8 +22,8 @@ const AboutUs = (props) => {
           }}>
           <Text
             style={{
-              fontFamily: fonts.medium,
-              color: colors.textColor,
+              fontFamily: FONT.medium,
+              color: COLOR.textColor,
               fontSize: 16,
             }}>
             درباره پرتو
@@ -56,18 +55,18 @@ const AboutUs = (props) => {
       </View>
       <Text
         style={{
-          fontFamily: fonts.medium,
+          fontFamily: FONT.medium,
           fontSize: 16,
-          color: colors.story,
+          color: COLOR.story,
           marginRight: 20,
         }}>
         داستان ما
       </Text>
       <Text
         style={{
-          fontFamily: fonts.regular,
+          fontFamily: FONT.regular,
           fontSize: 14,
-          color: colors.textColor,
+          color: COLOR.textColor,
           // marginRight: 20,
           margin: 20,
         }}>
@@ -79,9 +78,9 @@ const AboutUs = (props) => {
       </Text>
       <Text
         style={{
-          fontFamily: fonts.regular,
+          fontFamily: FONT.regular,
           fontSize: 14,
-          color: colors.textColor,
+          color: COLOR.textColor,
           // marginRight: 20,
           margin: 20,
           marginTop: -10,

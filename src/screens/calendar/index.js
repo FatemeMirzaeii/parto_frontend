@@ -2,14 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { StatusBar, StyleSheet, Text } from 'react-native';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { toPersianNum } from '../../lib/func';
-import { Theme } from '../../styles/Theme';
+import { FONT, SIZE } from '../../styles/static';
 import Database from '../../components/Database';
-import { PROFILE } from '../../constants/TableDataBase';
+import { PROFILE } from '../../constants/database-tables';
 const moment2 = require('moment-jalaali');
 const moment = require('moment');
 const db = new Database();
-
-const { size, fonts } = Theme;
 
 let perioddatemark = [];
 var jalaali = require('jalaali-js');
@@ -136,8 +134,8 @@ const Calendar = (props) => {
       <Text
         style={{
           marginTop: 40,
-          fontFamily: fonts.medium,
-          fontSize: size[15],
+          fontFamily: FONT.medium,
+          fontSize: SIZE[15],
           color: '#121C3D',
           marginBottom: 10,
           alignSelf: 'center',
@@ -161,9 +159,9 @@ const Calendar = (props) => {
           monthTextColor: 'pink',
           selectedDayBackgroundColor: 'pink',
           textDisabledColor: '#B82162',
-          textDayFontFamily: fonts.regular,
-          textMonthFontFamily: fonts.regular,
-          textDayHeaderFontFamily: fonts.regular,
+          textDayFontFamily: FONT.regular,
+          textMonthFontFamily: FONT.regular,
+          textDayHeaderFontFamily: FONT.regular,
           'stylesheet.calendar.header': {
             week: {
               marginTop: -2,

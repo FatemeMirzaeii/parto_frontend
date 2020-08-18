@@ -7,8 +7,7 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Container, Header, Body, Right, Left, Icon } from 'native-base';
-import { Theme, Height, Width } from '../../styles/Theme';
-const { fonts, size, colors } = Theme;
+import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
 
 const ContactUs = (props) => {
   return (
@@ -29,7 +28,7 @@ const ContactUs = (props) => {
           }}>
           <Text
             style={{
-              fontFamily: fonts.medium,
+              fontFamily: FONT.medium,
               color: '#757575',
             }}>
             ارتباط با پرتو
@@ -59,8 +58,8 @@ const ContactUs = (props) => {
         <ImageBackground
           style={{
             // backgroundColor: 'pink',
-            width: Width,
-            height: Height / 4,
+            width: WIDTH,
+            height: HEIGHT / 4,
           }}
           source={require('../../../assets/images/letter.png')}
           resizeMode="contain"
@@ -77,8 +76,8 @@ const ContactUs = (props) => {
           <TouchableOpacity
             style={{
               backgroundColor: '#FF4A8A',
-              width: Width * 0.12,
-              height: Width * 0.12,
+              width: WIDTH * 0.12,
+              height: WIDTH * 0.12,
               borderRadius: 1000,
               marginHorizontal: 10,
               justifyContent: 'center',
@@ -88,14 +87,14 @@ const ContactUs = (props) => {
             <Icon
               name="sc-telegram"
               type="EvilIcons"
-              style={{ color: 'white', fontSize: size[35] }}
+              style={{ color: 'white', fontSize: SIZE[35] }}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
               backgroundColor: '#FF4A8A',
-              width: Width * 0.12,
-              height: Width * 0.12,
+              width: WIDTH * 0.12,
+              height: WIDTH * 0.12,
               borderRadius: 1000,
               marginHorizontal: 10,
               justifyContent: 'center',
@@ -105,14 +104,14 @@ const ContactUs = (props) => {
             <Icon
               name="whatsapp"
               type="Fontisto"
-              style={{ color: 'white', fontSize: size[30] }}
+              style={{ color: 'white', fontSize: SIZE[30] }}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
               backgroundColor: '#FF4A8A',
-              width: Width * 0.12,
-              height: Width * 0.12,
+              width: WIDTH * 0.12,
+              height: WIDTH * 0.12,
               borderRadius: 1000,
               marginHorizontal: 10,
               justifyContent: 'center',
@@ -122,14 +121,14 @@ const ContactUs = (props) => {
             <Icon
               name="linkedin"
               type="Entypo"
-              style={{ color: 'white', fontSize: size[30] }}
+              style={{ color: 'white', fontSize: SIZE[30] }}
             />
           </TouchableOpacity>
           <TouchableOpacity
             style={{
               backgroundColor: '#FF4A8A',
-              width: Width * 0.12,
-              height: Width * 0.12,
+              width: WIDTH * 0.12,
+              height: WIDTH * 0.12,
               borderRadius: 1000,
               marginHorizontal: 10,
               justifyContent: 'center',
@@ -140,7 +139,7 @@ const ContactUs = (props) => {
             <Icon
               name="instagram"
               type="AntDesign"
-              style={{ color: 'white', fontSize: size[30] }}
+              style={{ color: 'white', fontSize: SIZE[30] }}
             />
           </TouchableOpacity>
         </View>
@@ -148,8 +147,8 @@ const ContactUs = (props) => {
         <View
           style={{
             // flex: 0.8,
-            height: Height / 3,
-            width: Width / 1.15,
+            height: HEIGHT / 3,
+            width: WIDTH / 1.15,
             justifyContent: 'center',
             alignItems: 'center',
             alignSelf: 'center',
@@ -181,8 +180,8 @@ const ContactUs = (props) => {
                   // fontSize: 18,
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: fonts.regular,
-                  fontSize: size[14],
+                  fontFamily: FONT.regular,
+                  fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 60,
                 }}>
@@ -196,7 +195,7 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.5,
                   textAlign: 'left',
-                  color: colors.nextPage,
+                  color: COLOR.nextPage,
                 }}
               />
             </Right>
@@ -235,8 +234,8 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: fonts.regular,
-                  fontSize: size[14],
+                  fontFamily: FONT.regular,
+                  fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 10,
                 }}>
@@ -250,7 +249,7 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.5,
                   textAlign: 'right',
-                  color: colors.nextPage,
+                  color: COLOR.nextPage,
                 }}
               />
             </Left>
@@ -289,8 +288,8 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: fonts.regular,
-                  fontSize: size[14],
+                  fontFamily: FONT.regular,
+                  fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 30,
                 }}>
@@ -304,7 +303,7 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.5,
                   textAlign: 'right',
-                  color: colors.nextPage,
+                  color: COLOR.nextPage,
                 }}
               />
             </Left>
@@ -318,7 +317,6 @@ const ContactUs = (props) => {
               // marginBottom: 10,
               alignSelf: 'center',
               margin: 0,
-
               borderColor: '#707070',
             }}
           />
@@ -343,8 +341,8 @@ const ContactUs = (props) => {
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: fonts.regular,
-                  fontSize: size[14],
+                  fontFamily: FONT.regular,
+                  fontSize: SIZE[14],
                   marginLeft: 80,
                   color: '#79EBEE',
                 }}

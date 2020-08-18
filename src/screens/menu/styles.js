@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { Theme } from '../../styles/Theme';
+import { FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
   divider: {
@@ -15,11 +15,11 @@ export default StyleSheet.create({
   text: {
     marginLeft: 15,
     alignSelf: 'center',
-    fontFamily: Theme.fonts.regular,
+    fontFamily: FONT.regular,
   },
   listItemText: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   listItem: {
     flexDirection: 'row-reverse',

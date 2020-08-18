@@ -8,10 +8,9 @@ import {
   View,
 } from 'react-native';
 import { Calendar } from 'react-native-jalali-calendars';
-import { Theme } from '../../styles/Theme';
+import { COLOR, FONT } from '../../styles/static';
 import styles from './Styles';
 const moment = require('moment');
-const { colors, fonts } = Theme;
 const toastText = //todo: toast should turn into a compelete page
   'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید';
 const today = moment();
@@ -47,7 +46,7 @@ const StartQuestion2 = ({ route, navigation }) => {
                 <View
                   style={[
                     styles.stepper,
-                    { backgroundColor: colors.currentPage },
+                    { backgroundColor: COLOR.currentPage },
                   ]}
                 />
                 <View style={styles.stepper} />
@@ -77,11 +76,11 @@ const StartQuestion2 = ({ route, navigation }) => {
                 theme={{
                   calendarBackground: 'transparent',
                   selectedDayTextColor: 'white',
-                  textDisabledColor: colors.nextPage,
-                  textDayFontFamily: fonts.regular,
-                  textMonthFontFamily: fonts.regular,
-                  textDayHeaderFontFamily: fonts.regular,
-                  selectedDayBackgroundColor: colors.currentPage,
+                  textDisabledColor: COLOR.nextPage,
+                  textDayFontFamily: FONT.regular,
+                  textMonthFontFamily: FONT.regular,
+                  textDayHeaderFontFamily: FONT.regular,
+                  selectedDayBackgroundColor: COLOR.currentPage,
                   textDayHeaderFontSize: 8,
                 }}
                 markedDates={{
@@ -116,7 +115,7 @@ const StartQuestion2 = ({ route, navigation }) => {
               <View style={[styles.viewforget, { flex: 1 }]}>
                 <TouchableOpacity
                   onPress={() => nextPage()}
-                  style={[styles.btnback, { backgroundColor: colors.btn }]}
+                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
                   activeOpacity={0.7}>
                   <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
                 </TouchableOpacity>

@@ -1,5 +1,5 @@
 import { getData } from '../lib/func';
-import { baseUrl } from './ApiNames';
+import { baseUrl } from './urls';
 export class api {
   constructor() {
     this.Date;

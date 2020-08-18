@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { WheelPicker, TimePicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../lib/func';
-import { Theme } from '../styles/Theme';
+import { FONT, SIZE } from '../styles/static';
 import PersianDatePicker from './PersianDatePicker';
 //import PersianTimePicker from './PersianTimePicker';
 
@@ -76,8 +76,8 @@ const PickerListItem = (props) => {
                 initPosition={props.initPosition}
                 isCyclic={true}
                 selectedItemTextSize={20}
-                itemTextFontFamily={Theme.fonts.regular}
-                selectedItemTextFontFamily={Theme.fonts.regular}
+                itemTextFontFamily={FONT.regular}
+                selectedItemTextFontFamily={FONT.regular}
               />
             ) : props.DatePicker ? (
               <PersianDatePicker
@@ -89,8 +89,8 @@ const PickerListItem = (props) => {
                 //format24
                 onTimeSelected={props.onTimeSelected}
                 selectedItemTextSize={20}
-                itemTextFontFamily={Theme.fonts.regular}
-                selectedItemTextFontFamily={Theme.fonts.regular}
+                itemTextFontFamily={FONT.regular}
+                selectedItemTextFontFamily={FONT.regular}
               />
             )}
           </View>
@@ -102,8 +102,8 @@ const PickerListItem = (props) => {
 const styles = StyleSheet.create({
   picker: { alignItems: 'center' },
   listItemText: {
-    fontFamily: Theme.fonts.regular,
-    fontSize: Theme.size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
     maxWidth: 200,
   },
   listItem: {

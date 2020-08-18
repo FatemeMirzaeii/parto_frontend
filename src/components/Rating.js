@@ -12,8 +12,7 @@ import {
 } from 'react-native';
 import { Icon } from 'native-base';
 
-import { Theme, Height, Width } from '../styles/Theme';
-const { fonts, size, colors } = Theme;
+import { COLOR, FONT } from '../styles/static';
 //import all the components we are going to use.
 
 export default class Rating extends Component {
@@ -129,7 +128,7 @@ const styles = StyleSheet.create({
     width: 60,
     height: 60,
 
-    color: colors.btn,
+    color: COLOR.btn,
     marginLeft: -5,
     marginTop: 20,
   },
@@ -137,16 +136,16 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     // marginLeft: 5,
-    color: colors.btn,
+    color: COLOR.btn,
     marginRight: 15,
     marginTop: 28,
   },
   textStyle: {
     textAlign: 'center',
     fontSize: 14,
-    color: colors.reView,
+    color: COLOR.reView,
     marginTop: -15,
-    fontFamily: fonts.regular,
+    fontFamily: FONT.regular,
   },
   textStyleSmall: {
     textAlign: 'center',

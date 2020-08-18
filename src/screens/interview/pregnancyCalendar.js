@@ -3,11 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Calendar } from 'react-native-jalali-calendars';
 import LinearGradient from 'react-native-linear-gradient';
-import { Theme } from '../../styles/Theme';
+import { SIZE, FONT } from '../../styles/static';
 const moment = require('moment');
 const today = moment();
 
-const { colors, size, fonts } = Theme;
 let questionArray = [];
 
 const pregnancyCalendar = (props) => {
@@ -77,9 +76,9 @@ const pregnancyCalendar = (props) => {
                 theme={{
                   selectedDayTextColor: 'white',
                   selectedDayBackgroundColor: 'pink',
-                  textDayFontFamily: fonts.regular,
-                  textMonthFontFamily: fonts.regular,
-                  textDayHeaderFontFamily: fonts.regular,
+                  textDayFontFamily: FONT.regular,
+                  textMonthFontFamily: FONT.regular,
+                  textDayHeaderFontFamily: FONT.regular,
                 }}
                 markingType={'multi-period'}
               />
@@ -115,9 +114,9 @@ const pregnancyCalendar = (props) => {
                 theme={{
                   selectedDayTextColor: 'white',
                   selectedDayBackgroundColor: 'pink',
-                  textDayFontFamily: fonts.regular,
-                  textMonthFontFamily: fonts.regular,
-                  textDayHeaderFontFamily: fonts.regular,
+                  textDayFontFamily: FONT.regular,
+                  textMonthFontFamily: FONT.regular,
+                  textDayHeaderFontFamily: FONT.regular,
                 }}
                 markingType={'multi-period'}
               />
@@ -154,9 +153,9 @@ const pregnancyCalendar = (props) => {
                 theme={{
                   selectedDayTextColor: 'white',
                   selectedDayBackgroundColor: 'pink',
-                  textDayFontFamily: fonts.regular,
-                  textMonthFontFamily: fonts.regular,
-                  textDayHeaderFontFamily: fonts.regular,
+                  textDayFontFamily: FONT.regular,
+                  textMonthFontFamily: FONT.regular,
+                  textDayHeaderFontFamily: FONT.regular,
                 }}
                 markingType={'multi-period'}
               />
@@ -217,16 +216,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txt: {
-    fontFamily: fonts.regular,
-    fontSize: size[15],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[15],
   },
   txt2: {
     marginTop: -10,
     color: 'gray',
     marginLeft: 30,
     marginVertical: 5,
-    fontFamily: fonts.regular,
-    fontSize: size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   btn: {
     marginHorizontal: 20,
@@ -239,6 +238,6 @@ const styles = StyleSheet.create({
   },
   txtbtn: {
     marginRight: 20,
-    fontFamily: fonts.regular,
+    fontFamily: FONT.regular,
   },
 });

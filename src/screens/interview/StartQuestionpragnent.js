@@ -10,13 +10,12 @@ import {
 import LinearGradient from 'react-native-linear-gradient';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { toPersianNum } from '../../lib/func';
-import { Theme } from '../../styles/Theme';
+import { FONT, SIZE, COLOR } from '../../styles/static';
 
 let questionArray = [];
 const toastText =
   'نگران نباشید. پرتو به شما کمک خواهد کرد که از راه دیگری هفته های بارداری تان را مشخص کنید.';
 
-const { colors, size, fonts } = Theme;
 let weeks = [];
 const dataSet = () => {
   for (let i = 1; i <= 43; i++) weeks.push(toPersianNum(i));
@@ -66,9 +65,9 @@ const Startpragnent = ({ route, navigation }) => {
           <WheelPicker
             style={{ width: 200, height: 200 }}
             isCyclic={true}
-            selectedItemTextFontFamily={fonts.regular}
+            selectedItemTextFontFamily={FONT.regular}
             selectedItemTextSize={20}
-            itemTextFontFamily={fonts.regular}
+            itemTextFontFamily={FONT.regular}
             selectedItem={state.selectedItem}
             data={weeks}
             onItemSelected={onItemSelected}
@@ -80,9 +79,9 @@ const Startpragnent = ({ route, navigation }) => {
           style={{
             marginTop: 5,
             alignSelf: 'center',
-            fontFamily: fonts.regular,
-            fontSize: size[15],
-            color: colors.text1,
+            fontFamily: FONT.regular,
+            fontSize: SIZE[15],
+            color: COLOR.text1,
             borderBottomWidth: 0.2,
             paddingHorizontal: 10,
             borderBottomColor: 'white',
@@ -147,16 +146,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txt: {
-    fontFamily: fonts.regular,
-    fontSize: size[15],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[15],
   },
   txt2: {
     marginTop: -10,
     color: 'gray',
     marginLeft: 30,
     marginVertical: 5,
-    fontFamily: fonts.regular,
-    fontSize: size[14],
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
   btn: {
     marginHorizontal: 20,
@@ -168,6 +167,6 @@ const styles = StyleSheet.create({
   },
   txtbtn: {
     alignSelf: 'center',
-    fontFamily: fonts.regular,
+    fontFamily: FONT.regular,
   },
 });

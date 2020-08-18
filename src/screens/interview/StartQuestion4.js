@@ -6,11 +6,10 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
-import { Theme } from '../../styles/Theme';
+import { COLOR, FONT } from '../../styles/static';
 import styles from './Styles';
 import { setPickerRange } from '../../lib/func';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-const { colors, fonts } = Theme;
 let data = setPickerRange(15, 60);
 const toastText =
   'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
@@ -49,7 +48,7 @@ const StartQuestion4 = ({ route, navigation }) => {
                 <View
                   style={[
                     styles.stepper,
-                    { backgroundColor: colors.currentPage },
+                    { backgroundColor: COLOR.currentPage },
                   ]}
                 />
                 <View style={styles.stepper} />
@@ -69,10 +68,10 @@ const StartQuestion4 = ({ route, navigation }) => {
               style={{ width: '60%', height: '50%' }}
               //style={{ width: 200, height: 200 }}
               isCyclic={true}
-              selectedItemTextFontFamily={fonts.regular}
+              selectedItemTextFontFamily={FONT.regular}
               selectedItemTextSize={21}
               itemTextSize={21}
-              itemTextFontFamily={fonts.regular}
+              itemTextFontFamily={FONT.regular}
               selectedItem={selectedItem}
               data={data}
               onItemSelected={setSelectedItem}
@@ -98,7 +97,7 @@ const StartQuestion4 = ({ route, navigation }) => {
               </View>
               <View style={styles.v4q2}>
                 <TouchableOpacity
-                  style={[styles.btnback, { backgroundColor: colors.btn }]}
+                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
                   activeOpacity={0.7}
                   onPress={() => nextPress(selectedItem + 15)}>
                   <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>

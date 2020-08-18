@@ -12,18 +12,17 @@ import {
 import { Container, Header, Body, Right, Left, Icon } from 'native-base';
 import { getData } from '../../lib/func';
 import { api } from '../../services/api';
-import { Theme, Height } from '../../styles/Theme';
+import { HEIGHT, FONT, SIZE, COLOR } from '../../styles/static';
 import Rate from '../../components/Rating';
 // import { Rating as Rate, AirbnbRating } from 'react-native-elements';
 import { SceneMap, TabBar, TabView } from 'react-native-tab-view';
 import { FlatList } from 'react-native-gesture-handler';
-const { fonts, size, colors } = Theme;
 
 import {
   survayQuestion,
   CafeBazarLink,
   survayAnswer,
-} from '../../services/ApiNames';
+} from '../../services/urls';
 const supportedURL = CafeBazarLink;
 const restapi = new api();
 
@@ -81,10 +80,10 @@ const Rating = (props) => {
         <View
           style={{
             width: '45%',
-            height: Height / 16,
+            height: HEIGHT / 16,
             borderRadius: 30,
             borderWidth: 1,
-            borderColor: colors.btn,
+            borderColor: COLOR.btn,
             marginHorizontal: 10,
             marginVertical: 10,
           }}
@@ -102,10 +101,10 @@ const Rating = (props) => {
         <View
           style={{
             width: '45%',
-            height: Height / 16,
+            height: HEIGHT / 16,
             borderRadius: 30,
             borderWidth: 1,
-            borderColor: colors.btn,
+            borderColor: COLOR.btn,
             marginHorizontal: 10,
             marginVertical: 10,
           }}
@@ -129,8 +128,8 @@ const Rating = (props) => {
     return (
       <TabBar
         {...props}
-        activeColor={colors.textColorDark}
-        inactiveColor={colors.reView}
+        activeColor={COLOR.textColorDark}
+        inactiveColor={COLOR.reView}
         // pressColor={'red'}
         indicatorStyle={{
           height: '100%',
@@ -143,8 +142,8 @@ const Rating = (props) => {
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
-          color: colors.reView,
-          borderBottomColor: colors.btn,
+          color: COLOR.reView,
+          borderBottomColor: COLOR.btn,
           borderBottomWidth: 2,
         }}
         style={{ elevation: 0, backgroundColor: 'transparent' }}
@@ -153,7 +152,7 @@ const Rating = (props) => {
             style={{
               color,
               margin: 0,
-              fontFamily: fonts.regular,
+              fontFamily: FONT.regular,
             }}>
             {route.title}
           </Text>
@@ -180,9 +179,9 @@ const Rating = (props) => {
           }}>
           <Text
             style={{
-              fontFamily: fonts.medium,
-              color: colors.textColor,
-              fontSize: size[16],
+              fontFamily: FONT.medium,
+              color: COLOR.textColor,
+              fontSize: SIZE[16],
             }}>
             امتیازدهی به پرتو
           </Text>
@@ -224,9 +223,9 @@ const Rating = (props) => {
             }}>
             <Text
               style={{
-                fontSize: size[14],
-                fontFamily: fonts.medium,
-                color: colors.textColor,
+                fontSize: SIZE[14],
+                fontFamily: FONT.medium,
+                color: COLOR.textColor,
                 // marginVertical: 10,
               }}>
               چه امتیازی به پرتو میدی؟
@@ -252,7 +251,7 @@ const Rating = (props) => {
               style={{
                 fontSize: 14,
                 opacity: 0.65,
-                fontFamily: fonts.regular,
+                fontFamily: FONT.regular,
               }}>
               بد
             </Text>
@@ -262,10 +261,10 @@ const Rating = (props) => {
       <View
         style={{
           // backgroundColor: 'green',
-          // height: Height / 3,
+          // height: HEIGHT / 3,
           flex: 1.25,
           justifyContent: 'flex-start',
-          borderTopColor: colors.reView,
+          borderTopColor: COLOR.reView,
           borderTopWidth: 0.5,
         }}>
         <TabView
@@ -276,7 +275,7 @@ const Rating = (props) => {
             width: '100%',
             alignSelf: 'center',
             backgroundColor: 'transparent',
-            // marginTop: size[90],
+            // marginTop: SIZE[90],
             flex: 5,
             // backgroundColor: 'pink',
           }}
@@ -290,7 +289,7 @@ const Rating = (props) => {
       <OpenURLButton url={supportedURL}>ثبت امتیاز در بازار</OpenURLButton>
       <View
         style={{
-          // height: Height / 10,
+          // height: HEIGHT / 10,
           flex: 0.35,
           flexDirection: 'row',
           // backgroundColor: 'yellow',
@@ -310,13 +309,13 @@ const Rating = (props) => {
               alignItems: 'center',
               borderWidth: 0.5,
               borderRadius: 30,
-              borderColor: colors.textColor,
+              borderColor: COLOR.textColor,
             }}>
             <Text
               style={{
-                color: colors.textColor,
+                color: COLOR.textColor,
                 fontSize: 14,
-                fontFamily: fonts.regular,
+                fontFamily: FONT.regular,
               }}>
               ثبت دیدگاه
             </Text>
@@ -342,7 +341,7 @@ const Rating = (props) => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: fonts.regular,
+                fontFamily: FONT.regular,
                 color: 'white',
               }}>
               ثبت بازخورد
