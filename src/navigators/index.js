@@ -1,192 +1,10 @@
 import React, { useEffect, useReducer, useMemo } from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import { AuthContext } from '../contexts/AuthContext';
 import { getData, removeData } from '../lib/func';
-// import All Screens
 import Splash from '../screens/splash';
-import SignUp from '../screens/signup';
-import Login from '../screens/login';
-import Home from '../screens/home';
-import Calendar from '../screens/calendar';
-import TrackingOptions from '../screens/tracking-options';
-import Menu from '../screens/menu';
-import Profile from '../screens/profile';
-import CycleSetting from '../screens/cycle-setting';
-import Reminders from '../screens/reminders';
-import ReminderSetting from '../screens/reminders/ReminderSetting';
-import Charts from '../screens/charts';
-import StartQuestion from '../screens/interview/StartQuestion';
-import StartQuestion2 from '../screens/interview/StartQuestion2';
-import StartQuestion3 from '../screens/interview/StartQuestion3';
-import StartQuestion4 from '../screens/interview/StartQuestion4';
-import StartQuestion5 from '../screens/interview/StartQuestion5';
-import StartQuestionpragnent from '../screens/interview/StartQuestionpragnent';
-import StartQuestionPregnancyForget from '../screens/interview/StartQuestionPregnancyForget';
-import pregnancyCalendar from '../screens/interview/pregnancyCalendar';
-import ContactUs from '../screens/contact-us';
-import Rating from '../screens/rating';
-import AboutUs from '../screens/about-us';
-import Forgetpage from '../screens/interview/Forgetpage';
-const HomeStack = createStackNavigator();
-const HomeStackScreen = () => {
-  return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={Home} />
-      <HomeStack.Screen name="Calendar" component={Calendar} />
-      <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
-      <HomeStack.Screen name="ContactUs" component={ContactUs} />
-      <HomeStack.Screen name="Rating" component={Rating} />
-      <HomeStack.Screen name="AboutUs" component={AboutUs} />
-    </HomeStack.Navigator>
-  );
-};
-
-const CalendarStack = createStackNavigator();
-const CalendarStackScreen = () => {
-  return (
-    <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
-      <CalendarStack.Screen name="Calendar" component={Calendar} />
-      <CalendarStack.Screen
-        name="TrackingOptions"
-        component={TrackingOptions}
-      />
-    </CalendarStack.Navigator>
-  );
-};
-
-const MenuStack = createStackNavigator();
-const MenuStackScreen = () => {
-  return (
-    <MenuStack.Navigator>
-      <MenuStack.Screen
-        name="Menu"
-        component={Menu}
-        options={{ headerShown: false }}
-      />
-      <MenuStack.Screen
-        name="Profile"
-        component={Profile}
-        options={{ headerShown: false }}
-      />
-      <MenuStack.Screen
-        name="CycleSettings"
-        component={CycleSetting}
-        options={{
-          title: 'تنظیمات دوره‌ها',
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="Reminders"
-        component={Reminders}
-        options={{
-          title: 'یادآوری‌ها',
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="ReminderSetting"
-        component={ReminderSetting}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      {/* <MenuStack.Screen
-        name="Story"
-        // component={ReminderSetting}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      /> */}
-    </MenuStack.Navigator>
-  );
-};
-
-const AuthStack = createStackNavigator();
-const AuthStackScreen = () => {
-  return (
-    <AuthStack.Navigator screenOptions={{ headerShown: false }}>
-      <AuthStack.Screen name="Login" component={Login} />
-      <AuthStack.Screen name="SignUp" component={SignUp} />
-    </AuthStack.Navigator>
-  );
-};
-
-const InterviewStack = createStackNavigator();
-const InterviewStackScreen = () => {
-  return (
-    <InterviewStack.Navigator screenOptions={{ headerShown: false }}>
-      <InterviewStack.Screen name="StartQuestion" component={StartQuestion} />
-      <InterviewStack.Screen
-        name="StartQuestionpragnent"
-        component={StartQuestionpragnent}
-      />
-      <InterviewStack.Screen name="StartQuestion2" component={StartQuestion2} />
-      <InterviewStack.Screen name="StartQuestion3" component={StartQuestion3} />
-      <InterviewStack.Screen name="StartQuestion4" component={StartQuestion4} />
-      <InterviewStack.Screen name="StartQuestion5" component={StartQuestion5} />
-      <InterviewStack.Screen name="Forgetpage" component={Forgetpage} />
-
-      <InterviewStack.Screen
-        name="StartQuestionPregnancyForget"
-        component={StartQuestionPregnancyForget}
-      />
-      <InterviewStack.Screen
-        name="pregnancyCalendar"
-        component={pregnancyCalendar}
-      />
-    </InterviewStack.Navigator>
-  );
-};
-const Tab = createBottomTabNavigator();
-const TabNavigator = () => {
-  return (
-    <Tab.Navigator
-      initialRouteName="Home"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          switch (route.name) {
-            //todo: should change focused icon.
-            case 'Home':
-              iconName = focused ? 'home' : 'home';
-              break;
-            case 'Calendar':
-              iconName = focused ? 'calendar' : 'calendar';
-              break;
-            case 'Charts':
-              iconName = focused ? 'linechart' : 'linechart';
-              break;
-            case 'Menu':
-              iconName = focused ? 'profile' : 'profile';
-              break;
-            default:
-              break;
-          }
-          return <AntDesign name={iconName} size={30} color={color} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: 'tomato',
-        inactiveTintColor: 'gray',
-        showLabel: false,
-        style: {
-          borderTopRightRadius: 35,
-          borderTopLeftRadius: 35,
-          borderWidth: 1,
-          borderTopWidth: 1,
-          borderColor: 'gray',
-        },
-      }}>
-      <Tab.Screen name="Charts" component={Charts} />
-      <Tab.Screen name="Home" component={HomeStackScreen} />
-      <Tab.Screen name="Calendar" component={CalendarStackScreen} />
-      <Tab.Screen name="Menu" component={MenuStackScreen} />
-    </Tab.Navigator>
-  );
-};
+import TabNavigator from './TabNavigator';
+import AuthStack from './AuthStack';
+import InterviewStack from './InterviewStack';
 
 const AppNavigator = () => {
   const [state, dispatch] = useReducer(
@@ -271,9 +89,9 @@ const AppNavigator = () => {
       ) : state.userToken && state.interviewToken ? (
         <TabNavigator />
       ) : !state.userToken ? (
-        <AuthStackScreen />
+        <AuthStack />
       ) : (
-        <InterviewStackScreen />
+        <InterviewStack />
       )}
     </AuthContext.Provider>
   );
