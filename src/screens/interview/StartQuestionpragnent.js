@@ -1,16 +1,11 @@
 import { Button, Title, Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  TouchableOpacity,
-  ToastAndroid,
-} from 'react-native';
+import { StyleSheet, View, TouchableOpacity, ToastAndroid } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../../lib/func';
 import { FONT, SIZE, COLOR } from '../../styles/static';
+import Ptxt from '../../components/Ptxt';
 
 let questionArray = [];
 const toastText =
@@ -54,7 +49,7 @@ const Startpragnent = ({ route, navigation }) => {
       colors={['#D164A6', '#C2428F', '#780048']}
       style={styles.gradiant}>
       <View style={styles.view}>
-        <Text style={styles.txt}>چند هفته است که باردار هستید ؟</Text>
+        <Ptxt style={styles.txt}>چند هفته است که باردار هستید ؟</Ptxt>
         <View style={styles.wrapperVertical}>
           <WheelPicker
             style={{ width: 200, height: 200 }}
@@ -69,11 +64,10 @@ const Startpragnent = ({ route, navigation }) => {
         </View>
       </View>
       <TouchableOpacity activeOpacity={0.6} onPress={() => forgetPress()}>
-        <Text
+        <Ptxt
           style={{
             marginTop: 5,
             alignSelf: 'center',
-            fontFamily: FONT.regular,
             fontSize: SIZE[15],
             color: COLOR.text1,
             borderBottomWidth: 0.2,
@@ -81,7 +75,7 @@ const Startpragnent = ({ route, navigation }) => {
             borderBottomColor: 'white',
           }}>
           فراموش کردم
-        </Text>
+        </Ptxt>
       </TouchableOpacity>
       <View style={{ flexDirection: 'row' }}>
         <Button rounded style={styles.btn} onPress={() => navigation.goBack()}>
@@ -140,7 +134,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   txt: {
-    fontFamily: FONT.regular,
     fontSize: SIZE[15],
   },
   txt2: {

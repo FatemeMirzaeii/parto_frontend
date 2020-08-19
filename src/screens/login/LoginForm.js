@@ -7,6 +7,7 @@ import styles from './styles';
 import { api } from '../../services/api';
 import { storeData } from '../../lib/func';
 import { AuthContext } from '../../contexts/AuthContext';
+import Ptxt from '../../components/Ptxt';
 
 const LoginForm = (props) => {
   const restapi = new api();
@@ -76,7 +77,7 @@ const LoginForm = (props) => {
                 leftIcon={<Icon name="mail" size={20} color="gray" />}
               />
               {touched.email && errors.email && (
-                <Text style={styles.error}>{errors.email}</Text>
+                <Ptxt style={styles.error}>{errors.email}</Ptxt>
               )}
               <Input
                 value={values.password}
@@ -99,7 +100,7 @@ const LoginForm = (props) => {
                 }
               />
               {touched.password && errors.password && (
-                <Text style={styles.error}>{errors.password}</Text>
+                <Ptxt style={styles.error}>{errors.password}</Ptxt>
               )}
               <Icon
                 raised

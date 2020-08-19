@@ -86,7 +86,7 @@ const PickerListItem = (props) => {
               />
             ) : (
               <TimePicker
-                //format24
+                format24
                 onTimeSelected={props.onTimeSelected}
                 selectedItemTextSize={20}
                 itemTextFontFamily={FONT.regular}

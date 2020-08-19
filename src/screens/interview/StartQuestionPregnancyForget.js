@@ -1,10 +1,11 @@
 import { Button, Icon, Radio, Title, View } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, ToastAndroid } from 'react-native';
+import { StyleSheet, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { FONT, SIZE } from '../../styles/static';
 import Database from '../../components/Database';
+import Ptxt from '../../components/Ptxt';
 
 let questionArray = [{ zygosisDate: 1, childbirthDate: 0, lastPeriodDate: 0 }];
 const db = new Database();
@@ -70,11 +71,11 @@ const Startpragnentforget = ({ route, navigation }) => {
                 marginRight: 10,
               }}
             />
-            <Text style={styles.txt}>ثبت تاریخ آخرین پریود</Text>
+            <Ptxt style={styles.txt}>ثبت تاریخ آخرین پریود</Ptxt>
           </View>
-          <Text style={styles.txt2}>
+          <Ptxt style={styles.txt2}>
             اولین روز عادت ماهانه قبلی ام را میدانم
-          </Text>
+          </Ptxt>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSelected({ childbirthDate: true })}>
           <View style={styles.view2}>
@@ -86,9 +87,9 @@ const Startpragnentforget = ({ route, navigation }) => {
                 marginRight: 10,
               }}
             />
-            <Text style={styles.txt}>ثبت تاریخ زایمان</Text>
+            <Ptxt style={styles.txt}>ثبت تاریخ زایمان</Ptxt>
           </View>
-          <Text style={styles.txt2}>پیش بینی تاریخ زایمان را میدانم</Text>
+          <Ptxt style={styles.txt2}>پیش بینی تاریخ زایمان را میدانم</Ptxt>
         </TouchableOpacity>
         <TouchableOpacity onPress={() => setSelected({ zygosisDate: true })}>
           <View style={styles.view2}>
@@ -100,9 +101,9 @@ const Startpragnentforget = ({ route, navigation }) => {
                 marginRight: 10,
               }}
             />
-            <Text style={styles.txt}>ثبت تاریخ لقاح</Text>
+            <Ptxt style={styles.txt}>ثبت تاریخ لقاح</Ptxt>
           </View>
-          <Text style={styles.txt2}>تاریخ لقاح را میدانم</Text>
+          <Ptxt style={styles.txt2}>تاریخ لقاح را میدانم</Ptxt>
         </TouchableOpacity>
       </View>
       <View style={{ flexDirection: 'row' }}>
@@ -139,7 +140,6 @@ const styles = StyleSheet.create({
   },
   txt: {
     marginVertical: 10,
-    fontFamily: FONT.regular,
     fontSize: SIZE[15],
   },
   txt2: {
@@ -147,7 +147,6 @@ const styles = StyleSheet.create({
     color: 'gray',
     marginLeft: 30,
     marginVertical: 10,
-    fontFamily: FONT.regular,
     fontSize: SIZE[14],
   },
   btn: {

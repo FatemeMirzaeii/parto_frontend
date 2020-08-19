@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { Container, Header, Body, Right, Left, Icon } from 'native-base';
 import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
+import Ptxt from '../../components/Ptxt';
 
 const ContactUs = (props) => {
   return (
@@ -174,19 +175,18 @@ const ContactUs = (props) => {
                 flex: 2,
                 alignItems: 'flex-start',
               }}>
-              <Text
+              <Ptxt
                 style={{
                   // textAlign: 'left',
                   // fontSize: 18,
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: FONT.regular,
                   fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 60,
                 }}>
                 09981070258
-              </Text>
+              </Ptxt>
             </Body>
             <Right style={{ flex: 0.35 }}>
               <Icon
@@ -230,17 +230,16 @@ const ContactUs = (props) => {
                 flex: 2,
                 alignItems: 'flex-start',
               }}>
-              <Text
+              <Ptxt
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: FONT.regular,
                   fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 10,
                 }}>
                 info@partobanoo.ir
-              </Text>
+              </Ptxt>
             </Body>
             <Left style={{ flex: 0.35 }}>
               <Icon
@@ -284,17 +283,16 @@ const ContactUs = (props) => {
                 flex: 2,
                 alignItems: 'flex-start',
               }}>
-              <Text
+              <Ptxt
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: FONT.regular,
                   fontSize: SIZE[14],
                   color: '#707070',
                   marginLeft: 30,
                 }}>
                 ارسال سریع بازخورد
-              </Text>
+              </Ptxt>
             </Body>
             <Left style={{ flex: 0.35 }}>
               <Icon
@@ -337,18 +335,17 @@ const ContactUs = (props) => {
                 flex: 2,
                 alignItems: 'flex-start',
               }}>
-              <Text
+              <Ptxt
                 style={{
                   // opacity: 0.7,
                   textAlign: 'right',
-                  fontFamily: FONT.regular,
                   fontSize: SIZE[14],
                   marginLeft: 80,
                   color: '#79EBEE',
                 }}
                 onPress={() => props.navigation.navigate('AboutUs')}>
                 داستان پرتو
-              </Text>
+              </Ptxt>
             </Body>
             <Left style={{ flex: 0.35 }}>
               <Icon

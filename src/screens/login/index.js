@@ -4,6 +4,7 @@ import { Icon, Button } from 'react-native-elements';
 import { AuthContext } from '../../contexts/AuthContext';
 import LoginForm from './LoginForm';
 import styles from './styles';
+import Ptxt from '../../components/Ptxt';
 
 const Login = ({ navigation }) => {
   const { signIn } = useContext(AuthContext);
@@ -18,7 +19,7 @@ const Login = ({ navigation }) => {
       />
       <LoginForm />
       <View style={styles.login}>
-        <Text>اگر هنوز ثبت نام نکرده اید،</Text>
+        <Ptxt>اگر هنوز ثبت نام نکرده اید،</Ptxt>
         <Button
           title="از اینجا وارد شوید."
           type="clear"
