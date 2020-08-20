@@ -3,7 +3,7 @@ import { SIZE, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   sky: { width: '100%', height: '100%' },
-  moon: { width: '100%', height: '80%', top: 100 },
+  moon: { width: '100%', height: '80%', top: 50 },
   text: {
     alignSelf: 'center',
     color: '#121C3D',

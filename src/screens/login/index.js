@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { KeyboardAvoidingView, View, Text } from 'react-native';
+import { KeyboardAvoidingView, View } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { AuthContext } from '../../contexts/AuthContext';
 import LoginForm from './LoginForm';
