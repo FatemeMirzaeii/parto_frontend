@@ -100,32 +100,6 @@ export function remainingDaysToOvulation(date, lastPeriodDate) {
   return date.diff(nextOvulationDate(lastPeriodDate), 'days');
 }
 
-// export async function checkPeriod() {
-//   let response = this.state.uData;
-//   const diff = moment(_today, 'YYYYMMDD').diff(
-//     response.last_period_date,
-//     'days',
-//   );
-//   console.log('diiiiif: ', diff);
-//   if (
-//     response.avg_period_length - diff < 0 &&
-//     response.avg_period_length - diff + this.state.uData.avg_cycle_length >= 0
-//   ) {
-//     this.setState({
-//       type: 'periodDate',
-//       dayToNextPeriod: Math.abs(response.avg_period_length - diff).toString(),
-//     });
-//   } else if (diff > response.avg_period_length) {
-//     this.setLatestPeriodCycle(diff);
-//   } else {
-//     this.setState({
-//       type: 'beforePeriod',
-//       dayToNextPeriod: Math.abs(
-//         response.avg_period_length - diff + 1,
-//       ).toString(),
-//     });
-//   }
-// }
 // export async function setLatestPeriodCycle(diff) {
 //   const lastPeriod = moment(
 //     moment(_today)
