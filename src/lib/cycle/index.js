@@ -1,5 +1,6 @@
 import moment from 'moment';
 import { OVULATION_DAY_NO } from '../../constants/cycle';
+
 export function determineCyclePhase(
   date,
   lastPeriodDate,
@@ -71,7 +72,7 @@ export function determinePhaseText(
         lastPeriodDate,
         avgCycleLength,
       );
-      return `${days} روز پریود دیر شده است.`;
+      return `${days} روز پریود شما دیر شده است.`;
     }
     default:
       return 'Hello from nothing!';
@@ -94,30 +95,9 @@ export function remainingDaysToNextPeriod(
   return date.diff(nextPeriodDate(avgCycleLength, lastPeriodDate), 'days');
 }
 export function nextOvulationDate(lastPeriodDate) {
-  return lastPeriodDate.add(14, 'days');
+  return moment(lastPeriodDate).add(14, 'days');
 }
 export function remainingDaysToOvulation(date, lastPeriodDate) {
   return date.diff(nextOvulationDate(lastPeriodDate), 'days');
 }
-
-// export async function setLatestPeriodCycle(diff) {
-//   const lastPeriod = moment(
-//     moment(_today)
-//       .add(-(diff - this.state.uData.avg_period_length), 'days')
-//       .format('YYYYMMDD'),
-//   );
-//   //  _today(diff - this.state.uData.avg_period_length)
-//   // let new_date = moment(moment(date).add(i, 'days').format('YYYY-MM-DD'));
-//   console.log('today : ', _today);
-//   console.log('lasttttttttttttttttt: ', lastPeriod);
-//   await db
-//     .rawQuery(
-//       `UPDATE ${PROFILE} set last_period_date=${lastPeriod._i} where id=1`,
-//       [],
-//       PROFILE,
-//     )
-//     .then((res) => {
-//       this.getDataDB();
-//       this.checkPeriod();
-//     });
-// }
+export function determineOvulationDays() {}

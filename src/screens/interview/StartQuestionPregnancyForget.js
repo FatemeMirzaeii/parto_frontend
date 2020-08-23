@@ -4,7 +4,7 @@ import { StyleSheet, ToastAndroid } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LinearGradient from 'react-native-linear-gradient';
 import { FONT, SIZE } from '../../styles/static';
-import Database from '../../components/Database';
+import Database from '../../lib/database';
 import Ptxt from '../../components/Ptxt';
 
 let questionArray = [{ zygosisDate: 1, childbirthDate: 0, lastPeriodDate: 0 }];

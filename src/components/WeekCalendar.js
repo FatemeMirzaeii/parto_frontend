@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
+import { FONT, SIZE, COLOR } from '../styles/static';
 import {
   CalendarProvider,
   ExpandableCalendar,
@@ -10,7 +11,7 @@ const WeekCalendar = (props) => {
   return (
     <CalendarProvider
       jalali={true}
-      date={today}
+      date={props.current ?? today}
       onDateChanged={props.onDateChanged}
       //showTodayButton
     >
@@ -21,7 +22,15 @@ const WeekCalendar = (props) => {
         hideKnob
         hideArrows
         testID={testIDs.expandableCalendar.CONTAINER}
-        theme={props.theme}
+        theme={{
+          ...props.theme,
+          ...{
+            textDayFontFamily: FONT.regular,
+            textMonthFontFamily: FONT.regular,
+            textDayHeaderFontFamily: FONT.regular,
+            textDayHeaderFontSize: SIZE[7],
+          },
+        }}
         style={[props.style, styles.calendar]}
       />
     </CalendarProvider>

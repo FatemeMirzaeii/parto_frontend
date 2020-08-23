@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import DataBase from '../../components/Database';
+import DataBase from '../../lib/database';
 import styles from './styles';
 const db = new DataBase();
 

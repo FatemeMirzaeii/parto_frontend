@@ -2,14 +2,11 @@ import { Icon } from 'native-base';
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { storeData } from '../../lib/func';
+import { saveProfileData } from '../../lib/database/query';
 import { COLOR, FONT, SIZE } from '../../styles/static';
-import Database from '../../components/Database';
 import PersianDatePicker from '../../components/PersianDatePicker';
-import { PROFILE } from '../../constants/database-tables';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './Styles';
-const moment = require('moment');
-const db = new Database();
 
 let questionArray = [];
 let forgetPragnancy = false;
@@ -30,56 +27,33 @@ const StartQuestion5 = ({ route, navigation }) => {
       setBirthdate(date);
     }
   };
-  const nextPress = () => {
-    saveToLocal();
-  };
-  const saveToLocal = (item) => {
-    const today = moment();
-    if (item === 'forget') {
-      db.rawQuery(
-        `INSERT INTO ${PROFILE}
-             (pregnant, pregnancy_try, avg_period_length, avg_cycle_length,
-              created_at, last_period_date)
-             VALUES(${mode.pregnant},
-                ${mode.pregnancy_try},
-                ${periodLength},
-                ${cycleLength},
-                ${today.format('YYYYMMDD')},
-                '${lastPeriodDate}')`,
-        [],
-        PROFILE,
-      ).then((res) => {
-        navigation.navigate('Forgetpage', { questionArray });
-        goToHome();
-      });
-    } else {
-      db.rawQuery(
-        `INSERT INTO ${PROFILE}
-             (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
-              birthdate, created_at, last_period_date)
-             VALUES(
-                ${mode.pregnant},
-                ${mode.pregnancy_try},
-                ${periodLength},
-                ${cycleLength},
-                '${birthdate}',
-                '${today.format('YYYY-MM-DD')}',
-                '${lastPeriodDate}')`,
-        [],
-        PROFILE,
-      ).then((res) => {
-        navigation.navigate('Forgetpage', { questionArray });
-        goToHome();
-      });
-    }
-  };
-  function nextStep() {
-    saveToLocal('forget');
-  }
-  const goToHome = async () => {
+  const onNextPress = async () => {
+    //todo: need to check if save function was successfull or not
+    saveProfileData({
+      pregnant: mode.pregnant,
+      pregnancyTry: mode.pregnancy_try,
+      lastPeriodDate,
+      periodLength,
+      cycleLength,
+      birthdate,
+    });
     await storeData('@startPages', 'true');
     interview();
   };
+
+  const onForgetPress = () => {
+    //todo: need to check if save function was successfull or not
+    saveProfileData({
+      pregnant: mode.pregnant,
+      pregnancyTry: mode.pregnancy_try,
+      lastPeriodDate,
+      periodLength,
+      cycleLength,
+      birthdate: null,
+    });
+    navigation.navigate('Forgetpage', { questionArray });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.parentView}>
@@ -127,7 +101,7 @@ const StartQuestion5 = ({ route, navigation }) => {
           <View style={{ flex: 2, justifyContent: 'flex-end' }}>
             <View style={styles.viewforget}>
               <TouchableOpacity
-                onPress={() => nextStep()}
+                onPress={() => onForgetPress()}
                 style={{ padding: 15 }}
                 activeOpacity={0.5}>
                 <Text style={styles.txtforget}>بعدا وارد میکنم</Text>
@@ -189,7 +163,7 @@ const StartQuestion5 = ({ route, navigation }) => {
               </View>
               <View style={styles.v4q2}>
                 <TouchableOpacity
-                  onPress={() => nextPress()}
+                  onPress={() => onNextPress()}
                   style={[styles.btnback, { backgroundColor: COLOR.btn }]}
                   activeOpacity={0.7}>
                   <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>

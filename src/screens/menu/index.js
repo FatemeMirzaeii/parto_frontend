@@ -1,7 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
-import Database from '../../components/Database';
+import Database from '../../lib/database';
 import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';

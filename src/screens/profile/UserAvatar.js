@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { Card, Avatar, Input, Button } from 'react-native-elements';
-import DataBase from '../../components/Database';
+import DataBase from '../../lib/database';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';

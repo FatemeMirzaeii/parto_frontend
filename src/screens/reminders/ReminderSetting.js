@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView, TextInput } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
-import DataBase from '../../components/Database';
+import DataBase from '../../lib/database';
 import PickerListItem from '../../components/PickerListItem';
 import styles from './Styles';
 const db = new DataBase();

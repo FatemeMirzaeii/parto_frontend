@@ -6,52 +6,40 @@ import {
   View,
   Text,
 } from 'react-native';
-import Database from '../../components/Database';
-import WeekCalendar from '../../components/WeekCalendar';
-import styles from './styles';
-import { WIDTH } from '../../styles/static';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgXml } from 'react-native-svg';
 
+import Database from '../../lib/database';
+import WeekCalendar from '../../components/WeekCalendar';
+import styles from './styles';
+import { WIDTH } from '../../styles/static';
+import {
+  BLEEDING,
+  EXCERSICE,
+  SPOTTING,
+} from '../../constants/health-tracking-info';
+import { getTrackingOptionData } from '../../lib/database/query';
+
 const db = new Database();
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route, navigation }) => {
-  const { today } = route.params;
-  const [date, setDate] = useState(today);
+  const { day } = route.params;
+  const [date, setDate] = useState(day);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
   const [categories, setCategories] = useState([]);
-
+  const getData = useCallback(async () => {
+    const td = await getTrackingOptionData(date);
+    setCategories(td);
+  }, [date]);
   useEffect(() => {
     getData();
   }, [getData]);
-  const getData = useCallback(() => {
-    db.rawQuery(
-      `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
-      'color',color,'icon',icon,'options',(
-        SELECT JSON_GROUP_ARRAY(
-                JSON_OBJECT('id',id,'title',title,'icon',icon,'selected',(
-                          SELECT JSON_GROUP_ARRAY(
-                                  JSON_OBJECT('id',id,'tracking_option_id',tracking_option_id)
-                                              )
-                              FROM user_tracking_option u WHERE u.tracking_option_id = o.id AND date=${date}
-                        )
-                      )
-                    ) 
-            FROM health_tracking_option o WHERE o.category_id = c.id
-          )         
-        )
-        AS data FROM health_tracking_category c ORDER By id ASC`,
-      [],
-      'health_tracking_category',
-    ).then((res) => {
-      setCategories(res);
-    });
-  }, [date]);
+
   const renderItem = ({ item }) => {
     return (
       <View style={styles.sliderItem}>
@@ -139,49 +127,57 @@ const TrackingOptions = ({ route, navigation }) => {
   };
   const onOptionPress = (category, option) => {
     if (option.selected.length > 0) {
+      //this will deselect the option
       db.rawQuery(
-        `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date=${date}`,
+        `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date='${date}'`,
         [],
         'user_tracking_option',
       ).then((res) => {
         console.log('ressss', res);
-        getData();
+        //getData(date);
       });
     } else {
       if (category.hasMultipleChoice) {
+        //this will add new option to others
         db.rawQuery(
-          `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+          `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
           [],
           'user_tracking_option',
         ).then((res) => {
           console.log('ressss', res);
-          getData();
+          //getData(date);
         });
       } else {
+        //this will remove other selected options and add new option
         db.rawQuery(
-          `DELETE FROM user_tracking_option WHERE date=${date};`,
+          `DELETE FROM user_tracking_option WHERE date='${date} AND tracking_option_id IN (${category.options.map(
+            (o) => o.id,
+          )})';`,
           [],
           'user_tracking_option',
         ).then(() => {
           db.rawQuery(
-            `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, ${date})`,
+            `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
             [],
             'user_tracking_option',
           ).then((res) => {
-            getData();
+            // getData(date);
           });
         });
       }
       setDetailPageId(category.id);
-      if ((category.id === 1 && option.id !== 1) || category.id === 6) {
+      if (
+        (category.id === BLEEDING && option.id !== SPOTTING) ||
+        category.id === EXCERSICE
+      ) {
         detailPageRef.current?.setModalVisible();
       }
     }
   };
   const onDayPress = (day) => {
-    console.log('dayyyyyyyyy');
-    setDate(day.dateString);
-    getData();
+    console.log('dayyyyyyyyy', day);
+    setDate(day);
+    //getData(day);
   };
   const updateIndex = (i) => {
     setSelectedIndex(i);
@@ -196,7 +192,8 @@ const TrackingOptions = ({ route, navigation }) => {
           theme={{
             calendarBackground: '#f1f1f1',
           }}
-          onDateChanged={(day, propUpdate) => onDayPress(day)}
+          current={day}
+          onDateChanged={(d, propUpdate) => onDayPress(d)}
         />
       </View>
       <ScrollView>

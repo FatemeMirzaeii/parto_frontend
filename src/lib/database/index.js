@@ -1,10 +1,10 @@
 import SQLite from 'react-native-sqlite-storage';
-import { EMPTY_TABLE } from '../constants/database-tables';
+import { EMPTY_TABLE } from '../../constants/database-tables';
 
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
-const database_name = 'parto.db';
+const database_name = 'partoo.db';
 const database_location = '~parto.db';
 
 export default class Database {

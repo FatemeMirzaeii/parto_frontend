@@ -2,9 +2,11 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Card, ListItem, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
-import DataBase from '../../components/Database';
+import {
+  updateProfileData,
+  getCycleInfoFromProfile,
+} from '../../lib/database/query';
 import styles from './styles';
-const db = new DataBase();
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -25,27 +27,18 @@ const CycleSetting = ({ navigation }) => {
       ),
     });
     const save = () => {
-      db.rawQuery(
-        `UPDATE user_profile SET avg_period_length=${periodLength},
-                                         avg_cycle_length=${cycleLength},
-                                         pms_length=${pmsLength}`,
-        'user_profile',
-      ).then(() => navigation.pop());
+      updateProfileData({ periodLength, cycleLength, pmsLength });
+      navigation.pop();
     };
   }, [navigation, cycleLength, periodLength, pmsLength]);
 
   useEffect(() => {
-    db.rawQuery(
-      'SELECT avg_period_length, avg_cycle_length, pms_length FROM user_profile',
-      'user_profile',
-    ).then((n) => {
-      const row = n[0];
-      if (row) {
-        setCycleLength(row.avg_cycle_length);
-        setPeriodLength(row.avg_period_length);
-        setPmsLength(row.pms_length);
-      }
-    });
+    const info = getCycleInfoFromProfile();
+    if (info) {
+      setCycleLength(info.avg_cycle_length);
+      setPeriodLength(info.avg_period_length);
+      setPmsLength(info.pms_length);
+    }
   }, []);
 
   return (

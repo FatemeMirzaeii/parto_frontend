@@ -3,28 +3,21 @@ import { SafeAreaView, View, ImageBackground } from 'react-native';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import WeekCalendar from '../../components/WeekCalendar';
-import Database from '../../components/Database';
+import { getProfileData } from '../../lib/database/query';
 import { determinePhaseText } from '../../lib/cycle';
 import Ptxt from '../../components/Ptxt';
-import { PROFILE } from '../../constants/database-tables';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 const today = moment();
-const db = new Database();
 const Home = (props) => {
   const [profileData, setProfileData] = useState();
+  const initialData = async () => {
+    const pd = await getProfileData();
+    setProfileData(pd);
+  };
   useEffect(() => {
-    db.rawQuery(`SELECT * FROM ${PROFILE}`, PROFILE).then((res) => {
-      if (res[0]) {
-        setProfileData(res[0]);
-      }
-    });
+    initialData();
   }, []);
-  useEffect(() => {
-    console.log('resssss', profileData);
-    console.log('today', today);
-  }, [profileData]);
-
   const renderText = () => {
     if (profileData) {
       return (
@@ -64,7 +57,7 @@ const Home = (props) => {
           type="font-awesome"
           color="#f50"
           onPress={() =>
-            props.navigation.navigate('TrackingOptions', { today })
+            props.navigation.navigate('TrackingOptions', { day: today })
           }
         />
       </ImageBackground>

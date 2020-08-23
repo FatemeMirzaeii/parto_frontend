@@ -1,187 +1,85 @@
 import React, { useEffect, useState } from 'react';
-import { StatusBar, StyleSheet, Text } from 'react-native';
 import { CalendarList } from 'react-native-jalali-calendars';
-import { FONT, SIZE } from '../../styles/static';
-import Database from '../../components/Database';
-import { PROFILE } from '../../constants/database-tables';
-const moment2 = require('moment-jalaali');
-const moment = require('moment');
-const db = new Database();
-
-let perioddatemark = [];
-var jalaali = require('jalaali-js');
-moment2.loadPersian({ dialect: 'persian-modern' });
+import moment from 'moment';
+import { getUserAllPeriodDays } from '../../lib/database/query';
+import { FONT, SIZE, COLOR } from '../../styles/static';
 
 const Calendar = (props) => {
-  const [jalali, setjalali] = useState({ jalaali: true, text: 'میلادی' });
-  const [periodlength, setperiodlength] = useState(null);
-  const [cyclelength, setcyclelength] = useState(null);
-  const [state, setState] = useState({
-    thisDay: '',
-    thisMonth: '',
-    thisYear: '',
-    ch: false,
-    markedDates: '',
-  });
-  const [periodDate, setPeriodDate] = useState('');
+  const [markedDates, setMarkedDates] = useState({});
   useEffect(() => {
-    GetTimeNow();
-  }, [state.thisDay]);
-  useEffect(() => {}, [state.thisDay]);
-
-  const checkSwitch = (param) => {
-    switch (param) {
-      case 1:
-        return 'فروردین';
-      case 2:
-        return 'اردیبهشت';
-      case 3:
-        return 'خرداد';
-      case 4:
-        return 'تیر';
-      case 5:
-        return 'مرداد';
-      case 6:
-        return 'شهریور';
-      case 7:
-        return 'مهر';
-      case 8:
-        return 'آبان';
-      case 9:
-        return 'آذر';
-      case 10:
-        return 'دی';
-      case 11:
-        return 'بهمن';
-      case 12:
-        return 'اسفند';
-    }
-  };
-  const GetTimeNow = async () => {
-    var Persian = jalaali.toJalaali(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      new Date().getDate(),
-    );
-    var month = checkSwitch(Persian.jm);
-    setState({
-      ...state,
-      thisDay: Persian.jd,
-      thisMonth: month,
-      thisYear: Persian.jy,
-    });
-  };
-  useEffect(() => {
-    db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE).then((res) => {
-      console.log('res select: ', res[0]);
-      setperiodlength(res[0].avg_period_length);
-      setcyclelength(res[0].avg_cycle_length);
-      var str = res[0].last_period_date.toString().split('');
-      console.log(str);
-      var date = (
-        str[0] +
-        str[1] +
-        str[2] +
-        str[3] +
-        '-' +
-        str[4] +
-        str[5] +
-        '-' +
-        str[6] +
-        str[7]
-      ).toString();
-      console.log(date);
-      setPeriodDate(date);
-      let mdate = {};
-
-      for (let j = 0; j <= 6; j++) {
-        if (j == 0) {
-          for (let i = 1; i <= cyclelength; i++) {
-            let new_date = moment(
-              moment(date).add(i, 'days').format('YYYY-MM-DD'),
-            );
-            perioddatemark.push(new_date._i);
-            mdate[new_date._i] = {
-              periods: [{ startingDay: false, endingDay: false, color: 'red' }],
-            };
-          }
-        } else {
-          for (let i = 1; i <= cyclelength; i++) {
-            let new_date = moment(
-              moment(date)
-                .add(i + 30 * j, 'days')
-                .format('YYYY-MM-DD'),
-            );
-            perioddatemark.push(new_date._i);
-            mdate[new_date._i] = {
-              periods: [
-                { startingDay: false, endingDay: false, color: 'pink' },
-              ],
-            };
-          }
-        }
-      }
-
-      setState({ ...state, markedDates: mdate });
-      console.log('new: ', mdate);
-    });
+    setOvulationDates();
+    setPeriodDates();
   }, []);
 
+  const setPeriodDates = async () => {
+    const allPeriods = await getUserAllPeriodDays();
+    let periodDays = [];
+    if (allPeriods.length > 0) {
+      periodDays = allPeriods.map((d) => moment(d.date));
+    }
+    createMarkedDatesObj(periodDays, COLOR.btn);
+  };
+  const setOvulationDates = () => {
+    const ovulationDays = [
+      moment('2020-08-29'),
+      moment('2020-08-30'),
+      moment('2020-08-31'),
+      moment('2020-09-01'),
+      moment('2020-09-02'),
+      moment('2020-09-03'),
+      moment('2020-09-04'),
+    ];
+    createMarkedDatesObj(ovulationDays, COLOR.currentPage);
+  };
+  const createMarkedDatesObj = (dates, color) => {
+    const startingDate = moment.min(dates);
+    const endingDate = moment.max(dates);
+    dates.forEach((date) => {
+      switch (true) {
+        case date === startingDate:
+          markedDates[date.format('YYYY-MM-DD')] = {
+            //for rtl styles we have to replace startingDay and endingDay flag.
+            endingDay: true,
+            color: color,
+          };
+          break;
+        case date === endingDate:
+          markedDates[date.format('YYYY-MM-DD')] = {
+            startingDate: true,
+            color: color,
+          };
+          break;
+        default:
+          markedDates[date.format('YYYY-MM-DD')] = {
+            color: color,
+          };
+      }
+    });
+    setMarkedDates({ ...markedDates });
+    console.log('state', markedDates);
+  };
   return (
-    <>
-      <StatusBar translucent barStyle="dark-content" backgroundColor="white" />
-      <Text
-        style={{
-          marginTop: 40,
-          fontFamily: FONT.medium,
-          fontSize: SIZE[15],
-          color: '#121C3D',
-          marginBottom: 10,
-          alignSelf: 'center',
-        }}>
-        {state.thisDay} {state.thisMonth} {state.thisYear}
-      </Text>
-
-      <CalendarList
-        jalali={true}
-        style={styles.calendar}
-        current={'2020-05-16'}
-        minDate={'2018-03-21'}
-        markingType={'multi-period'}
-        firstDay={6}
-        theme={{
-          textSectionTitleColor: '#35036B',
-          todayTextColor: 'white',
-          todayBackgroundColor: 'pink',
-          selectedDayTextColor: 'white',
-          monthTextColor: 'pink',
-          selectedDayBackgroundColor: 'pink',
-          textDisabledColor: '#B82162',
-          textDayFontFamily: FONT.regular,
-          textMonthFontFamily: FONT.regular,
-          textDayHeaderFontFamily: FONT.regular,
-          'stylesheet.calendar.header': {
-            week: {
-              marginTop: -2,
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            },
-          },
-        }}
-        markedDates={state.markedDates}
-      />
-    </>
+    <CalendarList
+      jalali={true}
+      firstDay={6}
+      markedDates={markedDates}
+      markingType="period"
+      onDayPress={(day) =>
+        props.navigation.navigate('TrackingOptions', { day: day.dateString })
+      }
+      theme={{
+        textSectionTitleColor: '#35036B',
+        todayTextColor: 'white',
+        todayBackgroundColor: 'pink',
+        selectedDayTextColor: 'white',
+        selectedDayBackgroundColor: 'pink',
+        textDisabledColor: '#B82162',
+        textDayFontFamily: FONT.regular,
+        textMonthFontFamily: FONT.regular,
+        textDayHeaderFontFamily: FONT.regular,
+        textDayHeaderFontSize: SIZE[7],
+      }}
+    />
   );
 };
-const styles = StyleSheet.create({
-  calendar: {
-    width: '100%',
-  },
-  text: {
-    textAlign: 'center',
-    padding: 10,
-    backgroundColor: 'lightgrey',
-    fontSize: 16,
-  },
-});
 export default Calendar;
