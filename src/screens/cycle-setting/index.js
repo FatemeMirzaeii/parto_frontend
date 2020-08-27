@@ -33,12 +33,11 @@ const CycleSetting = ({ navigation }) => {
   }, [navigation, cycleLength, periodLength, pmsLength]);
 
   useEffect(() => {
-    const info = getCycleInfoFromProfile();
-    if (info) {
+    getCycleInfoFromProfile().then((info) => {
       setCycleLength(info.avg_cycle_length);
       setPeriodLength(info.avg_period_length);
       setPmsLength(info.pms_length);
-    }
+    });
   }, []);
 
   return (

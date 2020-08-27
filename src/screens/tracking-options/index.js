@@ -21,9 +21,11 @@ import {
   SPOTTING,
 } from '../../constants/health-tracking-info';
 import { getTrackingOptionData } from '../../lib/database/query';
+import CycleModule from '../../lib/cycle';
 
 const db = new Database();
 const detailPageRef = createRef();
+const c = new CycleModule();
 
 const TrackingOptions = ({ route, navigation }) => {
   const { day } = route.params;
@@ -90,7 +92,7 @@ const TrackingOptions = ({ route, navigation }) => {
   };
   const renderDetailPage = () => {
     switch (detailPageId) {
-      case 1:
+      case BLEEDING:
         return (
           <View style={{ flexDirection: 'row' }}>
             <ButtonGroup
@@ -110,7 +112,7 @@ const TrackingOptions = ({ route, navigation }) => {
             />
           </View>
         );
-      case 6:
+      case EXCERSICE:
         return (
           <View>
             <Input
@@ -134,7 +136,7 @@ const TrackingOptions = ({ route, navigation }) => {
         'user_tracking_option',
       ).then((res) => {
         console.log('ressss', res);
-        //getData(date);
+        getData();
       });
     } else {
       if (category.hasMultipleChoice) {
@@ -145,14 +147,16 @@ const TrackingOptions = ({ route, navigation }) => {
           'user_tracking_option',
         ).then((res) => {
           console.log('ressss', res);
-          //getData(date);
+          getData();
         });
       } else {
         //this will remove other selected options and add new option
         db.rawQuery(
-          `DELETE FROM user_tracking_option WHERE date='${date} AND tracking_option_id IN (${category.options.map(
-            (o) => o.id,
-          )})';`,
+          `DELETE FROM user_tracking_option WHERE date='${date}' AND tracking_option_id IN (${category.options.map(
+            (o) => {
+              return o.id;
+            },
+          )});`,
           [],
           'user_tracking_option',
         ).then(() => {
@@ -161,8 +165,11 @@ const TrackingOptions = ({ route, navigation }) => {
             [],
             'user_tracking_option',
           ).then((res) => {
-            // getData(date);
+            getData();
           });
+          if (category.id === BLEEDING) {
+            c.determineLastPeriodDate(date);
+          }
         });
       }
       setDetailPageId(category.id);
@@ -174,9 +181,9 @@ const TrackingOptions = ({ route, navigation }) => {
       }
     }
   };
-  const onDayPress = (day) => {
-    console.log('dayyyyyyyyy', day);
-    setDate(day);
+  const onDayPress = (d) => {
+    console.log('dayyyyyyyyy', d);
+    setDate(d);
     //getData(day);
   };
   const updateIndex = (i) => {

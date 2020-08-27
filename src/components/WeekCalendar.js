@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
+import { Text, View, StyleSheet } from 'react-native';
+import moment from 'moment-jalaali';
 import { FONT, SIZE, COLOR } from '../styles/static';
 import {
   CalendarProvider,
@@ -13,6 +14,7 @@ const WeekCalendar = (props) => {
       jalali={true}
       date={props.current ?? today}
       onDateChanged={props.onDateChanged}
+
       //showTodayButton
     >
       <ExpandableCalendar
@@ -21,6 +23,13 @@ const WeekCalendar = (props) => {
         disablePan
         hideKnob
         hideArrows
+        // renderHeader={(date) => {
+        //   return (
+        //     <View>
+        //       <Text>{moment(date).format('jYYYY jMMMM')}</Text>
+        //     </View>
+        //   );
+        // }}
         testID={testIDs.expandableCalendar.CONTAINER}
         theme={{
           ...props.theme,

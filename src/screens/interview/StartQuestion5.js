@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 import { storeData } from '../../lib/func';
 import { saveProfileData } from '../../lib/database/query';
+import CycleModule from '../../lib/cycle';
 import { COLOR, FONT, SIZE } from '../../styles/static';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts/AuthContext';
@@ -10,7 +11,7 @@ import styles from './Styles';
 
 let questionArray = [];
 let forgetPragnancy = false;
-
+const c = new CycleModule();
 const StartQuestion5 = ({ route, navigation }) => {
   const { mode, lastPeriodDate, periodLength, cycleLength } = route.params;
   const [birthdate, setBirthdate] = useState();
@@ -27,7 +28,7 @@ const StartQuestion5 = ({ route, navigation }) => {
       setBirthdate(date);
     }
   };
-  const onNextPress = async () => {
+  const onNextPress = () => {
     //todo: need to check if save function was successfull or not
     saveProfileData({
       pregnant: mode.pregnant,
@@ -36,9 +37,11 @@ const StartQuestion5 = ({ route, navigation }) => {
       periodLength,
       cycleLength,
       birthdate,
+    }).then(async (i) => {
+      c.setFirstPeriod(periodLength, lastPeriodDate);
+      await storeData('@startPages', 'true');
+      interview();
     });
-    await storeData('@startPages', 'true');
-    interview();
   };
 
   const onForgetPress = () => {

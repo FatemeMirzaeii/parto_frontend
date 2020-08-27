@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   txt: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[15],
+    fontSize: SIZE[10],
     textAlign: 'center',
   },
   more: {

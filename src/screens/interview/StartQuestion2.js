@@ -28,7 +28,7 @@ const StartQuestion2 = ({ route, navigation }) => {
     setTimeout(async () => {
       navigation.navigate('StartQuestion3', {
         mode,
-        lastPeriodDate: '00-00-00',
+        lastPeriodDate: null,
       });
     }, 1500);
   }

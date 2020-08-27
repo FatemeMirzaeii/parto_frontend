@@ -45,7 +45,7 @@ const Forgetpage = (props) => {
           fontSize: 16,
           alignSelf: 'center',
         }}>
-        دوست عزیز
+        دوست عزیز پرتو
       </Text>
       <Text
         style={{
@@ -69,7 +69,7 @@ const Forgetpage = (props) => {
           alignSelf: 'center',
           marginTop: 20,
         }}>
-        ( شما قادر به ویرایش آن خواهید بود){' '}
+        ( شما بعدا قادر به ویرایش آن خواهید بود){' '}
       </Text>
       <View
         style={{
