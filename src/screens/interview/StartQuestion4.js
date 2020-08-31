@@ -1,24 +1,18 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  View,
-  ToastAndroid,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import { COLOR, FONT } from '../../styles/static';
-import styles from './Styles';
-import { setPickerRange } from '../../lib/func';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, View, ImageBackground } from 'react-native';
+import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-let data = setPickerRange(15, 60);
-const toastText =
-  'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
+import { setPickerRange } from '../../lib/func';
+import { FONT } from '../../styles/static';
+import styles from './styles';
 
 const StartQuestion4 = ({ route, navigation }) => {
   const { mode, lastPeriodDate, periodLength } = route.params;
   const [selectedItem, setSelectedItem] = useState(0);
-
-  const nextPress = (cycleLength) => {
+  useEffect(() => {
+    console.log('params', route.params);
+  }, [route.params]);
+  const onNextPress = (cycleLength) => {
     navigation.navigate('StartQuestion5', {
       mode,
       lastPeriodDate,
@@ -26,88 +20,65 @@ const StartQuestion4 = ({ route, navigation }) => {
       cycleLength,
     });
   };
-  function forgetPress() {
-    ToastAndroid.show(toastText, ToastAndroid.LONG);
-    setTimeout(async () => {
-      nextPress(28);
-    }, 2000);
+  function onForgotPress() {
+    navigation.navigate('Notice', {
+      txt:
+        'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.',
+      nextPage: 'StartQuestion5',
+      mode,
+      lastPeriodDate,
+      periodLength,
+      cycleLength: 28,
+    });
   }
   return (
-    <View style={styles.container}>
-      <View style={styles.parentView}>
-        <Image
-          source={require('../../../assets/images/start/pink3.png')}
-          style={styles.img1q2}
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        source={require('../../../assets/images/start/3.png')}
+        style={styles.bg}>
+        <Text style={styles.question}>
+          میانگین فاصله دوره های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
+        </Text>
+        <WheelPicker
+          data={setPickerRange(10, 100)}
+          selectedItem={selectedItem}
+          onItemSelected={setSelectedItem}
+          initPosition={18}
+          isCyclic={true}
+          itemTextSize={21}
+          selectedItemTextSize={21}
+          itemTextFontFamily={FONT.regular}
+          selectedItemTextFontFamily={FONT.regular}
+          style={styles.picker}
         />
-        <View style={styles.v1q2}>
-          <View style={{ flex: 1.5 }}>
-            <View style={styles.v2q2}>
-              <View style={styles.v3q3}>
-                <View style={styles.stepper} />
-                <View style={styles.stepper} />
-                <View
-                  style={[
-                    styles.stepper,
-                    { backgroundColor: COLOR.currentPage },
-                  ]}
-                />
-                <View style={styles.stepper} />
-              </View>
-            </View>
-            <View style={styles.v4q2}>
-              <View style={styles.v5q2}>
-                <Text style={styles.textStyle1}>
-                  میانگین فاصله دوره های تان چند روز است؟
-                </Text>
-                <Text style={styles.textStyle2}>( معمولا 26 الی 30 روز)</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.v6q2}>
-            <WheelPicker
-              style={{ width: '60%', height: '50%' }}
-              //style={{ width: 200, height: 200 }}
-              isCyclic={true}
-              selectedItemTextFontFamily={FONT.regular}
-              selectedItemTextSize={21}
-              itemTextSize={21}
-              itemTextFontFamily={FONT.regular}
-              selectedItem={selectedItem}
-              data={data}
-              onItemSelected={setSelectedItem}
+        <View style={{ top: 250 }}>
+          <Button
+            title="فراموش کردم"
+            titleStyle={styles.darkBtnTitle}
+            type="clear"
+            onPress={() => onForgotPress()}
+          />
+          <View style={styles.buttons}>
+            <Button
+              title="قبلی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.prevButton}
+              titleStyle={styles.darkBtnTitle}
+              type="solid"
+              onPress={() => navigation.goBack()}
+            />
+            <Button
+              title="بعدی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.nextButton}
+              titleStyle={styles.btnTitle}
+              type="solid"
+              onPress={() => onNextPress(selectedItem + 10)}
             />
           </View>
-          <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
-            <View style={styles.viewforget}>
-              <TouchableOpacity
-                onPress={() => forgetPress()}
-                style={{ padding: 15 }}
-                activeOpacity={0.5}>
-                <Text style={styles.txtforget}>فراموش کردم</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.btnsview}>
-              <View style={styles.v4q2}>
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={styles.btnback}
-                  activeOpacity={0.7}>
-                  <Text style={styles.txtbtn}>قبلی</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.v4q2}>
-                <TouchableOpacity
-                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
-                  activeOpacity={0.7}
-                  onPress={() => nextPress(selectedItem + 15)}>
-                  <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
         </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

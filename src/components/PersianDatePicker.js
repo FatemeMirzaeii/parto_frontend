@@ -8,7 +8,7 @@ import { FONT } from '../styles/static';
 ////      2- should check if month has 31 days or not.
 
 const days = setPickerRange(1, 31);
-const years = setPickerRange(1340, 1386);
+const years = setPickerRange(1340, 1390);
 const months = [
   'فروردین',
   'اردیبهشت',
@@ -78,6 +78,7 @@ const PersianDatePicker = (props) => {
           data={years}
           selectedItem={yearIndex}
           onItemSelected={onYearSelected}
+          initPosition={30}
           isCyclic
           style={styles.picker}
           selectedItemTextSize={20}

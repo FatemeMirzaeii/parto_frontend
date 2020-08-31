@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useMemo } from 'react';
+import React, { useEffect, useReducer, useMemo, useState } from 'react';
 import { AuthContext } from '../contexts/AuthContext';
 import { getData, removeData } from '../lib/func';
 import Splash from '../screens/splash';
@@ -7,6 +7,7 @@ import AuthStack from './AuthStack';
 import InterviewStack from './InterviewStack';
 
 const AppNavigator = () => {
+  const [splash, setSplash] = useState(true);
   const [state, dispatch] = useReducer(
     (prevState, action) => {
       switch (action.type) {
@@ -60,6 +61,7 @@ const AppNavigator = () => {
         iToken: interviewToken,
       });
     };
+    setTimeout(() => setSplash(false), 1000);
     bootstrapAsync();
   }, []);
   const authContext = useMemo(
@@ -84,8 +86,8 @@ const AppNavigator = () => {
   );
   return (
     <AuthContext.Provider value={authContext}>
-      {state.isLoading ? (
-        <Splash /> //todo: need timout
+      {state.isLoading || splash ? (
+        <Splash />
       ) : state.userToken && state.interviewToken ? (
         <TabNavigator />
       ) : !state.userToken ? (

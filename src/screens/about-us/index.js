@@ -47,12 +47,6 @@ const AboutUs = (props) => {
         </Left>
       </Header>
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-      <View style={{}}>
-        <Image
-          source={require('../../../assets/images/Group5369.png')}
-          style={{ marginLeft: 20 }}
-        />
-      </View>
       <Text
         style={{
           fontFamily: FONT.medium,
@@ -89,7 +83,7 @@ const AboutUs = (props) => {
       </Text>
       <View style={{ marginTop: Height / 6, alignItems: 'flex-end' }}>
         <Image
-          source={require('../../../assets/images/Group5369.png')}
+          source={require('../../../assets/images/about-us.png')}
           style={{ marginRight: 20 }}
         />
       </View>

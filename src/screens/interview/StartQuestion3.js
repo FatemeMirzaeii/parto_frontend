@@ -1,110 +1,83 @@
-import React, { useState } from 'react';
-import {
-  Text,
-  View,
-  ToastAndroid,
-  TouchableOpacity,
-  Image,
-} from 'react-native';
-import { COLOR, FONT } from '../../styles/static';
-import styles from './Styles';
+import React, { useState, useEffect } from 'react';
+import { Text, View, ImageBackground, SafeAreaView } from 'react-native';
+import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-let wheelPickerData = ['۳', '۴', '۵', '۶', '۷', '۸', '۹', '۱۰'];
-const toastText =
-  'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم';
+import { setPickerRange } from '../../lib/func';
+import { FONT } from '../../styles/static';
+import styles from './styles';
 
 const StartQuestion3 = ({ route, navigation }) => {
   const { mode, lastPeriodDate } = route.params;
   const [selectedItem, setSelectedItem] = useState();
-
-  const nextPress = (periodLength) => {
+  useEffect(() => {
+    console.log('params', route.params);
+  }, [route.params]);
+  const onNextPress = (periodLength) => {
     navigation.navigate('StartQuestion4', {
       mode,
       lastPeriodDate,
       periodLength,
     });
   };
-  function forgetPress() {
-    ToastAndroid.show(toastText, ToastAndroid.LONG);
-    setTimeout(async () => {
-      nextPress(7);
-    }, 1500);
-  }
+  const onForgotPress = () => {
+    navigation.navigate('Notice', {
+      txt:
+        'پرتو طول دوره شما را 7 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.',
+      nextPage: 'StartQuestion4',
+      mode,
+      lastPeriodDate,
+      periodLength: 7,
+    });
+  };
   return (
-    <View style={styles.container}>
-      <View style={styles.parentView}>
-        <Image
-          source={require('../../../assets/images/start/pink3.png')}
-          style={styles.img1q2}
+    <SafeAreaView style={styles.container}>
+      <ImageBackground
+        source={require('../../../assets/images/start/2.png')}
+        style={styles.bg}>
+        <Text style={styles.question}>
+          میانگین روزهای پریود شما چند روز است؟
+          {'\n'}( معمولا 4 الی 7 روز)
+        </Text>
+        <WheelPicker
+          data={setPickerRange(2, 15)}
+          selectedItem={selectedItem}
+          onItemSelected={setSelectedItem}
+          initPosition={5}
+          isCyclic={true}
+          itemTextSize={21}
+          selectedItemTextSize={21}
+          itemTextFontFamily={FONT.regular}
+          selectedItemTextFontFamily={FONT.regular}
+          style={styles.picker}
         />
-        <View style={styles.v1q2}>
-          <View style={{ flex: 1.5 }}>
-            <View style={styles.v2q2}>
-              <View style={styles.v3q3}>
-                <View style={styles.stepper} />
-                <View
-                  style={[
-                    styles.stepper,
-                    { backgroundColor: COLOR.currentPage },
-                  ]}
-                />
-                <View style={styles.stepper} />
-                <View style={styles.stepper} />
-              </View>
-            </View>
-            <View style={styles.v4q2}>
-              <View style={styles.v5q2}>
-                <Text style={styles.textStyle1}>
-                  میانگین روزهای پریود شما چند روز است؟
-                </Text>
-                <Text style={styles.textStyle2}>( معمولا 4 الی 7 روز)</Text>
-              </View>
-            </View>
-          </View>
-          <View style={styles.v6q2}>
-            <WheelPicker
-              style={{ width: '60%', height: '50%' }}
-              isCyclic={true}
-              selectedItemTextFontFamily={FONT.regular}
-              selectedItemTextSize={21}
-              itemTextSize={21}
-              itemTextFontFamily={FONT.regular}
-              selectedItem={selectedItem}
-              data={wheelPickerData}
-              onItemSelected={setSelectedItem}
+        <View style={{ top: 250 }}>
+          <Button
+            title="فراموش کردم"
+            titleStyle={styles.darkBtnTitle}
+            type="clear"
+            onPress={() => onForgotPress()}
+          />
+          <View style={styles.buttons}>
+            <Button
+              title="قبلی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.prevButton}
+              titleStyle={styles.darkBtnTitle}
+              type="solid"
+              onPress={() => navigation.goBack()}
+            />
+            <Button
+              title="بعدی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.nextButton}
+              titleStyle={styles.btnTitle}
+              type="solid"
+              onPress={() => onNextPress(selectedItem + 2)}
             />
           </View>
-          <View style={{ flex: 1.5, justifyContent: 'flex-end' }}>
-            <View style={styles.viewforget}>
-              <TouchableOpacity
-                onPress={() => forgetPress()}
-                style={{ padding: 15 }}
-                activeOpacity={0.5}>
-                <Text style={styles.txtforget}>فراموش کردم</Text>
-              </TouchableOpacity>
-            </View>
-            <View style={styles.btnsview}>
-              <View style={styles.v4q2}>
-                <TouchableOpacity
-                  onPress={() => navigation.goBack()}
-                  style={styles.btnback}
-                  activeOpacity={0.7}>
-                  <Text style={styles.txtbtn}>قبلی</Text>
-                </TouchableOpacity>
-              </View>
-              <View style={styles.v4q2}>
-                <TouchableOpacity
-                  style={[styles.btnback, { backgroundColor: COLOR.btn }]}
-                  activeOpacity={0.7}
-                  onPress={() => nextPress(selectedItem + 3)}>
-                  <Text style={[styles.txtbtn, { color: 'white' }]}>بعدی</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </View>
         </View>
-      </View>
-    </View>
+      </ImageBackground>
+    </SafeAreaView>
   );
 };
 

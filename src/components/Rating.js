@@ -26,10 +26,10 @@ export default class Rating extends Component {
       //To set the max number of Stars
     };
     //Filled Star. You can also give the path from local
-    this.Star = require('../../assets/images/Ellipse-305.png');
+    // this.Star = require('../../assets/images/Ellipse-305.png');
 
     //Empty Star. You can also give the path from local
-    this.Star_With_Border = require('../../assets/images/unfill.png');
+    // this.Star_With_Border = require('../../assets/images/unfill.png');
   }
   UpdateRating(key) {
     this.setState({ Default_Rating: key });

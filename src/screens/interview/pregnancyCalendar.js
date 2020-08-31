@@ -176,8 +176,6 @@ const pregnancyCalendar = (props) => {
   }
 };
 
-export default pregnancyCalendar;
-
 const styles = StyleSheet.create({
   gradiant: {
     flex: 1,
@@ -241,3 +239,4 @@ const styles = StyleSheet.create({
     fontFamily: FONT.regular,
   },
 });
+export default pregnancyCalendar;

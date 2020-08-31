@@ -184,7 +184,6 @@ const TrackingOptions = ({ route, navigation }) => {
   const onDayPress = (d) => {
     console.log('dayyyyyyyyy', d);
     setDate(d);
-    //getData(day);
   };
   const updateIndex = (i) => {
     setSelectedIndex(i);
