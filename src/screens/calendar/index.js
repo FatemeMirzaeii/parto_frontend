@@ -1,93 +1,253 @@
-import React, { useEffect, useState } from 'react';
+import React, {
+  useLayoutEffect,
+  useEffect,
+  useState,
+  useRef,
+  useCallback,
+} from 'react';
+import { SafeAreaView, TouchableOpacity, View } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import moment from 'moment';
-import { getUserAllPeriodDays } from '../../lib/database/query';
+import jalaali from 'moment-jalaali';
+import { setBleedingDays } from '../../lib/database/query';
 import CycleModule from '../../lib/cycle';
 import { FONT, SIZE, COLOR } from '../../styles/static';
+import styles from './styles';
+import Ptxt from '../../components/Ptxt';
 const c = new CycleModule();
-const Calendar = (props) => {
+const Calendar = ({ navigation }) => {
+  const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
+  const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+  const calendar = useRef();
   useEffect(() => {
-    setOvulationDates();
-    setPeriodDates();
-    setPerdictedDates();
-  }, []);
+    navigation.addListener('focus', () => {
+      markBleedingDays();
+      markPerdictions();
+    });
+    navigation.addListener('tabPress', () => {
+      markBleedingDays();
+      markPerdictions();
+    });
+  }, [navigation]);
 
-  const setPeriodDates = async () => {
-    const allPeriods = await getUserAllPeriodDays();
+  useEffect(() => {
+    markBleedingDays();
+    markPerdictions();
+  }, [editMode]);
 
-    let periodDays = [];
-    if (allPeriods.length > 0) {
-      periodDays = allPeriods.map((d) => moment(d.date));
-    }
-    createMarkedDatesObj(periodDays, COLOR.btn);
-  };
-  const setPerdictedDates = () => {
-    const perdictions = c
-      .perdictedPeriodDaysInCurrentYear()
-      .map((d) => moment(d));
-    const ov = c.perdictedOvulationDaysInCurrentYear().map((d) => moment(d));
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: '',
+      headerLeft: () => (
+        <Icon
+          name="calendar"
+          type="antdesign"
+          onPress={() => calendar.current.scrollToDay(new Date())}
+          color="tomato"
+          iconStyle={{ margin: 10 }}
+        />
+      ),
+      headerRight: () => (
+        <>
+          {editMode ? (
+            <View style={{ flexDirection: 'row' }}>
+              <Button
+                title="ثبت"
+                type="clear"
+                onPress={() => onSubmitEditing()}
+                titleStyle={{ color: 'tomato' }}
+              />
+              <Button
+                title="بیخیال"
+                type="clear"
+                onPress={() => onCancelEditing()}
+                titleStyle={{ color: 'tomato' }}
+              />
+            </View>
+          ) : (
+            <Icon
+              name="edit"
+              type="antdesign"
+              onPress={() => onEditPress()}
+              color="tomato"
+              iconStyle={{ margin: 10 }}
+            />
+          )}
+        </>
+      ),
+    });
+  }, [editMode, navigation, markedDates]);
 
-    createMarkedDatesObj(perdictions, COLOR.bgColor);
-    createMarkedDatesObj(ov, COLOR.currentPage);
+  const onEditPress = () => {
+    setMarkedDatesBeforeEdit(markedDates);
+    setEditMode(true);
   };
-  const setOvulationDates = () => {
-    const ovulationDays = c.determineOvulationWindow().map((d) => moment(d));
-    createMarkedDatesObj(ovulationDays, COLOR.currentPage);
+  const onSubmitEditing = async () => {
+    console.log('before', markedDates, markedDatesBeforeEdit);
+    const added = Object.keys(markedDates).filter(
+      (key) => markedDatesBeforeEdit[key] !== markedDates[key],
+    );
+    console.log('added', added);
+    const removed = Object.keys(markedDatesBeforeEdit).filter(
+      (key) => markedDatesBeforeEdit[key] !== markedDates[key],
+    );
+    console.log('removed', removed);
+
+    // const lastBleedingDay = moment.max(added.map((d) => moment(d)));
+    // let marked = true;
+    // let d = lastBleedingDay;
+    // while (marked) {
+    //   console.log('while', marked, d, markedDates);
+    //   let temp = lastBleedingDay.subtract(1, 'days').format('YYYY-MM-DD');
+    //   if (temp in markedDates) {
+    //     d = temp;
+    //     continue;
+    //   }
+    //   marked = false;
+    // }
+
+    setBleedingDays(added, removed);
+    await c.determineLastPeriodDate();
+    setEditMode(false);
   };
-  const createMarkedDatesObj = (dates, color) => {
-    console.log(dates);
-    const startingDate = moment.min(dates);
-    const endingDate = moment.max(dates);
+
+  const onCancelEditing = () => {
+    setMarkedDates(markedDatesBeforeEdit);
+    setEditMode(false);
+  };
+
+  const markBleedingDays = async () => {
+    const pastBleedingDays = await c.pastBleedingDays();
+    const formatted = pastBleedingDays.map((day) => day.format('YYYY-MM-DD'));
+    markedDateObj(formatted, COLOR.btn);
+  };
+
+  const markPerdictions = () => {
+    const bleeding = c.perdictedPeriodDaysInCurrentYear();
+    markedDateObj(bleeding, COLOR.bgColor);
+
+    const ovulation = c.perdictedOvulationDaysInCurrentYear();
+    markedDateObj(ovulation, COLOR.currentPage);
+  };
+
+  const markedDateObj = (dates, color) => {
+    console.log('marked dates', dates);
+
     dates.forEach((date) => {
-      switch (true) {
-        case date === startingDate:
-          markedDates[date.format('YYYY-MM-DD')] = {
-            //for rtl styles we have to replace startingDay and endingDay flag.
-            endingDay: true,
+      markedDates[date] = {
+        periods: [
+          {
             color: color,
-          };
-          break;
-        case date === endingDate:
-          markedDates[date.format('YYYY-MM-DD')] = {
-            startingDate: true,
-            color: color,
-          };
-          break;
-        default:
-          markedDates[date.format('YYYY-MM-DD')] = {
-            color: color,
-          };
-      }
+          },
+        ],
+      };
     });
     setMarkedDates({ ...markedDates });
-    console.log('state', markedDates);
+  };
+  const edit = (dateString) => {
+    if (dateString in markedDates) {
+      delete markedDates[dateString];
+      setMarkedDates({ ...markedDates });
+    } else {
+      markedDateObj([dateString], COLOR.btn);
+    }
+  };
+  const onDayPress = (day) => {
+    if (editMode) {
+      edit(day.dateString);
+    } else {
+      navigation.navigate('TrackingOptions', { day: day.dateString });
+    }
   };
   return (
-    <CalendarList
-      jalali={true}
-      firstDay={6}
-      maxDate={moment().format('YYYY-MM-DD')}
-      pastScrollRange={12}
-      futureScrollRange={12}
-      markedDates={markedDates}
-      markingType="period"
-      onDayPress={(day) =>
-        props.navigation.navigate('TrackingOptions', { day: day.dateString })
-      }
-      theme={{
-        textSectionTitleColor: '#35036B',
-        //todayTextColor: 'white',
-        todayBackgroundColor: 'pink',
-        //selectedDayTextColor: 'white',
-        selectedDayBackgroundColor: 'pink',
-        //textDisabledColor: '#B82162',
-        textDayFontFamily: FONT.regular,
-        textMonthFontFamily: FONT.regular,
-        textDayHeaderFontFamily: FONT.regular,
-        textDayHeaderFontSize: SIZE[7],
-      }}
-    />
+    <SafeAreaView>
+      {/* <View style={styles.dayNames}>
+        <Ptxt style={styles.txt}>
+          شنبه{'   '}یکشنبه{'    '}دوشنبه{'   '}سه شنبه{'   '}چهارشنبه
+          {'   '}
+          پنجشنبه{'   '}جمعه
+        </Ptxt>
+      </View> */}
+      <CalendarList
+        ref={calendar}
+        jalali={true}
+        firstDay={6}
+        // hideDayNames={true}
+        maxDate={moment().format('YYYY-MM-DD')}
+        pastScrollRange={12}
+        futureScrollRange={12}
+        markedDates={markedDates}
+        markingType="multi-period"
+        onDayPress={(day) => onDayPress(day)}
+        onDayLongPress={(dsy) => console.log('day long press', dsy)}
+        dayComponent={
+          editMode
+            ? ({ date, state, marking, onPress, onLongPress }) => {
+                return (
+                  <TouchableOpacity
+                    onPress={state === 'disabled' ? null : () => onPress(date)}
+                    onLongPress={
+                      state === 'disabled' ? null : () => onLongPress(date)
+                    }>
+                    <Ptxt
+                      style={[
+                        styles.editableDays,
+                        {
+                          color:
+                            state === 'disabled'
+                              ? COLOR.textColor
+                              : COLOR.textColorDark,
+                          backgroundColor:
+                            state === 'today'
+                              ? COLOR.currentPage
+                              : marking.length !== 0
+                              ? marking.periods[0].color
+                              : 'white',
+                        },
+                      ]}>
+                      {jalaali(date.dateString).format('jD')}
+                    </Ptxt>
+                  </TouchableOpacity>
+                );
+              }
+            : null
+        }
+        theme={{
+          textSectionTitleColor: '#35036B',
+          todayTextColor: 'white',
+          todayBackgroundColor: COLOR.currentPage,
+          selectedDayTextColor: 'white',
+          selectedDayBackgroundColor: COLOR.currentPage,
+          textDisabledColor: COLOR.textColor,
+          textDayFontFamily: FONT.regular,
+          textMonthFontFamily: FONT.regular,
+          textDayHeaderFontFamily: FONT.regular,
+          textDayHeaderFontSize: SIZE[7],
+          'stylesheet.calendar.main': {
+            container: {
+              borderBottomWidth: 2,
+              borderColor: '#f6f6f6',
+            },
+          },
+        }}
+      />
+      {/* <Button
+        type="solid"
+        title="ویرایش روزهای پریود"
+        onPress={() => setEditMode(true)}
+        containerStyle={{
+          position: 'absolute',
+          bottom: 25,
+          alignSelf: 'center',
+          borderRadius: 40,
+          backgroundColor: COLOR.btn,
+        }}
+        buttonStyle={{ backgroundColor: COLOR.btn }}
+        titleStyle={{ fontFamily: FONT.regular, fontSize: SIZE[14] }}
+      /> */}
+    </SafeAreaView>
   );
 };
 export default Calendar;

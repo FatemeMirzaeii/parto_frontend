@@ -135,7 +135,6 @@ const TrackingOptions = ({ route, navigation }) => {
         [],
         'user_tracking_option',
       ).then((res) => {
-        console.log('ressss', res);
         getData();
       });
     } else {
@@ -146,7 +145,6 @@ const TrackingOptions = ({ route, navigation }) => {
           [],
           'user_tracking_option',
         ).then((res) => {
-          console.log('ressss', res);
           getData();
         });
       } else {
@@ -168,7 +166,7 @@ const TrackingOptions = ({ route, navigation }) => {
             getData();
           });
           if (category.id === BLEEDING) {
-            c.determineLastPeriodDate(date);
+            c.determineLastPeriodDate();
           }
         });
       }

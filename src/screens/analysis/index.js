@@ -9,7 +9,7 @@ import {
   Animated,
   Easing,
 } from 'react-native';
-import { Segment, Button, Icon } from 'native-base';
+import { Icon } from 'native-base';
 import Chart from './Chart/Chart';
 import Record from './Record';
 import { Theme, Width, Height } from '../../styles/Theme';

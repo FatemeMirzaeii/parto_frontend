@@ -26,7 +26,7 @@ const StartQuestion5 = ({ route, navigation }) => {
       setBirthdate(date);
     }
   };
-  const onNextPress = () => {
+  const onNextPress = (bd) => {
     //todo: need to check if save function was successfull or not
     saveProfileData({
       pregnant: mode.pregnant,
@@ -34,23 +34,13 @@ const StartQuestion5 = ({ route, navigation }) => {
       lastPeriodDate,
       periodLength,
       cycleLength,
-      birthdate,
+      birthdate: bd,
     }).then(async (i) => {
-      c.setFirstPeriod(periodLength, lastPeriodDate);
+      if (lastPeriodDate) {
+        c.setFirstPeriod(periodLength, lastPeriodDate);
+      }
       await storeData('@startPages', 'true');
       interview();
-    });
-  };
-
-  const onForgotPress = () => {
-    //todo: need to check if save function was successfull or not
-    saveProfileData({
-      pregnant: mode.pregnant,
-      pregnancyTry: mode.pregnancy_try,
-      lastPeriodDate,
-      periodLength,
-      cycleLength,
-      birthdate: null,
     });
   };
 
@@ -71,7 +61,7 @@ const StartQuestion5 = ({ route, navigation }) => {
             title="بعدا وارد میکنم"
             titleStyle={styles.darkBtnTitle}
             type="clear"
-            onPress={() => onForgotPress()}
+            onPress={() => onNextPress(null)}
           />
           <View style={styles.buttons}>
             <Button
@@ -88,7 +78,7 @@ const StartQuestion5 = ({ route, navigation }) => {
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
               type="solid"
-              onPress={() => onNextPress()}
+              onPress={() => onNextPress(birthdate)}
             />
           </View>
         </View>

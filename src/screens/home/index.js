@@ -9,13 +9,24 @@ import styles from './styles';
 import { Icon } from 'react-native-elements';
 const today = moment();
 const c = new CycleModule();
-
-const Home = (props) => {
+const Home = ({ navigation }) => {
+  const [text, setText] = useState('');
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      setText(c.determinePhaseText(today));
+    });
+    navigation.addListener('tabPress', () => {
+      setText(c.determinePhaseText(today));
+    });
+  }, [navigation]);
   const renderText = () => {
     return (
       <View style={styles.moonText}>
-        <Ptxt style={styles.numtxt}>{jalaali().format('jD jMMMM')}</Ptxt>
-        <Ptxt>{c.determinePhaseText(today)}</Ptxt>
+        <Ptxt style={styles.numtxt}>
+          {jalaali().format('jD jMMMM')}
+          {'\n'}
+        </Ptxt>
+        <Ptxt style={styles.phasetxt}>{text}</Ptxt>
       </View>
     );
   };
@@ -29,6 +40,9 @@ const Home = (props) => {
           theme={{
             calendarBackground: '#f1f1f1',
           }}
+          onDateChanged={(d, propUpdate) =>
+            navigation.navigate('TrackingOptions', { day: d })
+          }
         />
         <ImageBackground
           source={require('../../../assets/images/moon7.png')}
@@ -41,7 +55,7 @@ const Home = (props) => {
           type="font-awesome"
           color="#f50"
           onPress={() => {
-            props.navigation.navigate('TrackingOptions', {
+            navigation.navigate('TrackingOptions', {
               day: today.format('YYYY-MM-DD'),
             });
           }}

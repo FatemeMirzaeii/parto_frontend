@@ -3,32 +3,27 @@ import { SafeAreaView, Text, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../../lib/func';
+import { CYCLE_LENGTH } from '../../constants/cycle';
 import { FONT } from '../../styles/static';
 import styles from './styles';
 
 const StartQuestion4 = ({ route, navigation }) => {
-  const { mode, lastPeriodDate, periodLength } = route.params;
   const [selectedItem, setSelectedItem] = useState(0);
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
   const onNextPress = (cycleLength) => {
     navigation.navigate('StartQuestion5', {
-      mode,
-      lastPeriodDate,
-      periodLength,
-      cycleLength,
+      ...route.params,
+      cycleLength: isNaN(cycleLength) ? CYCLE_LENGTH : cycleLength,
     });
   };
   function onForgotPress() {
     navigation.navigate('Notice', {
-      txt:
-        'پرتو فاصله میان دوره های شما را 28 روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.',
+      txt: `پرتو فاصله میان دوره های شما را ${CYCLE_LENGTH} روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.`,
       nextPage: 'StartQuestion5',
-      mode,
-      lastPeriodDate,
-      periodLength,
-      cycleLength: 28,
+      ...route.params,
+      cycleLength: CYCLE_LENGTH,
     });
   }
   return (

@@ -1,6 +1,13 @@
 import Database from '../../lib/database';
 import { PROFILE, USER_TRACKING_OPTION } from '../../constants/database-tables';
 import moment from 'moment';
+import { FORMAT } from '../../constants/cycle';
+import {
+  SPOTTING,
+  LIGHT,
+  MEDIUM,
+  HEAVY,
+} from '../../constants/health-tracking-info';
 const db = new Database();
 
 export async function getProfileData() {
@@ -9,7 +16,12 @@ export async function getProfileData() {
   return data ?? 0;
 }
 export async function saveProfileData(profileSchema) {
-  //todo: need test
+  const birthdate = !profileSchema.birthdate
+    ? null
+    : `'${profileSchema.birthdate}'`;
+  const lperiodDate = !profileSchema.lastPeriodDate
+    ? null
+    : `'${profileSchema.lastPeriodDate}'`;
   const res = await db.rawQuery(
     `INSERT INTO ${PROFILE}
              (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
@@ -19,9 +31,9 @@ export async function saveProfileData(profileSchema) {
                 ${profileSchema.pregnancyTry},
                 ${profileSchema.periodLength},
                 ${profileSchema.cycleLength},
-                '${profileSchema.birthdate}',
-                '${profileSchema.lastPeriodDate}',
-                '${moment()}')`,
+                ${birthdate},
+                ${lperiodDate},
+                '${moment().format('YYYY-MM-DD')}')`,
     [],
     PROFILE,
   );
@@ -49,10 +61,13 @@ export async function getCycleInfoFromProfile() {
 }
 export async function getUserAllPeriodDays() {
   const res = await db.rawQuery(
-    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN (1,2,3,4)`,
+    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN (${
+      (SPOTTING, LIGHT, MEDIUM, HEAVY)
+    })`,
     [],
     USER_TRACKING_OPTION,
   );
+  console.log('kkkk', res);
   return res ?? 0;
 }
 export async function getTrackingOptionData(date) {
@@ -87,16 +102,28 @@ export async function getLastPeriodDate() {
 }
 export async function setLastPeriodDate(date) {
   return await db.rawQuery(
-    `UPDATE ${PROFILE} SET last_period_date='${date}'`,
+    `UPDATE ${PROFILE} SET last_period_date='${date.format(FORMAT)}'`,
     [],
     PROFILE,
   );
 }
-export function setPeriod(days) {
+export function setBleedingDays(days, removed) {
+  if (removed) {
+    removed.forEach(async (rDay) => {
+      const res = await db.rawQuery(
+        `DELETE FROM ${USER_TRACKING_OPTION} WHERE date='${rDay}' AND tracking_option_id IN (${
+          (SPOTTING, LIGHT, MEDIUM, HEAVY)
+        })`,
+        [],
+        USER_TRACKING_OPTION,
+      );
+      console.log('hi from queries', res);
+    });
+  }
   days.forEach(async (day) => {
-    console.log('dyyyyy', day);
+    console.log('set period here', day);
     await db.rawQuery(
-      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',3)`,
+      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${MEDIUM})`,
       [],
       USER_TRACKING_OPTION,
     );

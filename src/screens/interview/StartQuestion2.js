@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SafeAreaView,
-  ImageBackground,
-  ToastAndroid,
-  View,
-  Text,
-} from 'react-native';
+import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
 import moment from 'moment';
 import { Calendar } from 'react-native-jalali-calendars';
 import { Button } from 'react-native-elements';
@@ -14,22 +8,22 @@ import styles from './styles';
 const today = moment();
 
 const StartQuestion2 = ({ route, navigation }) => {
-  const { mode } = route.params;
   const [lastPeriodDate, setLastPeriodDate] = useState();
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
   const onNextPress = () => {
-    lastPeriodDate
-      ? navigation.navigate('StartQuestion3', { mode, lastPeriodDate })
-      : ToastAndroid.show('لطفا تاریخی را انتخاب کنید', ToastAndroid.LONG);
+    navigation.navigate('StartQuestion3', {
+      ...route.params,
+      lastPeriodDate,
+    });
   };
   const onForgotPress = () => {
     navigation.navigate('Notice', {
+      ...route.params,
       txt:
         'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید.',
       nextPage: 'StartQuestion3',
-      mode,
       lastPeriodDate: null,
     });
   };
@@ -52,6 +46,7 @@ const StartQuestion2 = ({ route, navigation }) => {
           disableAllTouchEventsForDisabledDays={true}
           hideExtraDays={true}
           theme={{
+            textSectionTitleColor: '#111111',
             calendarBackground: 'transparent',
             selectedDayTextColor: '#ffffff',
             textDisabledColor: COLOR.nextPage,
@@ -87,6 +82,7 @@ const StartQuestion2 = ({ route, navigation }) => {
             />
             <Button
               title="بعدی"
+              disabled={!lastPeriodDate}
               containerStyle={styles.btnContainer}
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}

@@ -1,5 +1,5 @@
-import { View } from 'native-base';
 import React, { useEffect, useState, useRef } from 'react';
+import { View } from 'react-native';
 import TouchID from 'react-native-touch-id';
 
 var Password1 = '';

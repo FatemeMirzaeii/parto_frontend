@@ -7,8 +7,8 @@ export default StyleSheet.create({
     flex: 1,
   },
   bg: {
-    width: WIDTH,
-    height: HEIGHT,
+    width: '100%',
+    height: '100%',
   },
   calendar: {
     top: 200,
@@ -80,36 +80,10 @@ export default StyleSheet.create({
     alignSelf: 'center',
     margin: 30,
   },
-  txtforget: {
-    fontFamily: FONT.regular,
-    fontSize: SIZE[17],
-    textDecorationLine: 'underline',
-    opacity: 0.7,
-  },
-  btnsview: {
-    flex: 1.2,
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'row',
-  },
   text: {
     fontFamily: FONT.regular,
     fontSize: SIZE[17],
     alignSelf: 'center',
     textAlign: 'center',
-  },
-  textStyle1: {
-    alignSelf: 'center',
-    fontSize: SIZE[17],
-    fontFamily: FONT.medium,
-    marginTop: 3,
-    opacity: 0.7,
-  },
-  textStyle2: {
-    alignSelf: 'center',
-    fontSize: SIZE[14],
-    fontFamily: FONT.regular,
-    marginTop: 10,
-    opacity: 0.5,
   },
 });

@@ -8,3 +8,6 @@ export const EXCERSICE = 6;
 export const SEX = 7;
 //options
 export const SPOTTING = 1;
+export const LIGHT = 2;
+export const MEDIUM = 3;
+export const HEAVY = 4;

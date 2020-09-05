@@ -8,11 +8,12 @@ import TrackingOptions from '../screens/tracking-options';
 const CalendarStack = createStackNavigator();
 const CalendarStackScreen = () => {
   return (
-    <CalendarStack.Navigator screenOptions={{ headerShown: false }}>
+    <CalendarStack.Navigator>
       <CalendarStack.Screen name="Calendar" component={Calendar} />
       <CalendarStack.Screen
         name="TrackingOptions"
         component={TrackingOptions}
+        options={{ headerShown: false }}
       />
     </CalendarStack.Navigator>
   );
