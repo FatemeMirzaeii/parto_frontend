@@ -31,12 +31,11 @@ const Calendar = ({ navigation }) => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-        <Icon
-          name="calendar"
-          type="antdesign"
+        <Button
+          title="امروز"
+          type="clear"
           onPress={() => calendar.current.scrollToDay(new Date())}
-          color="tomato"
-          iconStyle={{ margin: 10 }}
+          titleStyle={{ color: 'tomato' }}
         />
       ),
       headerRight: () => (

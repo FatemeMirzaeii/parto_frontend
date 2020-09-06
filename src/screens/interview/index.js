@@ -36,16 +36,6 @@ const Interview = (props) => {
           <TouchableOpacity
             style={styles.mode}
             onPress={() => {
-              props.navigation.navigate('StartQuestionpragnent', {
-                mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
-              });
-            }}>
-            <Text style={styles.btnTitle}>باردار هستم</Text>
-            <Text style={styles.btnSubtitle}>میخواهم شرایطم را ثبت کنم</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.mode}
-            onPress={() => {
               props.navigation.navigate('StartQuestion2', {
                 mode: { pregnant: 0, pregnancy_try: 1, period: 0 },
               });
@@ -54,6 +44,16 @@ const Interview = (props) => {
             <Text style={styles.btnSubtitle}>
               برخی از روزها برایم مهم تر هستند
             </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.mode}
+            onPress={() => {
+              props.navigation.navigate('StartQuestionpragnent', {
+                mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
+              });
+            }}>
+            <Text style={styles.btnTitle}>باردار هستم</Text>
+            <Text style={styles.btnSubtitle}>میخواهم شرایطم را ثبت کنم</Text>
           </TouchableOpacity>
         </View>
       </ImageBackground>

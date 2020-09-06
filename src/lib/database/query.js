@@ -92,12 +92,13 @@ export async function getTrackingOptionData(date) {
   return res;
 }
 export async function getLastPeriodDate() {
-  const date = await db.rawQuery(
+  const res = await db.rawQuery(
     `SELECT last_period_date FROM ${PROFILE}`,
     [],
     PROFILE,
   );
-  return date[0].last_period_date;
+  const data = res[0];
+  return data ? data.last_period_date : null;
 }
 export async function setLastPeriodDate(date) {
   return await db.rawQuery(
@@ -108,11 +109,10 @@ export async function setLastPeriodDate(date) {
 }
 export function setBleedingDays(days, removed) {
   if (removed) {
-    removed.forEach(async (rDay) => {
+    removed.forEach(async (rday) => {
       const res = await db.rawQuery(
-        `DELETE FROM ${USER_TRACKING_OPTION} WHERE date='${rDay}' AND tracking_option_id IN (${
-          (SPOTTING, LIGHT, MEDIUM, HEAVY)
-        })`,
+        `DELETE FROM ${USER_TRACKING_OPTION} WHERE date='${rday}' AND tracking_option_id IN
+        (${SPOTTING}, ${LIGHT}, ${MEDIUM}, ${HEAVY})`,
         [],
         USER_TRACKING_OPTION,
       );
@@ -122,7 +122,8 @@ export function setBleedingDays(days, removed) {
   days.forEach(async (day) => {
     console.log('set period here', day);
     await db.rawQuery(
-      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${MEDIUM})`,
+      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${MEDIUM})
+      ON CONFLICT(date, tracking_option_id) DO NOTHING`,
       [],
       USER_TRACKING_OPTION,
     );

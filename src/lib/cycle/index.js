@@ -166,12 +166,12 @@ export default async function CycleModule() {
   }
   async function determineLastPeriodDate() {
     const pervLastPeriodDate = await getLastPeriodDate();
-    const pastBleedingDays = await pastBleedingDays();
-    if (!pastBleedingDays) return null;
+    const past = await pastBleedingDays();
+    if (!past) return null;
     let lpd;
-    for (let i = 0; i < pastBleedingDays.length - 1; i++) {
-      if (pastBleedingDays[i].diff(pastBleedingDays[i + 1], 'days') > 5) {
-        lpd = pastBleedingDays[i];
+    for (let i = 0; i < past.length - 1; i++) {
+      if (past[i].diff(past[i + 1], 'days') > 5) {
+        lpd = past[i];
         break;
       }
     }
@@ -179,11 +179,7 @@ export default async function CycleModule() {
       !pervLastPeriodDate ||
       (pervLastPeriodDate && pervLastPeriodDate !== lpd)
     ) {
-      console.log(
-        'cond',
-        !pervLastPeriodDate ||
-          (pervLastPeriodDate && pervLastPeriodDate !== lpd),
-      );
+      console.log('lpd', lpd);
       setLastPeriodDate(lpd);
     }
     return lpd;
