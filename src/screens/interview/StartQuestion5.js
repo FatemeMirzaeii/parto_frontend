@@ -8,7 +8,6 @@ import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 
-const c = new CycleModule();
 const StartQuestion5 = ({ route, navigation }) => {
   const { mode, lastPeriodDate, periodLength, cycleLength } = route.params;
   const [birthdate, setBirthdate] = useState();
@@ -37,6 +36,7 @@ const StartQuestion5 = ({ route, navigation }) => {
       birthdate: bd,
     }).then(async (i) => {
       if (lastPeriodDate) {
+        const c = await CycleModule();
         c.setFirstPeriod(periodLength, lastPeriodDate);
       }
       await storeData('@startPages', 'true');

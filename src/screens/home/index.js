@@ -8,17 +8,21 @@ import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 const today = moment();
-const c = new CycleModule();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
   useEffect(() => {
     navigation.addListener('focus', () => {
-      setText(c.determinePhaseText(today));
-    });
-    navigation.addListener('tabPress', () => {
-      setText(c.determinePhaseText(today));
+      CycleModule().then((c) => {
+        setText(c.determinePhaseText(today));
+      });
     });
   }, [navigation]);
+  useEffect(() => {
+    CycleModule().then((c) => {
+      setText(c.determinePhaseText(today));
+    });
+  }, []);
+
   const renderText = () => {
     return (
       <View style={styles.moonText}>

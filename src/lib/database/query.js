@@ -61,9 +61,8 @@ export async function getCycleInfoFromProfile() {
 }
 export async function getUserAllPeriodDays() {
   const res = await db.rawQuery(
-    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN (${
-      (SPOTTING, LIGHT, MEDIUM, HEAVY)
-    })`,
+    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
+      (${SPOTTING}, ${LIGHT}, ${MEDIUM}, ${HEAVY})`,
     [],
     USER_TRACKING_OPTION,
   );

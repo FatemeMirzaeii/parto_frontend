@@ -1,10 +1,4 @@
-import React, {
-  useLayoutEffect,
-  useEffect,
-  useState,
-  useRef,
-  useCallback,
-} from 'react';
+import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
 import { SafeAreaView, TouchableOpacity, View } from 'react-native';
 import { Button, Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
@@ -15,22 +9,18 @@ import CycleModule from '../../lib/cycle';
 import { FONT, SIZE, COLOR } from '../../styles/static';
 import styles from './styles';
 import Ptxt from '../../components/Ptxt';
-const c = new CycleModule();
 const Calendar = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const calendar = useRef();
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      markBleedingDays();
-      markPerdictions();
-    });
-    navigation.addListener('tabPress', () => {
-      markBleedingDays();
-      markPerdictions();
-    });
-  }, [navigation]);
+  // useEffect(() => {
+  //   navigation.addListener('focus', () => {
+  //     console.log('focus cal');
+  //     markBleedingDays();
+  //     markPerdictions();
+  //   });
+  // }, [navigation]);
 
   useEffect(() => {
     markBleedingDays();
@@ -109,6 +99,7 @@ const Calendar = ({ navigation }) => {
     // }
 
     setBleedingDays(added, removed);
+    const c = await CycleModule();
     await c.determineLastPeriodDate();
     setEditMode(false);
   };
@@ -119,12 +110,16 @@ const Calendar = ({ navigation }) => {
   };
 
   const markBleedingDays = async () => {
-    const pastBleedingDays = await c.pastBleedingDays();
-    const formatted = pastBleedingDays.map((day) => day.format('YYYY-MM-DD'));
-    markedDateObj(formatted, COLOR.btn);
+    const c = await CycleModule();
+    const past = await c.pastBleedingDays();
+    if (past) {
+      const formatted = past.map((day) => day.format('YYYY-MM-DD'));
+      markedDateObj(formatted, COLOR.btn);
+    }
   };
 
-  const markPerdictions = () => {
+  const markPerdictions = async () => {
+    const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
     markedDateObj(bleeding, COLOR.bgColor);
 
