@@ -13,6 +13,15 @@ const Calendar = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+  const weekdays = [
+    'شنبه',
+    'یکشنبه',
+    'دوشنبه',
+    'سه نشبه',
+    'چهارشنبه',
+    'پنجشنبه',
+    'جمعه',
+  ];
   const calendar = useRef();
   // useEffect(() => {
   //   navigation.addListener('focus', () => {
@@ -68,12 +77,27 @@ const Calendar = ({ navigation }) => {
       ),
     });
   }, [editMode, navigation, markedDates]);
-
+  const onDayPress = (day) => {
+    if (editMode) {
+      edit(day.dateString);
+    } else {
+      navigation.navigate('TrackingOptions', { day: day.dateString });
+    }
+  };
+  const edit = (dateString) => {
+    if (dateString in markedDates) {
+      delete markedDates[dateString];
+      setMarkedDates({ ...markedDates });
+    } else {
+      markedDateObj([dateString], COLOR.btn);
+    }
+  };
   const onEditPress = () => {
     setMarkedDatesBeforeEdit(markedDates);
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
+    const c = await CycleModule();
     console.log('before', markedDates, markedDatesBeforeEdit);
     const added = Object.keys(markedDates).filter(
       (key) => markedDatesBeforeEdit[key] !== markedDates[key],
@@ -84,48 +108,14 @@ const Calendar = ({ navigation }) => {
     );
     console.log('removed', removed);
 
-    // const lastBleedingDay = moment.max(added.map((d) => moment(d)));
-    // let marked = true;
-    // let d = lastBleedingDay;
-    // while (marked) {
-    //   console.log('while', marked, d, markedDates);
-    //   let temp = lastBleedingDay.subtract(1, 'days').format('YYYY-MM-DD');
-    //   if (temp in markedDates) {
-    //     d = temp;
-    //     continue;
-    //   }
-    //   marked = false;
-    // }
-
     setBleedingDays(added, removed);
-    const c = await CycleModule();
     await c.determineLastPeriodDate();
     setEditMode(false);
   };
-
   const onCancelEditing = () => {
     setMarkedDates(markedDatesBeforeEdit);
     setEditMode(false);
   };
-
-  const markBleedingDays = async () => {
-    const c = await CycleModule();
-    const past = await c.pastBleedingDays();
-    if (past) {
-      const formatted = past.map((day) => day.format('YYYY-MM-DD'));
-      markedDateObj(formatted, COLOR.btn);
-    }
-  };
-
-  const markPerdictions = async () => {
-    const c = await CycleModule();
-    const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, COLOR.bgColor);
-
-    const ovulation = c.perdictedOvulationDaysInCurrentYear();
-    markedDateObj(ovulation, COLOR.currentPage);
-  };
-
   const markedDateObj = (dates, color) => {
     console.log('marked dates', dates);
 
@@ -140,29 +130,28 @@ const Calendar = ({ navigation }) => {
     });
     setMarkedDates({ ...markedDates });
   };
-  const edit = (dateString) => {
-    if (dateString in markedDates) {
-      delete markedDates[dateString];
-      setMarkedDates({ ...markedDates });
-    } else {
-      markedDateObj([dateString], COLOR.btn);
+  const markBleedingDays = async () => {
+    const c = await CycleModule();
+    const past = await c.pastBleedingDays();
+    if (past) {
+      const formatted = past.map((day) => day.format('YYYY-MM-DD'));
+      markedDateObj(formatted, COLOR.btn);
     }
   };
-  const onDayPress = (day) => {
-    if (editMode) {
-      edit(day.dateString);
-    } else {
-      navigation.navigate('TrackingOptions', { day: day.dateString });
-    }
+  const markPerdictions = async () => {
+    const c = await CycleModule();
+    const bleeding = c.perdictedPeriodDaysInCurrentYear();
+    markedDateObj(bleeding, COLOR.bgColor);
+
+    const ovulation = c.perdictedOvulationDaysInCurrentYear();
+    markedDateObj(ovulation, COLOR.currentPage);
   };
   return (
     <SafeAreaView>
       {/* <View style={styles.dayNames}>
-        <Ptxt style={styles.txt}>
-          شنبه{'   '}یکشنبه{'    '}دوشنبه{'   '}سه شنبه{'   '}چهارشنبه
-          {'   '}
-          پنجشنبه{'   '}جمعه
-        </Ptxt>
+        {weekdays.map((day) => (
+          <Ptxt style={styles.txt}>{day}</Ptxt>
+        ))}
       </View> */}
       <CalendarList
         ref={calendar}

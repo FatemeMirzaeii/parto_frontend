@@ -1,10 +1,17 @@
 import { StyleSheet } from 'react-native';
 import { WIDTH, HEIGHT, SIZE } from '../../styles/static';
 export default StyleSheet.create({
-  dayNames: { alignItems: 'center', justifyContent: 'center' },
+  dayNames: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 5,
+    right: 20,
+  },
   txt: {
     fontSize: SIZE[10],
     textAlign: 'center',
+    width: WIDTH / 8,
   },
   editableDays: {
     textAlign: 'center',
