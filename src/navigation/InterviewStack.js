@@ -2,38 +2,28 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import Interview from '../screens/interview';
-import StartQuestion2 from '../screens/interview/StartQuestion2';
-import StartQuestion3 from '../screens/interview/StartQuestion3';
-import StartQuestion4 from '../screens/interview/StartQuestion4';
-import StartQuestion5 from '../screens/interview/StartQuestion5';
-import StartQuestionpragnent from '../screens/interview/StartQuestionpragnent';
-import StartQuestionPregnancyForget from '../screens/interview/StartQuestionPregnancyForget';
-import pregnancyCalendar from '../screens/interview/pregnancyCalendar';
+import Q2 from '../screens/interview/last-period-date-Q2';
+import Q3 from '../screens/interview/period-length-Q3';
+import Q4 from '../screens/interview/cycle-length-Q4';
+import Q5 from '../screens/interview/birthdate-Q5';
+import Pregnancy_Q2 from '../screens/interview/pregnancy-week-Q2';
+import Pregnancy_Q3 from '../screens/interview/determine-week-Q3';
+import Pregnancy_Q4 from '../screens/interview/pregnancy-calendar-Q4';
 import Notice from '../screens/interview/notice';
 
 const InterviewStack = createStackNavigator();
 const InterviewStackScreen = () => {
   return (
     <InterviewStack.Navigator screenOptions={{ headerShown: false }}>
-      <InterviewStack.Screen name="StartQuestion" component={Interview} />
-      <InterviewStack.Screen
-        name="StartQuestionpragnent"
-        component={StartQuestionpragnent}
-      />
-      <InterviewStack.Screen name="StartQuestion2" component={StartQuestion2} />
-      <InterviewStack.Screen name="StartQuestion3" component={StartQuestion3} />
-      <InterviewStack.Screen name="StartQuestion4" component={StartQuestion4} />
-      <InterviewStack.Screen name="StartQuestion5" component={StartQuestion5} />
+      <InterviewStack.Screen name="Interview" component={Interview} />
+      <InterviewStack.Screen name="Q2" component={Q2} />
+      <InterviewStack.Screen name="Q3" component={Q3} />
+      <InterviewStack.Screen name="Q4" component={Q4} />
+      <InterviewStack.Screen name="Q5" component={Q5} />
+      <InterviewStack.Screen name="Pregnancy_Q2" component={Pregnancy_Q2} />
+      <InterviewStack.Screen name="Pregnancy_Q3" component={Pregnancy_Q3} />
+      <InterviewStack.Screen name="Pregnancy_Q4" component={Pregnancy_Q4} />
       <InterviewStack.Screen name="Notice" component={Notice} />
-
-      <InterviewStack.Screen
-        name="StartQuestionPregnancyForget"
-        component={StartQuestionPregnancyForget}
-      />
-      <InterviewStack.Screen
-        name="pregnancyCalendar"
-        component={pregnancyCalendar}
-      />
     </InterviewStack.Navigator>
   );
 };

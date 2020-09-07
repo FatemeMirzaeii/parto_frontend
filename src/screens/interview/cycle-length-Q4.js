@@ -1,44 +1,44 @@
-import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ImageBackground, View } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../../lib/func';
+import { CYCLE_LENGTH } from '../../constants/cycle';
 import { FONT } from '../../styles/static';
-import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 
-const Startpragnent = ({ route, navigation }) => {
-  const [selectedItem, setSelectedItem] = useState();
+const Q4 = ({ route, navigation }) => {
+  const [selectedItem, setSelectedItem] = useState(0);
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
-  const onNextPress = (item) => {
-    navigation.navigate('StartQuestion5', {
+  const onNextPress = (cycleLength) => {
+    navigation.navigate('Q5', {
       ...route.params,
-      periodDays: 0,
-      pregnancyWeek: item,
+      cycleLength: isNaN(cycleLength) ? CYCLE_LENGTH : cycleLength,
     });
   };
-
   function onForgotPress() {
     navigation.navigate('Notice', {
+      txt: `پرتو فاصله میان دوره های شما را ${CYCLE_LENGTH} روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.`,
+      nextPage: 'Q5',
       ...route.params,
-      txt:
-        'نگران نباشید. پرتو به شما کمک خواهد کرد که از راه دیگری هفته های بارداری تان را مشخص کنید.',
-      nextPage: 'StartQuestionPregnancyForget',
+      cycleLength: CYCLE_LENGTH,
     });
   }
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/start/1.png')}
+        source={require('../../../assets/images/start/3.png')}
         style={styles.bg}>
-        <Ptxt style={styles.question}>چند هفته است که باردار هستید ؟</Ptxt>
+        <Text style={styles.question}>
+          میانگین فاصله دوره های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
+        </Text>
         <WheelPicker
-          data={setPickerRange(1, 43)}
+          data={setPickerRange(10, 100)}
           selectedItem={selectedItem}
           onItemSelected={setSelectedItem}
-          initPosition={5}
+          initPosition={18}
           isCyclic={true}
           itemTextSize={21}
           selectedItemTextSize={21}
@@ -68,7 +68,7 @@ const Startpragnent = ({ route, navigation }) => {
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
               type="solid"
-              onPress={() => onNextPress(selectedItem + 1)}
+              onPress={() => onNextPress(selectedItem + 10)}
             />
           </View>
         </View>
@@ -77,4 +77,4 @@ const Startpragnent = ({ route, navigation }) => {
   );
 };
 
-export default Startpragnent;
+export default Q4;

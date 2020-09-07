@@ -28,7 +28,7 @@ const Menu = ({ navigation }) => {
     } else {
       questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 });
     }
-    navigation.navigate('StartQuestion2', { questionArray });
+    navigation.navigate('Q2', { questionArray });
   };
 
   const setLock = () => {

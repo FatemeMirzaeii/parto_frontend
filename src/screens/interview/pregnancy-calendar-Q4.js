@@ -1,48 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
-import moment from 'moment';
-import { Calendar } from 'react-native-jalali-calendars';
 import { Button } from 'react-native-elements';
+import { Calendar } from 'react-native-jalali-calendars';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
+const moment = require('moment');
 const today = moment();
 
-const StartQuestion2 = ({ route, navigation }) => {
-  const [lastPeriodDate, setLastPeriodDate] = useState();
+const Pregnancy_Q4 = ({ route, navigation }) => {
+  const [selectedDate, setSelectedDate] = useState();
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
   const onNextPress = () => {
-    navigation.navigate('StartQuestion3', {
+    navigation.navigate('Q5', {
       ...route.params,
-      lastPeriodDate,
+      [route.params.type]: selectedDate,
     });
   };
-  const onForgotPress = () => {
-    navigation.navigate('Notice', {
-      ...route.params,
-      txt:
-        'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید.',
-      nextPage: 'StartQuestion3',
-      lastPeriodDate: null,
-    });
+  const onForgotPress = () => {};
+  const determineTitle = () => {
+    switch (route.params.type) {
+      case 'conceptionDate':
+        return 'تاریخ لقاح چه زمانی بوده است؟';
+      case 'dueDate':
+        return 'تاریخ تولد نوزاد چه زمانی است؟';
+      case 'lastPeriodDate':
+        return 'آخرین بار دوره ماهانه شما چه زمانی آغاز شد؟';
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/start/1.png')}
+        source={require('../../../assets/images/start/3.png')}
         style={styles.bg}>
-        <Text style={styles.question}>
-          تاریخ شروع آخرین پریود خود را وارد کنید
-        </Text>
+        <Text style={styles.question}>{determineTitle()}</Text>
         <Calendar
           firstDay={6}
           jalali
           enableSwipeMonths
           onDayPress={(day) => {
-            setLastPeriodDate(day.dateString);
+            setSelectedDate(day.dateString);
           }}
-          maxDate={today.format('YYYY-MM-DD')}
+          minDate={
+            route.params.type === 'dueDate' ? today.format('YYYY-MM-DD') : null
+          }
+          maxDate={
+            route.params.type !== 'dueDate' ? today.format('YYYY-MM-DD') : null
+          }
           disableAllTouchEventsForDisabledDays={true}
           hideExtraDays={true}
           theme={{
@@ -59,7 +64,7 @@ const StartQuestion2 = ({ route, navigation }) => {
             todayTextColor: COLOR.currentPage,
           }}
           markedDates={{
-            [lastPeriodDate]: { selected: true },
+            [selectedDate]: { selected: true },
           }}
           markingType="multi-period"
           style={styles.calendar}
@@ -82,7 +87,7 @@ const StartQuestion2 = ({ route, navigation }) => {
             />
             <Button
               title="بعدی"
-              disabled={!lastPeriodDate}
+              disabled={!selectedDate}
               containerStyle={styles.btnContainer}
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
@@ -95,5 +100,4 @@ const StartQuestion2 = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-
-export default StartQuestion2;
+export default Pregnancy_Q4;

@@ -184,8 +184,8 @@ export default async function CycleModule() {
     }
     return lpd;
   }
-  function setFirstPeriod(plength, lpDate) {
-    if (!plength || !lpDate) {
+  function setFirstPeriod(plength = 7, lpDate) {
+    if (!lpDate) {
       return;
     }
     let days = [];

@@ -2,14 +2,21 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { storeData } from '../../lib/func';
-import { saveProfileData } from '../../lib/database/query';
+import { saveProfileData, savePregnancyData } from '../../lib/database/query';
 import CycleModule from '../../lib/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 
-const StartQuestion5 = ({ route, navigation }) => {
-  const { mode, lastPeriodDate, periodLength, cycleLength } = route.params;
+const Q5 = ({ route, navigation }) => {
+  const {
+    mode,
+    lastPeriodDate,
+    periodLength,
+    cycleLength,
+    dueDate,
+    conceptionDate,
+  } = route.params;
   const [birthdate, setBirthdate] = useState();
   const { interview } = useContext(AuthContext);
   // دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد که می
@@ -35,9 +42,12 @@ const StartQuestion5 = ({ route, navigation }) => {
       cycleLength,
       birthdate: bd,
     }).then(async (i) => {
+      const c = await CycleModule();
       if (lastPeriodDate) {
-        const c = await CycleModule();
         c.setFirstPeriod(periodLength, lastPeriodDate);
+      }
+      if (mode.pregnant) {
+        savePregnancyData({ dueDate, conceptionDate });
       }
       await storeData('@startPages', 'true');
       interview();
@@ -87,4 +97,4 @@ const StartQuestion5 = ({ route, navigation }) => {
   );
 };
 
-export default StartQuestion5;
+export default Q5;

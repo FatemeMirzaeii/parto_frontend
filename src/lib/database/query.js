@@ -1,5 +1,9 @@
 import Database from '../../lib/database';
-import { PROFILE, USER_TRACKING_OPTION } from '../../constants/database-tables';
+import {
+  PROFILE,
+  USER_TRACKING_OPTION,
+  PREGNANCY,
+} from '../../constants/database-tables';
 import moment from 'moment';
 import { FORMAT } from '../../constants/cycle';
 import {
@@ -22,6 +26,13 @@ export async function saveProfileData(profileSchema) {
   const lperiodDate = !profileSchema.lastPeriodDate
     ? null
     : `'${profileSchema.lastPeriodDate}'`;
+  const periodLength = !profileSchema.periodLength
+    ? null
+    : `${profileSchema.periodLength}`;
+
+  const cycleLength = !profileSchema.cycleLength
+    ? null
+    : `${profileSchema.cycleLength}`;
   const res = await db.rawQuery(
     `INSERT INTO ${PROFILE}
              (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
@@ -29,13 +40,39 @@ export async function saveProfileData(profileSchema) {
              VALUES(
                 ${profileSchema.pregnant},
                 ${profileSchema.pregnancyTry},
-                ${profileSchema.periodLength},
-                ${profileSchema.cycleLength},
+                ${periodLength},
+                ${cycleLength},
                 ${birthdate},
                 ${lperiodDate},
                 '${moment().format('YYYY-MM-DD')}')`,
     [],
     PROFILE,
+  );
+  return res ?? 0;
+}
+export async function pregnancyMode() {
+  const res = await db.rawQuery(`SELECT pregnant FROM ${PROFILE}`, [], PROFILE);
+  const data = res[0];
+  return data.pregnant ?? 0;
+}
+export async function getPregnancyData() {
+  const res = await db.rawQuery(`SELECT * FROM ${PREGNANCY}`, [], PREGNANCY);
+  const data = res[0];
+  console.log('hi from queries', data);
+  return data ?? 0;
+}
+export async function savePregnancyData(pregnancySchema) {
+  const dueDate = !pregnancySchema.dueDate
+    ? null
+    : `'${pregnancySchema.dueDate}'`;
+  const conceptionDate = !pregnancySchema.conceptionDate
+    ? null
+    : `'${pregnancySchema.conceptionDate}'`;
+  const res = await db.rawQuery(
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date) VALUES(
+      ${dueDate},${conceptionDate})`,
+    [],
+    PREGNANCY,
   );
   return res ?? 0;
 }

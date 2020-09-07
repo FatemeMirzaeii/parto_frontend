@@ -72,6 +72,19 @@ export default StyleSheet.create({
     top: 100,
     width: WIDTH - 30,
   },
+  pickerGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    alignSelf: 'center',
+    top: 200,
+  },
+  pregnancy_picker: {
+    width: WIDTH / 5,
+    height: HEIGHT / 3,
+    marginTop: 50,
+    textAlign: 'center',
+    textAlignVertical: 'center',
+  },
   picker: {
     top: 200,
     width: '90%',

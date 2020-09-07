@@ -26,7 +26,7 @@ const Interview = (props) => {
           <TouchableOpacity
             style={styles.mode}
             onPress={() => {
-              props.navigation.navigate('StartQuestion2', {
+              props.navigation.navigate('Q2', {
                 mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
               });
             }}>
@@ -36,7 +36,7 @@ const Interview = (props) => {
           <TouchableOpacity
             style={styles.mode}
             onPress={() => {
-              props.navigation.navigate('StartQuestion2', {
+              props.navigation.navigate('Q2', {
                 mode: { pregnant: 0, pregnancy_try: 1, period: 0 },
               });
             }}>
@@ -48,7 +48,7 @@ const Interview = (props) => {
           <TouchableOpacity
             style={styles.mode}
             onPress={() => {
-              props.navigation.navigate('StartQuestionpragnent', {
+              props.navigation.navigate('Pregnancy_Q2', {
                 mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
               });
             }}>

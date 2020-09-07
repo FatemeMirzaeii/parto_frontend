@@ -4,25 +4,35 @@ import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import WeekCalendar from '../../components/WeekCalendar';
 import CycleModule from '../../lib/cycle';
+import PregnancyModule from '../../lib/pregnancy';
 import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
+import { pregnancyMode, getPregnancyData } from '../../lib/database/query';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
+  // useEffect(() => {
+  //   navigation.addListener('focus', async () => {
+  //     const c = await CycleModule();
+  //     setText(c.determinePhaseText(today));
+  //   });
+  // }, [navigation]);
   useEffect(() => {
-    navigation.addListener('focus', () => {
-      CycleModule().then((c) => {
-        setText(c.determinePhaseText(today));
-      });
-    });
-  }, [navigation]);
-  useEffect(() => {
-    CycleModule().then((c) => {
-      setText(c.determinePhaseText(today));
-    });
+    determineMode();
+    getPregnancyData();
   }, []);
-
+  const determineMode = async () => {
+    const pregnant = await pregnancyMode();
+    if (pregnant) {
+      const p = await PregnancyModule();
+      setText(`شما در هفته ${p.determinePregnancyWeek()} بارداری هستید`);
+    } else {
+      const c = await CycleModule();
+      setText(c.determinePhaseText(today));
+    }
+  };
+  const determineTextOfTheDay = () => {};
   const renderText = () => {
     return (
       <View style={styles.moonText}>

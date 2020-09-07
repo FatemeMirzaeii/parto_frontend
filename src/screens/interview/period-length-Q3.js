@@ -7,13 +7,13 @@ import { PERIOD_LENGTH } from '../../constants/cycle';
 import { FONT } from '../../styles/static';
 import styles from './styles';
 
-const StartQuestion3 = ({ route, navigation }) => {
+const Q3 = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState();
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
   const onNextPress = (periodLength) => {
-    navigation.navigate('StartQuestion4', {
+    navigation.navigate('Q4', {
       ...route.params,
       periodLength: isNaN(periodLength) ? PERIOD_LENGTH : periodLength,
     });
@@ -22,7 +22,7 @@ const StartQuestion3 = ({ route, navigation }) => {
     navigation.navigate('Notice', {
       ...route.params,
       txt: `پرتو طول دوره شما را ${PERIOD_LENGTH} روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.`,
-      nextPage: 'StartQuestion4',
+      nextPage: 'Q4',
       periodLength: PERIOD_LENGTH,
     });
   };
@@ -78,4 +78,4 @@ const StartQuestion3 = ({ route, navigation }) => {
   );
 };
 
-export default StartQuestion3;
+export default Q3;
