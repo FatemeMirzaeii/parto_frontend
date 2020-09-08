@@ -58,7 +58,6 @@ export async function pregnancyMode() {
 export async function getPregnancyData() {
   const res = await db.rawQuery(`SELECT * FROM ${PREGNANCY}`, [], PREGNANCY);
   const data = res[0];
-  console.log('hi from queries', data);
   return data ?? 0;
 }
 export async function savePregnancyData(pregnancySchema) {
@@ -153,7 +152,6 @@ export function setBleedingDays(days, removed) {
         [],
         USER_TRACKING_OPTION,
       );
-      console.log('hi from queries', res);
     });
   }
   days.forEach(async (day) => {

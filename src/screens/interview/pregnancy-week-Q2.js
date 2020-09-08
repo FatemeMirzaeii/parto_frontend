@@ -19,8 +19,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
   const onNextPress = async () => {
     const p = await PregnancyModule();
     const lastPeriodDate = p.determenineLastPeriodDateBasedOnPregnancyWeek(
-      selectedWeek + 1,
-      selectedDay,
+      isNaN(selectedWeek) ? 1 : selectedWeek + 1,
+      isNaN(selectedDay) ? 0 : selectedDay,
     );
     navigation.navigate('Q5', {
       ...route.params,

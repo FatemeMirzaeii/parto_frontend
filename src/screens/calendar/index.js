@@ -17,7 +17,7 @@ const Calendar = ({ navigation }) => {
     'شنبه',
     'یکشنبه',
     'دوشنبه',
-    'سه نشبه',
+    'سه شنبه',
     'چهارشنبه',
     'پنجشنبه',
     'جمعه',
@@ -120,6 +120,7 @@ const Calendar = ({ navigation }) => {
     console.log('marked dates', dates);
 
     dates.forEach((date) => {
+      if (date in markedDates) return;
       markedDates[date] = {
         periods: [
           {
@@ -139,6 +140,7 @@ const Calendar = ({ navigation }) => {
     }
   };
   const markPerdictions = async () => {
+    //todo: should disable in pregnant mode.
     const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
     markedDateObj(bleeding, COLOR.bgColor);

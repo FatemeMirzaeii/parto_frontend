@@ -4,3 +4,4 @@ export const CYCLE_LENGTH = 28;
 export const FIRST_PHASE = 'first phase';
 export const UNKNOWN_PHASE = 0;
 export const FORMAT = 'YYYY-MM-DD';
+export const PREGNANCY_WEEKS = 40;

@@ -8,7 +8,7 @@ import PregnancyModule from '../../lib/pregnancy';
 import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import { pregnancyMode, getPregnancyData } from '../../lib/database/query';
+import { pregnancyMode } from '../../lib/database/query';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
@@ -20,7 +20,6 @@ const Home = ({ navigation }) => {
   // }, [navigation]);
   useEffect(() => {
     determineMode();
-    getPregnancyData();
   }, []);
   const determineMode = async () => {
     const pregnant = await pregnancyMode();
@@ -32,7 +31,6 @@ const Home = ({ navigation }) => {
       setText(c.determinePhaseText(today));
     }
   };
-  const determineTextOfTheDay = () => {};
   const renderText = () => {
     return (
       <View style={styles.moonText}>
