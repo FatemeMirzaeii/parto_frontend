@@ -18,7 +18,7 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 import ArticleCard from '../../components/ArticleCard';
 import SearchBar from '../../components/SearchBar';
 import { FONT } from '../../styles/static';
-const Articles = ({ route, navigation }) => {
+const ArticlesList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [article, setArticle] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -310,4 +310,4 @@ const Articles = ({ route, navigation }) => {
   );
 };
 
-export default Articles;
+export default ArticlesList;

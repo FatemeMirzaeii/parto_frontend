@@ -78,7 +78,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'art-track' }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('Category')}
+          onPress={() => navigateTo('Articles')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

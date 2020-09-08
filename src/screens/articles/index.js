@@ -6,7 +6,7 @@ import CategoryList from '../../components/CategoryList';
 
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
-const Category = (props) => {
+const Articles = (props) => {
   const [categoryList, setCategoryList] = useState([]);
   const [contentId, setContentId] = useState([]);
   const [image, setImage] = useState([]);
@@ -125,4 +125,4 @@ const Category = (props) => {
   );
 };
 
-export default Category;
+export default Articles;
