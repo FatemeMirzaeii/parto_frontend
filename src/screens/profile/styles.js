@@ -38,7 +38,7 @@ export default StyleSheet.create({
     margin: 10,
     paddingRight: 10,
     fontFamily: FONT.bold,
-    fontSize: SIZE[24],
+    fontSize: SIZE[21],
   },
   picker: { alignItems: 'center' },
   buttons: {

@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
-import DataBase from '../../util/database';
+import { Card, Button } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
 import PickerListItem from '../../components/PickerListItem';
-const db = new DataBase();
+import {
+  getProfileData,
+  saveProfileHealthData,
+} from '../../util/database/query';
 
 const Profile = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState();
@@ -18,15 +20,14 @@ const Profile = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    db.rawQuery('SELECT * FROM user_profile;', 'user_profile').then((n) => {
-      const row = n[0];
-      if (row) {
-        console.log('roooooooooooooow', typeof row.birthdate, row.birthdate);
-        setBirthdate(row.birthdate);
-        setBloodType(row.blood_type);
-        setWeight(row.weight);
-        setHeight(row.height);
-        setAvgSleepingHours(row.avg_sleeping_hour);
+    getProfileData().then((res) => {
+      if (res) {
+        setBirthdate(res.birthdate);
+        setPersianDateString(res.birthdate);
+        setBloodType(res.blood_type);
+        setWeight(res.weight);
+        setHeight(res.height);
+        setAvgSleepingHours(res.avg_sleeping_hour);
       }
     });
   }, []);
@@ -36,20 +37,21 @@ const Profile = ({ navigation }) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
   };
-  const save = () => {
+  const save = async () => {
     setLoading(true);
-    db.rawQuery(
-      `UPDATE user_profile SET blood_type='${bloodType}',
-                               weight=${weight},
-                               height=${height},
-                               birthdate='${birthdate}',
-                               avg_sleeping_hour=${avgSleepingHours}`,
-      'user_profile',
-    ).then(() => setLoading(false));
+    await saveProfileHealthData(
+      bloodType,
+      weight,
+      height,
+      birthdate,
+      avgSleepingHours,
+    );
+    setLoading(false);
+    navigation.pop();
   };
   return (
     <ScrollView>
-      <UserAvatar navigation={navigation} />
+      {/* <UserAvatar navigation={navigation} /> */}
       <UserGoal />
       <Card>
         <PickerListItem
@@ -58,7 +60,7 @@ const Profile = ({ navigation }) => {
           initialDate={birthdate}
           onDateSelected={onBirthdateSelected}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: persianDateString }}
+          rightTitle={{ title: birthdate }}
         />
         <PickerListItem
           title="گروه خونی"
@@ -84,21 +86,14 @@ const Profile = ({ navigation }) => {
           leftIcon={{ name: 'dashboard' }}
           rightTitle={{ title: weight, suffix: 'Kg' }}
         />
-        <ListItem
+        <PickerListItem
           title="میانگین ساعت خواب"
-          input={{
-            value: `${avgSleepingHours ? avgSleepingHours : ''}`,
-            placeholder: '۸',
-            onChangeText: (value) => setAvgSleepingHours(value),
-            containerStyle: {
-              maxWidth: 70,
-            },
-          }}
+          selectedItem={avgSleepingHours}
+          onItemSelected={setAvgSleepingHours}
+          range={{ min: 2, max: 15 }}
+          initPosition={7}
           leftIcon={{ name: 'dashboard' }}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          //onPress={() => onItemPress()}
+          rightTitle={{ title: avgSleepingHours, suffix: 'ُساعت' }}
         />
       </Card>
       <Button

@@ -6,6 +6,7 @@ import { setPickerRange } from '../util/func';
 import { FONT, SIZE } from '../styles/static';
 import PersianDatePicker from './PersianDatePicker';
 //import PersianTimePicker from './PersianTimePicker';
+//todo: should add pregnancy picker same as datepicker and remove timepicker
 
 const PickerListItem = (props) => {
   const [isVisible, setVisible] = useState(false);

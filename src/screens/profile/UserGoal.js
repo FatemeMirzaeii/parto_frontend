@@ -1,37 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import DataBase from '../../util/database';
 import styles from './styles';
-const db = new DataBase();
+import { getUserStatus, updateUserStatus } from '../../util/database/query';
 
 const UserGoal = () => {
   const [mode, setMode] = useState();
+  const [prevMode, setPrevMode] = useState();
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
   useEffect(() => {
-    db.rawQuery('SELECT pregnant, pregnancy_try FROM user_profile;').then(
-      (n) => {
-        if (n[0]) {
-          n[0].pregnant
-            ? setMode(2)
-            : n[0].pregnancy_try
-            ? setMode(1)
-            : setMode(0);
-        }
-      },
-    );
+    getUserStatus().then((res) => {
+      if (res) {
+        res.pregnant ? setMode(2) : res.pregnancy_try ? setMode(1) : setMode(0);
+      }
+    });
   }, [mode]);
   const onModePress = (i) => {
+    setPrevMode(mode);
     switch (i) {
       case 0:
-        db.rawQuery('UPDATE user_profile SET pregnant=0, pregnancy_try=0');
+        if (prevMode === 2) {
+        }
+        updateUserStatus(0, 0);
         break;
       case 1:
-        db.rawQuery('UPDATE user_profile SET pregnant=0, pregnancy_try=1');
+        if (prevMode === 2) {
+        }
+        updateUserStatus(0, 1);
         break;
       case 2:
-        db.rawQuery('UPDATE user_profile SET pregnant=1, pregnancy_try=0');
+        updateUserStatus(1, 0);
         break;
       default:
         break;

@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Menu from '../screens/menu';
 import Profile from '../screens/profile';
 import CycleSetting from '../screens/cycle-setting';
+import PregnancyProfile from '../screens/pregnancy-profile';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
 // import ArticleStack from './ArticleStack';
@@ -32,6 +33,14 @@ const MenuStackScreen = () => {
         component={CycleSetting}
         options={{
           title: 'تنظیمات دوره‌ها',
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="PregnancyProfile"
+        component={PregnancyProfile}
+        options={{
+          title: 'اطلاعات بارداری',
           headerTitleStyle: { alignSelf: 'center' },
         }}
       />

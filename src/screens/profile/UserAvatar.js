@@ -34,13 +34,6 @@ const UserAvatar = ({ navigation }) => {
   };
   return (
     <SafeAreaView>
-      {isRegistered ? null : (
-        <TouchableOpacity style={styles.register} onPress={() => signUp()}>
-          <Text style={[styles.text, { color: '#ffffff' }]}>
-            شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
-          </Text>
-        </TouchableOpacity>
-      )}
       <Card>
         {isEditing ? (
           <View style={styles.buttons}>
@@ -57,7 +50,7 @@ const UserAvatar = ({ navigation }) => {
         <Avatar
           rounded
           showEditButton
-          size="xlarge"
+          size="large"
           icon={{ name: 'user', type: 'font-awesome' }}
           containerStyle={styles.avatar}
         />
@@ -75,6 +68,14 @@ const UserAvatar = ({ navigation }) => {
             </View>
           )}
         </TouchableOpacity>
+        {isRegistered ? null : (
+          <TouchableOpacity style={styles.register} onPress={() => signUp()}>
+            <Text style={[styles.text, { color: '#ffffff' }]}>
+              شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام
+              کنید.
+            </Text>
+          </TouchableOpacity>
+        )}
       </Card>
     </SafeAreaView>
   );

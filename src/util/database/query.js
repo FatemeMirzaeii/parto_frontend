@@ -50,10 +50,41 @@ export async function saveProfileData(profileSchema) {
   );
   return res ?? 0;
 }
+export async function saveProfileHealthData(
+  bloodType,
+  weight,
+  height,
+  birthdate,
+  avgSleepingHours,
+) {
+  return await db.rawQuery(
+    `UPDATE ${PROFILE} SET blood_type='${bloodType}',
+                             weight=${weight},
+                             height=${height},
+                             birthdate='${birthdate}',
+                             avg_sleeping_hour=${avgSleepingHours}`,
+    [],
+    PROFILE,
+  );
+}
 export async function pregnancyMode() {
   const res = await db.rawQuery(`SELECT pregnant FROM ${PROFILE}`, [], PROFILE);
   const data = res[0];
   return data.pregnant ?? 0;
+}
+export async function getUserStatus() {
+  const res = await db.rawQuery(
+    `SELECT pregnant, pregnancy_try FROM ${PROFILE}`,
+    [],
+    PROFILE,
+  );
+  const data = res[0];
+  return data ?? 0;
+}
+export async function updateUserStatus(pregnant, pregnancyTry) {
+  return await db.rawQuery(
+    `UPDATE ${PROFILE} SET pregnant=${pregnant}, pregnancy_try=${pregnancyTry}`,
+  );
 }
 export async function getPregnancyData() {
   const res = await db.rawQuery(`SELECT * FROM ${PREGNANCY}`, [], PREGNANCY);
@@ -173,6 +204,6 @@ export async function setLock(isLock) {
 }
 export async function lockStatus() {
   const res = await db.rawQuery(`SELECT use_lock FROM ${PROFILE}`, [], PROFILE);
-  const data = res[0];
-  return data.use_lock ?? 0;
+  const data = res[0] ? res[0] : 0;
+  return data.use_lock;
 }

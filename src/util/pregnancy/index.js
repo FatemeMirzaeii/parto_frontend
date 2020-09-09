@@ -54,9 +54,26 @@ export default async function CycleModule() {
     console.log('pregnancyDayNumber', d);
     return d;
   }
-
+  function determineDueDate() {
+    if (lastPeriodDate) {
+      return lastPeriodDate.add(PREGNANCY_WEEKS, 'weeks').format(FORMAT);
+    }
+    if (conceptionDate) {
+      return conceptionDate.add(38, 'weeks').format(FORMAT);
+    }
+  }
+  function remainingDaysToDueDate() {
+    if (dueDate) {
+      return dueDate.diff(today, 'days');
+    } else {
+      const due = determineDueDate();
+      console.log('due', due);
+      return moment(due).diff(today, 'days');
+    }
+  }
   return {
     determenineLastPeriodDateBasedOnPregnancyWeek,
     determinePregnancyWeek,
+    remainingDaysToDueDate,
   };
 }

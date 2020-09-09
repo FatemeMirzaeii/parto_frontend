@@ -12,12 +12,11 @@ import { pregnancyMode } from '../../util/database/query';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
-  // useEffect(() => {
-  //   navigation.addListener('focus', async () => {
-  //     const c = await CycleModule();
-  //     setText(c.determinePhaseText(today));
-  //   });
-  // }, [navigation]);
+  useEffect(() => {
+    navigation.addListener('focus', async () => {
+      determineMode();
+    });
+  }, [navigation]);
   useEffect(() => {
     determineMode();
   }, []);
@@ -25,7 +24,9 @@ const Home = ({ navigation }) => {
     const pregnant = await pregnancyMode();
     if (pregnant) {
       const p = await PregnancyModule();
-      setText(`شما در هفته ${p.determinePregnancyWeek()} بارداری هستید`);
+      setText(
+        `شما در هفته ${p.determinePregnancyWeek()} بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate()} روز تا تولد فرزند شما!`,
+      );
     } else {
       const c = await CycleModule();
       setText(c.determinePhaseText(today));

@@ -12,38 +12,32 @@ import TouchID from 'react-native-touch-id';
 
 const db = new Database();
 const Menu = ({ navigation }) => {
-  const [pregnant, setPregnant] = useState(false);
   const [isLock, setIsLock] = useState();
   const { signOut } = useContext(AuthContext);
   useEffect(() => {
-    determineMode();
     determineLockStatus();
   }, []);
   const determineLockStatus = async () => {
     const status = await lockStatus();
     setIsLock(status ? true : false);
   };
-  const determineMode = async () => {
-    const p = await pregnancyMode();
-    setPregnant(p);
-  };
 
   const navigateTo = (screen) => {
     navigation.navigate(screen);
   };
-  const changePregnancyMode = async () => {
-    setPregnant(!pregnant);
-    await db.rawQuery(
-      `UPDATE ${PROFILE} SET pregnant=${pregnant}`,
-      [],
-      PROFILE,
-    );
-    if (pregnant) {
-      navigation.navigate('Pregnancy_Q2', {
-        mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
-      });
-    }
-  };
+  // const changePregnancyMode = async () => {
+  //   setPregnant(!pregnant);
+  //   await db.rawQuery(
+  //     `UPDATE ${PROFILE} SET pregnant=${pregnant}`,
+  //     [],
+  //     PROFILE,
+  //   );
+  //   if (pregnant) {
+  //     navigation.navigate('Pregnancy_Q2', {
+  //       mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
+  //     });
+  //   }
+  // };
 
   const lock = () => {
     TouchID.isSupported()
@@ -87,12 +81,10 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
         <ListItem
-          title="بارداری"
-          switch={{
-            value: pregnant,
-            onValueChange: changePregnancyMode,
-          }}
+          title="پروفایل بارداری"
           leftIcon={{ name: 'pregnant-woman' }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => navigateTo('PregnancyProfile')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
