@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { WheelPicker, TimePicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../lib/func';
+import { setPickerRange } from '../util/func';
 import { FONT, SIZE } from '../styles/static';
 import PersianDatePicker from './PersianDatePicker';
 //import PersianTimePicker from './PersianTimePicker';

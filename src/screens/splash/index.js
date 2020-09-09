@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   ImageBackground,
   SafeAreaView,
@@ -6,12 +6,15 @@ import {
   View,
   Text,
 } from 'react-native';
-import Lock from '../../components/Lock';
+import Lock from '../../util/lock';
 
 const Splash = (props) => {
+  useEffect(() => {
+    Lock();
+  });
+
   return (
     <SafeAreaView>
-      {/* <Lock /> */}
       <ImageBackground
         style={styles.bg}
         source={require('../../../assets/images/start/0.png')}>

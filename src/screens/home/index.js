@@ -3,12 +3,12 @@ import { SafeAreaView, View, ImageBackground } from 'react-native';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import WeekCalendar from '../../components/WeekCalendar';
-import CycleModule from '../../lib/cycle';
-import PregnancyModule from '../../lib/pregnancy';
+import CycleModule from '../../util/cycle';
+import PregnancyModule from '../../util/pregnancy';
 import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
-import { pregnancyMode } from '../../lib/database/query';
+import { pregnancyMode } from '../../util/database/query';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');

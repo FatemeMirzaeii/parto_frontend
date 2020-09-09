@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../../lib/func';
+import { setPickerRange } from '../../util/func';
 import { PERIOD_LENGTH } from '../../constants/cycle';
 import { FONT } from '../../styles/static';
 import styles from './styles';

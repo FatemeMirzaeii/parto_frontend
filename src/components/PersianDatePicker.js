@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../lib/func';
+import { setPickerRange } from '../util/func';
 import { FONT } from '../styles/static';
 
 ////todo: 1- should return both Gregorian date and jalali.

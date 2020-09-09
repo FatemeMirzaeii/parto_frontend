@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
-import { storeData } from '../../lib/func';
-import { saveProfileData, savePregnancyData } from '../../lib/database/query';
-import CycleModule from '../../lib/cycle';
+import { storeData } from '../../util/func';
+import { saveProfileData, savePregnancyData } from '../../util/database/query';
+import CycleModule from '../../util/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';

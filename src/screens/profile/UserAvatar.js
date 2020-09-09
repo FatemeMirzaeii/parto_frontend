@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { Card, Avatar, Input, Button } from 'react-native-elements';
-import DataBase from '../../lib/database';
+import DataBase from '../../util/database';
 import { AuthContext } from '../../contexts/AuthContext';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -14,10 +14,12 @@ const UserAvatar = ({ navigation }) => {
   const { signUp } = useContext(AuthContext);
   useEffect(() => {
     db.rawQuery('SELECT id, name, email FROM user').then((n) => {
-      if ((n.rows && n.rows === 'EMPTY_TABLE') || !n[0].email) {
-        setIsRegistered(false);
+      if (n[0]) {
+        if ((n.rows && n.rows === 'EMPTY_TABLE') || !n[0].email) {
+          setIsRegistered(false);
+        }
+        setName(n[0].name);
       }
-      setName(n[0].name);
     });
   }, []);
   const done = () => {

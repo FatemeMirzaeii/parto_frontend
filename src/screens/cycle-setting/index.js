@@ -5,7 +5,7 @@ import PickerListItem from '../../components/PickerListItem';
 import {
   updateProfileData,
   getCycleInfoFromProfile,
-} from '../../lib/database/query';
+} from '../../util/database/query';
 import styles from './styles';
 
 const CycleSetting = ({ navigation }) => {

@@ -1,4 +1,4 @@
-import { getData } from '../lib/func';
+import { getData } from '../util/func';
 import { baseUrl } from './urls';
 export class api {
   constructor() {

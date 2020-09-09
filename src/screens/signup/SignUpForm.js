@@ -3,10 +3,10 @@ import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
-import DataBase from '../../lib/database';
+import DataBase from '../../util/database';
 import styles from './styles';
 import { api } from '../../services/api';
-import { storeData } from '../../lib/func';
+import { storeData } from '../../util/func';
 import { AuthContext } from '../../contexts/AuthContext';
 const db = new DataBase();
 

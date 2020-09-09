@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import DataBase from '../../lib/database';
+import DataBase from '../../util/database';
 import styles from './styles';
 const db = new DataBase();
 
@@ -12,11 +12,13 @@ const UserGoal = () => {
   useEffect(() => {
     db.rawQuery('SELECT pregnant, pregnancy_try FROM user_profile;').then(
       (n) => {
-        n[0].pregnant
-          ? setMode(2)
-          : n[0].pregnancy_try
-          ? setMode(1)
-          : setMode(0);
+        if (n[0]) {
+          n[0].pregnant
+            ? setMode(2)
+            : n[0].pregnancy_try
+            ? setMode(1)
+            : setMode(0);
+        }
       },
     );
   }, [mode]);

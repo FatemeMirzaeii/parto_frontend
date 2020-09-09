@@ -1,4 +1,4 @@
-import Database from '../../lib/database';
+import Database from '../database';
 import {
   PROFILE,
   USER_TRACKING_OPTION,
@@ -143,7 +143,7 @@ export async function setLastPeriodDate(date) {
     PROFILE,
   );
 }
-export function setBleedingDays(days, removed) {
+export async function setBleedingDays(days, removed) {
   if (removed) {
     removed.forEach(async (rday) => {
       const res = await db.rawQuery(
@@ -163,4 +163,16 @@ export function setBleedingDays(days, removed) {
       USER_TRACKING_OPTION,
     );
   });
+}
+export async function setLock(isLock) {
+  return await db.rawQuery(
+    `UPDATE ${PROFILE} SET use_lock=${isLock}`,
+    [],
+    PROFILE,
+  );
+}
+export async function lockStatus() {
+  const res = await db.rawQuery(`SELECT use_lock FROM ${PROFILE}`, [], PROFILE);
+  const data = res[0];
+  return data.use_lock ?? 0;
 }

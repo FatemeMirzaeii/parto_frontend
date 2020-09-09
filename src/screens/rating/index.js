@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { Container, Header, Body, Right, Left, Icon } from 'native-base';
-import { getData } from '../../lib/func';
+import { getData } from '../../util/func';
 import { api } from '../../services/api';
 import { HEIGHT, FONT, SIZE, COLOR } from '../../styles/static';
 import Rate from '../../components/Rating';

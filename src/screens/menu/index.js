@@ -1,39 +1,66 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, ToastAndroid } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
-import Database from '../../lib/database';
+import Database from '../../util/database';
 import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
+import { pregnancyMode, setLock, lockStatus } from '../../util/database/query';
 import { AuthContext } from '../../contexts/AuthContext';
+import { PROFILE } from '../../constants/database-tables';
+import TouchID from 'react-native-touch-id';
 
 const db = new Database();
-let questionArray = [];
 const Menu = ({ navigation }) => {
-  const [pregnancyMode, setPregnancyMode] = useState(false);
-  const [isLock, setIsLock] = useState(false);
+  const [pregnant, setPregnant] = useState(false);
+  const [isLock, setIsLock] = useState();
   const { signOut } = useContext(AuthContext);
+  useEffect(() => {
+    determineMode();
+    determineLockStatus();
+  }, []);
+  const determineLockStatus = async () => {
+    const status = await lockStatus();
+    setIsLock(status ? true : false);
+  };
+  const determineMode = async () => {
+    const p = await pregnancyMode();
+    setPregnant(p);
+  };
 
   const navigateTo = (screen) => {
     navigation.navigate(screen);
   };
   const changePregnancyMode = async () => {
-    setPregnancyMode(!pregnancyMode);
+    setPregnant(!pregnant);
     await db.rawQuery(
-      `UPDATE user_profile SET pregnant=${pregnancyMode}`,
-      'user_profile',
+      `UPDATE ${PROFILE} SET pregnant=${pregnant}`,
+      [],
+      PROFILE,
     );
-    if (pregnancyMode) {
-      questionArray.push({ pregnant: 1, pregnancy_try: 0, period: 0 });
-    } else {
-      questionArray.push({ pregnant: 0, pregnancy_try: 0, period: 1 });
+    if (pregnant) {
+      navigation.navigate('Pregnancy_Q2', {
+        mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
+      });
     }
-    navigation.navigate('Q2', { questionArray });
   };
 
-  const setLock = () => {
-    setIsLock(!isLock);
-    db.rawQuery(`UPDATE user_profile SET use_lock=${isLock}`, 'user_profile');
+  const lock = () => {
+    TouchID.isSupported()
+      .then((biometryType) => {
+        console.log('biometryType', biometryType);
+        if (biometryType === 'FaceID') {
+          console.log('FaceID is supported.');
+        }
+        setLock(!isLock);
+        setIsLock(!isLock);
+      })
+      .catch((error) => {
+        ToastAndroid.show(
+          'قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند.',
+          ToastAndroid.LONG,
+        );
+      });
   };
   return (
     <ScrollView>
@@ -62,7 +89,7 @@ const Menu = ({ navigation }) => {
         <ListItem
           title="بارداری"
           switch={{
-            value: pregnancyMode,
+            value: pregnant,
             onValueChange: changePregnancyMode,
           }}
           leftIcon={{ name: 'pregnant-woman' }}
@@ -110,7 +137,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'lock' }}
           switch={{
             value: isLock,
-            onValueChange: setLock,
+            onValueChange: lock,
           }}
           bottomDivider
           titleStyle={styles.listItemText}

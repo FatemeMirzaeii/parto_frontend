@@ -4,8 +4,8 @@ import { Button, Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
-import { setBleedingDays } from '../../lib/database/query';
-import CycleModule from '../../lib/cycle';
+import { setBleedingDays } from '../../util/database/query';
+import CycleModule from '../../util/cycle';
 import { FONT, SIZE, COLOR } from '../../styles/static';
 import styles from './styles';
 import Ptxt from '../../components/Ptxt';
@@ -108,7 +108,7 @@ const Calendar = ({ navigation }) => {
     );
     console.log('removed', removed);
 
-    setBleedingDays(added, removed);
+    await setBleedingDays(added, removed);
     await c.determineLastPeriodDate();
     setEditMode(false);
   };

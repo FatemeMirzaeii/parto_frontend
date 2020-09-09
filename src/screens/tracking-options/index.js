@@ -11,7 +11,7 @@ import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgXml } from 'react-native-svg';
 
-import Database from '../../lib/database';
+import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
 import styles from './styles';
 import { WIDTH } from '../../styles/static';
@@ -20,8 +20,8 @@ import {
   EXCERSICE,
   SPOTTING,
 } from '../../constants/health-tracking-info';
-import { getTrackingOptionData } from '../../lib/database/query';
-import CycleModule from '../../lib/cycle';
+import { getTrackingOptionData } from '../../util/database/query';
+import CycleModule from '../../util/cycle';
 
 const db = new Database();
 const detailPageRef = createRef();
