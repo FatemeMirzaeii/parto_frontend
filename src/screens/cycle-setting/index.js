@@ -7,6 +7,7 @@ import {
   getCycleInfoFromProfile,
 } from '../../util/database/query';
 import styles from './styles';
+import { COLOR } from '../../styles/static';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -22,7 +23,7 @@ const CycleSetting = ({ navigation }) => {
           title="ثبت"
           type="clear"
           onPress={() => save()}
-          titleStyle={{ color: 'tomato' }}
+          titleStyle={{ color: COLOR.btn }}
         />
       ),
     });

@@ -1,7 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE, WIDTH } from '../../styles/static';
+import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'space-evenly',
+  },
   goals: {
     alignSelf: 'center',
     justifyContent: 'center',
@@ -12,6 +16,18 @@ export default StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   goal: { borderRadius: 50 },
+  btnContainer: {
+    elevation: 5,
+    backgroundColor: COLOR.btn,
+    marginTop: 30,
+    width: WIDTH - 20,
+    alignSelf: 'center',
+  },
+  nextButton: {
+    backgroundColor: COLOR.btn,
+    borderRadius: 40,
+    alignSelf: 'center',
+  },
   text: {
     alignSelf: 'center',
     textAlign: 'center',
@@ -46,7 +62,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   register: {
-    backgroundColor: 'tomato',
+    backgroundColor: COLOR.btn,
     borderRadius: 25,
     width: WIDTH / 1.1,
     alignSelf: 'center',
@@ -61,7 +77,7 @@ export default StyleSheet.create({
   saveButton: {
     borderWidth: 0.7,
     borderRadius: 30,
-    borderColor: 'tomato',
+    borderColor: COLOR.btn,
   },
   saveContainer: {
     width: WIDTH / 1.1,
@@ -69,7 +85,7 @@ export default StyleSheet.create({
     margin: 10,
   },
   saveTitle: {
-    color: 'tomato',
+    color: COLOR.btn,
     fontFamily: FONT.bold,
     fontSize: SIZE[18],
   },

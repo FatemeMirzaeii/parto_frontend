@@ -112,6 +112,7 @@ const CategoryList = (props) => {
   };
 
   const _renderItem = ({ item }) => {
+    console.log('itemmmm', item);
     return (
       <TouchableOpacity
         onPress={() => {
@@ -142,7 +143,9 @@ const CategoryList = (props) => {
           imageStyle={{ resizeMode: 'cover', flex: 1, borderRadius: 15 }}
           source={{
             uri:
-              'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
+              item.cover.length > 0
+                ? item.cover[0]
+                : 'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
             //   ,
             // uri:imageResize()
             // uri:item.cover?item.cover:'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',

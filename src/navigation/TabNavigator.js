@@ -5,6 +5,7 @@ import HomeStack from './HomeStack';
 import CalendarStack from './CalendarStack';
 import MenuStack from './MenuStack';
 import Charts from '../screens/charts';
+import { COLOR } from '../styles/static';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
@@ -35,7 +36,7 @@ const TabNavigator = () => {
         },
       })}
       tabBarOptions={{
-        activeTintColor: 'tomato',
+        activeTintColor: COLOR.btn,
         inactiveTintColor: 'gray',
         showLabel: false,
         style: {

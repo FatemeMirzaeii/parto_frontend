@@ -125,6 +125,6 @@ const styles = StyleSheet.create({
     margin: 'auto',
     color: 'black',
   },
-  picker: { width: 110, height: 200 },
+  picker: { width: 100, height: 200 },
 });
 export default PersianDatePicker;

@@ -88,11 +88,11 @@ const AppNavigator = () => {
     <AuthContext.Provider value={authContext}>
       {state.isLoading || splash ? (
         <Splash />
-      ) : state.userToken && state.interviewToken ? (
+      ) : state.interviewToken ? ( //state.userToken &&
         <TabNavigator />
-      ) : !state.userToken ? (
-        <AuthStack />
       ) : (
+        // ) : !state.userToken ? (
+        //   <AuthStack />
         <InterviewStack />
       )}
     </AuthContext.Provider>

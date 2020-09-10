@@ -44,7 +44,7 @@ const Calendar = ({ navigation }) => {
           title="امروز"
           type="clear"
           onPress={() => calendar.current.scrollToDay(new Date())}
-          titleStyle={{ color: 'tomato' }}
+          titleStyle={{ color: COLOR.btn }}
         />
       ),
       headerRight: () => (
@@ -55,13 +55,13 @@ const Calendar = ({ navigation }) => {
                 title="ثبت"
                 type="clear"
                 onPress={() => onSubmitEditing()}
-                titleStyle={{ color: 'tomato' }}
+                titleStyle={{ color: COLOR.btn }}
               />
               <Button
                 title="بیخیال"
                 type="clear"
                 onPress={() => onCancelEditing()}
-                titleStyle={{ color: 'tomato' }}
+                titleStyle={{ color: COLOR.btn }}
               />
             </View>
           ) : (
@@ -69,7 +69,7 @@ const Calendar = ({ navigation }) => {
               name="edit"
               type="antdesign"
               onPress={() => onEditPress()}
-              color="tomato"
+              color={COLOR.btn}
               iconStyle={{ margin: 10 }}
             />
           )}

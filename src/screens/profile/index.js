@@ -9,6 +9,7 @@ import {
   getProfileData,
   saveProfileHealthData,
 } from '../../util/database/query';
+import { COLOR } from '../../styles/static';
 
 const Profile = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState();
@@ -50,7 +51,7 @@ const Profile = ({ navigation }) => {
     navigation.pop();
   };
   return (
-    <ScrollView>
+    <ScrollView contentContainerStyle={styles.container}>
       {/* <UserAvatar navigation={navigation} /> */}
       <UserGoal />
       <Card>
@@ -97,15 +98,13 @@ const Profile = ({ navigation }) => {
         />
       </Card>
       <Button
-        raised
         loading={loading}
         title="ذخیره"
         onPress={() => save()}
-        type="outline"
-        buttonStyle={styles.saveButton}
-        containerStyle={styles.saveContainer}
-        titleStyle={styles.saveTitle}
-        loadingStyle={{ color: 'tomato' }}
+        containerStyle={styles.btnContainer}
+        buttonStyle={styles.nextButton}
+        titleStyle={styles.listItemText}
+        loadingStyle={{ color: COLOR.btn }}
         // icon={{name: 'user'}}
       />
     </ScrollView>

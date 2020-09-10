@@ -169,16 +169,15 @@ export default async function CycleModule() {
     const past = await pastBleedingDays();
     if (!past) return null;
     let lpd;
+    //todo: should check if first time from sharhe hal
     for (let i = 0; i < past.length - 1; i++) {
       if (past[i].diff(past[i + 1], 'days') > 5) {
         lpd = past[i];
         break;
       }
     }
-    if (
-      !pervLastPeriodDate ||
-      (pervLastPeriodDate && pervLastPeriodDate !== lpd)
-    ) {
+    if (!lpd) return;
+    if (!pervLastPeriodDate || pervLastPeriodDate !== lpd) {
       console.log('lpd', lpd);
       setLastPeriodDate(lpd);
     }

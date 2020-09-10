@@ -4,7 +4,17 @@ import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../util/func';
 import { FONT, SIZE, WIDTH, HEIGHT } from '../styles/static';
 
-const PregnancyPicker = () => {
+const PregnancyPicker = ({ props }) => {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    setData(
+      props.range
+        ? setPickerRange(props.range.min, props.range.max)
+        : props.data,
+    );
+  }, []);
+
   return (
     <View style={styles.pickerGroup}>
       <WheelPicker

@@ -1,6 +1,10 @@
 import moment from 'moment';
 import { FORMAT, PREGNANCY_WEEKS } from '../../constants/cycle';
-import { getPregnancyData, getProfileData } from '../database/query';
+import {
+  getPregnancyData,
+  getProfileData,
+  setBleedingDays,
+} from '../database/query';
 const today = moment();
 
 export default async function CycleModule() {
@@ -71,9 +75,19 @@ export default async function CycleModule() {
       return moment(due).diff(today, 'days');
     }
   }
+  function determineNefasDays() {
+    let days = [];
+    for (let i = 0; i < 8; i++) {
+      console.log('nefas days', i, dueDate.format(FORMAT));
+      days.push(dueDate.add(i, 'days').format(FORMAT));
+    }
+    console.log('nefas days', days);
+    setBleedingDays(days);
+  }
   return {
     determenineLastPeriodDateBasedOnPregnancyWeek,
     determinePregnancyWeek,
     remainingDaysToDueDate,
+    determineNefasDays,
   };
 }

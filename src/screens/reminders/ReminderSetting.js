@@ -4,6 +4,7 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import DataBase from '../../util/database';
 import PickerListItem from '../../components/PickerListItem';
 import styles from './Styles';
+import { COLOR } from '../../styles/static';
 const db = new DataBase();
 
 const ReminderSetting = ({ navigation, route }) => {
@@ -19,7 +20,7 @@ const ReminderSetting = ({ navigation, route }) => {
           title="ثبت"
           type="clear"
           onPress={() => save()}
-          titleStyle={{ color: 'tomato' }}
+          titleStyle={{ color: COLOR.btn }}
         />
       ),
     });

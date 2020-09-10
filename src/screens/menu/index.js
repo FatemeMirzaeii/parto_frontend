@@ -5,12 +5,12 @@ import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
 import { setLock, lockStatus } from '../../util/database/query';
-import { AuthContext } from '../../contexts/AuthContext';
+// import { AuthContext } from '../../contexts/AuthContext';
 import TouchID from 'react-native-touch-id';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const { signOut } = useContext(AuthContext);
+  // const { signOut } = useContext(AuthContext);
   useEffect(() => {
     determineLockStatus();
   }, []);
@@ -54,8 +54,19 @@ const Menu = ({ navigation }) => {
       });
   };
   return (
-    <ScrollView>
-      <UserProfile onPress={() => navigation.push('Profile')} />
+    <ScrollView style={styles.container}>
+      {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
+      <Card>
+        <ListItem
+          title="اطلاعات سلامت"
+          leftIcon={{ name: 'local-pharmacy' }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => navigateTo('Profile')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
+      </Card>
       <Card>
         <ListItem
           title="اطلاعات دوره‌ها"
@@ -175,7 +186,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-        <ListItem
+        {/* <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -183,7 +194,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
       </Card>
     </ScrollView>
   );

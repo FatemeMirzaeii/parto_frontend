@@ -25,7 +25,6 @@ import CycleModule from '../../util/cycle';
 
 const db = new Database();
 const detailPageRef = createRef();
-const c = new CycleModule();
 
 const TrackingOptions = ({ route, navigation }) => {
   const { day } = route.params;
@@ -135,7 +134,9 @@ const TrackingOptions = ({ route, navigation }) => {
       default:
     }
   };
-  const onOptionPress = (category, option) => {
+  const onOptionPress = async (category, option) => {
+    const c = await CycleModule();
+
     if (option.selected.length > 0) {
       //this will deselect the option
       db.rawQuery(

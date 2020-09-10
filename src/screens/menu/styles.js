@@ -2,6 +2,10 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+    marginTop: 15,
+  },
   divider: {
     height: 20,
     backgroundColor: '#f1f1f1',

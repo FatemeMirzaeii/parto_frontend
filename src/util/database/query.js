@@ -91,6 +91,11 @@ export async function getPregnancyData() {
   const data = res[0];
   return data ?? 0;
 }
+export async function setPregnancyEnd(abortion, dueDate) {
+  return await db.rawQuery(
+    `UPDATE ${PREGNANCY} SET abortion=${abortion}, due_date='${dueDate}'`,
+  );
+}
 export async function savePregnancyData(pregnancySchema) {
   const dueDate = !pregnancySchema.dueDate
     ? null

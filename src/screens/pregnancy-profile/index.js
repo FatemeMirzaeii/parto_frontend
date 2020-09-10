@@ -4,6 +4,7 @@ import { Card, ListItem, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
 import { getPregnancyData, savePregnancyData } from '../../util/database/query';
 import styles from './styles';
+import { COLOR } from '../../styles/static';
 
 const PregnancyProfile = ({ navigation }) => {
   const [dueDate, setDueDate] = useState();
@@ -15,7 +16,7 @@ const PregnancyProfile = ({ navigation }) => {
           title="ثبت"
           type="clear"
           onPress={() => save()}
-          titleStyle={{ color: 'tomato' }}
+          titleStyle={{ color: COLOR.btn }}
         />
       ),
     });
@@ -61,7 +62,7 @@ const PregnancyProfile = ({ navigation }) => {
         buttonStyle={styles.saveButton}
         containerStyle={styles.saveContainer}
         titleStyle={styles.saveTitle}
-        loadingStyle={{ color: 'tomato' }}
+        loadingStyle={{ color: COLOR.btn }}
         // icon={{name: 'user'}}
       />
     </ScrollView>

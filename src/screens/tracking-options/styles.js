@@ -7,6 +7,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
+    marginTop: 25,
   },
   detailPage: {
     height: 200,
@@ -40,8 +41,9 @@ export default StyleSheet.create({
   },
   txt: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[10],
+    fontSize: SIZE[14],
     textAlign: 'center',
+    margin: 5,
   },
   more: {
     borderRadius: 15,
