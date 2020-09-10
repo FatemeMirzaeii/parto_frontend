@@ -1,16 +1,13 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import { Card, ListItem } from 'react-native-elements';
-import Database from '../../util/database';
 import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
-import { pregnancyMode, setLock, lockStatus } from '../../util/database/query';
+import { setLock, lockStatus } from '../../util/database/query';
 import { AuthContext } from '../../contexts/AuthContext';
-import { PROFILE } from '../../constants/database-tables';
 import TouchID from 'react-native-touch-id';
 
-const db = new Database();
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const { signOut } = useContext(AuthContext);
@@ -136,7 +133,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-        <ListItem
+        {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -144,7 +141,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
       </Card>
       <Divider />
       <Card>

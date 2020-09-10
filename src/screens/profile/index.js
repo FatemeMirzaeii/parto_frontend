@@ -93,7 +93,7 @@ const Profile = ({ navigation }) => {
           range={{ min: 2, max: 15 }}
           initPosition={7}
           leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: avgSleepingHours, suffix: 'ُساعت' }}
+          rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
         />
       </Card>
       <Button

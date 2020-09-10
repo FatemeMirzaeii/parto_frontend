@@ -2,9 +2,11 @@ import { StyleSheet } from 'react-native';
 import { WIDTH, HEIGHT, FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
+  container: { height: '100%', backgroundColor: 'white' },
   sliderItem: {
     justifyContent: 'center',
     alignItems: 'center',
+    backgroundColor: 'white',
   },
   detailPage: {
     height: 200,
@@ -22,11 +24,14 @@ export default StyleSheet.create({
     margin: 10,
     width: WIDTH / 3 - 15,
     height: HEIGHT / 5 - 10,
-    borderRadius: 20,
-    borderWidth: 5,
-    elevation: 5,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  icon: {
+    width: 100,
+    height: 100,
+    borderWidth: 6,
+    borderRadius: 50,
   },
   options: {
     justifyContent: 'center',

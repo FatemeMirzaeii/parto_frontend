@@ -9,7 +9,7 @@ import {
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
-import { SvgXml } from 'react-native-svg';
+import { SvgCss } from 'react-native-svg';
 
 import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
@@ -52,7 +52,7 @@ const TrackingOptions = ({ route, navigation }) => {
               borderColor: item.color,
             },
           ]}>
-          <SvgXml width="70%" height="70%" xml={item.icon} />
+          <SvgCss width="100%" height="100%" xml={item.icon} />
           <Text style={styles.txt}>{item.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
@@ -77,14 +77,22 @@ const TrackingOptions = ({ route, navigation }) => {
           <TouchableOpacity
             key={option.id}
             onPress={() => onOptionPress(category, option)}
-            style={[
-              styles.option,
-              { borderColor: color },
-              {
-                backgroundColor: option.selected.length > 0 ? color : 'white',
-              },
-            ]}>
-            <SvgXml width="70%" height="70%" xml={option.icon} />
+            style={styles.option}>
+            <View
+              style={[
+                styles.icon,
+                {
+                  borderColor: color,
+                  backgroundColor: option.selected.length > 0 ? color : 'white',
+                },
+              ]}>
+              <SvgCss
+                width="100%"
+                height="100%"
+                xml={option.icon}
+                fill={option.selected.length > 0 ? 'white' : color}
+              />
+            </View>
             <Text style={styles.txt}>{option.title}</Text>
           </TouchableOpacity>
         );
@@ -190,12 +198,9 @@ const TrackingOptions = ({ route, navigation }) => {
     setVisible(!visible);
   };
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <View style={{ height: 150 }}>
         <WeekCalendar
-          theme={{
-            calendarBackground: '#f1f1f1',
-          }}
           current={day}
           onDateChanged={(d, propUpdate) => onDayPress(d)}
         />
@@ -206,7 +211,7 @@ const TrackingOptions = ({ route, navigation }) => {
           data={categories}
           renderItem={renderItem}
           sliderWidth={WIDTH}
-          itemWidth={WIDTH - 110}
+          itemWidth={WIDTH - 120}
           inverted={true}
         />
       </ScrollView>
