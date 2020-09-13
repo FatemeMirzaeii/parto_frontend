@@ -1,5 +1,10 @@
 import moment from 'moment';
-import { OVULATION_DAY_NO, FORMAT } from '../../constants/cycle';
+
+import {
+  OVULATION_DAY_NO,
+  FORMAT,
+  MIN_LENGTH_BETWEEN_PERIODS,
+} from '../../constants/cycle';
 import {
   getUserAllPeriodDays,
   getProfileData,
@@ -49,7 +54,8 @@ export default async function CycleModule() {
       case avgPeriodLength < cycleDayNo && cycleDayNo < OVULATION_DAY_NO: {
         return 2;
       }
-      case cycleDayNo > OVULATION_DAY_NO && cycleDayNo < avgCycleLength: {
+      case (cycleDayNo > OVULATION_DAY_NO && cycleDayNo < avgCycleLength) ||
+        cycleDayNo === avgCycleLength: {
         return 3;
       }
       case avgCycleLength < cycleDayNo: {
@@ -76,7 +82,9 @@ export default async function CycleModule() {
       }
       case 3: {
         const daysNo = remainingDaysToNextPeriod();
-        return `${daysNo} روز به پریود بعدی`;
+        return daysNo === 0
+          ? 'امروز روز پریود شماست'
+          : `${daysNo} روز به پریود بعدی`;
       }
       case 4: {
         const days = remainingDaysToNextPeriod();
@@ -194,6 +202,81 @@ export default async function CycleModule() {
     console.log('fist per', days);
     setBleedingDays(days);
   }
+  async function determinePeriodIntervals() {
+    const bdays = await pastBleedingDays();
+    let intervals = [];
+    for (let i = 0; i <= bdays.length; i++) {
+      if (!bdays[i + 1]) {
+        intervals.push(bdays.splice(0, i + 1));
+        return intervals;
+      }
+      if (bdays[i].diff(bdays[i + 1], 'days') > MIN_LENGTH_BETWEEN_PERIODS) {
+        intervals.push(bdays.splice(0, i + 1));
+        i = -1;
+      }
+    }
+  }
+  async function determineCyclesStartDate() {
+    const intervals = await determinePeriodIntervals();
+    let cyclesStartDay = [];
+    intervals.forEach((interval) => {
+      cyclesStartDay.push(cycleStartDate(interval));
+    });
+    return cyclesStartDay;
+  }
+  function cycleStartDate(interval) {
+    //since each interval array is sorted, I consider last element as first {period/cycle} day.
+    //If the sort changed, we should find earlier day in interval array using moment.min().
+    //so interval[interval.length - 1] will change to moment.min(interval).
+    return {
+      startDay: interval[interval.length - 1],
+      bleedingDays: interval,
+    };
+  }
+  async function determineCyclesDetail() {
+    const cyclesStartDay = await determineCyclesStartDate();
+    let cycles = [];
+    for (let i = cyclesStartDay.length - 1; i >= 0; i--) {
+      if (!cyclesStartDay[i - 1]) {
+        cycles.push({
+          ...cyclesStartDay[i],
+          length: today.diff(cyclesStartDay[i].startDay, 'days'),
+        });
+        return cycles;
+      }
+      cycles.push({
+        ...cyclesStartDay[i],
+        endDay: cyclesStartDay[i - 1].startDay
+          .subtract(1, 'days')
+          .format(FORMAT),
+        length: cyclesStartDay[i - 1].startDay.diff(
+          cyclesStartDay[i].startDay,
+          'days',
+        ),
+      });
+    }
+  }
+  async function determineEachCycleDayType() {
+    const cyclesDetail = await determineCyclesDetail();
+    let d = [];
+    cyclesDetail.forEach((cycle) => {
+      d.push(cycleDayTypes(cycle));
+    });
+    return d;
+  }
+  function cycleDayTypes(cycle) {
+    let allDays = [];
+    for (let i = 1; i <= cycle.length; i++) {
+      const date = moment(cycle.startDay).add(i, 'day').format(FORMAT);
+      const formatted = cycle.bleedingDays.map((d) => d.format(FORMAT));
+      allDays.push({
+        cycleId: `${moment(cycle.startDay).format(FORMAT)}`,
+        date: date,
+        type: formatted.includes(date) ? 'period' : 'normal',
+      });
+    }
+    return allDays;
+  }
   return {
     determinePhaseText,
     perdictedPeriodDaysInCurrentYear,
@@ -201,5 +284,8 @@ export default async function CycleModule() {
     pastBleedingDays,
     determineLastPeriodDate,
     setFirstPeriod,
+    determineCyclesStartDate,
+    determineCyclesDetail,
+    determineEachCycleDayType,
   };
 }

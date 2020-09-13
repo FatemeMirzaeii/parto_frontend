@@ -4,7 +4,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import HomeStack from './HomeStack';
 import CalendarStack from './CalendarStack';
 import MenuStack from './MenuStack';
-import Charts from '../screens/charts';
+import Analysis from '../screens/analysis';
 import { COLOR } from '../styles/static';
 
 const Tab = createBottomTabNavigator();
@@ -47,7 +47,7 @@ const TabNavigator = () => {
           borderColor: 'gray',
         },
       }}>
-      <Tab.Screen name="Charts" component={Charts} />
+      <Tab.Screen name="Analysis" component={Analysis} />
       <Tab.Screen name="Home" component={HomeStack} />
       <Tab.Screen name="Calendar" component={CalendarStack} />
       <Tab.Screen name="Menu" component={MenuStack} />
