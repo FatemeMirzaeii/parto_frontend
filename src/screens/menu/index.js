@@ -140,7 +140,6 @@ const Menu = ({ navigation }) => {
             value: isLock,
             onValueChange: lock,
           }}
-          bottomDivider
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
@@ -180,7 +179,6 @@ const Menu = ({ navigation }) => {
         <ListItem
           title="ارتباط با پرتو"
           leftIcon={{ name: 'touch-app' }}
-          bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('ContactUs')}
           titleStyle={styles.listItemText}

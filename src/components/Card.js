@@ -11,7 +11,7 @@ Card.propTypes = {
 };
 Card.defaultProps = {
   color: '#fff',
-  children:<View></View>
+  children: <View />,
 };
 const styles = StyleSheet.create({
   card: (props) => ({

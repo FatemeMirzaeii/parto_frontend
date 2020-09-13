@@ -24,7 +24,7 @@ const TabNavigator = () => {
             case 'Calendar':
               iconName = focused ? 'calendar' : 'calendar';
               break;
-            case 'Charts':
+            case 'Analysis':
               iconName = focused ? 'linechart' : 'linechart';
               break;
             case 'Menu':
@@ -38,10 +38,10 @@ const TabNavigator = () => {
       })}
       tabBarOptions={{
         activeTintColor: COLOR.btn,
-        inactiveTintColor: 'gray',
+        inactiveTintColor: COLOR.nextPage,
         showLabel: false,
         style: {
-          backgroundColor:'rgb(253,241,241)'
+          backgroundColor: 'rgb(253,241,241)',
         },
       }}>
       <Tab.Screen name="Analysis" component={Analysis} />

@@ -57,11 +57,11 @@ const TrackingOptions = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={toggleOverlay}
           style={[styles.more, { backgroundColor: item.color }]}>
-          <Icon name="ios-flash" type="ionicon" size={17} color="white" />
           <Text style={styles.moreText}>
             {'   '}
             در مورد {item.title} بیشتر بدانید.
           </Text>
+          <Icon name="ios-flash" type="ionicon" size={17} color="white" />
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item, item.color)}</View>
         {/* {item.id === detailPageId ? renderDetailPage() : null} */}
@@ -212,7 +212,7 @@ const TrackingOptions = ({ route, navigation }) => {
           data={categories}
           renderItem={renderItem}
           sliderWidth={WIDTH}
-          itemWidth={WIDTH - 120}
+          itemWidth={WIDTH - 110}
           inverted={true}
         />
       </ScrollView>

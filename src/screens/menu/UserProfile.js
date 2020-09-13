@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, Text } from 'react-native';
-import { Card, Avatar } from 'react-native-elements';
+import { Avatar } from 'react-native-elements';
 import DataBase from '../../util/database';
+import Card from '../../components/Card';
 import styles from './styles';
 const db = new DataBase();
 const UserProfile = (props) => {
