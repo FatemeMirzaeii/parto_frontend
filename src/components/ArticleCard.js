@@ -34,7 +34,7 @@ const ArticleCard = (props) => {
             />
           </View>
         </TouchableOpacity>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row',
             padding: 5,
@@ -63,7 +63,7 @@ const ArticleCard = (props) => {
             />
           </View>
           <Text style={{}}>منبع مقاله</Text>
-        </View>
+        </View> */}
       </View>
     </View>
   );

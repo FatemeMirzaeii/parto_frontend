@@ -22,13 +22,16 @@ export const HTMLTagsStyles = {
   },
   h5: {
     textAlign: 'right',
-    color: 'darkblue',
+    //color: 'darkblue',
     fontFamily: FONT.medium,
   },
   ul: {
     direction: 'rtl',
-    backgroundColor: 'lightgreen',
-    textAlign: 'right',
+    //backgroundColor: 'lightgreen',
+   // textAlign: 'right',
+  //  justifyContent:'flex-end',
+  //  alignItems:'flex-end'
+
   },
   li: {
     textAlign: 'right',
@@ -45,21 +48,35 @@ export const HTMLTagsStyles = {
 
 export default StyleSheet.create({
   headerCotainer: {
-    flex: 1,
-    paddingVertical: 19,
-    paddingBottom: 2,
+    //width:'100%',
+    flex:1,
+    paddingHorizontal:5,
+    
+    //marginHorizontal:5,
+    //paddingBottom: 2,
     flexDirection: 'row-reverse',
     justifyContent: 'space-between',
     backgroundColor: 'white',
   },
   headerWrapper: {
-    // backgroundColor:'pink',
+   // backgroundColor:'pink',
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent:'flex-end',
+   // paddingHorizontal:4,
+   width:'95%',
+    
   },
   headerText: {
+    //justifyContent:'flex-end',
+    alignSelf:'flex-end',
+    //textAlign:'right',
     color: 'black',
-    paddingLeft: 20,
+   // paddingLeft: 20,
+   //backgroundColor:'yellow',
+   
+   
+   
     fontSize: 17,
     fontFamily: FONT.medium,
   },
