@@ -9,6 +9,7 @@ import {
   ImageBackground,
   Linking,
   ActivityIndicator,
+  SafeAreaView
 } from 'react-native';
 import { Icon } from 'native-base';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
@@ -129,7 +130,12 @@ const ArticleDetails = ({ route, navigation }) => {
       extrapolate: 'clamp',
     });
     return (
-      <View style={styles.headerCotainer}>
+      <>
+     { isLoading?
+      <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
+      <ActivityIndicator  size="small" color="#0000ff"/>
+     </View>:
+      <SafeAreaView style={styles.headerCotainer}>
         <View style={styles.headerWrapper}>
           <Animated.View style={{ opacity }}>
             <Text style={styles.headerText}>{articleContent.title}</Text>
@@ -147,7 +153,8 @@ const ArticleDetails = ({ route, navigation }) => {
             style={styles.icon}
           />
         </View>
-      </View>
+      </SafeAreaView>}
+      </>
     );
   };
 

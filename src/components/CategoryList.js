@@ -8,6 +8,8 @@ import {
   Text,
   TouchableOpacity,
   View,
+  StyleSheet,
+  ActivityIndicator,
 } from 'react-native';
 import base64 from 'react-native-base64';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,8 +21,9 @@ const CategoryList = (props) => {
   const [categoryContent, setCategoryContent] = useState([]);
   const [image, setImage] = useState([]);
   const [article, setArticle] = useState([]);
-
   const [isLoading, setIsLoading] = useState(true);
+
+  
 
   const { catId } = props;
 
@@ -36,6 +39,7 @@ const CategoryList = (props) => {
       })
         .then((res) => {
           const ID = [];
+
           let con = [];
           console.log(res);
           console.log('categoryContent', res.data.results);
@@ -57,9 +61,9 @@ const CategoryList = (props) => {
             })
               .then((response) => {
                 console.log('response', response);
-                var allUrls = [];
                 const data = response.data.results;
                 const imgUrl = [];
+               // content = [];
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
                     `https://ketab.partobanoo.com${
@@ -68,9 +72,20 @@ const CategoryList = (props) => {
                   );
 
                   console.log('imgUrl', imgUrl);
-                  setImage(imgUrl[0]);
                 }
-                article.push({ ...con[i], cover: image, images: imgUrl });
+                article.push({
+                  ...con[i],
+                  cover: imgUrl[0],
+                  images: imgUrl,
+                  catId: catId,
+                });
+                //setArticle({...con[i],cover:imgUrl[0],images:imgUrl})
+                // setCategoryContent(pre=>{...pre,cover:imgUrl[0],images:imgUrl})
+                // setCategoryContent(prevState => {
+                //   // Object.assign would also work
+                //   return {...prevState ,cover:imgUrl[0],images:imgUrl};
+                // });
+
                 setIsLoading(false);
                 console.log('imgUrl', imgUrl);
                 console.log('new', article);
@@ -82,8 +97,10 @@ const CategoryList = (props) => {
                 // }
               });
           }
+          // setArticle(content);
           console.log(ID);
         })
+
         .catch((err) => {
           console.error(err, err.response);
         });
@@ -91,82 +108,26 @@ const CategoryList = (props) => {
     getCategoryContent();
   }, [catId]);
 
-  const imageResize = () => {
-    ImageResizer.createResizedImage(
-      'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
-      140,
-      180,
-    )
-      .then((response) => {
-        // response.uri is the URI of the new image that can now be displayed, uploaded...
-        // response.path is the path of the new image
-        // response.name is the name of the new image with the extension
-        // response.size is the size of the new image
-        console.log('resize', response.uri);
-        return response.uri;
-      })
-      .catch((err) => {
-        // Oops, something went wrong. Check that the filename is correct and
-        // inspect err to get more details.
-      });
-  };
-
   const _renderItem = ({ item }) => {
-    console.log('itemmmm', item);
     return (
       <TouchableOpacity
         onPress={() => {
           props.navigation.navigate('ArticleDetails', { articleContent: item });
         }}
-        // onPress={props.cardOnPress}
-        style={{
-          // padding: 10,
-
-          margin: 5,
-          borderRadius: 25,
-          shadowColor: '#000',
-          shadowOffset: {
-            width: 0,
-            height: 3,
-          },
-          shadowOpacity: 0.27,
-          shadowRadius: 4.65,
-          elevation: 6,
-        }}>
+        style={styles.cardButton}>
         <ImageBackground
-          style={{
-            // resizeMode: 'cover',
-            width: 140,
-            height: 180,
-          }}
-          // imageStyle={{borderRadius: 15}}
-          imageStyle={{ resizeMode: 'cover', flex: 1, borderRadius: 15 }}
+          style={styles.imageWrapper}
+          imageStyle={styles.image}
           source={{
-            uri:
-              item.cover.length > 0
-                ? item.cover[0]
-                : 'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
-            //   ,
-            // uri:imageResize()
-            // uri:item.cover?item.cover:'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
+            uri: item.cover
+              ? item.cover
+              : 'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
           }}>
           <LinearGradient
             colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
-            style={{
-              borderBottomRightRadius: 15,
-              borderBottomLeftRadius: 15,
-              flex: 1,
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-            }}>
-            <View style={{ flexDirection: 'row-reverse', padding: 5 }}>
-              <Text
-                numberOfLines={2}
-                //ellipsizeMode='tail'
-                style={{
-                  color: '#fff',
-                  fontFamily: FONT.medium,
-                }}>
+            style={styles.textGradient}>
+            <View style={styles.textWrapper}>
+              <Text numberOfLines={2} style={styles.text}>
                 {item.title}
               </Text>
             </View>
@@ -177,48 +138,26 @@ const CategoryList = (props) => {
   };
   console.log('new', article);
   return (
-    <View
-      style={{
-        marginBottom: 30,
-      }}>
-      <View
-        style={{
-          flex: 1,
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          padding: 10,
-          //backgroundColor:'red'
-          marginHorizontal: 12,
-        }}>
-        <TouchableOpacity
-          onPress={props.MoreBtnOnPress}
-          style={
-            {
-              // backgroundColor: '#f0f8ff',
-              // padding: 10,
-              // margin: 15,
-              //borderRadius:15,
-              //marginTop:40
-            }
-          }>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: 'row',
-              //justifyContent: 'space-between',
-            }}>
+    <>
+   
+   { isLoading?
+    <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
+        <ActivityIndicator  size="small" color="#0000ff"/>
+       </View>:
+    <View style={styles.main}>
+      <View style={styles.moreButtonWrapper}>
+        <TouchableOpacity onPress={props.MoreBtnOnPress}>
+          <View style={styles.moreButtonBox}>
             <Icon
               type="FontAwesome"
               name="angle-left"
               // style={styles.icon(props)}
-              style={{ fontSize: 13, color: '#95c9e1', padding: 5 }}
+              style={styles.moreButtonIcon}
             />
-            <Text style={{ fontFamily: FONT.light, color: '#95c9e1' }}>
-              {props.buttonTitle}
-            </Text>
+            <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
           </View>
         </TouchableOpacity>
-        <Text style={{ fontFamily: FONT.bold }}>{props.category}</Text>
+        <Text style={styles.categoryText}>{props.category}</Text>
       </View>
 
       <FlatList
@@ -230,8 +169,80 @@ const CategoryList = (props) => {
         showsHorizontalScrollIndicator={false}
         initialNumToRender={10}
       />
-    </View>
+    </View>}
+    </>
   );
 };
+
+const styles = StyleSheet.create({
+  main: {
+    marginBottom: 30,
+  },
+  moreButtonWrapper: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    padding: 10,
+    marginHorizontal: 12,
+  },
+  moreButtonBox: {
+    flex: 1,
+    flexDirection: 'row',
+    //backgroundColor:'red'
+  },
+  moreButtonIcon: {
+    fontSize: 13,
+    color: '#95c9e1',
+    paddingVertical:7,
+    //paddingHorizontal:2
+    paddingRight:5
+  },
+  moreButtonText: {
+    fontFamily: FONT.light,
+    color: '#95c9e1',
+  },
+  categoryText: {
+    fontFamily: FONT.bold,
+  },
+  cardButton: {
+    margin: 5,
+    borderRadius: 25,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+  },
+  imageWrapper: {
+    width: 140,
+    height: 180,
+  },
+  image: {
+    resizeMode: 'cover',
+    flex: 1,
+    borderRadius: 15,
+  },
+  textGradient: {
+    borderBottomRightRadius: 15,
+    borderBottomLeftRadius: 15,
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  textWrapper: {
+    flexDirection: 'row-reverse',
+    padding: 5,
+  },
+  text: {
+    color: '#fff',
+    fontFamily: FONT.medium,
+  },
+  highlight: {
+    fontWeight: '700',
+  },
+});
 
 export default CategoryList;

@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView ,ActivityIndicator,View} from 'react-native';
 import base64 from 'react-native-base64';
 import CategoryList from '../../components/CategoryList';
 
@@ -10,14 +10,21 @@ const Articles = (props) => {
   const [categoryList, setCategoryList] = useState([]);
   const [contentId, setContentId] = useState([]);
   const [image, setImage] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { navigation } = props;
   useEffect(() => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `https://ketab.partobanoo.com/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")`,
+        url: `https://ketab.partobanoo.com/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created desc`,
+        // url:  'https://ketab.partobanoo.com/rest/api/search?os_authType=basic&cql=(space.key=12345 and type=page and label="مقاله"  ) order by created desc&start=' +
+        // 0 +
+        // "&limit=" +
+        // 6,
         headers: {
           Authorization: 'Basic ' + authCode,
+          //   'Content-Type': 'application/json',
+          //   "cache-control": "no-cache",
           'X-Atlassian-Token': 'no-check',
         },
       })
@@ -26,6 +33,7 @@ const Articles = (props) => {
           console.log(res.data.results);
           // console.log('splice', res.data.results.splice(0, 1));
           setCategoryList(res.data.results);
+          setIsLoading(false)
         })
         .catch((err) => {
           console.error(err, err.response);
@@ -101,6 +109,10 @@ const Articles = (props) => {
 
   return (
     <>
+    {isLoading ?
+       <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
+        <ActivityIndicator  size="small" color="#0000ff"/>
+       </View>:
       <SafeAreaView>
         <FlatList
           style={{ paddingVertical: 15 }}
@@ -120,7 +132,7 @@ const Articles = (props) => {
           )}
           keyExtractor={(item, index) => index.toString()}
         />
-      </SafeAreaView>
+      </SafeAreaView>}
     </>
   );
 };

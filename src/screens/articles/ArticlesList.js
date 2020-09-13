@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Icon } from 'native-base';
+import React, { useEffect, useState } from 'react';
 import {
-  FlatList,
+  ActivityIndicator, FlatList,
   SafeAreaView,
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View,
-  ActivityIndicator,
+  View
 } from 'react-native';
+import base64 from 'react-native-base64';
 import Modal from 'react-native-modal';
-import HTML from 'react-native-render-html';
 import Share from 'react-native-share';
-import { Colors } from 'react-native/Libraries/NewAppScreen';
 //components
 import ArticleCard from '../../components/ArticleCard';
 import SearchBar from '../../components/SearchBar';
 import { FONT } from '../../styles/static';
+const authCode = base64.encode('m.vosooghian:m.vosooghian');
 const ArticlesList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [article, setArticle] = useState([]);
@@ -28,29 +27,85 @@ const ArticlesList = ({ route, navigation }) => {
   const { catId } = route.params;
 
   useEffect(() => {
-    const getCatArticle = () => {
+    const getCategoryContent = () => {
       axios({
         method: 'get',
         url: `https://ketab.partobanoo.com/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all`,
-        // headers: {
-        //   Authorization: `Bearer ${localStorage.getItem('authToken')}`,
-        // },
+        headers: {
+          Authorization: 'Basic ' + authCode,
+          'X-Atlassian-Token': 'no-check',
+        },
       })
         .then((res) => {
+          const ID = [];
+
+          let con = [];
           console.log(res);
-          setArticle(res.data.results);
-          setData(res.data.results);
-          setIsLoading(false);
+          console.log('categoryContent', res.data.results);
+          //setCategoryContent(res.data.results);
+          con = res.data.results;
+          for (let i = 0; i < res.data.results.length; i++) {
+            console.log(res.data.results[i].id);
+            // ID.push(res.data.results[i].id)
+            axios({
+              method: 'get',
+              url: `https://ketab.partobanoo.com/rest/api/content/${res.data.results[i].id}/child/attachment`,
+
+              headers: {
+                Authorization: 'Basic ' + authCode,
+                'Content-Type': 'application/json',
+                'cache-control': 'no-cache',
+                'X-Atlassian-Token': 'no-check',
+              },
+            })
+              .then((response) => {
+                console.log('response', response);
+                const data = response.data.results;
+                const imgUrl = [];
+
+                for (let i = 0; i < data.length; i++) {
+                  imgUrl.push(
+                    `https://ketab.partobanoo.com${
+                      data[i]._links.download.split('?')[0]
+                    }?os_authType=basic`,
+                  );
+
+                  console.log('imgUrl', imgUrl);
+                }
+                article.push({
+                  ...con[i],
+                  cover: imgUrl[0],
+                  images: imgUrl,
+                  catId: catId,
+                });
+                //setArticle({...con[i],cover:imgUrl[0],images:imgUrl})
+                // setCategoryContent(pre=>{...pre,cover:imgUrl[0],images:imgUrl})
+                // setCategoryContent(prevState => {
+                //   // Object.assign would also work
+                //   return {...prevState ,cover:imgUrl[0],images:imgUrl};
+                // });
+
+                setIsLoading(false);
+                setData(article);
+                console.log('imgUrl', imgUrl);
+                console.log('new', article);
+              })
+              .catch((err) => {
+                console.error(err, err.response);
+                // if (err.response && err.response.data) {
+                //   setServerError(err.response.data.message)
+                // }
+              });
+          }
+          // setArticle(content);
+          console.log(ID);
         })
+
         .catch((err) => {
           console.error(err, err.response);
-          // if (err.response && err.response.data) {
-          //   setServerError(err.response.data.message)
-          // }
         });
     };
-
-    getCatArticle();
+    getCategoryContent();
   }, [catId]);
 
   const _handleSearch = (text) => {
@@ -73,7 +128,7 @@ const ArticlesList = ({ route, navigation }) => {
         <Text
           style={{
             marginTop: 5,
-            fontFamily: 'IRANSansMobile_Light',
+            fontFamily: FONT.light,
             color: 'grey',
           }}>
           {' '}
@@ -105,11 +160,14 @@ const ArticlesList = ({ route, navigation }) => {
 
   return (
     <>
-      {isLoading && <ActivityIndicator size="small" color="#0000ff" />}
-      {!isLoading && (
-        <SafeAreaView style={{ flex: 1, paddingVertical: 15 }}>
+      {isLoading ?
+       <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
+        <ActivityIndicator  size="small" color="#0000ff"/>
+       </View>:
+      
+        <SafeAreaView style={{ flex: 1, paddingVertical: 20 }}>
           <SearchBar undertxt="جستجو" onChangeText={_handleSearch} />
-          <View
+          {/* <View
             style={{
               // backgroundColor:'red',
               height: 50,
@@ -156,7 +214,7 @@ const ArticlesList = ({ route, navigation }) => {
                 </Text>
               </View>
             </TouchableOpacity>
-          </View>
+          </View> */}
           <Modal
             animationType="fade"
             isVisible={filterVisible}
@@ -292,7 +350,7 @@ const ArticlesList = ({ route, navigation }) => {
             renderItem={({ item }) => (
               <ArticleCard
                 name={item.title}
-                image={item.avatar}
+                image={item.cover}
                 onPress={() =>
                   navigation.navigate('ArticleDetails', {
                     articleContent: item,
@@ -305,7 +363,7 @@ const ArticlesList = ({ route, navigation }) => {
             ListEmptyComponent={_renderListEmptyComponent}
           />
         </SafeAreaView>
-      )}
+}
     </>
   );
 };

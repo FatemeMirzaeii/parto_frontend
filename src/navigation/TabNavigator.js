@@ -1,6 +1,7 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
+import LinearGradient from 'react-native-linear-gradient';
 import HomeStack from './HomeStack';
 import CalendarStack from './CalendarStack';
 import MenuStack from './MenuStack';
@@ -40,11 +41,7 @@ const TabNavigator = () => {
         inactiveTintColor: 'gray',
         showLabel: false,
         style: {
-          borderTopRightRadius: 35,
-          borderTopLeftRadius: 35,
-          borderWidth: 1,
-          borderTopWidth: 1,
-          borderColor: 'gray',
+          backgroundColor:'rgb(253,241,241)'
         },
       }}>
       <Tab.Screen name="Analysis" component={Analysis} />
