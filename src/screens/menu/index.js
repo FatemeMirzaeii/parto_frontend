@@ -1,6 +1,7 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
-import { Card, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
+import Card from '../../components/Card';
 import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
