@@ -5,6 +5,7 @@ export const COLOR = {
   text1: '#1A2D36',
   bgColor: '#FCF5F7',
   btn: '#FF488A',
+  lightPink:'#fdf1f1',
   currentPage: '#79EBEE',
   nextPage: '#E0E0E0',
   textColor: '#757575',

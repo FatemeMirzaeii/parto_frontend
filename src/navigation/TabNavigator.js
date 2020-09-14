@@ -41,7 +41,7 @@ const TabNavigator = () => {
         inactiveTintColor: COLOR.nextPage,
         showLabel: false,
         style: {
-          backgroundColor: 'rgb(253,241,241)',
+          backgroundColor: COLOR.lightPink,
         },
       }}>
       <Tab.Screen name="Analysis" component={Analysis} />

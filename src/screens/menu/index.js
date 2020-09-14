@@ -6,6 +6,7 @@ import styles from './styles';
 import Divider from './Divider';
 import UserProfile from './UserProfile';
 import { setLock, lockStatus } from '../../util/database/query';
+import { COLOR } from '../../styles/static';
 // import { AuthContext } from '../../contexts/AuthContext';
 import TouchID from 'react-native-touch-id';
 
@@ -139,6 +140,8 @@ const Menu = ({ navigation }) => {
           switch={{
             value: isLock,
             onValueChange: lock,
+            trackColor: {true: COLOR.lightPink,false: "#aaa"},
+            thumbColor:isLock ? COLOR.btn :"#f4f3f4",
           }}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
