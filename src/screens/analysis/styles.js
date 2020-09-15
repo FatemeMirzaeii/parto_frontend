@@ -3,10 +3,10 @@ import { HEIGHT, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
-    // justifyContent: 'center',
+    justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: 'white',
-    height: HEIGHT,
-    width: WIDTH,
+    height: '100%',
+    width: '100%',
   },
 });

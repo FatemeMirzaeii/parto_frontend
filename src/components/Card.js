@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     backgroundColor: props.color,
     flex: 1,
     margin: 10,
-    paddingVertical: 10,
+    padding: 10,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import LinearGradient from 'react-native-linear-gradient';
 import HomeStack from './HomeStack';
 import CalendarStack from './CalendarStack';
 import MenuStack from './MenuStack';

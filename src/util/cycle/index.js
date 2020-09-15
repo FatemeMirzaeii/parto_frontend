@@ -1,4 +1,5 @@
 import moment from 'moment';
+import jalaali from 'moment-jalaali';
 
 import {
   OVULATION_DAY_NO,
@@ -13,11 +14,13 @@ import {
   setBleedingDays,
 } from '../database/query';
 const today = moment();
+//momentjs won't perform verywell and sometimes retruns inconsistant data!
+//so I had to use many transform from string to moment object or vice versa
 
 export default async function CycleModule() {
   const pdata = await getProfileData();
   console.log('databse pure data', pdata);
-  const lastPeriodDate = pdata.last_period_date
+  const lastPeriodDate = pdata.last_period_dates
     ? moment(pdata.last_period_date)
     : null;
   const avgCycleLength = pdata.avg_cycle_length;
@@ -229,7 +232,7 @@ export default async function CycleModule() {
     //If the sort changed, we should find earlier day in interval array using moment.min().
     //so interval[interval.length - 1] will change to moment.min(interval).
     return {
-      startDay: interval[interval.length - 1],
+      startDay: moment(interval[interval.length - 1]).format(FORMAT),
       bleedingDays: interval,
     };
   }
@@ -246,10 +249,10 @@ export default async function CycleModule() {
       }
       cycles.push({
         ...cyclesStartDay[i],
-        endDay: cyclesStartDay[i - 1].startDay
+        endDay: moment(cyclesStartDay[i - 1].startDay)
           .subtract(1, 'days')
           .format(FORMAT),
-        length: cyclesStartDay[i - 1].startDay.diff(
+        length: moment(cyclesStartDay[i - 1].startDay).diff(
           cyclesStartDay[i].startDay,
           'days',
         ),
@@ -266,11 +269,13 @@ export default async function CycleModule() {
   }
   function cycleDayTypes(cycle) {
     let allDays = [];
-    for (let i = 1; i <= cycle.length; i++) {
+    const formatted = cycle.bleedingDays.map((d) => d.format(FORMAT));
+    for (let i = 0; i < cycle.length; i++) {
       const date = moment(cycle.startDay).add(i, 'day').format(FORMAT);
-      const formatted = cycle.bleedingDays.map((d) => d.format(FORMAT));
       allDays.push({
-        cycleId: `${moment(cycle.startDay).format(FORMAT)}`,
+        cycleId: `از ${jalaali(cycle.startDay).format('jM/jD')} - ${jalaali(
+          cycle.endDay,
+        ).format('jM/jD')}`,
         date: date,
         type: formatted.includes(date) ? 'period' : 'normal',
       });

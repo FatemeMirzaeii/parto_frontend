@@ -5,14 +5,15 @@ import {
   VictoryStack,
   VictoryChart,
   VictoryAxis,
+  VictoryLabel,
 } from 'victory-native';
 import styles from './styles';
 import CycleModule from '../../util/cycle';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
+import Ptext from '../../components/Ptxt';
 
 const Analysis = ({ navigation }) => {
   const [cycles, setCycles] = useState([]);
-  //const [scatterData, setScatterData] = useState();
   useEffect(() => {
     navigation.addListener('focus', async () => {
       initialData();
@@ -23,29 +24,26 @@ const Analysis = ({ navigation }) => {
   }, []);
   const initialData = async () => {
     const c = await CycleModule();
-    // const s = await c.determineCyclesDetail();
-    const f = await c.determineEachCycleDayType();
-    setCycles(f);
-    // console.log('ssss', s);
+    const d = await c.determineEachCycleDayType();
+    setCycles(d);
   };
   const renderBars = (cycle) => {
-    cycle.map((day) => {
-      console.log('day', day);
+    return cycle.map((day, i) => {
       return (
         <VictoryBar
-          key={day.date}
-          barWidth={20}
-          cornerRadius={{ bottom: 10, top: 10 }}
-          // style={{
-          //   data: {
-          //     fill: ({ datum }) => {
-          //       console.log('datum', datum);
-          //       return datum.z === 'period' ? COLOR.btn : '#f6f6f6';
-          //     },
-          //   },
-          // }}
-          // // labels={({ datum }) => datum.y}
-          // // labelComponent={<VictoryLabel dx={-30} />}
+          key={i}
+          barWidth={10}
+          cornerRadius={{
+            top: ({ datum }) => datum.y * 5,
+          }}
+          style={{
+            data: {
+              fill: ({ datum }) => {
+                return day.type === 'period' ? COLOR.btn : COLOR.bgColor;
+              },
+              strokeWidth: 5,
+            },
+          }}
           data={[{ x: day.cycleId, y: 1 }]}
         />
       );
@@ -54,42 +52,50 @@ const Analysis = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <VictoryChart horizontal>
+        <Ptext>
+          متوسط طول دوره‌ها:{' '}
+          {Math.round(
+            cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
+          )}{' '}
+          روز
+        </Ptext>
+        <VictoryChart
+          horizontal
+          height={600}
+          scale={{ x: 'time' }}
+          // animate={{ duration: 500, easing: 'bounce' }}
+          // containerComponent={
+          //    <VictoryZoomContainer allowZoom={false} zoomDimension="x" />
+          // }
+          // domainPadding={{ x: -100 }}
+        >
           <VictoryAxis
+            dependentAxis
+            invertAxis
+            orientation="top"
             style={{
-              axis: { stroke: 'transparent' },
-              ticks: { stroke: 'transparent' },
-              tickLabels: { fill: 'transparent' },
+              axis: { stroke: 'none' },
+              tickLabels: { fill: 'none', fontFamily: FONT.light },
             }}
+            tickValues={[7, 14, 21, 28, 35]}
+            tickFormat={(t) => `'`}
           />
-          {cycles.map((cycle) => {
-            console.log('daaaaaaa', cycle);
+          {cycles.map((cycle, i) => {
             return (
               <VictoryStack
-                horizontal
-                key={cycle[0].cycleId}
-                colorScale={[COLOR.btn, '#f6f6f6']}>
-                {cycle.map((day) => {
-                  return (
-                    <VictoryBar
-                      key={day.date}
-                      barWidth={20}
-                      cornerRadius={{ bottom: 5, top: 5 }}
-                      style={{
-                        data: {
-                          fill: ({ datum }) => {
-                            return day.type === 'period'
-                              ? COLOR.btn
-                              : COLOR.bgColor;
-                          },
-                        },
-                      }}
-                      // labels={({ datum }) => datum.y}
-                      // labelComponent={<VictoryLabel dx={-30} />}
-                      data={[{ x: day.cycleId, y: 1 }]}
-                    />
-                  );
-                })}
+                key={i}
+                labels={({ datum }) => cycle[0].cycleId}
+                labelComponent={
+                  <VictoryLabel
+                    direction="rtl"
+                    verticalAnchor="middle"
+                    textAnchor="end"
+                    dy={-25}
+                    x={WIDTH - 50}
+                    style={{ fontFamily: FONT.medium }}
+                  />
+                }>
+                {renderBars(cycle)}
               </VictoryStack>
             );
           })}
