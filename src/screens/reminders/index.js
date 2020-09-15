@@ -16,7 +16,7 @@ const Reminders = ({ navigation }) => {
   return (
     <ScrollView>
       <Card>
-        {reminders.map((r) => {
+        {reminders.map((r,index) => {
           return (
             <ListItem
               key={r.id}
@@ -24,7 +24,7 @@ const Reminders = ({ navigation }) => {
               onPress={() =>
                 navigation.navigate('ReminderSetting', { reminder: r })
               }
-              bottomDivider
+              bottomDivider={index===reminders.length-1?false:true}
               leftIcon={{ name: 'alarm' }}
               titleStyle={styles.listItemText}
               containerStyle={styles.listItem}

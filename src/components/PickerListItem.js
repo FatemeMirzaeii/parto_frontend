@@ -44,7 +44,7 @@ const PickerListItem = (props) => {
       <ListItem
         title={props.title}
         leftIcon={props.leftIcon}
-        bottomDivider
+        bottomDivider={props.bottomDivider}
         chevron={chooseChevron(isVisible)}
         onPress={() => setVisible(!isVisible)}
         rightTitle={
