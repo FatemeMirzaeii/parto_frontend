@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ImageBackground } from 'react-native';
+import { SafeAreaView, View, ImageBackground, StatusBar } from 'react-native';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import WeekCalendar from '../../components/WeekCalendar';
@@ -9,6 +9,7 @@ import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import { Icon } from 'react-native-elements';
 import { pregnancyMode } from '../../util/database/query';
+import { COLOR } from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
@@ -45,17 +46,28 @@ const Home = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require('../../../assets/images/bg7.png')}
         style={styles.sky}>
+        <Icon
+          raised
+          name="calendar"
+          type="font-awesome"
+          size={20}
+          color={COLOR.btn}
+          containerStyle={{ top: 20 }}
+          onPress={() => {
+            navigation.navigate('Calendar');
+          }}
+        />
         <WeekCalendar
           theme={{
             calendarBackground: '#f1f1f1',
           }}
-          onDateChanged={(d, propUpdate) =>
-            navigation.navigate('TrackingOptions', { day: d })
-          }
+          // onDateChanged={(d, propUpdate) =>
+          //   navigation.navigate('TrackingOptions', { day: d })
+          // }
         />
         <ImageBackground
           source={require('../../../assets/images/moon7.png')}
@@ -64,9 +76,14 @@ const Home = ({ navigation }) => {
         </ImageBackground>
         <Icon
           raised
-          name="heartbeat"
+          name="plus"
           type="font-awesome"
-          color="#f50"
+          color={COLOR.btn}
+          size={30}
+          containerStyle={{
+            alignSelf: 'center',
+            bottom: 0,
+          }}
           onPress={() => {
             navigation.navigate('TrackingOptions', {
               day: today.format('YYYY-MM-DD'),

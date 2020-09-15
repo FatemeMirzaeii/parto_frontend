@@ -14,14 +14,26 @@ import Ptext from '../../components/Ptxt';
 
 const Analysis = ({ navigation }) => {
   const [cycles, setCycles] = useState([]);
+  const [avg, setAvg] = useState([]);
+
   useEffect(() => {
     navigation.addListener('focus', async () => {
       initialData();
+      setAvg(
+        Math.round(
+          cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
+        ),
+      );
     });
-  }, [navigation]);
+  }, [cycles, navigation]);
   useEffect(() => {
     initialData();
-  }, []);
+    setAvg(
+      Math.round(
+        cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
+      ),
+    );
+  }, [cycles]);
   const initialData = async () => {
     const c = await CycleModule();
     const d = await c.determineEachCycleDayType();
@@ -52,13 +64,7 @@ const Analysis = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        <Ptext>
-          متوسط طول دوره‌ها:{' '}
-          {Math.round(
-            cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
-          )}{' '}
-          روز
-        </Ptext>
+        {avg ? <Ptext>متوسط طول دوره‌ها: {avg} روز</Ptext> : null}
         <VictoryChart
           horizontal
           height={600}

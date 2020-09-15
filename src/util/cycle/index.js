@@ -20,7 +20,7 @@ const today = moment();
 export default async function CycleModule() {
   const pdata = await getProfileData();
   console.log('databse pure data', pdata);
-  const lastPeriodDate = pdata.last_period_dates
+  const lastPeriodDate = pdata.last_period_date
     ? moment(pdata.last_period_date)
     : null;
   const avgCycleLength = pdata.avg_cycle_length;

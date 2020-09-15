@@ -48,7 +48,6 @@ const WeekCalendar = (props) => {
 const styles = StyleSheet.create({
   calendar: {
     elevation: 0,
-    top: 25,
   },
 });
 export default WeekCalendar;

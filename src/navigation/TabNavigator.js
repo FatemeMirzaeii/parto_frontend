@@ -2,7 +2,7 @@ import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import HomeStack from './HomeStack';
-import CalendarStack from './CalendarStack';
+import ArticleStack from './ArticleStack';
 import MenuStack from './MenuStack';
 import Analysis from '../screens/analysis';
 import { COLOR } from '../styles/static';
@@ -20,14 +20,14 @@ const TabNavigator = () => {
             case 'Home':
               iconName = focused ? 'home' : 'home';
               break;
-            case 'Calendar':
-              iconName = focused ? 'calendar' : 'calendar';
+            case 'Articles':
+              iconName = focused ? 'book' : 'book';
               break;
             case 'Analysis':
-              iconName = focused ? 'linechart' : 'linechart';
+              iconName = focused ? 'barschart' : 'barschart';
               break;
             case 'Menu':
-              iconName = focused ? 'profile' : 'profile';
+              iconName = focused ? 'menufold' : 'menufold';
               break;
             default:
               break;
@@ -45,7 +45,7 @@ const TabNavigator = () => {
       }}>
       <Tab.Screen name="Analysis" component={Analysis} />
       <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Calendar" component={CalendarStack} />
+      <Tab.Screen name="Articles" component={ArticleStack} />
       <Tab.Screen name="Menu" component={MenuStack} />
     </Tab.Navigator>
   );
