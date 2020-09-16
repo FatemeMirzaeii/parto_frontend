@@ -90,8 +90,8 @@ export default async function CycleModule() {
           : `${daysNo} روز به پریود بعدی`;
       }
       case 4: {
-        const days = remainingDaysToNextPeriod();
-        return `${days} روز پریود شما دیر شده است.`;
+        const days = Math.abs(remainingDaysToNextPeriod());
+        return `${days} روز از زمان پریود شما گذشته است.`;
       }
       default:
         return 'دوره ماهانه در یک نگاه';

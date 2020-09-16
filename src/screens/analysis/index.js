@@ -19,15 +19,12 @@ const Analysis = ({ navigation }) => {
   useEffect(() => {
     navigation.addListener('focus', async () => {
       initialData();
-      setAvg(
-        Math.round(
-          cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
-        ),
-      );
     });
-  }, [cycles, navigation]);
+  }, [navigation]);
   useEffect(() => {
     initialData();
+  }, []);
+  useEffect(() => {
     setAvg(
       Math.round(
         cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,

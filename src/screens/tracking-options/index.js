@@ -13,12 +13,25 @@ import { SvgCss } from 'react-native-svg';
 
 import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
+import Ptext from '../../components/Ptxt';
 import styles from './styles';
 import { WIDTH } from '../../styles/static';
 import {
   BLEEDING,
   EXCERSICE,
   SPOTTING,
+  VAGINAL,
+  PAIN,
+  MOOD,
+  SLEEP,
+  SEX,
+  MORE_ABOUT_VAGINAL,
+  MORE_ABOUT_BLEEDING,
+  MORE_ABOUT_PAIN,
+  MORE_ABOUT_MOOD,
+  MORE_ABOUT_SLEEP,
+  MORE_ABOUT_EXCERSICE,
+  MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
 import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
@@ -32,6 +45,7 @@ const TrackingOptions = ({ route, navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
   const getData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
@@ -55,7 +69,9 @@ const TrackingOptions = ({ route, navigation }) => {
           <Text style={styles.txt}>{item.title}</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={toggleOverlay}
+          onPress={() => {
+            toggleOverlay(item.id);
+          }}
           style={[styles.more, { backgroundColor: item.color }]}>
           <Text style={styles.moreText}>
             {'   '}
@@ -195,8 +211,35 @@ const TrackingOptions = ({ route, navigation }) => {
   const updateIndex = (i) => {
     setSelectedIndex(i);
   };
-  const toggleOverlay = () => {
+  const toggleOverlay = (itemId) => {
     setVisible(!visible);
+    if (!itemId) return;
+    switch (itemId) {
+      case BLEEDING:
+        setOverlayText(MORE_ABOUT_BLEEDING);
+        break;
+      case VAGINAL:
+        setOverlayText(MORE_ABOUT_VAGINAL);
+        break;
+      case PAIN:
+        setOverlayText(MORE_ABOUT_PAIN);
+        break;
+      case MOOD:
+        setOverlayText(MORE_ABOUT_MOOD);
+        break;
+      case SLEEP:
+        setOverlayText(MORE_ABOUT_SLEEP);
+        break;
+      case EXCERSICE:
+        setOverlayText(MORE_ABOUT_EXCERSICE);
+        break;
+      case SEX:
+        setOverlayText(MORE_ABOUT_SEX);
+        break;
+
+      default:
+        break;
+    }
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -216,8 +259,18 @@ const TrackingOptions = ({ route, navigation }) => {
           inverted={true}
         />
       </ScrollView>
-      <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-        <Text>در دست تعمیر!</Text>
+      <Overlay isVisible={visible}>
+        <Icon
+          type="antdesign"
+          name="close"
+          color="red"
+          size={20}
+          onPress={toggleOverlay}
+          containerStyle={{ alignItems: 'flex-start' }}
+        />
+        <ScrollView>
+          <Ptext>{overlayText}</Ptext>
+        </ScrollView>
       </Overlay>
       <ActionSheet
         ref={detailPageRef}
