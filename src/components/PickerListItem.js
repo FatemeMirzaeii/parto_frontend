@@ -56,6 +56,7 @@ const PickerListItem = (props) => {
         titleStyle={styles.listItemText}
         containerStyle={styles.listItem}
         contentContainerStyle={styles.listItemContent}
+        subtitleStyle={styles.subTitle}
         rightTitleStyle={[
           styles.listItemText,
           {
@@ -112,6 +113,10 @@ const styles = StyleSheet.create({
   },
   listItemContent: {
     alignItems: 'flex-end',
+  },
+  subTitle: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
 });
 export default PickerListItem;
