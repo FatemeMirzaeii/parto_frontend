@@ -48,41 +48,47 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/bg7.png')}
+        source={require('../../../assets/images/bg.jpeg')}
         style={styles.sky}>
         <Icon
-          raised
           name="calendar"
           type="font-awesome"
           size={20}
           color={COLOR.btn}
-          containerStyle={{ top: 20 }}
+          containerStyle={{
+            top: 30,
+            zIndex: 10,
+            alignItems: 'flex-start',
+            paddingLeft: 40,
+          }}
           onPress={() => {
             navigation.navigate('Calendar');
           }}
         />
         <WeekCalendar
           theme={{
-            calendarBackground: '#f1f1f1',
+            calendarBackground: '#e1e8f0',
           }}
+          showTodayButton
           // onDateChanged={(d, propUpdate) =>
           //   navigation.navigate('TrackingOptions', { day: d })
           // }
         />
-        <ImageBackground
+        {renderText()}
+        {/* <ImageBackground
           source={require('../../../assets/images/moon7.png')}
           style={styles.moon}>
           {renderText()}
-        </ImageBackground>
+        </ImageBackground> */}
         <Icon
           raised
           name="plus"
           type="font-awesome"
           color={COLOR.btn}
-          size={30}
+          size={25}
           containerStyle={{
-            alignSelf: 'center',
-            bottom: 0,
+            left: 15,
+            bottom: 15,
           }}
           onPress={() => {
             navigation.navigate('TrackingOptions', {

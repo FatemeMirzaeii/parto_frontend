@@ -319,7 +319,7 @@ const ContactUs = (props) => {
             }}
           />
           <TouchableOpacity
-            // onPress={() => props.navigation.navigate('ClientInformation')}
+            onPress={() => props.navigation.navigate('AboutUs')}
             style={{
               flexDirection: 'row',
               width: '90%',
@@ -342,8 +342,7 @@ const ContactUs = (props) => {
                   fontSize: SIZE[14],
                   marginLeft: 80,
                   color: '#79EBEE',
-                }}
-                onPress={() => props.navigation.navigate('AboutUs')}>
+                }}>
                 داستان پرتو
               </Ptxt>
             </Body>
@@ -352,7 +351,6 @@ const ContactUs = (props) => {
                 name="copy1"
                 type="AntDesign"
                 style={{ textAlign: 'right', color: '#79EBEE' }}
-                onPress={() => props.navigation.navigate('AboutUs')}
               />
             </Left>
           </TouchableOpacity>

@@ -59,28 +59,32 @@ const UserGoal = () => {
         { cancelable: true },
       );
     } else {
-      Alert.alert(
-        '',
-        'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
-        [
-          {
-            text: 'بله',
-            onPress: () => {
-              updateUserStatus(1, 0);
-              setMode(i);
-              //  setStartModal(true);
+      if (i === 2) {
+        Alert.alert(
+          '',
+          'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
+          [
+            {
+              text: 'بله',
+              onPress: () => {
+                updateUserStatus(1, 0);
+                setMode(i);
+                //  setStartModal(true);
+              },
             },
-          },
-          {
-            text: 'خیر',
-            onPress: () => {
-              return;
+            {
+              text: 'خیر',
+              onPress: () => {
+                return;
+              },
+              style: 'cancel',
             },
-            style: 'cancel',
-          },
-        ],
-        { cancelable: true },
-      );
+          ],
+          { cancelable: true },
+        );
+      }
+      updateUserStatus(0, 1);
+      setMode(i);
     }
   };
   return (

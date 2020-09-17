@@ -3,8 +3,16 @@ import { SIZE, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
-  sky: { width: '100%', height: '100%' },
-  moon: { width: '100%', height: '80%', top: 110 },
+  sky: {
+    width: '100%',
+    height: '100%',
+  },
+  moon: {
+    width: '100%',
+    height: '65%',
+    top: 5,
+    backgroundColor: 'red',
+  },
   text: {
     alignSelf: 'center',
     color: '#121C3D',
@@ -19,8 +27,7 @@ export default StyleSheet.create({
     fontFamily: FONT.light,
   },
   moonText: {
-    height: '50%',
-    width: '50%',
+    top: -270,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',

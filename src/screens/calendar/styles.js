@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WIDTH, HEIGHT, SIZE } from '../../styles/static';
+import { WIDTH, HEIGHT, SIZE, COLOR } from '../../styles/static';
 export default StyleSheet.create({
   dayNames: {
     flexDirection: 'row-reverse',
@@ -16,10 +16,10 @@ export default StyleSheet.create({
   editableDays: {
     textAlign: 'center',
     textAlignVertical: 'center',
-    borderWidth: 1,
-    borderColor: '#f6f6f6',
+    borderWidth: 0.7,
+    borderColor: COLOR.btn,
     borderRadius: 40,
-    width: WIDTH / 10,
-    height: HEIGHT / 20,
+    width: 35,
+    height: 35,
   },
 });

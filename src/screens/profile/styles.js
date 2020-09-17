@@ -27,6 +27,7 @@ export default StyleSheet.create({
     backgroundColor: COLOR.btn,
     borderRadius: 40,
     alignSelf: 'center',
+    width: '100%',
   },
   text: {
     alignSelf: 'center',

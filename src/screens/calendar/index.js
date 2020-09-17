@@ -143,7 +143,7 @@ const Calendar = ({ navigation }) => {
     //todo: should disable in pregnant mode.
     const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, COLOR.bgColor);
+    markedDateObj(bleeding, COLOR.periodPerdiction);
 
     const ovulation = c.perdictedOvulationDaysInCurrentYear();
     markedDateObj(ovulation, COLOR.currentPage);
@@ -181,7 +181,9 @@ const Calendar = ({ navigation }) => {
                         styles.editableDays,
                         {
                           color:
-                            state === 'disabled'
+                            marking.length !== 0
+                              ? COLOR.white
+                              : state === 'disabled'
                               ? COLOR.textColor
                               : COLOR.textColorDark,
                           backgroundColor:
@@ -189,7 +191,7 @@ const Calendar = ({ navigation }) => {
                               ? COLOR.currentPage
                               : marking.length !== 0
                               ? marking.periods[0].color
-                              : 'white',
+                              : COLOR.white,
                         },
                       ]}>
                       {jalaali(date.dateString).format('jD')}
@@ -200,20 +202,20 @@ const Calendar = ({ navigation }) => {
             : null
         }
         theme={{
-          textSectionTitleColor: '#35036B',
-          todayTextColor: 'white',
+          textSectionTitleColor: COLOR.black,
+          todayTextColor: COLOR.white,
           todayBackgroundColor: COLOR.currentPage,
-          selectedDayTextColor: 'white',
-          selectedDayBackgroundColor: COLOR.currentPage,
+          selectedDayTextColor: COLOR.white,
+          // selectedDayBackgroundColor: COLOR.currentPage,
           textDisabledColor: COLOR.textColor,
           textDayFontFamily: FONT.regular,
           textMonthFontFamily: FONT.regular,
           textDayHeaderFontFamily: FONT.regular,
-          textDayHeaderFontSize: SIZE[7],
+          textDayHeaderFontSize: 8.7,
           'stylesheet.calendar.main': {
             container: {
-              borderBottomWidth: 2,
-              borderColor: '#f6f6f6',
+              borderBottomWidth: 0.5,
+              borderColor: 'gray',
             },
           },
         }}

@@ -81,9 +81,21 @@ const MenuStackScreen = () => {
         component={ArticleDetails}
         options={{ headerShown: false }}
       />
-      <MenuStack.Screen name="ContactUs" component={ContactUs} />
-      <MenuStack.Screen name="Rating" component={Rating} />
-      <MenuStack.Screen name="AboutUs" component={AboutUs} />
+      <MenuStack.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{ headerShown: false }}
+      />
+      <MenuStack.Screen
+        name="Rating"
+        component={Rating}
+        options={{ headerShown: false }}
+      />
+      <MenuStack.Screen
+        name="AboutUs"
+        component={AboutUs}
+        options={{ headerShown: false }}
+      />
       {/* <MenuStack.Screen
         name="Story"
         // component={ReminderSetting}

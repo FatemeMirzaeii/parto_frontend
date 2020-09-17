@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { Card, Button } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
@@ -51,63 +51,65 @@ const Profile = ({ navigation }) => {
     navigation.pop();
   };
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      {/* <UserAvatar navigation={navigation} /> */}
-      <UserGoal />
-      <Card>
-        <PickerListItem
-          DatePicker
-          title="تاریخ تولد"
-          initialDate={birthdate}
-          onDateSelected={onBirthdateSelected}
-          leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: birthdate }}
+    <SafeAreaView contentContainerStyle={styles.container}>
+      <ScrollView>
+        {/* <UserAvatar navigation={navigation} /> */}
+        <UserGoal />
+        <Card>
+          <PickerListItem
+            DatePicker
+            title="تاریخ تولد"
+            initialDate={birthdate}
+            onDateSelected={onBirthdateSelected}
+            leftIcon={{ name: 'dashboard' }}
+            rightTitle={{ title: birthdate }}
+          />
+          <PickerListItem
+            title="گروه خونی"
+            data={bloodTypes}
+            selectedItem={bloodType}
+            onItemSelected={setBloodType}
+            leftIcon={{ name: 'dashboard' }}
+            rightTitle={{ title: bloodType }}
+          />
+          <PickerListItem
+            title="قد"
+            selectedItem={height}
+            onItemSelected={setHeight}
+            range={{ min: 100, max: 250 }}
+            leftIcon={{ name: 'dashboard' }}
+            rightTitle={{ title: height, suffix: 'cm' }}
+          />
+          <PickerListItem
+            title="وزن"
+            selectedItem={weight}
+            onItemSelected={setWeight}
+            range={{ min: 30, max: 150 }}
+            leftIcon={{ name: 'dashboard' }}
+            rightTitle={{ title: weight, suffix: 'Kg' }}
+          />
+          <PickerListItem
+            title="میانگین ساعت خواب"
+            selectedItem={avgSleepingHours}
+            onItemSelected={setAvgSleepingHours}
+            range={{ min: 2, max: 15 }}
+            initPosition={7}
+            leftIcon={{ name: 'dashboard' }}
+            rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
+          />
+        </Card>
+        <Button
+          loading={loading}
+          title="ذخیره"
+          onPress={() => save()}
+          containerStyle={styles.btnContainer}
+          buttonStyle={styles.nextButton}
+          titleStyle={styles.listItemText}
+          loadingStyle={{ color: COLOR.btn }}
+          // icon={{name: 'user'}}
         />
-        <PickerListItem
-          title="گروه خونی"
-          data={bloodTypes}
-          selectedItem={bloodType}
-          onItemSelected={setBloodType}
-          leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: bloodType }}
-        />
-        <PickerListItem
-          title="قد"
-          selectedItem={height}
-          onItemSelected={setHeight}
-          range={{ min: 100, max: 250 }}
-          leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: height, suffix: 'cm' }}
-        />
-        <PickerListItem
-          title="وزن"
-          selectedItem={weight}
-          onItemSelected={setWeight}
-          range={{ min: 30, max: 150 }}
-          leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: weight, suffix: 'Kg' }}
-        />
-        <PickerListItem
-          title="میانگین ساعت خواب"
-          selectedItem={avgSleepingHours}
-          onItemSelected={setAvgSleepingHours}
-          range={{ min: 2, max: 15 }}
-          initPosition={7}
-          leftIcon={{ name: 'dashboard' }}
-          rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
-        />
-      </Card>
-      <Button
-        loading={loading}
-        title="ذخیره"
-        onPress={() => save()}
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.nextButton}
-        titleStyle={styles.listItemText}
-        loadingStyle={{ color: COLOR.btn }}
-        // icon={{name: 'user'}}
-      />
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 };
 export default Profile;

@@ -7,10 +7,18 @@ import TrackingOptions from '../screens/tracking-options';
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator screenOptions={{ headerShown: false }}>
-      <HomeStack.Screen name="Home" component={Home} />
+    <HomeStack.Navigator>
+      <HomeStack.Screen
+        name="Home"
+        component={Home}
+        options={{ headerShown: false }}
+      />
       <HomeStack.Screen name="Calendar" component={Calendar} />
-      <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
+      <HomeStack.Screen
+        name="TrackingOptions"
+        component={TrackingOptions}
+        options={{ headerShown: false }}
+      />
     </HomeStack.Navigator>
   );
 };

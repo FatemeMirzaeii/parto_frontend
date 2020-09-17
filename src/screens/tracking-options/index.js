@@ -77,7 +77,7 @@ const TrackingOptions = ({ route, navigation }) => {
             {'   '}
             در مورد {item.title} بیشتر بدانید.
           </Text>
-          <Icon name="ios-flash" type="ionicon" size={17} color="white" />
+          <Icon name="flash" type="font-awesome" size={17} color="white" />
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item, item.color)}</View>
         {/* {item.id === detailPageId ? renderDetailPage() : null} */}

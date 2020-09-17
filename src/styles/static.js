@@ -2,16 +2,19 @@ import { Dimensions } from 'react-native';
 export const WIDTH = Math.round(Dimensions.get('window').width);
 export const HEIGHT = Math.round(Dimensions.get('window').height);
 export const COLOR = {
+  white: '#ffffff',
+  black: '#111111',
   text1: '#1A2D36',
   bgColor: '#FCF5F7',
   btn: '#FF488A',
-  lightPink:'#fdf1f1',
+  lightPink: '#fdf1f1',
   currentPage: '#79EBEE',
   nextPage: '#E0E0E0',
   textColor: '#757575',
   textColorDark: '#424242',
   reView: '#9E9E9E',
   story: '#322C6D',
+  periodPerdiction: '#F8BED6',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',
