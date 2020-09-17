@@ -17,4 +17,18 @@ export default StyleSheet.create({
   listItemContent: {
     alignItems: 'flex-end',
   },
+  listItemTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[16],
+  },
+  inputMessage:{
+    elevation: 2,
+    backgroundColor: '#f6f6f6',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    minHeight: 100,
+    textAlignVertical: 'top',
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
+  }
 });

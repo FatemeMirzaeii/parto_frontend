@@ -1,17 +1,28 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { Icon } from 'native-base';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ScrollView, TextInput } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
-import DataBase from '../../util/database';
+import { Button, ListItem } from 'react-native-elements';
+import Card from '../../components/Card';
+import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
-import styles from './Styles';
+import { USER_REMINDER } from '../../constants/database-tables';
 import { COLOR } from '../../styles/static';
-const db = new DataBase();
+import DataBase from '../../util/database';
+import styles from './Styles';
 
+const db = new DataBase();
+const d = new Date();
 const ReminderSetting = ({ navigation, route }) => {
   const { reminder } = route.params;
-  const [isActive, activate] = useState();
-  const [time, setTime] = useState();
+  const [isActive, setIsActive] = useState(false);
+  const [time, setTime] = useState(`${d.getHours()}:${d.getMinutes()}`);
+  const [hours, setHours] = useState(`${d.getHours()}`);
+  const [minutes, setMinutes] = useState(`${d.getMinutes()}`);
+  const [data, setData] = useState([]);
   const [message, setMessage] = useState(reminder.message);
+  const [daysAgo, setDaysAgo] = useState(2);
+  const [isLoading, setIsLoading] = useState(true);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
@@ -19,78 +30,131 @@ const ReminderSetting = ({ navigation, route }) => {
         <Button
           title="ثبت"
           type="clear"
-          onPress={() => save()}
+          onPress={save}
           titleStyle={{ color: COLOR.btn }}
         />
       ),
     });
     const save = () => {
+      console.log('time', time);
       db.rawQuery(
-        `INSERT INTO user_reminder (reminder_id, activate, custom_message) VALUES (${
-          reminder.id
-        }, ${isActive ? 1 : 0}, '${message}')
-        ON CONFLICT(reminder_id) DO UPDATE SET activate=${
+        `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
+        (${reminder.id}, ${1}, ${
           isActive ? 1 : 0
-        }, custom_message='${message}'`,
-        'user_reminder',
+        }, '${message}', '${time}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
+          isActive ? 1 : 0
+        }, custom_message='${message}', custom_time='${time}', Xdays_ago=${daysAgo}`,
+        [],
+        USER_REMINDER,
       ).then(() => navigation.pop());
     };
-  }, [isActive, message, navigation, reminder.id, reminder.title]);
+  }, [
+    isActive,
+    message,
+    time,
+    daysAgo,
+    navigation,
+    reminder.id,
+    reminder.title,
+  ]);
 
   useEffect(() => {
     db.rawQuery(
-      `SELECT * FROM user_reminder WHERE reminder_id=${reminder.id}`,
-      'user_reminder',
-    ).then((n) => {
-      if (n.rows !== 'EMPTY_TABLE') {
-        console.log('dddddetail', n);
-        setMessage(n.custom_message);
+      `SELECT * FROM ${USER_REMINDER} WHERE reminder_id=${reminder.id}`,
+      [],
+      USER_REMINDER,
+    ).then((res) => {
+      if (res.rows !== 'EMPTY_TABLE') {
+        console.log('dddddetail', res);
+        setData(res);
+        //if(res.active ==1) setIsActive(true); else setIsActive(false);
+        setIsActive(res.active === 1 ? true : false);
+        //setIsActive(res.active );
+        setMessage(res.custom_message);
+        setTime(res.custom_time);
+        setDaysAgo(res.Xdays_ago);
+        setIsLoading(false);
       }
+      console.log('active', isActive);
+      console.log('mes', message);
     });
   }, [reminder.id]);
+  console.log('data', data);
+  console.log('dataactive', data.active);
   return (
     <ScrollView>
       <Card>
         <ListItem
-          title="فعال"
+          title="یادآور"
+          leftIcon={
+            isActive ? (
+              <Icon
+                type="MaterialIcons"
+                name="notifications-active"
+                style={{ color: COLOR.btn }}
+              />
+            ) : (
+              <Icon
+                type="MaterialIcons"
+                name="notifications-off"
+                style={{ color: COLOR.textColorDark }}
+              />
+            )
+          }
           switch={{
             value: isActive,
-            onValueChange: activate,
+            onValueChange: setIsActive,
+            trackColor: { true: COLOR.lightPink, false: '#aaa' },
+            thumbColor: isActive ? COLOR.btn : '#f4f3f4',
           }}
-          bottomDivider
-          titleStyle={styles.listItemText}
+          bottomDivider={isActive ? true : false}
+          titleStyle={styles.listItemTitle}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
         {isActive ? (
           <>
             <PickerListItem
-              title="متن"
+              title="عنوان"
+              bottomDivider
+              leftIcon={
+                <Icon
+                  type="Entypo"
+                  name="new-message"
+                  style={{ color: '#aaa' }}
+                />
+              }
               customComponent={
                 <TextInput
                   multiline
-                  style={{
-                    elevation: 2,
-                    backgroundColor: '#f6f6f6',
-                    paddingVertical: 10,
-                    paddingHorizontal: 15,
-                    minHeight: 100,
-                    textAlignVertical: 'top',
-                  }}
+                  style={styles.inputMessage}
                   value={message}
                   onChangeText={setMessage}
                 />
               }
               subtitle={message}
             />
-            <PickerListItem
-              TimePicker
-              title="زمان"
-              onTimeSelected={setTime}
-              rightTitle={{
-                title: time ? `${time.getHours()}:${time.getMinutes()}` : null,
-              }}
-            />
+            {
+              <PickerListItem
+                title="زمان"
+                subtitle={`${daysAgo} روز قبل ساعت ${hours}:${minutes}`}
+                leftIcon={
+                  <Icon
+                    type="FontAwesome"
+                    name="calendar-check-o"
+                    style={{ color: '#aaa' }}
+                    bottomDivider={false}
+                  />
+                }
+                customComponent={
+                  <DateTimePicker
+                    onDaySelected={(i) => setDaysAgo(i)}
+                    onHourSelected={setHours}
+                    onMinSelected={setMinutes}
+                  />
+                }
+              />
+            }
           </>
         ) : null}
       </Card>

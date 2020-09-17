@@ -4,7 +4,7 @@ import { EMPTY_TABLE } from '../../constants/database-tables';
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
-const database_name = 'partoo2345678987.db';
+const database_name = 'partoDB2y.db';
 const database_location = '~parto.db';
 
 export default class Database {
