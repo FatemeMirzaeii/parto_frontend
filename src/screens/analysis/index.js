@@ -69,26 +69,26 @@ const Analysis = ({ navigation }) => {
     });
   };
   return (
-    <SafeAreaView>
-      <ScrollView contentContainerStyle={styles.container}>
-        {avgCycleLength ? (
-          <>
-            {/* <View
-              style={{
-                height: 70,
-                width: 70,
-                borderRadius: 60,
-                elevation: 2,
-                backgroundColor: COLOR.white,
-              }}>
-              <Ptext>{avgCycleLength}</Ptext>
-            </View> */}
-            <Ptext>متوسط طول دوره‌ها: {avgCycleLength} روز</Ptext>
-          </>
-        ) : null}
-        {avgPeriodLength ? (
-          <Ptext>متوسط طول پریود: {avgPeriodLength} روز</Ptext>
-        ) : null}
+    <SafeAreaView contentContainerStyle={styles.container}>
+      <ScrollView style={styles.bg}>
+        <View style={styles.summary}>
+          {avgCycleLength ? (
+            <View style={styles.circleContainer}>
+              <View style={styles.circle}>
+                <Ptext>{avgCycleLength} روز</Ptext>
+              </View>
+              <Ptext>متوسط طول دوره‌ها</Ptext>
+            </View>
+          ) : null}
+          {avgPeriodLength ? (
+            <View style={styles.circleContainer}>
+              <View style={styles.circle}>
+                <Ptext>{avgPeriodLength} روز</Ptext>
+              </View>
+              <Ptext>متوسط طول پریود</Ptext>
+            </View>
+          ) : null}
+        </View>
         <VictoryChart
           horizontal
           height={600}
