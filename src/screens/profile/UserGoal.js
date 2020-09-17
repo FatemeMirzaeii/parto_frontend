@@ -59,32 +59,42 @@ const UserGoal = () => {
         { cancelable: true },
       );
     } else {
-      if (i === 2) {
-        Alert.alert(
-          '',
-          'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
-          [
-            {
-              text: 'بله',
-              onPress: () => {
-                updateUserStatus(1, 0);
-                setMode(i);
-                //  setStartModal(true);
+      switch (i) {
+        case 0:
+          updateUserStatus(0, 0);
+          setMode(i);
+          break;
+        case 1:
+          updateUserStatus(0, 1);
+          setMode(i);
+          break;
+        case 2:
+          Alert.alert(
+            '',
+            'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
+            [
+              {
+                text: 'بله',
+                onPress: () => {
+                  updateUserStatus(1, 0);
+                  setMode(i);
+                  //  setStartModal(true);
+                },
               },
-            },
-            {
-              text: 'خیر',
-              onPress: () => {
-                return;
+              {
+                text: 'خیر',
+                onPress: () => {
+                  return;
+                },
+                style: 'cancel',
               },
-              style: 'cancel',
-            },
-          ],
-          { cancelable: true },
-        );
+            ],
+            { cancelable: true },
+          );
+          break;
+        default:
+          break;
       }
-      updateUserStatus(0, 1);
-      setMode(i);
     }
   };
   return (

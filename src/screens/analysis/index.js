@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import {
   VictoryBar,
   VictoryStack,
@@ -14,7 +14,8 @@ import Ptext from '../../components/Ptxt';
 
 const Analysis = ({ navigation }) => {
   const [cycles, setCycles] = useState([]);
-  const [avg, setAvg] = useState([]);
+  const [avgCycleLength, setAvgCycleLength] = useState();
+  const [avgPeriodLength, setAvgPeriodLength] = useState();
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -25,9 +26,18 @@ const Analysis = ({ navigation }) => {
     initialData();
   }, []);
   useEffect(() => {
-    setAvg(
+    setAvgCycleLength(
       Math.round(
         cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
+      ),
+    );
+    setAvgPeriodLength(
+      Math.round(
+        cycles.reduce(
+          (a, b) =>
+            parseInt(a) + b.filter((obj) => obj.type === 'period').length,
+          0,
+        ) / cycles.length,
       ),
     );
   }, [cycles]);
@@ -61,7 +71,24 @@ const Analysis = ({ navigation }) => {
   return (
     <SafeAreaView>
       <ScrollView contentContainerStyle={styles.container}>
-        {avg ? <Ptext>متوسط طول دوره‌ها: {avg} روز</Ptext> : null}
+        {avgCycleLength ? (
+          <>
+            {/* <View
+              style={{
+                height: 70,
+                width: 70,
+                borderRadius: 60,
+                elevation: 2,
+                backgroundColor: COLOR.white,
+              }}>
+              <Ptext>{avgCycleLength}</Ptext>
+            </View> */}
+            <Ptext>متوسط طول دوره‌ها: {avgCycleLength} روز</Ptext>
+          </>
+        ) : null}
+        {avgPeriodLength ? (
+          <Ptext>متوسط طول پریود: {avgPeriodLength} روز</Ptext>
+        ) : null}
         <VictoryChart
           horizontal
           height={600}
