@@ -2,12 +2,13 @@ import axios from 'axios';
 import { Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator, FlatList,
+  ActivityIndicator,
+  FlatList,
   SafeAreaView,
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import base64 from 'react-native-base64';
 import Modal from 'react-native-modal';
@@ -15,7 +16,7 @@ import Share from 'react-native-share';
 //components
 import ArticleCard from '../../components/ArticleCard';
 import SearchBar from '../../components/SearchBar';
-import { FONT } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 const ArticlesList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
@@ -37,16 +38,10 @@ const ArticlesList = ({ route, navigation }) => {
         },
       })
         .then((res) => {
-          const ID = [];
-
           let con = [];
-          console.log(res);
-          console.log('categoryContent', res.data.results);
           //setCategoryContent(res.data.results);
           con = res.data.results;
           for (let i = 0; i < res.data.results.length; i++) {
-            console.log(res.data.results[i].id);
-            // ID.push(res.data.results[i].id)
             axios({
               method: 'get',
               url: `https://ketab.partobanoo.com/rest/api/content/${res.data.results[i].id}/child/attachment`,
@@ -59,7 +54,6 @@ const ArticlesList = ({ route, navigation }) => {
               },
             })
               .then((response) => {
-                console.log('response', response);
                 const data = response.data.results;
                 const imgUrl = [];
 
@@ -69,8 +63,6 @@ const ArticlesList = ({ route, navigation }) => {
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );
-
-                  console.log('imgUrl', imgUrl);
                 }
                 article.push({
                   ...con[i],
@@ -87,8 +79,6 @@ const ArticlesList = ({ route, navigation }) => {
 
                 setIsLoading(false);
                 setData(article);
-                console.log('imgUrl', imgUrl);
-                console.log('new', article);
               })
               .catch((err) => {
                 console.error(err, err.response);
@@ -98,7 +88,6 @@ const ArticlesList = ({ route, navigation }) => {
               });
           }
           // setArticle(content);
-          console.log(ID);
         })
 
         .catch((err) => {
@@ -143,7 +132,6 @@ const ArticlesList = ({ route, navigation }) => {
     const shareOptions = {
       title: 'Share file',
       url: url,
-      //url: images.image1,
       failOnCancel: false,
     };
 
@@ -156,17 +144,20 @@ const ArticlesList = ({ route, navigation }) => {
     }
   };
 
-  //console.log('catId',catId)
-
   return (
     <>
-      {isLoading ?
-       <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
-        <ActivityIndicator  size="small" color="#0000ff"/>
-       </View>:
-      
+      {isLoading ? (
+        <View
+          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <ActivityIndicator size="large" color={COLOR.btn} />
+        </View>
+      ) : (
         <SafeAreaView style={{ flex: 1, paddingVertical: 20 }}>
-          <SearchBar undertxt="جستجو" onChangeText={_handleSearch} />
+          <SearchBar
+            undertxt="جستجو"
+            onChangeText={_handleSearch}
+            iconColor={COLOR.btn}
+          />
           {/* <View
             style={{
               // backgroundColor:'red',
@@ -350,7 +341,11 @@ const ArticlesList = ({ route, navigation }) => {
             renderItem={({ item }) => (
               <ArticleCard
                 name={item.title}
-                image={item.cover}
+                image={
+                  item.cover
+                    ? item.cover
+                    : 'https://ravandbazar.ir/wp-content/uploads/2020/04/%D8%A8%D8%AF%D9%88%D9%86-%D8%B9%DA%A9%D8%B3.jpg'
+                }
                 onPress={() =>
                   navigation.navigate('ArticleDetails', {
                     articleContent: item,
@@ -363,7 +358,7 @@ const ArticlesList = ({ route, navigation }) => {
             ListEmptyComponent={_renderListEmptyComponent}
           />
         </SafeAreaView>
-}
+      )}
     </>
   );
 };

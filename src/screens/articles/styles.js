@@ -1,41 +1,32 @@
 import { StyleSheet } from 'react-native';
-import { SIZE, FONT, HEIGHT } from '../../styles/static';
+import { FONT } from '../../styles/static';
 
 export const HTMLTagsStyles = {
   h2: {
     textAlign: 'right',
-    color: 'red',
+    color: 'lightblue',
     fontFamily: FONT.bold,
   },
   p: { textAlign: 'right', fontFamily: FONT.light },
   span: { textAlign: 'right', fontFamily: FONT.light },
   h3: {
     textAlign: 'right',
-    color: 'pink',
     fontFamily: FONT.black,
     paddingVertical: 10,
   },
   h4: {
     textAlign: 'right',
-    color: 'blue',
     fontFamily: FONT.medium,
   },
   h5: {
     textAlign: 'right',
-    //color: 'darkblue',
     fontFamily: FONT.medium,
   },
   ul: {
     direction: 'rtl',
-    //backgroundColor: 'lightgreen',
-   // textAlign: 'right',
-  //  justifyContent:'flex-end',
-  //  alignItems:'flex-end'
-
   },
   li: {
     textAlign: 'right',
-    color: 'green',
     fontFamily: FONT.light,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
@@ -48,35 +39,22 @@ export const HTMLTagsStyles = {
 
 export default StyleSheet.create({
   headerCotainer: {
-    //width:'100%',
-    flex:1,
-    paddingHorizontal:5,
-    
-    //marginHorizontal:5,
-    //paddingBottom: 2,
+    flex: 1,
+    paddingHorizontal: 5,
     flexDirection: 'row-reverse',
     justifyContent: 'space-between',
     backgroundColor: 'white',
   },
   headerWrapper: {
-   // backgroundColor:'pink',
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent:'flex-end',
-   // paddingHorizontal:4,
-   width:'95%',
-    
+    justifyContent: 'flex-end',
+    marginTop: 20,
+    width: '95%',
   },
   headerText: {
-    //justifyContent:'flex-end',
-    alignSelf:'flex-end',
-    //textAlign:'right',
+    alignSelf: 'flex-end',
     color: 'black',
-   // paddingLeft: 20,
-   //backgroundColor:'yellow',
-   
-   
-   
     fontSize: 17,
     fontFamily: FONT.medium,
   },

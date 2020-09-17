@@ -1,15 +1,13 @@
 import axios from 'axios';
 import { Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
-import ImageResizer from 'react-native-image-resizer';
 import {
   FlatList,
   ImageBackground,
+  StyleSheet,
   Text,
   TouchableOpacity,
   View,
-  StyleSheet,
-  ActivityIndicator,
 } from 'react-native';
 import base64 from 'react-native-base64';
 import LinearGradient from 'react-native-linear-gradient';
@@ -19,11 +17,8 @@ const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
 const CategoryList = (props) => {
   const [categoryContent, setCategoryContent] = useState([]);
-  const [image, setImage] = useState([]);
   const [article, setArticle] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
-  
 
   const { catId } = props;
 
@@ -38,16 +33,13 @@ const CategoryList = (props) => {
         },
       })
         .then((res) => {
-          const ID = [];
-
           let con = [];
           console.log(res);
           console.log('categoryContent', res.data.results);
           setCategoryContent(res.data.results);
           con = res.data.results;
           for (let i = 0; i < res.data.results.length; i++) {
-            console.log(res.data.results[i].id);
-            // ID.push(res.data.results[i].id)
+            //console.log(res.data.results[i].id);
             axios({
               method: 'get',
               url: `https://ketab.partobanoo.com/rest/api/content/${res.data.results[i].id}/child/attachment`,
@@ -63,7 +55,7 @@ const CategoryList = (props) => {
                 console.log('response', response);
                 const data = response.data.results;
                 const imgUrl = [];
-               // content = [];
+                // content = [];
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
                     `https://ketab.partobanoo.com${
@@ -97,8 +89,6 @@ const CategoryList = (props) => {
                 // }
               });
           }
-          // setArticle(content);
-          console.log(ID);
         })
 
         .catch((err) => {
@@ -121,7 +111,7 @@ const CategoryList = (props) => {
           source={{
             uri: item.cover
               ? item.cover
-              : 'https://ketab.partobanoo.com/download/attachments/3869820/IMG-20200618-WA0012.jpg?os_authType=basic',
+              : 'https://ravandbazar.ir/wp-content/uploads/2020/04/%D8%A8%D8%AF%D9%88%D9%86-%D8%B9%DA%A9%D8%B3.jpg',
           }}>
           <LinearGradient
             colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
@@ -137,39 +127,36 @@ const CategoryList = (props) => {
     );
   };
   console.log('new', article);
+
   return (
     <>
-   
-   { isLoading?
-    <View style={{flex: 1,justifyContent:'center',alignItems:'center'}}> 
-        <ActivityIndicator  size="small" color="#0000ff"/>
-       </View>:
-    <View style={styles.main}>
-      <View style={styles.moreButtonWrapper}>
-        <TouchableOpacity onPress={props.MoreBtnOnPress}>
-          <View style={styles.moreButtonBox}>
-            <Icon
-              type="FontAwesome"
-              name="angle-left"
-              // style={styles.icon(props)}
-              style={styles.moreButtonIcon}
-            />
-            <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
+      {!isLoading && (
+        <View style={styles.main}>
+          <View style={styles.moreButtonWrapper}>
+            <TouchableOpacity onPress={props.MoreBtnOnPress}>
+              <View style={styles.moreButtonBox}>
+                <Icon
+                  type="FontAwesome"
+                  name="angle-left"
+                  style={styles.moreButtonIcon}
+                />
+                <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
+              </View>
+            </TouchableOpacity>
+            <Text style={styles.categoryText}>{props.category}</Text>
           </View>
-        </TouchableOpacity>
-        <Text style={styles.categoryText}>{props.category}</Text>
-      </View>
 
-      <FlatList
-        horizontal
-        inverted
-        data={article}
-        renderItem={_renderItem}
-        keyExtractor={(item, index) => index.toString()}
-        showsHorizontalScrollIndicator={false}
-        initialNumToRender={10}
-      />
-    </View>}
+          <FlatList
+            horizontal
+            inverted
+            data={article}
+            renderItem={_renderItem}
+            keyExtractor={(item, index) => index.toString()}
+            showsHorizontalScrollIndicator={false}
+            initialNumToRender={10}
+          />
+        </View>
+      )}
     </>
   );
 };
@@ -188,14 +175,12 @@ const styles = StyleSheet.create({
   moreButtonBox: {
     flex: 1,
     flexDirection: 'row',
-    //backgroundColor:'red'
   },
   moreButtonIcon: {
     fontSize: 13,
     color: '#95c9e1',
-    paddingVertical:7,
-    //paddingHorizontal:2
-    paddingRight:5
+    paddingVertical: 7,
+    paddingRight: 5,
   },
   moreButtonText: {
     fontFamily: FONT.light,
