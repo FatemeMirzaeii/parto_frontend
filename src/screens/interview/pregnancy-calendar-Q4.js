@@ -70,21 +70,13 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
           style={styles.calendar}
         />
         <View style={{ top: 250 }}>
-          <Button
+          {/* <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}
             type="clear"
             onPress={() => onForgotPress()}
-          />
+          /> */}
           <View style={styles.buttons}>
-            <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
-              titleStyle={styles.darkBtnTitle}
-              type="solid"
-              onPress={() => navigation.goBack()}
-            />
             <Button
               title="بعدی"
               disabled={!selectedDate}
@@ -93,6 +85,14 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={() => onNextPress()}
+            />
+            <Button
+              title="قبلی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.prevButton}
+              titleStyle={styles.darkBtnTitle}
+              type="solid"
+              onPress={() => navigation.goBack()}
             />
           </View>
         </View>

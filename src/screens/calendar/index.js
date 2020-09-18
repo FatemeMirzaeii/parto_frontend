@@ -146,7 +146,7 @@ const Calendar = ({ navigation }) => {
     markedDateObj(bleeding, COLOR.periodPerdiction);
 
     const ovulation = c.perdictedOvulationDaysInCurrentYear();
-    markedDateObj(ovulation, COLOR.currentPage);
+    markedDateObj(ovulation, COLOR.tiffany);
   };
   return (
     <SafeAreaView>

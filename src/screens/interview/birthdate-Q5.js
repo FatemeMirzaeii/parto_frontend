@@ -75,20 +75,20 @@ const Q5 = ({ route, navigation }) => {
           />
           <View style={styles.buttons}>
             <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
-              titleStyle={styles.darkBtnTitle}
-              type="solid"
-              onPress={() => navigation.goBack()}
-            />
-            <Button
               title="بعدی"
               containerStyle={styles.btnContainer}
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={() => onNextPress(birthdate)}
+            />
+            <Button
+              title="قبلی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.prevButton}
+              titleStyle={styles.darkBtnTitle}
+              type="solid"
+              onPress={() => navigation.goBack()}
             />
           </View>
         </View>

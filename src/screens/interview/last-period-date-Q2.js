@@ -73,14 +73,6 @@ const Q2 = ({ route, navigation }) => {
           />
           <View style={styles.buttons}>
             <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
-              titleStyle={styles.darkBtnTitle}
-              type="solid"
-              onPress={() => navigation.goBack()}
-            />
-            <Button
               title="بعدی"
               disabled={!lastPeriodDate}
               containerStyle={styles.btnContainer}
@@ -88,6 +80,14 @@ const Q2 = ({ route, navigation }) => {
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={() => onNextPress()}
+            />
+            <Button
+              title="قبلی"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.prevButton}
+              titleStyle={styles.darkBtnTitle}
+              type="solid"
+              onPress={() => navigation.goBack()}
             />
           </View>
         </View>

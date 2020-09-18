@@ -27,12 +27,11 @@ export default StyleSheet.create({
     fontFamily: FONT.light,
   },
   moonText: {
-    // top: -270,
+    top: HEIGHT / 3,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
     position: 'absolute',
-    //marginTop: HEIGHT / 12,
   },
   numtxt: {
     fontFamily: FONT.bold,
