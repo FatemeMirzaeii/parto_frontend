@@ -77,6 +77,8 @@ const CycleSetting = ({ navigation }) => {
             switch={{
               value: pregnancyPrediction,
               onValueChange: () => setPregnancyPrediction(!pregnancyPrediction),
+              trackColor: { true: COLOR.lightPink, false: '#aaa' },
+              thumbColor: pregnancyPrediction ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با خاموش کردن این بخش فقط روزهای تخمک گذاری برای شما نمایش داده میشود."
             titleStyle={styles.listItemText}
@@ -91,6 +93,8 @@ const CycleSetting = ({ navigation }) => {
             switch={{
               value: forcast,
               onValueChange: () => setForcast(!forcast),
+              trackColor: { true: COLOR.lightPink, false: '#aaa' },
+              thumbColor: forcast ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با فعال کردن این گزینه در شرایطی که قاعدگی نامنظم دارید، از اطلاعات شرح حال برای پیش بینی دوره های شما استفاده میشود."
             titleStyle={styles.listItemText}
@@ -104,6 +108,8 @@ const CycleSetting = ({ navigation }) => {
             switch={{
               value: periodCount,
               onValueChange: () => setPeriodCount(!periodCount),
+              trackColor: { true: COLOR.lightPink, false: '#aaa' },
+              thumbColor: periodCount ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با فعال کردن این گزینه بالای تقویم تعداد روزهای قرمز شما شمارش میشوند."
             titleStyle={styles.listItemText}

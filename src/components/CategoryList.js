@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import base64 from 'react-native-base64';
 import LinearGradient from 'react-native-linear-gradient';
-import { FONT } from '../styles/static';
+import { COLOR, FONT, SIZE } from '../styles/static';
 
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
@@ -183,11 +183,14 @@ const styles = StyleSheet.create({
     paddingRight: 5,
   },
   moreButtonText: {
-    fontFamily: FONT.light,
-    color: '#95c9e1',
+    fontFamily: FONT.bold,
+    fontSize:SIZE[16],
+     color: '#95c9e1',
+    //color: COLOR.currentPage,
   },
   categoryText: {
     fontFamily: FONT.bold,
+    fontSize:SIZE[16]
   },
   cardButton: {
     margin: 5,
@@ -223,7 +226,8 @@ const styles = StyleSheet.create({
   },
   text: {
     color: '#fff',
-    fontFamily: FONT.medium,
+    fontFamily: FONT.light,
+    fontSize:SIZE[14],
   },
   highlight: {
     fontWeight: '700',
