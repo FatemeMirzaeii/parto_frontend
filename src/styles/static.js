@@ -8,6 +8,7 @@ export const COLOR = {
   bgColor: '#FCF5F7',
   btn: '#FF488A',
   lightPink: '#fdf1f1',
+  tiffany: '#48C5C6',
   currentPage: '#79EBEE',
   nextPage: '#E0E0E0',
   textColor: '#757575',

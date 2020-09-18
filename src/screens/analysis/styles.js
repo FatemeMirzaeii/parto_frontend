@@ -7,6 +7,12 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  noticeContainer: {
+    height: '100%',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: COLOR.white,
+  },
   bg: {
     backgroundColor: COLOR.white,
   },

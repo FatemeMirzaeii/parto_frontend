@@ -52,7 +52,7 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={periodLength}
             onItemSelected={setPeriodLength}
             rightTitle={{ title: periodLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           />
           <PickerListItem
             title="طول چرخه قاعدگی"
@@ -60,7 +60,7 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={cycleLength}
             onItemSelected={setCycleLength}
             rightTitle={{ title: cycleLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           />
           <PickerListItem
             title="طول سندروم پیش از قاعدگی"
@@ -68,11 +68,11 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={pmsLength}
             onItemSelected={setPmsLength}
             rightTitle={{ title: pmsLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           />
           <ListItem
             title="نمایش احتمال بارداری"
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             bottomDivider
             switch={{
               value: pregnancyPrediction,
@@ -88,7 +88,7 @@ const CycleSetting = ({ navigation }) => {
           />
           <ListItem
             title="پیش بینی هوشمند"
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             bottomDivider
             switch={{
               value: forcast,
@@ -104,7 +104,7 @@ const CycleSetting = ({ navigation }) => {
           />
           <ListItem
             title="نمایش شمارش روزهای قرمز"
-            leftIcon={{ name: 'restore' }}
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             switch={{
               value: periodCount,
               onValueChange: () => setPeriodCount(!periodCount),

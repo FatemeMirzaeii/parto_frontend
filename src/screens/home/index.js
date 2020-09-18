@@ -88,7 +88,7 @@ const Home = ({ navigation }) => {
           size={25}
           containerStyle={{
             left: 15,
-            bottom: 15,
+            bottom: 65,
           }}
           onPress={() => {
             navigation.navigate('TrackingOptions', {

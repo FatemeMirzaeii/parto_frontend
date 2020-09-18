@@ -1,11 +1,11 @@
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import AntDesign from 'react-native-vector-icons/AntDesign';
+import { Icon } from 'react-native-elements';
 import HomeStack from './HomeStack';
 import ArticleStack from './ArticleStack';
 import MenuStack from './MenuStack';
 import Analysis from '../screens/analysis';
-import { COLOR } from '../styles/static';
+import { COLOR, FONT } from '../styles/static';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
@@ -15,38 +15,70 @@ const TabNavigator = () => {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;
+          let type;
           switch (route.name) {
-            //todo: should change focused icon.
             case 'Home':
-              iconName = focused ? 'home' : 'home';
+              type = focused ? 'feather' : 'font-awesome-5';
+              iconName = 'moon';
               break;
             case 'Articles':
-              iconName = focused ? 'book' : 'book';
+              type = 'feather';
+              iconName = focused ? 'book-open' : 'book';
               break;
             case 'Analysis':
-              iconName = focused ? 'barschart' : 'barschart';
+              type = 'antdesign';
+              iconName = focused ? 'barchart' : 'barschart';
               break;
             case 'Menu':
-              iconName = focused ? 'menufold' : 'menufold';
+              type = 'antdesign';
+              iconName = focused ? 'menuunfold' : 'menufold';
               break;
             default:
               break;
           }
-          return <AntDesign name={iconName} size={30} color={color} />;
+          return <Icon name={iconName} size={30} color={color} type={type} />;
         },
       })}
       tabBarOptions={{
         activeTintColor: COLOR.btn,
         inactiveTintColor: COLOR.nextPage,
-        showLabel: false,
         style: {
-          backgroundColor: COLOR.lightPink,
+          backgroundColor: 'rgba(253, 241, 241, 0.9)',
+          position: 'absolute',
+          elevation: 0,
+        },
+        labelStyle: {
+          fontFamily: FONT.bold,
         },
       }}>
-      <Tab.Screen name="Analysis" component={Analysis} />
-      <Tab.Screen name="Home" component={HomeStack} />
-      <Tab.Screen name="Articles" component={ArticleStack} />
-      <Tab.Screen name="Menu" component={MenuStack} />
+      <Tab.Screen
+        name="Analysis"
+        component={Analysis}
+        options={{
+          tabBarLabel: 'تحلیل',
+        }}
+      />
+      <Tab.Screen
+        name="Home"
+        component={HomeStack}
+        options={{
+          tabBarLabel: 'ماه من',
+        }}
+      />
+      <Tab.Screen
+        name="Articles"
+        component={ArticleStack}
+        options={{
+          tabBarLabel: 'مقالات',
+        }}
+      />
+      <Tab.Screen
+        name="Menu"
+        component={MenuStack}
+        options={{
+          tabBarLabel: 'بیشتر',
+        }}
+      />
     </Tab.Navigator>
   );
 };

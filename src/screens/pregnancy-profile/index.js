@@ -42,7 +42,7 @@ const PregnancyProfile = ({ navigation }) => {
           selectedItem={pregnancyWeek}
           onItemSelected={setPregnancyWeek}
           rightTitle={{ title: pregnancyWeek }}
-          leftIcon={{ name: 'restore' }}
+          leftIcon={{ name: 'restore', color: COLOR.tiffany }}
         />
         <PickerListItem
           DatePicker
@@ -51,7 +51,7 @@ const PregnancyProfile = ({ navigation }) => {
           selectedItem={dueDate}
           onItemSelected={setDueDate}
           rightTitle={{ title: dueDate }}
-          leftIcon={{ name: 'restore' }}
+          leftIcon={{ name: 'restore', color: COLOR.tiffany }}
         />
       </Card>
       <Button
@@ -59,10 +59,9 @@ const PregnancyProfile = ({ navigation }) => {
         title="پایان بارداری"
         // onPress={() => save()}
         type="outline"
-        buttonStyle={styles.saveButton}
-        containerStyle={styles.saveContainer}
+        buttonStyle={styles.saveContainer}
+        containerStyle={styles.saveButton}
         titleStyle={styles.saveTitle}
-        loadingStyle={{ color: COLOR.btn }}
         // icon={{name: 'user'}}
       />
     </ScrollView>

@@ -5,7 +5,7 @@ import styles from './styles';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
 import PickerListItem from '../../components/PickerListItem';
-import Card from '../../components/Card'
+import Card from '../../components/Card';
 import {
   getProfileData,
   saveProfileHealthData,
@@ -62,7 +62,7 @@ const Profile = ({ navigation }) => {
             title="تاریخ تولد"
             initialDate={birthdate}
             onDateSelected={onBirthdateSelected}
-            leftIcon={{ name: 'dashboard' }}
+            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: birthdate }}
           />
           <PickerListItem
@@ -70,7 +70,7 @@ const Profile = ({ navigation }) => {
             data={bloodTypes}
             selectedItem={bloodType}
             onItemSelected={setBloodType}
-            leftIcon={{ name: 'dashboard' }}
+            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: bloodType }}
           />
           <PickerListItem
@@ -78,7 +78,7 @@ const Profile = ({ navigation }) => {
             selectedItem={height}
             onItemSelected={setHeight}
             range={{ min: 100, max: 250 }}
-            leftIcon={{ name: 'dashboard' }}
+            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: height, suffix: 'cm' }}
           />
           <PickerListItem
@@ -86,7 +86,7 @@ const Profile = ({ navigation }) => {
             selectedItem={weight}
             onItemSelected={setWeight}
             range={{ min: 30, max: 150 }}
-            leftIcon={{ name: 'dashboard' }}
+            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: weight, suffix: 'Kg' }}
           />
           <PickerListItem
@@ -95,7 +95,7 @@ const Profile = ({ navigation }) => {
             onItemSelected={setAvgSleepingHours}
             range={{ min: 2, max: 15 }}
             initPosition={7}
-            leftIcon={{ name: 'dashboard' }}
+            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>

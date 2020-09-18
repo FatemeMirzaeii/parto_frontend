@@ -98,5 +98,6 @@ export default StyleSheet.create({
     fontSize: SIZE[17],
     alignSelf: 'center',
     textAlign: 'center',
+    lineHeight: 30,
   },
 });

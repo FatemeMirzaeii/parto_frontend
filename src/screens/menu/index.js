@@ -59,7 +59,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="اطلاعات سلامت"
-          leftIcon={{ name: 'local-pharmacy' }}
+          leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Profile')}
           titleStyle={styles.listItemText}
@@ -70,7 +70,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="اطلاعات دوره‌ها"
-          leftIcon={{ name: 'local-pharmacy' }}
+          leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('CycleSettings')}
@@ -80,7 +80,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="پروفایل بارداری"
-          leftIcon={{ name: 'pregnant-woman' }}
+          leftIcon={{ name: 'pregnant-woman', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('PregnancyProfile')}
           titleStyle={styles.listItemText}
@@ -91,7 +91,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="ارتباط با کارشناسان"
-          leftIcon={{ name: 'call' }}
+          leftIcon={{ name: 'call', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
           titleStyle={styles.listItemText}
@@ -102,7 +102,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="یادآوری‌ها"
-          leftIcon={{ name: 'alarm-on' }}
+          leftIcon={{ name: 'alarm-on', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Reminders')}
@@ -112,7 +112,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="قفل نرم افزار"
-          leftIcon={{ name: 'lock' }}
+          leftIcon={{ name: 'lock', color: COLOR.tiffany }}
           switch={{
             value: isLock,
             onValueChange: lock,
@@ -136,7 +136,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="نظرسنجی"
-          leftIcon={{ name: 'dashboard' }}
+          leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Rating')}
@@ -146,7 +146,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="معرفی به دوستان"
-          leftIcon={{ name: 'loyalty' }}
+          leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('')}
@@ -156,7 +156,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="ارتباط با پرتو"
-          leftIcon={{ name: 'touch-app' }}
+          leftIcon={{ name: 'touch-app', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('ContactUs')}
@@ -166,7 +166,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="درباره‌ی پرتو"
-          leftIcon={{ name: 'info' }}
+          leftIcon={{ name: 'info', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('AboutUs')}
           titleStyle={styles.listItemText}

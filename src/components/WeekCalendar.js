@@ -18,7 +18,6 @@ const WeekCalendar = (props) => {
       showTodayButton={props.showTodayButton}
       todayButtonStyle={{
         alignSelf: 'flex-end',
-        top: 40,
         height: 60,
         width: 60,
         borderRadius: 40,

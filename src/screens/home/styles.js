@@ -6,12 +6,12 @@ export default StyleSheet.create({
   sky: {
     width: '100%',
     height: '100%',
+    justifyContent: 'center',
   },
   moon: {
     width: '100%',
     height: '65%',
     top: 5,
-    backgroundColor: 'red',
   },
   text: {
     alignSelf: 'center',
@@ -27,11 +27,11 @@ export default StyleSheet.create({
     fontFamily: FONT.light,
   },
   moonText: {
-    top: -270,
+    // top: -270,
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    //position: 'absolute',
+    position: 'absolute',
     //marginTop: HEIGHT / 12,
   },
   numtxt: {
