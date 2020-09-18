@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Card, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
 import UserGoal from './UserGoal';
 import PickerListItem from '../../components/PickerListItem';
+import Card from '../../components/Card'
 import {
   getProfileData,
   saveProfileHealthData,
@@ -52,7 +53,7 @@ const Profile = ({ navigation }) => {
   };
   return (
     <SafeAreaView contentContainerStyle={styles.container}>
-      <ScrollView>
+      <ScrollView style={styles.scrollView}>
         {/* <UserAvatar navigation={navigation} /> */}
         <UserGoal />
         <Card>

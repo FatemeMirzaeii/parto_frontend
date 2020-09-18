@@ -68,10 +68,10 @@ const ContactUs = (props) => {
         {/* </View> */}
         <View
           style={{
-            justifyContent: 'flex-end',
+            justifyContent: 'center',
             alignItems: 'center',
             flexDirection: 'row',
-            // backgroundColor: 'green',
+             //backgroundColor: 'green',
             marginTop: 20,
           }}>
           <TouchableOpacity
@@ -306,7 +306,7 @@ const ContactUs = (props) => {
               />
             </Left>
           </TouchableOpacity>
-          <View
+          {/* <View
             style={{
               // position: 'absolute',
               borderBottomWidth: 0.5,
@@ -317,8 +317,8 @@ const ContactUs = (props) => {
               margin: 0,
               borderColor: '#707070',
             }}
-          />
-          <TouchableOpacity
+          /> */}
+          {/* <TouchableOpacity
             onPress={() => props.navigation.navigate('AboutUs')}
             style={{
               flexDirection: 'row',
@@ -353,7 +353,7 @@ const ContactUs = (props) => {
                 style={{ textAlign: 'right', color: '#79EBEE' }}
               />
             </Left>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
       {/* </View> */}

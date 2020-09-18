@@ -6,6 +6,9 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
   },
+  scrollView:{
+    paddingVertical:25
+  },
   goals: {
     alignSelf: 'center',
     justifyContent: 'center',

@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
-import {
-  ButtonGroup,
-  Overlay,
-  Card,
-  CheckBox,
-  Button,
-} from 'react-native-elements';
+import { ButtonGroup, Overlay, CheckBox, Button } from 'react-native-elements';
 import moment from 'moment';
+import Modal from 'react-native-modal';
 import styles from './styles';
 import {
   getUserStatus,
@@ -18,6 +13,7 @@ import PregnancyModule from '../../util/pregnancy';
 import { COLOR } from '../../styles/static';
 import { FORMAT } from '../../constants/cycle';
 import PregnancyPicker from '../../components/PregnancyPicker';
+import Card from '../../components/Card';
 
 const UserGoal = () => {
   const [mode, setMode] = useState();
@@ -113,10 +109,11 @@ const UserGoal = () => {
           innerBorderStyle={{ width: 0 }}
           buttonStyle={styles.goal}
         />
-        <Overlay
+        <Modal
+          animationType="fade"
           isVisible={visible}
-          fullScreen
-          overlayStyle={{ justifyContent: 'center' }}>
+          onRequestClose={() => setVisible(false)}
+          onBackdropPress={() => setVisible(false)}>
           <>
             <Card>
               <Text>علت خاموش کردن حالت بارداری:</Text>
@@ -160,11 +157,12 @@ const UserGoal = () => {
               titleStyle={styles.listItemText}
             />
           </>
-        </Overlay>
-        <Overlay
+        </Modal>
+        <Modal
+          animationType="fade"
           isVisible={stratModal}
-          fullScreen
-          overlayStyle={{ justifyContent: 'center' }}>
+          onRequestClose={() => setStratModal(false)}
+          onBackdropPress={() => setStratModal(false)}>
           <>
             <Card>
               <Text>هفته چندم بارداری هستید؟</Text>
@@ -187,7 +185,7 @@ const UserGoal = () => {
               titleStyle={styles.listItemText}
             />
           </>
-        </Overlay>
+        </Modal>
       </Card>
     </SafeAreaView>
   );

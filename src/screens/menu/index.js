@@ -1,14 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import Card from '../../components/Card';
-import styles from './styles';
-import Divider from './Divider';
-import UserProfile from './UserProfile';
-import { setLock, lockStatus } from '../../util/database/query';
-import { COLOR } from '../../styles/static';
 // import { AuthContext } from '../../contexts/AuthContext';
 import TouchID from 'react-native-touch-id';
+import Card from '../../components/Card';
+import { COLOR } from '../../styles/static';
+import { lockStatus, setLock } from '../../util/database/query';
+import styles from './styles';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
@@ -81,16 +79,6 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
         <ListItem
-          title="تحلیل اطلاعات"
-          leftIcon={{ name: 'timeline' }}
-          bottomDivider
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-        <ListItem
           title="پروفایل بارداری"
           leftIcon={{ name: 'pregnant-woman' }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -100,18 +88,7 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
       </Card>
-      <Divider />
       <Card>
-        <ListItem
-          title="پایگاه دانش"
-          leftIcon={{ name: 'art-track' }}
-          bottomDivider
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('Articles')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
         <ListItem
           title="ارتباط با کارشناسان"
           leftIcon={{ name: 'call' }}
@@ -122,7 +99,6 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
       </Card>
-      <Divider />
       <Card>
         <ListItem
           title="یادآوری‌ها"
@@ -140,8 +116,8 @@ const Menu = ({ navigation }) => {
           switch={{
             value: isLock,
             onValueChange: lock,
-            trackColor: {true: COLOR.lightPink,false: "#aaa"},
-            thumbColor:isLock ? COLOR.btn :"#f4f3f4",
+            trackColor: { true: COLOR.lightPink, false: '#aaa' },
+            thumbColor: isLock ? COLOR.btn : '#f4f3f4',
           }}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
@@ -157,7 +133,6 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         /> */}
       </Card>
-      <Divider />
       <Card>
         <ListItem
           title="نظرسنجی"
@@ -182,8 +157,18 @@ const Menu = ({ navigation }) => {
         <ListItem
           title="ارتباط با پرتو"
           leftIcon={{ name: 'touch-app' }}
+          bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('ContactUs')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
+        <ListItem
+          title="درباره‌ی پرتو"
+          leftIcon={{ name: 'info' }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => navigateTo('AboutUs')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

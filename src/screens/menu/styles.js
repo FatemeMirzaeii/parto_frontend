@@ -4,7 +4,7 @@ import { FONT, SIZE } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: 15,
+    marginTop: 25,
   },
   divider: {
     height: 20,
