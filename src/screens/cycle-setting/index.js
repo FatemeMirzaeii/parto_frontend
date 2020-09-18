@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ScrollView } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Card, ListItem, Button, Icon } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
 import {
   updateProfileData,
@@ -8,7 +8,6 @@ import {
 } from '../../util/database/query';
 import styles from './styles';
 import { COLOR } from '../../styles/static';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -19,12 +18,22 @@ const CycleSetting = ({ navigation }) => {
   const [periodCount, setPeriodCount] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
+      headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={() => save()}
           titleStyle={{ color: COLOR.btn }}
+        />
+      ),
+      headerRight: () => (
+        <Icon
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
         />
       ),
     });

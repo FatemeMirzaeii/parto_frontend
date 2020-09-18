@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Card, ListItem, Button } from 'react-native-elements';
+import { Card, Icon, Button } from 'react-native-elements';
 import PickerListItem from '../../components/PickerListItem';
 import { getPregnancyData, savePregnancyData } from '../../util/database/query';
 import styles from './styles';
@@ -11,12 +11,22 @@ const PregnancyProfile = ({ navigation }) => {
   const [pregnancyWeek, setPregnancyWeek] = useState();
   useLayoutEffect(() => {
     navigation.setOptions({
-      headerRight: () => (
+      headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={() => save()}
           titleStyle={{ color: COLOR.btn }}
+        />
+      ),
+      headerRight: () => (
+        <Icon
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
         />
       ),
     });

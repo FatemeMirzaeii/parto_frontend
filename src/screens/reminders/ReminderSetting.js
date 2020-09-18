@@ -1,7 +1,7 @@
 import { Icon } from 'native-base';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { ScrollView, TextInput } from 'react-native';
-import { Button, ListItem } from 'react-native-elements';
+import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
@@ -26,12 +26,22 @@ const ReminderSetting = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
-      headerRight: () => (
+      headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={save}
           titleStyle={{ color: COLOR.btn }}
+        />
+      ),
+      headerRight: () => (
+        <IconElement
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
         />
       ),
     });
