@@ -148,8 +148,11 @@ const ReminderSetting = ({ navigation, route }) => {
                 }
                 customComponent={
                   <DateTimePicker
-                    onDaySelected={(i) => setDaysAgo(i)}
+                    daySelectedItem={daysAgo}
+                    onDaySelected={setDaysAgo}
+                    hourSelectedItem={Number(hours)}
                     onHourSelected={setHours}
+                    minSelectedItem={Number(minutes)}
                     onMinSelected={setMinutes}
                   />
                 }
