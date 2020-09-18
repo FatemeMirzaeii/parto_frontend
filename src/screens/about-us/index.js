@@ -1,14 +1,10 @@
 import React from 'react';
-import {
-  Text,
-  StatusBar,
-  TouchableOpacity,
-  ImageBackground,
-} from 'react-native';
-import { Container, Header, Body, Right, Left, Icon } from 'native-base';
+import { Text, StatusBar, ImageBackground } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { Container, Header, Body, Right, Left } from 'native-base';
 import { COLOR, FONT } from '../../styles/static';
 
-const AboutUs = (props) => {
+const AboutUs = ({ navigation }) => {
   return (
     <Container
       style={{
@@ -50,19 +46,14 @@ const AboutUs = (props) => {
           </Body>
 
           <Left style={{ flex: 1, alignItems: 'flex-end' }}>
-            <TouchableOpacity
-              onPress={() => props.navigation.goBack()}
-              style={{
-                padding: 4,
-                backgroundColor: '#FF4A8A',
-                borderRadius: 30,
-              }}>
-              <Icon
-                name="arrow-forward"
-                type="MaterialIcons"
-                style={{ color: 'white' }}
-              />
-            </TouchableOpacity>
+            <Icon
+              reverse
+              size={15}
+              name="arrow-right"
+              type="font-awesome"
+              color={COLOR.btn}
+              onPress={() => navigation.pop()}
+            />
           </Left>
         </Header>
         <StatusBar barStyle="dark-content" backgroundColor="transparent" />

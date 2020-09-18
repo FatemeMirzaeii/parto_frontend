@@ -144,7 +144,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         /> */}
-        <ListItem
+        {/* <ListItem
           title="معرفی به دوستان"
           leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}
           bottomDivider
@@ -153,7 +153,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
         <ListItem
           title="ارتباط با پرتو"
           leftIcon={{ name: 'touch-app', color: COLOR.tiffany }}
