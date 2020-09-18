@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   moreButtonIcon: {
-    fontSize: 13,
+    fontSize: 14,
     color: '#95c9e1',
     paddingVertical: 7,
     paddingRight: 5,

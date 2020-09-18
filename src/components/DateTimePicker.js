@@ -39,7 +39,7 @@ const DateTimePicker = (props) => {
       <View style={styles.verticalWrapper}>
         <WheelPicker
           data={hour}
-          // selectedItem={yearIndex}
+          selectedItem={props.hourSelectedItem}
           onItemSelected={props.onHourSelected}
           initPosition={30}
           isCyclic
@@ -52,6 +52,7 @@ const DateTimePicker = (props) => {
       <View style={styles.verticalWrapper}>
         <WheelPicker
           data={min}
+          selectedItem={props.minSelectedItem}
           onItemSelected={props.onMinSelected}
           isCyclic
           style={styles.picker}
@@ -63,7 +64,7 @@ const DateTimePicker = (props) => {
       <View style={styles.verticalWrapper}>
         <WheelPicker
           data={days}
-          //selectedItem={dayIndex}
+          selectedItem={props.daySelectedItem}
           onItemSelected={props.onDaySelected}
           isCyclic
           style={styles.picker}
