@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { SIZE, FONT, HEIGHT } from '../../styles/static';
+import { SIZE, FONT, HEIGHT, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -27,10 +27,16 @@ export default StyleSheet.create({
     fontFamily: FONT.light,
   },
   moonText: {
-    top: HEIGHT / 3,
-    alignItems: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
+    flexDirection: 'row',
+    top: HEIGHT / 1.5,
+    // justifyContent: 'space-between',
+    justifyContent: 'space-between',
+    // alignItems: 'center',
+    // backgroundColor: COLOR.white,
+    // borderRadius: 40,
+    // padding: 15,
+    // alignSelf: 'center',
+    right: 50,
     position: 'absolute',
   },
   numtxt: {
@@ -44,8 +50,9 @@ export default StyleSheet.create({
   phasetxt: {
     fontSize: SIZE[14],
     color: '#121C3D',
-    textAlign: 'center',
+    textAlign: 'right',
+    lineHeight: 25,
     //marginTop: HEIGHT / 20,
-    alignSelf: 'center',
+    // alignSelf: 'center',
   },
 });

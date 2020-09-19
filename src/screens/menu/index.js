@@ -69,7 +69,7 @@ const Menu = ({ navigation }) => {
       </Card>
       <Card>
         <ListItem
-          title="اطلاعات دوره‌ها"
+          title="تنظیمات دوره‌ها"
           leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}

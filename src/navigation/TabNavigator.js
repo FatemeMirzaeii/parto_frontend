@@ -5,7 +5,7 @@ import HomeStack from './HomeStack';
 import ArticleStack from './ArticleStack';
 import MenuStack from './MenuStack';
 import Analysis from '../screens/analysis';
-import { COLOR, FONT } from '../styles/static';
+import { COLOR, FONT, SIZE } from '../styles/static';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
@@ -36,19 +36,24 @@ const TabNavigator = () => {
             default:
               break;
           }
-          return <Icon name={iconName} size={30} color={color} type={type} />;
+          return <Icon name={iconName} size={20} color={color} type={type} />;
         },
       })}
       tabBarOptions={{
         activeTintColor: COLOR.btn,
-        inactiveTintColor: COLOR.nextPage,
+        inactiveTintColor: COLOR.black,
         style: {
-          backgroundColor: 'rgba(253, 241, 241, 0.9)',
+          // backgroundColor: 'rgba(253, 241, 241, 0.9)',
+          // backgroundColor: 'rgba(22, 22, 22, 0.2)',
+          // backgroundColor: 'rgba(235, 184, 197, 0.2)',
+          backgroundColor: 'transparent',
+          borderWidth: 0,
           position: 'absolute',
           elevation: 0,
         },
         labelStyle: {
           fontFamily: FONT.bold,
+          fontSize: SIZE[14],
         },
       }}>
       <Tab.Screen

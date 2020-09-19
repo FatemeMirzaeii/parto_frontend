@@ -36,11 +36,20 @@ const Home = ({ navigation }) => {
   const renderText = () => {
     return (
       <View style={styles.moonText}>
-        <Ptxt style={styles.numtxt}>
+        {/* <Ptxt style={styles.numtxt}>
           {jalaali().format('jD jMMMM')}
           {'\n'}
-        </Ptxt>
+        </Ptxt> */}
         <Ptxt style={styles.phasetxt}>{text}</Ptxt>
+        <View
+          style={{
+            backgroundColor: 'white',
+            margin: 10,
+            width: 15,
+            height: 15,
+            borderRadius: 50,
+          }}
+        />
       </View>
     );
   };
@@ -48,7 +57,7 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/bg.jpeg')}
+        source={require('../../../assets/images/bg.png')}
         style={styles.sky}>
         <Icon
           name="calendar"
@@ -67,7 +76,7 @@ const Home = ({ navigation }) => {
         />
         <WeekCalendar
           theme={{
-            calendarBackground: '#e1e8f0',
+            calendarBackground: '#B9B2CD',
           }}
           showTodayButton
           // onDateChanged={(d, propUpdate) =>
