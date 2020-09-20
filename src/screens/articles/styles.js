@@ -6,21 +6,52 @@ export const HTMLTagsStyles = {
     textAlign: 'right',
     color: 'lightblue',
     fontFamily: FONT.bold,
+    fontWeight: 'normal',
+    margin: 5,
   },
-  p: { textAlign: 'right', fontFamily: FONT.light },
-  span: { textAlign: 'right', fontFamily: FONT.light },
   h3: {
     textAlign: 'right',
     fontFamily: FONT.black,
     paddingVertical: 10,
+    fontWeight: 'normal',
+    margin: 5,
+
   },
   h4: {
     textAlign: 'right',
     fontFamily: FONT.medium,
+    fontWeight: 'normal',
+    margin: 5,
   },
   h5: {
     textAlign: 'right',
     fontFamily: FONT.medium,
+    fontWeight: 'normal',
+    margin: 5,
+  },
+  p: {
+    textAlign: 'right',
+    fontFamily: FONT.light,
+    fontWeight: 'normal',
+    margin: 7,
+  },
+  span: {
+    textAlign: 'right',
+    fontFamily: FONT.light,
+    fontWeight: 'normal',
+    margin: 5,
+  },
+  div: {
+    textAlign: 'right',
+    fontFamily: FONT.light,
+    fontWeight: 'normal',
+    margin: 5,
+  },
+  strong: {
+    textAlign: 'right',
+    fontFamily: 'IRANSansMobile_Medium',
+    fontWeight: 'normal',
+    margin: 5,
   },
   ul: {
     direction: 'rtl',
@@ -30,10 +61,6 @@ export const HTMLTagsStyles = {
     fontFamily: FONT.light,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
-  },
-  div: {
-    textAlign: 'right',
-    fontFamily: FONT.light,
   },
 };
 
