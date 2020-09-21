@@ -70,7 +70,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
-          leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
+          leftIcon={{ name: 'settings', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('CycleSettings')}
@@ -90,10 +90,10 @@ const Menu = ({ navigation }) => {
       </Card>
       <Card>
         <ListItem
-          title="ارتباط با کارشناسان"
-          leftIcon={{ name: 'call', color: COLOR.tiffany }}
+          title="احکام"
+          leftIcon={{ name: 'list', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('')}
+          onPress={() => navigateTo('TreatiseStack')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

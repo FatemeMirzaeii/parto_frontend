@@ -152,7 +152,7 @@ const ArticlesList = ({ route, navigation }) => {
           <ActivityIndicator size="large" color={COLOR.btn} />
         </View>
       ) : (
-        <SafeAreaView style={{ flex: 1, paddingTop: 25,paddingBottom:50 }}>
+        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom:50 }}>
           <SearchBar
             undertxt="جستجو"
             onChangeText={_handleSearch}

@@ -6,13 +6,15 @@ import CycleSetting from '../screens/cycle-setting';
 import PregnancyProfile from '../screens/pregnancy-profile';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
-// import ArticleStack from './ArticleStack';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
-import Articles from '../screens/articles';
-import ArticlesList from '../screens/articles/ArticlesList';
-import ArticleDetails from '../screens/articles/ArticleDetails';
+import TreatiseStack from './TreatiseStack';
+import Treatise from '../screens/treatise';
+import TreatiseList from '../screens/treatise/TreatiseList';
+import TreatiseDetails from '../screens/treatise/TreatiseDetails';
+import TreatiseHelp from '../screens/treatise/TreatiseHelp';
+
 
 const MenuStack = createStackNavigator();
 const MenuStackScreen = () => {
@@ -66,7 +68,7 @@ const MenuStackScreen = () => {
           headerTitleStyle: { alignSelf: 'center' },
         }}
       /> */}
-      <MenuStack.Screen
+      {/* <MenuStack.Screen
         name="Articles"
         component={Articles}
         options={{ headerShown: false }}
@@ -80,6 +82,39 @@ const MenuStackScreen = () => {
         name="ArticleDetails"
         component={ArticleDetails}
         options={{ headerShown: false }}
+      /> */}
+      <MenuStack.Screen
+        name="TreatiseStack"
+        component={TreatiseStack}
+        options={{headerShown: false}}
+      />
+      <MenuStack.Screen
+        name="Treatise"
+        component={Treatise}
+        options={{
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="TreatiseList"
+        component={TreatiseList}
+        options={{
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="TreatiseDetails"
+        component={TreatiseDetails}
+        options={{
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
+      />
+      <MenuStack.Screen
+        name="TreatiseHelp"
+        component={TreatiseHelp}
+        options={{
+          headerTitleStyle: { alignSelf: 'center' },
+        }}
       />
       <MenuStack.Screen
         name="ContactUs"

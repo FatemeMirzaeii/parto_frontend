@@ -72,7 +72,7 @@ const ArticleDetails = ({ route, navigation }) => {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1,paddingBottom:50 }}>
+    <SafeAreaView style={styles.safeAreaView}>
       <StickyParallaxHeader
         headerType="AvatarHeader"
         hasBorderRadius={false}

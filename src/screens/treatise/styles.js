@@ -8,7 +8,6 @@ export const HTMLTagsStyles = {
     fontFamily: FONT.black,
     fontWeight: 'normal',
     margin: 5,
-    
   },
   h3: {
     textAlign: 'right',
@@ -33,7 +32,7 @@ export const HTMLTagsStyles = {
     textAlign: 'right',
     fontFamily: FONT.light,
     fontWeight: 'normal',
-    margin:5,
+    margin: 5,
   },
   span: {
     textAlign: 'right',
@@ -65,7 +64,7 @@ export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
     paddingBottom: 50,
-    paddingTop: 3,
+    paddingTop: 24,
   },
   headerCotainer: {
     flex: 1,

@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Articles from '../screens/articles';
 import ArticlesList from '../screens/articles/ArticlesList';
 import ArticleDetails from '../screens/articles/ArticleDetails';
-import Treatise from '../screens/articles/Treatise';
 
 const ArticleStack = createStackNavigator();
 
