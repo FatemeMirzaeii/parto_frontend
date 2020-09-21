@@ -228,6 +228,7 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontFamily: FONT.light,
     fontSize:SIZE[14],
+    textAlign:'center'
   },
   highlight: {
     fontWeight: '700',
