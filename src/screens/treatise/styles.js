@@ -64,7 +64,7 @@ export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
     paddingBottom: 50,
-    paddingTop: 24,
+    //paddingTop: 24,
   },
   headerCotainer: {
     flex: 1,
