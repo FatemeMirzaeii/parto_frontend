@@ -155,7 +155,6 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
     paddingBottom: 50,
-    paddingTop: 24,
   },
   main: {
     flex: 1,

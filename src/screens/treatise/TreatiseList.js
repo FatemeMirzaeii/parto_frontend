@@ -10,20 +10,19 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ImageBackground,
 } from 'react-native';
 import base64 from 'react-native-base64';
-import Share from 'react-native-share';
 import SearchBar from '../../components/SearchBar';
 import { COLOR, FONT } from '../../styles/static';
+
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
-const txt1 =
-  'محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا  ';
+
 const TreatiseList = ({ route, navigation }) => {
+  
   const [data, setData] = useState([]);
   const [rule, setRule] = useState([]);
-  //const [shareTxt, setShareTxt] = useState('');
   const [isLoading, setIsLoading] = useState(true);
-  var shareTxt = '';
   const { catId, catTitle } = route.params;
 
   useLayoutEffect(() => {
@@ -80,6 +79,7 @@ const TreatiseList = ({ route, navigation }) => {
                 console.log('response', response);
                 const data = response.data.results;
                 const imgUrl = [];
+                //setRule([])
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
                     `https://ketab.partobanoo.com${
@@ -147,23 +147,6 @@ const TreatiseList = ({ route, navigation }) => {
     );
   };
 
-  const _shareContent = async (url) => {
-    const shareOptions = {
-      title: 'Share file',
-      url: url,
-      //url: images.image1,
-      failOnCancel: false,
-    };
-
-    try {
-      const ShareResponse = await Share.open(shareOptions);
-      shareTxt = JSON.stringify(ShareResponse, null, 2);
-    } catch (error) {
-      console.log('Error =>', error);
-      shareTxt = 'error: '.concat(getErrorString(error));
-    }
-  };
-
   return (
     <>
       {isLoading && (
@@ -173,36 +156,33 @@ const TreatiseList = ({ route, navigation }) => {
         </View>
       )}
       {!isLoading && (
-        <SafeAreaView style={{ flex: 1, paddingTop: 10, paddingBottom: 50 }}>
-          <SearchBar
-            undertxt="جستجو"
-            onChangeText={_handleSearch}
-            iconColor={COLOR.btn}
-          />
-          <FlatList
-            data={data}
-            numColumns={2}
-            keyExtractor={(item, index) => index.toString()}
-            ListEmptyComponent={_renderListEmptyComponent}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={styles.GridViewContainer}
-                onPress={() =>
-                  navigation.navigate('TreatiseDetails', {
-                    treatiseContent: item,
-                  })
-                }>
-                {/* <LinearGradient
-                  colors={['#48c5c6', '#66cecf', '#93dddd','#c0ebeb','#edf9f9','#f7f7f7','#edf9f9','#faf4f4','#fdf1f1','#ffefef','#f7dede','#f4e0e1']}
-                  style={styles.linearGradient}
-                  start={{x: 0.0, y: 0.25}} end={{x: 0.5, y: 1.0}}
-                  
-                  > */}
-                <Text style={styles.GridViewTextLayout}> {item.title}</Text>
-                {/* </LinearGradient> */}
-              </TouchableOpacity>
-            )}
-          />
+        <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
+          <ImageBackground
+            source={require('../../../assets/images/start/4.png')}
+            style={{ flex: 1 }}>
+            <SearchBar
+              undertxt="جستجو"
+              onChangeText={_handleSearch}
+              iconColor={COLOR.btn}
+            />
+            <FlatList
+              data={data}
+              numColumns={2}
+              keyExtractor={(item, index) => index.toString()}
+              ListEmptyComponent={_renderListEmptyComponent}
+              renderItem={({ item }) => (
+                <TouchableOpacity
+                  style={styles.GridViewContainer}
+                  onPress={() =>
+                    navigation.navigate('TreatiseDetails', {
+                      treatiseContent: item,
+                    })
+                  }>
+                  <Text style={styles.GridViewTextLayout}> {item.title}</Text>
+                </TouchableOpacity>
+              )}
+            />
+          </ImageBackground>
         </SafeAreaView>
       )}
     </>
@@ -214,7 +194,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    height: 180,
+    height: 150,
     margin: 10,
     marginTop: 20,
     backgroundColor: '#fff',
@@ -234,6 +214,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     color: 'black',
     padding: 10,
+    textAlign: 'center',
   },
   linearGradient: {
     height: 180,
