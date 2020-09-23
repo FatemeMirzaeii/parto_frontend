@@ -1,4 +1,4 @@
-package com.parto_frontend;
+package ir.parto.parto;
 
 // import com.contoriel.cafebazaar.CafeBazaarPackage;
 
@@ -69,7 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.parto_frontend.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("ir.parto.parto.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

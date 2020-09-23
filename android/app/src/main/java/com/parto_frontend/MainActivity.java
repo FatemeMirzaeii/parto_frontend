@@ -1,4 +1,4 @@
-package com.parto_frontend;
+package ir.parto.parto;
 
 import com.facebook.react.ReactActivity;
 

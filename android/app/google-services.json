@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:22488231960:android:2831131f0af0b95485136d",
         "android_client_info": {
-          "package_name": "com.parto_frontend"
+          "package_name": "ir.parto.parto"
         }
       },
       "oauth_client": [
