@@ -3,16 +3,13 @@ import { ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import Card from '../../components/Card';
 import { COLOR } from '../../styles/static';
-import DataBase from '../../util/database';
+import { getReminders } from '../../util/database/query';
 import styles from './Styles';
-const db = new DataBase();
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   useEffect(() => {
-    db.rawQuery('SELECT * FROM reminder', 'reminder').then((res) =>
-      setReminders(res),
-    );
+    getReminders().then((res) => setReminders(res));
   }, []);
   useLayoutEffect(() => {
     navigation.setOptions({

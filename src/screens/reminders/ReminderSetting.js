@@ -5,12 +5,10 @@ import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
-import { USER_REMINDER } from '../../constants/database-tables';
 import { COLOR } from '../../styles/static';
-import DataBase from '../../util/database';
+import { getReminder, saveReminder } from '../../util/database/query';
 import styles from './Styles';
 
-const db = new DataBase();
 const d = new Date();
 const ReminderSetting = ({ navigation, route }) => {
   const { reminder } = route.params;
@@ -23,7 +21,7 @@ const ReminderSetting = ({ navigation, route }) => {
   const [daysAgo, setDaysAgo] = useState(2);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
       headerLeft: () => (
@@ -47,52 +45,46 @@ const ReminderSetting = ({ navigation, route }) => {
     });
     const save = () => {
       console.log('time', time);
-      db.rawQuery(
-        `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
-        (${reminder.id}, ${1}, ${
-          isActive ? 1 : 0
-        }, '${message}', '${hours}:${minutes}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
-          isActive ? 1 : 0
-        }, custom_message='${message}', custom_time='${hours}:${minutes}', Xdays_ago=${daysAgo}`,
-        [],
-        USER_REMINDER,
+      saveReminder(
+        reminder.id,
+        isActive,
+        message,
+        hours,
+        minutes,
+        daysAgo,
       ).then(() => navigation.pop());
     };
-  }, [isActive, message, hours, minutes, daysAgo, navigation, reminder.id]);
+  }, [
+    daysAgo,
+    hours,
+    isActive,
+    message,
+    minutes,
+    navigation,
+    reminder.id,
+    reminder.title,
+    time,
+  ]);
 
-  useLayoutEffect(
-    () => {
-      db.rawQuery(
-        `SELECT * FROM ${USER_REMINDER} WHERE reminder_id=${reminder.id}`,
-        [],
-        USER_REMINDER,
-      ).then((res) => {
-        if (res.rows !== 'EMPTY_TABLE') {
-          //   const t=res.custom_time.split(':');
-          // console.log('t', t);
-          console.log('dddddetail', res);
-          setData(res);
-          //if(res.active ==1) setIsActive(true); else setIsActive(false);
-          setIsActive(res.active === 1 ? true : false);
-          //setIsActive(res.active );
-          setMessage(res.custom_message);
-          //  setHours(t[0]);
-          //  setMinutes(t[1]);
-          setTime(res.custom_time);
-          setDaysAgo(res.Xdays_ago);
-          setIsLoading(false);
-        }
-        console.log('active', isActive);
-        console.log('mes', message);
-        // console.log('hours', hours);
-        // console.log('min', minutes);
-      });
-    },
-    //[ isActive,reminder.id,]
-    [reminder.id],
-  );
-  console.log('data', data);
-  console.log('dataactive', data.active);
+  useEffect(() => {
+    getReminder(1, reminder.id).then((res) => {
+      console.log('getReminder()000000', res);
+      setData(res);
+      if (res.length === 0) return;
+      setIsActive(res.active === 1 ? true : false);
+      setMessage(res.custom_message);
+      setTime(res.custom_time);
+      setDaysAgo(res.Xdays_ago);
+      setIsLoading(false);
+    });
+  }, [reminder.id]);
+
+  // useEffect(() => {
+  //   console.log('data', data);
+  //   console.log('active', isActive);
+  //   console.log('mes', message);
+  // }, [data, isActive, message]);
+
   return (
     <ScrollView>
       {data && (
@@ -157,9 +149,9 @@ const ReminderSetting = ({ navigation, route }) => {
                       type="FontAwesome"
                       name="calendar-check-o"
                       style={{ color: '#aaa' }}
-                      bottomDivider={false}
                     />
                   }
+                  bottomDivider={false}
                   customComponent={
                     <DateTimePicker
                       daySelectedItem={daysAgo}

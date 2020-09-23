@@ -24,7 +24,7 @@ export default class Database {
                 .catch((error) => {
                   db.transaction((tx) => {
                     tx.executeSql(
-                      'CREATE TABLE IF NOT EXISTS user_profile (id, name)',
+                      `CREATE TABLE IF NOT EXISTS ${tableName} (id, name)`,
                     );
                   })
                     .then(() => {})

@@ -3,6 +3,8 @@ import {
   PROFILE,
   USER_TRACKING_OPTION,
   PREGNANCY,
+  REMINDER,
+  USER_REMINDER,
 } from '../../constants/database-tables';
 import moment from 'moment';
 import { FORMAT } from '../../constants/cycle';
@@ -211,4 +213,39 @@ export async function lockStatus() {
   const res = await db.rawQuery(`SELECT use_lock FROM ${PROFILE}`, [], PROFILE);
   const data = res[0] ? res[0] : 0;
   return data.use_lock;
+}
+export async function saveReminder(
+  reminderId,
+  isActive,
+  message,
+  hours,
+  minutes,
+  daysAgo,
+) {
+  const res = await db.rawQuery(
+    `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
+    (${reminderId}, ${1}, ${
+      isActive ? 1 : 0
+    }, '${message}', '${hours}:${minutes}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
+      isActive ? 1 : 0
+    }, custom_message='${message}', custom_time='${hours}:${minutes}', Xdays_ago=${daysAgo}`,
+    [],
+    USER_REMINDER,
+  );
+  return res ?? 0;
+}
+export async function getReminder(userId, reminderId) {
+  const res = await db.rawQuery(
+    `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId} AND reminder_id=${reminderId}`,
+    [],
+    USER_REMINDER,
+  );
+  const data = res[0] ? res[0] : [];
+  return data;
+}
+export async function getReminders() {
+  const res = await db.rawQuery(`SELECT * FROM ${REMINDER}`, [], REMINDER);
+  console.log('reeeeesssssss', res);
+  const data = res ? res : [];
+  return data;
 }
