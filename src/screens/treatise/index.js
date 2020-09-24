@@ -104,8 +104,8 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   const _onPressFloatingActionItem = (name) => {
-    if (name === 'call') Linking.openURL(`tel:${985132020}`);
-    if (name === 'SMS') Linking.openURL(`sms:${9830002020}?body=${''}`);
+    if (name === 'call') Linking.openURL(`tel:${'+'}${985132020}`);
+    if (name === 'SMS') Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`);
     if (name === 'help') navigation.navigate('TreatiseHelp');
   };
   return (
