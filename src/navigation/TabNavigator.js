@@ -43,10 +43,10 @@ const TabNavigator = () => {
         activeTintColor: COLOR.btn,
         inactiveTintColor: COLOR.black,
         style: {
-          // backgroundColor: 'rgba(253, 241, 241, 0.9)',
+          backgroundColor: 'rgba(253, 241, 241, 0.9)',
           // backgroundColor: 'rgba(22, 22, 22, 0.2)',
           // backgroundColor: 'rgba(235, 184, 197, 0.2)',
-          backgroundColor: 'transparent',
+          // backgroundColor: 'transparent',
           borderWidth: 0,
           position: 'absolute',
           elevation: 0,
