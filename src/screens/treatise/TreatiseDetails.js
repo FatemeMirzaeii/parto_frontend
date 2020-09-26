@@ -13,7 +13,7 @@ const TreatiseDetails = ({ route, navigation }) => {
     navigation.setOptions({
       title: treatiseContent.title,
       headerTitleStyle: {
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         color: 'black',
         fontSize: 17,
         fontFamily: FONT.medium,

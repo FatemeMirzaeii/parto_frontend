@@ -67,10 +67,13 @@ const ArticleDetails = ({ route, navigation }) => {
         onLinkPress={(event, url) => {
           Linking.openURL(url);
         }}
+       
       />
     </View>
   );
 
+ 
+  console.log(articleContent.body.storage.value)
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StickyParallaxHeader

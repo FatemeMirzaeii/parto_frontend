@@ -178,14 +178,14 @@ const styles = StyleSheet.create({
   },
   moreButtonIcon: {
     fontSize: 14,
-    color: '#95c9e1',
+    color: COLOR.tiffany,
     paddingVertical: 7,
     paddingRight: 5,
   },
   moreButtonText: {
     fontFamily: FONT.bold,
     fontSize:SIZE[16],
-     color: '#95c9e1',
+    color: COLOR.tiffany,
     //color: COLOR.currentPage,
   },
   categoryText: {

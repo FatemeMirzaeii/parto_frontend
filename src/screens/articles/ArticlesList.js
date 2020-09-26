@@ -2,22 +2,25 @@ import axios from 'axios';
 import { Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   FlatList,
   SafeAreaView,
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import base64 from 'react-native-base64';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
 //components
 import ArticleCard from '../../components/ArticleCard';
+import EmptyList from '../../components/EmptyList';
+import Loading from '../../components/Loading';
 import SearchBar from '../../components/SearchBar';
 import { COLOR, FONT } from '../../styles/static';
+
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
+
 const ArticlesList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [article, setArticle] = useState([]);
@@ -106,28 +109,6 @@ const ArticlesList = ({ route, navigation }) => {
     setData(result);
   };
 
-  const _renderListEmptyComponent = () => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          padding: 30,
-        }}>
-        <Text
-          style={{
-            marginTop: 5,
-            fontFamily: FONT.light,
-            color: 'grey',
-          }}>
-          {' '}
-          متاسفم! جستجو نتیجه‌ای نداشت.
-        </Text>
-        <Icon type="Entypo" name="emoji-sad" style={{ color: 'grey' }} />
-      </View>
-    );
-  };
-
   const _shareContent = async (url) => {
     const shareOptions = {
       title: 'Share file',
@@ -147,12 +128,9 @@ const ArticlesList = ({ route, navigation }) => {
   return (
     <>
       {isLoading ? (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color={COLOR.btn} />
-        </View>
+        <Loading />
       ) : (
-        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom:50 }}>
+        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom: 50 }}>
           <SearchBar
             undertxt="جستجو"
             onChangeText={_handleSearch}
@@ -355,7 +333,9 @@ const ArticlesList = ({ route, navigation }) => {
               />
             )}
             keyExtractor={(item, index) => index.toString()}
-            ListEmptyComponent={_renderListEmptyComponent}
+            ListEmptyComponent={() => {
+              return <EmptyList />;
+            }}
           />
         </SafeAreaView>
       )}

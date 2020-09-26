@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { Dimensions, Linking, SafeAreaView, ScrollView } from 'react-native';
+import { Dimensions, Linking, SafeAreaView, ScrollView,View} from 'react-native';
 import { Icon } from 'react-native-elements';
 import base64 from 'react-native-base64';
 import HTML from 'react-native-render-html';
@@ -16,7 +16,7 @@ const TreatiseHelp = ({ navigation }) => {
     navigation.setOptions({
       title: 'راهنما',
       headerTitleStyle: {
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         color: 'black',
         fontSize: 17,
         fontFamily: FONT.medium,
@@ -66,20 +66,34 @@ const TreatiseHelp = ({ navigation }) => {
         {helpContent && (
           <HTML
             html={helpContent.toString()}
-            ignoredStyles={['height', 'width']}
-            imagesMaxWidth={Dimensions.get('window').width}
-            style={styles.HTML}
-            tagsStyles={HTMLTagsStyles}
-            onLinkPress={(event, url) => {
-              Linking.openURL(url);
-            }}
             // renderers={
-            //   (p = () => (
+            //  { 'ac:image' : () => (
             //     <View
             //       style={{ width: '100%', height: 1, backgroundColor: 'blue' }}
             //     />
-            //   ))
+            //   )}
             // }
+            // ignoredStyles={['height', 'width']}
+            // imagesMaxWidth={Dimensions.get('window').width}
+            // style={styles.HTML}
+            // tagsStyles={HTMLTagsStyles}
+            // onLinkPress={(event, url) => {
+            //   Linking.openURL(url);
+            // }}
+            // alterNode= {(node) => {
+            //   const { name, parent } = node;
+            //   // If the tag is an <a> and we've found a parent to be a blockquote
+            //   // (see the utils part of this documentation to know more about getParentsTagsRecursively)
+            //   if (
+            //     name === "ac:image" 
+                
+            //   ) {
+            //     // Let's assign a specific color to the node's attribs (if there already are)
+            //     node.attribs = { ...(node.attribs || {}), source: `color:lightblue;` };
+            //     return node;
+            //   }
+            //   // Don't return anything (eg a falsy value) for anything else so nothing is altered
+            // }}
           />
         )}
       </ScrollView>

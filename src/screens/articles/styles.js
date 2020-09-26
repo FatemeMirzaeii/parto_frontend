@@ -1,25 +1,29 @@
 import { StyleSheet } from 'react-native';
-import { FONT } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 
 export const HTMLTagsStyles = {
   h2: {
     textAlign: 'right',
-    color: 'lightblue',
+    //color: 'lightblue',
+   
+    color:COLOR.tiffany,
     fontFamily: FONT.black,
     fontWeight: 'normal',
-    margin: 5,
+    margin: 3,
+    paddingVertical:10
     
   },
   h3: {
     textAlign: 'right',
-    fontFamily: FONT.bold,
+    fontFamily: FONT.medium,
     paddingVertical: 10,
     fontWeight: 'normal',
     margin: 5,
+    color:'black'
   },
   h4: {
     textAlign: 'right',
-    fontFamily: FONT.medium,
+    fontFamily: FONT.light,
     fontWeight: 'normal',
     margin: 5,
   },
@@ -33,31 +37,65 @@ export const HTMLTagsStyles = {
     textAlign: 'right',
     fontFamily: FONT.light,
     fontWeight: 'normal',
-    margin:5,
+    margin:7,
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red'
+   lineHeight:35
+    
   },
   span: {
     textAlign: 'right',
     fontFamily: FONT.light,
     fontWeight: 'normal',
     margin: 5,
-  },
-  div: {
-    textAlign: 'right',
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red',
+    lineHeight:35
   },
   strong: {
     textAlign: 'right',
     fontFamily: FONT.medium,
     fontWeight: 'normal',
     margin: 5,
+    fontSize:16,
+    //padding:5,
+    // color:'red',
+    // backgroundColor:'red',
+    lineHeight:35
   },
   ul: {
     direction: 'rtl',
+    backgroundColor:'yellow',
+    margin:10,
   },
   li: {
     textAlign: 'right',
     fontFamily: FONT.light,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
+    alignSelf:'flex-end',
+    //padding:5,
+    //margin: 5,
+    fontSize:16,
+    //lineHeight:35,
+   // backgroundColor:'lightgreen'
+
+  },
+  i: {
+    textAlign: 'right',
+    fontFamily: FONT.light,
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-end',
+    alignSelf:'flex-end',
+    //padding:5,
+    //margin: 5,
+    fontSize:16,
+    //lineHeight:35,
+    //backgroundColor:'lightgreen',
+    
+
   },
 };
 

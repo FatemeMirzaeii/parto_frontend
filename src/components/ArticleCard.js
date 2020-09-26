@@ -1,10 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
-import HTML from 'react-native-render-html';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FONT } from '../styles/static';
-const txt1 =
-  'محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا  ';
 
 const ArticleCard = (props) => {
   return (
