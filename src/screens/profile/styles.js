@@ -23,7 +23,6 @@ export default StyleSheet.create({
     marginVertical: 30,
     width: WIDTH - 20,
     alignSelf: 'center',
-   // marginBottom: 30,
   },
   nextButton: {
     backgroundColor: COLOR.btn,
