@@ -52,8 +52,10 @@ const Profile = ({ navigation }) => {
     navigation.pop();
   };
   return (
-    <SafeAreaView contentContainerStyle={styles.container}>
-      <ScrollView style={styles.scrollView}>
+    <SafeAreaView
+      style={styles.safeAreaView}
+      contentContainerStyle={styles.container}>
+      <ScrollView>
         {/* <UserAvatar navigation={navigation} /> */}
         <UserGoal />
         <Card>
