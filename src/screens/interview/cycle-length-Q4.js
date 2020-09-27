@@ -27,13 +27,14 @@ const Q4 = ({ route, navigation }) => {
     });
   }
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={{flex:1,backgroundColor:'#aaa'}}>
       <ImageBackground
         source={require('../../../assets/images/start/3.png')}
-        style={styles.bg}>
-        <Text style={styles.question}>
+        style={{flex:1,backgroundColor:'pink',justifyContent:'space-around'}}>
+        <Text style={{backgroundColor:'blue',color:'black',alignSelf:'center',alignItems:'center'}}>
           میانگین فاصله دوره های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
         </Text>
+        <View style={{backgroundColor:'yellow'}}>
         <WheelPicker
           data={setPickerRange(10, 100)}
           selectedItem={selectedItem}
@@ -44,9 +45,11 @@ const Q4 = ({ route, navigation }) => {
           selectedItemTextSize={21}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
-          style={styles.picker}
+          style={{ width: '90%',alignSelf:'center',
+          height: 100}}
         />
-        <View style={{ top: 250 }}>
+        </View>
+        <View style={{ backgroundColor:'red',}}>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}
