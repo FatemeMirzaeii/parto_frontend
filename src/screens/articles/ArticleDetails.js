@@ -17,7 +17,7 @@ const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
 
 const ArticleDetails = ({ route, navigation }) => {
-  const { articleContent } = route.params;
+  const { articleContent, catName } = route.params;
 
   const _renderHeader = () => {
     const opacity = scrollY.y.interpolate({
@@ -47,11 +47,16 @@ const ArticleDetails = ({ route, navigation }) => {
   const _renderForeground = () => (
     <ImageBackground
       style={styles.imageHeader}
-      source={{
-        uri: articleContent.cover,
-      }}>
+      source={
+        articleContent.cover
+          ? { uri: articleContent.cover }
+          : require('../../../assets/images/NoPic.jpeg')
+      }>
       <View style={styles.headerTitleWrapper}>
         <Text style={styles.titleStyle}>{articleContent.title}</Text>
+      </View>
+      <View style={styles.categoryWrapper}>
+        <Text style={styles.badge}>{catName}</Text>
       </View>
     </ImageBackground>
   );
@@ -67,13 +72,12 @@ const ArticleDetails = ({ route, navigation }) => {
         onLinkPress={(event, url) => {
           Linking.openURL(url);
         }}
-       
       />
     </View>
   );
 
- 
-  console.log(articleContent.body.storage.value)
+  console.log(articleContent.body.storage.value);
+  console.log('catName', catName);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StickyParallaxHeader

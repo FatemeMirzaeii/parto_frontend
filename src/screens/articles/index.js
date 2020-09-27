@@ -45,11 +45,12 @@ const Articles = (props) => {
               <CategoryList
                 navigation={navigation}
                 catId={item.content.id}
+                catName={item.title}
                 buttonTitle="مشاهده همه"
                 category={item.title}
                 MoreBtnOnPress={() => {
                   props.navigation.navigate('ArticlesList', {
-                    catId: item.content.id,
+                    catId: item.content.id,catName:item.title
                   });
                 }}
               />

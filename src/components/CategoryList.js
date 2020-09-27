@@ -20,7 +20,7 @@ const CategoryList = (props) => {
   const [article, setArticle] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { catId } = props;
+  const { catId, catName } = props;
 
   useEffect(() => {
     const getCategoryContent = () => {
@@ -102,17 +102,20 @@ const CategoryList = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate('ArticleDetails', { articleContent: item });
+          props.navigation.navigate('ArticleDetails', {
+            articleContent: item,
+            catName: catName,
+          });
         }}
         style={styles.cardButton}>
         <ImageBackground
           style={styles.imageWrapper}
           imageStyle={styles.image}
-          source={{
-            uri: item.cover
-              ? item.cover
-              : 'https://ravandbazar.ir/wp-content/uploads/2020/04/%D8%A8%D8%AF%D9%88%D9%86-%D8%B9%DA%A9%D8%B3.jpg',
-          }}>
+          source={
+            item.cover
+              ? { uri: item.cover }
+              : require('../../assets/images/NoPic.jpeg')
+          }>
           <LinearGradient
             colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
             style={styles.textGradient}>
@@ -184,13 +187,12 @@ const styles = StyleSheet.create({
   },
   moreButtonText: {
     fontFamily: FONT.bold,
-    fontSize:SIZE[16],
+    fontSize: SIZE[16],
     color: COLOR.tiffany,
-    //color: COLOR.currentPage,
   },
   categoryText: {
     fontFamily: FONT.bold,
-    fontSize:SIZE[16]
+    fontSize: SIZE[16],
   },
   cardButton: {
     margin: 5,
@@ -227,8 +229,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: FONT.light,
-    fontSize:SIZE[14],
-    textAlign:'center'
+    fontSize: SIZE[14],
+    textAlign: 'center',
   },
   highlight: {
     fontWeight: '700',

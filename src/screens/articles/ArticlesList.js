@@ -28,7 +28,7 @@ const ArticlesList = ({ route, navigation }) => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
   var shareTxt = '';
-  const { catId } = route.params;
+  const { catId ,catName} = route.params;
 
   useEffect(() => {
     const getCategoryContent = () => {
@@ -319,14 +319,10 @@ const ArticlesList = ({ route, navigation }) => {
             renderItem={({ item }) => (
               <ArticleCard
                 name={item.title}
-                image={
-                  item.cover
-                    ? item.cover
-                    : 'https://ravandbazar.ir/wp-content/uploads/2020/04/%D8%A8%D8%AF%D9%88%D9%86-%D8%B9%DA%A9%D8%B3.jpg'
-                }
+                image={item.cover}
                 onPress={() =>
                   navigation.navigate('ArticleDetails', {
-                    articleContent: item,
+                    articleContent: item,catName:catName
                   })
                 }
                 // shareContent={_shareContent(item.body.storage.value.toString())}
