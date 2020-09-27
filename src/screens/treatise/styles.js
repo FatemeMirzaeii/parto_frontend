@@ -23,7 +23,7 @@ export const HTMLTagsStyles = {
   },
   h4: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.medium,
     fontWeight: 'normal',
     margin: 5,
   },
@@ -35,7 +35,7 @@ export const HTMLTagsStyles = {
   },
   p: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.regular,
     fontWeight: 'normal',
     margin:7,
     //padding:5,
@@ -46,7 +46,7 @@ export const HTMLTagsStyles = {
   },
   span: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily:FONT.regular,
     fontWeight: 'normal',
     margin: 5,
     //padding:5,
@@ -72,7 +72,7 @@ export const HTMLTagsStyles = {
   },
   li: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.regular,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
     alignSelf:'flex-end',
@@ -85,7 +85,7 @@ export const HTMLTagsStyles = {
   },
   i: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.regular,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
     alignSelf:'flex-end',
@@ -147,6 +147,17 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     flexDirection: 'row',
+  },
+  helpTxt: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    fontWeight: 'normal',
+    margin:7,
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red'
+   lineHeight:35
+    
   },
   HTML: { width: '100%' },
   contentContiner: {
