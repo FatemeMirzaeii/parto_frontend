@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import base64 from 'react-native-base64';
 import Modal from 'react-native-modal';
 import Share from 'react-native-share';
 //components
@@ -18,8 +17,8 @@ import EmptyList from '../../components/EmptyList';
 import Loading from '../../components/Loading';
 import SearchBar from '../../components/SearchBar';
 import { COLOR, FONT } from '../../styles/static';
-
-const authCode = base64.encode('m.vosooghian:m.vosooghian');
+import { authCode } from '../../services/authCode';
+import { baseUrl } from '../../services/urls';
 
 const ArticlesList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
@@ -34,7 +33,7 @@ const ArticlesList = ({ route, navigation }) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `https://ketab.partobanoo.com/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all`,
+        url: `${baseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -47,7 +46,7 @@ const ArticlesList = ({ route, navigation }) => {
           for (let i = 0; i < res.data.results.length; i++) {
             axios({
               method: 'get',
-              url: `https://ketab.partobanoo.com/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
 
               headers: {
                 Authorization: 'Basic ' + authCode,
@@ -62,7 +61,7 @@ const ArticlesList = ({ route, navigation }) => {
 
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
-                    `https://ketab.partobanoo.com${
+                    `${baseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );

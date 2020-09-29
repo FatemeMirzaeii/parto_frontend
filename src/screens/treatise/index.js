@@ -11,13 +11,12 @@ import {
 import axios from 'axios';
 import { Icon } from 'native-base';
 import { Icon as IconElement } from 'react-native-elements';
-import base64 from 'react-native-base64';
 import { FloatingAction } from 'react-native-floating-action';
 //import Error from '../../components/Error';
 import Loading from '../../components/Loading';
+import { authCode } from '../../services/authCode';
+import { baseUrl } from '../../services/urls';
 import { COLOR, FONT } from '../../styles/static';
-
-const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
@@ -89,7 +88,7 @@ const Treatise = ({ navigation }) => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `https://ketab.partobanoo.com/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created desc`,
+        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created desc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',

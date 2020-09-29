@@ -9,11 +9,10 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import base64 from 'react-native-base64';
 import LinearGradient from 'react-native-linear-gradient';
 import { COLOR, FONT, SIZE } from '../styles/static';
-
-const authCode = base64.encode('m.vosooghian:m.vosooghian');
+import { authCode } from '../services/authCode';
+import { baseUrl } from '../services/urls';
 
 const CategoryList = (props) => {
   const [categoryContent, setCategoryContent] = useState([]);
@@ -26,7 +25,7 @@ const CategoryList = (props) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `https://ketab.partobanoo.com/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all&start=${0}&limit=${9}`,
+        url: `${baseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all&start=${0}&limit=${9}`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -42,7 +41,7 @@ const CategoryList = (props) => {
             //console.log(res.data.results[i].id);
             axios({
               method: 'get',
-              url: `https://ketab.partobanoo.com/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
 
               headers: {
                 Authorization: 'Basic ' + authCode,
@@ -58,7 +57,7 @@ const CategoryList = (props) => {
                 // content = [];
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
-                    `https://ketab.partobanoo.com${
+                    `${baseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );
