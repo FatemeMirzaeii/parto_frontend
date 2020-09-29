@@ -1,10 +1,9 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, View } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import base64 from 'react-native-base64';
 import CategoryList from '../../components/CategoryList';
-import { COLOR } from '../../styles/static';
-
+import Loading from '../../components/Loading';
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
 const Articles = (props) => {
@@ -32,14 +31,11 @@ const Articles = (props) => {
 
     getCategoryList();
   }, []);
-
+  
   return (
     <>
       {isLoading ? (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color={COLOR.btn} />
-        </View>
+        <Loading/>
       ) : (
         <SafeAreaView style={{ paddingBottom: 50, paddingTop: 24 }}>
           <FlatList
@@ -49,11 +45,12 @@ const Articles = (props) => {
               <CategoryList
                 navigation={navigation}
                 catId={item.content.id}
+                catName={item.title}
                 buttonTitle="مشاهده همه"
                 category={item.title}
                 MoreBtnOnPress={() => {
                   props.navigation.navigate('ArticlesList', {
-                    catId: item.content.id,
+                    catId: item.content.id,catName:item.title
                   });
                 }}
               />

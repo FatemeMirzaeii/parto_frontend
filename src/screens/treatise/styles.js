@@ -1,20 +1,25 @@
 import { StyleSheet } from 'react-native';
-import { FONT } from '../../styles/static';
+import { FONT,COLOR } from '../../styles/static';
 
 export const HTMLTagsStyles = {
   h2: {
     textAlign: 'right',
-    color: 'lightblue',
+    //color: 'lightblue',
+   
+    color:COLOR.tiffany,
     fontFamily: FONT.black,
     fontWeight: 'normal',
-    margin: 5,
+    margin: 3,
+    paddingVertical:10
+    
   },
   h3: {
     textAlign: 'right',
-    fontFamily: FONT.bold,
+    fontFamily: FONT.medium,
     paddingVertical: 10,
     fontWeight: 'normal',
     margin: 5,
+    color:'black'
   },
   h4: {
     textAlign: 'right',
@@ -30,33 +35,67 @@ export const HTMLTagsStyles = {
   },
   p: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.regular,
     fontWeight: 'normal',
-    margin: 5,
+    margin:7,
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red'
+   lineHeight:35
+    
   },
   span: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily:FONT.regular,
     fontWeight: 'normal',
     margin: 5,
-  },
-  div: {
-    textAlign: 'right',
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red',
+    lineHeight:35
   },
   strong: {
     textAlign: 'right',
     fontFamily: FONT.medium,
     fontWeight: 'normal',
     margin: 5,
+    fontSize:16,
+    //padding:5,
+    // color:'red',
+    // backgroundColor:'red',
+    lineHeight:35
   },
   ul: {
     direction: 'rtl',
+   // backgroundColor:'yellow',
+    margin:10,
   },
   li: {
     textAlign: 'right',
-    fontFamily: FONT.light,
+    fontFamily: FONT.regular,
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
+    alignSelf:'flex-end',
+    //padding:5,
+    //margin: 5,
+    fontSize:16,
+    //lineHeight:35,
+    //backgroundColor:'lightgreen'
+
+  },
+  i: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    flexDirection: 'row-reverse',
+    alignItems: 'flex-end',
+    alignSelf:'flex-end',
+    //padding:5,
+    //margin: 5,
+    fontSize:16,
+    //lineHeight:35,
+    //backgroundColor:'lightgreen',
+    
+
   },
 };
 
@@ -108,6 +147,17 @@ export default StyleSheet.create({
     justifyContent: 'flex-end',
     alignItems: 'flex-end',
     flexDirection: 'row',
+  },
+  helpTxt: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    fontWeight: 'normal',
+    margin:7,
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red'
+   lineHeight:35
+    
   },
   HTML: { width: '100%' },
   contentContiner: {

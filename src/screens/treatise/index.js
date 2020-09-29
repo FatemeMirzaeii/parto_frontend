@@ -1,6 +1,3 @@
-import axios from 'axios';
-import { Icon } from 'native-base';
-import { Icon as IconElement } from 'react-native-elements';
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import {
   FlatList,
@@ -11,13 +8,21 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
+import axios from 'axios';
+import { Icon } from 'native-base';
+import { Icon as IconElement } from 'react-native-elements';
 import base64 from 'react-native-base64';
 import { FloatingAction } from 'react-native-floating-action';
+//import Error from '../../components/Error';
+import Loading from '../../components/Loading';
 import { COLOR, FONT } from '../../styles/static';
+
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [serverError, setServerError] = useState(null);
   const actions = [
     {
       //text: 'تماس با کارشناس',
@@ -61,7 +66,7 @@ const Treatise = ({ navigation }) => {
     navigation.setOptions({
       title: 'احکام',
       headerTitleStyle: {
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         color: 'black',
         fontSize: 17,
         fontFamily: FONT.medium,
@@ -94,9 +99,14 @@ const Treatise = ({ navigation }) => {
           console.log(res);
           console.log(res.data.results);
           setCategoryList(res.data.results);
+          setIsLoading(false);
         })
-        .catch((err) => {
-          console.error(err, err.response);
+        .catch((error) => {
+          console.error(error, error);
+          console.log('err', error);
+          setServerError(error.toString());
+          //console.log('err.response.data.message',err.response);
+          setIsLoading(false);
         });
     };
 
@@ -104,42 +114,60 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   const _onPressFloatingActionItem = (name) => {
-    if (name === 'call') Linking.openURL(`tel:${'+'}${985132020}`);
+    if (name === 'call') Linking.openURL(`tel:${'+985132020'}`);
     if (name === 'SMS') Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`);
     if (name === 'help') navigation.navigate('TreatiseHelp');
   };
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      {/* {serverError && (
+        
+          <Error message={serverError} />
+        
+      )} */}
       <View style={styles.main}>
-        <FlatList
-          data={categoryList}
-          renderItem={({ item }) => (
-            <TouchableHighlight
-              style={styles.button}
-              onPress={() =>
-                navigation.navigate('TreatiseList', {
-                  catId: item.content.id,
-                  catTitle: item.title,
-                })
-              }>
-              <View style={styles.buttonContent}>
-                <Text style={styles.txt}>{item.title}</Text>
-                <View
-                  style={{
-                    width: 60,
-                    height: 60,
-                    borderRadius: 60,
-                    backgroundColor: '#86dbd4',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                  <Icon type="Fontisto" name="blood-drop" style={styles.icon} />
-                </View>
-              </View>
-            </TouchableHighlight>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            {categoryList && (
+              <FlatList
+                data={categoryList}
+                renderItem={({ item }) => (
+                  <TouchableHighlight
+                    style={styles.button}
+                    onPress={() =>
+                      navigation.navigate('TreatiseList', {
+                        catId: item.content.id,
+                        catTitle: item.title,
+                      })
+                    }>
+                    <View style={styles.buttonContent}>
+                      <Text style={styles.txt}>{item.title}</Text>
+                      <View
+                        style={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 60,
+                          backgroundColor: '#86dbd4',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                        <Icon
+                          type="Fontisto"
+                          name="blood-drop"
+                          style={styles.icon}
+                        />
+                      </View>
+                    </View>
+                  </TouchableHighlight>
+                )}
+                keyExtractor={(item, index) => index.toString()}
+              />
+            )}
+          </>
+        )}
         <FloatingAction
           actions={actions}
           color={COLOR.btn}
@@ -161,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 10,
+    //padding: 10,
   },
   button: {
     backgroundColor: '#f4e0e1',

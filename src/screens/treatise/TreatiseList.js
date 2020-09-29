@@ -1,25 +1,23 @@
 import axios from 'axios';
-import { Icon } from 'native-base';
-import { Icon as IconElement } from 'react-native-elements';
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
-  ActivityIndicator,
   FlatList,
+  ImageBackground,
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  ImageBackground,
 } from 'react-native';
 import base64 from 'react-native-base64';
+import { Icon as IconElement } from 'react-native-elements';
+import EmptyList from '../../components/EmptyList';
+import Loading from '../../components/Loading';
 import SearchBar from '../../components/SearchBar';
 import { COLOR, FONT } from '../../styles/static';
 
 const authCode = base64.encode('m.vosooghian:m.vosooghian');
 
 const TreatiseList = ({ route, navigation }) => {
-  
   const [data, setData] = useState([]);
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -29,7 +27,7 @@ const TreatiseList = ({ route, navigation }) => {
     navigation.setOptions({
       title: catTitle,
       headerTitleStyle: {
-        alignSelf: 'center',
+        alignSelf: 'flex-end',
         color: 'black',
         fontSize: 17,
         fontFamily: FONT.medium,
@@ -125,37 +123,11 @@ const TreatiseList = ({ route, navigation }) => {
     setData(result);
   };
 
-  const _renderListEmptyComponent = () => {
-    return (
-      <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'flex-end',
-          padding: 30,
-        }}>
-        <Text
-          style={{
-            marginTop: 5,
-            fontFamily: 'IRANSansMobile_Light',
-            color: 'grey',
-          }}>
-          {' '}
-          متاسفم! جستجو نتیجه‌ای نداشت.
-        </Text>
-        <Icon type="Entypo" name="emoji-sad" style={{ color: 'grey' }} />
-      </View>
-    );
-  };
-
   return (
     <>
-      {isLoading && (
-        <View
-          style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <ActivityIndicator size="large" color={COLOR.btn} />
-        </View>
-      )}
-      {!isLoading && (
+      {isLoading ? (
+        <Loading />
+      ) : (
         <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
           <ImageBackground
             source={require('../../../assets/images/start/4.png')}
@@ -169,7 +141,9 @@ const TreatiseList = ({ route, navigation }) => {
               data={data}
               numColumns={2}
               keyExtractor={(item, index) => index.toString()}
-              ListEmptyComponent={_renderListEmptyComponent}
+              ListEmptyComponent={() => {
+                return <EmptyList />;
+              }}
               renderItem={({ item }) => (
                 <TouchableOpacity
                   style={styles.GridViewContainer}

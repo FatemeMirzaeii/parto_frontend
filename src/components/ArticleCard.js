@@ -1,37 +1,18 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native';
-import { Icon } from 'native-base';
-import HTML from 'react-native-render-html';
+import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { FONT } from '../styles/static';
-const txt1 =
-  'محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا محتوا  ';
 
 const ArticleCard = (props) => {
   return (
     <View style={{ flex: 1, paddingHorizontal: 10 }}>
       <View style={styles.card}>
-        <TouchableOpacity
-          onPress={props.onPress}
-          style={{
-            flexDirection: 'row',
-            padding: 5,
-            marginHorizontal: 20,
-            justifyContent: 'flex-end',
-          }}>
-          <View style={{ alignItems: 'flex-end', flex: 1, padding: 10 }}>
+        <TouchableOpacity onPress={props.onPress} style={styles.button}>
+          <View style={{alignItems: 'flex-end',marginTop:10,flex: 1, padding: 10 }}>
             <Text style={styles.cardTitle}>{props.name}</Text>
           </View>
           <View>
-            <Image
-              style={{
-                width: 110,
-                height: 110,
-                borderRadius: 15,
-                borderColor: 'black',
-                //borderWidth: 1,
-              }}
-              source={{ uri: props.image }}
-            />
+            <Image style={styles.image}
+            source={props.image?{uri:props.image}:require('../../assets/images/NoPic.jpeg')}/>
           </View>
         </TouchableOpacity>
         {/* <View
@@ -74,11 +55,8 @@ export default ArticleCard;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    //justifyContent: "center",
-    // backgroundColor: "#e5e5e5"
   },
   card: {
-    // alignItems: "center",
     backgroundColor: '#fff',
     flex: 1,
     height: 180,
@@ -98,12 +76,22 @@ const styles = StyleSheet.create({
     fontSize: 15,
     fontFamily: FONT.medium,
     marginBottom: 15,
-    // padding:5
   },
   cardContext: {
     fontSize: 12,
     fontFamily: FONT.medium,
-    //padding:7,
     color: '#aaa',
+  },
+  button: {
+    flexDirection: 'row',
+    padding: 5,
+    marginHorizontal: 20,
+    justifyContent: 'flex-end',
+  },
+  image: {
+    width: 110,
+    height: 110,
+    borderRadius: 15,
+    borderColor: 'black',
   },
 });

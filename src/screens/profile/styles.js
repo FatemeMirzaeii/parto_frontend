@@ -2,12 +2,10 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
+  safeAreaView: { flex: 1, paddingTop: 25, paddingBottom: 50 },
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
-  },
-  scrollView:{
-    paddingVertical:25
   },
   goals: {
     alignSelf: 'center',
@@ -22,7 +20,7 @@ export default StyleSheet.create({
   btnContainer: {
     elevation: 5,
     backgroundColor: COLOR.btn,
-    marginTop: 30,
+    marginVertical: 30,
     width: WIDTH - 20,
     alignSelf: 'center',
   },
