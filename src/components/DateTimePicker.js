@@ -42,7 +42,6 @@ const DateTimePicker = (props) => {
           data={hour}
           selectedItem={props.hourSelectedItem}
           onItemSelected={props.onHourSelected}
-          // initPosition={30}
           isCyclic
           style={styles.picker}
           selectedItemTextSize={20}
