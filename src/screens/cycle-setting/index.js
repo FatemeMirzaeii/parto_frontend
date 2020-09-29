@@ -74,7 +74,7 @@ const CycleSetting = ({ navigation }) => {
           <PickerListItem
             title="طول سندروم پیش از قاعدگی"
             range={{ min: 1, max: 10 }}
-            selectedItem={pmsLength}
+            selectedItem={pmsLength ?? '3'}
             onItemSelected={setPmsLength}
             rightTitle={{ title: pmsLength, suffix: 'روز' }}
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}

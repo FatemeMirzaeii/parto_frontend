@@ -72,7 +72,11 @@ const PickerListItem = (props) => {
           <View style={styles.picker}>
             {!props.DatePicker && !props.TimePicker ? (
               <WheelPicker
-                selectedItem={data.findIndex((a) => a === props.selectedItem)}
+                selectedItem={
+                  props.selectedItem
+                    ? data.findIndex((a) => a === props.selectedItem.toString())
+                    : 0
+                }
                 onItemSelected={onItemSelected}
                 data={data}
                 initPosition={props.initPosition}

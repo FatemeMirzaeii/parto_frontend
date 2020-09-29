@@ -79,7 +79,8 @@ const Profile = ({ navigation }) => {
             title="قد"
             selectedItem={height}
             onItemSelected={setHeight}
-            range={{ min: 100, max: 250 }}
+            initPosition={30}
+            range={{ min: 130, max: 210 }}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: height, suffix: 'cm' }}
           />
@@ -87,6 +88,7 @@ const Profile = ({ navigation }) => {
             title="وزن"
             selectedItem={weight}
             onItemSelected={setWeight}
+            initPosition={30}
             range={{ min: 30, max: 150 }}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: weight, suffix: 'Kg' }}

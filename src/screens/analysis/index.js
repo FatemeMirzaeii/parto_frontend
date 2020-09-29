@@ -93,7 +93,7 @@ const Analysis = ({ navigation }) => {
           </View>
           <VictoryChart
             horizontal
-            height={600}
+            height={500}
             scale={{ x: 'time' }}
             // animate={{ duration: 500, easing: 'bounce' }}
             // containerComponent={
