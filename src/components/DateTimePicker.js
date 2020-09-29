@@ -31,7 +31,7 @@ const days = setPickerRange(0, 10);
 //   '22',
 //   '23',
 // ];
-const hour=setPickerRange(0, 23);
+const hour = setPickerRange(0, 23);
 const min = setPickerRange(0, 59);
 
 const DateTimePicker = (props) => {
@@ -42,7 +42,7 @@ const DateTimePicker = (props) => {
           data={hour}
           selectedItem={props.hourSelectedItem}
           onItemSelected={props.onHourSelected}
-          initPosition={30}
+          // initPosition={30}
           isCyclic
           style={styles.picker}
           selectedItemTextSize={20}
