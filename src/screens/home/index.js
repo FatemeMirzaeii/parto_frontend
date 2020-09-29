@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ImageBackground, StatusBar } from 'react-native';
+import { SafeAreaView, View, ImageBackground } from 'react-native';
 import moment from 'moment';
-import jalaali from 'moment-jalaali';
 import WeekCalendar from '../../components/WeekCalendar';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';

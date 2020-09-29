@@ -48,10 +48,10 @@ export default async function CycleModule() {
       avgCycleLength,
     );
     switch (true) {
-      case !cycleDayNo: {
+      case !cycleDayNo && cycleDayNo !== 0: {
         return 0;
       }
-      case cycleDayNo < avgPeriodLength && cycleDayNo > 0: {
+      case cycleDayNo < avgPeriodLength && cycleDayNo >= 0: {
         return 1;
       }
       case avgPeriodLength < cycleDayNo && cycleDayNo < OVULATION_DAY_NO: {
@@ -77,7 +77,7 @@ export default async function CycleModule() {
       // }
       case 1: {
         const dayNo = periodDayNumber();
-        return `روز ${dayNo} پریود`;
+        return `روز ${dayNo + 1} پریود`;
       }
       case 2: {
         const daysTo = remainingDaysToOvulation();

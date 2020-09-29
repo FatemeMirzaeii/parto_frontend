@@ -7,11 +7,47 @@ export const SLEEP = 5;
 export const EXCERSICE = 6;
 export const SEX = 7;
 
-//options
-export const SPOTTING = 1;
-export const LIGHT = 2;
-export const MEDIUM = 3;
-export const HEAVY = 4;
+export const OPTIONS = {
+  //BLEEDING
+  SPOTTING: 1,
+  LIGHT: 2,
+  MEDIUM: 3,
+  HEAVY: 4,
+
+  //PAIN
+  HEADACHE: 5,
+  BREASTS: 6,
+  CRAMPS: 7,
+  BACKACHE: 8,
+
+  //VAGINAL
+  STICKY: 9,
+  CREAMY: 10,
+  EGGWHITE: 11,
+  ABNORMAL: 12,
+
+  //MOOD
+  HAPPY: 13,
+  NEUTRAL: 14,
+  SAD: 15,
+  PMS: 16,
+
+  //SLEEP
+  NO_SLEEP: 17,
+  LITTLE_SLEEP: 18,
+  AVERAGE_SLEEP: 19,
+  LOTS_SLEEP: 20,
+
+  //EXCERSICE
+  EXERCISE1: 21,
+  EXERCISE2: 22,
+  EXERCISE3: 23,
+  EXERCISE4: 24,
+
+  //SEX
+  PROTECTED_SEX: 25,
+  UNPROTECTED_SEX: 26,
+};
 
 //more details
 export const MORE_ABOUT_BLEEDING = `خونریزی:

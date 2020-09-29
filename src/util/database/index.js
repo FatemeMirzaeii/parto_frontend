@@ -4,77 +4,40 @@ import { EMPTY_TABLE } from '../../constants/database-tables';
 SQLite.DEBUG(true);
 SQLite.enablePromise(true);
 
-const database_name = 'parto.db';
+const database_name = 'parto1.db';
 const database_location = '~parto.db';
 
 export default class Database {
-  initDB(tableName) {
-    let db;
-    return new Promise((resolve) => {
-      SQLite.echoTest()
-        .then(() => {
-          SQLite.openDatabase({
-            name: database_name,
-            createFromLocation: database_location,
-          })
-            .then((DB) => {
-              db = DB;
-              db.executeSql(`SELECT 1 FROM ${tableName} LIMIT 1`)
-                .then(() => {})
-                .catch((error) => {
-                  db.transaction((tx) => {
-                    tx.executeSql(
-                      `CREATE TABLE IF NOT EXISTS ${tableName} (id, name)`,
-                    );
-                  })
-                    .then(() => {})
-                    .catch((error) => {});
-                });
-              resolve(db);
-            })
-            .catch((error) => {});
-        })
-        .catch((error) => {});
+  async open(_table) {
+    const _db = await SQLite.openDatabase({
+      name: database_name,
+      createFromLocation: database_location,
     });
+    // const exists = await _db.executeSql(`SELECT 1 FROM ${_table} LIMIT 1`);
+    // if (!exists) {
+    //   _db.transaction((tx) => {
+    //     tx.executeSql(`CREATE TABLE IF NOT EXISTS ${_table} (id, name)`);
+    //   });
+    // }
+    return _db;
   }
-  //function for the close Database connection
-  closeDatabase(db) {
-    if (db) {
-      db.close()
-        .then((status) => {})
-        .catch((error) => {});
-    } else {
-    }
-  }
-  //function to get the results
 
-  async rawQuery(_Query, _Values = [], _Table) {
-    return await new Promise((resolve) => {
-      let arr = [];
-      this.initDB(_Table)
-        .then((db) => {
-          db.transaction((tx) => {
-            tx.executeSql(_Query, _Values).then(([tx, results]) => {
-              var len = results.rows.length;
-              for (let i = 0; i < len; i++) {
-                let row = results.rows.item(i);
-                row.data === undefined
-                  ? arr.push(row)
-                  : arr.push(JSON.parse(row.data));
-              }
-              if (arr.length > 0) {
-                resolve(arr);
-              } else {
-                resolve({ rows: EMPTY_TABLE, insertId: results.insertId });
-              }
-            });
-          })
-            .then((result) => {
-              this.closeDatabase();
-            })
-            .catch((err) => {});
-        })
-        .catch((err) => {});
+  async close(_db) {
+    await _db.close();
+  }
+
+  async exec(_query, _table) {
+    let arr = [];
+    const _db = await this.open(_table);
+    await _db.transaction(async (tx) => {
+      const [fn, res] = await tx.executeSql(_query);
+      var len = res.rows.length;
+      for (let i = 0; i < len; i++) {
+        let row = res.rows.item(i);
+        row.data === undefined ? arr.push(row) : arr.push(JSON.parse(row.data));
+      }
     });
+    // this.close(_db);
+    return arr.length > 0 ? arr : { rows: EMPTY_TABLE, insertId: 1 }; //todo: should correct insertId
   }
 }

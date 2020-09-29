@@ -5,19 +5,15 @@ import {
   PREGNANCY,
   REMINDER,
   USER_REMINDER,
+  VERSION,
 } from '../../constants/database-tables';
 import moment from 'moment';
 import { FORMAT } from '../../constants/cycle';
-import {
-  SPOTTING,
-  LIGHT,
-  MEDIUM,
-  HEAVY,
-} from '../../constants/health-tracking-info';
+import { OPTIONS } from '../../constants/health-tracking-info';
 const db = new Database();
 
 export async function getProfileData() {
-  const res = await db.rawQuery(`SELECT * FROM ${PROFILE}`, [], PROFILE);
+  const res = await db.exec(`SELECT * FROM ${PROFILE}`, PROFILE);
   const data = res[0];
   return data ?? 0;
 }
@@ -35,7 +31,7 @@ export async function saveProfileData(profileSchema) {
   const cycleLength = !profileSchema.cycleLength
     ? null
     : `${profileSchema.cycleLength}`;
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `INSERT INTO ${PROFILE}
              (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
               birthdate, last_period_date, created_at)
@@ -47,7 +43,6 @@ export async function saveProfileData(profileSchema) {
                 ${birthdate},
                 ${lperiodDate},
                 '${moment().format('YYYY-MM-DD')}')`,
-    [],
     PROFILE,
   );
   return res ?? 0;
@@ -59,43 +54,43 @@ export async function saveProfileHealthData(
   birthdate,
   avgSleepingHours,
 ) {
-  return await db.rawQuery(
+  return await db.exec(
     `UPDATE ${PROFILE} SET blood_type='${bloodType}',
                              weight=${weight},
                              height=${height},
                              birthdate='${birthdate}',
                              avg_sleeping_hour=${avgSleepingHours}`,
-    [],
     PROFILE,
   );
 }
 export async function pregnancyMode() {
-  const res = await db.rawQuery(`SELECT pregnant FROM ${PROFILE}`, [], PROFILE);
+  const res = await db.exec(`SELECT pregnant FROM ${PROFILE}`, PROFILE);
   const data = res[0];
   return data.pregnant ?? 0;
 }
 export async function getUserStatus() {
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `SELECT pregnant, pregnancy_try FROM ${PROFILE}`,
-    [],
     PROFILE,
   );
   const data = res[0];
   return data ?? 0;
 }
 export async function updateUserStatus(pregnant, pregnancyTry) {
-  return await db.rawQuery(
+  return await db.exec(
     `UPDATE ${PROFILE} SET pregnant=${pregnant}, pregnancy_try=${pregnancyTry}`,
+    PROFILE,
   );
 }
 export async function getPregnancyData() {
-  const res = await db.rawQuery(`SELECT * FROM ${PREGNANCY}`, [], PREGNANCY);
+  const res = await db.exec(`SELECT * FROM ${PREGNANCY}`, PREGNANCY);
   const data = res[0];
   return data ?? 0;
 }
 export async function setPregnancyEnd(abortion, dueDate) {
-  return await db.rawQuery(
+  return await db.exec(
     `UPDATE ${PREGNANCY} SET abortion=${abortion}, due_date='${dueDate}'`,
+    PREGNANCY,
   );
 }
 export async function savePregnancyData(pregnancySchema) {
@@ -105,46 +100,42 @@ export async function savePregnancyData(pregnancySchema) {
   const conceptionDate = !pregnancySchema.conceptionDate
     ? null
     : `'${pregnancySchema.conceptionDate}'`;
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `INSERT INTO ${PREGNANCY} (due_date, conception_date) VALUES(
       ${dueDate},${conceptionDate})`,
-    [],
     PREGNANCY,
   );
   return res ?? 0;
 }
 export function updateProfileData(profileSchema) {
-  db.rawQuery(
+  db.exec(
     `UPDATE ${PROFILE} SET avg_period_length=${profileSchema.periodLength},
                              avg_cycle_length=${profileSchema.cycleLength},
                              pms_length=${profileSchema.pmsLength}`,
-    [],
     PROFILE,
   ).then((res) => {
     return res;
   });
 }
 export async function getCycleInfoFromProfile() {
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `SELECT avg_period_length, avg_cycle_length, pms_length FROM ${PROFILE}`,
-    [],
     PROFILE,
   );
   const data = res[0];
   return data ?? 0;
 }
 export async function getUserAllPeriodDays() {
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
-      (${SPOTTING}, ${LIGHT}, ${MEDIUM}, ${HEAVY})`,
-    [],
+      (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY})`,
     USER_TRACKING_OPTION,
   );
   console.log('kkkk', res);
   return res ?? 0;
 }
 export async function getTrackingOptionData(date) {
-  const res = db.rawQuery(
+  const res = db.exec(
     `SELECT JSON_OBJECT('id',id,'title',title,'hasMultipleChoice',has_multiple_choice,
         'color',color,'icon',icon,'options',(
           SELECT JSON_GROUP_ARRAY(
@@ -160,57 +151,45 @@ export async function getTrackingOptionData(date) {
             )         
           )
           AS data FROM health_tracking_category c ORDER By id ASC`,
-    [],
     'health_tracking_category',
   );
   return res;
 }
 export async function getLastPeriodDate() {
-  const res = await db.rawQuery(
-    `SELECT last_period_date FROM ${PROFILE}`,
-    [],
-    PROFILE,
-  );
+  const res = await db.exec(`SELECT last_period_date FROM ${PROFILE}`, PROFILE);
   const data = res[0];
   return data ? data.last_period_date : null;
 }
 export async function setLastPeriodDate(date) {
-  return await db.rawQuery(
+  return await db.exec(
     `UPDATE ${PROFILE} SET last_period_date='${date.format(FORMAT)}'`,
-    [],
     PROFILE,
   );
 }
 export async function setBleedingDays(days, removed) {
   if (removed) {
     removed.forEach(async (rday) => {
-      const res = await db.rawQuery(
+      const res = await db.exec(
         `DELETE FROM ${USER_TRACKING_OPTION} WHERE date='${rday}' AND tracking_option_id IN
-        (${SPOTTING}, ${LIGHT}, ${MEDIUM}, ${HEAVY})`,
-        [],
+        (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY})`,
         USER_TRACKING_OPTION,
       );
     });
   }
   days.forEach(async (day) => {
     console.log('set period here', day);
-    await db.rawQuery(
-      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${MEDIUM})
+    await db.exec(
+      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${OPTIONS.MEDIUM})
       ON CONFLICT(date, tracking_option_id) DO NOTHING`,
-      [],
       USER_TRACKING_OPTION,
     );
   });
 }
 export async function setLock(isLock) {
-  return await db.rawQuery(
-    `UPDATE ${PROFILE} SET use_lock=${isLock}`,
-    [],
-    PROFILE,
-  );
+  return await db.exec(`UPDATE ${PROFILE} SET use_lock=${isLock}`, PROFILE);
 }
 export async function lockStatus() {
-  const res = await db.rawQuery(`SELECT use_lock FROM ${PROFILE}`, [], PROFILE);
+  const res = await db.exec(`SELECT use_lock FROM ${PROFILE}`, PROFILE);
   const data = res[0] ? res[0] : 0;
   return data.use_lock;
 }
@@ -222,30 +201,31 @@ export async function saveReminder(
   minutes,
   daysAgo,
 ) {
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
     (${reminderId}, ${1}, ${
       isActive ? 1 : 0
     }, '${message}', '${hours}:${minutes}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
       isActive ? 1 : 0
     }, custom_message='${message}', custom_time='${hours}:${minutes}', Xdays_ago=${daysAgo}`,
-    [],
     USER_REMINDER,
   );
   return res ?? 0;
 }
 export async function getReminder(userId, reminderId) {
-  const res = await db.rawQuery(
+  const res = await db.exec(
     `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId} AND reminder_id=${reminderId}`,
-    [],
     USER_REMINDER,
   );
   const data = res[0] ? res[0] : [];
   return data;
 }
 export async function getReminders() {
-  const res = await db.rawQuery(`SELECT * FROM ${REMINDER}`, [], REMINDER);
-  console.log('reeeeesssssss', res);
+  const res = await db.exec(`SELECT * FROM ${REMINDER}`, REMINDER);
   const data = res ? res : [];
   return data;
+}
+export async function getInUseDbVersion() {
+  const [res] = await db.exec(`SELECT version FROM ${VERSION}`, VERSION);
+  return res ? res.version : 0;
 }

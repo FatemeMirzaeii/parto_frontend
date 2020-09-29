@@ -41,7 +41,7 @@ const Articles = (props) => {
           <ActivityIndicator size="large" color={COLOR.btn} />
         </View>
       ) : (
-        <SafeAreaView style={{paddingBottom:50,paddingTop:24}}>
+        <SafeAreaView style={{ paddingBottom: 50, paddingTop: 24 }}>
           <FlatList
             style={{ paddingVertical: 15 }}
             data={categoryList}

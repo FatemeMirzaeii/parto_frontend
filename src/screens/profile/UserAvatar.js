@@ -13,7 +13,7 @@ const UserAvatar = ({ navigation }) => {
   const [isRegistered, setIsRegistered] = useState(true);
   const { signUp } = useContext(AuthContext);
   useEffect(() => {
-    db.rawQuery('SELECT id, name, email FROM user').then((n) => {
+    db.exec('SELECT id, name, email FROM user', 'user').then((n) => {
       if (n[0]) {
         if ((n.rows && n.rows === 'EMPTY_TABLE') || !n[0].email) {
           setIsRegistered(false);
@@ -23,7 +23,7 @@ const UserAvatar = ({ navigation }) => {
     });
   }, []);
   const done = () => {
-    db.rawQuery(
+    db.exec(
       `INSERT INTO user (id, name) VALUES (2, '${name}') 
                     ON CONFLICT(id) DO 
                  UPDATE SET name='${name}'`,

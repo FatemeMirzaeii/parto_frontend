@@ -155,9 +155,8 @@ const TrackingOptions = ({ route, navigation }) => {
 
     if (option.selected.length > 0) {
       //this will deselect the option
-      db.rawQuery(
+      db.exec(
         `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date='${date}'`,
-        [],
         'user_tracking_option',
       ).then((res) => {
         getData();
@@ -165,27 +164,24 @@ const TrackingOptions = ({ route, navigation }) => {
     } else {
       if (category.hasMultipleChoice) {
         //this will add new option to others
-        db.rawQuery(
+        db.exec(
           `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
-          [],
           'user_tracking_option',
         ).then((res) => {
           getData();
         });
       } else {
         //this will remove other selected options and add new option
-        db.rawQuery(
+        db.exec(
           `DELETE FROM user_tracking_option WHERE date='${date}' AND tracking_option_id IN (${category.options.map(
             (o) => {
               return o.id;
             },
           )});`,
-          [],
           'user_tracking_option',
         ).then(() => {
-          db.rawQuery(
+          db.exec(
             `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
-            [],
             'user_tracking_option',
           ).then((res) => {
             getData();

@@ -184,13 +184,13 @@ const styles = StyleSheet.create({
   },
   moreButtonText: {
     fontFamily: FONT.bold,
-    fontSize:SIZE[16],
-     color: '#95c9e1',
+    fontSize: SIZE[16],
+    color: '#95c9e1',
     //color: COLOR.currentPage,
   },
   categoryText: {
     fontFamily: FONT.bold,
-    fontSize:SIZE[16]
+    fontSize: SIZE[16],
   },
   cardButton: {
     margin: 5,
@@ -227,8 +227,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: FONT.light,
-    fontSize:SIZE[14],
-    textAlign:'center'
+    fontSize: SIZE[14],
+    textAlign: 'center',
   },
   highlight: {
     fontWeight: '700',

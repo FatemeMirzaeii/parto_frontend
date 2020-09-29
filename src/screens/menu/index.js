@@ -24,7 +24,7 @@ const Menu = ({ navigation }) => {
   };
   // const changePregnancyMode = async () => {
   //   setPregnant(!pregnant);
-  //   await db.rawQuery(
+  //   await db.exec(
   //     `UPDATE ${PROFILE} SET pregnant=${pregnant}`,
   //     [],
   //     PROFILE,

@@ -8,7 +8,7 @@ const db = new DataBase();
 const UserProfile = (props) => {
   const [name, setName] = useState('');
   useEffect(() => {
-    db.rawQuery('SELECT name FROM user', 'user').then((n) => {
+    db.exec('SELECT name FROM user', 'user').then((n) => {
       if (n[0]) {
         setName(n[0].name);
       }

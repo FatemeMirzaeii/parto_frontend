@@ -8,7 +8,7 @@ import {
   Text,
   TouchableHighlight,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import base64 from 'react-native-base64';
 import Modal from 'react-native-modal';
@@ -152,7 +152,7 @@ const ArticlesList = ({ route, navigation }) => {
           <ActivityIndicator size="large" color={COLOR.btn} />
         </View>
       ) : (
-        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom:50 }}>
+        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom: 50 }}>
           <SearchBar
             undertxt="جستجو"
             onChangeText={_handleSearch}

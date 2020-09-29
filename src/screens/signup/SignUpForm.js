@@ -23,7 +23,7 @@ const SignUpForm = (props) => {
     const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
       await storeData('@token', res._token);
-      db.rawQuery(
+      db.exec(
         `INSERT INTO user (name,email) VALUES ('${values.name}','${values.email}')`,
         'user',
       );

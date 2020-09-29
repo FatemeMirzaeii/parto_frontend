@@ -6,11 +6,13 @@ import {
   View,
   Text,
 } from 'react-native';
+import { migration } from '../../util/database/migration';
 import Lock from '../../util/lock';
 
 const Splash = (props) => {
   useEffect(() => {
     Lock();
+    migration();
   });
 
   return (
