@@ -26,10 +26,18 @@ export async function migration() {
 
 async function v1Tov2() {
   SQLite.enablePromise(true);
-  const odb = await SQLite.openDatabase({
-    name: 'periodcalendar.db',
-    createFromLocation: '/data/periodcalendar.db',
-  });
+  await SQLite.openDatabase(
+    {
+      name: 'periodcalendar.db',
+      createFromLocation: '/data/periodcalendar.db',
+    },
+    transferOldData,
+  );
+  db.exec(`UPDATE ${USER_LOG} SET version=${CURRENT_SCHEMA_VERSION}`, USER_LOG);
+}
+
+async function transferOldData(odb) {
+  console.log('odb', odb);
   odb.transaction(async (tx) => {
     const [fn, res] = await tx.executeSql('SELECT * FROM DailyInfo');
     var len = res.rows.length;
@@ -44,9 +52,5 @@ async function v1Tov2() {
         USER_TRACKING_OPTION,
       );
     }
-    db.exec(
-      `UPDATE ${USER_LOG} SET version=${CURRENT_SCHEMA_VERSION}`,
-      USER_LOG,
-    );
   });
 }
