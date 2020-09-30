@@ -74,11 +74,7 @@ const MenuStackScreen = () => {
         component={Rating}
         options={{ headerShown: false }}
       />
-      <MenuStack.Screen
-        name="AboutUs"
-        component={AboutUs}
-        options={{ headerShown: false }}
-      />
+      <MenuStack.Screen name="AboutUs" component={AboutUs} />
     </MenuStack.Navigator>
   );
 };
