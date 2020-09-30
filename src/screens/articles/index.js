@@ -1,10 +1,10 @@
-import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
-import base64 from 'react-native-base64';
+import axios from 'axios';
 import CategoryList from '../../components/CategoryList';
 import Loading from '../../components/Loading';
-const authCode = base64.encode('m.vosooghian:m.vosooghian');
+import { authCode } from '../../services/authCode';
+import { baseUrl } from '../../services/urls';
 
 const Articles = (props) => {
   const [categoryList, setCategoryList] = useState([]);
@@ -14,7 +14,7 @@ const Articles = (props) => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `https://ketab.partobanoo.com/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created desc`,
+        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created desc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',

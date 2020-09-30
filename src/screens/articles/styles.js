@@ -144,10 +144,9 @@ export default StyleSheet.create({
     flexDirection: 'row',
   },
   categoryWrapper: {
-    flex: 0.1,
     margin: 10,
     backgroundColor: COLOR.btn,
-    alignSelf: 'flex-end',
+   // alignSelf: 'flex-end',
     justifyContent: 'center',
     padding: 5,
     borderRadius: 40,
@@ -156,9 +155,19 @@ export default StyleSheet.create({
   badge: {
     color: 'white',
     padding: 10,
-    fontFamily: FONT.ultra_light,
-    fontFamily: FONT.light,
     fontFamily: FONT.regular,
+    alignItems:'center',
+  },
+  author: {
+    backgroundColor:'white',
+    borderRadius:30,
+    color: 'black',
+    padding: 5,
+    margin: 10,
+    //fontSize:15,
+  
+    fontFamily: FONT.medium,
+
   },
   HTML: { width: '100%' },
   contentContiner: {

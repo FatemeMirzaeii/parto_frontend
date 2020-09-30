@@ -1,4 +1,4 @@
-export const baseUrl = 'https://api.partobanoo.com/';
+export const baseUrl = 'https://ketab.partobanoo.com';
 export const survayAnswer = 'survay/userSurveyAnswer/fa';
 export const survayQuestion = 'survay/surveyQuestion/fa';
 
