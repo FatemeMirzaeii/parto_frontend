@@ -8,6 +8,7 @@ import {
   Text,
   View,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import axios from 'axios';
 import { Icon } from 'native-base';
@@ -58,6 +59,12 @@ const ArticleDetails = ({ route, navigation }) => {
       <>
         <SafeAreaView style={styles.headerCotainer}>
           <View style={styles.headerWrapper}>
+            <Icon
+              type="AntDesign"
+              name="arrowright"
+              onPress={() => navigation.goBack()}
+              style={styles.icon}
+            />
             <Animated.View style={{ opacity }}>
               <Text style={styles.headerText}>{articleContent.title}</Text>
             </Animated.View>
@@ -81,22 +88,26 @@ const ArticleDetails = ({ route, navigation }) => {
           ? { uri: articleContent.cover }
           : require('../../../assets/images/NoPic.jpeg')
       }>
-      {author!==''&&<View style={styles.headerTitleWrapper}>
-        <Text style={styles.titleStyle}>{articleContent.title}</Text>
-      </View>}
-     {author!==''&& <View style={{ flex: 0.2, flexDirection: 'row-reverse' }}>
-        <TouchableOpacity
-          style={styles.categoryWrapper}
-          onPress={() => {
-            navigation.navigate('ArticlesList', {
-              catId: articleContent.catId,
-              catName: catName,
-            });
-          }}>
-          <Text style={styles.badge}>{catName}</Text>
-        </TouchableOpacity>
-        <Text style={styles.author}>{`نویسنده: ${author}`}</Text>
-      </View>}
+      {author !== '' && (
+        <View style={styles.headerTitleWrapper}>
+          <Text style={styles.titleStyle}>{articleContent.title}</Text>
+        </View>
+      )}
+      {author !== '' && (
+        <View style={{ flex: 0.2, flexDirection: 'row-reverse' }}>
+          <TouchableOpacity
+            style={styles.categoryWrapper}
+            onPress={() => {
+              navigation.navigate('ArticlesList', {
+                catId: articleContent.catId,
+                catName: catName,
+              });
+            }}>
+            <Text style={styles.badge}>{catName}</Text>
+          </TouchableOpacity>
+          <Text style={styles.author}>{`نویسنده: ${author}`}</Text>
+        </View>
+      )}
     </ImageBackground>
   );
 
@@ -122,7 +133,7 @@ const ArticleDetails = ({ route, navigation }) => {
       <StickyParallaxHeader
         headerType="AvatarHeader"
         hasBorderRadius={false}
-        backgroundColor="pink"
+        backgroundColor="#FAFAFA"
         scrollEvent={event(
           [{ nativeEvent: { contentOffset: { y: scrollY.y } } }],
           {
@@ -138,6 +149,7 @@ const ArticleDetails = ({ route, navigation }) => {
         snapStopThreshold={250}
         snapValue={167}
       />
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
     </SafeAreaView>
   );
 };
