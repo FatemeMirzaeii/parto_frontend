@@ -2,12 +2,15 @@ import { StyleSheet } from 'react-native';
 import { WIDTH, HEIGHT, FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
-  container: { height: '100%', backgroundColor: 'white' },
-  sliderItem: {
-    justifyContent: 'center',
-    alignItems: 'center',
+  container: {
+    height: '100%',
     backgroundColor: 'white',
-    marginTop: 25,
+    justifyContent: 'space-between',
+  },
+  sliderItem: {
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    height: HEIGHT / 1.5,
   },
   detailPage: {
     height: 200,
@@ -15,29 +18,27 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   category: {
-    margin: 15,
-    width: 100,
-    height: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  option: {
     margin: 10,
-    width: WIDTH / 3 - 15,
-    height: HEIGHT / 5 - 10,
+    width: WIDTH / 4,
+    height: HEIGHT / 6,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  icon: {
-    width: 100,
-    height: 100,
-    borderWidth: 6,
-    borderRadius: 25,
   },
   options: {
     justifyContent: 'center',
     flexWrap: 'wrap',
     flexDirection: 'row',
+  },
+  option: {
+    margin: 5,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  icon: {
+    width: WIDTH / 4,
+    height: HEIGHT / 7,
+    borderWidth: 6,
+    borderRadius: 25,
   },
   txt: {
     fontFamily: FONT.regular,
@@ -47,7 +48,7 @@ export default StyleSheet.create({
   },
   more: {
     borderRadius: 15,
-    padding: 8,
+    padding: 6,
     flexDirection: 'row',
     alignItems: 'center',
   },

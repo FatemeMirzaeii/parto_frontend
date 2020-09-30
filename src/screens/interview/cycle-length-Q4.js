@@ -20,21 +20,20 @@ const Q4 = ({ route, navigation }) => {
   };
   function onForgotPress() {
     navigation.navigate('Notice', {
-      txt: `پرتو فاصله میان دوره های شما را ${CYCLE_LENGTH} روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.`,
+      txt: `پرتو فاصله میان دوره‌های شما را ${CYCLE_LENGTH} روزه قرار می‌دهد تا در دوره‌های بعدی خودتان آن را ثبت کنید که بتوانیم به پیش‌بینی دقیق‌تری از دوره‌های شما برسیم.`,
       nextPage: 'Q5',
       ...route.params,
       cycleLength: CYCLE_LENGTH,
     });
   }
   return (
-    <SafeAreaView style={{flex:1,backgroundColor:'#aaa'}}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={require('../../../assets/images/start/3.png')}
-        style={{flex:1,backgroundColor:'pink',justifyContent:'space-around'}}>
-        <Text style={{backgroundColor:'blue',color:'black',alignSelf:'center',alignItems:'center'}}>
-          میانگین فاصله دوره های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
+        style={styles.bg}>
+        <Text style={styles.question}>
+          میانگین فاصله دوره‌های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
         </Text>
-        <View style={{backgroundColor:'yellow'}}>
         <WheelPicker
           data={setPickerRange(10, 100)}
           selectedItem={selectedItem}
@@ -45,11 +44,9 @@ const Q4 = ({ route, navigation }) => {
           selectedItemTextSize={21}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
-          style={{ width: '90%',alignSelf:'center',
-          height: 100}}
+          style={styles.picker}
         />
-        </View>
-        <View style={{ backgroundColor:'red',}}>
+        <View>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}

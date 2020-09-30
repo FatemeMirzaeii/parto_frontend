@@ -1,13 +1,14 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Card, ListItem, Button, Icon } from 'react-native-elements';
+import { ListItem, Button, Icon } from 'react-native-elements';
+import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import {
   updateProfileData,
   getCycleInfoFromProfile,
 } from '../../util/database/query';
 import styles from './styles';
-import { COLOR } from '../../styles/static';
+import { FONT, COLOR } from '../../styles/static';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -18,12 +19,19 @@ const CycleSetting = ({ navigation }) => {
   const [periodCount, setPeriodCount] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: 'تنظیمات دوره‌ها',
+      headerTitleStyle: {
+        alignSelf: 'flex-end',
+        color: 'black',
+        fontSize: 17,
+        fontFamily: FONT.medium,
+      },
       headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={() => save()}
-          titleStyle={{ color: COLOR.btn }}
+          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
         />
       ),
       headerRight: () => (
@@ -52,7 +60,9 @@ const CycleSetting = ({ navigation }) => {
   }, []);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView
+      style={styles.safeAreaView}
+      contentContainerStyle={styles.container}>
       <ScrollView>
         <Card>
           <PickerListItem

@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import styles from './styles';
 import Ptxt from '../../components/Ptxt';
+import { HEIGHT } from '../../styles/static';
 
 const Interview = (props) => {
   return (
@@ -15,46 +16,46 @@ const Interview = (props) => {
       <ImageBackground
         source={require('../../../assets/images/start/0.png')}
         style={styles.bg}>
-        <Ptxt style={styles.question}>
-          دوست عزیز پرتو خوش آمدی!
-          {'\n'}
-          {'\n'}
-          {'\n'}
-          به ما بگو در کدوم یکی از موارد زیر میتونیم به شما کمک کنیم.
-        </Ptxt>
-        <View style={styles.btnGroup}>
-          <TouchableOpacity
-            style={styles.mode}
-            onPress={() => {
-              props.navigation.navigate('Q2', {
-                mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
-              });
-            }}>
-            <Text style={styles.btnTitle}>ثبت دوره</Text>
-            <Text style={styles.btnSubtitle}>تصمیم به بارداری ندارم</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.mode}
-            onPress={() => {
-              props.navigation.navigate('Q2', {
-                mode: { pregnant: 0, pregnancy_try: 1, period: 0 },
-              });
-            }}>
-            <Text style={styles.btnTitle}>تلاش برای بارداری</Text>
-            <Text style={styles.btnSubtitle}>
-              برخی از روزها برایم مهم تر هستند
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.mode}
-            onPress={() => {
-              props.navigation.navigate('Pregnancy_Q2', {
-                mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
-              });
-            }}>
-            <Text style={styles.btnTitle}>باردار هستم</Text>
-            <Text style={styles.btnSubtitle}>میخواهم شرایطم را ثبت کنم</Text>
-          </TouchableOpacity>
+        <View style={styles.cont}>
+          <Ptxt style={styles.question}>
+            دوست عزیز پرتو خوش آمدی!
+            {'\n'}
+            به ما بگو در کدوم یکی از موارد زیر میتونیم به شما کمک کنیم.
+          </Ptxt>
+          <View style={styles.btnGroup}>
+            <TouchableOpacity
+              style={styles.mode}
+              onPress={() => {
+                props.navigation.navigate('Q2', {
+                  mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
+                });
+              }}>
+              <Text style={styles.btnTitle}>ثبت دوره</Text>
+              <Text style={styles.btnSubtitle}>تصمیم به بارداری ندارم</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.mode}
+              onPress={() => {
+                props.navigation.navigate('Q2', {
+                  mode: { pregnant: 0, pregnancy_try: 1, period: 0 },
+                });
+              }}>
+              <Text style={styles.btnTitle}>تلاش برای بارداری</Text>
+              <Text style={styles.btnSubtitle}>
+                برخی از روزها برایم مهم تر هستند
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.mode}
+              onPress={() => {
+                props.navigation.navigate('Pregnancy_Q2', {
+                  mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
+                });
+              }}>
+              <Text style={styles.btnTitle}>باردار هستم</Text>
+              <Text style={styles.btnSubtitle}>میخواهم شرایطم را ثبت کنم</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </ImageBackground>
     </SafeAreaView>

@@ -31,8 +31,7 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
   function onForgotPress() {
     navigation.navigate('Notice', {
       ...route.params,
-      txt:
-        'نگران نباشید. پرتو به شما کمک خواهد کرد که از راه دیگری هفته های بارداری تان را مشخص کنید.',
+      txt: `نگران نباشید!${'\n'}پرتو به شما کمک خواهد کرد که از راه دیگری هفته‌های بارداری‌تان را مشخص کنید.`,
       nextPage: 'Pregnancy_Q3',
     });
   }
@@ -82,7 +81,7 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             style={styles.pregnancy_picker}
           />
         </View>
-        <View style={{ top: 250 }}>
+        <View>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}

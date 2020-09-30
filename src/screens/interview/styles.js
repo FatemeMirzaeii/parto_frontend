@@ -9,19 +9,22 @@ export default StyleSheet.create({
   bg: {
     width: '100%',
     height: '100%',
+    justifyContent: 'space-evenly',
+    flex: 1,
   },
   calendar: {
-    top: 200,
     width: WIDTH - 40,
     alignSelf: 'center',
     justifyContent: 'center',
   },
   buttons: { flexDirection: 'row', justifyContent: 'space-around', margin: 3 },
-  btnContainer: { elevation: 5 },
-  nextButton: {
-    backgroundColor: COLOR.btn,
+  btnContainer: {
+    elevation: 5,
     width: WIDTH / 3,
     borderRadius: 40,
+  },
+  nextButton: {
+    backgroundColor: COLOR.btn,
   },
   prevButton: {
     backgroundColor: '#ffffff',
@@ -47,7 +50,7 @@ export default StyleSheet.create({
     fontSize: SIZE[14],
     textAlign: 'center',
     color: COLOR.textColor,
-    top: HEIGHT * 0.2,
+    lineHeight: 20,
   },
   mode: {
     backgroundColor: 'white',
@@ -60,23 +63,20 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   btnGroup: {
-    top: HEIGHT * 0.3,
     alignItems: 'center',
     justifyContent: 'center',
   },
   textContainer: {
     flex: 1,
-    justifyContent: 'space-around',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     alignSelf: 'center',
-    top: 100,
     width: WIDTH - 30,
   },
   pickerGroup: {
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
-    top: 200,
   },
   pregnancy_picker: {
     width: WIDTH / 5,
@@ -86,7 +86,6 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
   },
   picker: {
-    top: 200,
     width: '90%',
     height: HEIGHT / 3,
     justifyContent: 'center',
@@ -99,5 +98,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     textAlign: 'center',
     lineHeight: 30,
+  },
+  cont: {
+    justifyContent: 'space-evenly',
+    height: HEIGHT / 1.3,
   },
 });

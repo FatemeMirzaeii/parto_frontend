@@ -5,7 +5,7 @@ import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 import { getReminder, saveReminder } from '../../util/database/query';
 import styles from './Styles';
 
@@ -24,12 +24,18 @@ const ReminderSetting = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
+      headerTitleStyle: {
+        alignSelf: 'flex-end',
+        color: 'black',
+        fontSize: 17,
+        fontFamily: FONT.medium,
+      },
       headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={save}
-          titleStyle={{ color: COLOR.btn }}
+          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
         />
       ),
       headerRight: () => (

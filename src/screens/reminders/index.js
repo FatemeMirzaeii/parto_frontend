@@ -2,7 +2,7 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import Card from '../../components/Card';
-import { COLOR } from '../../styles/static';
+import { FONT, COLOR } from '../../styles/static';
 import { getReminders } from '../../util/database/query';
 import styles from './Styles';
 
@@ -13,6 +13,13 @@ const Reminders = ({ navigation }) => {
   }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: 'یادآوری‌ها',
+      headerTitleStyle: {
+        alignSelf: 'flex-end',
+        color: 'black',
+        fontSize: 17,
+        fontFamily: FONT.medium,
+      },
       headerLeft: null,
       headerRight: () => (
         <Icon

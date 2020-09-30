@@ -62,7 +62,7 @@ const Home = ({ navigation }) => {
           name="calendar"
           type="font-awesome"
           size={20}
-          color={COLOR.btn}
+          color={COLOR.black}
           containerStyle={{
             top: 30,
             zIndex: 10,

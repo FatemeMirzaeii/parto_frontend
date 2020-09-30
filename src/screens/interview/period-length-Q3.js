@@ -21,7 +21,7 @@ const Q3 = ({ route, navigation }) => {
   const onForgotPress = () => {
     navigation.navigate('Notice', {
       ...route.params,
-      txt: `پرتو طول دوره شما را ${PERIOD_LENGTH} روزه قرار می دهد تا در دوره های بعدی خودتان آن را ثبت کنید تا بتوانیم به پیش بینی دقیق تری از دوره های شما برسیم.`,
+      txt: `پرتو طول پریود شما را ${PERIOD_LENGTH} روزه قرار می‌دهد تا در دوره‌های بعدی خودتان آن را ثبت کنید که بتوانیم به پیش‌بینی دقیق‌تری از دوره‌های شما برسیم.`,
       nextPage: 'Q4',
       periodLength: PERIOD_LENGTH,
     });
@@ -47,7 +47,7 @@ const Q3 = ({ route, navigation }) => {
           selectedItemTextFontFamily={FONT.regular}
           style={styles.picker}
         />
-        <View style={{ top: 250 }}>
+        <View>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}

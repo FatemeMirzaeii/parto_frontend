@@ -76,9 +76,8 @@ const PersianDatePicker = (props) => {
       <View style={styles.verticalWrapper}>
         <WheelPicker
           data={years}
-          selectedItem={yearIndex}
+          selectedItem={yearIndex ?? 30}
           onItemSelected={onYearSelected}
-          initPosition={30}
           isCyclic
           style={styles.picker}
           selectedItemTextSize={20}

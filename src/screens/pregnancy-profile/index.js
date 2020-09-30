@@ -1,22 +1,30 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Card, Icon, Button } from 'react-native-elements';
+import { Icon, Button } from 'react-native-elements';
+import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import { getPregnancyData, savePregnancyData } from '../../util/database/query';
 import styles from './styles';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 
 const PregnancyProfile = ({ navigation }) => {
   const [dueDate, setDueDate] = useState();
   const [pregnancyWeek, setPregnancyWeek] = useState();
   useLayoutEffect(() => {
     navigation.setOptions({
+      title: 'پروفایل بارداری',
+      headerTitleStyle: {
+        alignSelf: 'flex-end',
+        color: 'black',
+        fontSize: 17,
+        fontFamily: FONT.medium,
+      },
       headerLeft: () => (
         <Button
           title="ثبت"
           type="clear"
           onPress={() => save()}
-          titleStyle={{ color: COLOR.btn }}
+          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
         />
       ),
       headerRight: () => (

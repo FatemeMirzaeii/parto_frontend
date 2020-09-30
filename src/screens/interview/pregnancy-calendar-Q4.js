@@ -69,7 +69,7 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
           markingType="multi-period"
           style={styles.calendar}
         />
-        <View style={{ top: 250 }}>
+        <View>
           {/* <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}

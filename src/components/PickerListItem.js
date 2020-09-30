@@ -106,7 +106,11 @@ const PickerListItem = (props) => {
   );
 };
 const styles = StyleSheet.create({
-  picker: { alignItems: 'center' },
+  picker: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
   listItemText: {
     fontFamily: FONT.regular,
     fontSize: SIZE[14],

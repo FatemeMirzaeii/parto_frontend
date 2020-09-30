@@ -66,7 +66,7 @@ const Q5 = ({ route, navigation }) => {
         <View style={styles.picker}>
           <PersianDatePicker onDateSelected={setDate} />
         </View>
-        <View style={{ top: 250 }}>
+        <View>
           <Button
             title="بعدا وارد میکنم"
             titleStyle={styles.darkBtnTitle}

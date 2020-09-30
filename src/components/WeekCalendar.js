@@ -16,12 +16,7 @@ const WeekCalendar = (props) => {
       date={props.current ?? today}
       onDateChanged={props.onDateChanged}
       showTodayButton={props.showTodayButton}
-      todayButtonStyle={{
-        alignSelf: 'flex-end',
-        height: 60,
-        width: 60,
-        borderRadius: 40,
-      }}>
+      todayButtonStyle={styles.today}>
       <ExpandableCalendar
         jalali={true}
         firstDay={6}
@@ -34,13 +29,13 @@ const WeekCalendar = (props) => {
               <Text style={styles.headerText}>
                 {moment(date).format('jD jMMMM jYYYY')}
               </Text>
-              <Icon
+              {/* <Icon
                 name="calendar"
                 type="font-awesome"
                 size={15}
                 color={COLOR.btn}
                 containerStyle={{ padding: 5 }}
-              />
+              /> */}
             </View>
           );
         }}
@@ -74,5 +69,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   headerText: { fontFamily: FONT.bold, fontSize: SIZE[15] },
+  today: {
+    alignSelf: 'flex-end',
+    height: 60,
+    width: 60,
+    borderRadius: 40,
+  },
 });
 export default WeekCalendar;

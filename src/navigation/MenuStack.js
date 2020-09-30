@@ -15,7 +15,6 @@ import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 
-
 const MenuStack = createStackNavigator();
 const MenuStackScreen = () => {
   return (
@@ -30,37 +29,10 @@ const MenuStackScreen = () => {
         component={Profile}
         options={{ headerShown: false }}
       />
-      <MenuStack.Screen
-        name="CycleSettings"
-        component={CycleSetting}
-        options={{
-          title: 'تنظیمات دوره‌ها',
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="PregnancyProfile"
-        component={PregnancyProfile}
-        options={{
-          title: 'اطلاعات بارداری',
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="Reminders"
-        component={Reminders}
-        options={{
-          title: 'یادآوری‌ها',
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="ReminderSetting"
-        component={ReminderSetting}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
+      <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
+      <MenuStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
+      <MenuStack.Screen name="Reminders" component={Reminders} />
+      <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
       {/* <MenuStack.Screen
         name="ArticleStack"
         component={ArticleStack}
@@ -86,36 +58,12 @@ const MenuStackScreen = () => {
       <MenuStack.Screen
         name="TreatiseStack"
         component={TreatiseStack}
-        options={{headerShown: false}}
+        options={{ headerShown: false }}
       />
-      <MenuStack.Screen
-        name="Treatise"
-        component={Treatise}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="TreatiseList"
-        component={TreatiseList}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="TreatiseDetails"
-        component={TreatiseDetails}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
-      <MenuStack.Screen
-        name="TreatiseHelp"
-        component={TreatiseHelp}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      />
+      <MenuStack.Screen name="Treatise" component={Treatise} />
+      <MenuStack.Screen name="TreatiseList" component={TreatiseList} />
+      <MenuStack.Screen name="TreatiseDetails" component={TreatiseDetails} />
+      <MenuStack.Screen name="TreatiseHelp" component={TreatiseHelp} />
       <MenuStack.Screen
         name="ContactUs"
         component={ContactUs}
@@ -131,13 +79,6 @@ const MenuStackScreen = () => {
         component={AboutUs}
         options={{ headerShown: false }}
       />
-      {/* <MenuStack.Screen
-        name="Story"
-        // component={ReminderSetting}
-        options={{
-          headerTitleStyle: { alignSelf: 'center' },
-        }}
-      /> */}
     </MenuStack.Navigator>
   );
 };

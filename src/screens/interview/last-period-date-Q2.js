@@ -22,7 +22,7 @@ const Q2 = ({ route, navigation }) => {
     navigation.navigate('Notice', {
       ...route.params,
       txt:
-        'شما میتوانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید.',
+        'شما می‌توانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید.',
       nextPage: 'Q3',
       lastPeriodDate: null,
     });
@@ -64,7 +64,7 @@ const Q2 = ({ route, navigation }) => {
           markingType="multi-period"
           style={styles.calendar}
         />
-        <View style={{ top: 250 }}>
+        <View>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}
