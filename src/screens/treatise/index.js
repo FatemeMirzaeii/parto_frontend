@@ -195,7 +195,8 @@ const styles = StyleSheet.create({
     alignItems: 'flex-end',
     alignSelf: 'center',
     width: '90%',
-    padding: 20,
+    // height:'50%',
+    padding: '5%',
     borderTopLeftRadius: 20,
     borderBottomRightRadius: 20,
     margin: 5,
@@ -204,11 +205,14 @@ const styles = StyleSheet.create({
     flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
+    //backgroundColor:'red'
   },
   txt: {
+    flex: 0.95,
     fontSize: 14,
     fontFamily: FONT.medium,
-    paddingHorizontal: 15,
+    paddingHorizontal: '5%',
+    //backgroundColor:'yellow',
   },
   icon: {
     fontSize: 30,
