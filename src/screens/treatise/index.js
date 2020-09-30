@@ -88,7 +88,7 @@ const Treatise = ({ navigation }) => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created desc`,
+        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created asc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -212,7 +212,6 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontFamily: FONT.medium,
     paddingHorizontal: '5%',
-    //backgroundColor:'yellow',
   },
   icon: {
     fontSize: 30,
