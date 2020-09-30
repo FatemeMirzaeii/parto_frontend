@@ -187,10 +187,10 @@ const Calendar = ({ navigation }) => {
                               ? COLOR.textColor
                               : COLOR.textColorDark,
                           backgroundColor:
-                            state === 'today'
-                              ? COLOR.currentPage
-                              : marking.length !== 0
+                            marking.length !== 0
                               ? marking.periods[0].color
+                              : state === 'today'
+                              ? COLOR.currentPage
                               : COLOR.white,
                         },
                       ]}>

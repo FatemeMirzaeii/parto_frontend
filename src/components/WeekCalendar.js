@@ -23,6 +23,7 @@ const WeekCalendar = (props) => {
         disablePan
         hideKnob
         hideArrows
+        maxDate={props.maxDate}
         renderHeader={(date) => {
           return (
             <View style={styles.header}>

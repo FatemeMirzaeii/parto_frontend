@@ -5,7 +5,9 @@ import {
   ScrollView,
   View,
   Text,
+  ToastAndroid,
 } from 'react-native';
+import moment from 'moment-jalaali';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
@@ -200,9 +202,16 @@ const TrackingOptions = ({ route, navigation }) => {
       }
     }
   };
-  const onDayPress = (d) => {
-    console.log('dayyyyyyyyy', d);
-    setDate(d);
+  const onDayPress = (d, propUpdate) => {
+    console.log('dayyyyyyyyy', d, propUpdate);
+    if (moment(d).isBefore(moment())) {
+      setDate(d);
+    } else {
+      ToastAndroid.show(
+        'امکان ثبت شرح‌حال برای روزهای آتی وجود ندارد.',
+        ToastAndroid.LONG,
+      );
+    }
   };
   const updateIndex = (i) => {
     setSelectedIndex(i);
@@ -242,7 +251,8 @@ const TrackingOptions = ({ route, navigation }) => {
       <ScrollView>
         <WeekCalendar
           current={day}
-          onDateChanged={(d, propUpdate) => onDayPress(d)}
+          maxDate={moment().format('YYYY-MM-DD')}
+          onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
         />
         <Carousel
           layout={'default'}
@@ -262,8 +272,8 @@ const TrackingOptions = ({ route, navigation }) => {
           onPress={toggleOverlay}
           containerStyle={{ alignItems: 'flex-start' }}
         />
-        <ScrollView>
-          <Ptext>{overlayText}</Ptext>
+        <ScrollView style={{ margin: 5 }}>
+          <Ptext style={{ fontSize: 14 }}>{overlayText}</Ptext>
         </ScrollView>
       </Overlay>
       <ActionSheet

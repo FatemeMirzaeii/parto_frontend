@@ -28,7 +28,9 @@ const PickerListItem = (props) => {
   };
 
   const renderRightTitle = (title, suffix) => {
-    return !title || (typeof title === 'string' && title.includes('undefined'))
+    return !title ||
+      (typeof title === 'string' &&
+        (title.includes('undefined') || title.includes('null')))
       ? ''
       : suffix
       ? title + ' ' + suffix

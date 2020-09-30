@@ -2,7 +2,7 @@ import SQLite from 'react-native-sqlite-storage';
 import Database from '../database';
 import {
   USER_TRACKING_OPTION,
-  USER_LOG,
+  VERSION,
   CURRENT_SCHEMA_VERSION,
 } from '../../constants/database-tables';
 import { OPTIONS } from '../../constants/health-tracking-info';
@@ -33,7 +33,7 @@ async function v1Tov2() {
     },
     transferOldData,
   );
-  db.exec(`UPDATE ${USER_LOG} SET version=${CURRENT_SCHEMA_VERSION}`, USER_LOG);
+  db.exec(`UPDATE ${VERSION} SET version=${CURRENT_SCHEMA_VERSION}`, VERSION);
 }
 
 async function transferOldData(odb) {
