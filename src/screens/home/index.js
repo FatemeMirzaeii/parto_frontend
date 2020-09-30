@@ -60,14 +60,14 @@ const Home = ({ navigation }) => {
         style={styles.sky}>
         <Icon
           name="calendar"
-          type="font-awesome"
-          size={20}
+          type="evilicon"
+          size={35}
           color={COLOR.black}
           containerStyle={{
-            top: 30,
+            top: 40,
             zIndex: 10,
             alignItems: 'flex-start',
-            paddingLeft: 40,
+            paddingLeft: 20,
           }}
           onPress={() => {
             navigation.navigate('Calendar');
