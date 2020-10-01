@@ -22,4 +22,15 @@ export default StyleSheet.create({
     width: 35,
     height: 35,
   },
+  bottomButton: {
+    position: 'absolute',
+    borderWidth: 0,
+    marginBottom: 15,
+    bottom: 50,
+    justifyContent: 'center',
+    width: 100,
+    height: 30,
+    borderRadius: 50,
+    backgroundColor: COLOR.btn,
+  },
 });

@@ -40,39 +40,27 @@ const Calendar = ({ navigation }) => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-        <Button
-          title="امروز"
-          type="clear"
-          onPress={() => calendar.current.scrollToDay(new Date())}
-          titleStyle={{ color: COLOR.btn }}
-        />
+        <>
+          {editMode ? (
+            <Button
+              title="ثبت"
+              type="clear"
+              onPress={() => onSubmitEditing()}
+              titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
+            />
+          ) : null}
+        </>
       ),
       headerRight: () => (
         <>
           {editMode ? (
-            <View style={{ flexDirection: 'row' }}>
-              <Button
-                title="ثبت"
-                type="clear"
-                onPress={() => onSubmitEditing()}
-                titleStyle={{ color: COLOR.btn }}
-              />
-              <Button
-                title="بیخیال"
-                type="clear"
-                onPress={() => onCancelEditing()}
-                titleStyle={{ color: COLOR.btn }}
-              />
-            </View>
-          ) : (
-            <Icon
-              name="edit"
-              type="antdesign"
-              onPress={() => onEditPress()}
-              color={COLOR.btn}
-              iconStyle={{ margin: 10 }}
+            <Button
+              title="بیخیال"
+              type="clear"
+              onPress={() => onCancelEditing()}
+              titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
             />
-          )}
+          ) : null}
         </>
       ),
     });
@@ -212,28 +200,48 @@ const Calendar = ({ navigation }) => {
           textMonthFontFamily: FONT.regular,
           textDayHeaderFontFamily: FONT.regular,
           textDayHeaderFontSize: 8.7,
-          'stylesheet.calendar.main': {
-            container: {
-              borderBottomWidth: 0.5,
-              borderColor: 'gray',
-            },
-          },
+          // 'stylesheet.calendar.main': {
+          //   container: {
+          //     borderBottomWidth: 0.5,
+          //     borderColor: 'gray',
+          //   },
+          // },
         }}
       />
-      {/* <Button
-        type="solid"
-        title="ویرایش روزهای پریود"
-        onPress={() => setEditMode(true)}
-        containerStyle={{
-          position: 'absolute',
-          bottom: 25,
-          alignSelf: 'center',
-          borderRadius: 40,
-          backgroundColor: COLOR.btn,
+      {!editMode ? (
+        <Button
+          title="ویرایش"
+          type="outline"
+          onPress={() => onEditPress()}
+          titleStyle={{
+            color: COLOR.white,
+            fontFamily: FONT.regular,
+          }}
+          containerStyle={[
+            styles.bottomButton,
+            {
+              alignSelf: 'flex-end',
+              right: 10,
+            },
+          ]}
+        />
+      ) : null}
+      <Button
+        title="امروز"
+        type="outline"
+        onPress={() => calendar.current.scrollToDay(new Date())}
+        titleStyle={{
+          color: COLOR.white,
+          fontFamily: FONT.regular,
         }}
-        buttonStyle={{ backgroundColor: COLOR.btn }}
-        titleStyle={{ fontFamily: FONT.regular, fontSize: SIZE[14] }}
-      /> */}
+        containerStyle={[
+          styles.bottomButton,
+          {
+            alignSelf: 'flex-start',
+            left: 10,
+          },
+        ]}
+      />
     </SafeAreaView>
   );
 };

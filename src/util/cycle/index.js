@@ -5,6 +5,7 @@ import {
   OVULATION_DAY_NO,
   FORMAT,
   MIN_LENGTH_BETWEEN_PERIODS,
+  OVULATION_WINDOW_LENGTH,
 } from '../../constants/cycle';
 import {
   getUserAllPeriodDays,
@@ -129,10 +130,10 @@ export default async function CycleModule() {
     if (!od) {
       return [];
     }
-    //Based on Flo ovulation calculation,
-    //I considered ovulation window from 6 day before ovulation day and a day after that
-    const firstDay = moment(od).subtract(6, 'days').format(FORMAT);
-    for (let i = 0; i < 7; i++) {
+    //I considered ovulation window from 3 days before ovulation day and 3 days after that.
+    //day 11 till 17 of cycle for normal periods
+    const firstDay = moment(od).subtract(4, 'days').format(FORMAT);
+    for (let i = 0; i < OVULATION_WINDOW_LENGTH; i++) {
       window.push(moment(firstDay).add(i, 'days').format(FORMAT));
     }
     return window;
