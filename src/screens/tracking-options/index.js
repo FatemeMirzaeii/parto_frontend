@@ -17,7 +17,7 @@ import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
 import Ptext from '../../components/Ptxt';
 import styles from './styles';
-import { WIDTH } from '../../styles/static';
+import { COLOR, WIDTH } from '../../styles/static';
 import {
   BLEEDING,
   EXCERSICE,
@@ -100,14 +100,15 @@ const TrackingOptions = ({ route, navigation }) => {
                 styles.icon,
                 {
                   borderColor: color,
-                  backgroundColor: option.selected.length > 0 ? color : 'white',
+                  backgroundColor:
+                    option.selected.length > 0 ? color : COLOR.white,
                 },
               ]}>
               <SvgCss
                 width="100%"
                 height="100%"
                 xml={option.icon}
-                fill={option.selected.length > 0 ? 'white' : color}
+                fill={option.selected.length > 0 ? COLOR.white : color}
               />
             </View>
             <Text style={styles.txt}>{option.title}</Text>

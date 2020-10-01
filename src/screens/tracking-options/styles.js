@@ -8,7 +8,6 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   sliderItem: {
-    justifyContent: 'space-between',
     alignItems: 'center',
     height: HEIGHT / 1.5,
   },
@@ -19,6 +18,7 @@ export default StyleSheet.create({
   },
   category: {
     margin: 10,
+    marginBottom: 13,
     width: WIDTH / 4,
     height: HEIGHT / 6,
     justifyContent: 'center',
@@ -28,9 +28,11 @@ export default StyleSheet.create({
     justifyContent: 'center',
     flexWrap: 'wrap',
     flexDirection: 'row',
+    marginTop: 5,
   },
   option: {
     margin: 5,
+    marginBottom: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
