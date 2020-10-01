@@ -1,69 +1,23 @@
 import { StyleSheet } from 'react-native';
-import { WIDTH, FONT, SIZE, COLOR } from '../../styles/static';
+import { WIDTH, FONT, SIZE, COLOR, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
-  goals: {
-    alignSelf: 'center',
+  container: { flex: 1, backgroundColor: COLOR.white },
+  img: {
+    width: WIDTH,
+    height: HEIGHT / 4,
+    margin: 5,
+  },
+  iconContainer: {
     justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    width: WIDTH / 1.2,
-    height: 26,
-  },
-  goal: { borderRadius: 50 },
-  text: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontFamily: FONT.regular,
-    fontSize: SIZE[12],
-  },
-  listItem: {
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
-  },
-  avatar: {
-    backgroundColor: '#f1f1f1',
-    elevation: 5,
-    alignSelf: 'center',
-    margin: 10,
-  },
-  title: {
-    margin: 10,
-    paddingRight: 10,
-    fontFamily: FONT.bold,
-    fontSize: SIZE[24],
-  },
-  picker: { alignItems: 'center' },
-  buttons: {
+    alignItems: 'center',
     flexDirection: 'row',
-    justifyContent: 'space-between',
   },
-  register: {
-    backgroundColor: COLOR.btn,
-    borderRadius: 25,
-    width: WIDTH / 1.1,
+  items: {
+    height: HEIGHT / 3,
+    width: WIDTH / 1.15,
+    justifyContent: 'center',
     alignSelf: 'center',
-    padding: 5,
-    marginTop: 10,
   },
-  name: {
-    borderTopWidth: 0.2,
-    borderBottomWidth: 0.2,
-    padding: 5,
-  },
-  saveButton: {
-    borderWidth: 0.7,
-    borderRadius: 30,
-    borderColor: COLOR.btn,
-  },
-  saveContainer: {
-    width: WIDTH / 1.1,
-    alignSelf: 'center',
-    margin: 10,
-  },
-  saveTitle: {
-    color: COLOR.btn,
-    fontFamily: FONT.bold,
-    fontSize: SIZE[18],
-  },
+  title: { fontFamily: FONT.regular, fontSize: SIZE[14] },
 });

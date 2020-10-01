@@ -2,19 +2,13 @@ import React, { useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView, Text } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { HELP_TEXT } from '../../constants/treatise';
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const TreatiseHelp = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'راهنما',
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon

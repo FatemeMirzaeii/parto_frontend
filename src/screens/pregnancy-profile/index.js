@@ -13,12 +13,6 @@ const PregnancyProfile = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل بارداری',
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => (
         <Button
           title="ثبت"

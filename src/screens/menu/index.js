@@ -93,7 +93,7 @@ const Menu = ({ navigation }) => {
           title="احکام"
           leftIcon={{ name: 'list', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('TreatiseStack')}
+          onPress={() => navigateTo('Treatise')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

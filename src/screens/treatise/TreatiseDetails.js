@@ -12,12 +12,6 @@ const TreatiseDetails = ({ route, navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: treatiseContent.title,
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon

@@ -2,19 +2,13 @@ import React, { useLayoutEffect } from 'react';
 import { ImageBackground } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Ptxt from '../../components/Ptxt';
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const AboutUs = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'داستان پرتو',
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon

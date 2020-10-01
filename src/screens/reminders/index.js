@@ -14,12 +14,6 @@ const Reminders = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'یادآوری‌ها',
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: null,
       headerRight: () => (
         <Icon
@@ -34,7 +28,7 @@ const Reminders = ({ navigation }) => {
     });
   });
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: 'white' }}>
       <Card>
         {reminders.map((r, index) => {
           return (

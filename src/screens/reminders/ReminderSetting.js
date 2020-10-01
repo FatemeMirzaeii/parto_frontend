@@ -24,12 +24,6 @@ const ReminderSetting = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => (
         <Button
           title="ثبت"

@@ -20,12 +20,6 @@ const CycleSetting = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
-      headerTitleStyle: {
-        alignSelf: 'flex-end',
-        color: 'black',
-        fontSize: 17,
-        fontFamily: FONT.medium,
-      },
       headerLeft: () => (
         <Button
           title="ثبت"

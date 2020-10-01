@@ -9,10 +9,13 @@ const TreatiseStack = createStackNavigator();
 
 const TreatiseStackScreen = () => {
   return (
-    <TreatiseStack.Navigator >
+    <TreatiseStack.Navigator>
       <TreatiseStack.Screen name="Treatise" component={Treatise} />
       <TreatiseStack.Screen name="TreatiseList" component={TreatiseList} />
-      <TreatiseStack.Screen name="TreatiseDetails" component={TreatiseDetails} />
+      <TreatiseStack.Screen
+        name="TreatiseDetails"
+        component={TreatiseDetails}
+      />
       <TreatiseStack.Screen name="TreatiseHelp" component={TreatiseHelp} />
     </TreatiseStack.Navigator>
   );

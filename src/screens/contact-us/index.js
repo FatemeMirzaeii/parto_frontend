@@ -1,246 +1,88 @@
-import React from 'react';
-import {
-  Text,
-  View,
-  StatusBar,
-  TouchableOpacity,
-  ImageBackground,
-  Linking,
-} from 'react-native';
-import { Container, Header, Body, Right, Left, Icon } from 'native-base';
-import { Icon as IconElemnt } from 'react-native-elements';
-import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
-import Ptxt from '../../components/Ptxt';
+import React, { useLayoutEffect } from 'react';
+import { View, Image, Linking, Text } from 'react-native';
+import { Icon, ListItem } from 'react-native-elements';
+import { TouchableHighlight } from 'react-native-gesture-handler';
+import { COLOR } from '../../styles/static';
+import styles from './styles';
 
 const ContactUs = ({ navigation }) => {
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'ارتباط با پرتو',
+      headerLeft: () => null,
+      headerRight: () => (
+        <Icon
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
+        />
+      ),
+    });
+  }, [navigation]);
+
   return (
-    <Container style={{ flex: 1 }}>
-      <Header
-        style={{ backgroundColor: 'transparent', elevation: 0, marginTop: 24 }}>
-        <Right
-          style={{
-            alignItems: 'center',
-            justifyContent: 'flex-start',
-            flex: 1,
-          }}
+    <View style={styles.container}>
+      <Image
+        style={styles.img}
+        source={require('../../../assets/images/letter.png')}
+        resizeMode="contain"
+      />
+      <View style={styles.iconContainer}>
+        <Icon
+          reverse
+          size={25}
+          name="telegram"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => Linking.openURL('https://t.me/Partobanoo ')}
         />
-        <Body
-          style={{
-            flex: 4,
-            alignItems: 'center',
-          }}>
-          <Text
-            style={{
-              fontFamily: FONT.medium,
-              color: '#757575',
-            }}>
-            ارتباط با پرتو
-          </Text>
-        </Body>
-
-        <Left style={{ flex: 1, alignItems: 'flex-end' }}>
-          <IconElemnt
-            reverse
-            size={15}
-            name="arrow-right"
-            type="font-awesome"
-            color={COLOR.btn}
-            onPress={() => navigation.pop()}
-          />
-        </Left>
-      </Header>
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
-
-      <View style={{ flex: 1 }}>
-        <ImageBackground
-          style={{
-            width: WIDTH,
-            height: HEIGHT / 4,
-          }}
-          source={require('../../../assets/images/letter.png')}
-          resizeMode="contain"
+        <Icon
+          reverse
+          size={25}
+          name="whatsapp"
+          type="fontisto"
+          color={COLOR.btn}
+          onPress={() => Linking.openURL('http://google.com')}
         />
-        <View
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'row',
-            marginTop: 20,
-          }}>
-          <IconElemnt
-            reverse
-            size={25}
-            name="telegram"
-            type="font-awesome"
-            color={COLOR.btn}
-            onPress={() => Linking.openURL('https://t.me/Partobanoo ')}
-          />
-          <IconElemnt
-            reverse
-            size={25}
-            name="whatsapp"
-            type="fontisto"
-            color={COLOR.btn}
-            onPress={() => Linking.openURL('http://google.com')}
-          />
-          <IconElemnt
-            reverse
-            size={25}
-            name="linkedin"
-            type="entypo"
-            color={COLOR.btn}
-            onPress={() =>
-              Linking.openURL('https://www.linkedin.com/company/partoapp')
-            }
-          />
-          <IconElemnt
-            reverse
-            size={25}
-            name="instagram"
-            type="antdesign"
-            color={COLOR.btn}
-            onPress={() => Linking.openURL('https://instagram.com/parto.app')}
-          />
-        </View>
-        <View
-          style={{
-            height: HEIGHT / 3,
-            width: WIDTH / 1.15,
-            justifyContent: 'center',
-            alignItems: 'center',
-            alignSelf: 'center',
-            elevation: 2,
-            marginTop: 50,
-          }}>
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              width: '90%',
-              height: '25%',
-              justifyContent: 'center',
-              alignSelf: 'center',
-            }}>
-            <Left style={{}} />
-
-            <Body
-              style={{
-                flex: 2,
-                alignItems: 'flex-start',
-              }}>
-              <Ptxt
-                style={{
-                  textAlign: 'right',
-                  fontSize: SIZE[14],
-                  color: '#707070',
-                  marginLeft: 60,
-                }}>
-                09981070258
-              </Ptxt>
-            </Body>
-            <Right style={{ flex: 0.35 }}>
-              <Icon
-                name="phone"
-                type="FontAwesome"
-                style={{
-                  textAlign: 'left',
-                  color: COLOR.nextPage,
-                }}
-              />
-            </Right>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderBottomWidth: 0.5,
-              paddingHorizontal: 160,
-              alignSelf: 'center',
-              margin: 0,
-
-              borderColor: '#707070',
-            }}
-          />
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              width: '90%',
-              height: '25%',
-              justifyContent: 'center',
-              alignSelf: 'center',
-            }}>
-            <Right style={{}} />
-            <Body
-              style={{
-                flex: 2,
-                alignItems: 'flex-start',
-              }}>
-              <Ptxt
-                style={{
-                  textAlign: 'right',
-                  fontSize: SIZE[14],
-                  color: '#707070',
-                  marginLeft: 10,
-                }}>
-                info@partobanoo.com
-              </Ptxt>
-            </Body>
-            <Left style={{ flex: 0.35 }}>
-              <Icon
-                name="envelope"
-                type="SimpleLineIcons"
-                style={{
-                  textAlign: 'right',
-                  color: COLOR.nextPage,
-                }}
-              />
-            </Left>
-          </TouchableOpacity>
-          <View
-            style={{
-              borderBottomWidth: 0.5,
-              paddingHorizontal: 160,
-              alignSelf: 'center',
-              margin: 0,
-
-              borderColor: '#707070',
-            }}
-          />
-          <TouchableOpacity
-            style={{
-              flexDirection: 'row',
-              width: '90%',
-              height: '25%',
-              justifyContent: 'center',
-              alignSelf: 'center',
-            }}>
-            <Right style={{}} />
-            <Body
-              style={{
-                flex: 2,
-                alignItems: 'flex-start',
-              }}>
-              <Ptxt
-                style={{
-                  textAlign: 'right',
-                  fontSize: SIZE[14],
-                  color: '#707070',
-                  marginLeft: 30,
-                }}>
-                ارسال سریع بازخورد
-              </Ptxt>
-            </Body>
-            <Left style={{ flex: 0.35 }}>
-              <Icon
-                name="message-square"
-                type="Feather"
-                style={{
-                  textAlign: 'right',
-                  color: COLOR.nextPage,
-                }}
-              />
-            </Left>
-          </TouchableOpacity>
-        </View>
+        <Icon
+          reverse
+          size={25}
+          name="linkedin"
+          type="entypo"
+          color={COLOR.btn}
+          onPress={() =>
+            Linking.openURL('https://www.linkedin.com/company/partoapp')
+          }
+        />
+        <Icon
+          reverse
+          size={25}
+          name="instagram"
+          type="antdesign"
+          color={COLOR.btn}
+          onPress={() => Linking.openURL('https://instagram.com/parto.app')}
+        />
       </View>
-    </Container>
+      <View style={styles.items}>
+        <ListItem
+          title="09981070258"
+          onPress={() => Linking.openURL('tel:09981070258')}
+          leftIcon={{ name: 'phone', type: 'font-awesome' }}
+          titleStyle={styles.title}
+          bottomDivider
+        />
+        <ListItem
+          title="info@partobanoo.com"
+          onPress={() => Linking.openURL('mailto:info@partobanoo.com')}
+          leftIcon={{ name: 'envelope-open', type: 'font-awesome' }}
+          titleStyle={styles.title}
+          bottomDivider
+        />
+      </View>
+    </View>
   );
 };
 
