@@ -188,9 +188,6 @@ const TrackingOptions = ({ route, navigation }) => {
           ).then((res) => {
             getData();
           });
-          if (category.id === BLEEDING) {
-            c.determineLastPeriodDate();
-          }
         });
       }
       setDetailPageId(category.id);
@@ -200,6 +197,9 @@ const TrackingOptions = ({ route, navigation }) => {
       ) {
         detailPageRef.current?.setModalVisible();
       }
+    }
+    if (category.id === BLEEDING) {
+      c.determineLastPeriodDate();
     }
   };
   const onDayPress = (d, propUpdate) => {

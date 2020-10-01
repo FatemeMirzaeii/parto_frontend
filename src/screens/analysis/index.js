@@ -9,7 +9,7 @@ import {
 } from 'victory-native';
 import styles from './styles';
 import CycleModule from '../../util/cycle';
-import { COLOR, FONT, WIDTH } from '../../styles/static';
+import { COLOR, FONT, HEIGHT, WIDTH } from '../../styles/static';
 import Ptext from '../../components/Ptxt';
 import { Icon } from 'react-native-elements';
 
@@ -70,7 +70,9 @@ const Analysis = ({ navigation }) => {
     });
   };
   return (
-    <SafeAreaView contentContainerStyle={styles.container}>
+    <SafeAreaView
+      contentContainerStyle={styles.container}
+      style={styles.safeAreaView}>
       {cycles.length > 1 ? (
         <ScrollView style={styles.bg}>
           <View style={styles.summary}>
@@ -93,14 +95,8 @@ const Analysis = ({ navigation }) => {
           </View>
           <VictoryChart
             horizontal
-            height={500}
-            scale={{ x: 'time' }}
-            // animate={{ duration: 500, easing: 'bounce' }}
-            // containerComponent={
-            //    <VictoryZoomContainer allowZoom={false} zoomDimension="x" />
-            // }
-            // domainPadding={{ x: -100 }}
-          >
+            height={cycles.length < 3 ? 200 : HEIGHT / 1.2}
+            scale={{ x: 'time' }}>
             <VictoryAxis
               dependentAxis
               invertAxis

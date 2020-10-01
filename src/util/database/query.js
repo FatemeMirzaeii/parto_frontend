@@ -162,7 +162,9 @@ export async function getLastPeriodDate() {
 }
 export async function setLastPeriodDate(date) {
   return await db.exec(
-    `UPDATE ${PROFILE} SET last_period_date='${date.format(FORMAT)}'`,
+    `UPDATE ${PROFILE} SET last_period_date=${
+      date ? `'${date.format(FORMAT)}'` : null
+    }`,
     PROFILE,
   );
 }

@@ -7,6 +7,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
+  safeAreaView: { flex: 1, paddingBottom: 50, paddingTop: 25 },
   noticeContainer: {
     height: '100%',
     justifyContent: 'center',
