@@ -188,12 +188,12 @@ export async function setBleedingDays(days, removed) {
   });
 }
 export async function setLock(isLock) {
-  return await db.exec(`UPDATE ${PROFILE} SET use_lock=${isLock}`, PROFILE);
+  return await db.exec(`UPDATE ${PROFILE} SET locked=${isLock}`, PROFILE);
 }
 export async function lockStatus() {
-  const res = await db.exec(`SELECT use_lock FROM ${PROFILE}`, PROFILE);
+  const res = await db.exec(`SELECT locked FROM ${PROFILE}`, PROFILE);
   const data = res[0] ? res[0] : 0;
-  return data.use_lock;
+  return data.locked;
 }
 export async function saveReminder(
   reminderId,

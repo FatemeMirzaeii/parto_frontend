@@ -39,14 +39,14 @@ const ContactUs = ({ navigation }) => {
           color={COLOR.btn}
           onPress={() => Linking.openURL('https://t.me/Partobanoo ')}
         />
-        <Icon
+        {/* <Icon
           reverse
           size={25}
           name="whatsapp"
           type="fontisto"
           color={COLOR.btn}
           onPress={() => Linking.openURL('http://google.com')}
-        />
+        /> */}
         <Icon
           reverse
           size={25}

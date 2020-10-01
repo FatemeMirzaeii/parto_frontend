@@ -1,12 +1,12 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { SafeAreaView, TouchableOpacity, View } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { SafeAreaView, TouchableOpacity } from 'react-native';
+import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { FONT, SIZE, COLOR } from '../../styles/static';
+import { FONT, COLOR } from '../../styles/static';
 import styles from './styles';
 import Ptxt from '../../components/Ptxt';
 const Calendar = ({ navigation }) => {
@@ -23,13 +23,12 @@ const Calendar = ({ navigation }) => {
     'جمعه',
   ];
   const calendar = useRef();
-  // useEffect(() => {
-  //   navigation.addListener('focus', () => {
-  //     console.log('focus cal');
-  //     markBleedingDays();
-  //     markPerdictions();
-  //   });
-  // }, [navigation]);
+  useEffect(() => {
+    navigation.addListener('focus', () => {
+      markBleedingDays();
+      markPerdictions();
+    });
+  }, [navigation, editMode]);
 
   useEffect(() => {
     markBleedingDays();
