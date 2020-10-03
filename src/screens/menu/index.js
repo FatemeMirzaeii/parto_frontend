@@ -4,8 +4,9 @@ import { ListItem } from 'react-native-elements';
 // import { AuthContext } from '../../contexts/AuthContext';
 import TouchID from 'react-native-touch-id';
 import Card from '../../components/Card';
-import { COLOR } from '../../styles/static';
 import { lockStatus, setLock } from '../../util/database/query';
+import {shareContent} from '../../util/func';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const Menu = ({ navigation }) => {
@@ -53,6 +54,7 @@ const Menu = ({ navigation }) => {
         );
       });
   };
+ 
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
@@ -144,16 +146,16 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         /> */}
-        {/* <ListItem
+        <ListItem
           title="معرفی به دوستان"
           leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('')}
+          onPress={() =>shareContent('https://play.google.com/store/apps/details?id=ir.parto.parto')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        /> */}
+        />
         <ListItem
           title="ارتباط با پرتو"
           leftIcon={{ name: 'touch-app', color: COLOR.tiffany }}

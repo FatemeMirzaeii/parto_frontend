@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { PermissionsAndroid } from 'react-native';
+import Share from 'react-native-share';
 
 export async function getData(key) {
   try {
@@ -98,3 +99,18 @@ export function wait(timeout) {
     setTimeout(resolve, timeout);
   });
 }
+export const shareContent = async (url) => {
+  const shareOptions = {
+    title: 'Share file',
+    url: url,
+    failOnCancel: false,
+  };
+
+  try {
+    const ShareResponse = await Share.open(shareOptions);
+    shareTxt = JSON.stringify(ShareResponse, null, 2);
+  } catch (error) {
+    console.log('Error =>', error);
+    shareTxt = 'error: '.concat(getErrorString(error));
+  }
+};
