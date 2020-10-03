@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { SafeAreaView, ScrollView, Text,ImageBackground } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { HELP_TEXT } from '../../constants/treatise';
 import { COLOR } from '../../styles/static';
@@ -25,9 +25,14 @@ const TreatiseHelp = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <ImageBackground
+            source={require('../../../assets/images/start/4.png')}
+            style={{ flex: 1 }}>
+
       <ScrollView style={styles.contentContiner}>
         <Text style={styles.helpTxt}>{HELP_TEXT}</Text>
       </ScrollView>
+        </ImageBackground>
     </SafeAreaView>
   );
 };

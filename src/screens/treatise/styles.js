@@ -33,6 +33,18 @@ export const HTMLTagsStyles = {
     fontWeight: 'normal',
     margin: 5,
   },
+  h6: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    fontWeight: 'normal',
+    margin:7,
+    //padding:5,
+    fontSize:16,
+   // backgroundColor:'red'
+   lineHeight:35,
+   marginRight:20,
+   //padding:10,
+  },
   p: {
     textAlign: 'right',
     fontFamily: FONT.regular,

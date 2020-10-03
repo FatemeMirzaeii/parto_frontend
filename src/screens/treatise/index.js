@@ -16,7 +16,8 @@ import { FloatingAction } from 'react-native-floating-action';
 import Loading from '../../components/Loading';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
-import { COLOR, FONT } from '../../styles/static';
+// export const WIDTH = Math.round(Dimensions.get('window').width);
+import { COLOR, FONT ,WIDTH} from '../../styles/static';
 
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
@@ -165,6 +166,7 @@ const Treatise = ({ navigation }) => {
           actions={actions}
           color={COLOR.btn}
           //overlayColor={COLOR.lightPink}
+          buttonSize={50}
           onPressItem={_onPressFloatingActionItem}
         />
       </View>

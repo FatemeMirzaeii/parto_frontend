@@ -1,5 +1,5 @@
-import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import axios from 'axios';
 import {
   FlatList,
   ImageBackground,
@@ -11,7 +11,6 @@ import {
 import { Icon as IconElement } from 'react-native-elements';
 import EmptyList from '../../components/EmptyList';
 import Loading from '../../components/Loading';
-import SearchBar from '../../components/SearchBar';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
 import { COLOR, FONT } from '../../styles/static';
@@ -107,15 +106,6 @@ const TreatiseList = ({ route, navigation }) => {
     getCategoryContent();
   }, [catId]);
 
-  const _handleSearch = (text) => {
-    setData(rule);
-    const result = rule.filter((i) => {
-      return i.title.includes(text);
-    });
-    console.log('result', result);
-    setData(result);
-  };
-
   return (
     <>
       {isLoading ? (
@@ -125,11 +115,6 @@ const TreatiseList = ({ route, navigation }) => {
           <ImageBackground
             source={require('../../../assets/images/start/4.png')}
             style={{ flex: 1 }}>
-            <SearchBar
-              undertxt="جستجو"
-              onChangeText={_handleSearch}
-              iconColor={COLOR.btn}
-            />
             <FlatList
               data={data}
               numColumns={2}
