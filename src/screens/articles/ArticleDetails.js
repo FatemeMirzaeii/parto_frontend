@@ -14,6 +14,7 @@ import axios from 'axios';
 import { Icon } from 'native-base';
 import HTML from 'react-native-render-html';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
+import TextTicker from 'react-native-text-ticker'
 import styles, { HTMLTagsStyles } from './styles';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
@@ -59,14 +60,19 @@ const ArticleDetails = ({ route, navigation }) => {
       <>
         <SafeAreaView style={styles.headerCotainer}>
           <View style={styles.headerWrapper}>
-            <Icon
-              type="AntDesign"
-              name="arrowright"
-              onPress={() => navigation.goBack()}
-              style={styles.icon}
-            />
             <Animated.View style={{ opacity }}>
-              <Text style={styles.headerText}>{articleContent.title}</Text>
+              {/* <Text style={styles.headerText}>{articleContent.title}</Text> */}
+        <TextTicker
+          style={styles.headerText}
+          isRTL
+          loop
+          bounce
+          duration={9000}
+          repeatSpacer={150}
+          marqueeDelay={3000}
+        >
+         {articleContent.title}
+        </TextTicker>
             </Animated.View>
             <Icon
               type="AntDesign"

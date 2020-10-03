@@ -4,8 +4,6 @@ import { COLOR, FONT } from '../../styles/static';
 export const HTMLTagsStyles = {
   h2: {
     textAlign: 'right',
-    //color: 'lightblue',
-
     color: COLOR.tiffany,
     fontFamily: FONT.black,
     fontWeight: 'normal',
@@ -32,14 +30,21 @@ export const HTMLTagsStyles = {
     fontWeight: 'normal',
     margin: 5,
   },
+  h6: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    fontWeight: 'normal',
+    margin: 7,
+    fontSize: 16,
+    lineHeight: 35,
+    marginRight: 20,
+  },
   p: {
     textAlign: 'right',
     fontFamily: FONT.regular,
     fontWeight: 'normal',
     margin: 7,
-    //padding:5,
     fontSize: 16,
-    // backgroundColor:'red'
     lineHeight: 35,
   },
   span: {
@@ -47,9 +52,7 @@ export const HTMLTagsStyles = {
     fontFamily: FONT.regular,
     fontWeight: 'normal',
     margin: 5,
-    //padding:5,
     fontSize: 16,
-    // backgroundColor:'red',
     lineHeight: 35,
   },
   strong: {
@@ -58,14 +61,10 @@ export const HTMLTagsStyles = {
     fontWeight: 'normal',
     margin: 5,
     fontSize: 16,
-    //padding:5,
-    // color:'red',
-    // backgroundColor:'red',
     lineHeight: 35,
   },
   ul: {
     direction: 'rtl',
-    backgroundColor: 'yellow',
     margin: 10,
   },
   li: {
@@ -74,23 +73,7 @@ export const HTMLTagsStyles = {
     flexDirection: 'row-reverse',
     alignItems: 'flex-end',
     alignSelf: 'flex-end',
-    //padding:5,
-    //margin: 5,
     fontSize: 16,
-    //lineHeight:35,
-    // backgroundColor:'lightgreen'
-  },
-  i: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-end',
-    alignSelf: 'flex-end',
-    //padding:5,
-    //margin: 5,
-    fontSize: 16,
-    //lineHeight:35,
-    //backgroundColor:'lightgreen',
   },
 };
 
@@ -112,7 +95,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
     marginTop: 20,
-    width: '95%',
+    width: '90%',
   },
   headerText: {
     alignSelf: 'flex-end',
@@ -146,7 +129,6 @@ export default StyleSheet.create({
   categoryWrapper: {
     margin: 10,
     backgroundColor: COLOR.btn,
-   // alignSelf: 'flex-end',
     justifyContent: 'center',
     padding: 5,
     borderRadius: 40,
@@ -156,18 +138,16 @@ export default StyleSheet.create({
     color: 'white',
     padding: 10,
     fontFamily: FONT.regular,
-    alignItems:'center',
+    alignItems: 'center',
   },
   author: {
-    backgroundColor:'white',
-    borderRadius:30,
+    backgroundColor: 'white',
+    borderRadius: 30,
     color: 'black',
     padding: 5,
     margin: 10,
-    //fontSize:15,
-  
-    fontFamily: FONT.medium,
 
+    fontFamily: FONT.medium,
   },
   HTML: { width: '100%' },
   contentContiner: {
