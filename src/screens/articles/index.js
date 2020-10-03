@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView } from 'react-native';
 import axios from 'axios';
 import CategoryList from '../../components/CategoryList';
-import Loading from '../../components/Loading';
+import Loader from '../../components/Loader';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
 
@@ -31,11 +31,11 @@ const Articles = (props) => {
 
     getCategoryList();
   }, []);
-  
+
   return (
     <>
       {isLoading ? (
-        <Loading/>
+        <Loader />
       ) : (
         <SafeAreaView style={{ paddingBottom: 50, paddingTop: 24 }}>
           <FlatList
@@ -50,7 +50,8 @@ const Articles = (props) => {
                 category={item.title}
                 MoreBtnOnPress={() => {
                   props.navigation.navigate('ArticlesList', {
-                    catId: item.content.id,catName:item.title
+                    catId: item.content.id,
+                    catName: item.title,
                   });
                 }}
               />

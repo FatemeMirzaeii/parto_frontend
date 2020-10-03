@@ -14,7 +14,7 @@ import Share from 'react-native-share';
 //components
 import ArticleCard from '../../components/ArticleCard';
 import EmptyList from '../../components/EmptyList';
-import Loading from '../../components/Loading';
+import Loader from '../../components/Loader';
 import SearchBar from '../../components/SearchBar';
 import { COLOR, FONT } from '../../styles/static';
 import { authCode } from '../../services/authCode';
@@ -27,7 +27,7 @@ const ArticlesList = ({ route, navigation }) => {
   const [filterVisible, setFilterVisible] = useState(false);
   const [sortVisible, setSortVisible] = useState(false);
   var shareTxt = '';
-  const { catId ,catName} = route.params;
+  const { catId, catName } = route.params;
 
   useEffect(() => {
     const getCategoryContent = () => {
@@ -127,7 +127,7 @@ const ArticlesList = ({ route, navigation }) => {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <Loader />
       ) : (
         <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom: 50 }}>
           <SearchBar
@@ -321,7 +321,8 @@ const ArticlesList = ({ route, navigation }) => {
                 image={item.cover}
                 onPress={() =>
                   navigation.navigate('ArticleDetails', {
-                    articleContent: item,catName:catName
+                    articleContent: item,
+                    catName: catName,
                   })
                 }
                 // shareContent={_shareContent(item.body.storage.value.toString())}

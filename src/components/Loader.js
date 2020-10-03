@@ -2,7 +2,7 @@ import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { COLOR } from '../styles/static';
 
-const Loading = () => {
+const Loader = () => {
   return (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={COLOR.btn} />
@@ -14,4 +14,4 @@ const styles = StyleSheet.create({
   container: { flex: 1, justifyContent: 'center', alignItems: 'center' },
 });
 
-export default Loading;
+export default Loader;

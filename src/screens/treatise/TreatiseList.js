@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { Icon as IconElement } from 'react-native-elements';
 import EmptyList from '../../components/EmptyList';
-import Loading from '../../components/Loading';
+import Loader from '../../components/Loader';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
 import { COLOR, FONT } from '../../styles/static';
@@ -109,7 +109,7 @@ const TreatiseList = ({ route, navigation }) => {
   return (
     <>
       {isLoading ? (
-        <Loading />
+        <Loader />
       ) : (
         <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
           <ImageBackground

@@ -13,7 +13,7 @@ import { Icon } from 'native-base';
 import { Icon as IconElement } from 'react-native-elements';
 import { FloatingAction } from 'react-native-floating-action';
 //import Error from '../../components/Error';
-import Loading from '../../components/Loading';
+import Loader from '../../components/Loader';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
 // export const WIDTH = Math.round(Dimensions.get('window').width);
@@ -122,7 +122,7 @@ const Treatise = ({ navigation }) => {
       )} */}
       <View style={styles.main}>
         {isLoading ? (
-          <Loading />
+          <Loader />
         ) : (
           <>
             {categoryList && (
