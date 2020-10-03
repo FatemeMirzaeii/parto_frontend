@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, View, Text } from 'react-native';
+import { SafeAreaView, ScrollView, View } from 'react-native';
 import {
   VictoryBar,
   VictoryStack,
@@ -12,9 +12,11 @@ import CycleModule from '../../util/cycle';
 import { COLOR, FONT, HEIGHT, WIDTH } from '../../styles/static';
 import Ptext from '../../components/Ptxt';
 import { Icon } from 'react-native-elements';
+import Loader from '../../components/Loader';
 
 const Analysis = ({ navigation }) => {
   const [cycles, setCycles] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   const [avgCycleLength, setAvgCycleLength] = useState();
   const [avgPeriodLength, setAvgPeriodLength] = useState();
 
@@ -46,6 +48,7 @@ const Analysis = ({ navigation }) => {
     const c = await CycleModule();
     const d = await c.determineEachCycleDayType();
     setCycles(d);
+    setIsLoading(!isLoading);
   };
   const renderBars = (cycle) => {
     return cycle.map((day, i) => {
@@ -73,7 +76,9 @@ const Analysis = ({ navigation }) => {
     <SafeAreaView
       contentContainerStyle={styles.container}
       style={styles.safeAreaView}>
-      {cycles.length > 1 ? (
+      {isLoading ? (
+        <Loader />
+      ) : cycles.length > 1 ? (
         <ScrollView style={styles.bg}>
           <View style={styles.summary}>
             {avgCycleLength ? (
@@ -95,7 +100,7 @@ const Analysis = ({ navigation }) => {
           </View>
           <VictoryChart
             horizontal
-            height={cycles.length < 3 ? 200 : HEIGHT / 1.2}
+            height={cycles.length <= 3 ? 200 : HEIGHT / 1.2}
             scale={{ x: 'time' }}>
             <VictoryAxis
               dependentAxis
