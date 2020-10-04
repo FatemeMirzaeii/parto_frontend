@@ -7,8 +7,7 @@ import {
 } from '../database/query';
 const today = moment();
 
-export default async function CycleModule() {
-  const profileDate = await getProfileData();
+export default async function PregnancyModule() {
   const lp = await getProfileData();
   const pdata = await getPregnancyData();
   const lastPeriodDate = lp.last_period_date
@@ -19,7 +18,7 @@ export default async function CycleModule() {
     : null;
   const dueDate = pdata.due_date ? moment(pdata.due_date) : null;
 
-  console.log('databse pure data', lp, pdata, profileDate);
+  console.log('databse pure data', lp, pdata);
 
   function determinePregnancyWeek() {
     if (lastPeriodDate) {
@@ -77,9 +76,10 @@ export default async function CycleModule() {
   }
   function determineNefasDays() {
     let days = [];
+    console.log('ddddue', dueDate);
     for (let i = 0; i < 8; i++) {
       console.log('nefas days', i, dueDate.format(FORMAT));
-      days.push(dueDate.add(i, 'days').format(FORMAT));
+      days.push(moment(dueDate).add(i, 'days').format(FORMAT));
     }
     console.log('nefas days', days);
     setBleedingDays(days);

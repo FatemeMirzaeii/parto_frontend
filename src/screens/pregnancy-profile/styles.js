@@ -7,6 +7,33 @@ export default StyleSheet.create({
   //   alignSelf: 'center',
   //   fontFamily: Theme.fonts.regular,
   // },
+  bg: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-evenly',
+    flex: 1,
+  },
+  question: {
+    fontFamily: FONT.bold,
+    fontSize: SIZE[14],
+    textAlign: 'center',
+    color: COLOR.textColor,
+    lineHeight: 20,
+  },
+  calendar: {
+    width: WIDTH - 40,
+    alignSelf: 'center',
+    justifyContent: 'center',
+  },
+  btnContainer: {
+    elevation: 5,
+    width: WIDTH / 3,
+    borderRadius: 40,
+    alignSelf: 'center',
+  },
+  nextButton: {
+    backgroundColor: COLOR.btn,
+  },
   saveButton: {
     elevation: 5,
     backgroundColor: COLOR.btn,

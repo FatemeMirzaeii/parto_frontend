@@ -14,15 +14,14 @@ import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 import { FONT } from '../styles/static';
+import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
+import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 
 const MenuStack = createStackNavigator();
 const MenuStackScreen = () => {
   return (
     <MenuStack.Navigator
       screenOptions={{
-        headerStyle: {
-          elevation: 0,
-        },
         headerTitleStyle: {
           alignSelf: 'flex-end',
           color: 'black',
@@ -42,6 +41,16 @@ const MenuStackScreen = () => {
       />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
       <MenuStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
+      <MenuStack.Screen
+        name="PregnancyEnd"
+        component={PregnancyEnd}
+        options={{ headerShown: false }}
+      />
+      <MenuStack.Screen
+        name="PregnancyEndCalendar"
+        component={PregnancyEndCalendar}
+        options={{ headerShown: false }}
+      />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
       <MenuStack.Screen name="Treatise" component={Treatise} />

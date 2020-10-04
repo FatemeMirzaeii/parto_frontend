@@ -17,7 +17,7 @@ import Loader from '../../components/Loader';
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
 // export const WIDTH = Math.round(Dimensions.get('window').width);
-import { COLOR, FONT ,WIDTH} from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
 
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);

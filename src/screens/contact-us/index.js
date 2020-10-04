@@ -9,6 +9,9 @@ const ContactUs = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'ارتباط با پرتو',
+      headerStyle: {
+        elevation: 0,
+      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon

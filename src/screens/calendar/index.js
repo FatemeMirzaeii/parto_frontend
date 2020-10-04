@@ -157,6 +157,7 @@ const Calendar = ({ navigation }) => {
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
+                console.log('marking', marking);
                 return (
                   <TouchableOpacity
                     onPress={state === 'disabled' ? null : () => onPress(date)}
@@ -168,13 +169,15 @@ const Calendar = ({ navigation }) => {
                         styles.editableDays,
                         {
                           color:
-                            marking.length !== 0
+                            marking.length !== 0 &&
+                            marking.periods[0].color === COLOR.btn
                               ? COLOR.white
                               : state === 'disabled'
                               ? COLOR.textColor
                               : COLOR.textColorDark,
                           backgroundColor:
-                            marking.length !== 0
+                            marking.length !== 0 &&
+                            marking.periods[0].color === COLOR.btn
                               ? marking.periods[0].color
                               : state === 'today'
                               ? COLOR.currentPage

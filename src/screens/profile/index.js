@@ -57,7 +57,7 @@ const Profile = ({ navigation }) => {
       contentContainerStyle={styles.container}>
       <ScrollView>
         {/* <UserAvatar navigation={navigation} /> */}
-        <UserGoal />
+        <UserGoal navigation={navigation} />
         <Card>
           <PickerListItem
             DatePicker
