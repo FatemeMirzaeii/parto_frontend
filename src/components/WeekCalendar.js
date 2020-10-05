@@ -7,9 +7,14 @@ import {
   CalendarProvider,
   ExpandableCalendar,
 } from 'react-native-jalali-calendars';
+import Divider from '../components/Divider';
+
 const testIDs = require('../screens/calendar/testIDs');
+
 const WeekCalendar = (props) => {
+
   const today = new Date().toISOString().split('T')[0];
+
   return (
     <CalendarProvider
       jalali={true}
@@ -26,17 +31,20 @@ const WeekCalendar = (props) => {
         maxDate={props.maxDate}
         renderHeader={(date) => {
           return (
-            <View style={styles.header}>
-              <Text style={styles.headerText}>
-                {moment(date).format('jD jMMMM jYYYY')}
-              </Text>
-              {/* <Icon
+            <View>
+              <View style={styles.header}>
+                <Text style={styles.headerText}>
+                  {moment(date).format('jD jMMMM jYYYY')}
+                </Text>
+                {/* <Icon
                 name="calendar"
                 type="font-awesome"
                 size={15}
                 color={COLOR.btn}
                 containerStyle={{ padding: 5 }}
               /> */}
+              </View>
+              <Divider color={COLOR.lightPink} />
             </View>
           );
         }}
@@ -56,6 +64,7 @@ const WeekCalendar = (props) => {
     </CalendarProvider>
   );
 };
+
 const styles = StyleSheet.create({
   calendar: {
     elevation: 0,
