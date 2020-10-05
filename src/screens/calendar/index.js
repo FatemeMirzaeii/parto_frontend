@@ -122,7 +122,7 @@ const Calendar = ({ navigation }) => {
     const c = await CycleModule();
     const past = await c.pastBleedingDays();
     if (past) {
-      const formatted = past.map((day) => day.format('YYYY-MM-DD'));
+      const formatted = past.map((day) => day.date.format('YYYY-MM-DD'));
       markedDateObj(formatted, COLOR.btn);
     }
   };

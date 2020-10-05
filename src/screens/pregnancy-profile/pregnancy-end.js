@@ -1,15 +1,12 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ImageBackground, Text } from 'react-native';
-import { ButtonGroup, Button } from 'react-native-elements';
-import Card from '../../components/Card';
+import React, { useState } from 'react';
+import { ImageBackground } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
 import styles from './styles';
-
-import { COLOR, HEIGHT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 
 const PregnancyEnd = ({ navigation }) => {
-  const [selectedIndex, setSelectedIndex] = useState(false);
-  const [childBirth, setChildBirth] = useState(false);
-  const [abortion, setAbortion] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState();
+
   const onPress = (i) => {
     setSelectedIndex(i);
     navigation.navigate('PregnancyEndCalendar', { type: i });

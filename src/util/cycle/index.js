@@ -7,6 +7,7 @@ import {
   MIN_LENGTH_BETWEEN_PERIODS,
   OVULATION_WINDOW_LENGTH,
 } from '../../constants/cycle';
+import { OPTIONS } from '../../constants/health-tracking-info';
 import {
   getUserAllPeriodDays,
   getProfileData,
@@ -173,7 +174,11 @@ export default async function CycleModule() {
   async function pastBleedingDays() {
     const all = await getUserAllPeriodDays();
     if (all.length > 0) {
-      return all.map((d) => moment(d.date)).sort((a, b) => b.diff(a));
+      return all
+        .map((d) => {
+          return { date: moment(d.date), type: d.tracking_option_id };
+        })
+        .sort((a, b) => b.date.diff(a));
     }
   }
   async function determineLastPeriodDate() {
@@ -186,11 +191,13 @@ export default async function CycleModule() {
     let lpd;
     for (let i = 0; i < pastDays.length; i++) {
       if (!pastDays[i + 1]) {
-        lpd = pastDays[i];
+        lpd = pastDays[i].date;
       } else if (
-        pastDays[i].diff(pastDays[i + 1], 'days') > MIN_LENGTH_BETWEEN_PERIODS
+        pastDays[i].date.diff(pastDays[i + 1].date, 'days') >
+          MIN_LENGTH_BETWEEN_PERIODS &&
+        pastDays[i].type !== OPTIONS.SPOTTING
       ) {
-        lpd = pastDays[i];
+        lpd = pastDays[i].date;
         break;
       }
     }

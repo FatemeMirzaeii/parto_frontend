@@ -125,7 +125,7 @@ const TrackingOptions = ({ route, navigation }) => {
               onPress={updateIndex}
               selectedIndex={selectedIndex}
               buttons={['روز', 'َشب']}
-              vertical={true}
+              vertical
               containerStyle={styles.buttonGroup}
               selectedButtonStyle={{ backgroundColor: '#F1719D' }}
             />
@@ -253,6 +253,7 @@ const TrackingOptions = ({ route, navigation }) => {
         <WeekCalendar
           current={day}
           maxDate={moment().format('YYYY-MM-DD')}
+          navigation={navigation}
           onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
         />
         <Carousel
