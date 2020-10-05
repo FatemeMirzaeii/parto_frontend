@@ -229,7 +229,11 @@ export default async function CycleModule() {
         intervals.push(bdays.splice(0, i + 1));
         return intervals;
       }
-      if (bdays[i].diff(bdays[i + 1], 'days') > MIN_LENGTH_BETWEEN_PERIODS) {
+      if (
+        bdays[i].date.diff(bdays[i + 1].date, 'days') >
+          MIN_LENGTH_BETWEEN_PERIODS &&
+        bdays[i].type !== OPTIONS.SPOTTING
+      ) {
         intervals.push(bdays.splice(0, i + 1));
         i = -1;
       }
@@ -248,8 +252,8 @@ export default async function CycleModule() {
     //If the sort changed, we should find earlier day in interval array using moment.min().
     //so interval[interval.length - 1] will change to moment.min(interval).
     return {
-      startDay: moment(interval[interval.length - 1]).format(FORMAT),
-      bleedingDays: interval,
+      startDay: moment(interval[interval.length - 1].date).format(FORMAT),
+      bleedingDays: interval.map((d) => d.date),
     };
   }
   async function determineCyclesDetail() {
