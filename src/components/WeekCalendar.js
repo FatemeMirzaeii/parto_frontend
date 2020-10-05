@@ -44,7 +44,7 @@ const WeekCalendar = (props) => {
                 containerStyle={{ padding: 5 }}
               /> */}
               </View>
-              <Divider color={COLOR.lightPink} />
+              <Divider color={props.dividerColor} />
             </View>
           );
         }}
