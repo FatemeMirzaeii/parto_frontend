@@ -223,18 +223,18 @@ export default async function CycleModule() {
   }
   async function determinePeriodIntervals() {
     const bdays = await pastBleedingDays();
+    const bleedingdates = bdays.map((d) => d.date);
     let intervals = [];
-    for (let i = 0; i <= bdays.length; i++) {
-      if (!bdays[i + 1]) {
-        intervals.push(bdays.splice(0, i + 1));
+    for (let i = 0; i <= bleedingdates.length; i++) {
+      if (!bleedingdates[i + 1]) {
+        intervals.push(bleedingdates.splice(0, i + 1));
         return intervals;
       }
       if (
-        bdays[i].date.diff(bdays[i + 1].date, 'days') >
-          MIN_LENGTH_BETWEEN_PERIODS &&
-        bdays[i].type !== OPTIONS.SPOTTING
+        bleedingdates[i].diff(bleedingdates[i + 1], 'days') >
+        MIN_LENGTH_BETWEEN_PERIODS //todo:should add condition
       ) {
-        intervals.push(bdays.splice(0, i + 1));
+        intervals.push(bleedingdates.splice(0, i + 1));
         i = -1;
       }
     }
@@ -252,8 +252,8 @@ export default async function CycleModule() {
     //If the sort changed, we should find earlier day in interval array using moment.min().
     //so interval[interval.length - 1] will change to moment.min(interval).
     return {
-      startDay: moment(interval[interval.length - 1].date).format(FORMAT),
-      bleedingDays: interval.map((d) => d.date),
+      startDay: moment(interval[interval.length - 1]).format(FORMAT),
+      bleedingDays: interval,
     };
   }
   async function determineCyclesDetail() {
