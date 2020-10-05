@@ -1,0 +1,54 @@
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { ImageBackground, Text } from 'react-native';
+import { ButtonGroup, Button } from 'react-native-elements';
+import Card from '../../components/Card';
+import styles from './styles';
+
+import { COLOR, HEIGHT } from '../../styles/static';
+
+const PregnancyEnd = ({ navigation }) => {
+  const [selectedIndex, setSelectedIndex] = useState(false);
+  const [childBirth, setChildBirth] = useState(false);
+  const [abortion, setAbortion] = useState(false);
+  const onPress = (i) => {
+    setSelectedIndex(i);
+    navigation.navigate('PregnancyEndCalendar', { type: i });
+  };
+  return (
+    <ImageBackground
+      source={require('../../../assets/images/start/1.png')}
+      style={styles.bg}>
+      <ButtonGroup
+        onPress={onPress}
+        selectedIndex={selectedIndex}
+        vertical
+        buttons={['تولد نوزاد', 'سقط جنین']}
+        containerStyle={{
+          height: 150,
+          backgroundColor: 'transparent',
+          borderWidth: 0,
+        }}
+        buttonContainerStyle={{
+          backgroundColor: COLOR.white,
+          elevation: 3,
+          borderRadius: 50,
+          margin: 10,
+        }}
+        buttonStyle={{ borderRadius: 50 }}
+        selectedButtonStyle={{ backgroundColor: COLOR.btn }}
+      />
+      {/* <Button
+        title="بعدی"
+        onPress={async () => {
+       
+          console.log('pregnancy end', res);
+        }}
+        buttonStyle={styles.saveContainer}
+        containerStyle={styles.saveButton}
+        titleStyle={styles.saveTitle}
+      /> */}
+    </ImageBackground>
+  );
+};
+
+export default PregnancyEnd;

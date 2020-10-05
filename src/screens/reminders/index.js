@@ -28,7 +28,7 @@ const Reminders = ({ navigation }) => {
     });
   });
   return (
-    <ScrollView style={{ backgroundColor: 'white' }}>
+    <ScrollView>
       <Card>
         {reminders.map((r, index) => {
           return (

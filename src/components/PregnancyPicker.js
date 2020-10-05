@@ -2,25 +2,25 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../util/func';
-import { FONT, SIZE, WIDTH, HEIGHT } from '../styles/static';
+import { FONT, WIDTH } from '../styles/static';
 
-const PregnancyPicker = ({ props }) => {
-  const [data, setData] = useState([]);
+const PregnancyPicker = (props) => {
+  const [weekIdx, setWeekIdx] = useState();
 
   useEffect(() => {
-    setData(
-      props.range
-        ? setPickerRange(props.range.min, props.range.max)
-        : props.data,
-    );
-  }, []);
+    setWeekIdx(props.selectedWeek - 1);
+  }, [props.selectedWeek]);
 
+  const onWeekSelected = (i) => {
+    setWeekIdx(i);
+    props.onWeekSelected(i + 1);
+  };
   return (
     <View style={styles.pickerGroup}>
       <WheelPicker
         data={setPickerRange(0, 7)}
-        selectedItem={data.findIndex((a) => a === props.selectedWeekDay)}
-        // onItemSelected={setSelectedDay}
+        selectedItem={props.selectedDay}
+        onItemSelected={props.onWeekDaySelected}
         isCyclic={true}
         itemTextSize={21}
         selectedItemTextSize={21}
@@ -38,8 +38,8 @@ const PregnancyPicker = ({ props }) => {
       />
       <WheelPicker
         data={setPickerRange(1, 43)}
-        selectedItem={data.findIndex((a) => a === props.selectedWeek)}
-        // onItemSelected={setSelectedWeek}
+        selectedItem={weekIdx}
+        onItemSelected={onWeekSelected}
         isCyclic={true}
         itemTextSize={21}
         selectedItemTextSize={21}

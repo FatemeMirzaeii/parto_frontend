@@ -1,26 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
-import { ButtonGroup, Overlay, CheckBox, Button } from 'react-native-elements';
-import moment from 'moment';
-import Modal from 'react-native-modal';
+import { ButtonGroup } from 'react-native-elements';
 import styles from './styles';
-import {
-  getUserStatus,
-  updateUserStatus,
-  setPregnancyEnd,
-} from '../../util/database/query';
-import PregnancyModule from '../../util/pregnancy';
+import { getUserStatus, updateUserStatus } from '../../util/database/query';
 import { COLOR } from '../../styles/static';
-import { FORMAT } from '../../constants/cycle';
-import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 
-const UserGoal = () => {
+const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
-  const [visible, setVisible] = useState(false);
-  const [stratModal, setStartModal] = useState(false);
-  const [childBirth, setChildBirth] = useState(false);
-  const [abortion, setAbortion] = useState(false);
+
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
   useEffect(() => {
@@ -40,8 +28,7 @@ const UserGoal = () => {
             text: 'بله',
             onPress: () => {
               i === 0 ? updateUserStatus(0, 0) : updateUserStatus(0, 1);
-              setMode(i);
-              setVisible(true);
+              navigation.navigate('PregnancyProfile');
             },
           },
           {
@@ -74,7 +61,7 @@ const UserGoal = () => {
                 onPress: () => {
                   updateUserStatus(1, 0);
                   setMode(i);
-                  //  setStartModal(true);
+                  navigation.navigate('PregnancyProfile');
                 },
               },
               {
@@ -109,83 +96,6 @@ const UserGoal = () => {
           innerBorderStyle={{ width: 0 }}
           buttonStyle={styles.goal}
         />
-        <Modal
-          animationType="fade"
-          isVisible={visible}
-          onRequestClose={() => setVisible(false)}
-          onBackdropPress={() => setVisible(false)}>
-          <>
-            <Card>
-              <Text>علت خاموش کردن حالت بارداری:</Text>
-              <CheckBox
-                center
-                title="تولد نوزاد"
-                iconRight
-                checkedColor="green"
-                checked={childBirth}
-                onPress={() => {
-                  setChildBirth(!childBirth);
-                  setAbortion(childBirth);
-                }}
-              />
-              <CheckBox
-                center
-                title="سقط جنین"
-                iconRight
-                checkedColor="red"
-                checked={abortion}
-                onPress={() => {
-                  setAbortion(!abortion);
-                  setChildBirth(abortion);
-                }}
-              />
-            </Card>
-            <Button
-              title="تایید"
-              onPress={async () => {
-                const res = await setPregnancyEnd(
-                  abortion,
-                  moment().format(FORMAT),
-                );
-                const p = await PregnancyModule();
-                p.determineNefasDays();
-                console.log('pregnancy end', res);
-                setVisible(false);
-              }}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
-              titleStyle={styles.listItemText}
-            />
-          </>
-        </Modal>
-        <Modal
-          animationType="fade"
-          isVisible={stratModal}
-          onRequestClose={() => setStratModal(false)}
-          onBackdropPress={() => setStratModal(false)}>
-          <>
-            <Card>
-              <Text>هفته چندم بارداری هستید؟</Text>
-              <PregnancyPicker />
-            </Card>
-            <Button
-              title="تایید"
-              onPress={async () => {
-                const res = await setPregnancyEnd(
-                  abortion,
-                  moment().format(FORMAT),
-                );
-                const p = await PregnancyModule();
-                p.determineNefasDays();
-                console.log('pregnancy end', res);
-                setStartModal(false);
-              }}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
-              titleStyle={styles.listItemText}
-            />
-          </>
-        </Modal>
       </Card>
     </SafeAreaView>
   );

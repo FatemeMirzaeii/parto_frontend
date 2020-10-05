@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
-import { WheelPicker, TimePicker } from 'react-native-wheel-picker-android';
+import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../util/func';
 import { FONT, SIZE } from '../styles/static';
 import PersianDatePicker from './PersianDatePicker';
-//import PersianTimePicker from './PersianTimePicker';
 //todo: should add pregnancy picker same as datepicker and remove timepicker
 
 const PickerListItem = (props) => {
@@ -72,7 +71,7 @@ const PickerListItem = (props) => {
           props.customComponent
         ) : (
           <View style={styles.picker}>
-            {!props.DatePicker && !props.TimePicker ? (
+            {!props.DatePicker ? (
               <WheelPicker
                 selectedItem={
                   props.selectedItem
@@ -87,18 +86,10 @@ const PickerListItem = (props) => {
                 itemTextFontFamily={FONT.regular}
                 selectedItemTextFontFamily={FONT.regular}
               />
-            ) : props.DatePicker ? (
+            ) : (
               <PersianDatePicker
                 initialDate={props.initialDate}
                 onDateSelected={props.onDateSelected}
-              />
-            ) : (
-              <TimePicker
-                format24
-                onTimeSelected={props.onTimeSelected}
-                selectedItemTextSize={20}
-                itemTextFontFamily={FONT.regular}
-                selectedItemTextFontFamily={FONT.regular}
               />
             )}
           </View>

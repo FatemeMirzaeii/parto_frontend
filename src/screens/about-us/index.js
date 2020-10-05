@@ -9,6 +9,9 @@ const AboutUs = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'داستان پرتو',
+      headerStyle: {
+        elevation: 0,
+      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon

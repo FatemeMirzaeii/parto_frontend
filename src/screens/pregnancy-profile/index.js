@@ -1,15 +1,19 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
+import { Calendar } from 'react-native-jalali-calendars';
+import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
+import pregnancyModule from '../../util/pregnancy';
 import { getPregnancyData, savePregnancyData } from '../../util/database/query';
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 
 const PregnancyProfile = ({ navigation }) => {
   const [dueDate, setDueDate] = useState();
-  const [pregnancyWeek, setPregnancyWeek] = useState();
+  const [pregnancyWeek, setPregnancyWeek] = useState(0);
+  const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل بارداری',
@@ -17,6 +21,7 @@ const PregnancyProfile = ({ navigation }) => {
         <Button
           title="ثبت"
           type="clear"
+          disabled={!dueDate}
           onPress={() => save()}
           titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
         />
@@ -42,34 +47,47 @@ const PregnancyProfile = ({ navigation }) => {
     getPregnancyData().then((d) => {
       setDueDate(d.due_date);
     });
+    setInitialData();
   }, []);
+  const setInitialData = async () => {
+    const p = await pregnancyModule();
+    setPregnancyWeek(p.determinePregnancyWeek());
+  };
 
   return (
     <ScrollView>
       <Card>
         <PickerListItem
-          PregnancyPicker
           title="سن بارداری"
-          range={{ min: 3, max: 10 }}
-          selectedItem={pregnancyWeek}
-          onItemSelected={setPregnancyWeek}
-          rightTitle={{ title: pregnancyWeek }}
+          rightTitle={{
+            title: `${pregnancyWeek} هفته و ${pregnancyWeekDay} روز`,
+          }}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+          customComponent={
+            <PregnancyPicker
+              selectedWeek={pregnancyWeek}
+              onWeekSelected={setPregnancyWeek}
+              selectedDay={pregnancyWeekDay}
+              onWeekDaySelected={setPregnancyWeekDay}
+            />
+          }
         />
         <PickerListItem
           DatePicker
           title="تاریخ زایمان"
-          range={{ min: 15, max: 50 }}
-          selectedItem={dueDate}
-          onItemSelected={setDueDate}
+          initialDate={dueDate}
+          onDateSelected={setDueDate}
           rightTitle={{ title: dueDate }}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+          customComponent={
+            <Calendar jalali firstDay={6} minDate={new Date()} />
+          }
         />
       </Card>
       <Button
         raised
         title="پایان بارداری"
-        // onPress={() => save()}
+        onPress={() => navigation.navigate('PregnancyEnd')}
         type="outline"
         buttonStyle={styles.saveContainer}
         containerStyle={styles.saveButton}
