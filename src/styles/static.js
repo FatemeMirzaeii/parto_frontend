@@ -16,6 +16,7 @@ export const COLOR = {
   reView: '#9E9E9E',
   story: '#322C6D',
   periodPerdiction: '#F8BED6',
+  vaginalAndSleep: '#B6D443',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',

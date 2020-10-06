@@ -84,8 +84,9 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
 }
 export async function getPregnancyData() {
   const res = await db.exec(`SELECT * FROM ${PREGNANCY}`, PREGNANCY);
+  console.log('getpregnancy data', res);
   const data = res[0];
-  return data ?? 0;
+  return data ?? [];
 }
 export async function setPregnancyEnd(abortion, dueDate) {
   return await db.exec(
@@ -101,8 +102,8 @@ export async function savePregnancyData(pregnancySchema) {
     ? null
     : `'${pregnancySchema.conceptionDate}'`;
   const res = await db.exec(
-    `INSERT INTO ${PREGNANCY} (due_date, conception_date) VALUES(
-      ${dueDate},${conceptionDate})`,
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date,user_id) VALUES(
+      ${dueDate},${conceptionDate},1)`,
     PREGNANCY,
   );
   return res ?? 0;
@@ -154,6 +155,15 @@ export async function getTrackingOptionData(date) {
     'health_tracking_category',
   );
   return res;
+}
+export async function getUserVaginalAndSleepOptions() {
+  const res = await db.exec(
+    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
+      (${OPTIONS.ABNORMAL}, ${OPTIONS.CREAMY}, ${OPTIONS.EGGWHITE}, ${OPTIONS.STICKY}, 
+        ${OPTIONS.AVERAGE_SLEEP}, ${OPTIONS.LITTLE_SLEEP}, ${OPTIONS.LOTS_SLEEP}, ${OPTIONS.NO_SLEEP})`,
+    USER_TRACKING_OPTION,
+  );
+  return res ?? [];
 }
 export async function getLastPeriodDate() {
   const res = await db.exec(`SELECT last_period_date FROM ${PROFILE}`, PROFILE);

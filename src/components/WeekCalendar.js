@@ -1,15 +1,68 @@
-import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
-import { Icon } from 'react-native-elements';
+import React, { useState, useEffect } from 'react';
+import { Text, StyleSheet, View } from 'react-native';
 import moment from 'moment-jalaali';
 import { FONT, SIZE, COLOR } from '../styles/static';
 import {
   CalendarProvider,
   ExpandableCalendar,
 } from 'react-native-jalali-calendars';
+import CycleModule from '../util/cycle';
+import { getUserVaginalAndSleepOptions } from '../util/database/query';
 const testIDs = require('../screens/calendar/testIDs');
 const WeekCalendar = (props) => {
+  const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
+  const period = { key: 'period', color: COLOR.btn };
+  const periodPerdictiin = {
+    key: 'periodPerdictiin',
+    color: COLOR.periodPerdiction,
+  };
+  const ovulationd = { key: 'ovulation', color: COLOR.tiffany };
+  const vaginalAndSleep = {
+    key: 'vaginalAndSleep',
+    color: COLOR.vaginalAndSleep,
+  };
+  useEffect(() => {
+    markBleedingDays();
+    markPerdictions();
+    markTrackingOptions();
+  }, []);
+  const markedDateObj = (dates, dot) => {
+    console.log('marked dates', dates);
+
+    dates.forEach((date) => {
+      if (date in markedDates) return;
+      markedDates[date] = {
+        dots: [dot],
+      };
+    });
+    setMarkedDates({ ...markedDates });
+  };
+  const markBleedingDays = async () => {
+    const c = await CycleModule();
+    const past = await c.pastBleedingDays();
+    if (past) {
+      const formatted = past.map((day) => day.date.format('YYYY-MM-DD'));
+      markedDateObj(formatted, period);
+    }
+  };
+  const markPerdictions = async () => {
+    //todo: should disable in pregnant mode.
+    const c = await CycleModule();
+    const bleeding = c.perdictedPeriodDaysInCurrentYear();
+    markedDateObj(bleeding, periodPerdictiin);
+
+    const ovulation = c.perdictedOvulationDaysInCurrentYear();
+    markedDateObj(ovulation, ovulationd);
+  };
+  const markTrackingOptions = async () => {
+    const t = await getUserVaginalAndSleepOptions();
+    console.log('tttttt', t);
+    markedDateObj(
+      t.map((d) => d.date),
+      vaginalAndSleep,
+    );
+  };
   return (
     <CalendarProvider
       jalali={true}
@@ -24,6 +77,8 @@ const WeekCalendar = (props) => {
         hideKnob
         hideArrows
         maxDate={props.maxDate}
+        markedDates={markedDates}
+        markingType="multi-dot"
         renderHeader={(date) => {
           return (
             <View style={styles.header}>
