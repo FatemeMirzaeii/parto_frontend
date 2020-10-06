@@ -5,7 +5,7 @@ import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
-import {shareContent} from '../../util/func';
+import { shareContent } from '../../util/func';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 
@@ -23,19 +23,6 @@ const Menu = ({ navigation }) => {
   const navigateTo = (screen) => {
     navigation.navigate(screen);
   };
-  // const changePregnancyMode = async () => {
-  //   setPregnant(!pregnant);
-  //   await db.exec(
-  //     `UPDATE ${PROFILE} SET pregnant=${pregnant}`,
-  //     [],
-  //     PROFILE,
-  //   );
-  //   if (pregnant) {
-  //     navigation.navigate('Pregnancy_Q2', {
-  //       mode: { pregnant: 1, pregnancy_try: 0, period: 0 },
-  //     });
-  //   }
-  // };
 
   const lock = () => {
     TouchID.isSupported()
@@ -54,7 +41,7 @@ const Menu = ({ navigation }) => {
         );
       });
   };
- 
+
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
@@ -151,7 +138,11 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() =>shareContent('https://play.google.com/store/apps/details?id=ir.parto.parto')}
+          onPress={() =>
+            shareContent(
+              'https://play.google.com/store/apps/details?id=ir.parto.parto',
+            )
+          }
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

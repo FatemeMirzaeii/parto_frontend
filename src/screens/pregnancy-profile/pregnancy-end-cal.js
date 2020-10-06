@@ -42,8 +42,8 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
           setSelectedDate(day.dateString);
         }}
         maxDate={today.format('YYYY-MM-DD')}
-        disableAllTouchEventsForDisabledDays={true}
-        hideExtraDays={true}
+        disableAllTouchEventsForDisabledDays
+        hideExtraDays
         theme={{
           textSectionTitleColor: '#111111',
           calendarBackground: 'transparent',

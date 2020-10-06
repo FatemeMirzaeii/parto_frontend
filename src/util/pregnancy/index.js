@@ -1,5 +1,5 @@
 import moment from 'moment';
-import { FORMAT, PREGNANCY_WEEKS } from '../../constants/cycle';
+import { FORMAT, PREGNANCY_WEEKS, NEFAS_DAYS } from '../../constants/cycle';
 import {
   getPregnancyData,
   getProfileData,
@@ -76,9 +76,7 @@ export default async function PregnancyModule() {
   }
   function determineNefasDays() {
     let days = [];
-    console.log('ddddue', dueDate);
-    for (let i = 0; i < 8; i++) {
-      console.log('nefas days', i, dueDate.format(FORMAT));
+    for (let i = 0; i < NEFAS_DAYS; i++) {
       days.push(moment(dueDate).add(i, 'days').format(FORMAT));
     }
     console.log('nefas days', days);
@@ -89,5 +87,6 @@ export default async function PregnancyModule() {
     determinePregnancyWeek,
     remainingDaysToDueDate,
     determineNefasDays,
+    determineDueDate,
   };
 }
