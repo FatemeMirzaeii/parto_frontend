@@ -26,18 +26,21 @@ const WeekCalendar = (props) => {
     color: COLOR.vaginalAndSleep,
   };
   useEffect(() => {
+    setMarkedDates({});
     markBleedingDays();
     markPerdictions();
     markTrackingOptions();
   }, []);
   const markedDateObj = (dates, dot) => {
     console.log('marked dates', dates);
-
     dates.forEach((date) => {
-      if (date in markedDates) return;
-      markedDates[date] = {
-        dots: [dot],
-      };
+      if (date in markedDates) {
+        markedDates[date].dots.push(dot);
+      } else {
+        markedDates[date] = {
+          dots: [dot],
+        };
+      }
     });
     setMarkedDates({ ...markedDates });
   };
