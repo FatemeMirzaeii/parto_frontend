@@ -6,13 +6,13 @@ import {
   View,
   Text,
   ToastAndroid,
+  FlatList,
 } from 'react-native';
 import moment from 'moment-jalaali';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
-
 import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
 import Ptext from '../../components/Ptxt';
@@ -60,7 +60,7 @@ const TrackingOptions = ({ route, navigation }) => {
   const renderItem = ({ item }) => {
     return (
       <View style={styles.sliderItem}>
-        <TouchableOpacity
+        <View
           style={[
             styles.category,
             {
@@ -68,8 +68,8 @@ const TrackingOptions = ({ route, navigation }) => {
             },
           ]}>
           <SvgCss width="100%" height="100%" xml={item.icon} />
-          <Text style={styles.txt}>{item.title}</Text>
-        </TouchableOpacity>
+          <Text style={styles.title}>{item.title}</Text>
+        </View>
         <TouchableOpacity
           onPress={() => {
             toggleOverlay(item.id);
@@ -79,7 +79,7 @@ const TrackingOptions = ({ route, navigation }) => {
             {'   '}
             در مورد {item.title} بیشتر بدانید.
           </Text>
-          <Icon name="flash" type="font-awesome" size={17} color="white" />
+          <Icon name="info" type="MaterialIcons" size={17} color="white" />
         </TouchableOpacity>
         <View style={styles.options}>{renderOptions(item, item.color)}</View>
         {/* {item.id === detailPageId ? renderDetailPage() : null} */}
@@ -87,13 +87,16 @@ const TrackingOptions = ({ route, navigation }) => {
     );
   };
   const renderOptions = (category, color) => {
-    return categories
-      .find((c) => c.id === category.id)
-      .options.map((option) => {
-        return (
+    return (
+      <FlatList
+        data={category.options}
+        numColumns={2}
+        keyExtractor={(item, index) => index.toString()}
+        showsVerticalScrollIndicator={false}
+        renderItem={({ item }) => (
           <TouchableOpacity
-            key={option.id}
-            onPress={() => onOptionPress(category, option)}
+            key={item.id}
+            onPress={() => onOptionPress(category, item)}
             style={styles.option}>
             <View
               style={[
@@ -101,26 +104,34 @@ const TrackingOptions = ({ route, navigation }) => {
                 {
                   borderColor: color,
                   backgroundColor:
-                    option.selected.length > 0 ? color : COLOR.white,
+                    item.selected.length > 0 ? color : COLOR.white,
                 },
               ]}>
               <SvgCss
                 width="100%"
                 height="100%"
-                xml={option.icon}
-                fill={option.selected.length > 0 ? COLOR.white : color}
+                xml={item.icon}
+                fill={item.selected.length > 0 ? COLOR.white : color}
               />
             </View>
-            <Text style={styles.txt}>{option.title}</Text>
+            <Text style={styles.txt}>{item.title}</Text>
           </TouchableOpacity>
-        );
-      });
+        )}
+      />
+    );
   };
   const renderDetailPage = () => {
     switch (detailPageId) {
       case BLEEDING:
         return (
           <View style={{ flexDirection: 'row' }}>
+            <Input
+              placeholder="ساعت شروع پریود"
+              containerStyle={styles.input}
+              leftIcon={
+                <Icon name="ios-alarm" size={24} color="gray" type="ionicon" />
+              }
+            />
             <ButtonGroup
               onPress={updateIndex}
               selectedIndex={selectedIndex}
@@ -128,13 +139,6 @@ const TrackingOptions = ({ route, navigation }) => {
               vertical
               containerStyle={styles.buttonGroup}
               selectedButtonStyle={{ backgroundColor: '#F1719D' }}
-            />
-            <Input
-              placeholder="ساعت شروع پریود"
-              containerStyle={styles.input}
-              leftIcon={
-                <Icon name="ios-alarm" size={24} color="gray" type="ionicon" />
-              }
             />
           </View>
         );
@@ -247,21 +251,30 @@ const TrackingOptions = ({ route, navigation }) => {
         break;
     }
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
         <WeekCalendar
+          dividerColor="#fff"
+          theme={{
+            calendarBackground: COLOR.lightPink,
+          }}
           current={day}
           maxDate={moment().format('YYYY-MM-DD')}
           navigation={navigation}
           onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
         />
+
+        <Text style={styles.descriptionTxt}>
+          لطفا ورق بزن و نشانه‌هایی که داری رو انتخاب کن.
+        </Text>
         <Carousel
           layout={'default'}
           data={categories}
           renderItem={renderItem}
           sliderWidth={WIDTH}
-          itemWidth={WIDTH - 110}
+          itemWidth={WIDTH - 130}
           inverted={true}
         />
       </ScrollView>
