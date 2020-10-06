@@ -123,7 +123,7 @@ const Menu = ({ navigation }) => {
         /> */}
       </Card>
       <Card>
-        {/* <ListItem
+        <ListItem
           title="نظرسنجی"
           leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
           bottomDivider
@@ -132,7 +132,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        /> */}
+        />
         <ListItem
           title="معرفی به دوستان"
           leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}

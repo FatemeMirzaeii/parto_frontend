@@ -58,11 +58,7 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="TreatiseDetails" component={TreatiseDetails} />
       <MenuStack.Screen name="TreatiseHelp" component={TreatiseHelp} />
       <MenuStack.Screen name="ContactUs" component={ContactUs} />
-      <MenuStack.Screen
-        name="Rating"
-        component={Rating}
-        options={{ headerShown: false }}
-      />
+      <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
     </MenuStack.Navigator>
   );
