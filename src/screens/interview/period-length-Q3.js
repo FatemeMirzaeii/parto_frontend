@@ -27,7 +27,7 @@ const Q3 = ({ route, navigation }) => {
     });
   };
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.safeAreaView}>
       <ImageBackground
         source={require('../../../assets/images/start/2.png')}
         style={styles.bg}>

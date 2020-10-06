@@ -17,11 +17,11 @@ const Interview = (props) => {
         source={require('../../../assets/images/start/0.png')}
         style={styles.bg}>
         <View style={styles.cont}>
-          <Ptxt style={styles.question}>
+          <Text style={styles.question}>
             دوست عزیز پرتو خوش آمدی!
             {'\n'}
-            به ما بگو در کدوم یکی از موارد زیر میتونیم به شما کمک کنیم.
-          </Ptxt>
+            به ما بگو در کدوم یکی از موارد زیر میتونیم به شما کمک کنیم:
+          </Text>
           <View style={styles.btnGroup}>
             <TouchableOpacity
               style={styles.mode}
