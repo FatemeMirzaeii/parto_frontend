@@ -8,7 +8,10 @@ import {
 } from 'react-native-jalali-calendars';
 import CycleModule from '../util/cycle';
 import { getUserVaginalAndSleepOptions } from '../util/database/query';
+import Divider from '../components/Divider';
+
 const testIDs = require('../screens/calendar/testIDs');
+
 const WeekCalendar = (props) => {
   const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
@@ -63,6 +66,7 @@ const WeekCalendar = (props) => {
       vaginalAndSleep,
     );
   };
+
   return (
     <CalendarProvider
       jalali={true}
@@ -81,17 +85,20 @@ const WeekCalendar = (props) => {
         markingType="multi-dot"
         renderHeader={(date) => {
           return (
-            <View style={styles.header}>
-              <Text style={styles.headerText}>
-                {moment(date).format('jD jMMMM jYYYY')}
-              </Text>
-              {/* <Icon
+            <View>
+              <View style={styles.header}>
+                <Text style={styles.headerText}>
+                  {moment(date).format('jD jMMMM jYYYY')}
+                </Text>
+                {/* <Icon
                 name="calendar"
                 type="font-awesome"
                 size={15}
                 color={COLOR.btn}
                 containerStyle={{ padding: 5 }}
               /> */}
+              </View>
+              <Divider color={props.dividerColor} />
             </View>
           );
         }}
@@ -111,6 +118,7 @@ const WeekCalendar = (props) => {
     </CalendarProvider>
   );
 };
+
 const styles = StyleSheet.create({
   calendar: {
     elevation: 0,
