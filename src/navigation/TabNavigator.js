@@ -57,6 +57,20 @@ const TabNavigator = () => {
         },
       }}>
       <Tab.Screen
+        name="Menu"
+        component={MenuStack}
+        options={{
+          tabBarLabel: 'بیشتر',
+        }}
+      />
+      <Tab.Screen
+        name="Articles"
+        component={ArticleStack}
+        options={{
+          tabBarLabel: 'مقالات',
+        }}
+      />
+      <Tab.Screen
         name="Analysis"
         component={Analysis}
         options={{
@@ -68,20 +82,6 @@ const TabNavigator = () => {
         component={HomeStack}
         options={{
           tabBarLabel: 'ماه من',
-        }}
-      />
-      <Tab.Screen
-        name="Articles"
-        component={ArticleStack}
-        options={{
-          tabBarLabel: 'مقالات',
-        }}
-      />
-      <Tab.Screen
-        name="Menu"
-        component={MenuStack}
-        options={{
-          tabBarLabel: 'بیشتر',
         }}
       />
     </Tab.Navigator>
