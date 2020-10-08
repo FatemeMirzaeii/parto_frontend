@@ -77,6 +77,7 @@ const Home = ({ navigation }) => {
           }}
         />
         <WeekCalendar
+          dividerColor={COLOR.lightPink}
           theme={{
             calendarBackground: '#B9B2CD',
           }}
