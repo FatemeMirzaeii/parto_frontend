@@ -1,7 +1,7 @@
 import moment from 'moment';
 import { FORMAT, PREGNANCY_WEEKS, NEFAS_DAYS } from '../../constants/cycle';
 import {
-  getPregnancyData,
+  getActivePregnancyData,
   getProfileData,
   setBleedingDays,
 } from '../database/query';
@@ -9,7 +9,7 @@ const today = moment();
 
 export default async function PregnancyModule() {
   const lp = await getProfileData();
-  const pdata = await getPregnancyData();
+  const pdata = await getActivePregnancyData();
   const lastPeriodDate = lp.last_period_date
     ? moment(lp.last_period_date)
     : null;
@@ -40,7 +40,7 @@ export default async function PregnancyModule() {
   function pregnancyWeekBasedOnConceptionDate() {
     return today.diff(conceptionDate, 'weeks') + 2;
   }
-  function determenineLastPeriodDateBasedOnPregnancyWeek(
+  function determineLastPeriodDateBasedOnPregnancyWeek(
     pregnancyWeek,
     pregnancyWeekDay,
   ) {
@@ -83,7 +83,7 @@ export default async function PregnancyModule() {
     setBleedingDays(days);
   }
   return {
-    determenineLastPeriodDateBasedOnPregnancyWeek,
+    determineLastPeriodDateBasedOnPregnancyWeek,
     determinePregnancyWeek,
     remainingDaysToDueDate,
     determineNefasDays,

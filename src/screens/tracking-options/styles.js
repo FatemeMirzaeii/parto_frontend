@@ -12,6 +12,7 @@ export default StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     padding: 10,
+    paddingBottom: 50,
   },
   detailPage: {
     height: 200,

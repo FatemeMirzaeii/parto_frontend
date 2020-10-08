@@ -144,7 +144,7 @@ const Calendar = ({ navigation }) => {
       </View> */}
       <CalendarList
         ref={calendar}
-        jalali={true}
+        jalali
         firstDay={6}
         // hideDayNames={true}
         maxDate={moment().format('YYYY-MM-DD')}

@@ -195,13 +195,13 @@ const TrackingOptions = ({ route, navigation }) => {
           });
         });
       }
-      setDetailPageId(category.id);
-      if (
-        (category.id === BLEEDING && option.id !== SPOTTING) ||
-        category.id === EXCERSICE
-      ) {
-        detailPageRef.current?.setModalVisible();
-      }
+      // setDetailPageId(category.id);
+      // if (
+      //   (category.id === BLEEDING && option.id !== SPOTTING) ||
+      //   category.id === EXCERSICE
+      // ) {
+      //   detailPageRef.current?.setModalVisible();
+      // }
     }
     if (category.id === BLEEDING) {
       c.determineLastPeriodDate();
