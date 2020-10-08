@@ -82,15 +82,25 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
     PROFILE,
   );
 }
-export async function getPregnancyData() {
+export async function getFormerPregnancyData() {
   const res = await db.exec(`SELECT * FROM ${PREGNANCY}`, PREGNANCY);
-  console.log('getpregnancy data', res);
+  console.log('all pregnancy data', res);
+  return res ?? [];
+}
+export async function getActivePregnancyData() {
+  const res = await db.exec(
+    `SELECT * FROM ${PREGNANCY} ORDER BY id DESC LIMIT 1`,
+    PREGNANCY,
+  );
+  console.log('active pregnancy data', res);
   const data = res[0];
   return data ?? [];
 }
-export async function setPregnancyEnd(abortion, dueDate) {
+export async function updatePregnancyData(dueDate, abortion) {
   return await db.exec(
-    `UPDATE ${PREGNANCY} SET abortion=${abortion}, due_date='${dueDate}'`,
+    `UPDATE ${PREGNANCY} SET abortion=${
+      abortion ?? null
+    }, due_date='${dueDate}'`,
     PREGNANCY,
   );
 }
@@ -102,8 +112,8 @@ export async function savePregnancyData(pregnancySchema) {
     ? null
     : `'${pregnancySchema.conceptionDate}'`;
   const res = await db.exec(
-    `INSERT INTO ${PREGNANCY} (due_date, conception_date,user_id) VALUES(
-      ${dueDate},${conceptionDate},1)`,
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date, user_id) VALUES(
+      ${dueDate},${conceptionDate}, 1)`,
     PREGNANCY,
   );
   return res ?? 0;

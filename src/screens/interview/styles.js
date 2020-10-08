@@ -9,7 +9,7 @@ export default StyleSheet.create({
   safeAreaView: {
     backgroundColor: COLOR.bgColor,
     flex: 1,
-    paddingTop:25
+    paddingTop: 25,
   },
   bg: {
     width: '100%',
@@ -55,7 +55,7 @@ export default StyleSheet.create({
     fontSize: SIZE[14],
     textAlign: 'center',
     color: COLOR.textColor,
-    //lineHeight: 30,
+    lineHeight: 30,
   },
   mode: {
     backgroundColor: 'white',
@@ -102,7 +102,7 @@ export default StyleSheet.create({
     fontSize: SIZE[14],
     alignSelf: 'center',
     textAlign: 'center',
-    //lineHeight: 30,
+    lineHeight: 30,
   },
   cont: {
     justifyContent: 'space-evenly',

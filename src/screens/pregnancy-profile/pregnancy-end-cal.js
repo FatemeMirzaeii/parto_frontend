@@ -6,7 +6,7 @@ import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import PregnancyModule from '../../util/pregnancy';
-import { setPregnancyEnd } from '../../util/database/query';
+import { updatePregnancyData } from '../../util/database/query';
 const today = moment();
 
 const PregnancyEndCalendar = ({ route, navigation }) => {
@@ -15,7 +15,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     console.log('params', route.params);
   }, [route.params]);
   const save = async () => {
-    await setPregnancyEnd(route.params.type, selectedDate);
+    await updatePregnancyData(route.params.type, selectedDate);
     const p = await PregnancyModule();
     p.determineNefasDays();
     navigation.popToTop();

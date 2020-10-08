@@ -223,7 +223,9 @@ export default async function CycleModule() {
   }
   async function determinePeriodIntervals() {
     const bdays = await pastBleedingDays();
-    const bleedingdates = bdays.map((d) => d.date).sort((a, b) => b.diff(a));
+    const bleedingdates = bdays
+      ? bdays.map((d) => d.date).sort((a, b) => b.diff(a))
+      : [];
     let intervals = [];
     for (let i = 0; i <= bleedingdates.length; i++) {
       if (!bleedingdates[i + 1]) {

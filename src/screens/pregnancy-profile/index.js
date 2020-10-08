@@ -2,11 +2,15 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
+import moment from 'moment-jalaali';
 import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import pregnancyModule from '../../util/pregnancy';
-import { getPregnancyData, savePregnancyData } from '../../util/database/query';
+import {
+  getActivePregnancyData,
+  updatePregnancyData,
+} from '../../util/database/query';
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 
@@ -22,7 +26,7 @@ const PregnancyProfile = ({ navigation }) => {
           title="ثبت"
           type="clear"
           disabled={!dueDate}
-          onPress={() => save()}
+          onPress={save}
           titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
         />
       ),
@@ -38,20 +42,20 @@ const PregnancyProfile = ({ navigation }) => {
       ),
     });
     const save = () => {
-      savePregnancyData({ dueDate });
+      updatePregnancyData(dueDate);
       navigation.pop();
     };
   }, [dueDate, navigation]);
 
   useEffect(() => {
-    getPregnancyData().then((d) => {
+    getActivePregnancyData().then((d) => {
       setDueDate(d.due_date);
     });
-    setInitialData();
+    setPregnancyAge();
   }, []);
-  const setInitialData = async () => {
+  const setPregnancyAge = async () => {
     const p = await pregnancyModule();
-    setPregnancyWeek(p.determinePregnancyWeek());
+    setPregnancyWeek(p.determinePregnancyWeek()); //todo: should calculate days
   };
 
   return (
@@ -73,26 +77,33 @@ const PregnancyProfile = ({ navigation }) => {
           }
         />
         <PickerListItem
-          DatePicker
           title="تاریخ زایمان"
-          initialDate={dueDate}
-          onDateSelected={setDueDate}
-          rightTitle={{ title: dueDate }}
+          rightTitle={{ title: moment(dueDate).format('jYYYY-jM-jDD') }}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           customComponent={
-            <Calendar jalali firstDay={6} minDate={new Date()} />
+            <Calendar
+              jalali
+              firstDay={6}
+              current={dueDate}
+              minDate={new Date()}
+              hideExtraDays
+              enableSwipeMonths
+              onDayPress={(day) => {
+                setDueDate(day.dateString);
+              }}
+              markedDates={{
+                [dueDate]: { selected: true },
+              }}
+            />
           }
         />
       </Card>
       <Button
-        raised
         title="پایان بارداری"
         onPress={() => navigation.navigate('PregnancyEnd')}
-        type="outline"
         buttonStyle={styles.saveContainer}
         containerStyle={styles.saveButton}
         titleStyle={styles.saveTitle}
-        // icon={{name: 'user'}}
       />
     </ScrollView>
   );
