@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
-import moment from 'moment-jalaali';
+import jalaali from 'moment-jalaali';
 import { FONT, SIZE, COLOR } from '../styles/static';
 import {
   CalendarProvider,
@@ -91,7 +91,7 @@ const WeekCalendar = (props) => {
             <View>
               <View style={styles.header}>
                 <Text style={styles.headerText}>
-                  {moment(date).format('jD jMMMM jYYYY')}
+                  {jalaali(date).format('jD jMMMM jYYYY')}
                 </Text>
                 {/* <Icon
                 name="calendar"

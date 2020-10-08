@@ -8,7 +8,7 @@ import {
   ToastAndroid,
   FlatList,
 } from 'react-native';
-import moment from 'moment-jalaali';
+import moment from 'moment';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';

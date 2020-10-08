@@ -22,9 +22,11 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
       isNaN(selectedWeek) ? 1 : selectedWeek + 1,
       isNaN(selectedDay) ? 0 : selectedDay,
     );
+    const dueDate = p.determineDueDate(lastPeriodDate);
     navigation.navigate('Q5', {
       ...route.params,
       lastPeriodDate,
+      dueDate,
     });
   };
 

@@ -24,8 +24,11 @@ const Home = ({ navigation }) => {
     const pregnant = await pregnancyMode();
     if (pregnant) {
       const p = await PregnancyModule();
+      const pregnancyAge = p.determinePregnancyWeek();
       setText(
-        `شما در هفته ${p.determinePregnancyWeek()} بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate()} روز تا تولد فرزند شما!`,
+        `شما در هفته ${
+          pregnancyAge.week
+        } بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate()} روز تا تولد فرزند شما!`,
       );
     } else {
       const c = await CycleModule();

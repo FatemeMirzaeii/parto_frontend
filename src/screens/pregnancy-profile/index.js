@@ -2,7 +2,7 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
-import moment from 'moment-jalaali';
+import jalaali from 'moment-jalaali';
 import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
@@ -14,7 +14,7 @@ import {
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 
-const PregnancyProfile = ({ navigation }) => {
+const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
   const [pregnancyWeek, setPregnancyWeek] = useState(0);
   const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
@@ -55,7 +55,9 @@ const PregnancyProfile = ({ navigation }) => {
   }, []);
   const setPregnancyAge = async () => {
     const p = await pregnancyModule();
-    setPregnancyWeek(p.determinePregnancyWeek()); //todo: should calculate days
+    const pregnancyAge = p.determinePregnancyWeek();
+    setPregnancyWeek(pregnancyAge.week);
+    setPregnancyWeekDay(pregnancyAge.days);
   };
 
   return (
@@ -78,7 +80,7 @@ const PregnancyProfile = ({ navigation }) => {
         />
         <PickerListItem
           title="تاریخ زایمان"
-          rightTitle={{ title: moment(dueDate).format('jYYYY-jM-jDD') }}
+          rightTitle={{ title: jalaali(dueDate).format('jYYYY / jM / jD') }}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           customComponent={
             <Calendar
@@ -100,7 +102,7 @@ const PregnancyProfile = ({ navigation }) => {
       </Card>
       <Button
         title="پایان بارداری"
-        onPress={() => navigation.navigate('PregnancyEnd')}
+        onPress={() => navigation.navigate('PregnancyEnd', { ...route.params })}
         buttonStyle={styles.saveContainer}
         containerStyle={styles.saveButton}
         titleStyle={styles.saveTitle}

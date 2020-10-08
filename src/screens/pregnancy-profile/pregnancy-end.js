@@ -4,12 +4,12 @@ import { ButtonGroup } from 'react-native-elements';
 import styles from './styles';
 import { COLOR } from '../../styles/static';
 
-const PregnancyEnd = ({ navigation }) => {
+const PregnancyEnd = ({ navigation, route }) => {
   const [selectedIndex, setSelectedIndex] = useState();
 
   const onPress = (i) => {
     setSelectedIndex(i);
-    navigation.navigate('PregnancyEndCalendar', { type: i });
+    navigation.navigate('PregnancyEndCalendar', { ...route.params, type: i });
   };
   return (
     <ImageBackground
@@ -37,7 +37,6 @@ const PregnancyEnd = ({ navigation }) => {
       {/* <Button
         title="بعدی"
         onPress={async () => {
-       
           console.log('pregnancy end', res);
         }}
         buttonStyle={styles.saveContainer}
