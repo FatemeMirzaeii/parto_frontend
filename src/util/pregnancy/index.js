@@ -20,17 +20,17 @@ export default async function PregnancyModule() {
 
   console.log('databse pure data', lp, pdata);
 
-  function determinePregnancyWeek() {
+  function determinePregnancyWeek(date) {
     if (lastPeriodDate) {
-      return pregnancyWeekBasedOnLastPeriodDate();
+      return pregnancyWeekBasedOnLastPeriodDate(date);
     } else if (conceptionDate) {
-      return pregnancyWeekBasedOnConceptionDate();
+      return pregnancyWeekBasedOnConceptionDate(date);
     } else if (dueDate) {
-      return pregnancyWeekBasedOnDueDate();
+      return pregnancyWeekBasedOnDueDate(date);
     }
   }
-  function pregnancyWeekBasedOnLastPeriodDate() {
-    const d = today.diff(lastPeriodDate);
+  function pregnancyWeekBasedOnLastPeriodDate(date) {
+    const d = date.diff(lastPeriodDate);
     const total = moment.duration(d);
     // the result of this is: 5 months, 1 weeks, 5 days.
     // console.log(
@@ -46,16 +46,16 @@ export default async function PregnancyModule() {
       days: total.days() % 7,
     };
   }
-  function pregnancyWeekBasedOnDueDate() {
-    const d = dueDate.diff(today);
+  function pregnancyWeekBasedOnDueDate(date) {
+    const d = dueDate.diff(date);
     const total = moment.duration(d);
     return {
       week: PREGNANCY_WEEKS - Math.floor(total.asWeeks()),
       days: total.days() % 7,
     };
   }
-  function pregnancyWeekBasedOnConceptionDate() {
-    const d = today.diff(conceptionDate);
+  function pregnancyWeekBasedOnConceptionDate(date) {
+    const d = date.diff(conceptionDate);
     const total = moment.duration(d);
     return {
       week: Math.floor(total.asWeeks()) + 2,
@@ -89,13 +89,13 @@ export default async function PregnancyModule() {
       return conceptionDate.add(38, 'weeks').format(FORMAT);
     }
   }
-  function remainingDaysToDueDate() {
+  function remainingDaysToDueDate(date) {
     if (dueDate) {
-      return dueDate.diff(today, 'days');
+      return dueDate.diff(date, 'days');
     } else {
       const due = determineDueDate();
       console.log('due', due);
-      return moment(due).diff(today, 'days');
+      return moment(due).diff(date, 'days');
     }
   }
   function determineNefasDays() {

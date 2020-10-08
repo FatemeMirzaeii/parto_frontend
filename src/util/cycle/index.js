@@ -28,21 +28,21 @@ export default async function CycleModule() {
   const avgCycleLength = pdata.avg_cycle_length;
   const avgPeriodLength = pdata.avg_period_length;
 
-  function periodDayNumber() {
+  function periodDayNumber(date) {
     if (!lastPeriodDate) {
       return;
     }
-    return today.diff(lastPeriodDate, 'days');
+    return Math.abs(date.diff(lastPeriodDate, 'days'));
   }
-  function cycleDayNumber() {
+  function cycleDayNumber(date) {
     if (!lastPeriodDate) {
       return;
     }
-    console.log('cycle day number', today, lastPeriodDate.format(FORMAT));
-    return today.diff(lastPeriodDate, 'days');
+    console.log('cycle day number', date, lastPeriodDate.format(FORMAT));
+    return date.diff(lastPeriodDate, 'days');
   }
-  function determineCyclePhase() {
-    const cycleDayNo = cycleDayNumber();
+  function determineCyclePhase(date) {
+    const cycleDayNo = cycleDayNumber(date);
     console.log(
       'internal cycle phase',
       cycleDayNo,
@@ -50,13 +50,16 @@ export default async function CycleModule() {
       avgCycleLength,
     );
     switch (true) {
+      case cycleDayNo < 0: {
+        return -1;
+      }
       case !cycleDayNo && cycleDayNo !== 0: {
         return 0;
       }
       case cycleDayNo < avgPeriodLength && cycleDayNo >= 0: {
         return 1;
       }
-      case avgPeriodLength < cycleDayNo && cycleDayNo < OVULATION_DAY_NO: {
+      case avgPeriodLength < cycleDayNo && cycleDayNo <= OVULATION_DAY_NO: {
         return 2;
       }
       case (cycleDayNo > OVULATION_DAY_NO && cycleDayNo < avgCycleLength) ||
@@ -70,29 +73,34 @@ export default async function CycleModule() {
         return 'Unknown phase';
     }
   }
-  function determinePhaseText() {
-    const phase = determineCyclePhase();
+  function determinePhaseText(date) {
+    const phase = determineCyclePhase(date);
     console.log('phase', phase);
     switch (phase) {
+      case -1: {
+        return `روز ${Math.abs(cycleDayNumber(date))} دوره قبل`; //todo: should find past cycle first period day.
+      }
       // case 0: {
       //   return 'تاریخ آخرین پریود خود را وارد کنید تا بتوانیم تحلیل درستی از دوره‌هایتان را نمایش دهیم.';
       // }
       case 1: {
-        const dayNo = periodDayNumber();
+        const dayNo = periodDayNumber(date);
         return `روز ${dayNo + 1} پریود`;
       }
       case 2: {
-        const daysTo = remainingDaysToOvulation();
-        return `${daysTo} روز به تخمک گذاری`;
+        const daysTo = remainingDaysToOvulation(date);
+        return daysTo === 0
+          ? 'امروز بالاترین شانس بارداری رو خواهید داشت!'
+          : `${daysTo} روز به تخمک گذاری`;
       }
       case 3: {
-        const daysNo = remainingDaysToNextPeriod();
+        const daysNo = remainingDaysToNextPeriod(date);
         return daysNo === 0
           ? 'امروز روز پریود شماست'
           : `${daysNo} روز به پریود بعدی`;
       }
       case 4: {
-        const days = Math.abs(remainingDaysToNextPeriod());
+        const days = Math.abs(remainingDaysToNextPeriod(date));
         return `${days} روز از زمان پریود شما گذشته است.`;
       }
       default:
@@ -105,12 +113,12 @@ export default async function CycleModule() {
     }
     return moment(pdate).add(avgCycleLength, 'days').format(FORMAT);
   }
-  function remainingDaysToNextPeriod() {
+  function remainingDaysToNextPeriod(date) {
     const pd = nextPeriodDate(lastPeriodDate);
     if (!pd) {
       return;
     }
-    return moment(pd).diff(today, 'days');
+    return moment(pd).diff(date, 'days');
   }
   function nextOvulationDate(pdate) {
     if (!pdate) {
@@ -118,12 +126,12 @@ export default async function CycleModule() {
     }
     return moment(pdate).add(OVULATION_DAY_NO, 'days').format(FORMAT);
   }
-  function remainingDaysToOvulation() {
+  function remainingDaysToOvulation(date) {
     const ov = nextOvulationDate(lastPeriodDate);
     if (!ov) {
       return;
     }
-    return moment(ov).diff(today, 'days');
+    return moment(ov).diff(date, 'days');
   }
   function determineOvulationWindow(pdate) {
     let window = [];

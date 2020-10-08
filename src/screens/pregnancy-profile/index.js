@@ -55,7 +55,7 @@ const PregnancyProfile = ({ navigation, route }) => {
   }, []);
   const setPregnancyAge = async () => {
     const p = await pregnancyModule();
-    const pregnancyAge = p.determinePregnancyWeek();
+    const pregnancyAge = p.determinePregnancyWeek(jalaali());
     setPregnancyWeek(pregnancyAge.week);
     setPregnancyWeekDay(pregnancyAge.days);
   };
