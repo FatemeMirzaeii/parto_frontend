@@ -32,8 +32,7 @@ const UserGoal = ({ navigation }) => {
           {
             text: 'بله',
             onPress: () => {
-              i === 0 ? updateUserStatus(0, 0) : updateUserStatus(0, 1);
-              navigation.navigate('PregnancyProfile');
+              navigation.navigate('PregnancyProfile', { mode: i });
             },
           },
           {

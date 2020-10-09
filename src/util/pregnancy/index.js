@@ -20,25 +20,47 @@ export default async function PregnancyModule() {
 
   console.log('databse pure data', lp, pdata);
 
-  function determinePregnancyWeek() {
+  function determinePregnancyWeek(date) {
     if (lastPeriodDate) {
-      return pregnancyWeekBasedOnLastPeriodDate();
+      return pregnancyWeekBasedOnLastPeriodDate(date);
     } else if (conceptionDate) {
-      return pregnancyWeekBasedOnConceptionDate();
+      return pregnancyWeekBasedOnConceptionDate(date);
     } else if (dueDate) {
-      return pregnancyWeekBasedOnDueDate();
+      return pregnancyWeekBasedOnDueDate(date);
     }
   }
-  function pregnancyWeekBasedOnLastPeriodDate() {
-    const d = today.diff(lastPeriodDate, 'weeks');
-    console.log('weeeek', lastPeriodDate, lp, today, d);
-    return d;
+  function pregnancyWeekBasedOnLastPeriodDate(date) {
+    const d = date.diff(lastPeriodDate);
+    const total = moment.duration(d);
+    // the result of this is: 5 months, 1 weeks, 5 days.
+    // console.log(
+    //   total.months() +
+    //     ' months, ' +
+    //     total.weeks() +
+    //     ' weeks, ' +
+    //     (total.days() % 7) +
+    //     ' days.',
+    // );
+    return {
+      week: Math.floor(total.asWeeks()),
+      days: total.days() % 7,
+    };
   }
-  function pregnancyWeekBasedOnDueDate() {
-    return PREGNANCY_WEEKS - dueDate.diff(today, 'weeks');
+  function pregnancyWeekBasedOnDueDate(date) {
+    const d = dueDate.diff(date);
+    const total = moment.duration(d);
+    return {
+      week: PREGNANCY_WEEKS - Math.floor(total.asWeeks()),
+      days: total.days() % 7,
+    };
   }
-  function pregnancyWeekBasedOnConceptionDate() {
-    return today.diff(conceptionDate, 'weeks') + 2;
+  function pregnancyWeekBasedOnConceptionDate(date) {
+    const d = date.diff(conceptionDate);
+    const total = moment.duration(d);
+    return {
+      week: Math.floor(total.asWeeks()) + 2,
+      days: total.days() % 7,
+    };
   }
   function determineLastPeriodDateBasedOnPregnancyWeek(
     pregnancyWeek,
@@ -57,21 +79,23 @@ export default async function PregnancyModule() {
     console.log('pregnancyDayNumber', d);
     return d;
   }
-  function determineDueDate() {
-    if (lastPeriodDate) {
-      return lastPeriodDate.add(PREGNANCY_WEEKS, 'weeks').format(FORMAT);
+  function determineDueDate(pDate) {
+    if (lastPeriodDate || pDate) {
+      const lastPeriod = lastPeriodDate || pDate;
+      console.log('lastPeriod', lastPeriod, lastPeriodDate, pDate);
+      return moment(lastPeriod).add(PREGNANCY_WEEKS, 'weeks').format(FORMAT);
     }
     if (conceptionDate) {
       return conceptionDate.add(38, 'weeks').format(FORMAT);
     }
   }
-  function remainingDaysToDueDate() {
+  function remainingDaysToDueDate(date) {
     if (dueDate) {
-      return dueDate.diff(today, 'days');
+      return dueDate.diff(date, 'days');
     } else {
       const due = determineDueDate();
       console.log('due', due);
-      return moment(due).diff(today, 'days');
+      return moment(due).diff(date, 'days');
     }
   }
   function determineNefasDays() {

@@ -12,6 +12,7 @@ import { COLOR } from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
   const [text, setText] = useState('');
+  const [date, setDate] = useState(today);
   useEffect(() => {
     navigation.addListener('focus', async () => {
       determineMode();
@@ -19,17 +20,22 @@ const Home = ({ navigation }) => {
   }, [navigation]);
   useEffect(() => {
     determineMode();
-  }, []);
+  }, [date]);
   const determineMode = async () => {
     const pregnant = await pregnancyMode();
     if (pregnant) {
       const p = await PregnancyModule();
+      const pregnancyAge = p.determinePregnancyWeek(date);
       setText(
-        `شما در هفته ${p.determinePregnancyWeek()} بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate()} روز تا تولد فرزند شما!`,
+        `شما در هفته ${
+          pregnancyAge.week
+        } بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate(
+          date,
+        )} روز تا تولد فرزند شما!`,
       );
     } else {
       const c = await CycleModule();
-      setText(c.determinePhaseText(today));
+      setText(c.determinePhaseText(date));
     }
   };
   const renderText = () => {
@@ -79,9 +85,10 @@ const Home = ({ navigation }) => {
             calendarBackground: '#B9B2CD',
           }}
           showTodayButton
-          // onDateChanged={(d, propUpdate) =>
-          //   navigation.navigate('TrackingOptions', { day: d })
-          // }
+          onDateChanged={(d, propUpdate) =>
+            // navigation.navigate('TrackingOptions', { day: d })
+            setDate(moment(d))
+          }
         />
         {renderText()}
         {/* <ImageBackground

@@ -7,8 +7,6 @@ import {
   Text,
 } from 'react-native';
 import styles from './styles';
-import Ptxt from '../../components/Ptxt';
-import { HEIGHT } from '../../styles/static';
 
 const Interview = (props) => {
   return (
@@ -20,7 +18,7 @@ const Interview = (props) => {
           <Text style={styles.question}>
             دوست عزیز پرتو خوش آمدی!
             {'\n'}
-            به ما بگو در کدوم یکی از موارد زیر میتونیم به شما کمک کنیم:
+            به ما بگو در کدوم یکی از موارد زیر می‌تونیم به شما کمک کنیم:
           </Text>
           <View style={styles.btnGroup}>
             <TouchableOpacity

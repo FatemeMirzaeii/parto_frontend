@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
+import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
-const moment = require('moment');
 const today = moment();
 
 const Pregnancy_Q4 = ({ route, navigation }) => {
@@ -42,6 +42,11 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
           onDayPress={(day) => {
             setSelectedDate(day.dateString);
           }}
+          markedDates={{
+            [selectedDate]: { selected: true },
+          }}
+          markingType="multi-period"
+          style={styles.calendar}
           minDate={
             route.params.type === 'dueDate' ? today.format('YYYY-MM-DD') : null
           }
@@ -63,11 +68,6 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
             arrowColor: COLOR.currentPage,
             todayTextColor: COLOR.currentPage,
           }}
-          markedDates={{
-            [selectedDate]: { selected: true },
-          }}
-          markingType="multi-period"
-          style={styles.calendar}
         />
         <View>
           {/* <Button
@@ -84,7 +84,7 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
               type="solid"
-              onPress={() => onNextPress()}
+              onPress={onNextPress}
             />
             <Button
               title="قبلی"

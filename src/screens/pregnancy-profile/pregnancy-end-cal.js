@@ -6,7 +6,10 @@ import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import PregnancyModule from '../../util/pregnancy';
-import { updatePregnancyData } from '../../util/database/query';
+import {
+  updatePregnancyData,
+  updateUserStatus,
+} from '../../util/database/query';
 const today = moment();
 
 const PregnancyEndCalendar = ({ route, navigation }) => {
@@ -18,6 +21,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     await updatePregnancyData(route.params.type, selectedDate);
     const p = await PregnancyModule();
     p.determineNefasDays();
+    route.params.mode === 0 ? updateUserStatus(0, 0) : updateUserStatus(0, 1);
     navigation.popToTop();
   };
 
@@ -41,6 +45,10 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
         onDayPress={(day) => {
           setSelectedDate(day.dateString);
         }}
+        markedDates={{
+          [selectedDate]: { selected: true },
+        }}
+        markingType="multi-period"
         maxDate={today.format('YYYY-MM-DD')}
         disableAllTouchEventsForDisabledDays
         hideExtraDays
@@ -57,10 +65,6 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
           arrowColor: COLOR.currentPage,
           todayTextColor: COLOR.currentPage,
         }}
-        markedDates={{
-          [selectedDate]: { selected: true },
-        }}
-        markingType="multi-period"
         style={styles.calendar}
       />
       <Button
