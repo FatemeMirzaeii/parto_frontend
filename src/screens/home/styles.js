@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { SIZE, FONT, HEIGHT, COLOR } from '../../styles/static';
+import { SIZE, FONT, HEIGHT, COLOR, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -13,46 +13,30 @@ export default StyleSheet.create({
     height: '65%',
     top: 5,
   },
-  text: {
-    alignSelf: 'center',
-    color: '#121C3D',
-    fontSize: SIZE[24],
-    fontFamily: FONT.medium,
-    marginBottom: 10,
-  },
-  text2: {
-    alignSelf: 'center',
-    color: '#002A7D',
-    fontSize: SIZE[14],
-    fontFamily: FONT.light,
-  },
   moonText: {
-    flexDirection: 'row',
-    top: HEIGHT / 1.5,
-    // justifyContent: 'space-between',
-    justifyContent: 'space-between',
-    // alignItems: 'center',
-    // backgroundColor: COLOR.white,
-    // borderRadius: 40,
-    // padding: 15,
-    // alignSelf: 'center',
-    right: 50,
-    position: 'absolute',
+    flexDirection: 'row-reverse',
+    top: -HEIGHT / 10,
+    right: WIDTH / 10,
+    // backgroundColor: 'red',
   },
-  numtxt: {
+  sentenceContainer: { top: -7, marginRight: 10 },
+  mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[27],
-    color: '#121C3D',
-    textAlign: 'center',
-    //marginTop: HEIGHT / 20,
-    alignSelf: 'center',
+    fontSize: SIZE[17],
+    color: COLOR.black,
+    // backgroundColor: 'green',
   },
-  phasetxt: {
-    fontSize: SIZE[14],
-    color: '#121C3D',
-    textAlign: 'right',
-    lineHeight: 25,
-    //marginTop: HEIGHT / 20,
-    // alignSelf: 'center',
+  subSentence: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[15],
+    color: COLOR.black,
+    lineHeight: 50,
+    // backgroundColor: 'purple',
+  },
+  calendarIcon: {
+    top: 40,
+    zIndex: 10,
+    alignItems: 'flex-start',
+    paddingLeft: 20,
   },
 });
