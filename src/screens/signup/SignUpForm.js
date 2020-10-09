@@ -7,7 +7,7 @@ import DataBase from '../../util/database';
 import styles from './styles';
 import { api } from '../../services/api';
 import { storeData } from '../../util/func';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts';
 const db = new DataBase();
 
 const SignUpForm = (props) => {

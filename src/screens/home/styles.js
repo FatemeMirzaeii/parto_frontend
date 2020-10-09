@@ -15,7 +15,7 @@ export default StyleSheet.create({
   },
   moonText: {
     flexDirection: 'row-reverse',
-    top: -HEIGHT / 10,
+    top: -HEIGHT / 7,
     right: WIDTH / 10,
     // backgroundColor: 'red',
   },

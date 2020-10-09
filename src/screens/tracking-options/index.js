@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useCallback, createRef } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useCallback,
+  createRef,
+  useContext,
+} from 'react';
 import {
   TouchableOpacity,
   SafeAreaView,
@@ -35,6 +41,7 @@ import {
   MORE_ABOUT_EXCERSICE,
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
+import { DateContext } from '../../contexts';
 import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 
@@ -42,8 +49,8 @@ const db = new Database();
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route, navigation }) => {
-  const { day } = route.params;
-  const [date, setDate] = useState(day);
+  const { today } = useContext(DateContext);
+  const [date, setDate] = useState(route.params ? route.params.day : today);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
@@ -260,7 +267,7 @@ const TrackingOptions = ({ route, navigation }) => {
           theme={{
             calendarBackground: COLOR.lightPink,
           }}
-          current={day}
+          current={today}
           maxDate={moment().format('YYYY-MM-DD')}
           navigation={navigation}
           onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}

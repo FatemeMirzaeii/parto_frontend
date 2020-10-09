@@ -6,7 +6,7 @@ import * as yup from 'yup';
 import styles from './styles';
 import { api } from '../../services/api';
 import { storeData } from '../../util/func';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts';
 import Ptxt from '../../components/Ptxt';
 
 const LoginForm = (props) => {

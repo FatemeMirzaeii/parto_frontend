@@ -6,9 +6,9 @@ import Ruler from '../../components/Ruler';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
 import styles from './styles';
-import { Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { pregnancyMode } from '../../util/database/query';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT, SIZE } from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
@@ -78,20 +78,25 @@ const Home = ({ navigation }) => {
           <Ruler />
           {renderText()}
         </View>
-        <Icon
-          raised
-          name="plus"
-          type="font-awesome"
-          color={COLOR.btn}
-          size={25}
+        <Button
+          title="ثبت پریود"
+          type="outline"
           containerStyle={{
-            left: 15,
+            height: 25,
+            width: 100,
+            borderRadius: 40,
             bottom: 65,
+            left: 15,
+            justifyContent: 'center',
+            backgroundColor: COLOR.btn,
+          }}
+          titleStyle={{
+            fontFamily: FONT.regular,
+            color: COLOR.white,
+            fontSize: SIZE[15],
           }}
           onPress={() => {
-            navigation.navigate('TrackingOptions', {
-              day: today.format('YYYY-MM-DD'),
-            });
+            navigation.navigate('TrackingOptions');
           }}
         />
       </ImageBackground>

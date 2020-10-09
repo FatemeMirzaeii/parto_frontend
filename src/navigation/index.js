@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useMemo, useState } from 'react';
-import { AuthContext } from '../contexts/AuthContext';
+import { AuthContext } from '../contexts';
 import { getData, removeData } from '../util/func';
 import Splash from '../screens/splash';
 import TabNavigator from './TabNavigator';
