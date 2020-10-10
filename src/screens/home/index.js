@@ -1,60 +1,52 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ImageBackground } from 'react-native';
+import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
+import Ruler from '../../components/Ruler';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
-import Ptxt from '../../components/Ptxt';
 import styles from './styles';
-import { Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { pregnancyMode } from '../../util/database/query';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT, SIZE } from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
-  const [text, setText] = useState('');
+  const [mainSentence, setMainSentence] = useState('');
+  const [subSentence, setSubSentence] = useState('');
   const [date, setDate] = useState(today);
+
   useEffect(() => {
     navigation.addListener('focus', async () => {
       determineMode();
     });
   }, [navigation]);
+
   useEffect(() => {
     determineMode();
   }, [date]);
+
   const determineMode = async () => {
     const pregnant = await pregnancyMode();
     if (pregnant) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(date);
-      setText(
-        `شما در هفته ${
-          pregnancyAge.week
-        } بارداری هستید. ${'\n'} ${p.remainingDaysToDueDate(
-          date,
-        )} روز تا تولد فرزند شما!`,
+      setMainSentence(`شما در هفته ${pregnancyAge.week} بارداری هستید.`);
+      setSubSentence(
+        `${p.remainingDaysToDueDate(date)} روز تا تولد فرزند شما!`,
       );
     } else {
       const c = await CycleModule();
-      setText(c.determinePhaseText(date));
+      const s = c.determinePhaseSentence(date);
+      setMainSentence(s.mainSentence);
+      setSubSentence(s.subSentence);
     }
   };
+
   const renderText = () => {
     return (
-      <View style={styles.moonText}>
-        {/* <Ptxt style={styles.numtxt}>
-          {jalaali().format('jD jMMMM')}
-          {'\n'}
-        </Ptxt> */}
-        <Ptxt style={styles.phasetxt}>{text}</Ptxt>
-        <View
-          style={{
-            backgroundColor: 'white',
-            margin: 10,
-            width: 15,
-            height: 15,
-            borderRadius: 50,
-          }}
-        />
+      <View style={styles.sentenceContainer}>
+        <Text style={styles.mainSentence}>{mainSentence}</Text>
+        <Text style={styles.subSentence}>{subSentence}</Text>
       </View>
     );
   };
@@ -69,12 +61,7 @@ const Home = ({ navigation }) => {
           type="evilicon"
           size={35}
           color={COLOR.black}
-          containerStyle={{
-            top: 40,
-            zIndex: 10,
-            alignItems: 'flex-start',
-            paddingLeft: 20,
-          }}
+          containerStyle={styles.calendarIcon}
           onPress={() => {
             navigation.navigate('Calendar');
           }}
@@ -85,31 +72,31 @@ const Home = ({ navigation }) => {
             calendarBackground: '#B9B2CD',
           }}
           showTodayButton
-          onDateChanged={(d, propUpdate) =>
-            // navigation.navigate('TrackingOptions', { day: d })
-            setDate(moment(d))
-          }
+          onDateChanged={(d, propUpdate) => setDate(moment(d))}
         />
-        {renderText()}
-        {/* <ImageBackground
-          source={require('../../../assets/images/moon7.png')}
-          style={styles.moon}>
+        <View style={styles.moonText}>
+          <Ruler />
           {renderText()}
-        </ImageBackground> */}
-        <Icon
-          raised
-          name="plus"
-          type="font-awesome"
-          color={COLOR.btn}
-          size={25}
+        </View>
+        <Button
+          title="ثبت پریود"
+          type="outline"
           containerStyle={{
-            left: 15,
+            height: 25,
+            width: 100,
+            borderRadius: 40,
             bottom: 65,
+            left: 15,
+            justifyContent: 'center',
+            backgroundColor: COLOR.btn,
+          }}
+          titleStyle={{
+            fontFamily: FONT.regular,
+            color: COLOR.white,
+            fontSize: SIZE[15],
           }}
           onPress={() => {
-            navigation.navigate('TrackingOptions', {
-              day: today.format('YYYY-MM-DD'),
-            });
+            navigation.navigate('TrackingOptions');
           }}
         />
       </ImageBackground>

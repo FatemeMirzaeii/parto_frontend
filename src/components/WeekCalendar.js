@@ -138,8 +138,8 @@ const styles = StyleSheet.create({
   headerText: { fontFamily: FONT.bold, fontSize: SIZE[15] },
   today: {
     alignSelf: 'flex-end',
-    height: 60,
-    width: 60,
+    height: 25,
+    width: 100,
     borderRadius: 40,
   },
 });

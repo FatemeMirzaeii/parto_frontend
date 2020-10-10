@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
-// import { AuthContext } from '../../contexts/AuthContext';
+// import { AuthContext } from '../../contexts';
 import TouchID from 'react-native-touch-id';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';

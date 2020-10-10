@@ -5,7 +5,7 @@ import { storeData } from '../../util/func';
 import { saveProfileData, savePregnancyData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
-import { AuthContext } from '../../contexts/AuthContext';
+import { AuthContext } from '../../contexts';
 import styles from './styles';
 
 const Q5 = ({ route, navigation }) => {

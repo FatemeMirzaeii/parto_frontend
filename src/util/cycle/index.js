@@ -73,35 +73,46 @@ export default async function CycleModule() {
         return 'Unknown phase';
     }
   }
-  function determinePhaseText(date) {
+  function determinePhaseSentence(date) {
     const phase = determineCyclePhase(date);
     console.log('phase', phase);
     switch (phase) {
       case -1: {
-        return `روز ${Math.abs(cycleDayNumber(date))} دوره قبل`; //todo: should find past cycle first period day.
+        return { mainSentence: 'دوره قبل' }; //todo: should find past cycle first period day.
       }
       // case 0: {
       //   return 'تاریخ آخرین پریود خود را وارد کنید تا بتوانیم تحلیل درستی از دوره‌هایتان را نمایش دهیم.';
       // }
       case 1: {
         const dayNo = periodDayNumber(date);
-        return `روز ${dayNo + 1} پریود`;
+        return {
+          mainSentence: `روز ${dayNo + 1} پریود`,
+          subSentence: 'کمترین احتمال بارداری',
+        };
       }
       case 2: {
         const daysTo = remainingDaysToOvulation(date);
-        return daysTo === 0
-          ? 'امروز بالاترین شانس بارداری رو خواهید داشت!'
-          : `${daysTo} روز به تخمک گذاری`;
+        return {
+          mainSentence:
+            daysTo === 0
+              ? 'امروز بالاترین شانس بارداری رو خواهید داشت!'
+              : `${daysTo} روز به تخمک گذاری`,
+          subSentence: 'احتمال بارداری',
+        };
       }
       case 3: {
         const daysNo = remainingDaysToNextPeriod(date);
-        return daysNo === 0
-          ? 'امروز روز پریود شماست'
-          : `${daysNo} روز به پریود بعدی`;
+        return {
+          mainSentence:
+            daysNo === 0
+              ? 'امروز روز پریود شماست'
+              : `${daysNo} روز به پریود بعدی`,
+          subSentence: 'کمترین احتمال بارداری',
+        };
       }
       case 4: {
         const days = Math.abs(remainingDaysToNextPeriod(date));
-        return `${days} روز از زمان پریود شما گذشته است.`;
+        return { mainSentence: `${days} روز از زمان پریود شما گذشته است.` };
       }
       default:
         return 'دوره ماهانه در یک نگاه';
@@ -314,7 +325,7 @@ export default async function CycleModule() {
     return allDays;
   }
   return {
-    determinePhaseText,
+    determinePhaseSentence,
     perdictedPeriodDaysInCurrentYear,
     perdictedOvulationDaysInCurrentYear,
     pastBleedingDays,
