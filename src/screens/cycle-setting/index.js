@@ -62,7 +62,7 @@ const CycleSetting = ({ navigation }) => {
           <PickerListItem
             title="طول روزهای خونریزی"
             range={{ min: 3, max: 10 }}
-            selectedItem={periodLength}
+            selectedItem={periodLength ?? '7'}
             onItemSelected={setPeriodLength}
             rightTitle={{ title: periodLength, suffix: 'روز' }}
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}
@@ -70,7 +70,7 @@ const CycleSetting = ({ navigation }) => {
           <PickerListItem
             title="طول چرخه قاعدگی"
             range={{ min: 15, max: 50 }}
-            selectedItem={cycleLength}
+            selectedItem={cycleLength ?? '28'}
             onItemSelected={setCycleLength}
             rightTitle={{ title: cycleLength, suffix: 'روز' }}
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}

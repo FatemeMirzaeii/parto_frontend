@@ -267,9 +267,9 @@ const TrackingOptions = ({ route, navigation }) => {
           theme={{
             calendarBackground: COLOR.lightPink,
           }}
-          current={today}
+          // current={today}
           maxDate={moment().format('YYYY-MM-DD')}
-          navigation={navigation}
+          // navigation={navigation}
           onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
         />
 
@@ -286,17 +286,19 @@ const TrackingOptions = ({ route, navigation }) => {
         />
       </ScrollView>
       <Overlay isVisible={visible}>
-        <Icon
-          type="antdesign"
-          name="close"
-          color="red"
-          size={20}
-          onPress={toggleOverlay}
-          containerStyle={{ alignItems: 'flex-start' }}
-        />
-        <ScrollView style={{ margin: 5 }}>
-          <Ptext style={{ fontSize: 14 }}>{overlayText}</Ptext>
-        </ScrollView>
+        <>
+          <Icon
+            type="antdesign"
+            name="close"
+            color="red"
+            size={20}
+            onPress={toggleOverlay}
+            containerStyle={{ alignItems: 'flex-start' }}
+          />
+          <ScrollView style={{ margin: 5 }}>
+            <Ptext style={{ fontSize: 14 }}>{overlayText}</Ptext>
+          </ScrollView>
+        </>
       </Overlay>
       <ActionSheet
         ref={detailPageRef}

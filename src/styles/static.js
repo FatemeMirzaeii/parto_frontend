@@ -52,6 +52,7 @@ export const SIZE = {
   15: Math.round(_size / 8),
   14: Math.round(_size / 9),
   12: Math.round(_size / 10),
+  11: Math.round(_size / 11),
   10: Math.round(_size / 12),
   7: Math.round(_size / 15),
   5: Math.round(_size / 24),
