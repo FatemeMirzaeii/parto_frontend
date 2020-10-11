@@ -165,11 +165,22 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     fontWeight: 'normal',
     margin:7,
-    //padding:5,
     fontSize:16,
-   // backgroundColor:'red'
    lineHeight:35
     
+  },
+  logosWrapper:{
+    width:'80%',
+    flexDirection:'row',
+    justifyContent:'space-evenly',
+    alignItems:'center',
+    alignSelf:'center',
+    paddingBottom:50,
+  },
+  img:{
+    width:90,
+    height:90,
+    borderRadius:20,
   },
   HTML: { width: '100%' },
   contentContiner: {
