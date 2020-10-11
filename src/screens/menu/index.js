@@ -139,7 +139,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() =>
-            shareContent(
+            shareContent('لینک دانلود اپلیکیشن پرتو (سلامت بانوان):'+'\n'+
               'https://play.google.com/store/apps/details?id=ir.parto.parto',
             )
           }

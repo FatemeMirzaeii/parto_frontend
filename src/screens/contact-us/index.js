@@ -50,6 +50,26 @@ const ContactUs = ({ navigation }) => {
           color={COLOR.btn}
           onPress={() => Linking.openURL('http://google.com')}
         /> */}
+          <Icon
+          reverse
+          size={25}
+          name="bale"
+          type="Bale"
+          color={COLOR.btn}
+          onPress={() =>
+            Linking.openURL('https://ble.ir/partobanoo')
+          }
+        />
+         <Icon
+          reverse
+          size={25}
+          name="linkedin"
+          type="entypo"
+          color={COLOR.btn}
+          onPress={() =>
+            Linking.openURL('https://eitaa.com/partobanoo')
+          }
+        />
         <Icon
           reverse
           size={25}
