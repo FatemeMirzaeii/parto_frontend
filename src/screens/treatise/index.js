@@ -120,6 +120,33 @@ const Treatise = ({ navigation }) => {
           <Error message={serverError} />
         
       )} */}
+      <View style={styles.iconContainer}>
+      <IconElement
+          reverse
+          size={25}
+          name="call"
+          type="MaterialIcons"
+          color={COLOR.btn}
+          onPress={() => Linking.openURL(`tel:${'+985132020'}`)}
+        />
+         <IconElement
+          reverse
+          size={25}
+          type="FontAwesome5" 
+          name="sms"
+          color={COLOR.btn}
+          onPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
+        />
+         <IconElement
+          reverse
+          size={25}
+          type="MaterialIcons"
+          name="help"
+          color={COLOR.btn}
+          style={{elevation:6}}
+          onPress={() => navigation.navigate('TreatiseHelp')}
+        />
+      </View>
       <View style={styles.main}>
         {isLoading ? (
           <Loader />
@@ -162,13 +189,13 @@ const Treatise = ({ navigation }) => {
             )}
           </>
         )}
-        <FloatingAction
+        {/* <FloatingAction
           actions={actions}
           color={COLOR.btn}
           //overlayColor={COLOR.lightPink}
           buttonSize={50}
           onPressItem={_onPressFloatingActionItem}
-        />
+        /> */}
       </View>
     </SafeAreaView>
   );
@@ -193,9 +220,10 @@ const styles = StyleSheet.create({
     width: '90%',
     // height:'50%',
     padding: '5%',
-    borderTopLeftRadius: 20,
-    borderBottomRightRadius: 20,
+    // borderTopLeftRadius: 20,
+    // borderBottomRightRadius: 20,
     margin: 5,
+    borderRadius:15  
   },
   buttonContent: {
     flex: 1,
@@ -216,6 +244,17 @@ const styles = StyleSheet.create({
     fontSize: 20,
     height: 22,
     color: 'white',
+  },
+  iconContainer: {
+    width:'65%',
+    //backgroundColor:'red',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    alignSelf:'center',
+    flexDirection: 'row',
+   // padding:10,
+    paddingTop:20
+
   },
 });
 

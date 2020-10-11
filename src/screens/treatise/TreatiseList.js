@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
+  View
 } from 'react-native';
 import { Icon as IconElement } from 'react-native-elements';
 import EmptyList from '../../components/EmptyList';
@@ -112,8 +113,8 @@ const TreatiseList = ({ route, navigation }) => {
         <Loader />
       ) : (
         <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
-          <ImageBackground
-            source={require('../../../assets/images/start/4.png')}
+          <View
+            // source={require('../../../assets/images/start/4.png')}
             style={{ flex: 1 }}>
             <FlatList
               data={data}
@@ -134,7 +135,7 @@ const TreatiseList = ({ route, navigation }) => {
                 </TouchableOpacity>
               )}
             />
-          </ImageBackground>
+          </View>
         </SafeAreaView>
       )}
     </>
