@@ -98,8 +98,8 @@ const ContactUs = ({ navigation }) => {
           bottomDivider
         />
         <ListItem
-          title="info@partobanoo.com"
-          onPress={() => Linking.openURL('mailto:info@partobanoo.com')}
+          title="info@parto.email"
+          onPress={() => Linking.openURL('mailto:info@parto.email')}
           leftIcon={{ name: 'envelope-open', type: 'font-awesome' }}
           titleStyle={styles.title}
           bottomDivider
