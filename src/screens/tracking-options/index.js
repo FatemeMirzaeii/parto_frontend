@@ -21,8 +21,8 @@ import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
 import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
-import Ptext from '../../components/Ptxt';
 import styles from './styles';
+import commonStyles from '../../styles/commonStyles'
 import { COLOR, WIDTH } from '../../styles/static';
 import {
   BLEEDING,
@@ -274,7 +274,7 @@ const TrackingOptions = ({ route, navigation }) => {
         />
 
         <Text style={styles.descriptionTxt}>
-          لطفا ورق بزن و نشانه‌هایی که داری رو انتخاب کن.
+          لطفا ورق بزن و نشانه‌هایی که داری رو انتخاب کن:
         </Text>
         <Carousel
           layout={'default'}
@@ -296,7 +296,7 @@ const TrackingOptions = ({ route, navigation }) => {
             containerStyle={{ alignItems: 'flex-start' }}
           />
           <ScrollView style={{ margin: 5 }}>
-            <Ptext style={{ fontSize: 14 }}>{overlayText}</Ptext>
+            <Text style={commonStyles.helpTxt}>{overlayText}</Text>
           </ScrollView>
         </>
       </Overlay>

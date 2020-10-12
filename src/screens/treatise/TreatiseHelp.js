@@ -3,6 +3,7 @@ import { SafeAreaView, ScrollView, Text,View,Image } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { HELP_TEXT } from '../../constants/treatise';
 import { COLOR } from '../../styles/static';
+import commonStyles from '../../styles/commonStyles'
 import styles from './styles';
 
 const TreatiseHelp = ({ navigation }) => {
@@ -26,7 +27,7 @@ const TreatiseHelp = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView style={styles.contentContiner}>
-        <Text style={styles.helpTxt}>{HELP_TEXT}</Text>
+        <Text style={commonStyles.helpTxt}>{HELP_TEXT}</Text>
       <View style={styles.logosWrapper}> 
       <Image
         style={styles.img}

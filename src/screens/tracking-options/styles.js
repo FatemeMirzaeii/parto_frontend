@@ -84,4 +84,5 @@ export default StyleSheet.create({
     width: 50,
     fontFamily: FONT.regular,
   },
+
 });

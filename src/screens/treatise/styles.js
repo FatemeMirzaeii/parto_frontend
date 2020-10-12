@@ -160,15 +160,6 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
   },
-  helpTxt: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin:7,
-    fontSize:16,
-   lineHeight:35
-    
-  },
   logosWrapper:{
     width:'80%',
     flexDirection:'row',
