@@ -84,10 +84,10 @@ const TabNavigator = () => {
                 {...props}
                 raised
                 name="plus"
-                type="font-awesome"
+                type="octicon"
                 color={COLOR.btn}
                 size={25}
-                containerStyle={{ bottom: 35 }}
+                containerStyle={{ bottom: 35,borderColor:'#aaa', borderWidth:0.2 }}
               />
             ),
           }}
