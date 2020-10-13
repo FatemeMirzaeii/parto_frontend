@@ -13,7 +13,7 @@ const Ratings = () => {
     const getAnswer = () => {
       axios({
         method: 'post',
-        url: `https://api.partobanoo.com/survay/surveyQuestion/fa`,
+        url: `https://api.parto.app/survay/surveyQuestion/fa`,
         data: {
           IMEi: '123456789123456',
         },
