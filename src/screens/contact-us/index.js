@@ -1,11 +1,11 @@
 import React, { useLayoutEffect } from 'react';
 import { View, Image, Linking, Text } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
-import { TouchableHighlight } from 'react-native-gesture-handler';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const ContactUs = ({ navigation }) => {
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'ارتباط با پرتو',
@@ -63,8 +63,8 @@ const ContactUs = ({ navigation }) => {
          <Icon
           reverse
           size={25}
-          name="linkedin"
-          type="entypo"
+          name="eita"
+          type="Eita"
           color={COLOR.btn}
           onPress={() =>
             Linking.openURL('https://eitaa.com/partobanoo')
@@ -73,8 +73,8 @@ const ContactUs = ({ navigation }) => {
         <Icon
           reverse
           size={25}
-          name="linkedin"
-          type="entypo"
+          name="linkedin-square"
+          type="font-awesome"
           color={COLOR.btn}
           onPress={() =>
             Linking.openURL('https://www.linkedin.com/company/partoapp')
