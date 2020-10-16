@@ -72,18 +72,19 @@ const WeekCalendar = (props) => {
 
   return (
     <CalendarProvider
-      jalali={true}
+      jalali
       date={props.current ?? today}
       onDateChanged={props.onDateChanged}
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
       <ExpandableCalendar
-        jalali={true}
+        jalali
         firstDay={6}
         disablePan
         hideKnob
         hideArrows
         maxDate={props.maxDate}
+        disableAllTouchEventsForDisabledDays
         markedDates={markedDates}
         markingType="multi-dot"
         renderHeader={(date) => {
@@ -109,11 +110,15 @@ const WeekCalendar = (props) => {
         theme={{
           ...props.theme,
           ...{
-            textSectionTitleColor: '#111111',
+            textSectionTitleColor: COLOR.black,
+            todayTextColor: COLOR.white,
             textDayFontFamily: FONT.regular,
-            textMonthFontFamily: FONT.bold,
-            textDayHeaderFontFamily: FONT.medium,
-            textDayHeaderFontSize: 8.7,
+            selectedDayBackgroundColor: COLOR.currentPage,
+            'stylesheet.calendar.header': {
+              dayHeader: {
+                fontFamily: FONT.regular,
+              },
+            },
           },
         }}
         style={[props.style, styles.calendar]}
@@ -141,6 +146,7 @@ const styles = StyleSheet.create({
     height: 25,
     width: 100,
     borderRadius: 40,
+    color: 'red',
   },
 });
 export default WeekCalendar;

@@ -9,11 +9,12 @@ import Analysis from '../screens/analysis';
 import TrackingOptions from '../screens/tracking-options';
 import { DateContext } from '../contexts';
 import { COLOR, FONT, SIZE } from '../styles/static';
+import { FORMAT } from '../constants/cycle';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   return (
-    <DateContext.Provider value={{ today: moment() }}>
+    <DateContext.Provider value={{ today: moment().format(FORMAT) }}>
       <Tab.Navigator
         initialRouteName="Home"
         screenOptions={({ route }) => ({

@@ -5,6 +5,7 @@ import { Calendar } from 'react-native-jalali-calendars';
 import { Button } from 'react-native-elements';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
+import { FORMAT } from '../../constants/cycle';
 const today = moment();
 
 const Q2 = ({ route, navigation }) => {
@@ -42,13 +43,13 @@ const Q2 = ({ route, navigation }) => {
           onDayPress={(day) => {
             setLastPeriodDate(day.dateString);
           }}
-          maxDate={today.format('YYYY-MM-DD')}
-          disableAllTouchEventsForDisabledDays={true}
-          hideExtraDays={true}
+          maxDate={today.format(FORMAT)}
+          disableAllTouchEventsForDisabledDays
+          hideExtraDays
           theme={{
-            textSectionTitleColor: '#111111',
+            textSectionTitleColor: COLOR.black,
             calendarBackground: 'transparent',
-            selectedDayTextColor: '#ffffff',
+            selectedDayTextColor: COLOR.white,
             textDisabledColor: COLOR.nextPage,
             textDayFontFamily: FONT.regular,
             textMonthFontFamily: FONT.regular,
@@ -69,7 +70,7 @@ const Q2 = ({ route, navigation }) => {
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}
             type="clear"
-            onPress={() => onForgotPress()}
+            onPress={onForgotPress}
           />
           <View style={styles.buttons}>
             <Button
@@ -79,7 +80,7 @@ const Q2 = ({ route, navigation }) => {
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
               type="solid"
-              onPress={() => onNextPress()}
+              onPress={onNextPress}
             />
             <Button
               title="قبلی"

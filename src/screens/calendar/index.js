@@ -147,8 +147,8 @@ const Calendar = ({ navigation }) => {
         futureScrollRange={12}
         markedDates={markedDates}
         markingType="multi-period"
-        onDayPress={(day) => onDayPress(day)}
-        onDayLongPress={(dsy) => console.log('day long press', dsy)}
+        onDayPress={onDayPress}
+        onDayLongPress={(day) => console.log('day long press', day)}
         calendarHeight={400}
         dayComponent={
           editMode
@@ -223,9 +223,6 @@ const Calendar = ({ navigation }) => {
               color: COLOR.currentPage,
               fontWeight: '900',
             },
-            // text: {
-            //   color: 'yellow',
-            // },
           },
         }}
       />

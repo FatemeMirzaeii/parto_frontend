@@ -5,6 +5,7 @@ import { Calendar } from 'react-native-jalali-calendars';
 import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
+import { FORMAT } from '../../constants/cycle';
 const today = moment();
 
 const Pregnancy_Q4 = ({ route, navigation }) => {
@@ -48,18 +49,18 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
           markingType="multi-period"
           style={styles.calendar}
           minDate={
-            route.params.type === 'dueDate' ? today.format('YYYY-MM-DD') : null
+            route.params.type === 'dueDate' ? today.format(FORMAT) : null
           }
           maxDate={
-            route.params.type !== 'dueDate' ? today.format('YYYY-MM-DD') : null
+            route.params.type !== 'dueDate' ? today.format(FORMAT) : null
           }
-          disableAllTouchEventsForDisabledDays={true}
-          hideExtraDays={true}
+          disableAllTouchEventsForDisabledDays
+          hideExtraDays
           theme={{
-            textSectionTitleColor: '#111111',
+            textSectionTitleColor: COLOR.black,
             calendarBackground: 'transparent',
-            selectedDayTextColor: '#ffffff',
-            textDisabledColor: COLOR.nextPage,
+            selectedDayTextColor: COLOR.white,
+            textDisabledColor: COLOR.textColor,
             textDayFontFamily: FONT.regular,
             textMonthFontFamily: FONT.regular,
             textDayHeaderFontFamily: FONT.regular,

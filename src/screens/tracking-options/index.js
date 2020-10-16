@@ -22,7 +22,7 @@ import { SvgCss } from 'react-native-svg';
 import Database from '../../util/database';
 import WeekCalendar from '../../components/WeekCalendar';
 import styles from './styles';
-import commonStyles from '../../styles/commonStyles'
+import commonStyles from '../../styles/commonStyles';
 import { COLOR, WIDTH } from '../../styles/static';
 import {
   BLEEDING,
@@ -44,6 +44,7 @@ import {
 import { DateContext } from '../../contexts';
 import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
+import { FORMAT } from '../../constants/cycle';
 
 const db = new Database();
 const detailPageRef = createRef();
@@ -267,8 +268,8 @@ const TrackingOptions = ({ route, navigation }) => {
           theme={{
             calendarBackground: COLOR.lightPink,
           }}
-          // current={today}
-          maxDate={moment().format('YYYY-MM-DD')}
+          current={date}
+          maxDate={moment().format(FORMAT)}
           // navigation={navigation}
           onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
         />
