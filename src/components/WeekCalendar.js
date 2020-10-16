@@ -29,7 +29,7 @@ const WeekCalendar = (props) => {
     setMarkedDates({});
     markBleedingDays();
     markPerdictions();
-    markTrackingOptions();
+    // markTrackingOptions();
   }, []);
   const markedDateObj = (dates, dot) => {
     console.log('marked dates', dates);

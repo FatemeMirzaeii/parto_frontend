@@ -6,23 +6,18 @@ import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { FONT, COLOR } from '../../styles/static';
+import { FONT, COLOR, SIZE } from '../../styles/static';
 import styles from './styles';
 import Ptxt from '../../components/Ptxt';
+import testIDs from './testIDs';
+import { FORMAT } from '../../constants/cycle';
+
 const Calendar = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
-  const weekdays = [
-    'شنبه',
-    'یکشنبه',
-    'دوشنبه',
-    'سه شنبه',
-    'چهارشنبه',
-    'پنجشنبه',
-    'جمعه',
-  ];
   const calendar = useRef();
+
   useEffect(() => {
     navigation.addListener('focus', () => {
       markBleedingDays();
@@ -54,7 +49,7 @@ const Calendar = ({ navigation }) => {
         <>
           {editMode ? (
             <Button
-              title="بیخیال"
+              title="بی‌خیال"
               type="clear"
               onPress={() => onCancelEditing()}
               titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
@@ -84,12 +79,15 @@ const Calendar = ({ navigation }) => {
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
+    setMarkedDates({});
+
     const c = await CycleModule();
     console.log('before', markedDates, markedDatesBeforeEdit);
     const added = Object.keys(markedDates).filter(
       (key) => markedDatesBeforeEdit[key] !== markedDates[key],
     );
     console.log('added', added);
+
     const removed = Object.keys(markedDatesBeforeEdit).filter(
       (key) => markedDatesBeforeEdit[key] !== markedDates[key],
     );
@@ -103,15 +101,16 @@ const Calendar = ({ navigation }) => {
     setMarkedDates(markedDatesBeforeEdit);
     setEditMode(false);
   };
-  const markedDateObj = (dates, color) => {
+  const markedDateObj = (dates, color, perdictions) => {
     console.log('marked dates', dates);
-
     dates.forEach((date) => {
       if (date in markedDates) return;
       markedDates[date] = {
         periods: [
           {
+            startingDay: perdictions,
             color: color,
+            endingDay: perdictions,
           },
         ],
       };
@@ -122,43 +121,42 @@ const Calendar = ({ navigation }) => {
     const c = await CycleModule();
     const past = await c.pastBleedingDays();
     if (past) {
-      const formatted = past.map((day) => day.date.format('YYYY-MM-DD'));
-      markedDateObj(formatted, COLOR.btn);
+      const formatted = past.map((day) => day.date.format(FORMAT));
+      markedDateObj(formatted, COLOR.btn, false);
     }
   };
   const markPerdictions = async () => {
     //todo: should disable in pregnant mode.
     const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, COLOR.periodPerdiction);
+    markedDateObj(bleeding, COLOR.periodPerdiction, true);
 
     const ovulation = c.perdictedOvulationDaysInCurrentYear();
-    markedDateObj(ovulation, COLOR.tiffany);
+    markedDateObj(ovulation, COLOR.tiffany, true);
   };
   return (
     <SafeAreaView>
-      {/* <View style={styles.dayNames}>
-        {weekdays.map((day) => (
-          <Ptxt style={styles.txt}>{day}</Ptxt>
-        ))}
-      </View> */}
       <CalendarList
         ref={calendar}
         jalali
         firstDay={6}
-        // hideDayNames={true}
-        maxDate={moment().format('YYYY-MM-DD')}
+        showSixWeeks
+        testID={testIDs.calendarList.CONTAINER}
+        maxDate={moment().format(FORMAT)}
         pastScrollRange={12}
         futureScrollRange={12}
         markedDates={markedDates}
         markingType="multi-period"
         onDayPress={(day) => onDayPress(day)}
         onDayLongPress={(dsy) => console.log('day long press', dsy)}
+        calendarHeight={400}
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
-                console.log('marking', marking);
-                return (
+                // console.log('marking', marking);
+                return state === 'disabled' ? (
+                  <Ptxt>{jalaali(date.dateString).format('jD')}</Ptxt>
+                ) : (
                   <TouchableOpacity
                     onPress={state === 'disabled' ? null : () => onPress(date)}
                     onLongPress={
@@ -196,29 +194,47 @@ const Calendar = ({ navigation }) => {
           todayTextColor: COLOR.white,
           todayBackgroundColor: COLOR.currentPage,
           selectedDayTextColor: COLOR.white,
-          // selectedDayBackgroundColor: COLOR.currentPage,
           textDisabledColor: COLOR.textColor,
           textDayFontFamily: FONT.regular,
           textMonthFontFamily: FONT.regular,
           textDayHeaderFontFamily: FONT.regular,
-          textDayHeaderFontSize: 8.7,
-          // 'stylesheet.calendar.main': {
-          //   container: {
-          //     borderBottomWidth: 0.5,
-          //     borderColor: 'gray',
-          //   },
-          // },
+          'stylesheet.calendar.main': {
+            container: {
+              borderBottomWidth: 0.2,
+            },
+          },
+          'stylesheet.calendar.header': {
+            dayHeader: {
+              fontFamily: FONT.regular,
+            },
+            rtlHeader: {
+              alignItems: 'center',
+              borderBottomWidth: 0.2,
+            },
+          },
+          'stylesheet.day.basic': {
+            today: {
+              borderColor: COLOR.currentPage,
+              borderWidth: 0.8,
+              borderRadius: 50,
+              borderStyle: 'dashed',
+            },
+            todayText: {
+              color: COLOR.currentPage,
+              fontWeight: '900',
+            },
+            // text: {
+            //   color: 'yellow',
+            // },
+          },
         }}
       />
       {!editMode ? (
         <Button
-          title="ویرایش"
+          title="ویرایش روزهای خونریزی"
           type="outline"
-          onPress={() => onEditPress()}
-          titleStyle={{
-            color: COLOR.white,
-            fontFamily: FONT.regular,
-          }}
+          onPress={onEditPress}
+          titleStyle={styles.buttonTitle}
           containerStyle={[
             styles.bottomButton,
             {
@@ -232,10 +248,7 @@ const Calendar = ({ navigation }) => {
         title="امروز"
         type="outline"
         onPress={() => calendar.current.scrollToDay(new Date())}
-        titleStyle={{
-          color: COLOR.white,
-          fontFamily: FONT.regular,
-        }}
+        titleStyle={styles.buttonTitle}
         containerStyle={[
           styles.bottomButton,
           {

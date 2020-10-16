@@ -54,19 +54,19 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
+          bottomDivider
         />
-      </Card>
-      <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ name: 'settings', color: COLOR.tiffany }}
-          bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('CycleSettings')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
+      </Card>
+      {/* <Card>
         <ListItem
           title="پروفایل بارداری"
           leftIcon={{ name: 'pregnant-woman', color: COLOR.tiffany }}
@@ -76,7 +76,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-      </Card>
+      </Card> */}
       <Card>
         <ListItem
           title="احکام"
@@ -139,8 +139,10 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() =>
-            shareContent('لینک دانلود اپلیکیشن پرتو (سلامت بانوان):'+'\n'+
-              'https://play.google.com/store/apps/details?id=ir.parto.parto',
+            shareContent(
+              'لینک دانلود اپلیکیشن پرتو (سلامت بانوان):' +
+                '\n' +
+                'https://play.google.com/store/apps/details?id=ir.parto.parto',
             )
           }
           titleStyle={styles.listItemText}

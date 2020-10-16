@@ -13,6 +13,7 @@ const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
+  const [pregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
 
   useEffect(() => {
@@ -26,7 +27,7 @@ const Home = ({ navigation }) => {
   }, [date]);
 
   const determineMode = async () => {
-    const pregnant = await pregnancyMode();
+    setPregnant(await pregnancyMode());
     if (pregnant) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(date);
@@ -79,11 +80,11 @@ const Home = ({ navigation }) => {
           {renderText()}
         </View>
         <Button
-          title="ثبت پریود"
+          title={pregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
           type="outline"
           containerStyle={{
             height: 25,
-            width: 100,
+            width: 140,
             borderRadius: 40,
             bottom: 65,
             left: 15,
@@ -96,7 +97,9 @@ const Home = ({ navigation }) => {
             fontSize: SIZE[15],
           }}
           onPress={() => {
-            navigation.navigate('TrackingOptions');
+            navigation.navigate(
+              pregnant ? 'PregnancyProfile' : 'TrackingOptions',
+            );
           }}
         />
       </ImageBackground>

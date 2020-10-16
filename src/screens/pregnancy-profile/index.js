@@ -1,9 +1,9 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
+import { Icon, Button, ListItem } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
-import PregnancyPicker from '../../components/PregnancyPicker';
+// import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import pregnancyModule from '../../util/pregnancy';
@@ -63,20 +63,32 @@ const PregnancyProfile = ({ navigation, route }) => {
   return (
     <ScrollView>
       <Card>
-        <PickerListItem
+        <ListItem
           title="سن بارداری"
-          rightTitle={{
-            title: `${pregnancyWeek} هفته و ${pregnancyWeekDay} روز`,
-          }}
+          rightTitle={`${pregnancyWeek} هفته ${
+            pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : null
+          }`}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
-          customComponent={
-            <PregnancyPicker
-              selectedWeek={pregnancyWeek}
-              onWeekSelected={setPregnancyWeek}
-              selectedDay={pregnancyWeekDay}
-              onWeekDaySelected={setPregnancyWeekDay}
-            />
-          }
+          subtitle="سن باردای شما بر اساس تاریخ آخربن پریود شما محاسبه شده است."
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+          subtitleStyle={styles.subTitle}
+          rightTitleStyle={[
+            styles.listItemText,
+            {
+              maxWidth: 90,
+              textAlign: 'right',
+            },
+          ]}
+          // customComponent={
+          //   <PregnancyPicker
+          //     selectedWeek={pregnancyWeek}
+          //     onWeekSelected={setPregnancyWeek}
+          //     selectedDay={pregnancyWeekDay}
+          //     onWeekDaySelected={setPregnancyWeekDay}
+          //   />
+          // }
         />
         <PickerListItem
           title="تاریخ زایمان"

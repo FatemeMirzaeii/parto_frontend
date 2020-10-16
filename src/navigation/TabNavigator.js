@@ -87,7 +87,11 @@ const TabNavigator = () => {
                 type="octicon"
                 color={COLOR.btn}
                 size={25}
-                containerStyle={{ bottom: 35,borderColor:'#aaa', borderWidth:0.2 }}
+                containerStyle={{
+                  bottom: 35,
+                  borderColor: '#aaa',
+                  borderWidth: 0.2,
+                }}
               />
             ),
           }}

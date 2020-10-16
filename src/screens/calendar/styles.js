@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WIDTH, HEIGHT, SIZE, COLOR } from '../../styles/static';
+import { WIDTH, FONT, SIZE, COLOR } from '../../styles/static';
 export default StyleSheet.create({
   dayNames: {
     flexDirection: 'row-reverse',
@@ -28,9 +28,14 @@ export default StyleSheet.create({
     marginBottom: 15,
     bottom: 50,
     justifyContent: 'center',
-    width: 100,
-    height: 30,
+    width: 150,
+    height: 25,
     borderRadius: 50,
     backgroundColor: COLOR.btn,
+  },
+  buttonTitle: {
+    color: COLOR.white,
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
 });

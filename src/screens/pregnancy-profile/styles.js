@@ -59,4 +59,13 @@ export default StyleSheet.create({
   listItemContent: {
     alignItems: 'flex-end',
   },
+  listItemText: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
+    maxWidth: 200,
+  },
+  subTitle: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
+  },
 });

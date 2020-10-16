@@ -39,7 +39,10 @@ export default async function CycleModule() {
       return;
     }
     console.log('cycle day number', date, lastPeriodDate.format(FORMAT));
-    return date.diff(lastPeriodDate, 'days');
+    return date
+      .clone()
+      .startOf('day')
+      .diff(lastPeriodDate.clone().startOf('day'), 'days', false);
   }
   function determineCyclePhase(date) {
     const cycleDayNo = cycleDayNumber(date);
@@ -78,11 +81,14 @@ export default async function CycleModule() {
     console.log('phase', phase);
     switch (phase) {
       case -1: {
-        return { mainSentence: 'دوره قبل' }; //todo: should find past cycle first period day.
+        return { mainSentence: 'دوره قبلی' }; //todo: should find past cycle first period day.
       }
-      // case 0: {
-      //   return 'تاریخ آخرین پریود خود را وارد کنید تا بتوانیم تحلیل درستی از دوره‌هایتان را نمایش دهیم.';
-      // }
+      case 0: {
+        return {
+          mainSentence: 'تاریخ آخرین پریود خود را وارد کنید',
+          subSentence: 'تا بتوانیم تحلیل درستی از دوره‌هایتان را نمایش دهیم.',
+        };
+      }
       case 1: {
         const dayNo = periodDayNumber(date);
         return {
@@ -95,8 +101,8 @@ export default async function CycleModule() {
         return {
           mainSentence:
             daysTo === 0
-              ? 'امروز بالاترین شانس بارداری رو خواهید داشت!'
-              : `${daysTo} روز به تخمک گذاری`,
+              ? 'روز اوج تخک گذاری!'
+              : `${daysTo} روز به اوج تخمک گذاری`,
           subSentence: 'احتمال بارداری',
         };
       }
@@ -190,33 +196,40 @@ export default async function CycleModule() {
     }
     return days;
   }
+
+  ////// this function will return an object with 2 property: date, type.
+  ////// date is in moment format and also sorted DESC.
   async function pastBleedingDays() {
     const all = await getUserAllPeriodDays();
+    //will return all bleeding days in json {date: string with 'YYYY-MM-DD' format, tracking_option_id: number}.
+    console.log('all', all);
     if (all.length > 0) {
       return all
         .map((d) => {
           return { date: moment(d.date), type: d.tracking_option_id };
         })
-        .sort((a, b) => b.date.diff(a));
+        .sort((a, b) => b.date.diff(a.date));
     }
   }
   async function determineLastPeriodDate() {
     const pervLastPeriodDate = await getLastPeriodDate();
-    const pastDays = await pastBleedingDays();
-    if (!pastDays) {
+    const prevBleedingDays = await pastBleedingDays();
+    if (!prevBleedingDays) {
       setLastPeriodDate(null);
       return;
     }
+    const dates = prevBleedingDays.map((d) => d.date);
+    console.log('pastDayssss', dates, prevBleedingDays);
+
     let lpd;
-    for (let i = 0; i < pastDays.length; i++) {
-      if (!pastDays[i + 1]) {
-        lpd = pastDays[i].date;
+    for (let i = 0; i < dates.length; i++) {
+      if (!dates[i + 1]) {
+        lpd = dates[i];
       } else if (
-        pastDays[i].date.diff(pastDays[i + 1].date, 'days') >
-          MIN_LENGTH_BETWEEN_PERIODS &&
-        pastDays[i].type !== OPTIONS.SPOTTING
+        dates[i].diff(dates[i + 1], 'days') > MIN_LENGTH_BETWEEN_PERIODS &&
+        dates[i].type !== OPTIONS.SPOTTING
       ) {
-        lpd = pastDays[i].date;
+        lpd = dates[i];
         break;
       }
     }
@@ -229,6 +242,7 @@ export default async function CycleModule() {
     }
     return lpd;
   }
+
   function setFirstPeriod(plength = 7, lpDate) {
     if (!lpDate) {
       return;
@@ -240,11 +254,10 @@ export default async function CycleModule() {
     console.log('fist per', days);
     setBleedingDays(days);
   }
+
   async function determinePeriodIntervals() {
     const bdays = await pastBleedingDays();
-    const bleedingdates = bdays
-      ? bdays.map((d) => d.date).sort((a, b) => b.diff(a))
-      : [];
+    const bleedingdates = bdays ? bdays.map((d) => d.date) : [];
     let intervals = [];
     for (let i = 0; i <= bleedingdates.length; i++) {
       if (!bleedingdates[i + 1]) {
@@ -254,7 +267,7 @@ export default async function CycleModule() {
       if (
         bleedingdates[i].diff(bleedingdates[i + 1], 'days') >
           MIN_LENGTH_BETWEEN_PERIODS &&
-        bdays[i].type !== OPTIONS.SPOTTING
+        bleedingdates[i].type !== OPTIONS.SPOTTING
       ) {
         intervals.push(bleedingdates.splice(0, i + 1));
         i = -1;
