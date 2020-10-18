@@ -1,5 +1,12 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { ScrollView, TextInput,TouchableOpacity,View,Text } from 'react-native';
+import {
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+  Text,
+  Alert,
+} from 'react-native';
 
 import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
 import { Icon } from 'native-base';
@@ -9,24 +16,22 @@ import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
 import { COLOR, FONT } from '../../styles/static';
 import { getReminder, saveReminder } from '../../util/database/query';
-import CycleModule from '../../util/cycle'
+import CycleModule from '../../util/cycle';
 import {
   OVULATION_DAY_NO,
   FORMAT,
   MIN_LENGTH_BETWEEN_PERIODS,
   OVULATION_WINDOW_LENGTH,
 } from '../../constants/cycle';
+import globalStyles from '../../styles';
 import styles from './Styles';
 import NotifService from '../../util/notifications/NotificationService';
-import periodStart from '../../util/notifications/index'
+import { periodLate } from '../../util/notifications';
 
 const d = new Date();
-const notif = new NotifService(
-  // onRegister(),
-  // onNotif(),
-  
-);
 const ReminderSetting = ({ navigation, route }) => {
+  // const notif = new NotifService(onRegister, onNotif);
+
   const { reminder } = route.params;
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(`${d.getHours()}:${d.getMinutes()}`);
@@ -36,16 +41,19 @@ const ReminderSetting = ({ navigation, route }) => {
   const [message, setMessage] = useState(reminder.message);
   const [daysAgo, setDaysAgo] = useState(2);
   const [isLoading, setIsLoading] = useState(true);
-const[registerToken,setRegisterToken]=useState('')
+  const [registerToken, setRegisterToken] = useState('');
+  const [fcmRegistered, setFcmRegistered] = useState();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: reminder.title,
       headerLeft: () => (
         <Button
           title="ثبت"
-          type="clear"
+          type="outline"
           onPress={save}
-          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
+          titleStyle={globalStyles.headerBtnTitle}
+          containerStyle={globalStyles.smallHeaderBtn}
         />
       ),
       headerRight: () => (
@@ -90,8 +98,8 @@ const[registerToken,setRegisterToken]=useState('')
       setIsActive(res.active === 1 ? true : false);
       setMessage(res.custom_message);
       setTime(res.custom_time);
-      setMinutes(res.custom_time.split(':')[1])
-      setHours(res.custom_time.split(':')[0])
+      setMinutes(res.custom_time.split(':')[1]);
+      setHours(res.custom_time.split(':')[0]);
       setDaysAgo(res.Xdays_ago);
       setIsLoading(false);
     });
@@ -102,29 +110,28 @@ const[registerToken,setRegisterToken]=useState('')
   //   console.log('active', isActive);
   //   console.log('mes', message);
   // }, [data, isActive, message]);
-  console.log('res.custom_time.spli[0]',time.split(':')[0]);
+  console.log('res.custom_time.spli[0]', time.split(':')[0]);
 
-//  const periodStart = ()=>{
-//  const time=`${hours}:${minutes}`;
-//     const pd = '2020/8/20';
-//    // const time='19:50';
-//    // console.log('test',pd.subtract(daysAgo, 'days'))
-//   const d= moment(pd).subtract(2, 'days')._d
-//  return d
-    
-//   }
-const initialData = async () => {
-  const c = await CycleModule();
-  const d =  c.nextPeriodDate('2020-09-10');
-  console.log(d)
-  const n=moment(d).subtract(3, 'days').format(FORMAT)
-  console.log(n)
-  return d;
+  //  const periodStart = ()=>{
+  //  const time=`${hours}:${minutes}`;
+  //     const pd = '2020/8/20';
+  //    // const time='19:50';
+  //    // console.log('test',pd.subtract(daysAgo, 'days'))
+  //   const d= moment(pd).subtract(2, 'days')._d
+  //  return d
 
-};
+  //   }
+  const initialData = async () => {
+    const c = await CycleModule();
+    const d = c.nextPeriodDate('2020-09-10');
+    console.log(d);
+    const n = moment(d).subtract(3, 'days').format(FORMAT);
+    console.log(n);
+    return d;
+  };
 
   // console.log('test', moment(nextPeriodDate('2020-08-8')).subtract(daysAgo, 'days')._d)
-//  console.log('period', initialData())
+  //  console.log('period', initialData())
   return (
     <ScrollView>
       {data && (
@@ -132,19 +139,15 @@ const initialData = async () => {
           <ListItem
             title="یادآور"
             leftIcon={
-              isActive ? (
-                <Icon
-                  type="MaterialIcons"
-                  name="notifications-active"
-                  style={{ color: COLOR.btn }}
-                />
-              ) : (
-                <Icon
-                  type="MaterialIcons"
-                  name="notifications-off"
-                  style={{ color: COLOR.textColorDark }}
-                />
-              )
+              <Icon
+                type="MaterialIcons"
+                name={isActive ? 'notifications-active' : 'notifications-off'}
+                style={
+                  isActive
+                    ? { color: COLOR.btn }
+                    : { color: COLOR.textColorDark }
+                }
+              />
             }
             switch={{
               value: isActive,
@@ -196,7 +199,7 @@ const initialData = async () => {
                     <DateTimePicker
                       daySelectedItem={daysAgo}
                       onDaySelected={setDaysAgo}
-                      hourSelectedItem={(Number(hours))}
+                      hourSelectedItem={Number(hours)}
                       onHourSelected={setHours}
                       minSelectedItem={Number(minutes)}
                       onMinSelected={setMinutes}
@@ -208,28 +211,28 @@ const initialData = async () => {
           ) : null}
         </Card>
       )}
-      <View style={{
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  }}>
-        <Text style={{}}>
-          Example app react-native-push-notification
-        </Text>
+      <View
+        style={{
+          flex: 1,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: '#F5FCFF',
+        }}>
+        <Text style={{}}>Example app react-native-push-notification</Text>
         <View style={{}}></View>
         <TextInput
           style={{}}
           value={registerToken}
           placeholder="Register token"
-          onChangeText={(text)=>setRegisterToken(text)}
+          onChangeText={(text) => setRegisterToken(text)}
         />
         <View style={{}}></View>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-             notif.local(reminder.title,message);
+            // notif.local(reminder.title, message);
             //periodStart(daysAgo)
+            periodLate();
           }}>
           <Text>Local Notification (now)</Text>
         </TouchableOpacity>
@@ -240,19 +243,20 @@ const initialData = async () => {
           //   notif.local(reminder.title,message,'sample.mp3');
           // }}
           onPress={() => {
-            notif.scheduled(reminder.title,message,null,'sample.mp3');
-          }}
-          >
+            // notif.scheduled(reminder.title, message, null, 'sample.mp3');
+          }}>
           <Text> Scheduled Local Notifications</Text>
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            notif.getScheduledLocalNotifications(notifs => console.log(notifs));
+            // notif.getScheduledLocalNotifications((notifs) =>
+            //   console.log(notifs),
+            // );
           }}>
           <Text>Console.Log Scheduled Local Notifications</Text>
         </TouchableOpacity>
-        </View>
+      </View>
     </ScrollView>
   );
 };
