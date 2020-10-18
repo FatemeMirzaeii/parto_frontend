@@ -3,7 +3,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Menu from '../screens/menu';
 import Profile from '../screens/profile';
 import CycleSetting from '../screens/cycle-setting';
-import PregnancyProfile from '../screens/pregnancy-profile';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
 import ContactUs from '../screens/contact-us';
@@ -14,8 +13,6 @@ import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 import { FONT } from '../styles/static';
-import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
-import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 
 const MenuStack = createStackNavigator();
 const MenuStackScreen = () => {
@@ -40,17 +37,6 @@ const MenuStackScreen = () => {
         options={{ headerShown: false }}
       />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
-      <MenuStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
-      <MenuStack.Screen
-        name="PregnancyEnd"
-        component={PregnancyEnd}
-        options={{ headerShown: false }}
-      />
-      <MenuStack.Screen
-        name="PregnancyEndCalendar"
-        component={PregnancyEndCalendar}
-        options={{ headerShown: false }}
-      />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
       <MenuStack.Screen name="Treatise" component={Treatise} />

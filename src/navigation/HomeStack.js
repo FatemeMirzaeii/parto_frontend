@@ -1,16 +1,28 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
-import Home from '../screens/home';
+import TabNavigator from './TabNavigator';
 import Calendar from '../screens/calendar';
 import TrackingOptions from '../screens/tracking-options';
+import PregnancyProfile from '../screens/pregnancy-profile';
+import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
+import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
+import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
 const HomeStackScreen = () => {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator
+      screenOptions={{
+        headerTitleStyle: {
+          alignSelf: 'flex-end',
+          color: 'black',
+          fontSize: 17,
+          fontFamily: FONT.medium,
+        },
+      }}>
       <HomeStack.Screen
-        name="Home"
-        component={Home}
+        name="Tabs"
+        component={TabNavigator}
         options={{ headerShown: false }}
       />
       <HomeStack.Screen
@@ -21,6 +33,17 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="TrackingOptions"
         component={TrackingOptions}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
+      <HomeStack.Screen
+        name="PregnancyEnd"
+        component={PregnancyEnd}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="PregnancyEndCalendar"
+        component={PregnancyEndCalendar}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

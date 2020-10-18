@@ -35,7 +35,8 @@ const WeekCalendar = (props) => {
     console.log('marked dates', dates);
     dates.forEach((date) => {
       if (date in markedDates) {
-        markedDates[date].dots.push(dot);
+        // markedDates[date].dots.push(dot);
+        return;
       } else {
         markedDates[date] = {
           dots: [dot],
