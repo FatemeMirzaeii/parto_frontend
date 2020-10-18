@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer, useMemo, useState } from 'react';
-import { AuthContext } from '../contexts';
+import { AuthContext, DateContext } from '../contexts';
 import { getData, removeData } from '../util/func';
 import Splash from '../screens/splash';
-import TabNavigator from './TabNavigator';
 import AuthStack from './AuthStack';
 import InterviewStack from './InterviewStack';
+import HomeStackScreen from './HomeStack';
+import moment from 'moment';
+import { FORMAT } from '../constants/cycle';
 
 const AppNavigator = () => {
   const [splash, setSplash] = useState(true);
@@ -86,15 +88,17 @@ const AppNavigator = () => {
   );
   return (
     <AuthContext.Provider value={authContext}>
-      {state.isLoading || splash ? (
-        <Splash />
-      ) : state.interviewToken ? ( //state.userToken &&
-        <TabNavigator />
-      ) : (
-        // ) : !state.userToken ? (
-        //   <AuthStack />
-        <InterviewStack />
-      )}
+      <DateContext.Provider value={{ today: moment().format(FORMAT) }}>
+        {state.isLoading || splash ? (
+          <Splash />
+        ) : state.interviewToken ? ( //state.userToken &&
+          <HomeStackScreen />
+        ) : (
+          // ) : !state.userToken ? (
+          //   <AuthStack />
+          <InterviewStack />
+        )}
+      </DateContext.Provider>
     </AuthContext.Provider>
   );
 };
