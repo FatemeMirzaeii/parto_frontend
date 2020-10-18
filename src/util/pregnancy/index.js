@@ -98,10 +98,14 @@ export default async function PregnancyModule() {
       return moment(due).diff(date, 'days');
     }
   }
-  function determineNefasDays() {
+  function determineNefasDays(date) {
     let days = [];
     for (let i = 0; i < NEFAS_DAYS; i++) {
-      days.push(moment(dueDate).add(i, 'days').format(FORMAT));
+      days.push(
+        moment(date ?? dueDate)
+          .add(i, 'days')
+          .format(FORMAT),
+      );
     }
     console.log('nefas days', days);
     setBleedingDays(days);

@@ -13,6 +13,7 @@ import {
 } from '../../util/database/query';
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
+import globalStyles from '../../styles';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
@@ -24,10 +25,11 @@ const PregnancyProfile = ({ navigation, route }) => {
       headerLeft: () => (
         <Button
           title="ثبت"
-          type="clear"
+          type="outline"
           disabled={!dueDate}
           onPress={save}
-          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
+          titleStyle={globalStyles.headerBtnTitle}
+          containerStyle={globalStyles.smallHeaderBtn}
         />
       ),
       headerRight: () => (
@@ -66,10 +68,10 @@ const PregnancyProfile = ({ navigation, route }) => {
         <ListItem
           title="سن بارداری"
           rightTitle={`${pregnancyWeek} هفته ${
-            pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : null
+            pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
           }`}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
-          subtitle="سن باردای شما بر اساس تاریخ آخربن پریود شما محاسبه شده است."
+          subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
@@ -107,6 +109,19 @@ const PregnancyProfile = ({ navigation, route }) => {
               }}
               markedDates={{
                 [dueDate]: { selected: true },
+              }}
+              theme={{
+                textSectionTitleColor: COLOR.black,
+                calendarBackground: 'transparent',
+                selectedDayTextColor: COLOR.white,
+                textDisabledColor: COLOR.textColor,
+                textDayFontFamily: FONT.regular,
+                textMonthFontFamily: FONT.regular,
+                textDayHeaderFontFamily: FONT.regular,
+                selectedDayBackgroundColor: COLOR.currentPage,
+                textDayHeaderFontSize: 8,
+                arrowColor: COLOR.currentPage,
+                todayTextColor: COLOR.currentPage,
               }}
             />
           }

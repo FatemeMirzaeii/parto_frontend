@@ -6,13 +6,15 @@ import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { FONT, COLOR, SIZE } from '../../styles/static';
+import { FONT, COLOR, SIZE, HEIGHT } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 import Ptxt from '../../components/Ptxt';
 import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
 
-const Calendar = ({ navigation }) => {
+const Calendar = ({ navigation, route }) => {
+  const { isPregnant } = route.params;
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
@@ -34,28 +36,13 @@ const Calendar = ({ navigation }) => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-        <>
-          {editMode ? (
-            <Button
-              title="ثبت"
-              type="clear"
-              onPress={() => onSubmitEditing()}
-              titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
-            />
-          ) : null}
-        </>
-      ),
-      headerRight: () => (
-        <>
-          {editMode ? (
-            <Button
-              title="بی‌خیال"
-              type="clear"
-              onPress={() => onCancelEditing()}
-              titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
-            />
-          ) : null}
-        </>
+        <Button
+          title="امروز"
+          type="outline"
+          onPress={() => calendar.current.scrollToDay(new Date())}
+          titleStyle={globalStyles.headerBtnTitle}
+          containerStyle={globalStyles.smallHeaderBtn}
+        />
       ),
     });
   }, [editMode, navigation, markedDates]);
@@ -126,7 +113,7 @@ const Calendar = ({ navigation }) => {
     }
   };
   const markPerdictions = async () => {
-    //todo: should disable in pregnant mode.
+    if (isPregnant) return;
     const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
     markedDateObj(bleeding, COLOR.periodPerdiction, true);
@@ -235,25 +222,40 @@ const Calendar = ({ navigation }) => {
           containerStyle={[
             styles.bottomButton,
             {
-              alignSelf: 'flex-end',
-              right: 10,
+              alignSelf: 'center',
             },
           ]}
         />
-      ) : null}
-      <Button
-        title="امروز"
-        type="outline"
-        onPress={() => calendar.current.scrollToDay(new Date())}
-        titleStyle={styles.buttonTitle}
-        containerStyle={[
-          styles.bottomButton,
-          {
-            alignSelf: 'flex-start',
-            left: 10,
-          },
-        ]}
-      />
+      ) : (
+        <>
+          <Button
+            title="ثبت"
+            type="outline"
+            onPress={onSubmitEditing}
+            titleStyle={styles.buttonTitle}
+            containerStyle={[
+              styles.bottomButton,
+              {
+                alignSelf: 'flex-start',
+                left: 10,
+              },
+            ]}
+          />
+          <Button
+            title="انصراف"
+            type="outline"
+            onPress={onCancelEditing}
+            titleStyle={styles.buttonTitle}
+            containerStyle={[
+              styles.bottomButton,
+              {
+                alignSelf: 'flex-end',
+                right: 10,
+              },
+            ]}
+          />
+        </>
+      )}
     </SafeAreaView>
   );
 };

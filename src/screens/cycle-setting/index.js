@@ -7,8 +7,9 @@ import {
   updateProfileData,
   getCycleInfoFromProfile,
 } from '../../util/database/query';
+import globalStyles from '../../styles';
 import styles from './styles';
-import { FONT, COLOR } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -23,9 +24,10 @@ const CycleSetting = ({ navigation }) => {
       headerLeft: () => (
         <Button
           title="ثبت"
-          type="clear"
+          type="outline"
           onPress={() => save()}
-          titleStyle={{ color: COLOR.btn, fontFamily: FONT.regular }}
+          titleStyle={globalStyles.headerBtnTitle}
+          containerStyle={globalStyles.smallHeaderBtn}
         />
       ),
       headerRight: () => (
@@ -83,7 +85,7 @@ const CycleSetting = ({ navigation }) => {
             rightTitle={{ title: pmsLength, suffix: 'روز' }}
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           />
-          <ListItem
+          {/* <ListItem
             title="نمایش احتمال بارداری"
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             bottomDivider
@@ -129,7 +131,7 @@ const CycleSetting = ({ navigation }) => {
             subtitleStyle={styles.listItemText}
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
-          />
+          /> */}
         </Card>
       </ScrollView>
     </SafeAreaView>

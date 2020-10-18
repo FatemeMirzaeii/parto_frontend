@@ -96,13 +96,16 @@ export async function getActivePregnancyData() {
   const data = res[0];
   return data ?? [];
 }
-export async function updatePregnancyData(dueDate, abortion) {
-  return await db.exec(
-    `UPDATE ${PREGNANCY} SET abortion=${
-      abortion ?? null
-    }, due_date='${dueDate}'`,
-    PREGNANCY,
-  );
+export async function updatePregnancyData(dueDate, abortionDate) {
+  return abortionDate
+    ? await db.exec(
+        `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}'`,
+        PREGNANCY,
+      )
+    : await db.exec(
+        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null`,
+        PREGNANCY,
+      );
 }
 export async function savePregnancyData(pregnancySchema) {
   const dueDate = !pregnancySchema.dueDate

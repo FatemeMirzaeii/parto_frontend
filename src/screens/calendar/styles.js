@@ -26,7 +26,7 @@ export default StyleSheet.create({
     position: 'absolute',
     borderWidth: 0,
     marginBottom: 15,
-    bottom: 50,
+    bottom: 25,
     justifyContent: 'center',
     width: 150,
     height: 25,
@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   buttonTitle: {
     color: COLOR.white,
-    fontFamily: FONT.regular,
+    fontFamily: FONT.bold,
     fontSize: SIZE[14],
   },
 });

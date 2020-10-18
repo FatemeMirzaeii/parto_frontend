@@ -18,10 +18,12 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     console.log('params', route.params);
   }, [route.params]);
   const save = async () => {
-    await updatePregnancyData(route.params.type, selectedDate);
     const p = await PregnancyModule();
-    p.determineNefasDays();
-    route.params.mode === 0 ? updateUserStatus(0, 0) : updateUserStatus(0, 1);
+    !route.params.type
+      ? await updatePregnancyData(selectedDate)
+      : await updatePregnancyData(null, selectedDate);
+    route.params.mode ? updateUserStatus(0, 1) : updateUserStatus(0, 0);
+    p.determineNefasDays(selectedDate);
     navigation.popToTop();
   };
 
