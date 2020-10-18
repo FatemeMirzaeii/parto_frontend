@@ -36,6 +36,6 @@ export default StyleSheet.create({
   buttonTitle: {
     color: COLOR.white,
     fontFamily: FONT.bold,
-    fontSize: SIZE[14],
+    fontSize: SIZE[12],
   },
 });

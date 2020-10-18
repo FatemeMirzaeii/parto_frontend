@@ -119,6 +119,12 @@ const WeekCalendar = (props) => {
               dayHeader: {
                 fontFamily: FONT.regular,
               },
+              rtlWeek: {
+                flexDirection: 'row-reverse',
+                justifyContent: 'space-evenly',
+                // backgroundColor: 'red',
+                paddingBottom: 5,
+              },
             },
           },
         }}

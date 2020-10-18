@@ -19,7 +19,7 @@ export default StyleSheet.create({
     right: WIDTH / 10,
     // backgroundColor: 'red',
   },
-  sentenceContainer: { top: -9, marginRight: 10 },
+  sentenceContainer: { top: -11, marginRight: 10 },
   mainSentence: {
     fontFamily: FONT.bold,
     fontSize: SIZE[17],
@@ -37,7 +37,7 @@ export default StyleSheet.create({
     fontFamily: FONT.medium,
     fontSize: SIZE[15],
     color: COLOR.black,
-    lineHeight: 40,
+    lineHeight: 45,
     // backgroundColor: 'red',
   },
   calendarIcon: {

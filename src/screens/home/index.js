@@ -98,7 +98,7 @@ const Home = ({ navigation }) => {
           titleStyle={{
             fontFamily: FONT.bold,
             color: COLOR.white,
-            fontSize: SIZE[15],
+            fontSize: SIZE[12],
           }}
           onPress={() => {
             navigation.navigate(

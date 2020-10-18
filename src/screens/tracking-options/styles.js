@@ -46,7 +46,7 @@ export default StyleSheet.create({
   },
   descriptionTxt: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[17],
+    fontSize: SIZE[16],
     textAlign: 'center',
     margin: 5,
     paddingVertical: 5,
@@ -84,5 +84,4 @@ export default StyleSheet.create({
     width: 50,
     fontFamily: FONT.regular,
   },
-
 });
