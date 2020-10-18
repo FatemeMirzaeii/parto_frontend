@@ -13,7 +13,8 @@ const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
-  const [pregnant, setPregnant] = useState();
+  const [thirdSentence, setThirdSentence] = useState('');
+  const [isPregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
 
   useEffect(() => {
@@ -27,8 +28,9 @@ const Home = ({ navigation }) => {
   }, [date]);
 
   const determineMode = async () => {
-    setPregnant(await pregnancyMode());
-    if (pregnant) {
+    const preg = await pregnancyMode();
+    setPregnant(preg);
+    if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(date);
       setMainSentence(`شما در هفته ${pregnancyAge.week} بارداری هستید.`);
@@ -40,6 +42,7 @@ const Home = ({ navigation }) => {
       const s = c.determinePhaseSentence(date);
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
+      setThirdSentence(s.thirdSentence);
     }
   };
 
@@ -48,6 +51,7 @@ const Home = ({ navigation }) => {
       <View style={styles.sentenceContainer}>
         <Text style={styles.mainSentence}>{mainSentence}</Text>
         <Text style={styles.subSentence}>{subSentence}</Text>
+        <Text style={styles.thirdSentence}>{thirdSentence}</Text>
       </View>
     );
   };
@@ -64,7 +68,7 @@ const Home = ({ navigation }) => {
           color={COLOR.black}
           containerStyle={styles.calendarIcon}
           onPress={() => {
-            navigation.navigate('Calendar');
+            navigation.navigate('Calendar', { isPregnant });
           }}
         />
         <WeekCalendar
@@ -80,7 +84,7 @@ const Home = ({ navigation }) => {
           {renderText()}
         </View>
         <Button
-          title={pregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
+          title={isPregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
           type="outline"
           containerStyle={{
             height: 25,
@@ -92,13 +96,13 @@ const Home = ({ navigation }) => {
             backgroundColor: COLOR.btn,
           }}
           titleStyle={{
-            fontFamily: FONT.regular,
+            fontFamily: FONT.bold,
             color: COLOR.white,
             fontSize: SIZE[15],
           }}
           onPress={() => {
             navigation.navigate(
-              pregnant ? 'PregnancyProfile' : 'TrackingOptions',
+              isPregnant ? 'PregnancyProfile' : 'TrackingOptions',
             );
           }}
         />

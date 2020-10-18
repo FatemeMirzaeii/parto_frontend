@@ -78,6 +78,7 @@ export default async function CycleModule() {
   }
   function determinePhaseSentence(date) {
     const phase = determineCyclePhase(date);
+    const dayNo = cycleDayNumber(date);
     console.log('phase', phase);
     switch (phase) {
       case -1: {
@@ -90,10 +91,11 @@ export default async function CycleModule() {
         };
       }
       case 1: {
-        const dayNo = periodDayNumber(date);
+        const pDayNo = periodDayNumber(date);
         return {
-          mainSentence: `روز ${dayNo + 1} پریود`,
+          mainSentence: `روز ${pDayNo + 1} پریود`,
           subSentence: 'کمترین احتمال بارداری',
+          thirdSentence: `روز ${dayNo + 1} دوره`,
         };
       }
       case 2: {
@@ -101,9 +103,10 @@ export default async function CycleModule() {
         return {
           mainSentence:
             daysTo === 0
-              ? 'روز اوج تخک گذاری!'
-              : `${daysTo} روز به اوج تخمک گذاری`,
+              ? 'روز اوج تخمک‌گذاری!'
+              : `${daysTo} روز به اوج تخمک‌گذاری`,
           subSentence: 'احتمال بارداری',
+          thirdSentence: `روز ${dayNo + 1} دوره`,
         };
       }
       case 3: {
@@ -114,11 +117,15 @@ export default async function CycleModule() {
               ? 'امروز روز پریود شماست'
               : `${daysNo} روز به پریود بعدی`,
           subSentence: 'کمترین احتمال بارداری',
+          thirdSentence: `روز ${dayNo + 1} دوره`,
         };
       }
       case 4: {
         const days = Math.abs(remainingDaysToNextPeriod(date));
-        return { mainSentence: `${days} روز از زمان پریود شما گذشته است.` };
+        return {
+          mainSentence: `${days} روز از زمان پریود شما گذشته است.`,
+          subSentence: `روز ${dayNo + 1} دوره`,
+        };
       }
       default:
         return 'دوره ماهانه در یک نگاه';
@@ -167,6 +174,7 @@ export default async function CycleModule() {
   function perdictedPeriodDaysInCurrentYear() {
     let days = [];
     let perdictedPeriodDate = nextPeriodDate(lastPeriodDate);
+    console.log('perdicted', perdictedPeriodDate);
     if (!perdictedPeriodDate) {
       return [];
     }
