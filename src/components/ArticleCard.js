@@ -1,5 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+
+//styles
 import { FONT } from '../styles/static';
 
 const ArticleCard = (props) => {
@@ -7,44 +9,26 @@ const ArticleCard = (props) => {
     <View style={{ flex: 1, paddingHorizontal: 10 }}>
       <View style={styles.card}>
         <TouchableOpacity onPress={props.onPress} style={styles.button}>
-          <View style={{alignItems: 'flex-end',marginTop:10,flex: 1, padding: 10 }}>
+          <View
+            style={{
+              alignItems: 'flex-end',
+              marginTop: 10,
+              flex: 1,
+              padding: 10,
+            }}>
             <Text style={styles.cardTitle}>{props.name}</Text>
           </View>
           <View>
-            <Image style={styles.image}
-            source={props.image?{uri:props.image}:require('../../assets/images/NoPic.jpeg')}/>
+            <Image
+              style={styles.image}
+              source={
+                props.image
+                  ? { uri: props.image }
+                  : require('../../assets/images/NoPic.jpeg')
+              }
+            />
           </View>
         </TouchableOpacity>
-        {/* <View
-          style={{
-            flexDirection: 'row',
-            padding: 5,
-            marginHorizontal: 15,
-            justifyContent: 'space-between',
-          }}>
-          <View
-            style={{
-              width: '30%',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-            }}>
-            <Icon
-              type="Feather"
-              name="share-2"
-              // onPress={props.shareContent}
-              style={{ fontSize: 18 }}
-            />
-            <Icon type="Feather" name="bookmark" style={{ fontSize: 18 }} />
-            <Icon type="Feather" name="eye" style={{ fontSize: 18 }} />
-            <Icon
-              type="Feather"
-              name="heart"
-              //onPress={props.shareContent}
-              style={{ fontSize: 18 }}
-            />
-          </View>
-          <Text style={{}}>منبع مقاله</Text>
-        </View> */}
       </View>
     </View>
   );

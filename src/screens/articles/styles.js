@@ -1,82 +1,6 @@
 import { StyleSheet } from 'react-native';
 import { COLOR, FONT } from '../../styles/static';
 
-export const HTMLTagsStyles = {
-  h2: {
-    textAlign: 'right',
-    color: COLOR.tiffany,
-    fontFamily: FONT.black,
-    fontWeight: 'normal',
-    margin: 3,
-    paddingVertical: 10,
-  },
-  h3: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    paddingVertical: 10,
-    fontWeight: 'normal',
-    margin: 5,
-    color: 'black',
-  },
-  h4: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-  },
-  h5: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-  },
-  h6: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin: 7,
-    fontSize: 16,
-    lineHeight: 35,
-    marginRight: 20,
-  },
-  p: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin: 7,
-    fontSize: 16,
-    lineHeight: 35,
-  },
-  span: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin: 5,
-    fontSize: 16,
-    lineHeight: 35,
-  },
-  strong: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-    fontSize: 16,
-    lineHeight: 35,
-  },
-  ul: {
-    direction: 'rtl',
-    margin: 10,
-  },
-  li: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-end',
-    alignSelf: 'flex-end',
-    fontSize: 16,
-  },
-};
-
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
@@ -113,7 +37,7 @@ export default StyleSheet.create({
     textAlign: 'right',
     fontFamily: FONT.medium,
   },
-  icon: { fontSize: 18, color: 'black', padding: 10 },
+  icon: { fontSize: 18, color: COLOR.btn, padding: 10 },
   imageHeader: {
     marginTop: 75,
     resizeMode: 'cover',
@@ -139,15 +63,6 @@ export default StyleSheet.create({
     padding: 10,
     fontFamily: FONT.regular,
     alignItems: 'center',
-  },
-  author: {
-    backgroundColor: 'white',
-    borderRadius: 30,
-    color: 'black',
-    padding: 5,
-    margin: 10,
-
-    fontFamily: FONT.medium,
   },
   HTML: { width: '100%' },
   contentContiner: {

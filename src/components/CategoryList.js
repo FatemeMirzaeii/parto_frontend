@@ -1,5 +1,3 @@
-import axios from 'axios';
-import { Icon } from 'native-base';
 import React, { useEffect, useState } from 'react';
 import {
   FlatList,
@@ -9,10 +7,16 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
+import axios from 'axios';
+import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
-import { COLOR, FONT, SIZE } from '../styles/static';
+
+//services
 import { authCode } from '../services/authCode';
 import { baseUrl } from '../services/urls';
+
+//styles
+import { COLOR, FONT, SIZE } from '../styles/static';
 
 const CategoryList = (props) => {
   const [categoryContent, setCategoryContent] = useState([]);
@@ -38,11 +42,9 @@ const CategoryList = (props) => {
           setCategoryContent(res.data.results);
           con = res.data.results;
           for (let i = 0; i < res.data.results.length; i++) {
-            //console.log(res.data.results[i].id);
             axios({
               method: 'get',
               url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
-
               headers: {
                 Authorization: 'Basic ' + authCode,
                 'Content-Type': 'application/json',
@@ -61,8 +63,6 @@ const CategoryList = (props) => {
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );
-
-                  console.log('imgUrl', imgUrl);
                 }
                 article.push({
                   ...con[i],
@@ -70,13 +70,6 @@ const CategoryList = (props) => {
                   images: imgUrl,
                   catId: catId,
                 });
-                //setArticle({...con[i],cover:imgUrl[0],images:imgUrl})
-                // setCategoryContent(pre=>{...pre,cover:imgUrl[0],images:imgUrl})
-                // setCategoryContent(prevState => {
-                //   // Object.assign would also work
-                //   return {...prevState ,cover:imgUrl[0],images:imgUrl};
-                // });
-
                 setIsLoading(false);
                 console.log('imgUrl', imgUrl);
                 console.log('new', article);
@@ -228,7 +221,7 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: FONT.light,
-    fontSize: SIZE[14],
+    fontSize: 14,
     textAlign: 'center',
   },
   highlight: {

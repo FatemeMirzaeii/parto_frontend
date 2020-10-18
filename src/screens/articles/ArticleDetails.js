@@ -1,52 +1,29 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import {
   Animated,
   Dimensions,
   ImageBackground,
   Linking,
   SafeAreaView,
-  Text,
-  View,
-  TouchableOpacity,
   StatusBar,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-import axios from 'axios';
 import { Icon } from 'native-base';
 import HTML from 'react-native-render-html';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
-import TextTicker from 'react-native-text-ticker'
-import styles, { HTMLTagsStyles } from './styles';
-import { authCode } from '../../services/authCode';
-import { baseUrl } from '../../services/urls';
+import TextTicker from 'react-native-text-ticker';
+
+//styles
+import styles from './styles';
+import { HTMLTagsStyles }  from '../../styles/commonStyles'
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
 
 const ArticleDetails = ({ route, navigation }) => {
-  const [author, setAuthor] = useState('');
   const { articleContent, catName } = route.params;
-  useEffect(() => {
-    const getAuthor = () => {
-      axios({
-        method: 'get',
-        url: `${baseUrl}/rest/api/content/${articleContent.id}`,
-        headers: {
-          Authorization: 'Basic ' + authCode,
-          'X-Atlassian-Token': 'no-check',
-        },
-      })
-        .then((res) => {
-          console.log('res', res);
-          setAuthor(res.data.history.createdBy.displayName);
-          //setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error(err, err.response);
-        });
-    };
-
-    getAuthor();
-  }, [articleContent.id]);
 
   const _renderHeader = () => {
     const opacity = scrollY.y.interpolate({
@@ -54,25 +31,22 @@ const ArticleDetails = ({ route, navigation }) => {
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
-
-    console.log('articleContent', articleContent);
+    // console.log('articleContent', articleContent);
     return (
       <>
         <SafeAreaView style={styles.headerCotainer}>
           <View style={styles.headerWrapper}>
             <Animated.View style={{ opacity }}>
-              {/* <Text style={styles.headerText}>{articleContent.title}</Text> */}
-        <TextTicker
-          style={styles.headerText}
-          isRTL
-          loop
-          bounce
-          duration={9000}
-          repeatSpacer={150}
-          marqueeDelay={3000}
-        >
-         {articleContent.title}
-        </TextTicker>
+              <TextTicker
+                style={styles.headerText}
+                isRTL
+                loop
+                bounce
+                duration={9000}
+                repeatSpacer={150}
+                marqueeDelay={3000}>
+                {articleContent.title}
+              </TextTicker>
             </Animated.View>
             <Icon
               type="AntDesign"
@@ -94,26 +68,21 @@ const ArticleDetails = ({ route, navigation }) => {
           ? { uri: articleContent.cover }
           : require('../../../assets/images/NoPic.jpeg')
       }>
-      {author !== '' && (
-        <View style={styles.headerTitleWrapper}>
-          <Text style={styles.titleStyle}>{articleContent.title}</Text>
-        </View>
-      )}
-      {author !== '' && (
-        <View style={{ flex: 0.2, flexDirection: 'row-reverse' }}>
-          <TouchableOpacity
-            style={styles.categoryWrapper}
-            onPress={() => {
-              navigation.navigate('ArticlesList', {
-                catId: articleContent.catId,
-                catName: catName,
-              });
-            }}>
-            <Text style={styles.badge}>{catName}</Text>
-          </TouchableOpacity>
-          <Text style={styles.author}>{`نویسنده: ${author}`}</Text>
-        </View>
-      )}
+      <View style={styles.headerTitleWrapper}>
+        <Text style={styles.titleStyle}>{articleContent.title}</Text>
+      </View>
+      <View style={{ flex: 0.2, flexDirection: 'row-reverse' }}>
+        <TouchableOpacity
+          style={styles.categoryWrapper}
+          onPress={() => {
+            navigation.navigate('ArticlesList', {
+              catId: articleContent.catId,
+              catName: catName,
+            });
+          }}>
+          <Text style={styles.badge}>{catName}</Text>
+        </TouchableOpacity>
+      </View>
     </ImageBackground>
   );
 
@@ -132,8 +101,9 @@ const ArticleDetails = ({ route, navigation }) => {
     </View>
   );
 
-  console.log(articleContent.body.storage.value);
-  console.log('catName', catName);
+  // console.log(articleContent.body.storage.value);
+  // console.log('catName', catName);
+
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <StickyParallaxHeader

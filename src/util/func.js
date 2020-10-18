@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { PermissionsAndroid } from 'react-native';
 import Share from 'react-native-share';
+import md5 from 'md5';
 
 export async function getData(key) {
   try {
@@ -39,6 +40,29 @@ export async function requestSTORAGEPermission() {
     }
   } catch (err) {
     console.warn(err);
+  }
+}
+export async function request_READ_PHONE_STATE() {
+ 
+  try {
+    const granted = await PermissionsAndroid.request(
+      PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE ,
+      {
+        'title': 'ReactNativeCode wants to READ_PHONE_STATE',
+        'message': 'ReactNativeCode App needs access to your personal data. '
+      }
+    )
+    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+ 
+      Alert.alert("Permission Granted.");
+    }
+    else {
+ 
+      Alert.alert("Permission Not Granted");
+ 
+    }
+  } catch (err) {
+    console.warn(err)
   }
 }
 // export function RemoveHTML(Text) {
@@ -113,4 +137,7 @@ export const shareContent = async (url) => {
     console.log('Error =>', error);
     shareTxt = 'error: '.concat(getErrorString(error));
   }
+};
+export const convert2MD5 = (value) => {
+  return md5(value);
 };
