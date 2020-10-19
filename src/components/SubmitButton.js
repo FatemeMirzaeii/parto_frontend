@@ -4,7 +4,7 @@ import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
 import { COLOR, FONT } from '../styles/static';
 
-const HeaderSubmitButton = ({ addAppTourTarget, onPress }) => {
+const SubmitButton = ({ addAppTourTarget, onPress }) => {
   return (
     <TouchableOpacity
       key={'submitbtn'}
@@ -33,14 +33,33 @@ const HeaderSubmitButton = ({ addAppTourTarget, onPress }) => {
 
 const styles = StyleSheet.create({
   bottomWrapper: {
-    padding: 5,
-    marginLeft: 15,
-    width: 70,
+    // padding: 5,
+    // marginLeft: 15,
+    // width: 70,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    // //alignSelf: 'flex-start',
+    // borderRadius: 20,
+    // backgroundColor: COLOR.btn,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.27,
+    // shadowRadius: 4.65,
+    // elevation: 3,
+
+    position: 'absolute',
+    marginBottom: 15,
+    bottom: 25,
+    right:15,
     justifyContent: 'center',
-    alignItems: 'center',
-    //alignSelf: 'flex-start',
-    borderRadius: 20,
+    width: 150,
+    height: 25,
+    borderRadius: 50,
     backgroundColor: COLOR.btn,
+    alignSelf: 'flex-start',
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
@@ -54,8 +73,8 @@ const styles = StyleSheet.create({
     color: COLOR.white,
     fontFamily: FONT.regular,
     fontSize: 14,
-    textAlign: 'center',
+    textAlign:'center',
   },
 });
 
-export default HeaderSubmitButton;
+export default SubmitButton;

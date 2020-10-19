@@ -15,7 +15,7 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
         if (!ref) return;
         redDaysSave = ref;
         let props = {
-          order: 11,
+          order: 12,
           title: 'ویرایش روزهای خونریزی',
           description: 'We have the best targets, believe me',
           outerCircleColor: COLOR.btn,

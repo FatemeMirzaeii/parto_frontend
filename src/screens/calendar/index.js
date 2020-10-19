@@ -11,8 +11,8 @@ import { FONT, COLOR, SIZE, HEIGHT } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
 import Ptxt from '../../components/Ptxt';
-import HeaderCancelButton from '../../components/HeaderCancelButton';
-import HeaderSubmitButton from '../../components/HeaderSubmitButton';
+import CancelButton from '../../components/CancelButton';
+import SubmitButton from '../../components/SubmitButton';
 import SaveBleendingButton from '../../components/BleendingdaysSave';
 import GoTodayButton from '../../components/GoTodayButton';
 import testIDs from './testIDs';
@@ -42,12 +42,18 @@ const Calendar = ({ navigation, route }) => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-        <Button
-          title="امروز"
-          type="outline"
-          onPress={() => calendar.current.scrollToDay(new Date())}
-          titleStyle={globalStyles.headerBtnTitle}
-          containerStyle={globalStyles.smallHeaderBtn}
+        // <Button
+        //   title="امروز"
+        //   type="outline"
+        //   onPress={() => calendar.current.scrollToDay(new Date())}
+        //   titleStyle={globalStyles.headerBtnTitle}
+        //   containerStyle={globalStyles.smallHeaderBtn}
+        // />
+        <GoTodayButton
+        addAppTourTarget={appTourTarget => {
+          appTourTargets.push(appTourTarget)
+          }}
+          onPress={()=>calendar.current.scrollToDay(new Date())}
         />
       ),
     });
@@ -279,7 +285,7 @@ const Calendar = ({ navigation, route }) => {
           onPress={onEditPress}/>
       ) : (
         <>
-          <Button
+          {/* <Button
             title="ثبت"
             type="outline"
             onPress={onSubmitEditing}
@@ -291,8 +297,15 @@ const Calendar = ({ navigation, route }) => {
                 left: 10,
               },
             ]}
-          />
-          <Button
+          /> */}
+          <SubmitButton
+            addAppTourTarget={appTourTarget => {
+              appTourTargets.push(appTourTarget)
+              }}  
+              onPress={() => onSubmitEditing()}
+            
+            />
+          {/* <Button
             title="انصراف"
             type="outline"
             onPress={onCancelEditing}
@@ -304,7 +317,13 @@ const Calendar = ({ navigation, route }) => {
                 right: 10,
               },
             ]}
-          />
+          /> */}
+          <CancelButton
+            addAppTourTarget={appTourTarget => {
+              appTourTargets.push(appTourTarget)
+              }}
+              onPress={() => onCancelEditing()}
+            />
         </>
       )}
     </SafeAreaView>
