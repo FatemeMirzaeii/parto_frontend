@@ -1,5 +1,9 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { SafeAreaView, TouchableOpacity,DeviceEventEmitter } from 'react-native';
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  DeviceEventEmitter,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
@@ -23,7 +27,7 @@ const Calendar = ({ navigation, route }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
-  const [appTourTargets,setAppTourTargets]=useState([])
+  const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
 
   useEffect(() => {
@@ -50,54 +54,55 @@ const Calendar = ({ navigation, route }) => {
         //   containerStyle={globalStyles.smallHeaderBtn}
         // />
         <GoTodayButton
-        addAppTourTarget={appTourTarget => {
-          appTourTargets.push(appTourTarget)
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
           }}
-          onPress={()=>calendar.current.scrollToDay(new Date())}
+          onPress={() => calendar.current.scrollToDay(new Date())}
         />
       ),
     });
   }, [editMode, navigation, markedDates]);
-    
-  useEffect (()=>{
-    registerSequenceStepEvent()
-    registerFinishSequenceEvent()
-  },[]);
 
-  useEffect (()=>{
-    let appTourSequence = new AppTourSequence()
+  // useEffect(() => {
+  //   registerSequenceStepEvent();
+  //   registerFinishSequenceEvent();
+    
+  // }, []);
+
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
     setTimeout(() => {
-        appTourTargets.forEach(appTourTarget => {
-        appTourSequence.add(appTourTarget)
-      })
-      AppTour.ShowSequence(appTourSequence)
-    }, 1000)
-  return()=>clearTimeout(appTourSequence)
-  },[]);
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, [editMode]);
 
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
-     sequenceStepListener.remove()
+      sequenceStepListener.remove();
     }
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
 
- const registerFinishSequenceEvent = () => {
+  const registerFinishSequenceEvent = () => {
     if (finishSequenceListener) {
-     finishSequenceListener.remove()
+      finishSequenceListener.remove();
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
   const onDayPress = (day) => {
     if (editMode) {
       edit(day.dateString);
@@ -279,10 +284,11 @@ const Calendar = ({ navigation, route }) => {
         //   ]}
         // />
         <SaveBleendingButton
-        addAppTourTarget={appTourTarget => {
-          appTourTargets.push(appTourTarget)
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
           }}
-          onPress={onEditPress}/>
+          onPress={onEditPress}
+        />
       ) : (
         <>
           {/* <Button
@@ -299,12 +305,11 @@ const Calendar = ({ navigation, route }) => {
             ]}
           /> */}
           <SubmitButton
-            addAppTourTarget={appTourTarget => {
-              appTourTargets.push(appTourTarget)
-              }}  
-              onPress={() => onSubmitEditing()}
-            
-            />
+            addAppTourTarget={(appTourTarget) => {
+              appTourTargets.push(appTourTarget);
+            }}
+            onPress={() => onSubmitEditing()}
+          />
           {/* <Button
             title="انصراف"
             type="outline"
@@ -319,11 +324,11 @@ const Calendar = ({ navigation, route }) => {
             ]}
           /> */}
           <CancelButton
-            addAppTourTarget={appTourTarget => {
-              appTourTargets.push(appTourTarget)
-              }}
-              onPress={() => onCancelEditing()}
-            />
+            addAppTourTarget={(appTourTarget) => {
+              appTourTargets.push(appTourTarget);
+            }}
+            onPress={() => onCancelEditing()}
+          />
         </>
       )}
     </SafeAreaView>
