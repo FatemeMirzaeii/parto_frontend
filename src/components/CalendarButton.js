@@ -42,8 +42,8 @@ const styles = StyleSheet.create({
     top: 40,
     zIndex: 10,
     alignItems: 'flex-start',
-    paddingLeft: 20,
-    width: 60,
+    paddingLeft: 10,
+    width: 55,
     marginHorizontal: 10,
   },
 });
