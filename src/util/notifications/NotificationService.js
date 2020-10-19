@@ -1,12 +1,12 @@
 import PushNotification from 'react-native-push-notification';
 import NotificationHandler from './NotificationHandler';
 
-export default class NotificationService {
+export default class NotifService {
   constructor(onRegister, onNotification) {
     this.lastId = 0;
     this.lastChannelCounter = 0;
 
-    // this.createDefaultChannels();
+    this.createDefaultChannels();
 
     NotificationHandler.attachRegister(onRegister);
     NotificationHandler.attachNotification(onNotification);
@@ -71,7 +71,7 @@ export default class NotificationService {
     );
   }
 
-  local(soundName) {
+  localNotif(soundName) {
     this.lastId++;
     PushNotification.localNotification({
       /* Android Only Properties */
@@ -111,7 +111,7 @@ export default class NotificationService {
     });
   }
 
-  scheduled(soundName) {
+  scheduleNotif(soundName) {
     this.lastId++;
     PushNotification.localNotificationSchedule({
       date: new Date(Date.now() + 30 * 1000), // in 30 secs

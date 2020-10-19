@@ -8,6 +8,8 @@ target 'parto_frontend' do
 
   use_react_native!(:path => config["reactNativePath"])
 
+  pod 'react-native-sqlite-storage', :path => '../node_modules/react-native-sqlite-storage'
+
   target 'parto_frontendTests' do
     inherit! :complete
     # Pods for testing
