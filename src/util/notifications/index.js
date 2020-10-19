@@ -15,23 +15,13 @@ import {
   setBleedingDays,
 } from '../database/query';
 
-const notification = new NotificationService(onRegister, onNotif);
-const onRegister = (token) => {
-  console.log('token', token);
-};
-
-const onNotif = (n) => {
-  console.log(n.title, n.message);
-};
+const notif = new NotificationService();
 export async function periodInACoupleOfDays() {}
 export async function ovulationInACoupleOfDays() {}
 export async function pmsInACoupleOfDays() {}
 export async function periodLate(lastPeriodDate, periodLength) {
   console.log('hereeeeeeeeeeee');
-  notification.local(
-    4 + ' روز از تاریخ آخرین پریود شما گذشته است ',
-    'تاریخ جدیدی ثبت کنید',
-  );
+  notif.scheduleNotif();
 }
 
 export async function periodStart(daysAgo) {

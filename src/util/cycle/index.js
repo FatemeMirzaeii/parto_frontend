@@ -105,7 +105,8 @@ export default async function CycleModule() {
             daysTo === 0
               ? 'روز اوج تخمک‌گذاری!'
               : `${daysTo} روز به اوج تخمک‌گذاری`,
-          subSentence: 'احتمال بارداری',
+          subSentence:
+            daysTo === 0 ? 'بیشترین احتمال بارداری' : 'احتمال بارداری',
           thirdSentence: `روز ${dayNo + 1} دوره`,
         };
       }
