@@ -27,8 +27,8 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         }}
         //raised
         name="calendar"
-        type="ionicon"
-        size={22}
+        type="evilicon"
+        size={35}
         color={COLOR.black}
         containerStyle={styles.calendarIcon}
         onPress={onPress}
