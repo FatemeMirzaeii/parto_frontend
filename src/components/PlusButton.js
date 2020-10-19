@@ -1,9 +1,7 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
-import WeekCalendar from './WeekCalendar';
 
 const PlusButton = ({ addAppTourTarget }) => {
   return (
@@ -37,18 +35,5 @@ const PlusButton = ({ addAppTourTarget }) => {
     />
   );
 };
-
-const styles = StyleSheet.create({
-  calendarIcon: {
-    top: -4,
-    // zIndex: 10,
-    alignItems: 'flex-start',
-    // paddingLeft: 20,
-    //width: 60,
-    marginHorizontal: 22,
-    // backgroundColor:'yellow',
-    position: 'absolute',
-  },
-});
 
 export default PlusButton;

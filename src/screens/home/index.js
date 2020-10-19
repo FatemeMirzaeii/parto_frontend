@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, ImageBackground, Text ,DeviceEventEmitter } from 'react-native';
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
+import HomeCalendar from '../../components/HomeCalendar';
 import Ruler from '../../components/Ruler';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
@@ -123,12 +124,22 @@ const Home = ({ navigation }) => {
             navigation.navigate('Calendar', { isPregnant });
           }}
         />
-        <WeekCalendar
+        {/* <WeekCalendar
           dividerColor={COLOR.lightPink}
           theme={{
             calendarBackground: '#B9B2CD',
           }}
           showTodayButton
+          onDateChanged={(d, propUpdate) => setDate(moment(d))}
+        /> */}
+          <HomeCalendar
+           addAppTourTarget={appTourTarget => {
+            appTourTargets.push(appTourTarget)
+            }}
+            dividerColor={COLOR.lightPink}
+            theme={{
+              calendarBackground: '#B9B2CD',
+            }}
           onDateChanged={(d, propUpdate) => setDate(moment(d))}
         />
         <View style={styles.moonText}>

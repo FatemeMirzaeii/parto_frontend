@@ -124,12 +124,25 @@ const TabNavigator = () => {
         options={{
           // tabBarVisible: false,
           tabBarButton: (props) => (
-            <PlusButton
-            {...props}
-            addAppTourTarget={appTourTarget => {
-              appTourTargets.push(appTourTarget)
-              }}
-          />
+          //   <PlusButton
+          //   {...props}
+          //   addAppTourTarget={appTourTarget => {
+          //     appTourTargets.push(appTourTarget)
+          //     }}
+          // />
+           <Icon
+                {...props}
+                raised
+                name="plus"
+                type="octicon"
+                color={COLOR.btn}
+                size={25}
+                containerStyle={{
+                  bottom: 35,
+                  borderColor: '#aaa',
+                  borderWidth: 0.2,
+                }}
+              />
           ),
         }}
       />

@@ -14,7 +14,7 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           if (!ref) return;
           calendarIcon = ref;
           let props = {
-            order: 11,
+            order: 12,
             title: 'تقویم سالانه',
             description: 'We have the best targets, believe me',
             outerCircleColor: COLOR.btn,

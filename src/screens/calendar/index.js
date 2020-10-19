@@ -1,7 +1,8 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { SafeAreaView, TouchableOpacity } from 'react-native';
+import { SafeAreaView, TouchableOpacity,DeviceEventEmitter } from 'react-native';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
+import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
@@ -10,6 +11,10 @@ import { FONT, COLOR, SIZE, HEIGHT } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
 import Ptxt from '../../components/Ptxt';
+import HeaderCancelButton from '../../components/HeaderCancelButton';
+import HeaderSubmitButton from '../../components/HeaderSubmitButton';
+import SaveBleendingButton from '../../components/BleendingdaysSave';
+import GoTodayButton from '../../components/GoTodayButton';
 import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
 
@@ -18,6 +23,7 @@ const Calendar = ({ navigation, route }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+  const [appTourTargets,setAppTourTargets]=useState([])
   const calendar = useRef();
 
   useEffect(() => {
@@ -46,6 +52,46 @@ const Calendar = ({ navigation, route }) => {
       ),
     });
   }, [editMode, navigation, markedDates]);
+    
+  useEffect (()=>{
+    registerSequenceStepEvent()
+    registerFinishSequenceEvent()
+  },[]);
+
+  useEffect (()=>{
+    let appTourSequence = new AppTourSequence()
+    setTimeout(() => {
+        appTourTargets.forEach(appTourTarget => {
+        appTourSequence.add(appTourTarget)
+      })
+      AppTour.ShowSequence(appTourSequence)
+    }, 1000)
+  return()=>clearTimeout(appTourSequence)
+  },[]);
+
+  const registerSequenceStepEvent = () => {
+    if (sequenceStepListener) {
+     sequenceStepListener.remove()
+    }
+    const sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e)
+      }
+    )
+  }
+
+ const registerFinishSequenceEvent = () => {
+    if (finishSequenceListener) {
+     finishSequenceListener.remove()
+    }
+    const finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e)
+      }
+    )
+  }
   const onDayPress = (day) => {
     if (editMode) {
       edit(day.dateString);
@@ -214,18 +260,23 @@ const Calendar = ({ navigation, route }) => {
         }}
       />
       {!editMode ? (
-        <Button
-          title="ویرایش روزهای خونریزی"
-          type="outline"
-          onPress={onEditPress}
-          titleStyle={styles.buttonTitle}
-          containerStyle={[
-            styles.bottomButton,
-            {
-              alignSelf: 'center',
-            },
-          ]}
-        />
+        // <Button
+        //   title="ویرایش روزهای خونریزی"
+        //   type="outline"
+        //   onPress={onEditPress}
+        //   titleStyle={styles.buttonTitle}
+        //   containerStyle={[
+        //     styles.bottomButton,
+        //     {
+        //       alignSelf: 'center',
+        //     },
+        //   ]}
+        // />
+        <SaveBleendingButton
+        addAppTourTarget={appTourTarget => {
+          appTourTargets.push(appTourTarget)
+          }}
+          onPress={onEditPress}/>
       ) : (
         <>
           <Button
