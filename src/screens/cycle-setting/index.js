@@ -1,8 +1,10 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView } from 'react-native';
+import { SafeAreaView, ScrollView ,  DeviceEventEmitter} from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements';
+import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
+import CycleSettingbtn from '../../components/CycleSettingbtn';
 import {
   updateProfileData,
   getCycleInfoFromProfile,
@@ -15,6 +17,8 @@ const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
   const [cycleLength, setCycleLength] = useState();
   const [pmsLength, setPmsLength] = useState();
+  const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+  const [appTourTargets, setAppTourTargets] = useState([]);
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
@@ -22,12 +26,18 @@ const CycleSetting = ({ navigation }) => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
       headerLeft: () => (
-        <Button
-          title="ثبت"
-          type="outline"
-          onPress={() => save()}
-          titleStyle={globalStyles.headerBtnTitle}
-          containerStyle={globalStyles.smallHeaderBtn}
+        // <Button
+        //   title="ثبت"
+        //   type="outline"
+        //   onPress={() => save()}
+        //   titleStyle={globalStyles.headerBtnTitle}
+        //   containerStyle={globalStyles.smallHeaderBtn}
+        // />
+        <CycleSettingbtn 
+        addAppTourTarget={(appTourTarget) => {
+          appTourTargets.push(appTourTarget);
+        }}
+        onPress={() => save()}
         />
       ),
       headerRight: () => (
@@ -54,6 +64,47 @@ const CycleSetting = ({ navigation }) => {
       setPmsLength(info.pms_length);
     });
   }, []);
+
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
+    
+  }, []);
+
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
+    setTimeout(() => {
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
+
+  const registerSequenceStepEvent = () => {
+    if (sequenceStepListener) {
+      sequenceStepListener.remove();
+    }
+    const sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
+
+  const registerFinishSequenceEvent = () => {
+    if (finishSequenceListener) {
+      finishSequenceListener.remove();
+    }
+    const finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
 
   return (
     <SafeAreaView
