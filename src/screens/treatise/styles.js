@@ -1,121 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { FONT,COLOR } from '../../styles/static';
-
-export const HTMLTagsStyles = {
-  h2: {
-    textAlign: 'right',
-    //color: 'lightblue',
-   
-    color:COLOR.tiffany,
-    fontFamily: FONT.black,
-    fontWeight: 'normal',
-    margin: 3,
-    paddingVertical:10
-    
-  },
-  h3: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    paddingVertical: 10,
-    fontWeight: 'normal',
-    margin: 5,
-    color:'black'
-  },
-  h4: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-  },
-  h5: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-  },
-  h6: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin:7,
-    //padding:5,
-    fontSize:16,
-   // backgroundColor:'red'
-   lineHeight:35,
-   marginRight:20,
-   //padding:10,
-  },
-  p: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    fontWeight: 'normal',
-    margin:7,
-    //padding:5,
-    fontSize:16,
-   // backgroundColor:'red'
-   lineHeight:35
-    
-  },
-  span: {
-    textAlign: 'right',
-    fontFamily:FONT.regular,
-    fontWeight: 'normal',
-    margin: 5,
-    //padding:5,
-    fontSize:16,
-   // backgroundColor:'red',
-    lineHeight:35
-  },
-  strong: {
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-    fontWeight: 'normal',
-    margin: 5,
-    fontSize:16,
-    //padding:5,
-    // color:'red',
-    // backgroundColor:'red',
-    lineHeight:35
-  },
-  ul: {
-    direction: 'rtl',
-   // backgroundColor:'yellow',
-    margin:10,
-  },
-  li: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-end',
-    alignSelf:'flex-end',
-    //padding:5,
-    //margin: 5,
-    fontSize:16,
-    //lineHeight:35,
-    //backgroundColor:'lightgreen'
-
-  },
-  i: {
-    textAlign: 'right',
-    fontFamily: FONT.regular,
-    flexDirection: 'row-reverse',
-    alignItems: 'flex-end',
-    alignSelf:'flex-end',
-    //padding:5,
-    //margin: 5,
-    fontSize:16,
-    //lineHeight:35,
-    //backgroundColor:'lightgreen',
-    
-
-  },
-};
+import { FONT } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
     paddingBottom: 50,
-    //paddingTop: 24,
   },
   headerCotainer: {
     flex: 1,
@@ -160,22 +49,77 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
   },
-  logosWrapper:{
-    width:'80%',
-    flexDirection:'row',
-    justifyContent:'space-evenly',
-    alignItems:'center',
-    alignSelf:'center',
-    paddingBottom:50,
+  logosWrapper: {
+    width: '80%',
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+    alignSelf: 'center',
+    paddingBottom: 50,
   },
-  img:{
-    width:90,
-    height:90,
-    borderRadius:20,
+  img: {
+    width: 90,
+    height: 90,
+    borderRadius: 20,
   },
   HTML: { width: '100%' },
   contentContiner: {
     padding: 10,
     flex: 1,
+  },
+  main: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  button: {
+    backgroundColor: '#f4e0e1',
+    alignItems: 'flex-end',
+    alignSelf: 'center',
+    width: '90%',
+    padding: '5%',
+    margin: 5,
+    borderRadius: 15,
+  },
+  buttonContent: {
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  txt: {
+    flex: 0.95,
+    fontSize: 14,
+    fontFamily: FONT.medium,
+    paddingHorizontal: '5%',
+  },
+  dropIcon: {
+    fontSize: 30,
+  },
+  GridViewContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    height: 150,
+    margin: 10,
+    marginTop: 20,
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 3,
+    },
+    shadowOpacity: 0.27,
+    shadowRadius: 4.65,
+    elevation: 6,
+  },
+  GridViewTextLayout: {
+    fontSize: 15,
+    fontFamily: FONT.medium,
+    justifyContent: 'center',
+    color: 'black',
+    padding: 10,
+    textAlign: 'center',
   },
 });

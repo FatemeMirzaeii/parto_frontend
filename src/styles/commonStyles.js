@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WIDTH, HEIGHT, FONT, SIZE, COLOR } from './static';
+import { COLOR, FONT } from './static';
 
 export const HTMLTagsStyles = {
   h2: {
