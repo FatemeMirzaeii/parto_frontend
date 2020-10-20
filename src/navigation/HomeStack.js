@@ -25,11 +25,7 @@ const HomeStackScreen = () => {
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="Calendar"
-        component={Calendar}
-        options={{ headerStyle: { elevation: 0 } }}
-      />
+      <HomeStack.Screen name="Calendar" component={Calendar} />
       <HomeStack.Screen
         name="TrackingOptions"
         component={TrackingOptions}

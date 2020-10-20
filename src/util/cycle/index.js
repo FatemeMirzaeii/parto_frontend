@@ -62,7 +62,7 @@ export default async function CycleModule() {
       case cycleDayNo < avgPeriodLength && cycleDayNo >= 0: {
         return 1;
       }
-      case avgPeriodLength < cycleDayNo && cycleDayNo <= OVULATION_DAY_NO: {
+      case avgPeriodLength <= cycleDayNo && cycleDayNo <= OVULATION_DAY_NO: {
         return 2;
       }
       case (cycleDayNo > OVULATION_DAY_NO && cycleDayNo < avgCycleLength) ||

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, View, ImageBackground, Text ,DeviceEventEmitter } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  ImageBackground,
+  Text,
+  DeviceEventEmitter,
+} from 'react-native';
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
@@ -19,7 +25,7 @@ const Home = ({ navigation }) => {
   const [thirdSentence, setThirdSentence] = useState('');
   const [isPregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
-  const [appTourTargets,setAppTourTargets]=useState([])
+  const [appTourTargets, setAppTourTargets] = useState([]);
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -31,10 +37,10 @@ const Home = ({ navigation }) => {
     determineMode();
   }, [date]);
 
-  useEffect (()=>{
-    registerSequenceStepEvent()
-    registerFinishSequenceEvent()
-  },[]);
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
+  }, []);
 
   useEffect(() => {
     let appTourSequence = new AppTourSequence();
@@ -46,45 +52,46 @@ const Home = ({ navigation }) => {
     }, 1000);
     return () => clearTimeout(appTourSequence);
   }, []);
-  
+
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
-     sequenceStepListener.remove()
+      sequenceStepListener.remove();
     }
 
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
 
- const registerFinishSequenceEvent = () => {
+  const registerFinishSequenceEvent = () => {
     if (finishSequenceListener) {
-     finishSequenceListener.remove()
+      finishSequenceListener.remove();
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
 
   const determineMode = async () => {
     const preg = await pregnancyMode();
     setPregnant(preg);
+    const momentDate = moment(date);
     if (preg) {
       const p = await PregnancyModule();
-      const pregnancyAge = p.determinePregnancyWeek(date);
+      const pregnancyAge = p.determinePregnancyWeek(momentDate);
       setMainSentence(`شما در هفته ${pregnancyAge.week} بارداری هستید.`);
       setSubSentence(
-        `${p.remainingDaysToDueDate(date)} روز تا تولد فرزند شما!`,
+        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد فرزند شما!`,
       );
     } else {
       const c = await CycleModule();
-      const s = c.determinePhaseSentence(date);
+      const s = c.determinePhaseSentence(momentDate);
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
@@ -116,32 +123,23 @@ const Home = ({ navigation }) => {
             navigation.navigate('Calendar', { isPregnant });
           }}
         /> */}
-         <CalendarButton
-         addAppTourTarget={appTourTarget => {
-          appTourTargets.push(appTourTarget)
+        <CalendarButton
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
           }}
           onPress={() => {
             navigation.navigate('Calendar', { isPregnant });
           }}
         />
-        {/* <WeekCalendar
+        <WeekCalendar
+          current={date}
+          onDateChanged={(d) => setDate(d)}
+          onDayPress={(d) => setDate(d.dateString)}
           dividerColor={COLOR.lightPink}
           theme={{
-            calendarBackground: '#B9B2CD',
+            calendarBackground: 'transparent',
           }}
           showTodayButton
-          onDateChanged={(d, propUpdate) => setDate(moment(d))}
-        /> */}
-          <HomeCalendar
-           addAppTourTarget={appTourTarget => {
-            appTourTargets.push(appTourTarget)
-            }}
-            dividerColor={COLOR.lightPink}
-            theme={{
-              calendarBackground: '#B9B2CD',
-            }}
-            showTodayButton
-          onDateChanged={(d, propUpdate) => setDate(moment(d))}
         />
         <View style={styles.moonText}>
           <Ruler />
@@ -150,6 +148,9 @@ const Home = ({ navigation }) => {
         <Button
           title={isPregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
           type="outline"
+          buttonStyle={{
+            borderWidth: 0,
+          }}
           containerStyle={{
             height: 25,
             width: 140,
@@ -162,7 +163,7 @@ const Home = ({ navigation }) => {
           titleStyle={{
             fontFamily: FONT.bold,
             color: COLOR.white,
-            fontSize: SIZE[12],
+            fontSize: 11,
           }}
           onPress={() => {
             navigation.navigate(

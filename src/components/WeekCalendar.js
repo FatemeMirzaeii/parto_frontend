@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
 import jalaali from 'moment-jalaali';
-import { FONT, SIZE, COLOR } from '../styles/static';
+import { FONT, COLOR, WIDTH } from '../styles/static';
 import {
   CalendarProvider,
-  ExpandableCalendar,
+  WeekCalendar as WeekCal,
 } from 'react-native-jalali-calendars';
 import CycleModule from '../util/cycle';
 import { getUserVaginalAndSleepOptions } from '../util/database/query';
 import Divider from '../components/Divider';
 
-const testIDs = require('../screens/calendar/testIDs');
-
 const WeekCalendar = (props) => {
+  const [selectedDate, setSelectedDate] = useState();
   const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
   const period = { key: 'period', color: COLOR.btn };
@@ -26,7 +25,6 @@ const WeekCalendar = (props) => {
     color: COLOR.vaginalAndSleep,
   };
   useEffect(() => {
-    setMarkedDates({});
     markBleedingDays();
     markPerdictions();
     // markTrackingOptions();
@@ -54,7 +52,6 @@ const WeekCalendar = (props) => {
     }
   };
   const markPerdictions = async () => {
-    //todo: should disable in pregnant mode.
     const c = await CycleModule();
     const bleeding = c.perdictedPeriodDaysInCurrentYear();
     markedDateObj(bleeding, periodPerdictiin);
@@ -70,7 +67,10 @@ const WeekCalendar = (props) => {
       vaginalAndSleep,
     );
   };
-
+  const onDayPress = (date) => {
+    setSelectedDate(date.dateString);
+    if (props.onDayPress) props.onDayPress(date);
+  };
   return (
     <CalendarProvider
       jalali
@@ -78,52 +78,30 @@ const WeekCalendar = (props) => {
       onDateChanged={props.onDateChanged}
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
-      <ExpandableCalendar
+      <View style={styles.header}>
+        <Text style={styles.headerText}>
+          {jalaali(selectedDate).format('jD jMMMM jYYYY')}
+        </Text>
+      </View>
+      <Divider color={props.dividerColor} width={WIDTH - 25} />
+      <WeekCal
         jalali
         firstDay={6}
-        disablePan
-        hideKnob
-        hideArrows
-        maxDate={props.maxDate}
-        disableAllTouchEventsForDisabledDays
+        onDayPress={onDayPress}
         markedDates={markedDates}
         markingType="multi-dot"
-        renderHeader={(date) => {
-          return (
-            <View>
-              <View style={styles.header}>
-                <Text style={styles.headerText}>
-                  {jalaali(date).format('jD jMMMM jYYYY')}
-                </Text>
-                {/* <Icon
-                name="calendar"
-                type="font-awesome"
-                size={15}
-                color={COLOR.btn}
-                containerStyle={{ padding: 5 }}
-              /> */}
-              </View>
-              <Divider color={props.dividerColor} />
-            </View>
-          );
-        }}
-        testID={testIDs.expandableCalendar.CONTAINER}
         theme={{
           ...props.theme,
           ...{
             textSectionTitleColor: COLOR.black,
             todayTextColor: COLOR.white,
-            textDayFontFamily: FONT.regular,
+            todayBackgroundColor: '#c6d436',
+            textDayFontFamily: FONT.medium,
             selectedDayBackgroundColor: COLOR.currentPage,
-            'stylesheet.calendar.header': {
+            'stylesheet.expandable.main': {
               dayHeader: {
-                fontFamily: FONT.regular,
-              },
-              rtlWeek: {
-                flexDirection: 'row-reverse',
-                justifyContent: 'space-evenly',
-                // backgroundColor: 'red',
-                paddingBottom: 5,
+                fontFamily: FONT.medium,
+                fontSize: 12,
               },
             },
           },
@@ -135,10 +113,9 @@ const WeekCalendar = (props) => {
 };
 
 const styles = StyleSheet.create({
-  calendar: {
-    elevation: 0,
-  },
+  calendar: {},
   header: {
+    right: 20,
     width: '100%',
     alignSelf: 'flex-end',
     padding: 5,
@@ -147,7 +124,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
-  headerText: { fontFamily: FONT.bold, fontSize: SIZE[15] },
+  headerText: { fontFamily: FONT.bold, fontSize: 15 },
   today: {
     alignSelf: 'flex-end',
     height: 25,
