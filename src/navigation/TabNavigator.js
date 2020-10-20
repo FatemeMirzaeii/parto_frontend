@@ -55,7 +55,7 @@ const TabNavigator = () => {
         },
         labelStyle: {
           fontFamily: FONT.bold,
-          fontSize: SIZE[14],
+          fontSize: 13,
         },
       }}>
       <Tab.Screen

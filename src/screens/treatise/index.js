@@ -121,7 +121,7 @@ const Treatise = ({ navigation }) => {
         
       )} */}
       <View style={styles.iconContainer}>
-      <IconElement
+        <IconElement
           reverse
           size={25}
           name="call"
@@ -129,21 +129,21 @@ const Treatise = ({ navigation }) => {
           color={COLOR.btn}
           onPress={() => Linking.openURL(`tel:${'+985132020'}`)}
         />
-         <IconElement
+        <IconElement
           reverse
           size={25}
-          type="FontAwesome5" 
+          type="FontAwesome5"
           name="sms"
           color={COLOR.btn}
           onPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
         />
-         <IconElement
+        <IconElement
           reverse
           size={25}
           type="MaterialIcons"
           name="help"
           color={COLOR.btn}
-          style={{elevation:6}}
+          style={{ elevation: 6 }}
           onPress={() => navigation.navigate('TreatiseHelp')}
         />
       </View>
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
     //padding: 10,
   },
   button: {
-    backgroundColor: '#f4e0e1',
+    backgroundColor: '#f9d1de',
     alignItems: 'flex-end',
     alignSelf: 'center',
     width: '90%',
@@ -223,7 +223,7 @@ const styles = StyleSheet.create({
     // borderTopLeftRadius: 20,
     // borderBottomRightRadius: 20,
     margin: 5,
-    borderRadius:15  
+    borderRadius: 15,
   },
   buttonContent: {
     flex: 1,
@@ -239,6 +239,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     fontSize: 30,
+    color: '#ec5f91',
   },
   actionButtonIcon: {
     fontSize: 20,
@@ -246,15 +247,14 @@ const styles = StyleSheet.create({
     color: 'white',
   },
   iconContainer: {
-    width:'65%',
+    width: '65%',
     //backgroundColor:'red',
     justifyContent: 'space-between',
     alignItems: 'center',
-    alignSelf:'center',
+    alignSelf: 'center',
     flexDirection: 'row',
-   // padding:10,
-    paddingTop:20
-
+    // padding:10,
+    paddingTop: 20,
   },
 });
 

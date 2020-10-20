@@ -1,12 +1,12 @@
 import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import { SafeAreaView, TouchableOpacity } from 'react-native';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { FONT, COLOR, SIZE, HEIGHT } from '../../styles/static';
+import { FONT, COLOR } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
 import Ptxt from '../../components/Ptxt';
@@ -35,6 +35,7 @@ const Calendar = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
+      headerTransparent: true,
       headerLeft: () => (
         <Button
           title="امروز"
@@ -89,7 +90,7 @@ const Calendar = ({ navigation, route }) => {
     setEditMode(false);
   };
   const markedDateObj = (dates, color, perdictions) => {
-    console.log('marked dates', dates);
+    console.log('marked dates', dates, color, perdictions);
     dates.forEach((date) => {
       if (date in markedDates) return;
       markedDates[date] = {
@@ -115,14 +116,17 @@ const Calendar = ({ navigation, route }) => {
   const markPerdictions = async () => {
     if (isPregnant) return;
     const c = await CycleModule();
-    const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, COLOR.periodPerdiction, true);
-
     const ovulation = c.perdictedOvulationDaysInCurrentYear();
     markedDateObj(ovulation, COLOR.tiffany, true);
+
+    const bleeding = c.perdictedPeriodDaysInCurrentYear();
+    markedDateObj(bleeding, COLOR.periodPerdiction, true);
   };
   return (
-    <SafeAreaView>
+    <ImageBackground
+      source={require('../../../assets/images/bg.png')}
+      style={{ height: '100%', width: '100%' }}
+      blurRadius={50}>
       <CalendarList
         ref={calendar}
         jalali
@@ -166,7 +170,7 @@ const Calendar = ({ navigation, route }) => {
                               ? marking.periods[0].color
                               : state === 'today'
                               ? COLOR.currentPage
-                              : COLOR.white,
+                              : 'transparent',
                         },
                       ]}>
                       {jalaali(date.dateString).format('jD')}
@@ -182,17 +186,26 @@ const Calendar = ({ navigation, route }) => {
           todayBackgroundColor: COLOR.currentPage,
           selectedDayTextColor: COLOR.white,
           textDisabledColor: COLOR.textColor,
-          textDayFontFamily: FONT.regular,
-          textMonthFontFamily: FONT.regular,
-          textDayHeaderFontFamily: FONT.regular,
+          textDayFontFamily: FONT.medium,
+          textMonthFontFamily: FONT.bold,
+          'stylesheet.calendar-list.main': {
+            container: {
+              backgroundColor: 'transparent',
+            },
+          },
           'stylesheet.calendar.main': {
             container: {
               borderBottomWidth: 0.2,
+              backgroundColor: 'transparent',
+            },
+            monthView: {
+              backgroundColor: 'transparent',
             },
           },
           'stylesheet.calendar.header': {
             dayHeader: {
-              fontFamily: FONT.regular,
+              fontFamily: FONT.medium,
+              fontSize: 12,
             },
             rtlHeader: {
               alignItems: 'center',
@@ -201,15 +214,16 @@ const Calendar = ({ navigation, route }) => {
           },
           'stylesheet.day.basic': {
             today: {
-              borderColor: COLOR.currentPage,
+              borderColor: '#c6d436',
               borderWidth: 0.8,
               borderRadius: 50,
-              borderStyle: 'dashed',
+              backgroundColor: '#c6d436',
+              // borderStyle: 'dashed',
             },
-            todayText: {
-              color: COLOR.currentPage,
-              fontWeight: '900',
-            },
+            // todayText: {
+            //   color: '#c6d436',
+            //   fontWeight: '900',
+            // },
           },
         }}
       />
@@ -256,7 +270,7 @@ const Calendar = ({ navigation, route }) => {
           />
         </>
       )}
-    </SafeAreaView>
+    </ImageBackground>
   );
 };
 export default Calendar;
