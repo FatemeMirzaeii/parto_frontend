@@ -12,10 +12,14 @@ import { Icon } from 'react-native-elements';
 //components
 import EmptyList from '../../components/EmptyList';
 import Loader from '../../components/Loader';
+import SearchBar from '../../components/SearchBar';
 
 //services
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
+
+//util
+import {RemoveHTML} from '../../util/func';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -27,6 +31,7 @@ const TreatiseList = ({ route, navigation }) => {
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { catId, catTitle } = route.params;
+  let ruleContent=[];
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,6 +62,7 @@ const TreatiseList = ({ route, navigation }) => {
       })
         .then((res) => {
           let con = [];
+          ruleContent=[];
           console.log(res);
           console.log('categoryContent', res.data.results);
           con = res.data.results;
@@ -105,12 +111,27 @@ const TreatiseList = ({ route, navigation }) => {
     getCategoryContent();
   }, [catId]);
 
+  const _handleSearch = (text) => {
+    setData(rule);
+    const result = rule.filter((i) => {
+      return i.title.includes(text) || RemoveHTML (i.body.storage.value).includes(text)
+    });
+   
+    console.log('result', result);
+    setData(result);
+  };
+
   return (
     <>
       {isLoading ? (
         <Loader />
       ) : (
         <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
+          <SearchBar
+            undertxt="جستجو"
+            onChangeText={_handleSearch}
+            iconColor={COLOR.btn}
+          />
           <View
             style={{ flex: 1 }}>
             <FlatList
