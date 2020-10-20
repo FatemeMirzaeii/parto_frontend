@@ -46,19 +46,19 @@ const Calendar = ({ navigation, route }) => {
     navigation.setOptions({
       title: '',
       headerLeft: () => (
-        // <Button
-        //   title="امروز"
-        //   type="outline"
-        //   onPress={() => calendar.current.scrollToDay(new Date())}
-        //   titleStyle={globalStyles.headerBtnTitle}
-        //   containerStyle={globalStyles.smallHeaderBtn}
-        // />
-        <GoTodayButton
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
-          }}
+        <Button
+          title="امروز"
+          type="outline"
           onPress={() => calendar.current.scrollToDay(new Date())}
+          titleStyle={globalStyles.headerBtnTitle}
+          containerStyle={globalStyles.smallHeaderBtn}
         />
+        // <GoTodayButton
+        //   addAppTourTarget={(appTourTarget) => {
+        //     appTourTargets.push(appTourTarget);
+        //   }}
+        //   onPress={() => calendar.current.scrollToDay(new Date())}
+        // />
       ),
     });
   }, [editMode, navigation, markedDates]);

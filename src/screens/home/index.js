@@ -140,6 +140,7 @@ const Home = ({ navigation }) => {
             theme={{
               calendarBackground: '#B9B2CD',
             }}
+            showTodayButton
           onDateChanged={(d, propUpdate) => setDate(moment(d))}
         />
         <View style={styles.moonText}>
