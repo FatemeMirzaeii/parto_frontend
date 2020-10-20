@@ -129,6 +129,27 @@ const HomeCalendar = (props) => {
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
       <ExpandableCalendar
+       style={{backgroundColor:'pink'}}
+       key={'weeklyCalendar'}
+       title={'weeklyCalendar'}
+       ref={(ref) => {
+         if (!ref) return;
+         weeklyCalendar = ref;
+         let targetprops = {
+           order: 11,
+           title: 'تقویم هفتگی',
+           description: 'We have the best targets, believe me',
+           descriptionTextSize:15,
+           outerCircleColor: COLOR.tiffany,
+           outerCircleAlpha: 0.9,
+           targetRadius: 100,
+           fontFamily: FONT.regular,
+         };
+         props.addAppTourTarget &&
+           props.addAppTourTarget(
+             AppTourView.for(ref, { ...targetprops }),
+           );
+       }}
         jalali
         firstDay={6}
         disablePan
@@ -143,50 +164,10 @@ const HomeCalendar = (props) => {
             <View>
               <View style={styles.header}>
                 <Text
-                  key={'weeklyCalendar'}
-                  title={'weeklyCalendar'}
-                  ref={(ref) => {
-                    if (!ref) return;
-                    weeklyCalendar = ref;
-                    let targetprops = {
-                      order: 11,
-                      title: 'تقویم هفتگی',
-                      description: 'We have the best targets, believe me',
-                      outerCircleColor: COLOR.btn,
-                      outerCircleAlpha: 0.9,
-                      fontFamily: FONT.regular,
-                    };
-                    props.addAppTourTarget &&
-                      props.addAppTourTarget(
-                        AppTourView.for(ref, { ...targetprops }),
-                      );
-                  }}
+                 
                   style={styles.headerText}>
                   {jalaali(date).format('jD jMMMM jYYYY')}
                 </Text>
-                {/* <Icon
-                 key={'weeklyCalendar'}
-                 title={'weeklyCalendar'}
-                 ref={(ref) => {
-                   if (!ref) return;
-                   weeklyCalendar = ref;
-                   let props = {
-                     order: 21,
-                     title: 'تقویم هفتگی',
-                     description: 'We have the best targets, believe me',
-                     outerCircleColor: COLOR.btn,
-                     outerCircleAlpha: 0.9,
-                     fontFamily: FONT.regular,
-                   };
-                   props.addAppTourTarget &&
-                    props.addAppTourTarget(AppTourView.for(ref, { ...props }));
-                 }}
-                name="calendar"
-                type="font-awesome"
-                size={15}
-                color={COLOR.btn}
-                containerStyle={{ padding: 5 }}
-              /> */}
               </View>
               <Divider color={props.dividerColor} />
             </View>
@@ -218,7 +199,6 @@ const styles = StyleSheet.create({
     elevation: 0,
   },
   header: {
-    //backgroundColor: 'yellow',
     width: '100%',
     alignSelf: 'flex-end',
     justifyContent: 'center',
@@ -230,7 +210,6 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   headerText: {
-    //backgroundColor: 'red',
     fontFamily: FONT.bold,
     fontSize: SIZE[15],
   },

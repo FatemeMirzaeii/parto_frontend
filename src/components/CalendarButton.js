@@ -15,9 +15,10 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           calendarIcon = ref;
           let props = {
             order: 12,
-            title: 'تقویم سالانه',
-            description: 'We have the best targets, believe me',
-            outerCircleColor: COLOR.btn,
+            title: 'ماه در یک نگاه',
+            description: 'از این‌جا می‌تونی تقویم رو مشاهده کنی',
+            descriptionTextSize:15,
+            outerCircleColor: COLOR.tiffany,
             outerCircleAlpha: 0.9,
             targetRadius: 25,
             fontFamily: FONT.regular,

@@ -63,11 +63,11 @@ const Calendar = ({ navigation, route }) => {
     });
   }, [editMode, navigation, markedDates]);
 
-  // useEffect(() => {
-  //   registerSequenceStepEvent();
-  //   registerFinishSequenceEvent();
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
     
-  // }, []);
+  }, []);
 
   useEffect(() => {
     let appTourSequence = new AppTourSequence();

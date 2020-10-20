@@ -36,16 +36,16 @@ const Home = ({ navigation }) => {
     registerFinishSequenceEvent()
   },[]);
 
-  useEffect (()=>{
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
     setTimeout(() => {
-      let appTourSequence = new AppTourSequence()
-        appTourTargets.forEach(appTourTarget => {
-        appTourSequence.add(appTourTarget)
-      })
-
-      AppTour.ShowSequence(appTourSequence)
-    }, 1000)
-  },[]);
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
   
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {

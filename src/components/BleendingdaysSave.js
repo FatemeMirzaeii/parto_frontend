@@ -18,6 +18,7 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
           order: 12,
           title: 'ویرایش روزهای خونریزی',
           description: 'We have the best targets, believe me',
+          descriptionTextSize:15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.9,
           targetRadius: 80,

@@ -18,7 +18,7 @@ const CancelButton = ({ addAppTourTarget,onPress }) => {
         order: 21,
         title:"انصراف",
         description: 'We have the best targets, believe me',
-        outerCircleColor: COLOR.btn,
+        outerCircleColor: COLOR.tiffany,
         outerCircleAlpha: 0.9,
         targetRadius:80,
         fontFamily: FONT.regular,

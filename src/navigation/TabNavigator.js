@@ -21,16 +21,16 @@ const TabNavigator = () => {
     registerFinishSequenceEvent()
   },[]);
 
-  useEffect (()=>{
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
     setTimeout(() => {
-      let appTourSequence = new AppTourSequence()
-        appTourTargets.forEach(appTourTarget => {
-        appTourSequence.add(appTourTarget)
-      })
-
-      AppTour.ShowSequence(appTourSequence)
-    }, 1000)
-  },[]);
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
 
 
   const registerSequenceStepEvent = () => {
@@ -124,25 +124,25 @@ const TabNavigator = () => {
         options={{
           // tabBarVisible: false,
           tabBarButton: (props) => (
-          //   <PlusButton
-          //   {...props}
-          //   addAppTourTarget={appTourTarget => {
-          //     appTourTargets.push(appTourTarget)
-          //     }}
-          // />
-           <Icon
-                {...props}
-                raised
-                name="plus"
-                type="octicon"
-                color={COLOR.btn}
-                size={25}
-                containerStyle={{
-                  bottom: 35,
-                  borderColor: '#aaa',
-                  borderWidth: 0.2,
-                }}
-              />
+            <PlusButton
+            {...props}
+            addAppTourTarget={appTourTarget => {
+              appTourTargets.push(appTourTarget)
+              }}
+          />
+          //  <Icon
+          //       {...props}
+          //       raised
+          //       name="plus"
+          //       type="octicon"
+          //       color={COLOR.btn}
+          //       size={25}
+          //       containerStyle={{
+          //         bottom: 35,
+          //         borderColor: '#aaa',
+          //         borderWidth: 0.2,
+          //       }}
+          //     />
           ),
         }}
       />

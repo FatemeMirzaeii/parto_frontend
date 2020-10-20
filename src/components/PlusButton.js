@@ -15,7 +15,8 @@ const PlusButton = ({ addAppTourTarget }) => {
           order: 11,
           title: 'ثبت شرح حال روزانه',
           description: 'We have the best targets, believe me',
-          outerCircleColor: COLOR.btn,
+          descriptionTextSize:15,
+          outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.9,
           fontFamily: FONT.regular,
         };
