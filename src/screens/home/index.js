@@ -30,16 +30,17 @@ const Home = ({ navigation }) => {
   const determineMode = async () => {
     const preg = await pregnancyMode();
     setPregnant(preg);
+    const momentDate = moment(date);
     if (preg) {
       const p = await PregnancyModule();
-      const pregnancyAge = p.determinePregnancyWeek(date);
+      const pregnancyAge = p.determinePregnancyWeek(momentDate);
       setMainSentence(`شما در هفته ${pregnancyAge.week} بارداری هستید.`);
       setSubSentence(
-        `${p.remainingDaysToDueDate(date)} روز تا تولد فرزند شما!`,
+        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد فرزند شما!`,
       );
     } else {
       const c = await CycleModule();
-      const s = c.determinePhaseSentence(date);
+      const s = c.determinePhaseSentence(momentDate);
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
@@ -72,12 +73,14 @@ const Home = ({ navigation }) => {
           }}
         />
         <WeekCalendar
+          current={date}
+          onDateChanged={(d) => setDate(d)}
+          onDayPress={(d) => setDate(d.dateString)}
           dividerColor={COLOR.lightPink}
           theme={{
-            calendarBackground: '#B9B2CD',
+            calendarBackground: 'transparent',
           }}
           showTodayButton
-          onDateChanged={(d, propUpdate) => setDate(moment(d))}
         />
         <View style={styles.moonText}>
           <Ruler />
@@ -86,6 +89,9 @@ const Home = ({ navigation }) => {
         <Button
           title={isPregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
           type="outline"
+          buttonStyle={{
+            borderWidth: 0,
+          }}
           containerStyle={{
             height: 25,
             width: 140,
@@ -98,7 +104,7 @@ const Home = ({ navigation }) => {
           titleStyle={{
             fontFamily: FONT.bold,
             color: COLOR.white,
-            fontSize: SIZE[12],
+            fontSize: 11,
           }}
           onPress={() => {
             navigation.navigate(

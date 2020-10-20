@@ -6,7 +6,7 @@ export default StyleSheet.create({
   sky: {
     width: '100%',
     height: '100%',
-    justifyContent: 'center',
+    justifyContent: 'space-around',
   },
   moon: {
     width: '100%',
@@ -22,20 +22,20 @@ export default StyleSheet.create({
   sentenceContainer: { top: -11, marginRight: 10 },
   mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[17],
+    fontSize: 17,
     color: COLOR.black,
     // backgroundColor: 'green',
   },
   subSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[15],
+    fontSize: 15,
     color: COLOR.black,
     lineHeight: 50,
     // backgroundColor: 'purple',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[15],
+    fontSize: 15,
     color: COLOR.black,
     lineHeight: 45,
     // backgroundColor: 'red',

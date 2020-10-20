@@ -215,9 +215,9 @@ const TrackingOptions = ({ route, navigation }) => {
       c.determineLastPeriodDate();
     }
   };
-  const onDayPress = (d, propUpdate) => {
-    console.log('dayyyyyyyyy', d, propUpdate);
-    if (moment(d).isBefore(moment())) {
+  const onDayPress = (d) => {
+    console.log('dayyyyyyyyy', d);
+    if (moment(d).isSameOrBefore(today)) {
       setDate(d);
     } else {
       ToastAndroid.show(
@@ -270,10 +270,9 @@ const TrackingOptions = ({ route, navigation }) => {
           }}
           current={date}
           maxDate={moment().format(FORMAT)}
-          // navigation={navigation}
-          onDateChanged={(d, propUpdate) => onDayPress(d, propUpdate)}
+          onDateChanged={(d) => onDayPress(d)}
+          onDayPress={(d) => onDayPress(d.dateString)}
         />
-
         <Text style={styles.descriptionTxt}>
           لطفا ورق بزن و نشانه‌هایی که داری رو انتخاب کن:
         </Text>
