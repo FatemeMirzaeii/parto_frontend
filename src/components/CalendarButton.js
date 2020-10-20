@@ -14,10 +14,11 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           if (!ref) return;
           calendarIcon = ref;
           let props = {
-            order: 11,
-            title: 'تقویم سالانه',
-            description: 'We have the best targets, believe me',
-            outerCircleColor: COLOR.btn,
+            order: 12,
+            title: 'ماه در یک نگاه',
+            description: 'از این‌جا می‌تونی تقویم رو مشاهده کنی',
+            descriptionTextSize:15,
+            outerCircleColor: COLOR.tiffany,
             outerCircleAlpha: 0.9,
             targetRadius: 25,
             fontFamily: FONT.regular,
@@ -27,8 +28,8 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         }}
         //raised
         name="calendar"
-        type="ionicon"
-        size={22}
+        type="evilicon"
+        size={35}
         color={COLOR.black}
         containerStyle={styles.calendarIcon}
         onPress={onPress}
@@ -42,8 +43,8 @@ const styles = StyleSheet.create({
     top: 40,
     zIndex: 10,
     alignItems: 'flex-start',
-    paddingLeft: 20,
-    width: 60,
+    paddingLeft: 10,
+    width: 55,
     marginHorizontal: 10,
   },
 });

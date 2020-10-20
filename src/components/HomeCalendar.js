@@ -6,7 +6,7 @@
 // import WeekCalendar from './WeekCalendar';
 
 // const HomeCalendar = ({ addAppTourTarget, onDateChanged}) => {
-  
+
 //   return (
 //     <WeekCalendar
 //     key={'weeklyCalendar'}
@@ -41,7 +41,7 @@
 //     zIndex: 10,
 //     alignItems: 'flex-start',
 //     paddingLeft: 20,
-   
+
 //   },
 // });
 
@@ -129,6 +129,27 @@ const HomeCalendar = (props) => {
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
       <ExpandableCalendar
+       style={{backgroundColor:'pink'}}
+       key={'weeklyCalendar'}
+       title={'weeklyCalendar'}
+       ref={(ref) => {
+         if (!ref) return;
+         weeklyCalendar = ref;
+         let targetprops = {
+           order: 11,
+           title: 'تقویم هفتگی',
+           description: 'We have the best targets, believe me',
+           descriptionTextSize:15,
+           outerCircleColor: COLOR.tiffany,
+           outerCircleAlpha: 0.9,
+           targetRadius: 100,
+           fontFamily: FONT.regular,
+         };
+         props.addAppTourTarget &&
+           props.addAppTourTarget(
+             AppTourView.for(ref, { ...targetprops }),
+           );
+       }}
         jalali
         firstDay={6}
         disablePan
@@ -141,37 +162,12 @@ const HomeCalendar = (props) => {
         renderHeader={(date) => {
           return (
             <View>
-              <View style={styles.header}
-              >
-                <Text 
-                style={styles.headerText}
-               
-                >
+              <View style={styles.header}>
+                <Text
+                 
+                  style={styles.headerText}>
                   {jalaali(date).format('jD jMMMM jYYYY')}
                 </Text>
-                <Icon
-                 key={'weeklyCalendar'}
-                 title={'weeklyCalendar'}
-                 ref={(ref) => {
-                   if (!ref) return;
-                   weeklyCalendar = ref;
-                   let props = {
-                     order: 21,
-                     title: 'تقویم هفتگی',
-                     description: 'We have the best targets, believe me',
-                     outerCircleColor: COLOR.btn,
-                     outerCircleAlpha: 0.9,
-                     fontFamily: FONT.regular,
-                   };
-                   props.addAppTourTarget &&
-                    props.addAppTourTarget(AppTourView.for(ref, { ...props }));
-                 }}
-                name="calendar"
-                type="font-awesome"
-                size={15}
-                color={COLOR.btn}
-                containerStyle={{ padding: 5 }}
-              />
               </View>
               <Divider color={props.dividerColor} />
             </View>
@@ -205,13 +201,18 @@ const styles = StyleSheet.create({
   header: {
     width: '100%',
     alignSelf: 'flex-end',
+    justifyContent: 'center',
+    alignItems: 'center',
     padding: 5,
     marginTop: 5,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
   },
-  headerText: { fontFamily: FONT.bold, fontSize: SIZE[15] },
+  headerText: {
+    fontFamily: FONT.bold,
+    fontSize: SIZE[15],
+  },
   today: {
     alignSelf: 'flex-end',
     height: 25,
@@ -221,5 +222,3 @@ const styles = StyleSheet.create({
   },
 });
 export default HomeCalendar;
-
-

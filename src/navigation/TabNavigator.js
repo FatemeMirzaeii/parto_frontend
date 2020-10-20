@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Icon } from 'react-native-elements';
 import Home from '../screens/home';
@@ -7,9 +7,55 @@ import MenuStack from './MenuStack';
 import Analysis from '../screens/analysis';
 import TrackingOptions from '../screens/tracking-options';
 import { COLOR, FONT, SIZE } from '../styles/static';
+import { DeviceEventEmitter } from 'react-native';
+import { AppTour, AppTourSequence } from 'react-native-app-tour';
+import PlusButton from '../components/PlusButton';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
+
+  const [appTourTargets,setAppTourTargets]=useState([])
+  
+  useEffect (()=>{
+    registerSequenceStepEvent()
+    registerFinishSequenceEvent()
+  },[]);
+
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
+    setTimeout(() => {
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
+
+
+  const registerSequenceStepEvent = () => {
+    if (sequenceStepListener) {
+     sequenceStepListener.remove()
+    }
+    const sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e)
+      }
+    )
+  }
+
+ const registerFinishSequenceEvent = () => {
+    if (finishSequenceListener) {
+     finishSequenceListener.remove()
+    }
+    const finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e)
+      }
+    )
+  }
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -78,19 +124,25 @@ const TabNavigator = () => {
         options={{
           // tabBarVisible: false,
           tabBarButton: (props) => (
-            <Icon
-              {...props}
-              raised
-              name="plus"
-              type="octicon"
-              color={COLOR.btn}
-              size={25}
-              containerStyle={{
-                bottom: 35,
-                borderColor: '#aaa',
-                borderWidth: 0.2,
+            <PlusButton
+            {...props}
+            addAppTourTarget={appTourTarget => {
+              appTourTargets.push(appTourTarget)
               }}
-            />
+          />
+          //  <Icon
+          //       {...props}
+          //       raised
+          //       name="plus"
+          //       type="octicon"
+          //       color={COLOR.btn}
+          //       size={25}
+          //       containerStyle={{
+          //         bottom: 35,
+          //         borderColor: '#aaa',
+          //         borderWidth: 0.2,
+          //       }}
+          //     />
           ),
         }}
       />

@@ -1,22 +1,28 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
   FlatList,
-  ImageBackground,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View
 } from 'react-native';
-import { Icon as IconElement } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
+
+//components
 import EmptyList from '../../components/EmptyList';
 import Loader from '../../components/Loader';
+
+//services
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
-import { COLOR, FONT } from '../../styles/static';
+
+//styles
+import { COLOR } from '../../styles/static';
+import styles from './styles';
 
 const TreatiseList = ({ route, navigation }) => {
+
   const [data, setData] = useState([]);
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -27,7 +33,7 @@ const TreatiseList = ({ route, navigation }) => {
       title: catTitle,
       headerLeft: () => null,
       headerRight: () => (
-        <IconElement
+        <Icon
           reverse
           size={15}
           name="arrow-right"
@@ -70,15 +76,12 @@ const TreatiseList = ({ route, navigation }) => {
                 console.log('response', response);
                 const data = response.data.results;
                 const imgUrl = [];
-                //setRule([])
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
                     `${baseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );
-
-                  console.log('imgUrl', imgUrl);
                 }
                 rule.push({
                   ...con[i],
@@ -88,14 +91,9 @@ const TreatiseList = ({ route, navigation }) => {
                 });
                 setIsLoading(false);
                 setData(rule);
-                console.log('imgUrl', imgUrl);
-                console.log('new', rule);
               })
               .catch((err) => {
                 console.error(err, err.response);
-                // if (err.response && err.response.data) {
-                //   setServerError(err.response.data.message)
-                // }
               });
           }
         })
@@ -114,7 +112,6 @@ const TreatiseList = ({ route, navigation }) => {
       ) : (
         <SafeAreaView style={{ flex: 1, paddingBottom: 50 }}>
           <View
-            // source={require('../../../assets/images/start/4.png')}
             style={{ flex: 1 }}>
             <FlatList
               data={data}
@@ -141,41 +138,5 @@ const TreatiseList = ({ route, navigation }) => {
     </>
   );
 };
-
-const styles = StyleSheet.create({
-  GridViewContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: 150,
-    margin: 10,
-    marginTop: 20,
-    backgroundColor: '#fff',
-    borderRadius: 15,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 3,
-    },
-    shadowOpacity: 0.27,
-    shadowRadius: 4.65,
-    elevation: 6,
-  },
-  GridViewTextLayout: {
-    fontSize: 15,
-    fontFamily: FONT.medium,
-    justifyContent: 'center',
-    color: 'black',
-    padding: 10,
-    textAlign: 'center',
-  },
-  linearGradient: {
-    height: 180,
-    width: '100%',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-});
 
 export default TreatiseList;

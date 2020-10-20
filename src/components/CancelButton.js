@@ -4,7 +4,7 @@ import { AppTourView } from 'react-native-app-tour';
 import {TouchableOpacity,Text} from 'react-native'
 import { COLOR, FONT } from '../styles/static';
 
-const HeaderCancelButton = ({ addAppTourTarget,onPress }) => {
+const CancelButton = ({ addAppTourTarget,onPress }) => {
   return (
     <TouchableOpacity
     key={"cancelbtn"}
@@ -15,10 +15,10 @@ const HeaderCancelButton = ({ addAppTourTarget,onPress }) => {
       if (!ref) return;
       cancelbtn= ref;
       let props = {
-        order: 11,
+        order: 21,
         title:"انصراف",
         description: 'We have the best targets, believe me',
-        outerCircleColor: COLOR.btn,
+        outerCircleColor: COLOR.tiffany,
         outerCircleAlpha: 0.9,
         targetRadius:80,
         fontFamily: FONT.regular,
@@ -28,7 +28,7 @@ const HeaderCancelButton = ({ addAppTourTarget,onPress }) => {
     }}
         >
           <Text style={styles.buttonTitle}>
-          بی‌خیال
+          انصراف
           </Text>
         </TouchableOpacity>
     
@@ -37,13 +37,32 @@ const HeaderCancelButton = ({ addAppTourTarget,onPress }) => {
 
 const styles = StyleSheet.create({
   bottomWrapper: {
-    width:70,
-    padding:5,
-    marginRight:15,
+    // width:70,
+    // padding:5,
+    // marginRight:15,
+    // justifyContent: 'center',
+    // alignItems:'center',
+    // //alignSelf: 'flex-start',
+    // borderRadius: 20,
+    // backgroundColor: COLOR.white,
+    // shadowColor: '#000',
+    // shadowOffset: {
+    //   width: 0,
+    //   height: 3,
+    // },
+    // shadowOpacity: 0.27,
+    // shadowRadius: 4.65,
+    // elevation: 3,
+    position: 'absolute',
+    marginBottom: 15,
+    bottom: 25,
+    left:15,
     justifyContent: 'center',
-    alignItems:'center',
-    //alignSelf: 'flex-start',
-    borderRadius: 20,
+    width: 150,
+    height: 25,
+    borderRadius: 50,
+    backgroundColor: COLOR.btn,
+    alignSelf: 'flex-start',
     backgroundColor: COLOR.white,
     shadowColor: '#000',
     shadowOffset: {
@@ -62,4 +81,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HeaderCancelButton;
+export default CancelButton;

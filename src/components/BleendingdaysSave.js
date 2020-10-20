@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
-import { COLOR, FONT } from '../styles/static';
+import { COLOR, FONT ,SIZE} from '../styles/static';
 
 const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
   return (
@@ -18,7 +18,8 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
           order: 12,
           title: 'ویرایش روزهای خونریزی',
           description: 'We have the best targets, believe me',
-          outerCircleColor: COLOR.btn,
+          descriptionTextSize:15,
+          outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.9,
           targetRadius: 80,
           fontFamily: FONT.regular,
@@ -32,19 +33,33 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
 };
 
 const styles = StyleSheet.create({
+  // bottomButton: {
+  //   position: 'absolute',
+  //   marginBottom: 15,
+  //   bottom: 50,
+  //   left: 15,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   alignSelf: 'flex-start',
+  //   width: 150,
+  //   height: 25,
+  //   borderRadius: 50,
+  //   backgroundColor: COLOR.btn,
+  //   shadowColor: '#000',
+  //   shadowOffset: {
+  //     width: 0,
+  //     height: 3,
+  //   },
+  //   shadowOpacity: 0.27,
+  //   shadowRadius: 4.65,
+  //   elevation: 3,
+  // },
   bottomButton: {
-    position: 'absolute',
-    marginBottom: 15,
-    bottom: 50,
-    left: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    alignSelf: 'flex-start',
-    width: 150,
-    height: 25,
-    borderRadius: 50,
-    backgroundColor: COLOR.btn,
-    shadowColor: '#000',
+  position: 'absolute',
+  borderWidth: 0,
+  marginBottom: 15,
+  bottom: 25,
+  shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -52,12 +67,17 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 3,
-  },
+  justifyContent: 'center',
+  alignSelf: 'center',
+  width: 150,
+  height: 25,
+  borderRadius: 50,
+  backgroundColor: COLOR.btn,},
   buttonTitle: {
     color: COLOR.white,
-    fontFamily: FONT.regular,
-    fontSize: 14,
-    textAlign: 'center',
+    fontFamily: FONT.bold,
+    fontSize: SIZE[12],
+    textAlign:'center'
   },
 });
 

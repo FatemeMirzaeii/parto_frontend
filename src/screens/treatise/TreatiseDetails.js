@@ -1,12 +1,16 @@
 import React, { useLayoutEffect } from 'react';
+import { Dimensions, Linking, SafeAreaView } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { Dimensions, Linking, SafeAreaView, Text } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import HTML from 'react-native-render-html';
-import styles, { HTMLTagsStyles } from './styles';
-import { COLOR, FONT } from '../../styles/static';
+
+//styles
+import { COLOR } from '../../styles/static';
+import styles from './styles';
+import { HTMLTagsStyles } from '../../styles/commonStyles';
 
 const TreatiseDetails = ({ route, navigation }) => {
+  
   const { treatiseContent } = route.params;
 
   useLayoutEffect(() => {

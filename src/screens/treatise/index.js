@@ -1,66 +1,36 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import axios from 'axios';
+import { Icon } from 'native-base';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
+  DeviceEventEmitter,
   FlatList,
   Linking,
   SafeAreaView,
-  StyleSheet,
   Text,
   TouchableHighlight,
   View,
 } from 'react-native';
-import axios from 'axios';
-import { Icon } from 'native-base';
+import { AppTour, AppTourSequence } from 'react-native-app-tour';
 import { Icon as IconElement } from 'react-native-elements';
-import { FloatingAction } from 'react-native-floating-action';
-//import Error from '../../components/Error';
+
+//components
 import Loader from '../../components/Loader';
+import TreatiseIconBox from '../../components/TreatiseIconBox';
+//import Error from '../../components/Error';
+
+//services
 import { authCode } from '../../services/authCode';
 import { baseUrl } from '../../services/urls';
-// export const WIDTH = Math.round(Dimensions.get('window').width);
-import { COLOR, FONT, WIDTH } from '../../styles/static';
+
+//styles
+import { COLOR } from '../../styles/static';
+import styles from './styles';
 
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [serverError, setServerError] = useState(null);
-  const actions = [
-    {
-      //text: 'تماس با کارشناس',
-      icon: (
-        <Icon
-          type="MaterialIcons"
-          name="call"
-          style={styles.actionButtonIcon}
-        />
-      ),
-      name: 'call',
-      position: 1,
-      color: COLOR.tiffany,
-      textStyle: { fontFamily: 'IRANSansMobile(FaNum)_Medium' },
-    },
-    {
-      //text: 'ارسال پیامک',
-      icon: (
-        <Icon type="FontAwesome5" name="sms" style={styles.actionButtonIcon} />
-      ),
-      name: 'SMS',
-      position: 2,
-      color: COLOR.tiffany,
-    },
-    {
-      //text: 'راهنما',
-      icon: (
-        <Icon
-          type="MaterialIcons"
-          name="help"
-          style={styles.actionButtonIcon}
-        />
-      ),
-      name: 'help',
-      position: 3,
-      color: COLOR.tiffany,
-    },
-  ];
+  const [appTourTargets, setAppTourTargets] = useState([]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -90,16 +60,11 @@ const Treatise = ({ navigation }) => {
         },
       })
         .then((res) => {
-          console.log(res);
-          console.log(res.data.results);
           setCategoryList(res.data.results);
           setIsLoading(false);
         })
         .catch((error) => {
-          console.error(error, error);
-          console.log('err', error);
           setServerError(error.toString());
-          //console.log('err.response.data.message',err.response);
           setIsLoading(false);
         });
     };
@@ -107,10 +72,44 @@ const Treatise = ({ navigation }) => {
     getCategoryList();
   }, []);
 
-  const _onPressFloatingActionItem = (name) => {
-    if (name === 'call') Linking.openURL(`tel:${'+985132020'}`);
-    if (name === 'SMS') Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`);
-    if (name === 'help') navigation.navigate('TreatiseHelp');
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
+  }, []);
+
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
+    setTimeout(() => {
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
+
+  const registerSequenceStepEvent = () => {
+    if (sequenceStepListener) {
+      sequenceStepListener.remove();
+    }
+    const sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
+
+  const registerFinishSequenceEvent = () => {
+    if (finishSequenceListener) {
+      finishSequenceListener.remove();
+    }
+    const finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
   };
 
   return (
@@ -120,33 +119,14 @@ const Treatise = ({ navigation }) => {
           <Error message={serverError} />
         
       )} */}
-      <View style={styles.iconContainer}>
-        <IconElement
-          reverse
-          size={25}
-          name="call"
-          type="MaterialIcons"
-          color={COLOR.btn}
-          onPress={() => Linking.openURL(`tel:${'+985132020'}`)}
-        />
-        <IconElement
-          reverse
-          size={25}
-          type="FontAwesome5"
-          name="sms"
-          color={COLOR.btn}
-          onPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
-        />
-        <IconElement
-          reverse
-          size={25}
-          type="MaterialIcons"
-          name="help"
-          color={COLOR.btn}
-          style={{ elevation: 6 }}
-          onPress={() => navigation.navigate('TreatiseHelp')}
-        />
-      </View>
+      <TreatiseIconBox
+        addAppTourTarget={(appTourTarget) => {
+          appTourTargets.push(appTourTarget);
+        }}
+        callPress={() => Linking.openURL(`tel:${'+985132020'}`)}
+        smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
+        helpPress={() => navigation.navigate('TreatiseHelp')}
+      />
       <View style={styles.main}>
         {isLoading ? (
           <Loader />
@@ -178,7 +158,7 @@ const Treatise = ({ navigation }) => {
                         <Icon
                           type="Fontisto"
                           name="blood-drop"
-                          style={styles.icon}
+                          style={styles.dropIcon}
                         />
                       </View>
                     </View>
@@ -189,73 +169,9 @@ const Treatise = ({ navigation }) => {
             )}
           </>
         )}
-        {/* <FloatingAction
-          actions={actions}
-          color={COLOR.btn}
-          //overlayColor={COLOR.lightPink}
-          buttonSize={50}
-          onPressItem={_onPressFloatingActionItem}
-        /> */}
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  safeAreaView: {
-    flex: 1,
-    paddingBottom: 50,
-  },
-  main: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-    //padding: 10,
-  },
-  button: {
-    backgroundColor: '#f9d1de',
-    alignItems: 'flex-end',
-    alignSelf: 'center',
-    width: '90%',
-    // height:'50%',
-    padding: '5%',
-    // borderTopLeftRadius: 20,
-    // borderBottomRightRadius: 20,
-    margin: 5,
-    borderRadius: 15,
-  },
-  buttonContent: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
-    //backgroundColor:'red'
-  },
-  txt: {
-    flex: 0.95,
-    fontSize: 14,
-    fontFamily: FONT.medium,
-    paddingHorizontal: '5%',
-  },
-  icon: {
-    fontSize: 30,
-    color: '#ec5f91',
-  },
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: 'white',
-  },
-  iconContainer: {
-    width: '65%',
-    //backgroundColor:'red',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    alignSelf: 'center',
-    flexDirection: 'row',
-    // padding:10,
-    paddingTop: 20,
-  },
-});
 
 export default Treatise;
