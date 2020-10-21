@@ -13,14 +13,17 @@ import {
   Text,
   ToastAndroid,
   FlatList,
+  DeviceEventEmitter,
 } from 'react-native';
 import moment from 'moment';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
-import Database from '../../util/database';
+import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import WeekCalendar from '../../components/WeekCalendar';
+import CalendarPointer from '../../components/CalendarPointer';
+import Database from '../../util/database';
 import styles from './styles';
 import commonStyles from '../../styles/commonStyles';
 import { COLOR, WIDTH } from '../../styles/static';
@@ -57,13 +60,57 @@ const TrackingOptions = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
+  const [appTourTargets, setAppTourTargets] = useState([]);
+
   const getData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
     setCategories(td);
   }, [date]);
+
   useEffect(() => {
     getData();
   }, [getData]);
+
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
+  }, []);
+
+  useEffect(() => {
+    let appTourSequence = new AppTourSequence();
+    setTimeout(() => {
+      appTourTargets.forEach((appTourTarget) => {
+        appTourSequence.add(appTourTarget);
+      });
+      AppTour.ShowSequence(appTourSequence);
+    }, 1000);
+    return () => clearTimeout(appTourSequence);
+  }, []);
+
+  const registerSequenceStepEvent = () => {
+    if (sequenceStepListener) {
+      sequenceStepListener.remove();
+    }
+
+    const sequenceStepListener = DeviceEventEmitter.addListener(
+      'onShowSequenceStepEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
+
+  const registerFinishSequenceEvent = () => {
+    if (finishSequenceListener) {
+      finishSequenceListener.remove();
+    }
+    const finishSequenceListener = DeviceEventEmitter.addListener(
+      'onFinishSequenceEvent',
+      (e: Event) => {
+        console.log(e);
+      },
+    );
+  };
 
   const renderItem = ({ item }) => {
     return (
@@ -94,6 +141,7 @@ const TrackingOptions = ({ route, navigation }) => {
       </View>
     );
   };
+  
   const renderOptions = (category, color) => {
     return (
       <FlatList
@@ -128,6 +176,7 @@ const TrackingOptions = ({ route, navigation }) => {
       />
     );
   };
+
   const renderDetailPage = () => {
     switch (detailPageId) {
       case BLEEDING:
@@ -165,6 +214,7 @@ const TrackingOptions = ({ route, navigation }) => {
       default:
     }
   };
+
   const onOptionPress = async (category, option) => {
     const c = await CycleModule();
 
@@ -215,6 +265,7 @@ const TrackingOptions = ({ route, navigation }) => {
       c.determineLastPeriodDate();
     }
   };
+
   const onDayPress = (d) => {
     console.log('dayyyyyyyyy', d);
     if (moment(d).isSameOrBefore(today)) {
@@ -226,9 +277,11 @@ const TrackingOptions = ({ route, navigation }) => {
       );
     }
   };
+
   const updateIndex = (i) => {
     setSelectedIndex(i);
   };
+
   const toggleOverlay = (itemId) => {
     setVisible(!visible);
     if (!itemId) return;
@@ -263,6 +316,11 @@ const TrackingOptions = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
+      <CalendarPointer
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+        />
         <WeekCalendar
           dividerColor="#fff"
           theme={{

@@ -16,11 +16,11 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
         redDaysSave = ref;
         let props = {
           order: 12,
-          title: 'ویرایش روزهای خونریزی',
-          description: 'We have the best targets, believe me',
+          title: 'ویرایش پریود',
+          description: 'اطلاعات یه روز اشتباه وارد شده؟ با لمس این دکمه می‌تونی ویرایش کنی',
           descriptionTextSize:15,
           outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.9,
+          outerCircleAlpha: 0.99,
           targetRadius: 80,
           fontFamily: FONT.regular,
         };

@@ -13,10 +13,10 @@ const PlusButton = ({ addAppTourTarget }) => {
         plusIcon = ref;
         let props = {
           order: 11,
-          title: 'ثبت شرح حال روزانه',
-          description: 'We have the best targets, believe me',
+          title: 'شرح حال من',
+          description: 'اطلاعات سلامتت رو این‌جا در اختیار دستیارت قرار بده',
           descriptionTextSize:15,
-          outerCircleColor: COLOR.tiffany,
+          outerCircleColor: COLOR.btn,
           outerCircleAlpha: 0.9,
           fontFamily: FONT.regular,
         };

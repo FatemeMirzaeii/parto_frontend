@@ -15,10 +15,10 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           calendarIcon = ref;
           let props = {
             order: 12,
-            title: 'ماه در یک نگاه',
-            description: 'از این‌جا می‌تونی تقویم رو مشاهده کنی',
+            title: 'تقویم پرتو',
+            description: 'از این‌جا می‌تونی تقویمت رو ببینی',
             descriptionTextSize:15,
-            outerCircleColor: COLOR.tiffany,
+            outerCircleColor: COLOR.btn,
             outerCircleAlpha: 0.9,
             targetRadius: 25,
             fontFamily: FONT.regular,
@@ -26,7 +26,6 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           addAppTourTarget &&
             addAppTourTarget(AppTourView.for(ref, { ...props }));
         }}
-        //raised
         name="calendar"
         type="evilicon"
         size={35}

@@ -3,22 +3,22 @@ import { StyleSheet, View } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { COLOR, FONT, WIDTH } from '../styles/static';
 
-const HomeCalendar = ({ addAppTourTarget }) => {
+const CalendarPointer = ({ addAppTourTarget }) => {
   return (
     <View
       style={styles.point}
-      key={'weeklyCalendar'}
-      title={'weeklyCalendar'}
+      key={'calendarPointer'}
+      title={'calendarPointer'}
       ref={(ref) => {
         if (!ref) return;
-        weeklyCalendar = ref;
+        calendarPointer = ref;
         let targetprops = {
           order: 11,
-          title: 'برشی از تقویم',
-          description: 'ورق بزن و تاریخ‌های قبلی و بعدی رو ببین',
+          title: 'تقویم شرح حال',
+          description: ' با ورق زدن تقویم روز مورد نظرت رو مشخص و علایمی که توی روز داشتی رو از لیست پایین انتخاب کن ',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.btn,
-          outerCircleAlpha: 0.9,
+          outerCircleColor: COLOR.tiffany,
+          outerCircleAlpha: 0.99,
           targetRadius: 100,
           fontFamily: FONT.regular,
         };
@@ -41,4 +41,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default HomeCalendar;
+export default CalendarPointer;

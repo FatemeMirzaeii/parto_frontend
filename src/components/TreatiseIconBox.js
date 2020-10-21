@@ -15,12 +15,12 @@ const TreatiseIconBox= ({ addAppTourTarget, callPress,smsPress,helpPress }) => {
          if (!ref) return;
          goCall = ref;
          let props = {
-           order: 11,
+           order: 12,
            title: 'تماس با پاسخگوی شرعی',
-           description: 'We have the best targets, believe me',
+           description: 'اساتید خبره احکام بانوان، به صورت 24 ساعته و رایگان آماده پاسخگویی به شما هستن',
            descriptionTextSize:15,
            outerCircleColor: COLOR.tiffany,
-           outerCircleAlpha: 0.9,
+           outerCircleAlpha: 0.99,
            fontFamily: FONT.regular,
          };
          addAppTourTarget &&
@@ -33,7 +33,7 @@ const TreatiseIconBox= ({ addAppTourTarget, callPress,smsPress,helpPress }) => {
           color={COLOR.btn}
           onPress={callPress}
         />
-         <IconElement
+         {/* <IconElement
           key={'goSMS'}
           title={'goSMS'}
           style={styles.bottomButton}
@@ -58,7 +58,7 @@ const TreatiseIconBox= ({ addAppTourTarget, callPress,smsPress,helpPress }) => {
           name="sms"
           color={COLOR.btn}
           onPress={smsPress}
-        />
+        /> */}
          <IconElement
           key={'goHelp'}
           title={'goHelp'}
@@ -67,9 +67,9 @@ const TreatiseIconBox= ({ addAppTourTarget, callPress,smsPress,helpPress }) => {
             if (!ref) return;
             goHelp = ref;
             let props = {
-              order: 13,
+              order: 11,
               title: 'راهنمای احکام',
-              description: 'We have the best targets, believe me',
+              description: 'این‌جا رو حتما بخون',
               descriptionTextSize:15,
               outerCircleColor: COLOR.tiffany,
               outerCircleAlpha: 0.9,
@@ -91,13 +91,12 @@ const TreatiseIconBox= ({ addAppTourTarget, callPress,smsPress,helpPress }) => {
   }
 const styles = StyleSheet.create({
   iconContainer: {
-    width:'65%',
-    //backgroundColor:'red',
+    width:'35%',
+    //width:'65%',
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf:'center',
     flexDirection: 'row',
-   // padding:10,
     paddingTop:20
   },
   });

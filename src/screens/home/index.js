@@ -9,15 +9,15 @@ import {
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
+import CalendarButton from '../../components/CalendarButton';
 import Ruler from '../../components/Ruler';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
 import styles from './styles';
 import { Button, Icon } from 'react-native-elements';
-import CalendarButton from '../../components/CalendarButton';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import { pregnancyMode } from '../../util/database/query';
-import { COLOR, FONT, SIZE } from '../../styles/static';
+import { COLOR, FONT, SIZE ,WIDTH,HEIGHT} from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
@@ -123,6 +123,11 @@ const Home = ({ navigation }) => {
             navigation.navigate('Calendar', { isPregnant });
           }}
         /> */}
+        <HomeCalendar
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+        />
         <CalendarButton
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);

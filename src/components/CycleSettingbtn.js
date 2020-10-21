@@ -15,11 +15,11 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
         settingbtn = ref;
         let props = {
           order: 11,
-          title: 'ثبت تغییرات',
+          title: 'ثبت تغییرات دوره‌ها',
           description: 'از لیست زیر هر موردی که خواستی رو تغییر بده و با زدن دکمه تغیرات رو ثبت کن',
           descriptionTextSize:15,
           outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.9,
+          outerCircleAlpha: 0.99,
           fontFamily: FONT.regular,
         };
         addAppTourTarget &&

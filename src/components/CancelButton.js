@@ -16,10 +16,11 @@ const CancelButton = ({ addAppTourTarget,onPress }) => {
       cancelbtn= ref;
       let props = {
         order: 21,
-        title:"انصراف",
-        description: 'We have the best targets, believe me',
+        title:"انصراف از ویرایش",
+        description: 'اگر از ویرایش منصرف شدی، این دکمه رو لمس کن',
+        descriptionTextSize:15,
         outerCircleColor: COLOR.tiffany,
-        outerCircleAlpha: 0.9,
+        outerCircleAlpha: 0.99,
         targetRadius:80,
         fontFamily: FONT.regular,
       };

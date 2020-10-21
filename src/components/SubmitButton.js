@@ -16,11 +16,11 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
         submitbtn = ref;
         let props = {
           order: 12,
-          title: 'ثبت',
-          description: 'We have the best targets, believe me',
+          title: 'ثبت تغییرات روزها',
+          description: 'بعد از ویرایش، تغییرات رو ثبت کن',
           descriptionTextSize:15,
           outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.9,
+          outerCircleAlpha: 0.99,
           targetRadius: 80,
           fontFamily: FONT.regular,
         };
@@ -34,23 +34,6 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
 
 const styles = StyleSheet.create({
   bottomWrapper: {
-    // padding: 5,
-    // marginLeft: 15,
-    // width: 70,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    // //alignSelf: 'flex-start',
-    // borderRadius: 20,
-    // backgroundColor: COLOR.btn,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 3,
-    // },
-    // shadowOpacity: 0.27,
-    // shadowRadius: 4.65,
-    // elevation: 3,
-
     position: 'absolute',
     marginBottom: 15,
     bottom: 25,
