@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import { AppTour, AppTourSequence } from 'react-native-app-tour';
 import { Icon as IconElement } from 'react-native-elements';
+import { storeData, getData } from '../../util/func';
 
 //components
 import Loader from '../../components/Loader';
@@ -31,6 +32,7 @@ const Treatise = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [serverError, setServerError] = useState(null);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTour, setAppTour] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -76,22 +78,33 @@ const Treatise = ({ navigation }) => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
   }, []);
-
   useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 1000);
-    return () => clearTimeout(appTourSequence);
+    checkIfAppTourIsNeeded();
   }, []);
 
+  useEffect(() => {
+    if (appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
+  }, []);
+
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('HomeTourEnd');
+    console.log('aaaa', a);
+    setAppTour(a);
+  };
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
       sequenceStepListener.remove();
     }
+
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
       (e: Event) => {
@@ -106,8 +119,13 @@ const Treatise = ({ navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e: Event) => {
         console.log(e);
+        console.log('appTourTargets.key', appTourTargets);
+        const t=appTourTargets.filter((i)=>{i.key=='goCall'})
+        console.log('t',t)
+      //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+      //     await storeData('HomeTourEnd', 'true');
       },
     );
   };
