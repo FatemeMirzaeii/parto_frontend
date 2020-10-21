@@ -13,13 +13,12 @@ import PlusButton from '../components/PlusButton';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
+  const [appTourTargets, setAppTourTargets] = useState([]);
 
-  const [appTourTargets,setAppTourTargets]=useState([])
-  
-  useEffect (()=>{
-    registerSequenceStepEvent()
-    registerFinishSequenceEvent()
-  },[]);
+  useEffect(() => {
+    registerSequenceStepEvent();
+    registerFinishSequenceEvent();
+  }, []);
 
   useEffect(() => {
     let appTourSequence = new AppTourSequence();
@@ -32,30 +31,29 @@ const TabNavigator = () => {
     return () => clearTimeout(appTourSequence);
   }, []);
 
-
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
-     sequenceStepListener.remove()
+      sequenceStepListener.remove();
     }
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
 
- const registerFinishSequenceEvent = () => {
+  const registerFinishSequenceEvent = () => {
     if (finishSequenceListener) {
-     finishSequenceListener.remove()
+      finishSequenceListener.remove();
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
       (e: Event) => {
-        console.log(e)
-      }
-    )
-  }
+        console.log(e);
+      },
+    );
+  };
   return (
     <Tab.Navigator
       initialRouteName="Home"
@@ -125,24 +123,11 @@ const TabNavigator = () => {
           // tabBarVisible: false,
           tabBarButton: (props) => (
             <PlusButton
-            {...props}
-            addAppTourTarget={appTourTarget => {
-              appTourTargets.push(appTourTarget)
+              {...props}
+              addAppTourTarget={(appTourTarget) => {
+                appTourTargets.push(appTourTarget);
               }}
-          />
-          //  <Icon
-          //       {...props}
-          //       raised
-          //       name="plus"
-          //       type="octicon"
-          //       color={COLOR.btn}
-          //       size={25}
-          //       containerStyle={{
-          //         bottom: 35,
-          //         borderColor: '#aaa',
-          //         borderWidth: 0.2,
-          //       }}
-          //     />
+            />
           ),
         }}
       />

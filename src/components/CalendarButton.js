@@ -17,7 +17,7 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
             order: 12,
             title: 'تقویم پرتو',
             description: 'از این‌جا می‌تونی تقویمت رو ببینی',
-            descriptionTextSize:15,
+            descriptionTextSize: 15,
             outerCircleColor: COLOR.btn,
             outerCircleAlpha: 0.9,
             targetRadius: 25,
