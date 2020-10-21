@@ -26,14 +26,17 @@ export default StyleSheet.create({
   btnContainer: {
     elevation: 5,
     width: WIDTH / 3,
+    height: 40,
     borderRadius: 40,
   },
   nextButton: {
+    height: 40,
     backgroundColor: COLOR.btn,
   },
   prevButton: {
     backgroundColor: COLOR.white,
     width: WIDTH / 3,
+    height: 40,
     borderRadius: 40,
   },
   btnTitle: {
