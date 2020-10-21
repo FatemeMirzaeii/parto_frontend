@@ -114,7 +114,7 @@ const PregnancyProfile = ({ navigation, route }) => {
                 textSectionTitleColor: COLOR.black,
                 calendarBackground: 'transparent',
                 selectedDayTextColor: COLOR.white,
-                textDisabledColor: COLOR.textColor,
+                textDisabledColor: COLOR.textColorDark,
                 textDayFontFamily: FONT.regular,
                 textMonthFontFamily: FONT.regular,
                 textDayHeaderFontFamily: FONT.regular,
