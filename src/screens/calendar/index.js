@@ -115,7 +115,7 @@ const Calendar = ({ navigation, route }) => {
       delete markedDates[dateString];
       setMarkedDates({ ...markedDates });
     } else {
-      markedDateObj([dateString], COLOR.btn);
+      markedDateObj([dateString], COLOR.bleeding);
     }
   };
   const onEditPress = () => {
@@ -126,16 +126,16 @@ const Calendar = ({ navigation, route }) => {
     setMarkedDates({});
 
     const c = await CycleModule();
-    console.log('before', markedDates, markedDatesBeforeEdit);
+    // console.log('before', markedDates, markedDatesBeforeEdit);
     const added = Object.keys(markedDates).filter(
       (key) => markedDatesBeforeEdit[key] !== markedDates[key],
     );
-    console.log('added', added);
+    // console.log('added', added);
 
     const removed = Object.keys(markedDatesBeforeEdit).filter(
       (key) => markedDatesBeforeEdit[key] !== markedDates[key],
     );
-    console.log('removed', removed);
+    // console.log('removed', removed);
 
     await setBleedingDays(added, removed);
     await c.determineLastPeriodDate();
@@ -146,7 +146,7 @@ const Calendar = ({ navigation, route }) => {
     setEditMode(false);
   };
   const markedDateObj = (dates, color, perdictions) => {
-    console.log('marked dates', dates, color, perdictions);
+    // console.log('marked dates', dates, color, perdictions);
     dates.forEach((date) => {
       if (date in markedDates) return;
       markedDates[date] = {
@@ -166,7 +166,7 @@ const Calendar = ({ navigation, route }) => {
     const past = await c.pastBleedingDays();
     if (past) {
       const formatted = past.map((day) => day.date.format(FORMAT));
-      markedDateObj(formatted, COLOR.btn, false);
+      markedDateObj(formatted, COLOR.bleeding, false);
     }
   };
   const markPerdictions = async () => {
@@ -214,18 +214,17 @@ const Calendar = ({ navigation, route }) => {
                         styles.editableDays,
                         {
                           color:
-                            marking.length !== 0 &&
-                            marking.periods[0].color === COLOR.btn
+                            (marking.length !== 0 &&
+                              marking.periods[0].color === COLOR.bleeding) ||
+                            state === 'today'
                               ? COLOR.white
-                              : state === 'disabled'
-                              ? COLOR.textColor
-                              : COLOR.textColorDark,
+                              : COLOR.black,
                           backgroundColor:
                             marking.length !== 0 &&
-                            marking.periods[0].color === COLOR.btn
+                            marking.periods[0].color === COLOR.bleeding
                               ? marking.periods[0].color
                               : state === 'today'
-                              ? COLOR.tiffany
+                              ? COLOR.today
                               : 'transparent',
                         },
                       ]}>
@@ -241,7 +240,7 @@ const Calendar = ({ navigation, route }) => {
           todayTextColor: COLOR.white,
           todayBackgroundColor: COLOR.tiffany,
           selectedDayTextColor: COLOR.white,
-          textDisabledColor: COLOR.textColor,
+          textDisabledColor: COLOR.textColorDark,
           textDayFontFamily: FONT.medium,
           textMonthFontFamily: FONT.bold,
           'stylesheet.calendar-list.main': {
@@ -270,16 +269,16 @@ const Calendar = ({ navigation, route }) => {
           },
           'stylesheet.day.basic': {
             today: {
-              borderColor: '#c6d436',
+              borderColor: COLOR.today,
               borderWidth: 0.8,
               borderRadius: 50,
-              backgroundColor: '#c6d436',
+              backgroundColor: COLOR.today,
               // borderStyle: 'dashed',
             },
-            // todayText: {
-            //   color: '#c6d436',
-            //   fontWeight: '900',
-            // },
+            todayText: {
+              color: COLOR.white,
+              fontWeight: '900',
+            },
           },
         }}
       />

@@ -17,10 +17,11 @@ export default StyleSheet.create({
     textAlign: 'center',
     textAlignVertical: 'center',
     borderWidth: 0.7,
-    borderColor: COLOR.btn,
+    borderColor: COLOR.bleeding,
     borderRadius: 40,
     width: 35,
     height: 35,
+    fontFamily: FONT.medium,
   },
   bottomButton: {
     position: 'absolute',
