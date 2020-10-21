@@ -27,7 +27,7 @@ const TabNavigator = () => {
         appTourSequence.add(appTourTarget);
       });
       AppTour.ShowSequence(appTourSequence);
-    }, 1000);
+    }, 100);
     return () => clearTimeout(appTourSequence);
   }, []);
 

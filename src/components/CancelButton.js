@@ -34,22 +34,6 @@ const CancelButton = ({ addAppTourTarget, onPress }) => {
 
 const styles = StyleSheet.create({
   bottomWrapper: {
-    // width:70,
-    // padding:5,
-    // marginRight:15,
-    // justifyContent: 'center',
-    // alignItems:'center',
-    // //alignSelf: 'flex-start',
-    // borderRadius: 20,
-    // backgroundColor: COLOR.white,
-    // shadowColor: '#000',
-    // shadowOffset: {
-    //   width: 0,
-    //   height: 3,
-    // },
-    // shadowOpacity: 0.27,
-    // shadowRadius: 4.65,
-    // elevation: 3,
     position: 'absolute',
     marginBottom: 15,
     bottom: 25,

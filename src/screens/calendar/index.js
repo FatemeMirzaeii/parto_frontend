@@ -21,6 +21,7 @@ import SaveBleendingButton from '../../components/BleendingdaysSave';
 import GoTodayButton from '../../components/GoTodayButton';
 import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
+import storeData from '../../util/func';
 
 const Calendar = ({ navigation, route }) => {
   const { isPregnant } = route.params;
@@ -76,7 +77,7 @@ const Calendar = ({ navigation, route }) => {
         appTourSequence.add(appTourTarget);
       });
       AppTour.ShowSequence(appTourSequence);
-    }, 1000);
+    }, 100);
     return () => clearTimeout(appTourSequence);
   }, [editMode]);
 
@@ -100,6 +101,7 @@ const Calendar = ({ navigation, route }) => {
       'onFinishSequenceEvent',
       (e: Event) => {
         console.log(e);
+        // storeData(,true)
       },
     );
   };

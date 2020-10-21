@@ -18,6 +18,7 @@ import { Button, Icon } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import { pregnancyMode } from '../../util/database/query';
 import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
+import{storeData,getData} from '../../util/func';
 const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
@@ -26,6 +27,7 @@ const Home = ({ navigation }) => {
   const [isPregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTourEnd, setAppTourEnd] = useState(false);
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -40,6 +42,16 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
+    
+  }, []);
+
+  useEffect(() => {
+    storeData('HomeTourEnd','true');
+    console.log('yes')
+  }, [appTourEnd]);
+
+  useEffect(() => {
+    getData('true');
   }, []);
 
   useEffect(() => {
@@ -49,7 +61,7 @@ const Home = ({ navigation }) => {
         appTourSequence.add(appTourTarget);
       });
       AppTour.ShowSequence(appTourSequence);
-    }, 1000);
+    }, 100);
     return () => clearTimeout(appTourSequence);
   }, []);
 
@@ -74,6 +86,9 @@ const Home = ({ navigation }) => {
       'onFinishSequenceEvent',
       (e: Event) => {
         console.log(e);
+        if(appTourTargets.key=='calendarIcon')
+          setAppTourEnd(true);
+        //storeData('HomeTourEnd','true')
       },
     );
   };
@@ -108,6 +123,7 @@ const Home = ({ navigation }) => {
     );
   };
 
+  console.log('appTourTargets',appTourTargets)
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
