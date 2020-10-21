@@ -7,16 +7,6 @@ export default StyleSheet.create({
     flex: 1,
     justifyContent: 'space-evenly',
   },
-  goals: {
-    alignSelf: 'center',
-    justifyContent: 'center',
-    backgroundColor: 'transparent',
-    borderWidth: 0,
-    width: WIDTH / 1.2,
-    height: 26,
-    flexDirection: 'row-reverse',
-  },
-  goal: { borderRadius: 50 },
   btnContainer: {
     elevation: 5,
     backgroundColor: COLOR.btn,
@@ -30,12 +20,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
   },
-  text: {
-    alignSelf: 'center',
-    textAlign: 'center',
-    fontFamily: FONT.regular,
-    fontSize: SIZE[12],
-  },
+
   listItemText: {
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
@@ -51,12 +36,6 @@ export default StyleSheet.create({
     elevation: 5,
     alignSelf: 'center',
     margin: 10,
-  },
-  title: {
-    margin: 10,
-    paddingRight: 10,
-    fontFamily: FONT.bold,
-    fontSize: SIZE[21],
   },
   picker: { alignItems: 'center' },
   buttons: {

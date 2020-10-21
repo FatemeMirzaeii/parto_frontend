@@ -85,9 +85,9 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
-      setMainSentence(`شما در هفته ${pregnancyAge.week} بارداری هستید.`);
+      setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
       setSubSentence(
-        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد فرزند شما!`,
+        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
       );
     } else {
       const c = await CycleModule();

@@ -3,7 +3,6 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
-import UserGoal from './UserGoal';
 import PickerListItem from '../../components/PickerListItem';
 import Card from '../../components/Card';
 import {
@@ -57,7 +56,6 @@ const Profile = ({ navigation }) => {
       contentContainerStyle={styles.container}>
       <ScrollView>
         {/* <UserAvatar navigation={navigation} /> */}
-        <UserGoal navigation={navigation} />
         <Card>
           <PickerListItem
             DatePicker

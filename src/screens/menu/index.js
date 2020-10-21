@@ -3,6 +3,7 @@ import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
 // import { AuthContext } from '../../contexts';
 import TouchID from 'react-native-touch-id';
+import UserGoal from './UserGoal';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
@@ -45,6 +46,7 @@ const Menu = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
+      <UserGoal navigation={navigation} />
       <Card>
         <ListItem
           title="اطلاعات سلامت"
