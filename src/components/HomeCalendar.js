@@ -17,8 +17,8 @@ const HomeCalendar = ({ addAppTourTarget }) => {
           title: 'برشی از تقویم',
           description: 'ورق بزن و تاریخ‌های قبلی و بعدی رو ببین',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.btn,
-          outerCircleAlpha: 0.9,
+          outerCircleColor: COLOR.tiffany,
+          outerCircleAlpha: 0.99,
           targetRadius: 100,
           fontFamily: FONT.regular,
         };

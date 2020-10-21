@@ -16,8 +16,8 @@ const PlusButton = ({ addAppTourTarget }) => {
           title: 'شرح حال من',
           description: 'اطلاعات سلامتت رو این‌جا در اختیار دستیارت قرار بده',
           descriptionTextSize:15,
-          outerCircleColor: COLOR.btn,
-          outerCircleAlpha: 0.9,
+          outerCircleColor: COLOR.tiffany,
+          outerCircleAlpha: 0.99,
           fontFamily: FONT.regular,
         };
         addAppTourTarget &&
