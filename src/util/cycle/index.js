@@ -124,7 +124,7 @@ export default async function CycleModule() {
       case 4: {
         const days = Math.abs(remainingDaysToNextPeriod(date));
         return {
-          mainSentence: `${days} روز از زمان پریود شما گذشته است.`,
+          mainSentence: `${days} روز پریود عقب افتاده.`,
           subSentence: `روز ${dayNo + 1} دوره`,
         };
       }

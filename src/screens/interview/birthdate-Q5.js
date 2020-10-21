@@ -60,8 +60,9 @@ const Q5 = ({ route, navigation }) => {
         source={require('../../../assets/images/start/4.png')}
         style={styles.bg}>
         <Text style={styles.question}>
-          لطفا با وارد کردن تاریخ تولدت {'\n'}به ما در بالا بردن دقت تحلیل ها
-          کمک کن.
+          با وارد کردن تاریخ تولدت
+          {'\n'}
+          به ما در تحلیل بهتر اطلاعات کمک کن.
         </Text>
         <View style={styles.picker}>
           <PersianDatePicker onDateSelected={setDate} />

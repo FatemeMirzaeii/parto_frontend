@@ -21,7 +21,7 @@ const Q3 = ({ route, navigation }) => {
   const onForgotPress = () => {
     navigation.navigate('Notice', {
       ...route.params,
-      txt: `پرتو طول پریود شما را ${PERIOD_LENGTH} روزه قرار می‌دهد تا در دوره‌های بعدی خودتان آن را ثبت کنید که بتوانیم به پیش‌بینی دقیق‌تری از دوره‌های شما برسیم.`,
+      txt: `پرتو فعلا طول پریودت رو در حالت معمول ${PERIOD_LENGTH} روزه در نظر میگیره.\nبعدا میتونی داخل نرم افزار این عدد رو تغییر بدی.`,
       nextPage: 'Q4',
       periodLength: PERIOD_LENGTH,
     });
@@ -32,8 +32,9 @@ const Q3 = ({ route, navigation }) => {
         source={require('../../../assets/images/start/2.png')}
         style={styles.bg}>
         <Text style={styles.question}>
-          میانگین روزهای پریود شما چند روز است؟
-          {'\n'}( معمولا 4 الی 7 روز)
+          پریودت تقریبا چند روز طول می‌کشه؟
+          {'\n'}
+          معمولا 3 الی 10 روز
         </Text>
         <WheelPicker
           data={setPickerRange(2, 15)}

@@ -17,7 +17,7 @@ import styles from './styles';
 import { Button, Icon } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import { pregnancyMode } from '../../util/database/query';
-import { COLOR, FONT, SIZE ,WIDTH,HEIGHT} from '../../styles/static';
+import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
 const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
@@ -151,7 +151,7 @@ const Home = ({ navigation }) => {
           {renderText()}
         </View>
         <Button
-          title={isPregnant ? 'پروفایل بارداری' : 'ثبت روزهای خونریزی'}
+          title={isPregnant ? 'پروفایل بارداری' : 'ثبت پریود'}
           type="outline"
           buttonStyle={{
             borderWidth: 0,

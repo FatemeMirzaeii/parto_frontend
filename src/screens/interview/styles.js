@@ -32,7 +32,7 @@ export default StyleSheet.create({
     backgroundColor: COLOR.btn,
   },
   prevButton: {
-    backgroundColor: '#ffffff',
+    backgroundColor: COLOR.white,
     width: WIDTH / 3,
     borderRadius: 40,
   },
@@ -42,7 +42,7 @@ export default StyleSheet.create({
   },
   darkBtnTitle: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 15,
     color: COLOR.textColor,
   },
   btnSubtitle: {
@@ -52,10 +52,11 @@ export default StyleSheet.create({
   },
   question: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[14],
+    fontSize: 15,
     textAlign: 'center',
     color: COLOR.textColor,
     lineHeight: 30,
+    paddingTop: 20,
   },
   mode: {
     backgroundColor: 'white',
@@ -98,14 +99,14 @@ export default StyleSheet.create({
     margin: 30,
   },
   text: {
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
+    fontFamily: FONT.medium,
+    fontSize: 15,
     alignSelf: 'center',
     textAlign: 'center',
     lineHeight: 30,
   },
   cont: {
     justifyContent: 'space-evenly',
-    height: HEIGHT / 1.3,
+    height: HEIGHT / 1.5,
   },
 });

@@ -86,7 +86,7 @@ const Analysis = ({ navigation }) => {
                 <View style={styles.circle}>
                   <Ptext>{avgCycleLength} روز</Ptext>
                 </View>
-                <Ptext>متوسط طول دوره‌ها</Ptext>
+                <Ptext>میانگین طول دوره‌ها</Ptext>
               </View>
             ) : null}
             {avgPeriodLength ? (
@@ -94,7 +94,7 @@ const Analysis = ({ navigation }) => {
                 <View style={styles.circle}>
                   <Ptext>{avgPeriodLength} روز</Ptext>
                 </View>
-                <Ptext>متوسط طول پریود</Ptext>
+                <Ptext>میانگین طول پریود</Ptext>
               </View>
             ) : null}
           </View>
@@ -142,9 +142,14 @@ const Analysis = ({ navigation }) => {
             color={COLOR.btn}
             size={50}
           />
-          <Ptext style={{ textAlign: 'center', lineHeight: 30 }}>
-            پرتو بعد از ثبت روزهای قرمز{'\n'}گزارش دوره‌ها را به شما نمایش
-            می‌دهد!
+          <Ptext
+            style={{
+              textAlign: 'center',
+              lineHeight: 30,
+              fontFamily: FONT.medium,
+            }}>
+            هنوز پریودی در شرح حال وارد نکردی.{'\n'}به محض ثبت دو دوره پریود،
+            تحلیلش رو اینجا میبینی.
           </Ptext>
         </View>
       )}

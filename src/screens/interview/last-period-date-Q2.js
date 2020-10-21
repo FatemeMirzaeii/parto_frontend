@@ -23,7 +23,7 @@ const Q2 = ({ route, navigation }) => {
     navigation.navigate('Notice', {
       ...route.params,
       txt:
-        'شما می‌توانید بعدا تاریختان را ثبت کنید و یا حتی با آغاز دوره ماهانه بعدی کار ثبت اطلاعاتتون رو آغاز کنید.',
+        'نگران نباش!\nبا پرتو میتونی بعدا اطلاعات گذشته و دوره‌های جدیدت رو وارد تقویم کنی.',
       nextPage: 'Q3',
       lastPeriodDate: null,
     });
@@ -34,7 +34,9 @@ const Q2 = ({ route, navigation }) => {
         source={require('../../../assets/images/start/1.png')}
         style={styles.bg}>
         <Text style={styles.question}>
-          تاریخ شروع آخرین پریود خود را وارد کنید
+          آخرین پریودت چه روزی شروع شد؟
+          {'\n'}
+          لطفا روی تقویم مشخص کن.
         </Text>
         <Calendar
           firstDay={6}
@@ -51,13 +53,13 @@ const Q2 = ({ route, navigation }) => {
             calendarBackground: 'transparent',
             selectedDayTextColor: COLOR.white,
             textDisabledColor: COLOR.nextPage,
-            textDayFontFamily: FONT.regular,
-            textMonthFontFamily: FONT.regular,
-            textDayHeaderFontFamily: FONT.regular,
-            selectedDayBackgroundColor: COLOR.currentPage,
+            textDayFontFamily: FONT.medium,
+            textMonthFontFamily: FONT.bold,
+            textDayHeaderFontFamily: FONT.medium,
+            selectedDayBackgroundColor: COLOR.tiffany,
             textDayHeaderFontSize: 8,
-            arrowColor: COLOR.currentPage,
-            todayTextColor: COLOR.currentPage,
+            arrowColor: COLOR.tiffany,
+            todayTextColor: COLOR.tiffany,
           }}
           markedDates={{
             [lastPeriodDate]: { selected: true },
@@ -79,7 +81,6 @@ const Q2 = ({ route, navigation }) => {
               containerStyle={styles.btnContainer}
               buttonStyle={styles.nextButton}
               titleStyle={styles.btnTitle}
-              type="solid"
               onPress={onNextPress}
             />
             <Button
@@ -87,7 +88,6 @@ const Q2 = ({ route, navigation }) => {
               containerStyle={styles.btnContainer}
               buttonStyle={styles.prevButton}
               titleStyle={styles.darkBtnTitle}
-              type="solid"
               onPress={() => navigation.goBack()}
             />
           </View>

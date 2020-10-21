@@ -132,7 +132,7 @@ const TrackingOptions = ({ route, navigation }) => {
           style={[styles.more, { backgroundColor: item.color }]}>
           <Text style={styles.moreText}>
             {'   '}
-            در مورد {item.title} بیشتر بدانید.
+            در مورد {item.title} بخوان.
           </Text>
           <Icon name="info" type="MaterialIcons" size={17} color="white" />
         </TouchableOpacity>
@@ -141,7 +141,7 @@ const TrackingOptions = ({ route, navigation }) => {
       </View>
     );
   };
-  
+
   const renderOptions = (category, color) => {
     return (
       <FlatList
@@ -316,7 +316,7 @@ const TrackingOptions = ({ route, navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
-      <CalendarPointer
+        <CalendarPointer
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
@@ -332,7 +332,7 @@ const TrackingOptions = ({ route, navigation }) => {
           onDayPress={(d) => onDayPress(d.dateString)}
         />
         <Text style={styles.descriptionTxt}>
-          لطفا ورق بزن و نشانه‌هایی که داری رو انتخاب کن:
+          لطفا ورق بزن و شرح حالت رو ثبت کن.
         </Text>
         <Carousel
           layout={'default'}

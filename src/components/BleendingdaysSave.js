@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
-import { COLOR, FONT ,SIZE} from '../styles/static';
+import { COLOR, FONT, SIZE } from '../styles/static';
 
 const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
   return (
@@ -17,8 +17,9 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
         let props = {
           order: 12,
           title: 'ویرایش پریود',
-          description: 'اطلاعات یه روز اشتباه وارد شده؟ با لمس این دکمه می‌تونی ویرایش کنی',
-          descriptionTextSize:15,
+          description:
+            'اطلاعات یه روز اشتباه وارد شده؟ با لمس این دکمه می‌تونی ویرایش کنی',
+          descriptionTextSize: 15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.99,
           targetRadius: 80,
@@ -27,7 +28,7 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
         addAppTourTarget &&
           addAppTourTarget(AppTourView.for(ref, { ...props }));
       }}>
-      <Text style={styles.buttonTitle}>ویرایش روزهای خونریزی</Text>
+      <Text style={styles.buttonTitle}>ویرایش پریود</Text>
     </TouchableOpacity>
   );
 };
@@ -55,11 +56,11 @@ const styles = StyleSheet.create({
   //   elevation: 3,
   // },
   bottomButton: {
-  position: 'absolute',
-  borderWidth: 0,
-  marginBottom: 15,
-  bottom: 25,
-  shadowColor: '#000',
+    position: 'absolute',
+    borderWidth: 0,
+    marginBottom: 15,
+    bottom: 25,
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 3,
@@ -67,17 +68,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 3,
-  justifyContent: 'center',
-  alignSelf: 'center',
-  width: 150,
-  height: 25,
-  borderRadius: 50,
-  backgroundColor: COLOR.btn,},
+    justifyContent: 'center',
+    alignSelf: 'center',
+    width: 150,
+    height: 25,
+    borderRadius: 50,
+    backgroundColor: COLOR.btn,
+  },
   buttonTitle: {
     color: COLOR.white,
     fontFamily: FONT.bold,
     fontSize: SIZE[12],
-    textAlign:'center'
+    textAlign: 'center',
   },
 });
 

@@ -16,9 +16,9 @@ const Interview = (props) => {
         style={styles.bg}>
         <View style={styles.cont}>
           <Text style={styles.question}>
-            دوست عزیز پرتو خوش آمدی!
+            پرتویی جان سلام!
             {'\n'}
-            به ما بگو در کدوم یکی از موارد زیر می‌تونیم به شما کمک کنیم:
+            پرتو چطور میتونه کمکت کنه؟
           </Text>
           <View style={styles.btnGroup}>
             <TouchableOpacity

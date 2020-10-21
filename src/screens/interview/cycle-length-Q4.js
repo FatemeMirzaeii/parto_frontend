@@ -20,7 +20,7 @@ const Q4 = ({ route, navigation }) => {
   };
   function onForgotPress() {
     navigation.navigate('Notice', {
-      txt: `پرتو فاصله میان دوره‌های شما را ${CYCLE_LENGTH} روزه قرار می‌دهد تا در دوره‌های بعدی خودتان آن را ثبت کنید که بتوانیم به پیش‌بینی دقیق‌تری از دوره‌های شما برسیم.`,
+      txt: `پرتو فعلا طول دوره ها رو در حالت معمول ${CYCLE_LENGTH} روزه در نظر میگیره.\nبعدا میتونی داخل نرم افزار این عدد رو تغییر بدی.`,
       nextPage: 'Q5',
       ...route.params,
       cycleLength: CYCLE_LENGTH,
@@ -32,7 +32,11 @@ const Q4 = ({ route, navigation }) => {
         source={require('../../../assets/images/start/3.png')}
         style={styles.bg}>
         <Text style={styles.question}>
-          میانگین فاصله دوره‌های تان چند روز است؟{'\n'}( معمولا 26 الی 30 روز)
+          طول یک دوره ماهانه‌ات تقریبا چند روزه است؟
+          {'\n'}
+          (فاصله بین اولین روز هر پریود تا اولین روز پریود بعدی)
+          {/* {'\n'}
+          معمولا بین 28 الی 30 روز */}
         </Text>
         <WheelPicker
           data={setPickerRange(10, 100)}
