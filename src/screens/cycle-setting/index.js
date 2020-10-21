@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView ,  DeviceEventEmitter} from 'react-native';
+import { SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import Card from '../../components/Card';
@@ -33,11 +33,11 @@ const CycleSetting = ({ navigation }) => {
         //   titleStyle={globalStyles.headerBtnTitle}
         //   containerStyle={globalStyles.smallHeaderBtn}
         // />
-        <CycleSettingbtn 
-        addAppTourTarget={(appTourTarget) => {
-          appTourTargets.push(appTourTarget);
-        }}
-        onPress={() => save()}
+        <CycleSettingbtn
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+          onPress={() => save()}
         />
       ),
       headerRight: () => (
@@ -68,7 +68,6 @@ const CycleSetting = ({ navigation }) => {
   useEffect(() => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
-    
   }, []);
 
   useEffect(() => {

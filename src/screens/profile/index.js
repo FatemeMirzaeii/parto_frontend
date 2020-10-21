@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
 import PickerListItem from '../../components/PickerListItem';
@@ -19,7 +19,22 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
-
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      title: 'اطلاعات سلامت',
+      headerLeft: null,
+      headerRight: () => (
+        <Icon
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
+        />
+      ),
+    });
+  }, []);
   useEffect(() => {
     getProfileData().then((res) => {
       if (res) {
