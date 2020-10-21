@@ -10,13 +10,14 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Icon } from 'native-base';
+import { Icon } from 'react-native-elements';
 import HTML from 'react-native-render-html';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import TextTicker from 'react-native-text-ticker';
 
 //styles
 import styles from './styles';
+import { COLOR } from '../../styles/static';
 import { HTMLTagsStyles }  from '../../styles/commonStyles'
 
 const { event, ValueXY } = Animated;
@@ -48,12 +49,20 @@ const ArticleDetails = ({ route, navigation }) => {
                 {articleContent.title}
               </TextTicker>
             </Animated.View>
-            <Icon
+            {/* <Icon
               type="AntDesign"
               name="arrowright"
               onPress={() => navigation.goBack()}
               style={styles.icon}
-            />
+            /> */}
+              <Icon
+          reverse
+          size={15}
+          name="arrow-right"
+          type="font-awesome"
+          color={COLOR.btn}
+          onPress={() => navigation.pop()}
+        />
           </View>
         </SafeAreaView>
       </>
