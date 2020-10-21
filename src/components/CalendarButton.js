@@ -12,7 +12,7 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         title={'calendarIcon'}
         ref={(ref) => {
           if (!ref) return;
-          calendarIcon = ref;
+          const calendarIcon = ref;
           let props = {
             order: 12,
             title: 'تقویم پرتو',

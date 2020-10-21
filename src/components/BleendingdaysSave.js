@@ -13,7 +13,7 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
       style={styles.bottomButton}
       ref={(ref) => {
         if (!ref) return;
-        redDaysSave = ref;
+        const redDaysSave = ref;
         let props = {
           order: 12,
           title: 'ویرایش پریود',

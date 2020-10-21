@@ -13,12 +13,12 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
       style={styles.bottomWrapper}
       ref={(ref) => {
         if (!ref) return;
-        submitbtn = ref;
+        const submitbtn = ref;
         let props = {
           order: 12,
           title: 'ثبت تغییرات روزها',
           description: 'بعد از ویرایش، تغییرات رو ثبت کن',
-          descriptionTextSize:15,
+          descriptionTextSize: 15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.99,
           targetRadius: 80,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     marginBottom: 15,
     bottom: 25,
-    right:15,
+    right: 15,
     justifyContent: 'center',
     width: 150,
     height: 25,
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     color: COLOR.white,
     fontFamily: FONT.regular,
     fontSize: 14,
-    textAlign:'center',
+    textAlign: 'center',
   },
 });
 

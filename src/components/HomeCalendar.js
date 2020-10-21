@@ -11,7 +11,7 @@ const HomeCalendar = ({ addAppTourTarget }) => {
       title={'weeklyCalendar'}
       ref={(ref) => {
         if (!ref) return;
-        weeklyCalendar = ref;
+        const weeklyCalendar = ref;
         let targetprops = {
           order: 11,
           title: 'برشی از تقویم',

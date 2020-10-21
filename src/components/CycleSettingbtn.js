@@ -12,12 +12,13 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
       style={styles.smallHeaderBtn}
       ref={(ref) => {
         if (!ref) return;
-        settingbtn = ref;
+        const settingbtn = ref;
         let props = {
           order: 11,
           title: 'ثبت تغییرات دوره‌ها',
-          description: 'از لیست زیر هر موردی که خواستی رو تغییر بده و با زدن دکمه تغیرات رو ثبت کن',
-          descriptionTextSize:15,
+          description:
+            'از لیست زیر هر موردی که خواستی رو تغییر بده و با زدن دکمه تغیرات رو ثبت کن',
+          descriptionTextSize: 15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.99,
           fontFamily: FONT.regular,
@@ -32,13 +33,13 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
 
 const styles = StyleSheet.create({
   smallHeaderBtn: {
-   borderWidth: 0,
-   left: 20,
-   width: 50,
-   height: 30,
-   borderRadius: 50,
-   backgroundColor: COLOR.btn,
-   justifyContent: 'center',
+    borderWidth: 0,
+    left: 20,
+    width: 50,
+    height: 30,
+    borderRadius: 50,
+    backgroundColor: COLOR.btn,
+    justifyContent: 'center',
   },
   headerBtnTitle: {
     color: COLOR.white,

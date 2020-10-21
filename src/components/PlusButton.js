@@ -22,7 +22,7 @@ const PlusButton = (props) => {
             title: 'شرح حال من',
             description: 'اطلاعات سلامتت رو این‌جا در اختیار دستیارت قرار بده',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.btn,
+            outerCircleColor: COLOR.tiffany,
             outerCircleAlpha: 0.9,
             fontFamily: FONT.regular,
           };

@@ -11,11 +11,12 @@ const CalendarPointer = ({ addAppTourTarget }) => {
       title={'calendarPointer'}
       ref={(ref) => {
         if (!ref) return;
-        calendarPointer = ref;
+        const calendarPointer = ref;
         let targetprops = {
           order: 11,
           title: 'تقویم شرح حال',
-          description: ' با ورق زدن تقویم روز مورد نظرت رو مشخص و علایمی که توی روز داشتی رو از لیست پایین انتخاب کن ',
+          description:
+            ' با ورق زدن تقویم روز مورد نظرت رو مشخص و علایمی که توی روز داشتی رو از لیست پایین انتخاب کن ',
           descriptionTextSize: 15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.99,

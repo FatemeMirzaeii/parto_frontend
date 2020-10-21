@@ -13,12 +13,12 @@ const GoTodayButton = ({ addAppTourTarget, onPress, editMode }) => {
       style={styles.bottomButton}
       ref={(ref) => {
         if (!ref) return;
-        goToday = ref;
+        const goToday = ref;
         let props = {
           order: 11,
           title: 'برو به امروز',
           description: 'We have the best targets, believe me',
-          descriptionTextSize:15,
+          descriptionTextSize: 15,
           outerCircleColor: COLOR.tiffany,
           outerCircleAlpha: 0.9,
           fontFamily: FONT.regular,
