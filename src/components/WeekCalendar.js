@@ -97,7 +97,7 @@ const WeekCalendar = (props) => {
             todayTextColor: COLOR.white,
             todayBackgroundColor: '#c6d436',
             textDayFontFamily: FONT.medium,
-            selectedDayBackgroundColor: COLOR.currentPage,
+            selectedDayBackgroundColor: COLOR.tiffany,
             'stylesheet.expandable.main': {
               dayHeader: {
                 fontFamily: FONT.medium,

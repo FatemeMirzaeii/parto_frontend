@@ -64,10 +64,10 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
             textDayFontFamily: FONT.regular,
             textMonthFontFamily: FONT.regular,
             textDayHeaderFontFamily: FONT.regular,
-            selectedDayBackgroundColor: COLOR.currentPage,
+            selectedDayBackgroundColor: COLOR.tiffany,
             textDayHeaderFontSize: 8,
-            arrowColor: COLOR.currentPage,
-            todayTextColor: COLOR.currentPage,
+            arrowColor: COLOR.tiffany,
+            todayTextColor: COLOR.tiffany,
           }}
         />
         <View>

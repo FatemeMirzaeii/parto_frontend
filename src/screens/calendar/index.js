@@ -225,7 +225,7 @@ const Calendar = ({ navigation, route }) => {
                             marking.periods[0].color === COLOR.btn
                               ? marking.periods[0].color
                               : state === 'today'
-                              ? COLOR.currentPage
+                              ? COLOR.tiffany
                               : 'transparent',
                         },
                       ]}>
@@ -239,7 +239,7 @@ const Calendar = ({ navigation, route }) => {
         theme={{
           textSectionTitleColor: COLOR.black,
           todayTextColor: COLOR.white,
-          todayBackgroundColor: COLOR.currentPage,
+          todayBackgroundColor: COLOR.tiffany,
           selectedDayTextColor: COLOR.white,
           textDisabledColor: COLOR.textColor,
           textDayFontFamily: FONT.medium,
