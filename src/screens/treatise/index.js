@@ -151,7 +151,7 @@ const Treatise = ({ navigation }) => {
                           width: 60,
                           height: 60,
                           borderRadius: 60,
-                          backgroundColor: '#86dbd4',
+                          backgroundColor: '#64d7d6',
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>

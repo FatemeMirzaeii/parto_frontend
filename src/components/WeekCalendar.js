@@ -14,7 +14,7 @@ const WeekCalendar = (props) => {
   const [selectedDate, setSelectedDate] = useState();
   const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
-  const period = { key: 'period', color: COLOR.btn };
+  const period = { key: 'period', color: COLOR.bleeding };
   const periodPerdictiin = {
     key: 'periodPerdictiin',
     color: COLOR.periodPerdiction,
@@ -97,7 +97,7 @@ const WeekCalendar = (props) => {
             todayTextColor: COLOR.white,
             todayBackgroundColor: '#c6d436',
             textDayFontFamily: FONT.medium,
-            selectedDayBackgroundColor: COLOR.currentPage,
+            selectedDayBackgroundColor: COLOR.tiffany,
             'stylesheet.expandable.main': {
               dayHeader: {
                 fontFamily: FONT.medium,

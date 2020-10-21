@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: {
@@ -74,7 +74,7 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
   button: {
-    backgroundColor: '#f4e0e1',
+    backgroundColor: '#f9d1de',
     alignItems: 'flex-end',
     alignSelf: 'center',
     width: '90%',
@@ -95,6 +95,7 @@ export default StyleSheet.create({
   },
   dropIcon: {
     fontSize: 30,
+    color: COLOR.btn,
   },
   GridViewContainer: {
     flex: 1,

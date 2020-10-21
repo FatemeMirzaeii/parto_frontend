@@ -52,7 +52,7 @@ const Q2 = ({ route, navigation }) => {
             textSectionTitleColor: COLOR.black,
             calendarBackground: 'transparent',
             selectedDayTextColor: COLOR.white,
-            textDisabledColor: COLOR.nextPage,
+            textDisabledColor: COLOR.textColorDark,
             textDayFontFamily: FONT.medium,
             textMonthFontFamily: FONT.bold,
             textDayHeaderFontFamily: FONT.medium,

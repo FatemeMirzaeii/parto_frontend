@@ -18,7 +18,7 @@ const EditableDay = useMemo(
                 state === 'disabled' ? COLOR.textColor : COLOR.textColorDark,
               backgroundColor:
                 state === 'today'
-                  ? COLOR.currentPage
+                  ? COLOR.tiffany
                   : marking.length !== 0
                   ? marking.periods[0].color
                   : 'white',

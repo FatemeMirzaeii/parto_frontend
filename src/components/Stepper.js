@@ -4,7 +4,7 @@ import { COLOR, SIZE, FONT, WIDTH, HEIGHT } from '../../styles/static';
 const Stepper = () => {
   return (
     <View style={styles.v3q3}>
-      <View style={[styles.stepper, { backgroundColor: COLOR.currentPage }]} />
+      <View style={[styles.stepper, { backgroundColor: COLOR.tiffany }]} />
       <View style={styles.stepper} />
       <View style={styles.stepper} />
       <View style={styles.stepper} />

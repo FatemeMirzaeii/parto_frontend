@@ -58,14 +58,14 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
           textSectionTitleColor: '#111111',
           calendarBackground: 'transparent',
           selectedDayTextColor: '#ffffff',
-          textDisabledColor: COLOR.nextPage,
+          textDisabledColor: COLOR.textColorDark,
           textDayFontFamily: FONT.regular,
           textMonthFontFamily: FONT.regular,
           textDayHeaderFontFamily: FONT.regular,
-          selectedDayBackgroundColor: COLOR.currentPage,
+          selectedDayBackgroundColor: COLOR.tiffany,
           textDayHeaderFontSize: 8,
-          arrowColor: COLOR.currentPage,
-          todayTextColor: COLOR.currentPage,
+          arrowColor: COLOR.tiffany,
+          todayTextColor: COLOR.tiffany,
         }}
         style={styles.calendar}
       />
