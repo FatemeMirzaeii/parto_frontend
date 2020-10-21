@@ -2,6 +2,7 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
 import { ListItem, Button, Icon } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
+import { storeData, getData } from '../../util/func';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import CycleSettingbtn from '../../components/CycleSettingbtn';
@@ -17,11 +18,12 @@ const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
   const [cycleLength, setCycleLength] = useState();
   const [pmsLength, setPmsLength] = useState();
-  const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTour, setAppTour] = useState(true);
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
@@ -69,25 +71,35 @@ const CycleSetting = ({ navigation }) => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
   }, []);
-
   useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 100);
-    return () => clearTimeout(appTourSequence);
+    checkIfAppTourIsNeeded();
   }, []);
+  useEffect(() => {
+    if (!appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
+  }, [appTour]);
 
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('CycleTour');
+    console.log('aaaa', a);
+    setAppTour(a);
+  };
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
       sequenceStepListener.remove();
     }
+
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
@@ -99,12 +111,18 @@ const CycleSetting = ({ navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e) => {
         console.log(e);
+        console.log('appTourTargets.key', appTourTargets);
+        const t = appTourTargets.filter((i) => {
+          i.key === 'settingbtn';
+        });
+        console.log('t', t);
+        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+        await storeData('CycleTour', 'true');
       },
     );
   };
-
   return (
     <SafeAreaView
       style={styles.safeAreaView}

@@ -56,9 +56,9 @@ const Home = ({ navigation }) => {
       }, 100);
       return () => clearTimeout(appTourSequence);
     }
-  }, []);
+  }, [appTour]);
   const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('HomeTourEnd');
+    const a = await getData('Home');
     console.log('aaaa', a);
     setAppTour(a);
   };
@@ -69,7 +69,7 @@ const Home = ({ navigation }) => {
 
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
@@ -81,11 +81,13 @@ const Home = ({ navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      async (e: Event) => {
+      async (e) => {
         console.log(e);
         console.log('appTourTargets.key', appTourTargets);
-        if (appTourTargets.key == 'calendarIcon')
-          await storeData('HomeTourEnd', 'true');
+        const t = appTourTargets.filter((i) => {
+          i.key === 'calendarIcon';
+        });
+        await storeData('Home', 'true');
       },
     );
   };
@@ -120,7 +122,6 @@ const Home = ({ navigation }) => {
     );
   };
 
-  console.log('appTourTargets', appTourTargets);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground

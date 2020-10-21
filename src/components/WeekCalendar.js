@@ -30,7 +30,7 @@ const WeekCalendar = (props) => {
     // markTrackingOptions();
   }, []);
   const markedDateObj = (dates, dot) => {
-    console.log('marked dates', dates);
+    // console.log('marked dates', dates);
     dates.forEach((date) => {
       if (date in markedDates) {
         // markedDates[date].dots.push(dot);

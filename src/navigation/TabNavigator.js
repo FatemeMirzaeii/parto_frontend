@@ -10,34 +10,46 @@ import { COLOR, FONT, SIZE } from '../styles/static';
 import { DeviceEventEmitter } from 'react-native';
 import { AppTour, AppTourSequence } from 'react-native-app-tour';
 import PlusButton from '../components/PlusButton';
+import { storeData, getData } from '../util/func';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTour, setAppTour] = useState(true);
 
   useEffect(() => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
   }, []);
-
   useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 100);
-    return () => clearTimeout(appTourSequence);
+    checkIfAppTourIsNeeded();
   }, []);
+  useEffect(() => {
+    if (!appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
+  }, [appTour]);
 
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('TabTour');
+    console.log('aaaa', a);
+    setAppTour(a);
+  };
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
       sequenceStepListener.remove();
     }
+
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
@@ -49,8 +61,15 @@ const TabNavigator = () => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e) => {
         console.log(e);
+        console.log('appTourTargets.key', appTourTargets);
+        const t = appTourTargets.filter((i) => {
+          i.key === 'plusIcon';
+        });
+        console.log('t', t);
+        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+        await storeData('TabTour', 'true');
       },
     );
   };

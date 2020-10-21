@@ -27,6 +27,7 @@ import Database from '../../util/database';
 import styles from './styles';
 import commonStyles from '../../styles/commonStyles';
 import { COLOR, WIDTH } from '../../styles/static';
+import { storeData, getData } from '../../util/func';
 import {
   BLEEDING,
   EXCERSICE,
@@ -61,32 +62,42 @@ const TrackingOptions = ({ route, navigation }) => {
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTour, setAppTour] = useState(true);
 
-  const getData = useCallback(async () => {
+  const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
     setCategories(td);
   }, [date]);
 
   useEffect(() => {
-    getData();
-  }, [getData]);
+    getInitialData();
+  }, [getInitialData]);
 
   useEffect(() => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
   }, []);
-
   useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 100);
-    return () => clearTimeout(appTourSequence);
+    checkIfAppTourIsNeeded();
   }, []);
+  useEffect(() => {
+    if (!appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
+  }, [appTour]);
 
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('TrackingOptionTour');
+    console.log('aaaa', a);
+    setAppTour(a);
+  };
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
       sequenceStepListener.remove();
@@ -94,7 +105,7 @@ const TrackingOptions = ({ route, navigation }) => {
 
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
@@ -106,8 +117,15 @@ const TrackingOptions = ({ route, navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e) => {
         console.log(e);
+        console.log('appTourTargets.key', appTourTargets);
+        const t = appTourTargets.filter((i) => {
+          i.key === 'calendarPointer';
+        });
+        console.log('t', t);
+        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+        await storeData('TrackingOptionTour', 'true');
       },
     );
   };
@@ -224,7 +242,7 @@ const TrackingOptions = ({ route, navigation }) => {
         `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date='${date}'`,
         'user_tracking_option',
       ).then((res) => {
-        getData();
+        getInitialData();
       });
     } else {
       if (category.hasMultipleChoice) {
@@ -233,7 +251,7 @@ const TrackingOptions = ({ route, navigation }) => {
           `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
           'user_tracking_option',
         ).then((res) => {
-          getData();
+          getInitialData();
         });
       } else {
         //this will remove other selected options and add new option
@@ -249,7 +267,7 @@ const TrackingOptions = ({ route, navigation }) => {
             `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
             'user_tracking_option',
           ).then((res) => {
-            getData();
+            getInitialData();
           });
         });
       }

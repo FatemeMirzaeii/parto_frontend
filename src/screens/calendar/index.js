@@ -18,10 +18,9 @@ import Ptxt from '../../components/Ptxt';
 import CancelButton from '../../components/CancelButton';
 import SubmitButton from '../../components/SubmitButton';
 import SaveBleendingButton from '../../components/BleendingdaysSave';
-import GoTodayButton from '../../components/GoTodayButton';
 import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
-import storeData from '../../util/func';
+import { storeData, getData } from '../../util/func';
 
 const Calendar = ({ navigation, route }) => {
   const { isPregnant } = route.params;
@@ -29,6 +28,7 @@ const Calendar = ({ navigation, route }) => {
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [appTour, setAppTour] = useState(true);
   const calendar = useRef();
 
   useEffect(() => {
@@ -71,15 +71,17 @@ const Calendar = ({ navigation, route }) => {
   }, []);
 
   useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 100);
-    return () => clearTimeout(appTourSequence);
-  }, [editMode]);
+    if (!appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
+  }, [editMode, appTour]);
 
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
@@ -87,23 +89,36 @@ const Calendar = ({ navigation, route }) => {
     }
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
   };
-
+  useEffect(() => {
+    checkIfAppTourIsNeeded();
+  }, []);
   const registerFinishSequenceEvent = () => {
     if (finishSequenceListener) {
       finishSequenceListener.remove();
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e) => {
         console.log(e);
-        // storeData(,true)
+        console.log('appTourTargets.key', appTourTargets);
+        const t = appTourTargets.filter((i) => {
+          i.key === 'redDaysSave';
+        });
+        console.log('t', t);
+        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+        await storeData('CalendarTour', 'true');
       },
     );
+  };
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('CalendarTour');
+    console.log('aaaa', a);
+    setAppTour(a);
   };
   const onDayPress = (day) => {
     if (editMode) {

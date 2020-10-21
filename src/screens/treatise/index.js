@@ -83,7 +83,7 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   useEffect(() => {
-    if (appTour) {
+    if (!appTour) {
       let appTourSequence = new AppTourSequence();
       setTimeout(() => {
         appTourTargets.forEach((appTourTarget) => {
@@ -93,10 +93,10 @@ const Treatise = ({ navigation }) => {
       }, 100);
       return () => clearTimeout(appTourSequence);
     }
-  }, []);
+  }, [appTour]);
 
   const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('HomeTourEnd');
+    const a = await getData('TreatiseTour');
     console.log('aaaa', a);
     setAppTour(a);
   };
@@ -107,7 +107,7 @@ const Treatise = ({ navigation }) => {
 
     const sequenceStepListener = DeviceEventEmitter.addListener(
       'onShowSequenceStepEvent',
-      (e: Event) => {
+      (e) => {
         console.log(e);
       },
     );
@@ -119,13 +119,15 @@ const Treatise = ({ navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      async (e: Event) => {
+      async (e) => {
         console.log(e);
         console.log('appTourTargets.key', appTourTargets);
-        const t=appTourTargets.filter((i)=>{i.key=='goCall'})
-        console.log('t',t)
-      //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-      //     await storeData('HomeTourEnd', 'true');
+        const t = appTourTargets.filter((i) => {
+          i.key === 'goCall';
+        });
+        console.log('t', t);
+        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
+        await storeData('TreatiseTour', 'true');
       },
     );
   };
