@@ -22,20 +22,20 @@ export default StyleSheet.create({
   sentenceContainer: { top: -11, marginRight: 10 },
   mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: 17,
+    fontSize: 16,
     color: COLOR.black,
     // backgroundColor: 'green',
   },
   subSentence: {
     fontFamily: FONT.medium,
-    fontSize: 15,
+    fontSize: 14.5,
     color: COLOR.black,
     lineHeight: 50,
     // backgroundColor: 'purple',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
-    fontSize: 15,
+    fontSize: 14.5,
     color: COLOR.black,
     lineHeight: 45,
     // backgroundColor: 'red',
