@@ -18,7 +18,7 @@ import { Button, Icon } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import { pregnancyMode } from '../../util/database/query';
 import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
-import{storeData,getData} from '../../util/func';
+import { storeData, getData } from '../../util/func';
 const today = moment();
 const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
@@ -27,7 +27,7 @@ const Home = ({ navigation }) => {
   const [isPregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTourEnd, setAppTourEnd] = useState(false);
+  const [appTour, setAppTour] = useState(true);
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
@@ -37,34 +37,31 @@ const Home = ({ navigation }) => {
 
   useEffect(() => {
     determineMode();
+    checkIfAppTourIsNeeded();
   }, [date]);
 
   useEffect(() => {
     registerSequenceStepEvent();
     registerFinishSequenceEvent();
-    
   }, []);
 
   useEffect(() => {
-    storeData('HomeTourEnd','true');
-    console.log('yes')
-  }, [appTourEnd]);
-
-  useEffect(() => {
-    getData('true');
+    if (!appTour) {
+      let appTourSequence = new AppTourSequence();
+      setTimeout(() => {
+        appTourTargets.forEach((appTourTarget) => {
+          appTourSequence.add(appTourTarget);
+        });
+        AppTour.ShowSequence(appTourSequence);
+      }, 100);
+      return () => clearTimeout(appTourSequence);
+    }
   }, []);
-
-  useEffect(() => {
-    let appTourSequence = new AppTourSequence();
-    setTimeout(() => {
-      appTourTargets.forEach((appTourTarget) => {
-        appTourSequence.add(appTourTarget);
-      });
-      AppTour.ShowSequence(appTourSequence);
-    }, 100);
-    return () => clearTimeout(appTourSequence);
-  }, []);
-
+  const checkIfAppTourIsNeeded = async () => {
+    const a = await getData('HomeTourEnd');
+    console.log('aaaa', a);
+    setAppTour(a);
+  };
   const registerSequenceStepEvent = () => {
     if (sequenceStepListener) {
       sequenceStepListener.remove();
@@ -84,11 +81,11 @@ const Home = ({ navigation }) => {
     }
     const finishSequenceListener = DeviceEventEmitter.addListener(
       'onFinishSequenceEvent',
-      (e: Event) => {
+      async (e: Event) => {
         console.log(e);
-        if(appTourTargets.key=='calendarIcon')
-          setAppTourEnd(true);
-        //storeData('HomeTourEnd','true')
+        console.log('appTourTargets.key', appTourTargets);
+        if (appTourTargets.key == 'calendarIcon')
+          await storeData('HomeTourEnd', 'true');
       },
     );
   };
@@ -123,7 +120,7 @@ const Home = ({ navigation }) => {
     );
   };
 
-  console.log('appTourTargets',appTourTargets)
+  console.log('appTourTargets', appTourTargets);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
