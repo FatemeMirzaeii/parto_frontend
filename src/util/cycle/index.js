@@ -6,6 +6,8 @@ import {
   FORMAT,
   MIN_LENGTH_BETWEEN_PERIODS,
   OVULATION_WINDOW_LENGTH,
+  PERIOD_LENGTH,
+  PMS_LENGTH,
 } from '../../constants/cycle';
 import { OPTIONS } from '../../constants/health-tracking-info';
 import {
@@ -27,6 +29,7 @@ export default async function CycleModule() {
     : null;
   const avgCycleLength = pdata.avg_cycle_length;
   const avgPeriodLength = pdata.avg_period_length;
+  const pmsLength = pdata.pms_length ?? PMS_LENGTH;
 
   function periodDayNumber(date) {
     if (!lastPeriodDate) {
@@ -133,8 +136,11 @@ export default async function CycleModule() {
     }
   }
   function nextPeriodDate(pdate) {
-    if (!pdate) {
+    if (!pdate && !lastPeriodDate) {
+      console.log('no last period date is available');
       return;
+    } else if (!pdate) {
+      pdate = lastPeriodDate;
     }
     return moment(pdate).add(avgCycleLength, 'days').format(FORMAT);
   }
@@ -146,8 +152,11 @@ export default async function CycleModule() {
     return moment(pd).diff(date, 'days');
   }
   function nextOvulationDate(pdate) {
-    if (!pdate) {
+    if (!pdate && !lastPeriodDate) {
+      console.log('no last period date is available');
       return;
+    } else if (!pdate) {
+      pdate = lastPeriodDate;
     }
     return moment(pdate).add(OVULATION_DAY_NO, 'days').format(FORMAT);
   }
@@ -205,7 +214,14 @@ export default async function CycleModule() {
     }
     return days;
   }
-
+  function nextPmsDate() {
+    if (!lastPeriodDate) {
+      return;
+    }
+    return moment(lastPeriodDate)
+      .add(avgCycleLength - pmsLength, 'days')
+      .format(FORMAT);
+  }
   ////// this function will return an object with 2 property: date, type.
   ////// date is in moment format and also sorted DESC.
   async function pastBleedingDays() {
@@ -252,7 +268,7 @@ export default async function CycleModule() {
     return lpd;
   }
 
-  function setFirstPeriod(plength = 7, lpDate) {
+  function setFirstPeriod(plength = PERIOD_LENGTH, lpDate) {
     if (!lpDate) {
       return;
     }
@@ -347,6 +363,10 @@ export default async function CycleModule() {
     return allDays;
   }
   return {
+    cycleDayNumber,
+    nextPeriodDate,
+    nextOvulationDate,
+    nextPmsDate,
     determinePhaseSentence,
     perdictedPeriodDaysInCurrentYear,
     perdictedOvulationDaysInCurrentYear,

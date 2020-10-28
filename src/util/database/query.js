@@ -250,6 +250,14 @@ export async function getReminders() {
   const data = res ? res : [];
   return data;
 }
+export async function getUserReminders(userId) {
+  const res = await db.exec(
+    `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId}`,
+    USER_REMINDER,
+  );
+  const data = res ? res : [];
+  return data;
+}
 export async function getInUseDbVersion() {
   const [res] = await db.exec(`SELECT version FROM ${VERSION}`, VERSION);
   return res ? res.version : 0;

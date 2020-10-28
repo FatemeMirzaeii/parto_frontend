@@ -61,18 +61,32 @@ const DateTimePicker = (props) => {
           selectedItemTextFontFamily={FONT.regular}
         />
       </View>
-      <View style={styles.verticalWrapper}>
-        <WheelPicker
-          data={days}
-          selectedItem={props.daySelectedItem}
-          onItemSelected={props.onDaySelected}
-          isCyclic
-          style={styles.picker}
-          selectedItemTextSize={20}
-          itemTextFontFamily={FONT.regular}
-          selectedItemTextFontFamily={FONT.regular}
-        />
-      </View>
+      {props.isFrequent ? (
+        <View style={styles.verticalWrapper}>
+          <WheelPicker
+            data={['ماهانه', 'هفتگی', 'روزانه']}
+            selectedItem={props.daySelectedItem}
+            onItemSelected={props.onDaySelected}
+            style={styles.picker}
+            selectedItemTextSize={20}
+            itemTextFontFamily={FONT.regular}
+            selectedItemTextFontFamily={FONT.regular}
+          />
+        </View>
+      ) : (
+        <View style={styles.verticalWrapper}>
+          <WheelPicker
+            data={days}
+            selectedItem={props.daySelectedItem}
+            onItemSelected={props.onDaySelected}
+            isCyclic
+            style={styles.picker}
+            selectedItemTextSize={20}
+            itemTextFontFamily={FONT.regular}
+            selectedItemTextFontFamily={FONT.regular}
+          />
+        </View>
+      )}
     </View>
   );
 };

@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useRef, useState, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import AppNavigator from './navigation';
-import Lock from './util/lock';
 import { registerCustomIconType } from 'react-native-elements';
 import BaleIcon from './customIcon/bale/icon-font';
 import EitaIcon from './customIcon/eita/icon-font';
 import lock from './util/lock';
+import setupNotifications from './util/notifications';
 
 // console.disableYellowBox = true;
 
@@ -18,6 +18,7 @@ const App: () => React$Node = () => {
   registerCustomIconType('Eita', EitaIcon);
 
   useEffect(() => {
+    setupNotifications();
     AppState.addEventListener('change', _handleAppStateChange);
 
     return () => {
@@ -31,12 +32,10 @@ const App: () => React$Node = () => {
       nextAppState === 'active'
     ) {
       lock();
-      console.log('App has come to the foreground!');
     }
 
     appState.current = nextAppState;
     setAppStateVisible(appState.current);
-    console.log('AppState', appState.current);
   };
 
   return (
@@ -47,7 +46,6 @@ const App: () => React$Node = () => {
         backgroundColor="transparent"
       />
       <AppNavigator />
-      {/* <DataAnalysis /> */}
     </NavigationContainer>
   );
 };

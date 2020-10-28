@@ -2,14 +2,14 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import Card from '../../components/Card';
-import { FONT, COLOR } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import { getReminders } from '../../util/database/query';
 import styles from './Styles';
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   useEffect(() => {
-    getReminders().then((res) => setReminders(res));
+    getReminders().then(setReminders);
   }, []);
   useLayoutEffect(() => {
     navigation.setOptions({
