@@ -115,6 +115,7 @@ const TabNavigator = () => {
           position: 'absolute',
           // elevation: 0,
           padding: 5,
+          height: 55,
         },
         labelStyle: {
           fontFamily: FONT.bold,
@@ -140,7 +141,8 @@ const TabNavigator = () => {
         component={TrackingOptions}
         options={{
           // tabBarVisible: false,
-          tabBarButton: (props) => (
+          tabBarLabel: 'ثبت پریود',
+          tabBarIcon: (props) => (
             <PlusButton
               {...props}
               addAppTourTarget={(appTourTarget) => {

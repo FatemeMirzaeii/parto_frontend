@@ -164,32 +164,32 @@ const Home = ({ navigation }) => {
           <Ruler />
           {renderText()}
         </View>
-        <Button
-          title={isPregnant ? 'پروفایل بارداری' : 'ثبت پریود'}
-          type="outline"
-          buttonStyle={{
-            borderWidth: 0,
-          }}
-          containerStyle={{
-            height: 25,
-            width: 140,
-            borderRadius: 40,
-            bottom: 65,
-            left: 15,
-            justifyContent: 'center',
-            backgroundColor: COLOR.btn,
-          }}
-          titleStyle={{
-            fontFamily: FONT.bold,
-            color: COLOR.white,
-            fontSize: 11,
-          }}
-          onPress={() => {
-            navigation.navigate(
-              isPregnant ? 'PregnancyProfile' : 'TrackingOptions',
-            );
-          }}
-        />
+        {isPregnant ? (
+          <Button
+            title="پروفایل بارداری"
+            type="outline"
+            buttonStyle={{
+              borderWidth: 0,
+            }}
+            containerStyle={{
+              height: 25,
+              width: 140,
+              borderRadius: 40,
+              bottom: 65,
+              left: 15,
+              justifyContent: 'center',
+              backgroundColor: COLOR.btn,
+            }}
+            titleStyle={{
+              fontFamily: FONT.bold,
+              color: COLOR.white,
+              fontSize: 11,
+            }}
+            onPress={() => {
+              navigation.navigate('PregnancyProfile');
+            }}
+          />
+        ) : null}
       </ImageBackground>
     </SafeAreaView>
   );
