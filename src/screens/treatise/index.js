@@ -21,7 +21,7 @@ import TreatiseIconBox from '../../components/TreatiseIconBox';
 
 //services
 import { authCode } from '../../services/authCode';
-import { baseUrl } from '../../services/urls';
+import { articlesBaseUrl } from '../../services/urls';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -55,7 +55,7 @@ const Treatise = ({ navigation }) => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created asc`,
+        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=ahkam and type=page and label= "دسته‌بندی")order by created asc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',

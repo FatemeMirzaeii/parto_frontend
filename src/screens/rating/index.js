@@ -130,7 +130,7 @@ const Ratings = ({ navigation }) => {
   const _handleSubmit = () => {
     axios({
       method: 'put',
-      url: `https://api.partobanoo.com/survay/userSurveyAnswer/fa`,
+      url: `https://api.parto.app/survay/userSurveyAnswer/fa`,
       data: {
         userId: 0,
         IMEi: '123456789123456',

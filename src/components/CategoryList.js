@@ -13,7 +13,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 //services
 import { authCode } from '../services/authCode';
-import { baseUrl } from '../services/urls';
+import { articlesBaseUrl } from '../services/urls';
 
 //styles
 import { COLOR, FONT, SIZE } from '../styles/static';
@@ -29,7 +29,7 @@ const CategoryList = (props) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all&start=${0}&limit=${9}`,
+        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all&start=${0}&limit=${9}`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -44,7 +44,7 @@ const CategoryList = (props) => {
           for (let i = 0; i < res.data.results.length; i++) {
             axios({
               method: 'get',
-              url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${articlesBaseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
               headers: {
                 Authorization: 'Basic ' + authCode,
                 'Content-Type': 'application/json',
@@ -59,7 +59,7 @@ const CategoryList = (props) => {
                 // content = [];
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
-                    `${baseUrl}${
+                    `${articlesBaseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );

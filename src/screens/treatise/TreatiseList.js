@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -16,22 +16,21 @@ import SearchBar from '../../components/SearchBar';
 
 //services
 import { authCode } from '../../services/authCode';
-import { baseUrl } from '../../services/urls';
+import { articlesBaseUrl } from '../../services/urls';
 
 //util
-import {RemoveHTML} from '../../util/func';
+import { RemoveHTML } from '../../util/func';
 
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const TreatiseList = ({ route, navigation }) => {
-
   const [data, setData] = useState([]);
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { catId, catTitle } = route.params;
-  let ruleContent=[];
+  let ruleContent = [];
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -54,7 +53,7 @@ const TreatiseList = ({ route, navigation }) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all`,
+        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -62,7 +61,7 @@ const TreatiseList = ({ route, navigation }) => {
       })
         .then((res) => {
           let con = [];
-          ruleContent=[];
+          ruleContent = [];
           console.log(res);
           console.log('categoryContent', res.data.results);
           con = res.data.results;
@@ -70,7 +69,7 @@ const TreatiseList = ({ route, navigation }) => {
             console.log(res.data.results[i].id);
             axios({
               method: 'get',
-              url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${articlesBaseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
               headers: {
                 Authorization: 'Basic ' + authCode,
                 'Content-Type': 'application/json',
@@ -84,7 +83,7 @@ const TreatiseList = ({ route, navigation }) => {
                 const imgUrl = [];
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
-                    `${baseUrl}${
+                    `${articlesBaseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );
@@ -114,9 +113,12 @@ const TreatiseList = ({ route, navigation }) => {
   const _handleSearch = (text) => {
     setData(rule);
     const result = rule.filter((i) => {
-      return i.title.includes(text) || RemoveHTML (i.body.storage.value).includes(text)
+      return (
+        i.title.includes(text) ||
+        RemoveHTML(i.body.storage.value).includes(text)
+      );
     });
-   
+
     console.log('result', result);
     setData(result);
   };
@@ -132,8 +134,7 @@ const TreatiseList = ({ route, navigation }) => {
             onChangeText={_handleSearch}
             iconColor={COLOR.btn}
           />
-          <View
-            style={{ flex: 1 }}>
+          <View style={{ flex: 1 }}>
             <FlatList
               data={data}
               numColumns={2}

@@ -10,7 +10,7 @@ import SearchBar from '../../components/SearchBar';
 
 //services
 import { authCode } from '../../services/authCode';
-import { baseUrl } from '../../services/urls';
+import { articlesBaseUrl } from '../../services/urls';
 
 ///styles
 import { COLOR } from '../../styles/static';
@@ -25,7 +25,7 @@ const ArticlesList = ({ route, navigation }) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc`,
+        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -37,7 +37,7 @@ const ArticlesList = ({ route, navigation }) => {
           for (let i = 0; i < res.data.results.length; i++) {
             axios({
               method: 'get',
-              url: `${baseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${articlesBaseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
               headers: {
                 Authorization: 'Basic ' + authCode,
                 'Content-Type': 'application/json',
@@ -51,7 +51,7 @@ const ArticlesList = ({ route, navigation }) => {
 
                 for (let i = 0; i < data.length; i++) {
                   imgUrl.push(
-                    `${baseUrl}${
+                    `${articlesBaseUrl}${
                       data[i]._links.download.split('?')[0]
                     }?os_authType=basic`,
                   );

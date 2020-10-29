@@ -4,7 +4,7 @@ import axios from 'axios';
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/Loader';
 import { authCode } from '../../services/authCode';
-import { baseUrl } from '../../services/urls';
+import { articlesBaseUrl } from '../../services/urls';
 
 const Articles = (props) => {
   const [categoryList, setCategoryList] = useState([]);
@@ -14,7 +14,7 @@ const Articles = (props) => {
     const getCategoryList = () => {
       axios({
         method: 'get',
-        url: `${baseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
