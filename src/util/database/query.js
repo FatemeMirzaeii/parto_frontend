@@ -250,10 +250,6 @@ export async function getReminders() {
   return data;
 }
 export async function getUserReminders(userId) {
-  // db.exec(
-  //   `DELETE FROM ${USER_REMINDER} WHERE user_id=${userId} AND reminder_id=1`,
-  //   USER_REMINDER,
-  // );
   const res = await db.exec(
     `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId}`,
     USER_REMINDER,

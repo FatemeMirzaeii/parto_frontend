@@ -19,7 +19,7 @@ const LoginForm = (props) => {
 
   const submit = async (values) => {
     setLoading(true);
-    const res = await restapi.request('auth/signIn/fa', values);
+    const res = await restapi.request('auth/signIn/fa', values, 'POST', true);
     console.log(res);
     if (res._status === 200) {
       await storeData('@token', res._token);
@@ -42,15 +42,17 @@ const LoginForm = (props) => {
         <ActivityIndicator />
       ) : (
         <Formik
-          initialValues={{ email: '', password: '' }}
+          // initialValues={{ email: '', password: '', phone: '' }}
+          initialValues={{ phone: '' }}
           onSubmit={(values) => submit(values)}
-          validationSchema={yup.object().shape({
-            email: yup
-              .string()
-              .email('ایمیل وارد شده معتبر نیست.')
-              .required('لطفا ایمیل خود را وارد کنید.'),
-            password: yup.string().required('لطفا رمزعبور خود را وارد کنید.'),
-          })}>
+          // validationSchema={yup.object().shape({
+          //   email: yup
+          //     .string()
+          //     .email('ایمیل وارد شده معتبر نیست.')
+          //     .required('لطفا ایمیل خود را وارد کنید.'),
+          //   password: yup.string().required('لطفا رمزعبور خود را وارد کنید.'),
+          // })}
+        >
           {({
             values,
             handleChange,
@@ -62,6 +64,21 @@ const LoginForm = (props) => {
           }) => (
             <Fragment>
               <Input
+                ref={emailInput}
+                value={values.email}
+                label="تلفن"
+                placeholder="0912123456"
+                onSubmitEditing={(r) => {
+                  passInput.current.focus();
+                }}
+                onChangeText={handleChange('phone')}
+                onBlur={() => setFieldTouched('phone')}
+                textContentType={'username'}
+                //containerStyle={styles.input}
+                returnKeyType="next"
+                leftIcon={<Icon name="phone" size={20} color="gray" />}
+              />
+              {/* <Input
                 ref={emailInput}
                 value={values.email}
                 label="ایمیل"
@@ -98,7 +115,7 @@ const LoginForm = (props) => {
                     onPress={() => setSecurePassword(!securePassword)}
                   />
                 }
-              />
+              /> */}
               {touched.password && errors.password && (
                 <Ptxt style={styles.error}>{errors.password}</Ptxt>
               )}
