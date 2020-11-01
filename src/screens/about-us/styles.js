@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 
 export default StyleSheet.create({
   bg: {
@@ -7,11 +7,14 @@ export default StyleSheet.create({
     height: '100%',
     justifyContent: 'center',
   },
+  question: {
+    fontFamily: FONT.medium,
+    fontSize: 15,
+  },
   txt: {
     fontSize: 14,
     color: COLOR.textColor,
     margin: 20,
-    marginTop: -130,
     lineHeight: 20,
   },
 });
