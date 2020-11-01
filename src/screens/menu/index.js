@@ -9,6 +9,7 @@ import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
@@ -91,7 +92,7 @@ const Menu = ({ navigation }) => {
         />
       </Card>
       <Card>
-        <ListItem
+        {/* <ListItem
           title="یادآوری‌ها"
           leftIcon={{ name: 'alarm-on', color: COLOR.tiffany }}
           bottomDivider
@@ -100,7 +101,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
         <ListItem
           title="قفل نرم افزار"
           leftIcon={{ name: 'lock', color: COLOR.tiffany }}
@@ -144,7 +145,7 @@ const Menu = ({ navigation }) => {
             shareContent(
               'لینک دانلود اپلیکیشن پرتو (سلامت بانوان):' +
                 '\n' +
-                'https://play.google.com/store/apps/details?id=ir.parto.parto',
+                CafeBazaarLink, // PlayStoreLink,MyketLink
             )
           }
           titleStyle={styles.listItemText}
