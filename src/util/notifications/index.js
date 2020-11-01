@@ -7,10 +7,13 @@ import {
   OVULATION,
   PERIOD_START,
   PMS,
+  PERIOD_LATE,
+  CHECK_THE_APP,
 } from '../../constants/reminders';
+import { FORMAT } from '../../constants/cycle';
 
 const notification = new NotificationService();
-const today = moment();
+const today = moment().format(FORMAT);
 let c;
 export default async () => {
   const reminders = await getUserReminders(1);
@@ -18,7 +21,6 @@ export default async () => {
   notification.getScheduledLocalNotifications((res) =>
     console.log('dkjvd', res),
   );
-  notification.cancelAll();
   userAppChecking();
   periodLate();
   console.log('reminders', reminders);
@@ -48,22 +50,27 @@ async function breastExam(reminder) {
   let repeatType;
   switch (reminder.Xdays_ago) {
     case 1:
-      return (repeatType = 'day');
+      repeatType = 'day';
+      break;
     case 7:
-      return (repeatType = 'week');
+      repeatType = 'week';
+      break;
     case 30:
-      return (repeatType = 'month');
+      repeatType = 'month';
+      break;
     default:
       break;
   }
-  const date = today.toDate();
-  const [hours, minutes] = reminder.custom_time.split(':');
-  date.setHours(hours);
-  date.setMinutes(minutes);
-  notification.scheduled(date, reminder.custom_message, repeatType); //todo should fix date
-  console.log('breast exam set for', date);
+  const [date, time] = reminder.custom_time.split(/_/);
+  const [hours, minutes] = time.split(/:/);
+  const d = moment(date).toDate();
+  d.setHours(hours);
+  d.setMinutes(minutes);
+  notification.scheduled(BREAST_EXAM, d, reminder.custom_message, repeatType);
+  console.log('breast exam reminder set for', d);
 }
 async function periodInACoupleOfDays(reminder) {
+  notification.cancel(PERIOD_START);
   const nextPeriodDate = c.nextPeriodDate();
   const date = getReminderDateTime(
     nextPeriodDate,
@@ -71,10 +78,11 @@ async function periodInACoupleOfDays(reminder) {
     reminder.Xdays_ago,
   );
   if (moment(date).isBefore(today)) return;
-  notification.scheduled(date, reminder.custom_message);
+  notification.scheduled(PERIOD_START, date, reminder.custom_message);
   console.log('period reminder set for', date);
 }
 async function ovulationInACoupleOfDays(reminder) {
+  notification.cancel(OVULATION);
   const nextOvulationDate = c.nextOvulationDate();
   const date = getReminderDateTime(
     nextOvulationDate,
@@ -82,10 +90,11 @@ async function ovulationInACoupleOfDays(reminder) {
     reminder.Xdays_ago,
   );
   if (moment(date).isBefore(today)) return;
-  notification.scheduled(date, reminder.custom_message);
+  notification.scheduled(OVULATION, date, reminder.custom_message);
   console.log('ovulation reminder set for', date);
 }
 async function pmsInACoupleOfDays(reminder) {
+  notification.cancel(PMS);
   const nextPmsDate = c.nextPmsDate();
   const date = getReminderDateTime(
     nextPmsDate,
@@ -93,24 +102,28 @@ async function pmsInACoupleOfDays(reminder) {
     reminder.Xdays_ago,
   );
   if (moment(date).isBefore(today)) return;
-  notification.scheduled(date, reminder.custom_message);
+  notification.scheduled(PMS, date, reminder.custom_message);
   console.log('PMS reminder set for', date);
 }
 async function periodLate() {
+  notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
   const date = moment(nextPeriodDate).add(10, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
   notification.scheduled(
+    PERIOD_LATE,
     date,
     '10 روز از زمانی که انتظار داشتیم پریود بشی گذشته.هنوز تاریخ جدید وارد نکردی؟',
   );
 }
 async function userAppChecking() {
-  const date = today.add(90, 'days').toDate();
+  notification.cancel(CHECK_THE_APP);
+  const date = moment(today).add(90, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
   notification.scheduled(
+    CHECK_THE_APP,
     date,
     'چندوقتی هست که حال و احوالت رو ثبت نکردی! دلمون برات تنگ شده.',
   );

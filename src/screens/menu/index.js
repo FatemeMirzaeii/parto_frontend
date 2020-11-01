@@ -69,17 +69,6 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
       </Card>
-      {/* <Card>
-        <ListItem
-          title="پروفایل بارداری"
-          leftIcon={{ name: 'pregnant-woman', color: COLOR.tiffany }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('PregnancyProfile')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-      </Card> */}
       <Card>
         <ListItem
           title="احکام"
@@ -92,7 +81,7 @@ const Menu = ({ navigation }) => {
         />
       </Card>
       <Card>
-        {/* <ListItem
+        <ListItem
           title="یادآوری‌ها"
           leftIcon={{ name: 'alarm-on', color: COLOR.tiffany }}
           bottomDivider
@@ -101,7 +90,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        /> */}
+        />
         <ListItem
           title="قفل نرم افزار"
           leftIcon={{ name: 'lock', color: COLOR.tiffany }}

@@ -1,9 +1,11 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
 import { ScrollView, TextInput } from 'react-native';
 import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
 import { Icon } from 'native-base';
+import moment from 'moment';
 import setupNotifications from '../../util/notifications';
 import { BREAST_EXAM } from '../../constants/reminders';
+import { DateContext } from '../../contexts';
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
@@ -11,10 +13,12 @@ import { COLOR } from '../../styles/static';
 import { getReminder, saveReminder } from '../../util/database/query';
 import globalStyles from '../../styles';
 import styles from './Styles';
+import { FORMAT } from '../../constants/cycle';
 
 const d = new Date();
 const ReminderSetting = ({ navigation, route }) => {
   const { reminder } = route.params;
+  const { today } = useContext(DateContext);
   const [isActive, setIsActive] = useState(false);
   const [time, setTime] = useState(`${d.getHours()}:${d.getMinutes()}`);
   const [hours, setHours] = useState(`${d.getHours()}`);
@@ -23,7 +27,6 @@ const ReminderSetting = ({ navigation, route }) => {
   const [message, setMessage] = useState(reminder.message);
   const [daysAgo, setDaysAgo] = useState(1);
   const [repeatType, setRepeatType] = useState();
-  const [isLoading, setIsLoading] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,36 +52,50 @@ const ReminderSetting = ({ navigation, route }) => {
       ),
     });
     const save = () => {
-      console.log('time', time);
-      saveReminder(
-        reminder.id,
-        isActive,
-        message,
-        hours,
-        minutes,
-        daysAgo,
-      ).then(() => {
-        setupNotifications();
-        navigation.pop();
-      });
+      let cusTime;
+      reminder.id === BREAST_EXAM
+        ? (cusTime = `${moment(today)
+            .add(daysAgo, 'days')
+            .format(FORMAT)}_${hours}:${minutes}`)
+        : (cusTime = `${hours}:${minutes}`);
+      saveReminder(reminder.id, isActive, message, cusTime, daysAgo).then(
+        () => {
+          setupNotifications();
+          navigation.pop();
+        },
+      );
     };
-  }, [daysAgo, hours, isActive, message, minutes, navigation, reminder, time]);
+  }, [
+    daysAgo,
+    hours,
+    isActive,
+    message,
+    minutes,
+    navigation,
+    reminder,
+    repeatType,
+    today,
+  ]);
 
   useEffect(() => {
     getReminder(1, reminder.id).then((res) => {
       console.log('getReminder()', res);
       setData(res);
       if (res.length === 0) return;
-      const [hour, minute] = res.custom_time.split(':');
+      const t = res.custom_time.slice(
+        res.custom_time.indexOf('_') + 1,
+        res.custom_time.length,
+      );
+      const [hour, minute] = t.split(/:/);
       setIsActive(res.active ? true : false);
       setMessage(res.custom_message);
       setTime(res.custom_time);
       setMinutes(minute);
       setHours(hour);
       setDaysAgo(res.Xdays_ago);
-      setIsLoading(false);
     });
   }, [reminder.id]);
+
   const determineRepeatType = (i) => {
     switch (i) {
       case 0: //monthly
