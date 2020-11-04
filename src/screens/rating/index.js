@@ -16,23 +16,32 @@ import { Icon, Button } from 'react-native-elements';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import { Rating } from 'react-native-ratings';
 import Modal from 'react-native-modal';
+//import { getUniqueId, getManufacturer } from 'react-native-device-info';
+import DeviceInfo from 'react-native-device-info';
 import { COLOR, FONT, HEIGHT } from '../../styles/static';
 import styles from './styles';
 import HeartShape from '../../../assets/images/heartShape.png';
-import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import neg from './neg';
 import pos from './pos';
+import md5 from 'md5';
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
 const Tab = createMaterialTopTabNavigator();
 const Ratings = ({ navigation }) => {
+
   const [heartCount, setHeartCount] = useState(2.5);
   const [idea, setIdea] = useState('');
   const [questionItems, setQuestionItems] = useState([]);
+  const [positiveItems, setPositiveItems] = useState([]);
+  const [negativeItems, setNegativeItems] = useState([]);
   const [ideaVisible, setIdeaVisible] = useState(false);
   const [tabVisible, setTabVisible] = useState(false);
-  const [appTourTargets, setAppTourTargets] = useState([]);
+  const macAdd=DeviceInfo.getMacAddress();
+  const UniqueId=DeviceInfo.getUniqueId();
+  let deviceId = DeviceInfo.getDeviceId();
+  const UUID=md5(UniqueId.concat(deviceId))
+
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -69,22 +78,54 @@ const Ratings = ({ navigation }) => {
   //     }
   // }, [])
 
+  // useEffect(() => {
+  //   const getAnswer = () => {
+  //     axios({
+  //       //method: 'post',
+  //       method: 'get',
+  //       // url: `https://api.parto.app/survay/surveyQuestion/fa`,
+  //       url: `https://api.parto.app/survey/question/fa`,
+        
+  //       // data: {
+  //       //   IMEi: '123456789123456',
+  //       // },
+  //       // headers: {
+  //       //   Authorization: `Bearer ${localStorage.getItem('authToken')}`,
+  //       // },
+  //     })
+  //       .then((res) => {
+  //         console.log('res', res);
+  //         console.log('res', res.data.answers);
+  //         setQuestionItems(res.data.answers);
+  //       })
+  //       .catch((err) => {
+  //         console.error(err, err.response);
+  //       });
+  //   };
+
+  //   getAnswer();
+  // }, []);
   useEffect(() => {
     const getAnswer = () => {
       axios({
-        method: 'post',
-        url: `https://api.parto.app/survay/surveyQuestion/fa`,
-        data: {
-          IMEi: '123456789123456',
-        },
+        //method: 'post',
+        method: 'get',
+        // url: `https://api.parto.app/survay/surveyQuestion/fa`,
+        url: `https://api.parto.app/survey/question/fa`,
+        
+        // data: {
+        //   IMEi: '123456789123456',
+        // },
         // headers: {
         //   Authorization: `Bearer ${localStorage.getItem('authToken')}`,
         // },
       })
         .then((res) => {
-          console.log('res', res);
-          console.log('res', res.data.answers);
-          setQuestionItems(res.data.answers);
+          console.log('resneg', res);
+          console.log('res', res.data.negativeQuestion);
+          setQuestionItems(res.data);
+          setNegativeItems(res.data.negativeQuestion)
+          setPositiveItems(res.data.posetivQuestion)
         })
         .catch((err) => {
           console.error(err, err.response);
@@ -94,29 +135,6 @@ const Ratings = ({ navigation }) => {
     getAnswer();
   }, []);
 
-  //  const registerSequenceStepEvent = () => {
-  //     if (sequenceStepListener) {
-  //      sequenceStepListener.remove()
-  //     }
-  //     sequenceStepListener = DeviceEventEmitter.addListener(
-  //       'onShowSequenceStepEvent',
-  //       (e) => {
-  //         console.log(e)
-  //       }
-  //     )
-  //   }
-
-  //   const registerFinishSequenceEvent = () => {
-  //     if (finishSequenceListener) {
-  //       finishSequenceListener.remove()
-  //     }
-  //     finishSequenceListener = DeviceEventEmitter.addListener(
-  //       'onFinishSequenceEvent',
-  //       (e) => {
-  //         console.log(e)
-  //       }
-  //     )
-  //   }
 
   const _ratingCompleted = (rating) => {
     setHeartCount(+rating);
@@ -127,6 +145,7 @@ const Ratings = ({ navigation }) => {
     setIdea();
     setIdeaVisible(false);
   };
+
   const _handleSubmit = () => {
     axios({
       method: 'put',
@@ -222,6 +241,12 @@ const Ratings = ({ navigation }) => {
     </NavigationContainer>
   );
 
+          console.log('macAdd',macAdd)
+          console.log('uniqueId',UniqueId)
+          console.log('deviceId',deviceId)
+          console.log('device',  DeviceInfo.getDeviceName()._W)
+          console.log('UUID',UUID)
+                   
   return (
     <SafeAreaView style={styles.container}>
       {/* <View style={{backgroundColor:COLOR.white}}>

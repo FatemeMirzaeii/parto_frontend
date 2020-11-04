@@ -211,6 +211,10 @@ dependencies {
         exclude group:'com.facebook.flipper'
     }
 
+    debugImplementation(project(':react-native-device-info')) {
+        exclude group: 'com.google.android.gms'
+    }
+
     if (enableHermes) {
         def hermesPath = "../../node_modules/hermes-engine/android/";
         debugImplementation files(hermesPath + "hermes-debug.aar")
