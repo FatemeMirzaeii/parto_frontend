@@ -1,5 +1,5 @@
 import { getData } from '../util/func';
-import { baseUrl } from './urls';
+import { baseUrl, devUrl } from './urls';
 export class api {
   constructor() {
     this.Date;
@@ -13,9 +13,9 @@ export class api {
     };
   }
 
-  async request(_url, _body = null, _method = 'POST', isEncrypt = null) {
-    const url = baseUrl + _url;
-    console.log(url);
+  async request(_url, _body = null, _method = 'POST', dev, isEncrypt = null) {
+    const url = dev ? devUrl : baseUrl + _url;
+    console.log('url,url', url);
     const token = await getData('@token');
     console.log(token);
     _method = _method.toUpperCase();
@@ -42,7 +42,7 @@ export class api {
         body: JSON.stringify(body1),
       };
     }
-    // console.log(body);
+    console.log('body,body', body1);
     await this.FetchWithTimeOut(
       url.includes('http://') || url.includes('https://')
         ? url
@@ -50,7 +50,7 @@ export class api {
       RI,
     )
       .then((response) => {
-        console.log(response);
+        console.log('response,response', response);
         this.state._token = response.headers.get('x-auth-token');
         this.state._status = response.status;
         return response.json();

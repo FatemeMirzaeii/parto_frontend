@@ -9,6 +9,7 @@ import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
@@ -68,17 +69,6 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
       </Card>
-      {/* <Card>
-        <ListItem
-          title="پروفایل بارداری"
-          leftIcon={{ name: 'pregnant-woman', color: COLOR.tiffany }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('PregnancyProfile')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-      </Card> */}
       <Card>
         <ListItem
           title="احکام"
@@ -144,7 +134,7 @@ const Menu = ({ navigation }) => {
             shareContent(
               'لینک دانلود اپلیکیشن پرتو (سلامت بانوان):' +
                 '\n' +
-                'https://play.google.com/store/apps/details?id=ir.parto.parto',
+                CafeBazaarLink, // PlayStoreLink,MyketLink
             )
           }
           titleStyle={styles.listItemText}

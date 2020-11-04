@@ -222,17 +222,16 @@ export async function saveReminder(
   reminderId,
   isActive,
   message,
-  hours,
-  minutes,
+  time,
   daysAgo,
 ) {
   const res = await db.exec(
     `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
     (${reminderId}, ${1}, ${
       isActive ? 1 : 0
-    }, '${message}', '${hours}:${minutes}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
+    }, '${message}', '${time}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
       isActive ? 1 : 0
-    }, custom_message='${message}', custom_time='${hours}:${minutes}', Xdays_ago=${daysAgo}`,
+    }, custom_message='${message}', custom_time='${time}', Xdays_ago=${daysAgo}`,
     USER_REMINDER,
   );
   return res ?? 0;
