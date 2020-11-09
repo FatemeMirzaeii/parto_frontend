@@ -29,7 +29,6 @@ const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
 const Tab = createMaterialTopTabNavigator();
 const Ratings = ({ navigation }) => {
-
   const [heartCount, setHeartCount] = useState(2.5);
   const [idea, setIdea] = useState('');
   const [questionItems, setQuestionItems] = useState([]);
@@ -37,11 +36,10 @@ const Ratings = ({ navigation }) => {
   const [negativeItems, setNegativeItems] = useState([]);
   const [ideaVisible, setIdeaVisible] = useState(false);
   const [tabVisible, setTabVisible] = useState(false);
-  const macAdd=DeviceInfo.getMacAddress();
-  const UniqueId=DeviceInfo.getUniqueId();
+  const macAdd = DeviceInfo.getMacAddress();
+  const UniqueId = DeviceInfo.getUniqueId();
   let deviceId = DeviceInfo.getDeviceId();
-  const UUID=md5(UniqueId.concat(deviceId))
-
+  const UUID = md5(UniqueId.concat(deviceId));
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -85,7 +83,7 @@ const Ratings = ({ navigation }) => {
   //       method: 'get',
   //       // url: `https://api.parto.app/survay/surveyQuestion/fa`,
   //       url: `https://api.parto.app/survey/question/fa`,
-        
+
   //       // data: {
   //       //   IMEi: '123456789123456',
   //       // },
@@ -112,7 +110,7 @@ const Ratings = ({ navigation }) => {
         method: 'get',
         // url: `https://api.parto.app/survay/surveyQuestion/fa`,
         url: `https://api.parto.app/survey/question/fa`,
-        
+
         // data: {
         //   IMEi: '123456789123456',
         // },
@@ -124,8 +122,8 @@ const Ratings = ({ navigation }) => {
           console.log('resneg', res);
           console.log('res', res.data.negativeQuestion);
           setQuestionItems(res.data);
-          setNegativeItems(res.data.negativeQuestion)
-          setPositiveItems(res.data.posetivQuestion)
+          setNegativeItems(res.data.negativeQuestion);
+          setPositiveItems(res.data.posetivQuestion);
         })
         .catch((err) => {
           console.error(err, err.response);
@@ -134,7 +132,6 @@ const Ratings = ({ navigation }) => {
 
     getAnswer();
   }, []);
-
 
   const _ratingCompleted = (rating) => {
     setHeartCount(+rating);
@@ -241,12 +238,12 @@ const Ratings = ({ navigation }) => {
     </NavigationContainer>
   );
 
-          console.log('macAdd',macAdd)
-          console.log('uniqueId',UniqueId)
-          console.log('deviceId',deviceId)
-          console.log('device',  DeviceInfo.getDeviceName()._W)
-          console.log('UUID',UUID)
-                   
+  console.log('macAdd', macAdd);
+  console.log('uniqueId', UniqueId);
+  console.log('deviceId', deviceId);
+  console.log('device', DeviceInfo.getDeviceName()._W);
+  console.log('UUID', UUID);
+
   return (
     <SafeAreaView style={styles.container}>
       {/* <View style={{backgroundColor:COLOR.white}}>
