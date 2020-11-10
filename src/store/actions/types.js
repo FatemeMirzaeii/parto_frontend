@@ -1,0 +1,2 @@
+export const POSITIVE_OFFER = ' POSITIVE_OFFER';
+export const NEGATIVE_OFFER = 'NEGATIVE_OFFER';
