@@ -5,7 +5,6 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const ContactUs = ({ navigation }) => {
-
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'ارتباط با پرتو',
@@ -50,25 +49,21 @@ const ContactUs = ({ navigation }) => {
           color={COLOR.btn}
           onPress={() => Linking.openURL('http://google.com')}
         /> */}
-          <Icon
+        <Icon
           reverse
           size={25}
           name="bale"
           type="Bale"
           color={COLOR.btn}
-          onPress={() =>
-            Linking.openURL('https://ble.ir/partobanoo')
-          }
+          onPress={() => Linking.openURL('https://ble.ir/partobanoo')}
         />
-         <Icon
+        <Icon
           reverse
           size={25}
           name="eita"
           type="Eita"
           color={COLOR.btn}
-          onPress={() =>
-            Linking.openURL('https://eitaa.com/partobanoo')
-          }
+          onPress={() => Linking.openURL('https://eitaa.com/partobanoo')}
         />
         <Icon
           reverse

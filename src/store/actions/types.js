@@ -1,2 +1,7 @@
 export const POSITIVE_OFFER = ' POSITIVE_OFFER';
 export const NEGATIVE_OFFER = 'NEGATIVE_OFFER';
+
+export const SET_LAST_PERIOD_DATE = 'SET_LAST_PERIOD_DATE';
+export const SET_MODE = 'SET_MODE';
+
+export const SET_MAIN_SENTENCE = 'SET_MAIN_SENTENCE';
