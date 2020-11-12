@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import cycleReducer from './cycle';
-import ratingReducer from './rating';
+import cycle from './cycle';
+import rating from './rating';
 
-export default combineReducers({ cycleReducer, ratingReducer });
+export default combineReducers({ cycle, rating });

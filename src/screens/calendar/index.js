@@ -4,6 +4,7 @@ import {
   TouchableOpacity,
   DeviceEventEmitter,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
@@ -22,8 +23,9 @@ import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
 import { storeData, getData } from '../../util/func';
 
-const Calendar = ({ navigation, route }) => {
-  const { isPregnant } = route.params;
+const Calendar = ({ navigation }) => {
+  const cycle = useSelector((state) => state.cycle);
+  const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
@@ -179,21 +181,12 @@ const Calendar = ({ navigation, route }) => {
     setMarkedDates({ ...markedDates });
   };
   const markBleedingDays = async () => {
-    const c = await CycleModule();
-    const past = await c.pastBleedingDays();
-    if (past) {
-      const formatted = past.map((day) => day.date.format(FORMAT));
-      markedDateObj(formatted, COLOR.bleeding, false);
-    }
+    markedDateObj(cycle.periodDays, COLOR.bleeding, false);
   };
   const markPerdictions = async () => {
-    if (isPregnant) return;
-    const c = await CycleModule();
-    const ovulation = c.perdictedOvulationDaysInCurrentYear();
-    markedDateObj(ovulation, COLOR.tiffany, true);
-
-    const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, COLOR.periodPerdiction, true);
+    if (cycle.isPregnant) return;
+    markedDateObj(cycle.ovulationPerdictions, COLOR.tiffany, true);
+    markedDateObj(cycle.periodPerdictions, COLOR.periodPerdiction, true);
   };
   return (
     <ImageBackground

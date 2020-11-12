@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Text, StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import jalaali from 'moment-jalaali';
 import { FONT, COLOR, WIDTH } from '../styles/static';
 import {
   CalendarProvider,
   WeekCalendar as WeekCal,
 } from 'react-native-jalali-calendars';
-import CycleModule from '../util/cycle';
 import { getUserVaginalAndSleepOptions } from '../util/database/query';
 import Divider from '../components/Divider';
 
 const WeekCalendar = (props) => {
+  const cycle = useSelector((state) => state.cycle);
   const [selectedDate, setSelectedDate] = useState();
   const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
@@ -44,20 +45,11 @@ const WeekCalendar = (props) => {
     setMarkedDates({ ...markedDates });
   };
   const markBleedingDays = async () => {
-    const c = await CycleModule();
-    const past = await c.pastBleedingDays();
-    if (past) {
-      const formatted = past.map((day) => day.date.format('YYYY-MM-DD'));
-      markedDateObj(formatted, period);
-    }
+    markedDateObj(cycle.periodDays, period);
   };
   const markPerdictions = async () => {
-    const c = await CycleModule();
-    const bleeding = c.perdictedPeriodDaysInCurrentYear();
-    markedDateObj(bleeding, periodPerdictiin);
-
-    const ovulation = c.perdictedOvulationDaysInCurrentYear();
-    markedDateObj(ovulation, ovulationd);
+    markedDateObj(cycle.periodPerdictions, periodPerdictiin);
+    markedDateObj(cycle.ovulationPerdictions, ovulationd);
   };
   const markTrackingOptions = async () => {
     const t = await getUserVaginalAndSleepOptions();

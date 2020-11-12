@@ -6,6 +6,7 @@ import {
   Text,
   DeviceEventEmitter,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
@@ -14,17 +15,20 @@ import Ruler from '../../components/Ruler';
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
 import styles from './styles';
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import { pregnancyMode } from '../../util/database/query';
-import { COLOR, FONT, SIZE, WIDTH, HEIGHT } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 import { storeData, getData } from '../../util/func';
+import { setPregnancyMode } from '../../store/actions/cycle';
 const today = moment();
 const Home = ({ navigation }) => {
+  const cycle = useSelector((state) => state.cycle);
+  console.log('useSelector', cycle);
+  const dispatch = useDispatch();
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
   const [thirdSentence, setThirdSentence] = useState('');
-  const [isPregnant, setPregnant] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const [appTour, setAppTour] = useState(true);
@@ -94,7 +98,7 @@ const Home = ({ navigation }) => {
 
   const determineMode = async () => {
     const preg = await pregnancyMode();
-    setPregnant(preg);
+    dispatch(setPregnancyMode(preg));
     const momentDate = moment(date);
     if (preg) {
       const p = await PregnancyModule();
@@ -147,7 +151,7 @@ const Home = ({ navigation }) => {
             appTourTargets.push(appTourTarget);
           }}
           onPress={() => {
-            navigation.navigate('Calendar', { isPregnant });
+            navigation.navigate('Calendar');
           }}
         />
         <WeekCalendar
@@ -164,7 +168,7 @@ const Home = ({ navigation }) => {
           <Ruler />
           {renderText()}
         </View>
-        {isPregnant ? (
+        {cycle.isPregnant ? (
           <Button
             title="پروفایل بارداری"
             type="outline"
