@@ -1,25 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import {
-  SafeAreaView,
-  View,
-  ImageBackground,
-  Text,
-  DeviceEventEmitter,
-} from 'react-native';
+import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import Ruler from '../../components/Ruler';
-import CycleModule from '../../util/cycle';
-import PregnancyModule from '../../util/pregnancy';
 import styles from './styles';
 import { Button } from 'react-native-elements';
-import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
+import CycleModule from '../../util/cycle';
+import PregnancyModule from '../../util/pregnancy';
 import { pregnancyMode } from '../../util/database/query';
+import Tour from '../../util/tourGuide/Tour';
 import { COLOR, FONT } from '../../styles/static';
-import { storeData, getData } from '../../util/func';
 import { setPregnancyMode } from '../../store/actions/cycle';
 const today = moment();
 const Home = ({ navigation }) => {
@@ -31,71 +24,17 @@ const Home = ({ navigation }) => {
   const [thirdSentence, setThirdSentence] = useState('');
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
 
   useEffect(() => {
     navigation.addListener('focus', async () => {
       determineMode();
     });
   }, [navigation]);
-
+  
   useEffect(() => {
     determineMode();
-    checkIfAppTourIsNeeded();
   }, [date]);
-
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
-
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [appTour]);
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('Home');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'calendarIcon';
-        });
-        await storeData('Home', 'true');
-      },
-    );
-  };
-
+  
   const determineMode = async () => {
     const preg = await pregnancyMode();
     dispatch(setPregnancyMode(preg));
@@ -106,16 +45,18 @@ const Home = ({ navigation }) => {
       setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
       setSubSentence(
         `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-      );
-    } else {
-      const c = await CycleModule();
-      const s = c.determinePhaseSentence(momentDate);
+        );
+      } else {
+        const c = await CycleModule();
+        const s = c.determinePhaseSentence(momentDate);
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
   };
-
+  
+  Tour(appTourTargets, 'calendarIcon', 'Home');
+  
   const renderText = () => {
     return (
       <View style={styles.sentenceContainer}>
@@ -131,16 +72,6 @@ const Home = ({ navigation }) => {
       <ImageBackground
         source={require('../../../assets/images/bg.png')}
         style={styles.sky}>
-        {/* <Icon
-          name="calendar"
-          type="evilicon"
-          size={35}
-          color={COLOR.black}
-          containerStyle={styles.calendarIcon}
-          onPress={() => {
-            navigation.navigate('Calendar', { isPregnant });
-          }}
-        /> */}
         <HomeCalendar
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);

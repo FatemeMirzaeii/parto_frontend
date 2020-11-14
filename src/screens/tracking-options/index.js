@@ -13,21 +13,18 @@ import {
   Text,
   ToastAndroid,
   FlatList,
-  DeviceEventEmitter,
 } from 'react-native';
 import moment from 'moment';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
-import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
 import Database from '../../util/database';
 import styles from './styles';
 import commonStyles from '../../styles/commonStyles';
 import { COLOR, WIDTH } from '../../styles/static';
-import { storeData, getData } from '../../util/func';
 import {
   BLEEDING,
   EXCERSICE,
@@ -49,6 +46,7 @@ import { DateContext } from '../../contexts';
 import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
+import Tour from '../../util/tourGuide/Tour';
 
 const db = new Database();
 const detailPageRef = createRef();
@@ -62,7 +60,6 @@ const TrackingOptions = ({ route, navigation }) => {
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
 
   const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
@@ -73,62 +70,7 @@ const TrackingOptions = ({ route, navigation }) => {
     getInitialData();
   }, [getInitialData]);
 
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
-  useEffect(() => {
-    checkIfAppTourIsNeeded();
-  }, []);
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [appTour]);
-
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('TrackingOptionTour');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'calendarPointer';
-        });
-        console.log('t', t);
-        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-        await storeData('TrackingOptionTour', 'true');
-      },
-    );
-  };
+  Tour(appTourTargets, 'calendarPointer', 'TrackingOptionTour');
 
   const renderItem = ({ item }) => {
     return (
