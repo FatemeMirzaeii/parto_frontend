@@ -7,7 +7,12 @@ export const fetchInitialCycleData = (data) => {
     payload: data,
   };
 };
-
+export const updatePeriodDays = (days) => {
+  return {
+    type: actions.UPDATE_PERIOD_DAYS,
+    payload: days,
+  };
+};
 export const setLastPeriodDate = (lpd) => {
   return {
     type: actions.SET_LAST_PERIOD_DATE,

@@ -30,6 +30,7 @@ export default async function CycleModule() {
   const avgCycleLength = pdata.avg_cycle_length;
   const avgPeriodLength = pdata.avg_period_length;
   const pmsLength = pdata.pms_length ?? PMS_LENGTH;
+  const isPregnant = pdata.pregnant;
 
   function periodDayNumber(date) {
     if (!lastPeriodDate) {
@@ -182,6 +183,7 @@ export default async function CycleModule() {
     return window;
   }
   function perdictedPeriodDaysInCurrentYear() {
+    if (isPregnant) return [];
     let days = [];
     let perdictedPeriodDate = nextPeriodDate(lastPeriodDate);
     console.log('perdicted', perdictedPeriodDate);
@@ -195,6 +197,7 @@ export default async function CycleModule() {
     return days;
   }
   function perdictedOvulationDaysInCurrentYear() {
+    if (isPregnant) return [];
     let days = determineOvulationWindow(lastPeriodDate);
     let perdictedPeriodDate = nextPeriodDate(lastPeriodDate);
     // console.log('perdicted ov', perdictedPeriodDate);

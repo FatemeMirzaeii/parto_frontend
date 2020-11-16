@@ -13,52 +13,25 @@ import Divider from '../components/Divider';
 const WeekCalendar = (props) => {
   const cycle = useSelector((state) => state.cycle);
   const [selectedDate, setSelectedDate] = useState();
-  const [markedDates, setMarkedDates] = useState({});
   const today = new Date().toISOString().split('T')[0];
-  const period = { key: 'period', color: COLOR.bleeding };
-  const periodPerdictiin = {
-    key: 'periodPerdictiin',
-    color: COLOR.periodPerdiction,
-  };
-  const ovulationd = { key: 'ovulation', color: COLOR.tiffany };
-  const vaginalAndSleep = {
-    key: 'vaginalAndSleep',
-    color: COLOR.vaginalAndSleep,
-  };
-  useEffect(() => {
-    markBleedingDays();
-    markPerdictions();
-    // markTrackingOptions();
-  }, []);
-  const markedDateObj = (dates, dot) => {
-    // console.log('marked dates', dates);
-    dates.forEach((date) => {
-      if (date in markedDates) {
-        // markedDates[date].dots.push(dot);
-        return;
-      } else {
-        markedDates[date] = {
-          dots: [dot],
-        };
-      }
-    });
-    setMarkedDates({ ...markedDates });
-  };
-  const markBleedingDays = async () => {
-    markedDateObj(cycle.periodDays, period);
-  };
-  const markPerdictions = async () => {
-    markedDateObj(cycle.periodPerdictions, periodPerdictiin);
-    markedDateObj(cycle.ovulationPerdictions, ovulationd);
-  };
-  const markTrackingOptions = async () => {
-    const t = await getUserVaginalAndSleepOptions();
-    console.log('tttttt', t);
-    markedDateObj(
-      t.map((d) => d.date),
-      vaginalAndSleep,
-    );
-  };
+  // const period = { key: 'period', color: COLOR.bleeding };
+  // const periodPerdictiin = {
+  //   key: 'periodPerdictiin',
+  //   color: COLOR.periodPerdiction,
+  // };
+  // const ovulationd = { key: 'ovulation', color: COLOR.tiffany };
+  // const vaginalAndSleep = {
+  //   key: 'vaginalAndSleep',
+  //   color: COLOR.vaginalAndSleep,
+  // };
+  // const markTrackingOptions = async () => {
+  //   const t = await getUserVaginalAndSleepOptions();
+  //   console.log('tttttt', t);
+  //   markedDateObj(
+  //     t.map((d) => d.date),
+  //     vaginalAndSleep,
+  //   );
+  // };
   const onDayPress = (date) => {
     setSelectedDate(date.dateString);
     if (props.onDayPress) props.onDayPress(date);
@@ -80,8 +53,12 @@ const WeekCalendar = (props) => {
         jalali
         firstDay={6}
         onDayPress={onDayPress}
-        markedDates={markedDates}
-        markingType="multi-dot"
+        markedDates={{
+          ...cycle.periodDays,
+          ...cycle.periodPerdictions,
+          ...cycle.ovulationPerdictions,
+        }}
+        markingType="multi-period"
         theme={{
           ...props.theme,
           ...{

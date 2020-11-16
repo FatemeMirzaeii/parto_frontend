@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
-import moment from 'moment';
 import jalaali from 'moment-jalaali';
 import { setBleedingDays } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
@@ -19,31 +18,18 @@ import Ptxt from '../../components/Ptxt';
 import CancelButton from '../../components/CancelButton';
 import SubmitButton from '../../components/SubmitButton';
 import SaveBleendingButton from '../../components/BleendingdaysSave';
-import testIDs from './testIDs';
 import { FORMAT } from '../../constants/cycle';
 import { storeData, getData } from '../../util/func';
+import { updatePeriodDays } from '../../store/actions/cycle';
 
 const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const [markedDates, setMarkedDates] = useState({});
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const [appTourTargets, setAppTourTargets] = useState([]);
   const [appTour, setAppTour] = useState(true);
   const calendar = useRef();
-
-  useEffect(() => {
-    navigation.addListener('focus', () => {
-      markBleedingDays();
-      markPerdictions();
-    });
-  }, [navigation, editMode]);
-
-  useEffect(() => {
-    markBleedingDays();
-    markPerdictions();
-  }, [editMode]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -57,15 +43,9 @@ const Calendar = ({ navigation }) => {
           titleStyle={globalStyles.headerBtnTitle}
           containerStyle={globalStyles.smallHeaderBtn}
         />
-        // <GoTodayButton
-        //   addAppTourTarget={(appTourTarget) => {
-        //     appTourTargets.push(appTourTarget);
-        //   }}
-        //   onPress={() => calendar.current.scrollToDay(new Date())}
-        // />
       ),
     });
-  }, [editMode, navigation, markedDates]);
+  }, [editMode, navigation]);
 
   useEffect(() => {
     registerSequenceStepEvent();
@@ -130,63 +110,56 @@ const Calendar = ({ navigation }) => {
     }
   };
   const edit = (dateString) => {
-    if (dateString in markedDates) {
-      delete markedDates[dateString];
-      setMarkedDates({ ...markedDates });
+    if (dateString in cycle.periodDays) {
+      const {
+        [dateString]: {},
+        ...periodDays
+      } = cycle.periodDays;
+      dispatch(updatePeriodDays(periodDays));
     } else {
-      markedDateObj([dateString], COLOR.bleeding);
+      dispatch(
+        updatePeriodDays({
+          ...cycle.periodDays,
+          [dateString]: markedDateObj(COLOR.bleeding, false),
+        }),
+      );
     }
   };
   const onEditPress = () => {
-    setMarkedDatesBeforeEdit(markedDates);
+    setMarkedDatesBeforeEdit(cycle.periodDays);
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
-    setMarkedDates({});
-
     const c = await CycleModule();
     // console.log('before', markedDates, markedDatesBeforeEdit);
-    const added = Object.keys(markedDates).filter(
-      (key) => markedDatesBeforeEdit[key] !== markedDates[key],
+    const added = Object.keys(cycle.periodDays).filter(
+      (key) => markedDatesBeforeEdit[key] !== cycle.periodDays[key],
     );
-    // console.log('added', added);
+    console.log('added', added);
 
     const removed = Object.keys(markedDatesBeforeEdit).filter(
-      (key) => markedDatesBeforeEdit[key] !== markedDates[key],
+      (key) => markedDatesBeforeEdit[key] !== cycle.periodDays[key],
     );
-    // console.log('removed', removed);
+    console.log('removed', removed);
 
     await setBleedingDays(added, removed);
     await c.determineLastPeriodDate();
     setEditMode(false);
   };
   const onCancelEditing = () => {
-    setMarkedDates(markedDatesBeforeEdit);
+    dispatch(updatePeriodDays(markedDatesBeforeEdit));
     setEditMode(false);
   };
-  const markedDateObj = (dates, color, perdictions) => {
-    // console.log('marked dates', dates, color, perdictions);
-    dates.forEach((date) => {
-      if (date in markedDates) return;
-      markedDates[date] = {
-        periods: [
-          {
-            startingDay: perdictions,
-            color: color,
-            endingDay: perdictions,
-          },
-        ],
-      };
-    });
-    setMarkedDates({ ...markedDates });
-  };
-  const markBleedingDays = async () => {
-    markedDateObj(cycle.periodDays, COLOR.bleeding, false);
-  };
-  const markPerdictions = async () => {
-    if (cycle.isPregnant) return;
-    markedDateObj(cycle.ovulationPerdictions, COLOR.tiffany, true);
-    markedDateObj(cycle.periodPerdictions, COLOR.periodPerdiction, true);
+  const markedDateObj = (color, dashed) => {
+    return {
+      periods: [
+        {
+          startingDay: dashed,
+          color: color,
+          endingDay: dashed,
+        },
+      ],
+    };
   };
   return (
     <ImageBackground
@@ -198,11 +171,14 @@ const Calendar = ({ navigation }) => {
         jalali
         firstDay={6}
         showSixWeeks
-        testID={testIDs.calendarList.CONTAINER}
-        maxDate={moment().format(FORMAT)}
+        maxDate={jalaali().format(FORMAT)}
         pastScrollRange={12}
         futureScrollRange={12}
-        markedDates={markedDates}
+        markedDates={{
+          ...cycle.periodDays,
+          ...cycle.periodPerdictions,
+          ...cycle.ovulationPerdictions,
+        }}
         markingType="multi-period"
         onDayPress={onDayPress}
         onDayLongPress={(day) => console.log('day long press', day)}

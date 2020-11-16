@@ -20,6 +20,11 @@ const cycleReducer = (state = initialStates, action) => {
         ovulationPerdictions: action.payload.ovulationPerdictions,
         periodPerdictions: action.payload.periodPerdictions,
       };
+    case actions.UPDATE_PERIOD_DAYS:
+      return {
+        ...state,
+        periodDays: action.payload,
+      };
     case actions.SET_LAST_PERIOD_DATE:
       return { ...state, lastPeriodDate: action.payload };
     case actions.SET_PREGNANT_MODE:
