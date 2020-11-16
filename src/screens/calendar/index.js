@@ -22,6 +22,9 @@ const Calendar = ({ navigation }) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+
+  //to maryam: why should we use state if we don't need to setState?
+  //can't we just use a variable?
   const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
 

@@ -30,11 +30,11 @@ const Home = ({ navigation }) => {
       determineMode();
     });
   }, [navigation]);
-  
+
   useEffect(() => {
     determineMode();
   }, [date]);
-  
+
   const determineMode = async () => {
     const preg = await pregnancyMode();
     dispatch(setPregnancyMode(preg));
@@ -45,18 +45,18 @@ const Home = ({ navigation }) => {
       setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
       setSubSentence(
         `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-        );
-      } else {
-        const c = await CycleModule();
-        const s = c.determinePhaseSentence(momentDate);
+      );
+    } else {
+      const c = await CycleModule();
+      const s = c.determinePhaseSentence(momentDate);
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
   };
-  
+
   Tour(appTourTargets, 'calendarIcon', 'Home');
-  
+
   const renderText = () => {
     return (
       <View style={styles.sentenceContainer}>
