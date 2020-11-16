@@ -6,73 +6,15 @@ import ArticleStack from './ArticleStack';
 import MenuStack from './MenuStack';
 import Analysis from '../screens/analysis';
 import TrackingOptions from '../screens/tracking-options';
-import { COLOR, FONT, SIZE } from '../styles/static';
-import { DeviceEventEmitter } from 'react-native';
-import { AppTour, AppTourSequence } from 'react-native-app-tour';
+import { COLOR, FONT } from '../styles/static';
 import PlusButton from '../components/PlusButton';
-import { storeData, getData } from '../util/func';
+import Tour from '../util/tourGuide/Tour';
 
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
+  Tour(appTourTargets, 'plusIcon', 'TabTour');
 
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
-  useEffect(() => {
-    checkIfAppTourIsNeeded();
-  }, []);
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [appTour]);
-
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('TabTour');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'plusIcon';
-        });
-        console.log('t', t);
-        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-        await storeData('TabTour', 'true');
-      },
-    );
-  };
   return (
     <Tab.Navigator
       initialRouteName="Home"

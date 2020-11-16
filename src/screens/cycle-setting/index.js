@@ -1,25 +1,22 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView, DeviceEventEmitter } from 'react-native';
-import { ListItem, Button, Icon } from 'react-native-elements';
-import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
-import { storeData, getData } from '../../util/func';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { SafeAreaView, ScrollView } from 'react-native';
+import { Icon } from 'react-native-elements';
 import Card from '../../components/Card';
-import PickerListItem from '../../components/PickerListItem';
 import CycleSettingbtn from '../../components/CycleSettingbtn';
-import {
-  updateProfileData,
-  getCycleInfoFromProfile,
-} from '../../util/database/query';
-import globalStyles from '../../styles';
-import styles from './styles';
+import PickerListItem from '../../components/PickerListItem';
 import { COLOR } from '../../styles/static';
+import {
+  getCycleInfoFromProfile,
+  updateProfileData,
+} from '../../util/database/query';
+import Tour from '../../util/tourGuide/Tour';
+import styles from './styles';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
   const [cycleLength, setCycleLength] = useState();
   const [pmsLength, setPmsLength] = useState();
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
@@ -28,13 +25,6 @@ const CycleSetting = ({ navigation }) => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
       headerLeft: () => (
-        // <Button
-        //   title="ثبت"
-        //   type="outline"
-        //   onPress={() => save()}
-        //   titleStyle={globalStyles.headerBtnTitle}
-        //   containerStyle={globalStyles.smallHeaderBtn}
-        // />
         <CycleSettingbtn
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
@@ -67,62 +57,8 @@ const CycleSetting = ({ navigation }) => {
     });
   }, []);
 
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
-  useEffect(() => {
-    checkIfAppTourIsNeeded();
-  }, []);
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [appTour]);
+  Tour(appTourTargets, 'settingbtn', 'CycleTour');
 
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('CycleTour');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'settingbtn';
-        });
-        console.log('t', t);
-        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-        await storeData('CycleTour', 'true');
-      },
-    );
-  };
   return (
     <SafeAreaView
       style={styles.safeAreaView}

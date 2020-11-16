@@ -2,7 +2,6 @@ import axios from 'axios';
 import { Icon } from 'native-base';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import {
-  DeviceEventEmitter,
   FlatList,
   Linking,
   SafeAreaView,
@@ -10,9 +9,7 @@ import {
   TouchableHighlight,
   View,
 } from 'react-native';
-import { AppTour, AppTourSequence } from 'react-native-app-tour';
 import { Icon as IconElement } from 'react-native-elements';
-import { storeData, getData } from '../../util/func';
 
 //components
 import Loader from '../../components/Loader';
@@ -23,6 +20,9 @@ import TreatiseIconBox from '../../components/TreatiseIconBox';
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
 
+//util
+import Tour from '../../util/tourGuide/Tour';
+
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
@@ -32,7 +32,6 @@ const Treatise = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [serverError, setServerError] = useState(null);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -74,63 +73,7 @@ const Treatise = ({ navigation }) => {
     getCategoryList();
   }, []);
 
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
-  useEffect(() => {
-    checkIfAppTourIsNeeded();
-  }, []);
-
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [appTour]);
-
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('TreatiseTour');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'goCall';
-        });
-        console.log('t', t);
-        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-        await storeData('TreatiseTour', 'true');
-      },
-    );
-  };
+  Tour(appTourTargets, 'goCalls', 'TreatiseTour');
 
   return (
     <SafeAreaView style={styles.safeAreaView}>

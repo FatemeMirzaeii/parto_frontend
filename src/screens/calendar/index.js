@@ -1,25 +1,20 @@
-import React, { useLayoutEffect, useEffect, useState, useRef } from 'react';
-import {
-  ImageBackground,
-  TouchableOpacity,
-  DeviceEventEmitter,
-} from 'react-native';
+import React, { useLayoutEffect, useRef, useState } from 'react';
+import { ImageBackground, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
-import { AppTour, AppTourSequence, AppTourView } from 'react-native-app-tour';
 import jalaali from 'moment-jalaali';
-import { setBleedingDays } from '../../util/database/query';
-import CycleModule from '../../util/cycle';
-import { FONT, COLOR } from '../../styles/static';
-import styles from './styles';
-import globalStyles from '../../styles';
-import Ptxt from '../../components/Ptxt';
-import CancelButton from '../../components/CancelButton';
-import SubmitButton from '../../components/SubmitButton';
 import SaveBleendingButton from '../../components/BleendingdaysSave';
+import CancelButton from '../../components/CancelButton';
+import Ptxt from '../../components/Ptxt';
+import SubmitButton from '../../components/SubmitButton';
 import { FORMAT } from '../../constants/cycle';
-import { storeData, getData } from '../../util/func';
+import globalStyles from '../../styles';
+import { COLOR, FONT } from '../../styles/static';
+import CycleModule from '../../util/cycle';
+import { setBleedingDays } from '../../util/database/query';
+import Tour from '../../util/tourGuide/Tour';
+import styles from './styles';
 import { updatePeriodDays } from '../../store/actions/cycle';
 
 const Calendar = ({ navigation }) => {
@@ -28,7 +23,6 @@ const Calendar = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [appTour, setAppTour] = useState(true);
   const calendar = useRef();
 
   useLayoutEffect(() => {
@@ -47,61 +41,8 @@ const Calendar = ({ navigation }) => {
     });
   }, [editMode, navigation]);
 
-  useEffect(() => {
-    registerSequenceStepEvent();
-    registerFinishSequenceEvent();
-  }, []);
+  Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
 
-  useEffect(() => {
-    if (!appTour) {
-      let appTourSequence = new AppTourSequence();
-      setTimeout(() => {
-        appTourTargets.forEach((appTourTarget) => {
-          appTourSequence.add(appTourTarget);
-        });
-        AppTour.ShowSequence(appTourSequence);
-      }, 100);
-      return () => clearTimeout(appTourSequence);
-    }
-  }, [editMode, appTour]);
-
-  const registerSequenceStepEvent = () => {
-    if (sequenceStepListener) {
-      sequenceStepListener.remove();
-    }
-    const sequenceStepListener = DeviceEventEmitter.addListener(
-      'onShowSequenceStepEvent',
-      (e) => {
-        console.log(e);
-      },
-    );
-  };
-  useEffect(() => {
-    checkIfAppTourIsNeeded();
-  }, []);
-  const registerFinishSequenceEvent = () => {
-    if (finishSequenceListener) {
-      finishSequenceListener.remove();
-    }
-    const finishSequenceListener = DeviceEventEmitter.addListener(
-      'onFinishSequenceEvent',
-      async (e) => {
-        console.log(e);
-        console.log('appTourTargets.key', appTourTargets);
-        const t = appTourTargets.filter((i) => {
-          i.key === 'redDaysSave';
-        });
-        console.log('t', t);
-        //  if (appTourTargets.filter((i)=>{i.key.includes('goCall')}))
-        await storeData('CalendarTour', 'true');
-      },
-    );
-  };
-  const checkIfAppTourIsNeeded = async () => {
-    const a = await getData('CalendarTour');
-    console.log('aaaa', a);
-    setAppTour(a);
-  };
   const onDayPress = (day) => {
     if (editMode) {
       edit(day.dateString);
@@ -269,18 +210,6 @@ const Calendar = ({ navigation }) => {
         }}
       />
       {!editMode ? (
-        // <Button
-        //   title="ویرایش روزهای خونریزی"
-        //   type="outline"
-        //   onPress={onEditPress}
-        //   titleStyle={styles.buttonTitle}
-        //   containerStyle={[
-        //     styles.bottomButton,
-        //     {
-        //       alignSelf: 'center',
-        //     },
-        //   ]}
-        // />
         <SaveBleendingButton
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
