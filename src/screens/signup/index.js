@@ -48,13 +48,13 @@ const SignUp = ({ navigation }) => {
         headers: {
           'Content-Type': 'application/json',
         },
-        data:{
-          "phone": phoneNumber,
-        }
+        data: {
+          phone: phoneNumber,
+        },
       })
         .then((res) => {
           console.log('res', res);
-          setServerCode(res.data.code)
+          setServerCode(res.data.code);
         })
         .catch((err) => {
           console.error(err, err.response);
@@ -79,16 +79,16 @@ const SignUp = ({ navigation }) => {
         style={styles.phoneInput}
         underlineColorAndroid="transparent"
         placeholder="۹- - - - - - - - -"
-        //keyboardType='phone-pad' 
-        textContentType='telephoneNumber' 
-        dataDetectorTypes='phoneNumber' 
-        keyboardType={"numeric"}
-        placeholderTextColor='#aaa'
+        //keyboardType='phone-pad'
+        textContentType="telephoneNumber"
+        dataDetectorTypes="phoneNumber"
+        keyboardType={'numeric'}
+        placeholderTextColor="#aaa"
         // onFocus={() => this.setState({ mask: true })}
         // onChangeText={this._handleInput}
         value={phoneNumber}
         //secureTextEntry={true}
-        //{(txt)=>this.setState({phoneNum:txt})}  
+        //{(txt)=>this.setState({phoneNum:txt})}
         maxLength={10}
         //ref={(c) => this.refinput = c}
       />

@@ -261,3 +261,6 @@ export async function getInUseDbVersion() {
   const [res] = await db.exec(`SELECT version FROM ${VERSION}`, VERSION);
   return res ? res.version : 0;
 }
+export async function updateInUseDbVersion(version) {
+  return db.exec(`UPDATE ${VERSION} SET version=${version}`, VERSION);
+}

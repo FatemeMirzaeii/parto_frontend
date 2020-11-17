@@ -2,20 +2,22 @@ import SQLite from 'react-native-sqlite-storage';
 import Database from '../database';
 import {
   USER_TRACKING_OPTION,
-  VERSION,
   CURRENT_SCHEMA_VERSION,
 } from '../../constants/database-tables';
 import { OPTIONS } from '../../constants/health-tracking-info';
-import { getInUseDbVersion } from './query';
+import { getInUseDbVersion, updateInUseDbVersion } from './query';
 const db = new Database();
 
 export async function migration() {
   let inUseDbVersion = await getInUseDbVersion();
   console.log('inUseDbVersion', inUseDbVersion);
+  if (CURRENT_SCHEMA_VERSION < inUseDbVersion) console.log('Downgrading!!!');
   while (inUseDbVersion < CURRENT_SCHEMA_VERSION) {
     switch (inUseDbVersion) {
       case 1:
         v1Tov2();
+        break;
+      case 2:
         break;
       default:
         break;
@@ -23,7 +25,10 @@ export async function migration() {
     inUseDbVersion = getInUseDbVersion();
   }
 }
-
+async function v2ToV2_5() {
+  db.exec(`ALTER TABLE ADD COLUMN`); //todo: incomplete
+  updateInUseDbVersion(2.5);
+}
 async function v1Tov2() {
   SQLite.enablePromise(true);
   await SQLite.openDatabase(
@@ -33,11 +38,11 @@ async function v1Tov2() {
     },
     transferOldData,
   );
-  db.exec(`UPDATE ${VERSION} SET version=${CURRENT_SCHEMA_VERSION}`, VERSION);
+  updateInUseDbVersion(2);
 }
 
+//transferring data from parto v1 to v2
 async function transferOldData(odb) {
-  console.log('odb', odb);
   odb.transaction(async (tx) => {
     const [fn, res] = await tx.executeSql('SELECT * FROM DailyInfo');
     var len = res.rows.length;
