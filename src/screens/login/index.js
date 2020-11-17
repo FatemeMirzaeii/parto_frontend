@@ -22,6 +22,7 @@ const Login = ({ navigation }) => {
         <Ptxt>اگر هنوز ثبت نام نکرده اید،</Ptxt>
         <Button
           title="از اینجا وارد شوید."
+          titleStyle={styles.btnTitle}
           type="clear"
           onPress={() => {
             navigation.navigate('SignUp');

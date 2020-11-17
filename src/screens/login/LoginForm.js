@@ -8,6 +8,8 @@ import { api } from '../../services/api';
 import { storeData } from '../../util/func';
 import { AuthContext } from '../../contexts';
 import Ptxt from '../../components/Ptxt';
+import Loader from  '../../components/Loader';
+import { COLOR, SIZE, FONT, WIDTH, HEIGHT } from '../../styles/static';
 
 const LoginForm = (props) => {
   const restapi = new api();
@@ -39,7 +41,7 @@ const LoginForm = (props) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <ActivityIndicator />
+        <Loader />
       ) : (
         <Formik
           // initialValues={{ email: '', password: '', phone: '' }}
@@ -123,7 +125,7 @@ const LoginForm = (props) => {
                 raised
                 onPress={handleSubmit}
                 name="check"
-                color="#f50"
+                color={COLOR.tiffany}
                 size={30}
                 disabled={!isValid}
                 containerStyle={styles.button}
