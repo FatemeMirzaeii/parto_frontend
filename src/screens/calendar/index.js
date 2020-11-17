@@ -15,7 +15,7 @@ import CycleModule from '../../util/cycle';
 import { setBleedingDays } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
 import styles from './styles';
-import { updatePeriodDays } from '../../store/actions/cycle';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 
 const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
@@ -71,6 +71,7 @@ const Calendar = ({ navigation }) => {
   };
   const onEditPress = () => {
     setMarkedDatesBeforeEdit(cycle.periodDays);
+    dispatch(updatePerdictions(true));
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
@@ -88,10 +89,12 @@ const Calendar = ({ navigation }) => {
 
     await setBleedingDays(added, removed);
     await c.determineLastPeriodDate();
+    dispatch(updatePerdictions());
     setEditMode(false);
   };
   const onCancelEditing = () => {
     dispatch(updatePeriodDays(markedDatesBeforeEdit));
+    dispatch(updatePerdictions());
     setEditMode(false);
   };
   const markedDateObj = (color, dashed) => {
@@ -130,7 +133,7 @@ const Calendar = ({ navigation }) => {
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
-                // console.log('marking', marking);
+                // console.log('marking', marking, date.dateString);
                 return state === 'disabled' ? (
                   <Ptxt>{jalaali(date.dateString).format('jD')}</Ptxt>
                 ) : (

@@ -10,13 +10,13 @@ import BaleIcon from './customIcon/bale/icon-font';
 import EitaIcon from './customIcon/eita/icon-font';
 import lock from './util/lock';
 import setupNotifications from './util/notifications';
-import initialData from './store/initialData';
+import { fetchInitialCycleData } from './store/actions/cycle';
 
 // console.disableYellowBox = true;
 
 const App: () => React$Node = () => {
   const store = configureStore();
-  store.dispatch(initialData());
+  store.dispatch(fetchInitialCycleData());
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   registerCustomIconType('Bale', BaleIcon);
