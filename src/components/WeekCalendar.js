@@ -58,7 +58,7 @@ const WeekCalendar = (props) => {
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
         }}
-        markingType="multi-period"
+        markingType="custom"
         theme={{
           ...props.theme,
           ...{

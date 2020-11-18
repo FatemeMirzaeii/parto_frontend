@@ -2,6 +2,7 @@ import * as actions from './types';
 import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import { COLOR } from '../../styles/static';
+import { calendarMarkedDatesObject } from '../../util/func';
 
 export const fetchInitialCycleData = () => async (dispatch, getState) => {
   const c = await CycleModule();
@@ -74,15 +75,7 @@ export const setMainSentence = (sentence) => {
 const makeMarkedDateObj = (dates, color, dashed) => {
   let marked = {};
   dates.forEach((date) => {
-    marked[date] = {
-      periods: [
-        {
-          startingDay: dashed,
-          color: color,
-          endingDay: dashed,
-        },
-      ],
-    };
+    marked[date] = calendarMarkedDatesObject(color, dashed);
   });
   return marked;
 };

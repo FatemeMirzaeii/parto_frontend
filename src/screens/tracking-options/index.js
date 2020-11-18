@@ -49,6 +49,7 @@ import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import { calendarMarkedDatesObject } from '../../util/func';
 
 const db = new Database();
 const detailPageRef = createRef();
@@ -237,23 +238,12 @@ const TrackingOptions = ({ route, navigation }) => {
         dispatch(
           updatePeriodDays({
             ...cycle.periodDays,
-            [date]: markedDateObj(COLOR.bleeding, false),
+            [date]: calendarMarkedDatesObject(COLOR.bleeding, false),
           }),
         );
       }
       dispatch(updatePerdictions());
     }
-  };
-  const markedDateObj = (color, dashed) => {
-    return {
-      periods: [
-        {
-          startingDay: dashed,
-          color: color,
-          endingDay: dashed,
-        },
-      ],
-    };
   };
   const onDayPress = (d) => {
     console.log('dayyyyyyyyy', d);

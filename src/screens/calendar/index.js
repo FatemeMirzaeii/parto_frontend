@@ -16,6 +16,7 @@ import { setBleedingDays } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
 import styles from './styles';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import { calendarMarkedDatesObject } from '../../util/func';
 
 const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
@@ -64,7 +65,7 @@ const Calendar = ({ navigation }) => {
       dispatch(
         updatePeriodDays({
           ...cycle.periodDays,
-          [dateString]: markedDateObj(COLOR.bleeding, false),
+          [dateString]: calendarMarkedDatesObject(COLOR.bleeding, false),
         }),
       );
     }
@@ -97,17 +98,6 @@ const Calendar = ({ navigation }) => {
     dispatch(updatePerdictions());
     setEditMode(false);
   };
-  const markedDateObj = (color, dashed) => {
-    return {
-      periods: [
-        {
-          startingDay: dashed,
-          color: color,
-          endingDay: dashed,
-        },
-      ],
-    };
-  };
   return (
     <ImageBackground
       source={require('../../../assets/images/bg.png')}
@@ -126,7 +116,7 @@ const Calendar = ({ navigation }) => {
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
         }}
-        markingType="multi-period"
+        markingType="custom"
         onDayPress={onDayPress}
         onDayLongPress={(day) => console.log('day long press', day)}
         calendarHeight={400}
@@ -147,15 +137,13 @@ const Calendar = ({ navigation }) => {
                         styles.editableDays,
                         {
                           color:
-                            (marking.length !== 0 &&
-                              marking.periods[0].color === COLOR.bleeding) ||
+                            date.dateString in cycle.periodDays ||
                             state === 'today'
                               ? COLOR.white
                               : COLOR.black,
                           backgroundColor:
-                            marking.length !== 0 &&
-                            marking.periods[0].color === COLOR.bleeding
-                              ? marking.periods[0].color
+                            date.dateString in cycle.periodDays
+                              ? COLOR.bleeding
                               : state === 'today'
                               ? COLOR.today
                               : 'transparent',
@@ -206,7 +194,6 @@ const Calendar = ({ navigation }) => {
               borderWidth: 0.8,
               borderRadius: 50,
               backgroundColor: COLOR.today,
-              // borderStyle: 'dashed',
             },
             todayText: {
               color: COLOR.white,

@@ -43,26 +43,21 @@ export async function requestSTORAGEPermission() {
   }
 }
 export async function request_READ_PHONE_STATE() {
- 
   try {
     const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE ,
+      PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
       {
-        'title': 'ReactNativeCode wants to READ_PHONE_STATE',
-        'message': 'ReactNativeCode App needs access to your personal data. '
-      }
-    )
+        title: 'ReactNativeCode wants to READ_PHONE_STATE',
+        message: 'ReactNativeCode App needs access to your personal data. ',
+      },
+    );
     if (granted === PermissionsAndroid.RESULTS.GRANTED) {
- 
-      Alert.alert("Permission Granted.");
-    }
-    else {
- 
-      Alert.alert("Permission Not Granted");
- 
+      Alert.alert('Permission Granted.'); //to maryam: Alert is not defined
+    } else {
+      Alert.alert('Permission Not Granted');
     }
   } catch (err) {
-    console.warn(err)
+    console.warn(err);
   }
 }
 export function RemoveHTML(Text) {
@@ -140,4 +135,28 @@ export const shareContent = async (url) => {
 };
 export const convert2MD5 = (value) => {
   return md5(value);
+};
+
+export const calendarMarkedDatesObject = (color, dashed) => {
+  return {
+    // periods: [
+    //   {
+    //     startingDay: dashed,
+    //     color: color,
+    //     endingDay: dashed,
+    //     textColor: color,
+    //   },
+    // ],
+    customStyles: {
+      container: {
+        width: !dashed ? '100%' : '75%',
+        borderBottomWidth: 3,
+        borderColor: color,
+        borderRadius: 0,
+      },
+      text: {
+        color: color,
+      },
+    },
+  };
 };
