@@ -130,7 +130,7 @@ export const shareContent = async (url) => {
     shareTxt = JSON.stringify(ShareResponse, null, 2);
   } catch (error) {
     console.log('Error =>', error);
-    shareTxt = 'error: '.concat(getErrorString(error));
+    shareTxt = 'error: '.concat(getErrorString(error)); //to maryam: shareTxt and getErrorString are not defined.
   }
 };
 export const convert2MD5 = (value) => {

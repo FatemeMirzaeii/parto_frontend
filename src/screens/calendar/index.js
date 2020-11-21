@@ -37,7 +37,7 @@ const Calendar = ({ navigation }) => {
         <Button
           title="امروز"
           type="outline"
-          onPress={() => calendar.current.scrollToDay(new Date())}
+          onPress={() => calendar.current.scrollToDay(new Date(), -200)}
           titleStyle={globalStyles.headerBtnTitle}
           containerStyle={globalStyles.smallHeaderBtn}
         />
@@ -159,7 +159,7 @@ const Calendar = ({ navigation }) => {
         theme={{
           textSectionTitleColor: COLOR.black,
           todayTextColor: COLOR.white,
-          todayBackgroundColor: COLOR.tiffany,
+          todayBackgroundColor: COLOR.today,
           selectedDayTextColor: COLOR.white,
           textDisabledColor: COLOR.textColorDark,
           textDayFontFamily: FONT.medium,
@@ -180,24 +180,21 @@ const Calendar = ({ navigation }) => {
           },
           'stylesheet.calendar.header': {
             dayHeader: {
+              width: 40,
+              textAlign: 'center',
               fontFamily: FONT.medium,
-              fontSize: 12,
+              fontSize: 11,
             },
             rtlHeader: {
               alignItems: 'center',
               borderBottomWidth: 0.2,
             },
           },
-          'stylesheet.day.basic': {
+          'stylesheet.day.single': {
             today: {
-              borderColor: COLOR.today,
-              borderWidth: 0.8,
               borderRadius: 50,
-              backgroundColor: COLOR.today,
-            },
-            todayText: {
-              color: COLOR.white,
-              fontWeight: '900',
+              // backgroundColor: COLOR.today,
+              elevation: 2,
             },
           },
         }}
