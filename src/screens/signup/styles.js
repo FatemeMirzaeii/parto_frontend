@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, SIZE } from '../../styles/static';
+import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   // container: {
@@ -29,7 +29,7 @@ export default StyleSheet.create({
   // },
   container: {
     backgroundColor: '#ffffff',
-    paddingTop:30,
+    paddingTop: 30,
     // elevation: 10,
     justifyContent: 'center',
     // height: '80%',
@@ -42,29 +42,57 @@ export default StyleSheet.create({
     // marginTop:6,
     // margin: 5,
     // marginLeft: 40,
-    margin:10,
+    margin: 10,
     alignSelf: 'center',
     padding: 5,
     height: 50,
-    width:120,
+    width: 120,
     borderColor: '#9FE6FD',
     borderWidth: 1,
-    fontSize:15,
-    fontFamily:FONT.regular
+    fontSize: 15,
+    fontFamily: FONT.regular,
+  },
+  phoneInputTxt: {
+    fontFamily: FONT.regular,
+  },
+  btnContainer: {
+    elevation: 5,
+    width: WIDTH *0.6,
+    height: 40,
+    borderRadius: 40,
+    alignSelf:'center'
   },
   button: {
-    alignSelf: 'center',
-    bottom: -30,
-    position: 'absolute',
+    height: 40,
+    backgroundColor: COLOR.btn,
   },
-  close: {
-    position: 'absolute',
-    top: 15,
-    left: 15,
+  btnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
   },
   title: {
-    fontSize:SIZE[15],
+    fontSize: SIZE[15],
     color: COLOR.black,
     alignSelf: 'center',
+    fontFamily: FONT.medium,
+  },
+  codeFieldRoot: {
+    marginTop: 20,
+    justifyContent: 'space-evenly',
+    width: WIDTH * 0.6,
+    alignSelf: 'center',
+  },
+  cell: {
+    fontFamily: FONT.regular,
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 15,
+    borderWidth: 2,
+    borderColor: '#00000030',
+    textAlign: 'center',
+  },
+  focusCell: {
+    borderColor: '#000',
   },
 });
