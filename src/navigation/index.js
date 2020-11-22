@@ -63,7 +63,6 @@ const AppNavigator = () => {
         iToken: interviewToken,
       });
     };
-    // setTimeout(() => setSplash(false), 1000); // ****** to fatemeh: returning a function inside useEffect hook is like using a componentWillUnmount() lifecycle method inside class-based react components, then
     const timeout = setTimeout(() => setSplash(false), 1000);
     bootstrapAsync();
     return () => clearTimeout(timeout);
@@ -93,8 +92,8 @@ const AppNavigator = () => {
       <DateContext.Provider value={{ today: moment().format(FORMAT) }}>
         {state.isLoading || splash ? (
           <Splash />
-        ) : state.interviewToken ? (
-          state.userToken && <HomeStackScreen />
+        ) : state.interviewToken && state.userToken ? (
+          <HomeStackScreen />
         ) : // ) : !state.userToken ? (
         //   <AuthStack />
         !state.userToken ? (

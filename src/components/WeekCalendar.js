@@ -58,19 +58,29 @@ const WeekCalendar = (props) => {
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
         }}
-        markingType="multi-period"
+        markingType="custom"
         theme={{
           ...props.theme,
           ...{
             textSectionTitleColor: COLOR.black,
             todayTextColor: COLOR.white,
-            todayBackgroundColor: COLOR.tiffany,
+            todayBackgroundColor: COLOR.today,
             textDayFontFamily: FONT.medium,
-            selectedDayBackgroundColor: COLOR.tiffany,
+            selectedDayBackgroundColor: COLOR.white,
+            selectedDayTextColor: COLOR.black,
             'stylesheet.expandable.main': {
               dayHeader: {
+                width: 40,
+                textAlign: 'center',
                 fontFamily: FONT.medium,
-                fontSize: 12,
+                fontSize: 11,
+              },
+            },
+            'stylesheet.day.single': {
+              today: {
+                borderRadius: 50,
+                // backgroundColor: COLOR.today,
+                elevation: 2,
               },
             },
           },

@@ -45,6 +45,7 @@ const SignUp = ({ navigation }) => {
     setValue,
   });
 
+<<<<<<< HEAD
   // useEffect(() => {
   //   getVerificationCode();
   // }, []);
@@ -91,6 +92,33 @@ const SignUp = ({ navigation }) => {
       });
   };
   console.log('code', serverCode);
+=======
+  useEffect(() => {
+    const getVerificationCode = () => {
+      axios({
+        method: 'post',
+        url: `https://api.parto.app/auth/verifyCode`,
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        data: {
+          phone: phoneNumber,
+        },
+      })
+        .then((res) => {
+          console.log('res', res);
+          setServerCode(res.data.code);
+        })
+        .catch((err) => {
+          console.error(err, err.response);
+        });
+    };
+
+    getVerificationCode();
+  }, []);
+
+>>>>>>> 7a49ed95258514cc8ed71fa6010f6dbc5778e337
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: '#fff', paddingTop: 24 }}>
@@ -101,6 +129,7 @@ const SignUp = ({ navigation }) => {
           // enableMergePathsAndroidForKitKatAndAbove
         />
       </View>
+<<<<<<< HEAD
       <View style={styles.container}>
         <Ptxt style={styles.title}>برای ورود شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
@@ -157,6 +186,25 @@ const SignUp = ({ navigation }) => {
             {symbol || (isFocused ? <Cursor /> : null)}
           </Text>
         )}
+=======
+      <Ptxt style={styles.title}>برای ورود شماره موبایلت رو وارد کن:</Ptxt>
+      <TextInput
+        style={styles.phoneInput}
+        underlineColorAndroid="transparent"
+        placeholder="۹- - - - - - - - -"
+        //keyboardType='phone-pad'
+        textContentType="telephoneNumber"
+        dataDetectorTypes="phoneNumber"
+        keyboardType={'numeric'}
+        placeholderTextColor="#aaa"
+        // onFocus={() => this.setState({ mask: true })}
+        // onChangeText={this._handleInput}
+        value={phoneNumber}
+        //secureTextEntry={true}
+        //{(txt)=>this.setState({phoneNum:txt})}
+        maxLength={10}
+        //ref={(c) => this.refinput = c}
+>>>>>>> 7a49ed95258514cc8ed71fa6010f6dbc5778e337
       />
       <Button
         title="تایید کد"

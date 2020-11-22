@@ -137,6 +137,7 @@ export default async function CycleModule() {
     }
   }
   function nextPeriodDate(pdate) {
+    if (isPregnant) return '';
     if (!pdate && !lastPeriodDate) {
       console.log('no last period date is available');
       return;

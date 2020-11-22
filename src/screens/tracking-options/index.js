@@ -14,6 +14,7 @@ import {
   ToastAndroid,
   FlatList,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
@@ -47,11 +48,15 @@ import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import { calendarMarkedDatesObject } from '../../util/func';
 
 const db = new Database();
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route, navigation }) => {
+  const cycle = useSelector((state) => state.cycle);
+  const dispatch = useDispatch();
   const { today } = useContext(DateContext);
   const [date, setDate] = useState(route.params ? route.params.day : today);
   const [selectedIndex, setSelectedIndex] = useState(null);
@@ -222,10 +227,24 @@ const TrackingOptions = ({ route, navigation }) => {
       // }
     }
     if (category.id === BLEEDING) {
-      c.determineLastPeriodDate();
+      await c.determineLastPeriodDate();
+      if (date in cycle.periodDays) {
+        const {
+          [date]: {},
+          ...periodDays
+        } = cycle.periodDays;
+        dispatch(updatePeriodDays(periodDays));
+      } else {
+        dispatch(
+          updatePeriodDays({
+            ...cycle.periodDays,
+            [date]: calendarMarkedDatesObject(COLOR.bleeding, false),
+          }),
+        );
+      }
+      dispatch(updatePerdictions());
     }
   };
-
   const onDayPress = (d) => {
     console.log('dayyyyyyyyy', d);
     if (moment(d).isSameOrBefore(today)) {

@@ -8,7 +8,7 @@ export const COLOR = {
   bgColor: '#FCF5F7',
   btn: '#ec5f91',
   lightPink: '#fdf1f1',
-  tiffany: '#64d7d6',
+  tiffany: '#0BB4B4',
   bleeding: '#e23343',
   today: '#c6d436',
   // currentPage: '#79EBEE',

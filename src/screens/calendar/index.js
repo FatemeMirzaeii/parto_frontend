@@ -15,7 +15,8 @@ import CycleModule from '../../util/cycle';
 import { setBleedingDays } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
 import styles from './styles';
-import { updatePeriodDays } from '../../store/actions/cycle';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import { calendarMarkedDatesObject } from '../../util/func';
 
 const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
@@ -36,7 +37,7 @@ const Calendar = ({ navigation }) => {
         <Button
           title="امروز"
           type="outline"
-          onPress={() => calendar.current.scrollToDay(new Date())}
+          onPress={() => calendar.current.scrollToDay(new Date(), -200)}
           titleStyle={globalStyles.headerBtnTitle}
           containerStyle={globalStyles.smallHeaderBtn}
         />
@@ -64,13 +65,14 @@ const Calendar = ({ navigation }) => {
       dispatch(
         updatePeriodDays({
           ...cycle.periodDays,
-          [dateString]: markedDateObj(COLOR.bleeding, false),
+          [dateString]: calendarMarkedDatesObject(COLOR.bleeding, false),
         }),
       );
     }
   };
   const onEditPress = () => {
     setMarkedDatesBeforeEdit(cycle.periodDays);
+    dispatch(updatePerdictions(true));
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
@@ -88,22 +90,13 @@ const Calendar = ({ navigation }) => {
 
     await setBleedingDays(added, removed);
     await c.determineLastPeriodDate();
+    dispatch(updatePerdictions());
     setEditMode(false);
   };
   const onCancelEditing = () => {
     dispatch(updatePeriodDays(markedDatesBeforeEdit));
+    dispatch(updatePerdictions());
     setEditMode(false);
-  };
-  const markedDateObj = (color, dashed) => {
-    return {
-      periods: [
-        {
-          startingDay: dashed,
-          color: color,
-          endingDay: dashed,
-        },
-      ],
-    };
   };
   return (
     <ImageBackground
@@ -123,14 +116,14 @@ const Calendar = ({ navigation }) => {
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
         }}
-        markingType="multi-period"
+        markingType="custom"
         onDayPress={onDayPress}
         onDayLongPress={(day) => console.log('day long press', day)}
         calendarHeight={400}
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
-                // console.log('marking', marking);
+                // console.log('marking', marking, date.dateString);
                 return state === 'disabled' ? (
                   <Ptxt>{jalaali(date.dateString).format('jD')}</Ptxt>
                 ) : (
@@ -144,15 +137,13 @@ const Calendar = ({ navigation }) => {
                         styles.editableDays,
                         {
                           color:
-                            (marking.length !== 0 &&
-                              marking.periods[0].color === COLOR.bleeding) ||
+                            date.dateString in cycle.periodDays ||
                             state === 'today'
                               ? COLOR.white
                               : COLOR.black,
                           backgroundColor:
-                            marking.length !== 0 &&
-                            marking.periods[0].color === COLOR.bleeding
-                              ? marking.periods[0].color
+                            date.dateString in cycle.periodDays
+                              ? COLOR.bleeding
                               : state === 'today'
                               ? COLOR.today
                               : 'transparent',
@@ -168,7 +159,7 @@ const Calendar = ({ navigation }) => {
         theme={{
           textSectionTitleColor: COLOR.black,
           todayTextColor: COLOR.white,
-          todayBackgroundColor: COLOR.tiffany,
+          todayBackgroundColor: COLOR.today,
           selectedDayTextColor: COLOR.white,
           textDisabledColor: COLOR.textColorDark,
           textDayFontFamily: FONT.medium,
@@ -189,25 +180,21 @@ const Calendar = ({ navigation }) => {
           },
           'stylesheet.calendar.header': {
             dayHeader: {
+              width: 40,
+              textAlign: 'center',
               fontFamily: FONT.medium,
-              fontSize: 12,
+              fontSize: 11,
             },
             rtlHeader: {
               alignItems: 'center',
               borderBottomWidth: 0.2,
             },
           },
-          'stylesheet.day.basic': {
+          'stylesheet.day.single': {
             today: {
-              borderColor: COLOR.today,
-              borderWidth: 0.8,
               borderRadius: 50,
-              backgroundColor: COLOR.today,
-              // borderStyle: 'dashed',
-            },
-            todayText: {
-              color: COLOR.white,
-              fontWeight: '900',
+              // backgroundColor: COLOR.today,
+              elevation: 2,
             },
           },
         }}
