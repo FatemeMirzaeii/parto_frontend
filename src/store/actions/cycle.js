@@ -9,7 +9,7 @@ export const fetchInitialCycleData = () => async (dispatch, getState) => {
   const past = await c.pastBleedingDays();
   const ovulationPerdictions = c.perdictedOvulationDaysInCurrentYear();
   const periodPerdictions = c.perdictedPeriodDaysInCurrentYear();
-  let periodDays;
+  let periodDays = [];
   if (past) {
     periodDays = past.map((day) => day.date.format(FORMAT));
   }

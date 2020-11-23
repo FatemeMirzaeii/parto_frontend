@@ -6,6 +6,7 @@ import {
   REMINDER,
   USER_REMINDER,
   VERSION,
+  EMPTY_TABLE,
 } from '../../constants/database-tables';
 import moment from 'moment';
 import { FORMAT } from '../../constants/cycle';
@@ -14,8 +15,7 @@ const db = new Database();
 
 export async function getProfileData() {
   const res = await db.exec(`SELECT * FROM ${PROFILE}`, PROFILE);
-  const data = res[0];
-  return data ?? 0;
+  return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function saveProfileData(profileSchema) {
   const birthdate = !profileSchema.birthdate
@@ -65,16 +65,14 @@ export async function saveProfileHealthData(
 }
 export async function pregnancyMode() {
   const res = await db.exec(`SELECT pregnant FROM ${PROFILE}`, PROFILE);
-  const data = res[0];
-  return data.pregnant ?? 0;
+  return res === EMPTY_TABLE ? [] : res[0].pregnant;
 }
 export async function getUserStatus() {
   const res = await db.exec(
     `SELECT pregnant, pregnancy_try FROM ${PROFILE}`,
     PROFILE,
   );
-  const data = res[0];
-  return data ?? 0;
+  return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function updateUserStatus(pregnant, pregnancyTry) {
   return await db.exec(
@@ -85,7 +83,7 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
 export async function getFormerPregnancyData() {
   const res = await db.exec(`SELECT * FROM ${PREGNANCY}`, PREGNANCY);
   console.log('all pregnancy data', res);
-  return res ?? [];
+  return res === EMPTY_TABLE ? [] : res;
 }
 export async function getActivePregnancyData() {
   const res = await db.exec(
@@ -93,8 +91,7 @@ export async function getActivePregnancyData() {
     PREGNANCY,
   );
   console.log('active pregnancy data', res);
-  const data = res[0];
-  return data ?? [];
+  return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function updatePregnancyData(dueDate, abortionDate) {
   return abortionDate
@@ -136,8 +133,7 @@ export async function getCycleInfoFromProfile() {
     `SELECT avg_period_length, avg_cycle_length, pms_length FROM ${PROFILE}`,
     PROFILE,
   );
-  const data = res[0];
-  return data ?? 0;
+  return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function getUserAllPeriodDays() {
   const res = await db.exec(
@@ -146,7 +142,7 @@ export async function getUserAllPeriodDays() {
     USER_TRACKING_OPTION,
   );
   console.log('kkkk', res);
-  return res ?? 0;
+  return res === EMPTY_TABLE ? [] : res;
 }
 export async function getTrackingOptionData(date) {
   const res = db.exec(
@@ -246,16 +242,14 @@ export async function getReminder(userId, reminderId) {
 }
 export async function getReminders() {
   const res = await db.exec(`SELECT * FROM ${REMINDER}`, REMINDER);
-  const data = res ? res : [];
-  return data;
+  return res === EMPTY_TABLE ? [] : res;
 }
 export async function getUserReminders(userId) {
   const res = await db.exec(
     `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId}`,
     USER_REMINDER,
   );
-  const data = res ? res : [];
-  return data;
+  return res === EMPTY_TABLE ? [] : res;
 }
 export async function getInUseDbVersion() {
   const [res] = await db.exec(`SELECT version FROM ${VERSION}`, VERSION);
