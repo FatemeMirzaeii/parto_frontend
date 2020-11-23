@@ -160,3 +160,7 @@ export const calendarMarkedDatesObject = (color, dashed) => {
     },
   };
 };
+
+export const e2p = (s) => s.replace(/\d/g, (d) => '۰۱۲۳۴۵۶۷۸۹'[d]);
+export const a2p = (s) =>
+  s.replace(/[٠-٩]/g, (d) => '۰۱۲۳۴۵۶۷۸۹'['٠١٢٣٤٥٦٧٨٩'.indexOf(d)]);
