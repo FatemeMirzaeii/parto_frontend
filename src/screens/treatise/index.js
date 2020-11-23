@@ -8,13 +8,13 @@ import {
   Text,
   TouchableHighlight,
   View,
+  ToastAndroid,
 } from 'react-native';
 import { Icon as IconElement } from 'react-native-elements';
 
 //components
 import Loader from '../../components/Loader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
-//import Error from '../../components/Error';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -30,7 +30,6 @@ import styles from './styles';
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [serverError, setServerError] = useState(null);
   const [appTourTargets, setAppTourTargets] = useState([]);
 
   useLayoutEffect(() => {
@@ -65,8 +64,12 @@ const Treatise = ({ navigation }) => {
           setIsLoading(false);
         })
         .catch((error) => {
-          setServerError(error.toString());
           setIsLoading(false);
+          if (error.toString() === 'Error: Network Error')
+            ToastAndroid.show(
+              'لطفا اتصال اینترنت رو چک کن.',
+              ToastAndroid.LONG,
+            );
         });
     };
 
@@ -77,11 +80,6 @@ const Treatise = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
-      {/* {serverError && (
-        
-          <Error message={serverError} />
-        
-      )} */}
       <TreatiseIconBox
         addAppTourTarget={(appTourTarget) => {
           appTourTargets.push(appTourTarget);

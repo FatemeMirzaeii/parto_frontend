@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView ,ToastAndroid,} from 'react-native';
 import axios from 'axios';
+
+//components
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/Loader';
+
+//services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
 
@@ -26,6 +30,9 @@ const Articles = (props) => {
         })
         .catch((err) => {
           console.error(err, err.response);
+          setIsLoading(false);
+          if (err.toString() === 'Error: Network Error')
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         });
     };
 

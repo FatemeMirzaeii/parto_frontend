@@ -29,7 +29,7 @@ const CategoryList = (props) => {
     const getCategoryContent = () => {
       axios({
         method: 'get',
-        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all&start=${0}&limit=${9}`,
+        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
   moreButtonIcon: {
     fontSize: 14,
     color: COLOR.tiffany,
-    paddingVertical: 7,
+    paddingVertical: 6,
     paddingRight: 5,
   },
   moreButtonText: {

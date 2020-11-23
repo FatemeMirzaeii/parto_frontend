@@ -6,6 +6,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ToastAndroid,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 
@@ -98,13 +99,18 @@ const TreatiseList = ({ route, navigation }) => {
                 setData(rule);
               })
               .catch((err) => {
+                setIsLoading(false);
                 console.error(err, err.response);
               });
           }
         })
-
         .catch((err) => {
           console.error(err, err.response);
+          if (err.toString() === 'Error: Network Error')
+            ToastAndroid.show(
+              'لطفا اتصال اینترنت رو چک کن.',
+              ToastAndroid.LONG,
+            );
         });
     };
     getCategoryContent();
