@@ -19,7 +19,7 @@ export default async () => {
   const reminders = await getUserReminders(1);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
-    console.log('dkjvd', res),
+    console.log('scheduled notifs', res),
   );
   userAppChecking();
   periodLate();

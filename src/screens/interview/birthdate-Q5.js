@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { storeData } from '../../util/func';
 import { saveProfileData, savePregnancyData } from '../../util/database/query';
@@ -7,6 +8,7 @@ import CycleModule from '../../util/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts';
 import styles from './styles';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const Q5 = ({ route, navigation }) => {
   const {
@@ -19,6 +21,7 @@ const Q5 = ({ route, navigation }) => {
   } = route.params;
   const [birthdate, setBirthdate] = useState();
   const { interview } = useContext(AuthContext);
+  const dispatch = useDispatch();
   // دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد که می
   // توانید آن را دانلود کنید.
 
@@ -51,6 +54,7 @@ const Q5 = ({ route, navigation }) => {
       }
       await storeData('@startPages', 'true');
       interview();
+      dispatch(fetchInitialCycleData());
     });
   };
 

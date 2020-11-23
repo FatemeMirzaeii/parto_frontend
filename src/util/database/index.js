@@ -38,6 +38,6 @@ export default class Database {
       }
     });
     // this.close(_db);
-    return arr.length > 0 ? arr : { rows: EMPTY_TABLE, insertId: 1 }; //todo: should correct insertId
+    return arr.length > 0 ? arr : EMPTY_TABLE; //todo: should correct insertId
   }
 }
