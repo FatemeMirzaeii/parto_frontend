@@ -3,6 +3,7 @@ import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
 // import { AuthContext } from '../../contexts';
 import TouchID from 'react-native-touch-id';
+import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
@@ -43,7 +44,27 @@ const Menu = ({ navigation }) => {
         );
       });
   };
-
+  const share = () => {
+    DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
+      let link = '';
+      console.log('installerPackageName', installerPackageName);
+      switch (installerPackageName) {
+        case 'com.android.vending':
+          link = PlayStoreLink;
+          break;
+        case 'com.farsitel.bazaar':
+          link = CafeBazaarLink;
+          break;
+        case 'ir.mservices.market':
+          link = MyketLink;
+          break;
+        default:
+          link = CafeBazaarLink;
+          break;
+      }
+      shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):{'\n'}${link}`);
+    });
+  };
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
@@ -130,13 +151,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ name: 'loyalty', color: COLOR.tiffany }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() =>
-            shareContent(
-              'لینک دانلود اپلیکیشن پرتو (سلامت بانوان):' +
-                '\n' +
-                CafeBazaarLink, // PlayStoreLink,MyketLink
-            )
-          }
+          onPress={share}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

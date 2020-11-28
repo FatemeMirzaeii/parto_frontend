@@ -108,6 +108,7 @@ async function pmsInACoupleOfDays(reminder) {
 async function periodLate() {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
+  if (nextPeriodDate === '') return;
   const date = moment(nextPeriodDate).add(10, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);

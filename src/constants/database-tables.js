@@ -1,4 +1,4 @@
-export const CURRENT_SCHEMA_VERSION = 2.5;
+export const CURRENT_SCHEMA_VERSION = 2;
 
 //tables
 export const USER_LOG = 'user_log';

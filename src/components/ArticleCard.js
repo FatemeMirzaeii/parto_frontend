@@ -43,9 +43,9 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     flex: 1,
-    height: 180,
+    height: 150,
     margin: 10,
-    paddingVertical: 20,
+    justifyContent: 'center',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: {

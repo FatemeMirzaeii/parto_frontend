@@ -91,7 +91,8 @@ export default async function CycleModule() {
       case 0: {
         return {
           mainSentence: 'تاریخ آخرین پریود خود را وارد کنید',
-          subSentence: 'تا بتوانیم تحلیل درستی از دوره‌هایتان را نمایش دهیم.',
+          subSentence: 'تا بتوانیم تحلیل درستی از',
+          thirdSentence: 'دوره‌هایتان را نمایش دهیم.',
         };
       }
       case 1: {

@@ -48,6 +48,8 @@ const Q5 = ({ route, navigation }) => {
       const c = await CycleModule();
       if (lastPeriodDate) {
         c.setFirstPeriod(periodLength, lastPeriodDate);
+      } else {
+        c.determineLastPeriodDate();
       }
       if (mode.pregnant) {
         savePregnancyData({ dueDate, conceptionDate });
