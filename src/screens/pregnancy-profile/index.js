@@ -22,16 +22,17 @@ const PregnancyProfile = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل بارداری',
-      headerLeft: () => (
-        <Button
-          title="ثبت"
-          type="outline"
-          disabled={!dueDate}
-          onPress={save}
-          titleStyle={globalStyles.headerBtnTitle}
-          containerStyle={globalStyles.smallHeaderBtn}
-        />
-      ),
+      headerLeft: null,
+      // () => (
+      //   <Button
+      //     title="ثبت"
+      //     type="outline"
+      //     disabled={!dueDate}
+      //     onPress={save}
+      //     titleStyle={globalStyles.headerBtnTitle}
+      //     containerStyle={globalStyles.smallHeaderBtn}
+      //   />
+      // ),
       headerRight: () => (
         <Icon
           reverse
@@ -71,7 +72,7 @@ const PregnancyProfile = ({ navigation, route }) => {
             pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
           }`}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
-          subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
+          // subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
@@ -92,39 +93,57 @@ const PregnancyProfile = ({ navigation, route }) => {
           //   />
           // }
         />
-        <PickerListItem
+        <ListItem
           title="تاریخ زایمان"
-          rightTitle={{ title: jalaali(dueDate).format('jYYYY / jM / jD') }}
+          rightTitle={jalaali(dueDate).format('jYYYY / jM / jD')}
           leftIcon={{ name: 'restore', color: COLOR.tiffany }}
-          customComponent={
-            <Calendar
-              jalali
-              firstDay={6}
-              current={dueDate}
-              minDate={new Date()}
-              hideExtraDays
-              enableSwipeMonths
-              onDayPress={(day) => {
-                setDueDate(day.dateString);
-              }}
-              markedDates={{
-                [dueDate]: { selected: true },
-              }}
-              theme={{
-                textSectionTitleColor: COLOR.black,
-                calendarBackground: 'transparent',
-                selectedDayTextColor: COLOR.white,
-                textDisabledColor: COLOR.textColorDark,
-                textDayFontFamily: FONT.regular,
-                textMonthFontFamily: FONT.regular,
-                textDayHeaderFontFamily: FONT.regular,
-                selectedDayBackgroundColor: COLOR.tiffany,
-                textDayHeaderFontSize: 8,
-                arrowColor: COLOR.tiffany,
-                todayTextColor: COLOR.tiffany,
-              }}
-            />
-          }
+          // subtitle="تاریخ زایمان شما بر اساس تاریخ آخرین پریود شما محاسبه شده است."
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+          subtitleStyle={styles.subTitle}
+          rightTitleStyle={[
+            styles.listItemText,
+            {
+              maxWidth: 90,
+              textAlign: 'right',
+            },
+          ]}
+          // customComponent={
+          //   <Calendar
+          //     jalali
+          //     firstDay={6}
+          //     current={dueDate}
+          //     minDate={new Date()}
+          //     hideExtraDays
+          //     enableSwipeMonths
+          //     onDayPress={(day) => {
+          //       setDueDate(day.dateString);
+          //     }}
+          //     markedDates={{
+          //       [dueDate]: { selected: true },
+          //     }}
+          //     theme={{
+          //       textSectionTitleColor: COLOR.black,
+          //       calendarBackground: 'transparent',
+          //       selectedDayTextColor: COLOR.white,
+          //       textDisabledColor: COLOR.textColorDark,
+          //       textDayFontFamily: FONT.regular,
+          //       textMonthFontFamily: FONT.regular,
+          //       textDayHeaderFontFamily: FONT.regular,
+          //       selectedDayBackgroundColor: COLOR.tiffany,
+          //       textDayHeaderFontSize: 8,
+          //       arrowColor: COLOR.tiffany,
+          //       todayTextColor: COLOR.tiffany,
+          //     }}
+          //   />
+          //}
+        />
+        <ListItem
+          subtitle="سن بارداری و تاریخ زایمان شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+          subtitleStyle={styles.subTitle}
         />
       </Card>
       <Button

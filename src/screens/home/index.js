@@ -46,6 +46,7 @@ const Home = ({ navigation }) => {
       setSubSentence(
         `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
       );
+      setThirdSentence('');
     } else {
       const c = await CycleModule();
       const s = c.determinePhaseSentence(momentDate);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
+import { useDispatch } from 'react-redux';
 import styles from './styles';
 import {
   getUserStatus,
@@ -10,9 +11,11 @@ import {
 import { COLOR } from '../../styles/static';
 import Card from '../../components/Card';
 import PregnancyModule from '../../util/pregnancy';
+import { updatePerdictions } from '../../store/actions/cycle';
 
 const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
+  const dispatch = useDispatch();
 
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
@@ -67,6 +70,7 @@ const UserGoal = ({ navigation }) => {
                   const p = await PregnancyModule();
                   await savePregnancyData({ dueDate: p.determineDueDate() });
                   setMode(i);
+                  dispatch(updatePerdictions());
                   navigation.navigate('PregnancyProfile');
                 },
               },

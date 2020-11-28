@@ -4,6 +4,7 @@ import {
   getActivePregnancyData,
   getProfileData,
   setBleedingDays,
+  updatePregnancyData,
 } from '../database/query';
 const today = moment();
 
@@ -80,23 +81,28 @@ export default async function PregnancyModule() {
     return d;
   }
   function determineDueDate(pDate) {
+    let delivery;
     if (lastPeriodDate || pDate) {
       const lastPeriod = lastPeriodDate || pDate;
       console.log('lastPeriod', lastPeriod, lastPeriodDate, pDate);
-      return moment(lastPeriod).add(PREGNANCY_WEEKS, 'weeks').format(FORMAT);
+      delivery = moment(lastPeriod)
+        .add(PREGNANCY_WEEKS, 'weeks')
+        .format(FORMAT);
+    } else if (conceptionDate) {
+      delivery = conceptionDate.add(38, 'weeks').format(FORMAT);
     }
-    if (conceptionDate) {
-      return conceptionDate.add(38, 'weeks').format(FORMAT);
-    }
+    console.log('determineDueDate', delivery);
+    updatePregnancyData(delivery);
+    return delivery;
   }
   function remainingDaysToDueDate(date) {
-    if (dueDate) {
-      return dueDate.diff(date, 'days');
-    } else {
-      const due = determineDueDate();
-      console.log('due', due);
-      return moment(due).diff(date, 'days');
-    }
+    // // if (dueDate) {
+    // //   return dueDate.diff(date, 'days');
+    // // } else {
+    const due = determineDueDate();
+    console.log('due', due);
+    return moment(due).diff(date, 'days');
+    // }
   }
   function determineNefasDays(date) {
     let days = [];

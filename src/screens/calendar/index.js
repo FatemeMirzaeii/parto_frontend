@@ -1,5 +1,5 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { ImageBackground, TouchableOpacity } from 'react-native';
+import { ToastAndroid, ImageBackground, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
@@ -19,6 +19,7 @@ import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
 
 const Calendar = ({ navigation }) => {
+  const today = jalaali();
   const cycle = useSelector((state) => state.cycle);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
@@ -76,6 +77,13 @@ const Calendar = ({ navigation }) => {
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
+    if (cycle.isPregnant && Object.keys(cycle.periodDays).length === 0) {
+      ToastAndroid.show(
+        'سن بارداری و تاریخ زایمان شما براساس تاریخ آخرین پریود شما محاسبه می‌شود. لطفا تاریخ آخرین پریود خود را وارد نموده و یا از حالت بارداری خارج شوید.',
+        ToastAndroid.LONG,
+      );
+      return;
+    }
     const c = await CycleModule();
     // console.log('before', markedDates, markedDatesBeforeEdit);
     const added = Object.keys(cycle.periodDays).filter(
@@ -108,7 +116,7 @@ const Calendar = ({ navigation }) => {
         jalali
         firstDay={6}
         showSixWeeks
-        maxDate={jalaali().format(FORMAT)}
+        maxDate={editMode ? null : today.format(FORMAT)}
         pastScrollRange={12}
         futureScrollRange={12}
         markedDates={{
@@ -123,33 +131,32 @@ const Calendar = ({ navigation }) => {
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
-                // console.log('marking', marking, date.dateString);
-                return state === 'disabled' ? (
-                  <Ptxt>{jalaali(date.dateString).format('jD')}</Ptxt>
+                // console.log('marking', marking.length, state);
+                const dateString = date.dateString;
+                return jalaali(dateString).isAfter(today) &&
+                  !(dateString in markedDatesBeforeEdit) ? (
+                  <Ptxt>{jalaali(dateString).format('jD')}</Ptxt>
                 ) : (
                   <TouchableOpacity
-                    onPress={state === 'disabled' ? null : () => onPress(date)}
-                    onLongPress={
-                      state === 'disabled' ? null : () => onLongPress(date)
-                    }>
+                    onPress={() => onPress(date)}
+                    onLongPress={() => onLongPress(date)}>
                     <Ptxt
                       style={[
                         styles.editableDays,
                         {
                           color:
-                            date.dateString in cycle.periodDays ||
-                            state === 'today'
+                            dateString in cycle.periodDays || state === 'today'
                               ? COLOR.white
                               : COLOR.black,
                           backgroundColor:
-                            date.dateString in cycle.periodDays
+                            dateString in cycle.periodDays
                               ? COLOR.bleeding
                               : state === 'today'
                               ? COLOR.today
                               : 'transparent',
                         },
                       ]}>
-                      {jalaali(date.dateString).format('jD')}
+                      {jalaali(dateString).format('jD')}
                     </Ptxt>
                   </TouchableOpacity>
                 );
