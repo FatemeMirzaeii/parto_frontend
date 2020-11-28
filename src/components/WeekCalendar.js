@@ -36,11 +36,15 @@ const WeekCalendar = (props) => {
     setSelectedDate(date.dateString);
     if (props.onDayPress) props.onDayPress(date);
   };
+  const onDateChanged = (date, propUpdate) => {
+    setSelectedDate(date);
+    if (props.onDateChanged) props.onDateChanged(date);
+  };
   return (
     <CalendarProvider
       jalali
       date={props.current ?? today}
-      onDateChanged={props.onDateChanged}
+      onDateChanged={onDateChanged}
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
       <View style={styles.header}>
