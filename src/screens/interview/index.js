@@ -28,7 +28,7 @@ const Interview = (props) => {
                   mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
                 });
               }}>
-              <Text style={styles.btnTitle}>ثبت دوره</Text>
+              <Text style={styles.btnTitle}>ثبت دوره‌های قاعدگی</Text>
               <Text style={styles.btnSubtitle}>تصمیم به بارداری ندارم</Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -40,7 +40,7 @@ const Interview = (props) => {
               }}>
               <Text style={styles.btnTitle}>تلاش برای بارداری</Text>
               <Text style={styles.btnSubtitle}>
-                برخی از روزها برایم مهم تر هستند
+                برخی از روزها برایم مهم‌تر هستند
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -51,7 +51,7 @@ const Interview = (props) => {
                 });
               }}>
               <Text style={styles.btnTitle}>باردار هستم</Text>
-              <Text style={styles.btnSubtitle}>میخواهم شرایطم را ثبت کنم</Text>
+              <Text style={styles.btnSubtitle}>می‌خواهم شرایطم را ثبت کنم</Text>
             </TouchableOpacity>
           </View>
         </View>

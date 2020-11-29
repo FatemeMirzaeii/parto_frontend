@@ -2,28 +2,35 @@ import React, { useEffect, useState } from 'react';
 import { ImageBackground, Text } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
+import { useDispatch } from 'react-redux';
 import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import PregnancyModule from '../../util/pregnancy';
+import CycleModule from '../../util/cycle';
 import {
   updatePregnancyData,
   updateUserStatus,
 } from '../../util/database/query';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
 const today = moment();
 
 const PregnancyEndCalendar = ({ route, navigation }) => {
   const [selectedDate, setSelectedDate] = useState();
+  const dispatch = useDispatch();
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
   const save = async () => {
     const p = await PregnancyModule();
+    const c = await CycleModule();
     !route.params.type
       ? await updatePregnancyData(selectedDate)
       : await updatePregnancyData(null, selectedDate);
     route.params.mode ? updateUserStatus(0, 1) : updateUserStatus(0, 0);
-    p.determineNefasDays(selectedDate);
+    await p.determineNefasDays(selectedDate);
+    await c.determineLastPeriodDate();
+    dispatch(fetchInitialCycleData());
     navigation.popToTop();
   };
 
