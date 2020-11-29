@@ -34,6 +34,7 @@ const ArticlesList = ({ route, navigation }) => {
     await axios({
       method: 'get',
       url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${page}&limit=${perPage}`,
+      // url: `${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created asc & start=${page} & limit=${perPage}`,
       headers: {
         Authorization: 'Basic ' + authCode,
         'X-Atlassian-Token': 'no-check',
@@ -72,7 +73,7 @@ const ArticlesList = ({ route, navigation }) => {
               });
               setIsLoading(false);
               setData(article);
-              setPage((pre) => pre + 1);
+              setPage((pre) => pre + 25);
             })
             .catch((err) => {
               console.error(err, err.response);
