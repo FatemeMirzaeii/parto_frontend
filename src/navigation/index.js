@@ -92,13 +92,13 @@ const AppNavigator = () => {
       <DateContext.Provider value={{ today: moment().format(FORMAT) }}>
         {state.isLoading || splash ? (
           <Splash />
-        ) : state.interviewToken && state.userToken ? (
+        ) : state.interviewToken ? (
           <HomeStackScreen />
-        ) : // ) : !state.userToken ? (
-        //   <AuthStack />
-        !state.userToken ? (
-          <AuthStack />
         ) : (
+          // ) : !state.userToken ? (
+          //   <AuthStack />
+          //!state.userToken ? (
+          //   <AuthStack />
           <InterviewStack />
         )}
       </DateContext.Provider>
