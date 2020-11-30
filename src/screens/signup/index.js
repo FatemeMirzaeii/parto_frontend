@@ -72,8 +72,8 @@ const SignUp = ({ navigation }) => {
       },
       data: {
         phone: phoneNumber,
-        //code: value,
-        code:58514 ,
+        code: value,
+        // code:'12345' ,
       },
     })
       .then((res) => {
