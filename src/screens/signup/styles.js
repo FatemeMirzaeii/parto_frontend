@@ -27,6 +27,7 @@ export default StyleSheet.create({
   //   color: 'red',
   //   alignSelf: 'center',
   // },
+
   container: {
     backgroundColor: '#ffffff',
     paddingTop: 30,
@@ -37,6 +38,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     // borderRadius: 25,
     // top: '10%',
+  },
+  close: {
+    position: 'absolute',
+    top: 25,
+    left: 15,
   },
   phoneInput: {
     // marginTop:6,

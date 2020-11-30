@@ -3,33 +3,34 @@ import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import DataBase from '../../util/database';
 import styles from './styles';
 import { api } from '../../services/api';
 import { storeData } from '../../util/func';
 import { AuthContext } from '../../contexts';
-import Ptxt from '../../components/Ptxt';
-import Loader from  '../../components/Loader';
-import { COLOR, SIZE, FONT, WIDTH, HEIGHT } from '../../styles/static';
+const db = new DataBase();
 
-const LoginForm = (props) => {
+const SignUpForm = (props) => {
   const restapi = new api();
-  const { signIn } = useContext(AuthContext);
   const emailInput = useRef(null);
   const passInput = useRef(null);
   const [isLoading, setLoading] = useState(false);
   const [securePassword, setSecurePassword] = useState(true);
+  const { signUp } = useContext(AuthContext);
 
   const submit = async (values) => {
     setLoading(true);
-    const res = await restapi.request('auth/signIn/fa', values, 'POST', true);
-    console.log('loginres: ',res);
+    const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
       await storeData('@token', res._token);
-      await storeData('@email', values.email);
-
-      signIn();
+      db.exec(
+        `INSERT INTO user (name,email) VALUES ('${values.name}','${values.email}')`,
+        'user',
+      );
+      signUp();
     } else {
       if (res._status === 502 || res._status === null) {
+        console.log(res._status);
         ToastAndroid.show('اتصال اینترنت خود را چک کنید.', ToastAndroid.LONG);
         setLoading(false);
       } else {
@@ -41,20 +42,29 @@ const LoginForm = (props) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <Loader />
+        <ActivityIndicator />
       ) : (
         <Formik
-          // initialValues={{ email: '', password: '', phone: '' }}
-          initialValues={{ phone: '' }}
+          initialValues={{ name: '', email: '', password: '' }}
           onSubmit={(values) => submit(values)}
-          // validationSchema={yup.object().shape({
-          //   email: yup
-          //     .string()
-          //     .email('ایمیل وارد شده معتبر نیست.')
-          //     .required('لطفا ایمیل خود را وارد کنید.'),
-          //   password: yup.string().required('لطفا رمزعبور خود را وارد کنید.'),
-          // })}
-        >
+          validationSchema={yup.object().shape({
+            name: yup.string().required('لطفا نام خود را وارد کنید.'),
+            email: yup
+              .string()
+              .email('ایمیل وارد شده معتبر نیست.')
+              .required('لطفا ایمیل خود را وارد کنید.'),
+            password: yup
+              .string()
+              .min(8, 'رمز عبور حداقل باید 8 کاراکتر باشد.')
+              .matches(
+                /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/,
+                'رمز عبور باید دارای یک حرف کوچک، یک حرف بزرگ و یک عدد باشد.',
+              )
+              // .matches(/^(?=.*[a-z])/, 'رمز عبور باید دارای حروف کوچک باشد.')
+              // .matches(/^(?=.*[A-Z])/, 'رمز عبور باید دارای حروف بزرگ باشد.')
+              // .matches(/^(?=.*[0-9])/, 'رمز عبور باید حاوی اعداد باشد.')
+              .required('لطفا رمز عبور خود را وارد کنید.'),
+          })}>
           {({
             values,
             handleChange,
@@ -65,22 +75,25 @@ const LoginForm = (props) => {
             handleSubmit,
           }) => (
             <Fragment>
+              {touched.name && errors.name && (
+                <Text style={styles.error}>{errors.name}</Text>
+              )}
               <Input
-                ref={emailInput}
-                value={values.email}
-                label="تلفن"
-                placeholder="0912123456"
-                onSubmitEditing={(r) => {
-                  passInput.current.focus();
-                }}
-                onChangeText={handleChange('phone')}
-                onBlur={() => setFieldTouched('phone')}
-                textContentType={'username'}
-                //containerStyle={styles.input}
+                value={values.name}
+                label="نام"
+                containerStyle={styles.input}
                 returnKeyType="next"
-                leftIcon={<Icon name="phone" size={20} color="gray" />}
+                onSubmitEditing={(r) => {
+                  emailInput.current.focus();
+                }}
+                onChangeText={handleChange('name')}
+                onBlur={() => setFieldTouched('name')}
+                leftIcon={<Icon name="person" size={20} color="gray" />}
               />
-              {/* <Input
+              {touched.email && errors.email && (
+                <Text style={styles.error}>{errors.email}</Text>
+              )}
+              <Input
                 ref={emailInput}
                 value={values.email}
                 label="ایمیل"
@@ -91,12 +104,12 @@ const LoginForm = (props) => {
                 onChangeText={handleChange('email')}
                 onBlur={() => setFieldTouched('email')}
                 textContentType={'username'}
-                //containerStyle={styles.input}
+                containerStyle={styles.input}
                 returnKeyType="next"
                 leftIcon={<Icon name="mail" size={20} color="gray" />}
               />
-              {touched.email && errors.email && (
-                <Ptxt style={styles.error}>{errors.email}</Ptxt>
+              {touched.password && errors.password && (
+                <Text style={styles.error}>{errors.password}</Text>
               )}
               <Input
                 value={values.password}
@@ -107,7 +120,7 @@ const LoginForm = (props) => {
                 onChangeText={handleChange('password')}
                 onBlur={() => setFieldTouched('password')}
                 textContentType={'password'}
-                //containerStyle={styles.input}
+                containerStyle={styles.input}
                 leftIcon={<Icon name="lock" size={20} color="gray" />}
                 rightIcon={
                   <Icon
@@ -117,16 +130,14 @@ const LoginForm = (props) => {
                     onPress={() => setSecurePassword(!securePassword)}
                   />
                 }
-              /> */}
-              {touched.password && errors.password && (
-                <Ptxt style={styles.error}>{errors.password}</Ptxt>
-              )}
+              />
+
               <Icon
                 raised
                 onPress={handleSubmit}
                 name="check"
-                color={COLOR.tiffany}
-                size={30}
+                color="#f50"
+                size={35}
                 disabled={!isValid}
                 containerStyle={styles.button}
               />
@@ -137,4 +148,5 @@ const LoginForm = (props) => {
     </View>
   );
 };
-export default LoginForm;
+
+export default SignUpForm;

@@ -3,10 +3,6 @@ import {
   ToastAndroid,
   View,
   Text,
-  ActivityIndicator,
-  SafeAreaView,
-  TextInput,
-  Alert,
   KeyboardAvoidingView,
   Keyboard,
 } from 'react-native';
@@ -20,22 +16,30 @@ import {
 import { Icon, Input, Button } from 'react-native-elements';
 import LottieView from 'lottie-react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { Formik } from 'formik';
-import * as yup from 'yup';
-import Ptxt from '../../components/Ptxt';
-import DataBase from '../../util/database';
-import styles from './styles';
-import { api } from '../../services/api';
-import { storeData } from '../../util/func';
-import { AuthContext } from '../../contexts';
-import { COLOR, HEIGHT, WIDTH } from '../../styles/static';
 
-const CELL_COUNT = 5;
+//components
+import Ptxt from '../../components/Ptxt';
+
+//services
+import { api } from '../../services/api';
+import { baseUrl, devUrl } from '../../services/urls';
+
+//util
+import { storeData } from '../../util/func';
+
+//contexts
+import { AuthContext } from '../../contexts';
+
+//styles
+import { COLOR, HEIGHT, WIDTH } from '../../styles/static';
+import styles from './styles';
+
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
   const { signUp } = useContext(AuthContext);
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [countryCode, setCountryCode] = useState('');
   const [serverCode, setServerCode] = useState(0);
   const [serverError, setServerError] = useState(null);
   const [value, setValue] = useState('');
@@ -44,10 +48,12 @@ const SignUp = ({ navigation }) => {
     value,
     setValue,
   });
+  const CELL_COUNT = 5;
 
   // useEffect(() => {
   //   getVerificationCode();
   // }, []);
+
   const _handlePhoneInput = (text) => {
     setPhoneNumber(text);
     if (phoneNumber.length === 9) {
@@ -55,12 +61,51 @@ const SignUp = ({ navigation }) => {
       Keyboard.dismiss();
     }
   };
-  const handleSubmit = () => {};
+
+  const handleSubmit = async () => {
+    await axios({
+      method: 'post',
+      url: `${devUrl}/auth/checkVerifyCode/fa`,
+      credentials: 'include',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: {
+        phone: phoneNumber,
+        //code: value,
+        code:58514 ,
+      },
+    })
+      .then((res) => {
+        console.log('res', res);
+        //storeData('@token', res._token);
+        signUp();
+        // setServerCode(res.data.code);
+        setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err, err.response);
+        alert('error: ' + err);
+        if (err.toString() === 'Error: Network Error')
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        else
+          // switch (err.response.status) {
+          //   case 400:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          //   case 418:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          //   case 502:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          // }
+          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+      });
+  };
+
   const getVerificationCode = async () => {
     setIsLoading(true);
     axios({
       method: 'post',
-      url: `https://api.parto.app/auth/verifyCode`,
+      url: `${baseUrl}/auth/verifyCode`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -80,29 +125,41 @@ const SignUp = ({ navigation }) => {
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         else
-          switch (err.response.status) {
-            case 400:
-              ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-            case 418:
-              ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-            case 502:
-              ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          }
+          // switch (err.response.status) {
+          //   case 400:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          //   case 418:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          //   case 502:
+          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+          // }
+          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
       });
   };
   console.log('code', serverCode);
+  console.log('country', countryCode);
+
   return (
     <KeyboardAvoidingView
       style={{ flex: 1, backgroundColor: '#fff', paddingTop: 24 }}>
-      <View style={{ height: HEIGHT / 2.5 }}>
+      <Icon
+        name="close"
+        color="#f50"
+        containerStyle={styles.close}
+        size={30}
+        onPress={() => {
+          navigation.pop();
+        }}
+      />
+      {/* <View style={{ height: HEIGHT / 2.7 ,width:WIDTH*0.7,alignSelf:'center'}}>
         <LottieView
           source={require('../../../assets/lotties/verification.json')}
           autoPlay
           // enableMergePathsAndroidForKitKatAndAbove
         />
-      </View>
+      </View> */}
       <View style={styles.container}>
-        <Ptxt style={styles.title}>برای ورود شماره موبایلت رو وارد کن:</Ptxt>
+        <Ptxt style={styles.title}>برای ثبت‌نام شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
           //ref={phoneInput}
           containerStyle={{
@@ -122,11 +179,14 @@ const SignUp = ({ navigation }) => {
           defaultCode="IR"
           value={phoneNumber}
           onChangeText={_handlePhoneInput}
-          
-          // {(text) => {
+          CountryCode={(ele) => {
+            setCountryCode(ele);
+          }}
+          // onChangeFormattedText={_handlePhoneInput}
+          // onChangeFormattedText={(text) => {
           //   setPhoneNumber(text);
-          //   phoneNumber.length === 9 ? setBtnActive(true) : null;
           // }}
+
           withShadow
           autoFocus
         />
@@ -139,12 +199,12 @@ const SignUp = ({ navigation }) => {
           onPress={getVerificationCode}
         />
       </View>
-      {/* <Ptxt style={styles.title}>لطفا کد پیامک شده رو وارد کن:</Ptxt>
+      <Ptxt style={styles.title}>لطفا کد پیامک شده رو وارد کن:</Ptxt>
       <CodeField
         ref={ref}
         {...props}
         value={value}
-        onChangeText={setValue}
+        onChangeText={(text) => setValue(text)}
         cellCount={5}
         rootStyle={styles.codeFieldRoot}
         keyboardType="number-pad"
@@ -164,8 +224,8 @@ const SignUp = ({ navigation }) => {
         containerStyle={styles.btnContainer}
         buttonStyle={styles.button}
         titleStyle={styles.btnTitle}
-        // onPress={onNextPress}
-      /> */}
+        onPress={handleSubmit}
+      />
     </KeyboardAvoidingView>
   );
 };

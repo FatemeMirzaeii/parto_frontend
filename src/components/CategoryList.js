@@ -27,9 +27,10 @@ const CategoryList = (props) => {
 
   useEffect(() => {
     const getCategoryContent = () => {
-      axios({
+       axios({
         method: 'get',
         url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
+       // url:`${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
         headers: {
           Authorization: 'Basic ' + authCode,
           'X-Atlassian-Token': 'no-check',
@@ -37,14 +38,14 @@ const CategoryList = (props) => {
       })
         .then((res) => {
           let con = [];
-          console.log(res);
+          console.log('myres',res);
           console.log('categoryContent', res.data.results);
           setCategoryContent(res.data.results);
           con = res.data.results;
-          for (let i = 0; i < res.data.results.length; i++) {
+          for (let i = 0; i < con.length; i++) {
             axios({
               method: 'get',
-              url: `${articlesBaseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
+              url: `${articlesBaseUrl}/rest/api/content/${con[i].id}/child/attachment`,
               headers: {
                 Authorization: 'Basic ' + authCode,
                 'Content-Type': 'application/json',
@@ -158,7 +159,7 @@ const CategoryList = (props) => {
 
 const styles = StyleSheet.create({
   main: {
-    marginBottom: 30,
+    marginBottom: 17,
   },
   moreButtonWrapper: {
     flex: 1,
@@ -221,11 +222,8 @@ const styles = StyleSheet.create({
   text: {
     color: '#fff',
     fontFamily: FONT.light,
-    fontSize: 14,
+    fontSize: SIZE[14],
     textAlign: 'center',
-  },
-  highlight: {
-    fontWeight: '700',
   },
 });
 
