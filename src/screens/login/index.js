@@ -44,7 +44,7 @@ import {
   View,
 } from 'react-native';
 import PhoneInput from 'react-native-phone-number-input';
-import { Button ,Icon} from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import Ptxt from '../../components/Ptxt';
 import { AuthContext } from '../../contexts';
 import { COLOR, HEIGHT, WIDTH } from '../../styles/static';
@@ -92,7 +92,9 @@ const Login = ({ navigation }) => {
         // alert('error: ' + err);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else
+        //to maryam: if our conditional statment is more than one line we need to define blocks. {}.
+        //so I've added to else statement
+        else {
           switch (err.response.status) {
             case 400:
               ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
@@ -100,7 +102,9 @@ const Login = ({ navigation }) => {
               ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
             case 502:
               ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+            //to maryam: where is break case? and default statement?
           }
+        }
       });
   };
   console.log('code', serverCode);

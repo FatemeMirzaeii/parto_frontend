@@ -3,7 +3,7 @@ import { DeviceEventEmitter } from 'react-native';
 import { getData, storeData } from '../func';
 import { AppTour, AppTourSequence } from 'react-native-app-tour';
 
- const Tour = (appTourTargets, key, storeKey) => {
+const Tour = (appTourTargets, key, storeKey) => {
   const [appTour, setAppTour] = useState(true);
 
   useEffect(() => {
