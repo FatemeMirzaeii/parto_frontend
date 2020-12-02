@@ -13,6 +13,7 @@ import {
   updateUserStatus,
 } from '../../util/database/query';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
+import { FORMAT } from '../../constants/cycle';
 const today = moment();
 
 const PregnancyEndCalendar = ({ route, navigation }) => {
@@ -58,7 +59,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
           [selectedDate]: { selected: true },
         }}
         markingType="multi-period"
-        maxDate={today.format('YYYY-MM-DD')}
+        maxDate={today.format(FORMAT)}
         disableAllTouchEventsForDisabledDays
         hideExtraDays
         theme={{

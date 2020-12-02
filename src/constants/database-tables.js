@@ -1,9 +1,11 @@
-export const CURRENT_SCHEMA_VERSION = 2;
+export const CURRENT_SCHEMA_VERSION = 2.6;
 
 //tables
+export const USER = 'user';
 export const USER_LOG = 'user_log';
 export const EMPTY_TABLE = 'EMPTY_TABLE';
 export const PROFILE = 'user_profile';
+export const PERIOD = 'period';
 export const USER_TRACKING_OPTION = 'user_tracking_option';
 export const PREGNANCY = 'pregnancy';
 export const REMINDER = 'reminder';

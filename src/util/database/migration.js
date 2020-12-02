@@ -1,8 +1,13 @@
 import SQLite from 'react-native-sqlite-storage';
-import Database from '../database';
+import Database from './index';
 import {
+  USER,
+  USER_REMINDER,
   USER_TRACKING_OPTION,
   CURRENT_SCHEMA_VERSION,
+  REMINDER,
+  PERIOD,
+  PROFILE,
 } from '../../constants/database-tables';
 import { OPTIONS } from '../../constants/health-tracking-info';
 import { getInUseDbVersion, updateInUseDbVersion } from './query';
@@ -18,6 +23,7 @@ export async function migration() {
         v1Tov2();
         break;
       case 2:
+        //v2ToV2_6();
         break;
       default:
         break;
@@ -25,9 +31,23 @@ export async function migration() {
     inUseDbVersion = getInUseDbVersion();
   }
 }
-async function v2ToV2_5() {
-  db.exec(`ALTER TABLE ADD COLUMN`); //todo: incomplete
-  updateInUseDbVersion(2.5);
+async function v2ToV2_6() {
+  db.exec(
+    `ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN created_at datetime NOT NULL;
+    ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN updated_at datetime NOT NULL;
+    ALTER TABLE ${USER} ADD COLUMN created_at datetime NOT NULL;
+    ALTER TABLE ${USER} ADD COLUMN updated_at datetime NOT NULL;
+    ALTER TABLE ${USER} ADD COLUMN phone varchar(255);
+    ALTER TABLE ${REMINDER} ADD COLUMN created_at datetime NOT NULL;
+    ALTER TABLE ${REMINDER} ADD COLUMN updated_at datetime NOT NULL;
+    ALTER TABLE ${USER_REMINDER} ADD COLUMN created_at datetime NOT NULL;
+    ALTER TABLE ${USER_REMINDER} ADD COLUMN updated_at datetime NOT NULL;
+    ALTER TABLE ${PERIOD} ADD COLUMN created_at datetime NOT NULL;
+    ALTER TABLE ${PERIOD} ADD COLUMN updated_at datetime NOT NULL;
+    ALTER TABLE ${PROFILE} ADD COLUMN last_sync_time datetime;
+    `,
+  ); //todo: must be tested
+  updateInUseDbVersion(2.6);
 }
 async function v1Tov2() {
   SQLite.enablePromise(true);

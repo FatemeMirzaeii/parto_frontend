@@ -9,7 +9,7 @@ import {
   EMPTY_TABLE,
 } from '../../constants/database-tables';
 import moment from 'moment';
-import { FORMAT } from '../../constants/cycle';
+import { DATETIME_FORMAT, FORMAT } from '../../constants/cycle';
 import { OPTIONS } from '../../constants/health-tracking-info';
 const db = new Database();
 
@@ -42,7 +42,7 @@ export async function saveProfileData(profileSchema) {
                 ${cycleLength},
                 ${birthdate},
                 ${lperiodDate},
-                '${moment().format('YYYY-MM-DD')}')`,
+                '${moment().format(DATETIME_FORMAT)}')`,
     PROFILE,
   );
   return res ?? 0;
@@ -59,7 +59,8 @@ export async function saveProfileHealthData(
                              weight=${weight},
                              height=${height},
                              birthdate='${birthdate}',
-                             avg_sleeping_hour=${avgSleepingHours}`,
+                             avg_sleeping_hour=${avgSleepingHours},
+                             updated_at='${moment().format(DATETIME_FORMAT)}'`,
     PROFILE,
   );
 }
@@ -76,7 +77,9 @@ export async function getUserStatus() {
 }
 export async function updateUserStatus(pregnant, pregnancyTry) {
   return await db.exec(
-    `UPDATE ${PROFILE} SET pregnant=${pregnant}, pregnancy_try=${pregnancyTry}`,
+    `UPDATE ${PROFILE} SET pregnant=${pregnant}, pregnancy_try=${pregnancyTry}, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
     PROFILE,
   );
 }
@@ -96,11 +99,15 @@ export async function getActivePregnancyData() {
 export async function updatePregnancyData(dueDate, abortionDate) {
   return abortionDate
     ? await db.exec(
-        `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}'`,
+        `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}', updated_at='${moment().format(
+          DATETIME_FORMAT,
+        )}'`,
         PREGNANCY,
       )
     : await db.exec(
-        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null`,
+        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null, updated_at='${moment().format(
+          DATETIME_FORMAT,
+        )}'`,
         PREGNANCY,
       );
 }
@@ -112,8 +119,8 @@ export async function savePregnancyData(pregnancySchema) {
     ? null
     : `'${pregnancySchema.conceptionDate}'`;
   const res = await db.exec(
-    `INSERT INTO ${PREGNANCY} (due_date, conception_date, user_id) VALUES(
-      ${dueDate},${conceptionDate}, 1)`,
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date, user_id,created_at) VALUES(
+      ${dueDate},${conceptionDate}, 1,'${moment().format(DATETIME_FORMAT)}')`,
     PREGNANCY,
   );
   return res ?? 0;
@@ -122,7 +129,8 @@ export function updateProfileData(profileSchema) {
   db.exec(
     `UPDATE ${PROFILE} SET avg_period_length=${profileSchema.periodLength},
                              avg_cycle_length=${profileSchema.cycleLength},
-                             pms_length=${profileSchema.pmsLength}`,
+                             pms_length=${profileSchema.pmsLength},
+                             updated_at='${moment().format(DATETIME_FORMAT)}'`,
     PROFILE,
   ).then((res) => {
     return res;
@@ -183,7 +191,7 @@ export async function setLastPeriodDate(date) {
   return await db.exec(
     `UPDATE ${PROFILE} SET last_period_date=${
       date ? `'${date.format(FORMAT)}'` : null
-    }`,
+    }, updated_at='${moment().format(DATETIME_FORMAT)}'`,
     PROFILE,
   );
 }
@@ -200,14 +208,23 @@ export async function setBleedingDays(days, removed) {
   days.forEach(async (day) => {
     console.log('set period here', day);
     await db.exec(
-      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id) VALUES ('${day}',${OPTIONS.MEDIUM})
-      ON CONFLICT(date, tracking_option_id) DO NOTHING`,
+      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id, created_at) VALUES ('${day}',${
+        OPTIONS.MEDIUM
+      })
+      ON CONFLICT(date, tracking_option_id,'${moment().format(
+        DATETIME_FORMAT,
+      )}') DO NOTHING`,
       USER_TRACKING_OPTION,
     );
   });
 }
 export async function setLock(isLock) {
-  return await db.exec(`UPDATE ${PROFILE} SET locked=${isLock}`, PROFILE);
+  return await db.exec(
+    `UPDATE ${PROFILE} SET locked=${isLock}, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
+    PROFILE,
+  );
 }
 export async function lockStatus() {
   const res = await db.exec(`SELECT locked FROM ${PROFILE}`, PROFILE);
@@ -222,12 +239,16 @@ export async function saveReminder(
   daysAgo,
 ) {
   const res = await db.exec(
-    `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago) VALUES 
+    `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago, created_at) VALUES 
     (${reminderId}, ${1}, ${
       isActive ? 1 : 0
-    }, '${message}', '${time}', ${daysAgo}) ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
+    }, '${message}', '${time}', ${daysAgo}, '${moment().format(
+      DATETIME_FORMAT,
+    )}') ON CONFLICT (user_id, reminder_id) DO UPDATE SET active=${
       isActive ? 1 : 0
-    }, custom_message='${message}', custom_time='${time}', Xdays_ago=${daysAgo}`,
+    }, custom_message='${message}', custom_time='${time}', Xdays_ago=${daysAgo}, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
     USER_REMINDER,
   );
   return res ?? 0;
@@ -256,5 +277,44 @@ export async function getInUseDbVersion() {
   return res ? res.version : 0;
 }
 export async function updateInUseDbVersion(version) {
-  return db.exec(`UPDATE ${VERSION} SET version=${version}`, VERSION);
+  return db.exec(
+    `UPDATE ${VERSION} SET version=${version}, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
+    VERSION,
+  );
+}
+export async function getLastSyncTime() {
+  const [res] = await db.exec(`SELECT last_sync_time FROM ${PROFILE}`, PROFILE);
+  //todo: should be tested
+  return res ? res.last_synced : 0;
+}
+export async function updateLastSyncTime(lastSyncTime) {
+  return db.exec(
+    `UPDATE ${PROFILE} SET last_sync_time=${lastSyncTime}, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
+    VERSION,
+  );
+}
+export async function findUnsyncedTrackingOptions(lastSyncTime) {
+  const res = await db.exec(
+    `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+    USER_TRACKING_OPTION,
+  );
+  return res === EMPTY_TABLE ? [] : res;
+}
+export async function findUnsyncedProfileData(lastSyncTime) {
+  const res = await db.exec(
+    `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+    PROFILE,
+  );
+  return res === EMPTY_TABLE ? [] : res;
+}
+export async function findUnsyncedPregnancyInfo(lastSyncTime) {
+  const res = await db.exec(
+    `SELECT * FROM  ${PREGNANCY} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+    PREGNANCY,
+  );
+  return res === EMPTY_TABLE ? [] : res;
 }
