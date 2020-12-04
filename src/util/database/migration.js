@@ -1,5 +1,6 @@
 import SQLite from 'react-native-sqlite-storage';
 import Database from './index';
+import moment from 'moment';
 import {
   USER,
   USER_REMINDER,
@@ -8,9 +9,11 @@ import {
   REMINDER,
   PERIOD,
   PROFILE,
+  PREGNANCY,
 } from '../../constants/database-tables';
 import { OPTIONS } from '../../constants/health-tracking-info';
 import { getInUseDbVersion, updateInUseDbVersion } from './query';
+import { DATETIME_FORMAT } from '../../constants/cycle';
 const db = new Database();
 
 export async function migration() {
@@ -23,7 +26,9 @@ export async function migration() {
         v1Tov2();
         break;
       case 2:
-        //v2ToV2_6();
+        v2ToV3();
+        break;
+      case 3:
         break;
       default:
         break;
@@ -31,23 +36,49 @@ export async function migration() {
     inUseDbVersion = getInUseDbVersion();
   }
 }
-async function v2ToV2_6() {
-  db.exec(
-    `ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN created_at datetime NOT NULL;
-    ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN updated_at datetime NOT NULL;
-    ALTER TABLE ${USER} ADD COLUMN created_at datetime NOT NULL;
-    ALTER TABLE ${USER} ADD COLUMN updated_at datetime NOT NULL;
-    ALTER TABLE ${USER} ADD COLUMN phone varchar(255);
-    ALTER TABLE ${REMINDER} ADD COLUMN created_at datetime NOT NULL;
-    ALTER TABLE ${REMINDER} ADD COLUMN updated_at datetime NOT NULL;
-    ALTER TABLE ${USER_REMINDER} ADD COLUMN created_at datetime NOT NULL;
-    ALTER TABLE ${USER_REMINDER} ADD COLUMN updated_at datetime NOT NULL;
-    ALTER TABLE ${PERIOD} ADD COLUMN created_at datetime NOT NULL;
-    ALTER TABLE ${PERIOD} ADD COLUMN updated_at datetime NOT NULL;
-    ALTER TABLE ${PROFILE} ADD COLUMN last_sync_time datetime;
-    `,
-  ); //todo: must be tested
-  updateInUseDbVersion(2.6);
+async function v2ToV3() {
+  const defaultDate = moment().format(DATETIME_FORMAT);
+  // console.log('I arrived here');
+  await db.exec(
+    `ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER_TRACKING_OPTION} ADD COLUMN state INTEGER DEFAULT 1`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(`ALTER TABLE ${USER} ADD COLUMN phone varchar(255)`);
+  await db.exec(
+    `ALTER TABLE ${REMINDER} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${REMINDER} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER_REMINDER} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${USER_REMINDER} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${PERIOD} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(
+    `ALTER TABLE ${PERIOD} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
+  );
+  await db.exec(`ALTER TABLE ${PROFILE} ADD COLUMN last_sync_time datetime`);
+  await db.exec(`ALTER TABLE ${PREGNANCY} ADD COLUMN state INTEGER DEFAULT 1`);
+  //todo: must be tested again and again
+  // const test = await db.exec(`SELECT * from ${USER}`);
+  // console.log('commands executed now we are testing one of tables', test);
+  updateInUseDbVersion(3);
 }
 async function v1Tov2() {
   SQLite.enablePromise(true);

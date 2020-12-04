@@ -29,14 +29,20 @@ export default class Database {
   async exec(_query, _table) {
     let arr = [];
     const _db = await this.open(_table);
-    await _db.transaction(async (tx) => {
-      const [fn, res] = await tx.executeSql(_query);
-      var len = res.rows.length;
-      for (let i = 0; i < len; i++) {
-        let row = res.rows.item(i);
-        row.data === undefined ? arr.push(row) : arr.push(JSON.parse(row.data));
-      }
-    });
+    try {
+      await _db.transaction(async (tx) => {
+        const [fn, res] = await tx.executeSql(_query);
+        var len = res.rows.length;
+        for (let i = 0; i < len; i++) {
+          let item = res.rows.item(i);
+          item.data === undefined
+            ? arr.push(item)
+            : arr.push(JSON.parse(item.data));
+        }
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
     // this.close(_db);
     return arr.length > 0 ? arr : EMPTY_TABLE; //todo: should correct insertId
   }

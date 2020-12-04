@@ -7,6 +7,8 @@ import {
   USER_REMINDER,
   VERSION,
   EMPTY_TABLE,
+  HEALTH_TRACKING_CATEGORY,
+  HEALTH_TRACKING_OPTION,
 } from '../../constants/database-tables';
 import moment from 'moment';
 import { DATETIME_FORMAT, FORMAT } from '../../constants/cycle';
@@ -84,13 +86,16 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
   );
 }
 export async function getFormerPregnancyData() {
-  const res = await db.exec(`SELECT * FROM ${PREGNANCY}`, PREGNANCY);
+  const res = await db.exec(
+    `SELECT * FROM ${PREGNANCY} WHERE state=1`, //we can change the state of former pregnancies
+    PREGNANCY,
+  );
   console.log('all pregnancy data', res);
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function getActivePregnancyData() {
   const res = await db.exec(
-    `SELECT * FROM ${PREGNANCY} ORDER BY id DESC LIMIT 1`,
+    `SELECT * FROM ${PREGNANCY} WHERE state=1 ORDER BY id DESC LIMIT 1`,
     PREGNANCY,
   );
   console.log('active pregnancy data', res);
@@ -146,7 +151,7 @@ export async function getCycleInfoFromProfile() {
 export async function getUserAllPeriodDays() {
   const res = await db.exec(
     `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
-      (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY})`,
+      (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY}) AND state=1`,
     USER_TRACKING_OPTION,
   );
   console.log('kkkk', res);
@@ -161,15 +166,15 @@ export async function getTrackingOptionData(date) {
                             SELECT JSON_GROUP_ARRAY(
                                     JSON_OBJECT('id',id,'tracking_option_id',tracking_option_id)
                                                 )
-                                FROM user_tracking_option u WHERE u.tracking_option_id = o.id AND date='${date}'
+                                FROM ${USER_TRACKING_OPTION} u WHERE u.tracking_option_id = o.id AND date='${date}' AND u.state=1
                           )
                         )
                       ) 
-              FROM health_tracking_option o WHERE o.category_id = c.id
+              FROM ${HEALTH_TRACKING_OPTION} o WHERE o.category_id = c.id
             )         
           )
-          AS data FROM health_tracking_category c ORDER By id ASC`,
-    'health_tracking_category',
+          AS data FROM ${HEALTH_TRACKING_CATEGORY} c ORDER By id ASC`,
+    HEALTH_TRACKING_CATEGORY,
   );
   return res;
 }
@@ -177,7 +182,7 @@ export async function getUserVaginalAndSleepOptions() {
   const res = await db.exec(
     `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
       (${OPTIONS.ABNORMAL}, ${OPTIONS.CREAMY}, ${OPTIONS.EGGWHITE}, ${OPTIONS.STICKY}, 
-        ${OPTIONS.AVERAGE_SLEEP}, ${OPTIONS.LITTLE_SLEEP}, ${OPTIONS.LOTS_SLEEP}, ${OPTIONS.NO_SLEEP})`,
+        ${OPTIONS.AVERAGE_SLEEP}, ${OPTIONS.LITTLE_SLEEP}, ${OPTIONS.LOTS_SLEEP}, ${OPTIONS.NO_SLEEP}) AND state=1`,
     USER_TRACKING_OPTION,
   );
   return res ?? [];
@@ -198,9 +203,14 @@ export async function setLastPeriodDate(date) {
 export async function setBleedingDays(days, removed) {
   if (removed) {
     removed.forEach(async (rday) => {
+      //state 2 means deleted
       const res = await db.exec(
-        `DELETE FROM ${USER_TRACKING_OPTION} WHERE date='${rday}' AND tracking_option_id IN
-        (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY})`,
+        `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
+          DATETIME_FORMAT,
+        )}' WHERE date='${rday}' AND tracking_option_id IN
+        (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${
+          OPTIONS.HEAVY
+        })`,
         USER_TRACKING_OPTION,
       );
     });
@@ -210,10 +220,10 @@ export async function setBleedingDays(days, removed) {
     await db.exec(
       `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id, created_at) VALUES ('${day}',${
         OPTIONS.MEDIUM
-      })
-      ON CONFLICT(date, tracking_option_id,'${moment().format(
+      }, '${moment().format(DATETIME_FORMAT)}')
+      ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
         DATETIME_FORMAT,
-      )}') DO NOTHING`,
+      )}'`,
       USER_TRACKING_OPTION,
     );
   });
@@ -277,17 +287,12 @@ export async function getInUseDbVersion() {
   return res ? res.version : 0;
 }
 export async function updateInUseDbVersion(version) {
-  return db.exec(
-    `UPDATE ${VERSION} SET version=${version}, updated_at='${moment().format(
-      DATETIME_FORMAT,
-    )}'`,
-    VERSION,
-  );
+  return db.exec(`UPDATE ${VERSION} SET version=${version}`, VERSION);
 }
 export async function getLastSyncTime() {
   const [res] = await db.exec(`SELECT last_sync_time FROM ${PROFILE}`, PROFILE);
   //todo: should be tested
-  return res ? res.last_synced : 0;
+  return res ? res.last_sync_time : 0;
 }
 export async function updateLastSyncTime(lastSyncTime) {
   return db.exec(
@@ -298,23 +303,32 @@ export async function updateLastSyncTime(lastSyncTime) {
   );
 }
 export async function findUnsyncedTrackingOptions(lastSyncTime) {
-  const res = await db.exec(
-    `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
-    USER_TRACKING_OPTION,
-  );
+  const res = lastSyncTime
+    ? await db.exec(
+        `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime} OR created_at=null`,
+        USER_TRACKING_OPTION,
+      )
+    : await db.exec(
+        `SELECT * FROM  ${USER_TRACKING_OPTION}`,
+        USER_TRACKING_OPTION,
+      );
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedProfileData(lastSyncTime) {
-  const res = await db.exec(
-    `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
-    PROFILE,
-  );
+  const res = lastSyncTime
+    ? await db.exec(
+        `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+        PROFILE,
+      )
+    : await db.exec(`SELECT * FROM  ${PROFILE}`, PROFILE);
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedPregnancyInfo(lastSyncTime) {
-  const res = await db.exec(
-    `SELECT * FROM  ${PREGNANCY} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
-    PREGNANCY,
-  );
+  const res = lastSyncTime
+    ? await db.exec(
+        `SELECT * FROM  ${PREGNANCY} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+        PREGNANCY,
+      )
+    : await db.exec(`SELECT * FROM  ${PREGNANCY}`, PREGNANCY);
   return res === EMPTY_TABLE ? [] : res;
 }

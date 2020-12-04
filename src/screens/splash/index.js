@@ -7,7 +7,7 @@ const Splash = (props) => {
   useEffect(() => {
     Lock();
     migration();
-  });
+  }, []);
 
   return (
     <SafeAreaView>

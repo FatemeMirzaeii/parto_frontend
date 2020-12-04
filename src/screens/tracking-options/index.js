@@ -46,10 +46,11 @@ import {
 import { DateContext } from '../../contexts';
 import { getTrackingOptionData } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { FORMAT } from '../../constants/cycle';
+import { DATETIME_FORMAT, FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
+import { USER_TRACKING_OPTION } from '../../constants/database-tables';
 
 const db = new Database();
 const detailPageRef = createRef();
@@ -186,8 +187,10 @@ const TrackingOptions = ({ route, navigation }) => {
     if (option.selected.length > 0) {
       //this will deselect the option
       db.exec(
-        `DELETE FROM user_tracking_option WHERE tracking_option_id=${option.id} AND date='${date}'`,
-        'user_tracking_option',
+        `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
+          DATETIME_FORMAT,
+        )}' WHERE tracking_option_id=${option.id} AND date='${date}'`,
+        USER_TRACKING_OPTION,
       ).then((res) => {
         getInitialData();
       });
@@ -195,24 +198,38 @@ const TrackingOptions = ({ route, navigation }) => {
       if (category.hasMultipleChoice) {
         //this will add new option to others
         db.exec(
-          `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
-          'user_tracking_option',
+          `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${
+            option.id
+          }, '${date}','${moment().format(
+            DATETIME_FORMAT,
+          )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
+            DATETIME_FORMAT,
+          )}'`,
+          USER_TRACKING_OPTION,
         ).then((res) => {
           getInitialData();
         });
       } else {
         //this will remove other selected options and add new option
         db.exec(
-          `DELETE FROM user_tracking_option WHERE date='${date}' AND tracking_option_id IN (${category.options.map(
+          `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
+            DATETIME_FORMAT,
+          )}' WHERE date='${date}' AND tracking_option_id IN (${category.options.map(
             (o) => {
               return o.id;
             },
           )});`,
-          'user_tracking_option',
+          USER_TRACKING_OPTION,
         ).then(() => {
           db.exec(
-            `INSERT INTO user_tracking_option (tracking_option_id, date) VALUES (${option.id}, '${date}')`,
-            'user_tracking_option',
+            `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${
+              option.id
+            }, '${date}', '${moment().format(
+              DATETIME_FORMAT,
+            )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
+              DATETIME_FORMAT,
+            )}'`,
+            USER_TRACKING_OPTION,
           ).then((res) => {
             getInitialData();
           });

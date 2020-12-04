@@ -8,6 +8,7 @@ import UserGoal from './UserGoal';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
+import sync from '../../util/database/sync';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
@@ -121,6 +122,16 @@ const Menu = ({ navigation }) => {
             trackColor: { true: COLOR.lightPink, false: '#aaa' },
             thumbColor: isLock ? COLOR.btn : '#f4f3f4',
           }}
+          bottomDivider
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
+        <ListItem
+          title="همگام‌سازی با سرور"
+          leftIcon={{ name: 'list', color: COLOR.tiffany }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => sync()}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

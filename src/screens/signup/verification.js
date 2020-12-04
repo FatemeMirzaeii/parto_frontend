@@ -3,11 +3,14 @@ import { ToastAndroid, View, Text, ActivityIndicator } from 'react-native';
 import { Icon, Input } from 'react-native-elements';
 import { Formik } from 'formik';
 import * as yup from 'yup';
+import moment from 'moment';
 import DataBase from '../../util/database';
 import styles from './styles';
 import { api } from '../../services/api';
 import { storeData } from '../../util/func';
 import { AuthContext } from '../../contexts';
+import { DATETIME_FORMAT } from '../../constants/cycle';
+import { USER } from '../../constants/database-tables';
 const db = new DataBase();
 
 const SignUpForm = (props) => {
@@ -23,9 +26,14 @@ const SignUpForm = (props) => {
     const res = await restapi.request('user/signUp/fa', values);
     if (res._status === 200) {
       await storeData('@token', res._token);
+      //to maryam: this query should be in ../../util/database/query.js file, and import here as a function.
+      //it is better to use table names as variable instead of strings.
+      //these help to maintain the source code more easier.
       db.exec(
-        `INSERT INTO user (name,email) VALUES ('${values.name}','${values.email}')`,
-        'user',
+        `INSERT INTO ${USER} (name, email, created_at) VALUES ('${
+          values.name
+        }','${values.email}', '${moment().format(DATETIME_FORMAT)}')`,
+        USER,
       );
       signUp();
     } else {

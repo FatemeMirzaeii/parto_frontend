@@ -11,13 +11,15 @@ import {
   updateLastSyncTime,
 } from './query';
 
-export default () => {
-  const lastSyncTime = getLastSyncTime();
+export default async () => {
+  const lastSyncTime = await getLastSyncTime();
   if (new Date() > lastSyncTime) {
-    const trackingOptions = findUnsyncedTrackingOptions(lastSyncTime);
-    const profile = findUnsyncedProfileData(lastSyncTime);
-    const pregnancy = findUnsyncedPregnancyInfo(lastSyncTime);
-    //todo: should send data to backend and be tested
+    console.log('hereeeeeee in sync');
+    const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
+    const profile = await findUnsyncedProfileData(lastSyncTime);
+    const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
+    console.log('hereeeeeee in sync', trackingOptions);
+    // //todo: should send data to backend and be tested
     axios({
       method: 'post',
       url: `${baseUrl}/healthTracking/syncUserInfo/{userId}/{lang}`,
@@ -42,6 +44,6 @@ export default () => {
           }
         }
       });
-    updateLastSyncTime(moment().format(DATETIME_FORMAT));
+    //updateLastSyncTime(moment().format(DATETIME_FORMAT));
   }
 };
