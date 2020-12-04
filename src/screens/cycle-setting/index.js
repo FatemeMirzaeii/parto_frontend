@@ -1,6 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, ListItem } from 'react-native-elements';
+import jalaali from 'moment-jalaali';
 import Card from '../../components/Card';
 import CycleSettingbtn from '../../components/CycleSettingbtn';
 import PickerListItem from '../../components/PickerListItem';
@@ -8,6 +9,7 @@ import { COLOR } from '../../styles/static';
 import {
   getCycleInfoFromProfile,
   updateProfileData,
+  getLastPeriodDate,
 } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
 import styles from './styles';
@@ -20,6 +22,7 @@ const CycleSetting = ({ navigation }) => {
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
+  const [lastPeriod, setLastPeriod] = useState('');
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -55,6 +58,9 @@ const CycleSetting = ({ navigation }) => {
       setPeriodLength(info.avg_period_length);
       setPmsLength(info.pms_length);
     });
+    getLastPeriodDate().then((lpd) => {
+      setLastPeriod(jalaali(lpd).format('jYYYY / jMM / jDD'));
+    });
   }, []);
 
   Tour(appTourTargets, 'settingbtn', 'CycleTour');
@@ -64,6 +70,17 @@ const CycleSetting = ({ navigation }) => {
       style={styles.safeAreaView}
       contentContainerStyle={styles.container}>
       <ScrollView>
+        <Card>
+          <ListItem
+            title="تاریخ آخرین پریود"
+            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            rightTitle={lastPeriod ?? 'تاریخی وارد نشده است'}
+            titleStyle={styles.listItemText}
+            rightTitleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+          />
+        </Card>
         <Card>
           <PickerListItem
             title="طول روزهای خونریزی"
