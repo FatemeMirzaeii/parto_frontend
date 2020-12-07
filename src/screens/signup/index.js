@@ -60,7 +60,7 @@ const SignUp = ({ navigation }) => {
   const handleSubmit = async () => {
     await axios({
       method: 'post',
-      url: `${devUrl}/auth/checkVerifyCode/fa`,
+      url: `${devUrl}/auth/checkVerificationCode/fa`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -89,7 +89,7 @@ const SignUp = ({ navigation }) => {
     setIsLoading(true);
     axios({
       method: 'post',
-      url: `${devUrl}/auth/verifyCode`,
+      url: `${devUrl}/auth/verificationCode`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
