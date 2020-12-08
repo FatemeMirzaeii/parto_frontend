@@ -200,11 +200,42 @@ export async function setLastPeriodDate(date) {
     PROFILE,
   );
 }
+export async function deselectTrackingOption(optionId, date) {
+  return await db.exec(
+    `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}' WHERE tracking_option_id=${optionId} AND date='${date}'`,
+    USER_TRACKING_OPTION,
+  );
+}
+export async function addTrackingOption(optionId, date) {
+  return await db.exec(
+    `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${optionId}, '${date}','${moment().format(
+      DATETIME_FORMAT,
+    )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}'`,
+    USER_TRACKING_OPTION,
+  );
+}
+export async function replaceTrackingOption(
+  optionId,
+  date,
+  sameCategoryOptions,
+) {
+  await db.exec(
+    `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
+      DATETIME_FORMAT,
+    )}' WHERE date='${date}' AND tracking_option_id IN (${sameCategoryOptions});`,
+    USER_TRACKING_OPTION,
+  );
+  await addTrackingOption(optionId, date);
+}
 export async function setBleedingDays(days, removed) {
   if (removed) {
     removed.forEach(async (rday) => {
       //state 2 means deleted
-      const res = await db.exec(
+      await db.exec(
         `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
           DATETIME_FORMAT,
         )}' WHERE date='${rday}' AND tracking_option_id IN
@@ -215,17 +246,9 @@ export async function setBleedingDays(days, removed) {
       );
     });
   }
-  days.forEach(async (day) => {
-    console.log('set period here', day);
-    await db.exec(
-      `INSERT INTO ${USER_TRACKING_OPTION} (date, tracking_option_id, created_at) VALUES ('${day}',${
-        OPTIONS.MEDIUM
-      }, '${moment().format(DATETIME_FORMAT)}')
-      ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
-        DATETIME_FORMAT,
-      )}'`,
-      USER_TRACKING_OPTION,
-    );
+  days.forEach(async (date) => {
+    console.log('set period here', date);
+    await addTrackingOption(OPTIONS.MEDIUM, date);
   });
 }
 export async function setLock(isLock) {

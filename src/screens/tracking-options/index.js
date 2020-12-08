@@ -22,7 +22,6 @@ import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
 import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
-import Database from '../../util/database';
 import styles from './styles';
 import commonStyles from '../../styles/commonStyles';
 import { COLOR, WIDTH } from '../../styles/static';
@@ -44,15 +43,18 @@ import {
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
 import { DateContext } from '../../contexts';
-import { getTrackingOptionData } from '../../util/database/query';
+import {
+  addTrackingOption,
+  deselectTrackingOption,
+  getTrackingOptionData,
+  replaceTrackingOption,
+} from '../../util/database/query';
 import CycleModule from '../../util/cycle';
-import { DATETIME_FORMAT, FORMAT } from '../../constants/cycle';
+import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
-import { USER_TRACKING_OPTION } from '../../constants/database-tables';
 
-const db = new Database();
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route, navigation }) => {
@@ -183,57 +185,21 @@ const TrackingOptions = ({ route, navigation }) => {
 
   const onOptionPress = async (category, option) => {
     const c = await CycleModule();
-
     if (option.selected.length > 0) {
-      //this will deselect the option
-      db.exec(
-        `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
-          DATETIME_FORMAT,
-        )}' WHERE tracking_option_id=${option.id} AND date='${date}'`,
-        USER_TRACKING_OPTION,
-      ).then((res) => {
-        getInitialData();
-      });
+      await deselectTrackingOption(option.id, date);
+      getInitialData();
     } else {
       if (category.hasMultipleChoice) {
         //this will add new option to others
-        db.exec(
-          `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${
-            option.id
-          }, '${date}','${moment().format(
-            DATETIME_FORMAT,
-          )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
-            DATETIME_FORMAT,
-          )}'`,
-          USER_TRACKING_OPTION,
-        ).then((res) => {
-          getInitialData();
-        });
+        await addTrackingOption(option.id, date);
+        getInitialData();
       } else {
         //this will remove other selected options and add new option
-        db.exec(
-          `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
-            DATETIME_FORMAT,
-          )}' WHERE date='${date}' AND tracking_option_id IN (${category.options.map(
-            (o) => {
-              return o.id;
-            },
-          )});`,
-          USER_TRACKING_OPTION,
-        ).then(() => {
-          db.exec(
-            `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${
-              option.id
-            }, '${date}', '${moment().format(
-              DATETIME_FORMAT,
-            )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
-              DATETIME_FORMAT,
-            )}'`,
-            USER_TRACKING_OPTION,
-          ).then((res) => {
-            getInitialData();
-          });
+        const sameCategoryOptions = category.options.map((o) => {
+          return o.id;
         });
+        await replaceTrackingOption(option.id, date, sameCategoryOptions);
+        getInitialData();
       }
       // setDetailPageId(category.id);
       // if (
@@ -324,7 +290,7 @@ const TrackingOptions = ({ route, navigation }) => {
           }}
           current={date}
           maxDate={moment().format(FORMAT)}
-          onDateChanged={(d) => onDayPress(d)}
+          onDateChanged={onDayPress}
           onDayPress={(d) => onDayPress(d.dateString)}
         />
         <Text style={styles.descriptionTxt}>
