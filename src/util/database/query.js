@@ -91,7 +91,7 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
 }
 export async function getFormerPregnancyData() {
   const res = await db.exec(
-    `SELECT * FROM ${PREGNANCY} WHERE state=1`, //we can change the state of former pregnancies
+    `SELECT * FROM ${PREGNANCY} WHERE state=3`, //former pregnancy states is 3
     PREGNANCY,
   );
   console.log('all pregnancy data', res);
@@ -108,19 +108,17 @@ export async function getActivePregnancyData() {
 export async function updatePregnancyData(dueDate, abortionDate) {
   return abortionDate
     ? await db.exec(
-        `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}', updated_at='${moment().format(
-          DATETIME_FORMAT,
-        )}'`,
+        `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}', state=3,
+        updated_at='${moment().format(DATETIME_FORMAT)}'`,
         PREGNANCY,
       )
     : await db.exec(
-        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null, updated_at='${moment().format(
-          DATETIME_FORMAT,
-        )}'`,
+        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null,
+        updated_at='${moment().format(DATETIME_FORMAT)}'`,
         PREGNANCY,
       );
 }
-export async function savePregnancyData(pregnancySchema) {
+export async function addPregnancy(pregnancySchema) {
   const dueDate = !pregnancySchema.dueDate
     ? null
     : `'${pregnancySchema.dueDate}'`;
@@ -128,11 +126,18 @@ export async function savePregnancyData(pregnancySchema) {
     ? null
     : `'${pregnancySchema.conceptionDate}'`;
   const res = await db.exec(
-    `INSERT INTO ${PREGNANCY} (due_date, conception_date, user_id,created_at) VALUES(
-      ${dueDate},${conceptionDate}, 1,'${moment().format(DATETIME_FORMAT)}')`,
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date, created_at) VALUES(
+      ${dueDate},${conceptionDate}, '${moment().format(DATETIME_FORMAT)}')`,
     PREGNANCY,
   );
   return res ?? 0;
+}
+export async function deletePregnancyData() {
+  return await db.exec(
+    `UPDATE ${PREGNANCY} SET state=2,
+    updated_at='${moment().format(DATETIME_FORMAT)}' WHERE state=1`,
+    PREGNANCY,
+  );
 }
 export function updateProfileData(profileSchema) {
   db.exec(
@@ -206,19 +211,18 @@ export async function setLastPeriodDate(date) {
 }
 export async function deselectTrackingOption(optionId, date) {
   return await db.exec(
-    `UPDATE ${USER_TRACKING_OPTION} SET state=2, updated_at='${moment().format(
-      DATETIME_FORMAT,
-    )}' WHERE tracking_option_id=${optionId} AND date='${date}'`,
+    `UPDATE ${USER_TRACKING_OPTION} SET state=2,
+    updated_at='${moment().format(DATETIME_FORMAT)}'
+    WHERE tracking_option_id=${optionId} AND date='${date}'`,
     USER_TRACKING_OPTION,
   );
 }
 export async function addTrackingOption(optionId, date) {
   return await db.exec(
-    `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${optionId}, '${date}','${moment().format(
-      DATETIME_FORMAT,
-    )}') ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1, updated_at='${moment().format(
-      DATETIME_FORMAT,
-    )}'`,
+    `INSERT INTO ${USER_TRACKING_OPTION} (tracking_option_id, date, created_at) VALUES (${optionId}, '${date}',
+    '${moment().format(DATETIME_FORMAT)}')
+    ON CONFLICT(date, tracking_option_id) DO UPDATE SET state=1,
+    updated_at='${moment().format(DATETIME_FORMAT)}'`,
     USER_TRACKING_OPTION,
   );
 }

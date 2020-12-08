@@ -14,7 +14,8 @@ import { pregnancyMode } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
 import { COLOR, FONT } from '../../styles/static';
 import { setPregnancyMode } from '../../store/actions/cycle';
-const today = moment();
+import { FORMAT } from '../../constants/cycle';
+const today = moment().format(FORMAT);
 const Home = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
   console.log('useSelector', cycle);

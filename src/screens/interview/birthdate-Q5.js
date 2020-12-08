@@ -3,7 +3,7 @@ import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { storeData } from '../../util/func';
-import { saveProfileData, savePregnancyData } from '../../util/database/query';
+import { saveProfileData, addPregnancy } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
 import { AuthContext } from '../../contexts';
@@ -52,7 +52,7 @@ const Q5 = ({ route, navigation }) => {
         c.determineLastPeriodDate();
       }
       if (mode.pregnant) {
-        savePregnancyData({ dueDate, conceptionDate });
+        addPregnancy({ dueDate, conceptionDate });
       }
       await storeData('@startPages', 'true');
       interview();
