@@ -20,8 +20,8 @@ const NewestArticles = props => {
         <View>
           <View style={{ ...styles.mealRow, ...styles.mealHeader }}>
             <ImageBackground
-              // source={{ uri: props.image }}
-              source={require('../../assets/images/NoPic.jpeg')}
+              source={{ uri: props.image }}
+              //source={require('../../assets/images/NoPic.jpeg')}
               style={styles.bgImage}
             >
               <View style={styles.titleContainer}>
