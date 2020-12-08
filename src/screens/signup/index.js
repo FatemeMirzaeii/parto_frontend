@@ -67,7 +67,7 @@ const SignUp = ({ navigation }) => {
       },
       data: {
         phone: phoneNumber,
-        code: value
+        code: value,
       },
     })
       .then((res) => {
@@ -80,8 +80,7 @@ const SignUp = ({ navigation }) => {
         alert('error: ' + err);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
       });
   };
 
@@ -104,7 +103,7 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
-         alert('error: ' + err);
+        alert('error: ' + err);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
@@ -114,20 +113,23 @@ const SignUp = ({ navigation }) => {
   const handleLogin = () => {
     //setIsLoading(true);
     axios({
-      method: "POST",
+      method: 'POST',
       url: `${devUrl}/auth/logIn/fa`,
-      credentials: "include",
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-  
+
       data: {
         phone: phoneNumber,
       },
     })
       .then((res) => {
         console.log('handleLoginRes====== ', res);
-        console.log('res.headers.x-auth-token***** ', res.headers['x-auth-token']);
+        console.log(
+          'res.headers.x-auth-token***** ',
+          res.headers['x-auth-token'],
+        );
         storeData('@token', res.headers['x-auth-token']);
         signUp();
       })
