@@ -12,6 +12,7 @@ import Treatise from '../screens/treatise';
 import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
+import PartnerVerificationCode from '../screens/partner-verification-code';
 import { FONT } from '../styles/static';
 
 const MenuStack = createStackNavigator();
@@ -46,6 +47,10 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="ContactUs" component={ContactUs} />
       <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
+      <MenuStack.Screen
+        name="PartnerVerificationCode"
+        component={PartnerVerificationCode}
+      />
     </MenuStack.Navigator>
   );
 };
