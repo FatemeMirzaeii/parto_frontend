@@ -9,12 +9,16 @@ import {
   EMPTY_TABLE,
   HEALTH_TRACKING_CATEGORY,
   HEALTH_TRACKING_OPTION,
+  USER,
 } from '../../constants/database-tables';
 import moment from 'moment';
 import { DATETIME_FORMAT, FORMAT } from '../../constants/cycle';
 import { OPTIONS } from '../../constants/health-tracking-info';
 const db = new Database();
-
+export async function getUser() {
+  const [res] = await db.exec(`SELECT * FROM ${USER}`, USER);
+  return res === EMPTY_TABLE ? [] : res;
+}
 export async function getProfileData() {
   const res = await db.exec(`SELECT * FROM ${PROFILE}`, PROFILE);
   return res === EMPTY_TABLE ? [] : res[0];
@@ -326,15 +330,19 @@ export async function updateLastSyncTime(lastSyncTime) {
   );
 }
 export async function findUnsyncedTrackingOptions(lastSyncTime) {
-  const res = lastSyncTime
-    ? await db.exec(
-        `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime} OR created_at=null`,
-        USER_TRACKING_OPTION,
-      )
-    : await db.exec(
-        `SELECT * FROM  ${USER_TRACKING_OPTION}`,
-        USER_TRACKING_OPTION,
-      );
+  let res;
+  if (lastSyncTime) {
+    res = await db.exec(
+      `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime} OR created_at=null`,
+      USER_TRACKING_OPTION,
+    );
+  } else {
+    res = await db.exec(
+      `SELECT * FROM  ${USER_TRACKING_OPTION}`,
+      USER_TRACKING_OPTION,
+    );
+  }
+
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedProfileData(lastSyncTime) {
