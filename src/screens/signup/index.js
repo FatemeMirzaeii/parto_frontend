@@ -1,46 +1,39 @@
-import React, { useState, useContext, useEffect } from 'react';
-import {
-  ToastAndroid,
-  View,
-  Text,
-  KeyboardAvoidingView,
-  Keyboard,
-} from 'react-native';
 import axios from 'axios';
+import React, { useContext, useState } from 'react';
+import {
+  Keyboard, KeyboardAvoidingView, Text, ToastAndroid,
+  View
+} from 'react-native';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
-  useClearByFocusCell,
+  useClearByFocusCell
 } from 'react-native-confirmation-code-field';
-import { Icon, Input, Button } from 'react-native-elements';
-import LottieView from 'lottie-react-native';
+import { Button, Icon } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
 
 //components
 import Ptxt from '../../components/Ptxt';
-
-//services
-import { api } from '../../services/api';
-import { baseUrl, devUrl } from '../../services/urls';
+import Loader from '../../components/Loader'
 
 //util
 import { storeData } from '../../util/func';
+import styles from './styles';
 
 //contexts
 import { AuthContext } from '../../contexts';
+import { devUrl } from '../../services/urls';
 
 //styles
-import { COLOR, HEIGHT, WIDTH } from '../../styles/static';
-import styles from './styles';
+import { WIDTH } from '../../styles/static';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
+  const [codeFieldActive, setCodeFieldActive] = useState(false);
   const { signUp } = useContext(AuthContext);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const [countryCode, setCountryCode] = useState('');
-  const [serverError, setServerError] = useState(null);
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -72,7 +65,7 @@ const SignUp = ({ navigation }) => {
     })
       .then((res) => {
         console.log('res', res);
-        setIsLoading(false);
+        //setIsLoading(false);
         handleLogin();
       })
       .catch((err) => {
@@ -100,10 +93,11 @@ const SignUp = ({ navigation }) => {
       .then((res) => {
         console.log('res', res);
         setIsLoading(false);
+        setCodeFieldActive(true);
       })
       .catch((err) => {
         console.error(err, err.response);
-        alert('error: ' + err);
+        setIsLoading(false);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
@@ -119,7 +113,6 @@ const SignUp = ({ navigation }) => {
       headers: {
         'Content-Type': 'application/json',
       },
-
       data: {
         phone: phoneNumber,
       },
@@ -135,7 +128,6 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
-        // alert('error: ' + err);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
@@ -144,7 +136,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView
-      style={{ flex: 1, backgroundColor: '#fff', paddingTop: 24 }}>
+      style={styles.main}>
       <Icon
         name="close"
         color="#f50"
@@ -154,15 +146,8 @@ const SignUp = ({ navigation }) => {
           navigation.pop();
         }}
       />
-      {/* <View style={{ height: HEIGHT / 2.7 ,width:WIDTH*0.7,alignSelf:'center'}}>
-        <LottieView
-          source={require('../../../assets/lotties/verification.json')}
-          autoPlay
-          // enableMergePathsAndroidForKitKatAndAbove
-        />
-      </View> */}
       <View style={styles.container}>
-        <Ptxt style={styles.title}>برای ثبت‌نام شماره موبایلت رو وارد کن:</Ptxt>
+        <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
           containerStyle={{
             width: WIDTH * 0.6,
@@ -196,7 +181,10 @@ const SignUp = ({ navigation }) => {
           onPress={getVerificationCode}
         />
       </View>
-      <Ptxt style={styles.title}>لطفا کد پیامک شده رو وارد کن:</Ptxt>
+        {isLoading?<Loader/>:null}
+      {codeFieldActive?
+      <>
+      <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
       <CodeField
         ref={ref}
         {...props}
@@ -222,6 +210,8 @@ const SignUp = ({ navigation }) => {
         titleStyle={styles.btnTitle}
         onPress={handleSubmit}
       />
+      </>:null
+      }
     </KeyboardAvoidingView>
   );
 };
