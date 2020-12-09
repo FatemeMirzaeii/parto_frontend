@@ -10,4 +10,8 @@ export const SET_PREGNANT_MODE = 'SET_PREGNANT_MODE';
 
 export const SET_MODE = 'SET_MODE';
 
+export const MAIN_MODE='MAIN_MODE';
+export const TEENAGER_MODE='TEENAGER_MODE';
+export const PARTNER_MODE='PARTNER_MODE';
+
 export const SET_MAIN_SENTENCE = 'SET_MAIN_SENTENCE';
