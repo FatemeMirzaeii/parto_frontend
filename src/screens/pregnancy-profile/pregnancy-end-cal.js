@@ -8,10 +8,7 @@ import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import PregnancyModule from '../../util/pregnancy';
 import CycleModule from '../../util/cycle';
-import {
-  updatePregnancyData,
-  updateUserStatus,
-} from '../../util/database/query';
+import { endPregnancy, updateUserStatus } from '../../util/database/query';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 import { FORMAT } from '../../constants/cycle';
 const today = moment();
@@ -26,8 +23,8 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     const p = await PregnancyModule();
     const c = await CycleModule();
     !route.params.type
-      ? await updatePregnancyData(selectedDate)
-      : await updatePregnancyData(null, selectedDate);
+      ? await endPregnancy(selectedDate)
+      : await endPregnancy(null, selectedDate);
     route.params.mode ? updateUserStatus(0, 1) : updateUserStatus(0, 0);
     await p.determineNefasDays(selectedDate);
     await c.determineLastPeriodDate();

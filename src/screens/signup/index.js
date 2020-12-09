@@ -1,21 +1,24 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import {
-  Keyboard, KeyboardAvoidingView, Text, ToastAndroid,
-  View
+  Keyboard,
+  KeyboardAvoidingView,
+  Text,
+  ToastAndroid,
+  View,
 } from 'react-native';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
-  useClearByFocusCell
+  useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { Button, Icon } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
 
 //components
 import Ptxt from '../../components/Ptxt';
-import Loader from '../../components/Loader'
+import Loader from '../../components/Loader';
 
 //util
 import { storeData } from '../../util/func';
@@ -135,8 +138,7 @@ const SignUp = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.main}>
+    <KeyboardAvoidingView style={styles.main}>
       <Icon
         name="close"
         color="#f50"
@@ -181,37 +183,37 @@ const SignUp = ({ navigation }) => {
           onPress={getVerificationCode}
         />
       </View>
-        {isLoading?<Loader/>:null}
-      {codeFieldActive?
-      <>
-      <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
-      <CodeField
-        ref={ref}
-        {...props}
-        value={value}
-        onChangeText={(text) => setValue(text)}
-        cellCount={5}
-        rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        renderCell={({ index, symbol, isFocused }) => (
-          <Text
-            key={index}
-            style={[styles.cell, isFocused && styles.focusCell]}
-            onLayout={getCellOnLayoutHandler(index)}>
-            {symbol || (isFocused ? <Cursor /> : null)}
-          </Text>
-        )}
-      />
-      <Button
-        title="تایید کد"
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.button}
-        titleStyle={styles.btnTitle}
-        onPress={handleSubmit}
-      />
-      </>:null
-      }
+      {isLoading ? <Loader /> : null}
+      {codeFieldActive ? (
+        <>
+          <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
+          <CodeField
+            ref={ref}
+            {...props}
+            value={value}
+            onChangeText={(text) => setValue(text)}
+            cellCount={5}
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            renderCell={({ index, symbol, isFocused }) => (
+              <Text
+                key={index}
+                style={[styles.cell, isFocused && styles.focusCell]}
+                onLayout={getCellOnLayoutHandler(index)}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            )}
+          />
+          <Button
+            title="تایید کد"
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
+            onPress={handleSubmit}
+          />
+        </>
+      ) : null}
     </KeyboardAvoidingView>
   );
 };

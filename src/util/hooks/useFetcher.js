@@ -8,6 +8,7 @@ import { getData } from '../../util/func';
 import { baseUrl, devUrl } from '../../services/urls';
 
 const useFetcher = ({ method, dev = false, url, data = null }) => {
+  //to maryam: is there any problem to set default of GET method for this hook?
   const [response, setResponse] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);

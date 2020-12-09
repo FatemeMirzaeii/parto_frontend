@@ -54,7 +54,7 @@ export default StyleSheet.create({
     color: COLOR.white,
   },
   deleteButton: {
-    marginTop: 20,
+    marginTop: 10,
     width: WIDTH - 20,
     alignSelf: 'center',
   },
