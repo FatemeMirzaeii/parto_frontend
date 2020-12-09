@@ -21,8 +21,8 @@ import Ptxt from '../../components/Ptxt';
 import Loader from '../../components/Loader';
 
 //util
+import DataBase from '../../util/database';
 import { storeData } from '../../util/func';
-import styles from './styles';
 
 //contexts
 import { AuthContext } from '../../contexts';
@@ -30,6 +30,7 @@ import { devUrl } from '../../services/urls';
 
 //styles
 import { WIDTH } from '../../styles/static';
+import styles from './styles';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -43,6 +44,7 @@ const SignUp = ({ navigation }) => {
     value,
     setValue,
   });
+  const db = new DataBase();
   const CELL_COUNT = 5;
 
   const _handlePhoneInput = (text) => {
@@ -126,7 +128,15 @@ const SignUp = ({ navigation }) => {
           'res.headers.x-auth-token***** ',
           res.headers['x-auth-token'],
         );
+        const id=res.data.data.id;
+        console.log('res.data',res.data)
+        console.log('id',id)
         storeData('@token', res.headers['x-auth-token']);
+        db.exec(
+          `INSERT INTO user (id) VALUES (${id})`,
+          'user',
+        );
+        console.log('res.data++++++++++++',res.data)
         signUp();
       })
       .catch((err) => {

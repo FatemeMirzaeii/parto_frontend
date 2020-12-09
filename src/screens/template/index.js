@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {
   SafeAreaView,
   TouchableOpacity,
@@ -6,17 +6,17 @@ import {
   View,
   Text,
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {
   handleMainSelected,
   handleTeenagerSelected,
   handlePartnerSelected,
-} from '../../store/actions/counter';
+} from '../../store/actions/template';
 
 import styles from './styles';
 
 const Template = (props) => {
-  const modeState = useSelector((state) => state.mode.mode);
+  //const modeState = useSelector((state) => state.mode.mode);
   const dispatch = useDispatch();
 
   const _handleMainSelected = useCallback(() => {
