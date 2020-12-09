@@ -11,7 +11,7 @@ import {
   handleMainSelected,
   handleTeenagerSelected,
   handlePartnerSelected,
-} from '../../store/actions/counter';
+} from '../../store/actions/template';
 
 import styles from './styles';
 
