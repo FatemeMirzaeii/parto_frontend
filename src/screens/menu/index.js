@@ -100,6 +100,20 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
+          bottomDivider
+        />
+        <ListItem
+          title="کد همسر"
+          leftIcon={{
+            name: 'barcode',
+            color: COLOR.tiffany,
+            type: 'font-awesome',
+          }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => navigateTo('PartnerVerificationCode')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
         />
       </Card>
       <Card>
@@ -129,7 +143,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="همگام‌سازی با سرور"
-          leftIcon={{ name: 'list', color: COLOR.tiffany }}
+          leftIcon={{ name: 'sync', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => sync()}
           titleStyle={styles.listItemText}

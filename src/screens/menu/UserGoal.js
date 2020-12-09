@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 import styles from './styles';
 import {
   getUserStatus,
-  savePregnancyData,
+  addPregnancy,
   updateUserStatus,
 } from '../../util/database/query';
 import { COLOR } from '../../styles/static';
@@ -68,7 +68,7 @@ const UserGoal = ({ navigation }) => {
                 onPress: async () => {
                   updateUserStatus(1, 0);
                   const p = await PregnancyModule();
-                  await savePregnancyData({ dueDate: p.determineDueDate() });
+                  await addPregnancy({ dueDate: p.determineDueDate() });
                   setMode(i);
                   dispatch(updatePerdictions());
                   navigation.navigate('PregnancyProfile');

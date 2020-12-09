@@ -53,6 +53,23 @@ export default StyleSheet.create({
     fontSize: SIZE[14],
     color: COLOR.white,
   },
+  deleteButton: {
+    marginTop: 20,
+    width: WIDTH - 20,
+    alignSelf: 'center',
+  },
+  deleteContainer: {
+    borderWidth: 0,
+    borderRadius: 40,
+    alignSelf: 'center',
+    width: '100%',
+  },
+  deleteTitle: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
+    color: COLOR.btn,
+    textDecorationLine: 'underline',
+  },
   listItem: {
     flexDirection: 'row-reverse',
   },

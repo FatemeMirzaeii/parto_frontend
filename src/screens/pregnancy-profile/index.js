@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { Alert, ScrollView } from 'react-native';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
@@ -152,6 +152,33 @@ const PregnancyProfile = ({ navigation, route }) => {
         buttonStyle={styles.saveContainer}
         containerStyle={styles.saveButton}
         titleStyle={styles.saveTitle}
+      />
+      <Button
+        title="حذف اطلاعات بارداری"
+        type="outline"
+        onPress={() =>
+          Alert.alert(
+            '',
+            'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
+            [
+              {
+                text: 'بله',
+                onPress: () => {},
+              },
+              {
+                text: 'خیر',
+                onPress: () => {
+                  return;
+                },
+                style: 'cancel',
+              },
+            ],
+            { cancelable: true },
+          )
+        }
+        buttonStyle={styles.deleteContainer}
+        containerStyle={styles.deleteButton}
+        titleStyle={styles.deleteTitle}
       />
     </ScrollView>
   );
