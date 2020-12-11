@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
-// import { AuthContext } from '../../contexts';
+import { AuthContext } from '../../contexts';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
@@ -15,7 +15,7 @@ import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  // const { signOut } = useContext(AuthContext);
+  const { signOut } = useContext(AuthContext);
   useEffect(() => {
     determineLockStatus();
   }, []);
@@ -200,15 +200,15 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-        {/* <ListItem
+        <ListItem
           title="خروج"
-          leftIcon={{ name: 'exit-to-app' }}
+          leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => signOut()}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        /> */}
+        />
       </Card>
     </ScrollView>
   );
