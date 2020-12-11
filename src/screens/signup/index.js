@@ -128,15 +128,22 @@ const SignUp = ({ navigation }) => {
           'res.headers.x-auth-token***** ',
           res.headers['x-auth-token'],
         );
-        const id=res.data.data.id;
-        console.log('res.data',res.data)
-        console.log('id',id)
+        const id = res.data.data.id;
+        console.log('res.data', res.data);
+        console.log('id', id);
         storeData('@token', res.headers['x-auth-token']);
+        //to maryam:
+        //1. If the user signs out and then sign in again, what would happen?
+        //I think we need ON CONFLICT phrase here.(I get in trouble with that, so I changed it.)
+        //2. now that we are inserting a row for user it is better to save all data, such as phone number.
+        //3. isn't it better to move queries in query.js file?
+        //4. it is better to use table names as variables.
+        //so if someday we decide to rename them we will change them just in one place.
         db.exec(
-          `INSERT INTO user (id) VALUES (${id})`,
+          `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
-        console.log('res.data++++++++++++',res.data)
+        console.log('res.data++++++++++++', res.data);
         signUp();
       })
       .catch((err) => {
@@ -179,7 +186,7 @@ const SignUp = ({ navigation }) => {
           value={phoneNumber}
           onChangeText={_handlePhoneInput}
           CountryCode={(ele) => {
-            setCountryCode(ele);
+            setCountryCode(ele); //to maryam: setCountryCode is not defined.
           }}
           withShadow
           autoFocus

@@ -52,90 +52,88 @@ const Articles = (props) => {
 
     getCategoryList();
   }, []);
-  
+
   useEffect(() => {
     const getNewList = () => {
       axios({
-       method: 'get',
-      url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
-       headers: {
-         Authorization: 'Basic ' + authCode,
-         'X-Atlassian-Token': 'no-check',
-       },
-     })
-       .then((res) => {
-         let con = [];
-         let temp=[]
-         console.log('getNewList',res);
-        //  console.log('categoryContent', res.data.results);
-         setNewList(res.data.results);
-         con = res.data.results;
-         for (let i = 0; i < con.length; i++) {
-           axios({
-             method: 'get',
-             url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}/child/attachment`,
-             headers: {
-               Authorization: 'Basic ' + authCode,
-               'Content-Type': 'application/json',
-               'cache-control': 'no-cache',
-               'X-Atlassian-Token': 'no-check',
-             },
-           })
-             .then((response) => {
-               console.log('response', response);
-               const data = response.data.results;
-               const imgUrl = [];
-               // content = [];
-               for (let i = 0; i < data.length; i++) {
-                 imgUrl.push(
-                   `${articlesBaseUrl}${
-                     data[i]._links.download.split('?')[0]
-                   }?os_authType=basic`,
-                 );
-               }
-              //  newest.push({
-              //    ...con[i],
-              //    cover: imgUrl[0],
-              //    image: imgUrl,
-              //    //catId: catId,
-              //  });
-              //  setNewest({ ...con[i],
-              //   cover: imgUrl[0],
-              //   image: imgUrl,})
-               temp[i]={...con[i],
-                   cover: imgUrl[0],
-                   image: imgUrl,}
-               setNewest(temp)
-               setNewestIsLoading(false)
-               console.log('imgUrl', imgUrl);
-               console.log('newest*********', newest);
-             })
-             .catch((err) => {
-               console.error(err, err.response);
-               // if (err.response && err.response.data) {
-               //   setServerError(err.response.data.message)
-               // }
-             });
-         }
-       })
+        method: 'get',
+        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
+        headers: {
+          Authorization: 'Basic ' + authCode,
+          'X-Atlassian-Token': 'no-check',
+        },
+      })
+        .then((res) => {
+          let con = [];
+          let temp = [];
+          console.log('getNewList', res);
+          //  console.log('categoryContent', res.data.results);
+          setNewList(res.data.results);
+          con = res.data.results;
+          for (let i = 0; i < con.length; i++) {
+            axios({
+              method: 'get',
+              url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}/child/attachment`,
+              headers: {
+                Authorization: 'Basic ' + authCode,
+                'Content-Type': 'application/json',
+                'cache-control': 'no-cache',
+                'X-Atlassian-Token': 'no-check',
+              },
+            })
+              .then((response) => {
+                console.log('response', response);
+                const data = response.data.results;
+                const imgUrl = [];
+                // content = [];
+                for (let i = 0; i < data.length; i++) {
+                  imgUrl.push(
+                    `${articlesBaseUrl}${
+                      data[i]._links.download.split('?')[0]
+                    }?os_authType=basic`,
+                  );
+                }
+                //  newest.push({
+                //    ...con[i],
+                //    cover: imgUrl[0],
+                //    image: imgUrl,
+                //    //catId: catId,
+                //  });
+                //  setNewest({ ...con[i],
+                //   cover: imgUrl[0],
+                //   image: imgUrl,})
+                temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
+                setNewest(temp);
+                setNewestIsLoading(false);
+                console.log('imgUrl', imgUrl);
+                console.log('newest*********', newest);
+              })
+              .catch((err) => {
+                console.error(err, err.response);
+                // if (err.response && err.response.data) {
+                //   setServerError(err.response.data.message)
+                // }
+              });
+          }
+        })
 
-       .catch((err) => {
-         console.error(err, err.response);
-       });
-   };
+        .catch((err) => {
+          console.error(err, err.response);
+        });
+    };
 
-   getNewList();
+    getNewList();
   }, []);
 
   return (
     <>
-      {isLoading && newestIsLoading? (
+      {isLoading && newestIsLoading ? (
         <Loader />
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList
             ListHeaderComponent={
-               <>
+              <>
                 <Carousel
                   slideStyle={styles.slider}
                   // containerCustomStyle={{ flex: 1 }}
@@ -144,7 +142,10 @@ const Articles = (props) => {
                   data={newest}
                   onSnapToItem={(index) => setActiveSlide(4 - index)}
                   renderItem={({ item }) => (
-                    <NewestArticles title={item.content.title} image={item.cover}/>
+                    <NewestArticles
+                      title={item.content.title}
+                      image={item.cover}
+                    />
                   )}
                   sliderWidth={WIDTH}
                   itemWidth={WIDTH - 65}

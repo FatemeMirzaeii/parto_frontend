@@ -199,6 +199,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
+          bottomDivider
         />
         <ListItem
           title="خروج"
