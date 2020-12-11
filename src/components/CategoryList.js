@@ -20,30 +20,32 @@ import { COLOR, FONT, SIZE } from '../styles/static';
 
 const CategoryList = (props) => {
   const [categoryContent, setCategoryContent] = useState([]);
-  const [article, setArticle] = useState([]);
+  const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   const { catId, catName } = props;
 
   useEffect(() => {
-    const getCategoryContent = () => {
-       axios({
-        method: 'get',
-        url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
-       // url:`${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
-        headers: {
-          Authorization: 'Basic ' + authCode,
-          'X-Atlassian-Token': 'no-check',
-        },
-      })
-        .then((res) => {
-          let con = [];
-          console.log('myres',res);
-          console.log('categoryContent', res.data.results);
-          setCategoryContent(res.data.results);
-          con = res.data.results;
-          for (let i = 0; i < con.length; i++) {
-            axios({
+    const getCategoryContent = async () => {
+      try {
+        let arts = [];
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
+          // url:`${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+        let con = [];
+        console.log('myres', res);
+        console.log('categoryContent', res.data.results);
+        setCategoryContent(res.data.results);
+        con = res.data.results;
+        for (let i = 0; i < con.length; i++) {
+          try {
+            const response = await axios({
               method: 'get',
               url: `${articlesBaseUrl}/rest/api/content/${con[i].id}/child/attachment`,
               headers: {
@@ -52,41 +54,37 @@ const CategoryList = (props) => {
                 'cache-control': 'no-cache',
                 'X-Atlassian-Token': 'no-check',
               },
-            })
-              .then((response) => {
-                console.log('response', response);
-                const data = response.data.results;
-                const imgUrl = [];
-                // content = [];
-                for (let i = 0; i < data.length; i++) {
-                  imgUrl.push(
-                    `${articlesBaseUrl}${
-                      data[i]._links.download.split('?')[0]
-                    }?os_authType=basic`,
-                  );
-                }
-                article.push({
-                  ...con[i],
-                  cover: imgUrl[0],
-                  images: imgUrl,
-                  catId: catId,
-                });
-                setIsLoading(false);
-                console.log('imgUrl', imgUrl);
-                console.log('new', article);
-              })
-              .catch((err) => {
-                console.error(err, err.response);
-                // if (err.response && err.response.data) {
-                //   setServerError(err.response.data.message)
-                // }
-              });
+            });
+            console.log('response', response);
+            const data = response.data.results;
+            const imgUrl = [];
+            // content = [];
+            for (let j = 0; j < data.length; j++) {
+              imgUrl.push(
+                `${articlesBaseUrl}${
+                  data[j]._links.download.split('?')[0]
+                }?os_authType=basic`,
+              );
+            }
+            arts.push({
+              ...con[i],
+              cover: imgUrl[0],
+              images: imgUrl,
+              catId: catId,
+            });
+            console.log('imgUrl', imgUrl);
+          } catch (err) {
+            console.error(err, err.response);
+            // if (err.response && err.response.data) {
+            //   setServerError(err.response.data.message)
+            // }
           }
-        })
-
-        .catch((err) => {
-          console.error(err, err.response);
-        });
+          setArticles(arts);
+        }
+      } catch (err) {
+        console.error(err, err.response);
+      }
+      setIsLoading(false);
     };
     getCategoryContent();
   }, [catId]);
@@ -122,7 +120,7 @@ const CategoryList = (props) => {
       </TouchableOpacity>
     );
   };
-  console.log('new', article);
+  console.log('new', articles);
 
   return (
     <>
@@ -145,7 +143,7 @@ const CategoryList = (props) => {
           <FlatList
             horizontal
             inverted
-            data={article}
+            data={articles}
             renderItem={_renderItem}
             keyExtractor={(item, index) => index.toString()}
             showsHorizontalScrollIndicator={false}

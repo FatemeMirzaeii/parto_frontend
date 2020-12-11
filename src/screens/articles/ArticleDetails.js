@@ -18,7 +18,7 @@ import TextTicker from 'react-native-text-ticker';
 //styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
-import { HTMLTagsStyles }  from '../../styles/commonStyles'
+import { HTMLTagsStyles } from '../../styles/commonStyles';
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
@@ -55,14 +55,14 @@ const ArticleDetails = ({ route, navigation }) => {
               onPress={() => navigation.goBack()}
               style={styles.icon}
             /> */}
-              <Icon
-          reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
-          onPress={() => navigation.pop()}
-        />
+            <Icon
+              reverse
+              size={15}
+              name="arrow-right"
+              type="font-awesome"
+              color={COLOR.btn}
+              onPress={() => navigation.pop()}
+            />
           </View>
         </SafeAreaView>
       </>

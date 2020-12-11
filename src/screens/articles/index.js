@@ -26,52 +26,47 @@ const Articles = (props) => {
   const { navigation } = props;
 
   useEffect(() => {
-    const getCategoryList = () => {
-      axios({
-        method: 'get',
-        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
-        headers: {
-          Authorization: 'Basic ' + authCode,
-          'X-Atlassian-Token': 'no-check',
-        },
-      })
-        .then((res) => {
-          setCategoryList(res.data.results);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error(err, err.response);
-          setIsLoading(false);
-          if (err.toString() === 'Error: Network Error')
-            ToastAndroid.show(
-              'لطفا اتصال اینترنت رو چک کن.',
-              ToastAndroid.LONG,
-            );
+    const getCategoryList = async () => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
         });
+        setCategoryList(res.data.results);
+      } catch (err) {
+        console.error(err, err.response);
+        if (err.toString() === 'Error: Network Error')
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      }
+      setIsLoading(false);
     };
-
     getCategoryList();
   }, []);
 
   useEffect(() => {
-    const getNewList = () => {
-      axios({
-        method: 'get',
-        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
-        headers: {
-          Authorization: 'Basic ' + authCode,
-          'X-Atlassian-Token': 'no-check',
-        },
-      })
-        .then((res) => {
-          let con = [];
-          let temp = [];
-          console.log('getNewList', res);
-          //  console.log('categoryContent', res.data.results);
-          setNewList(res.data.results);
-          con = res.data.results;
-          for (let i = 0; i < con.length; i++) {
-            axios({
+    const getNewList = async () => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+        let con = [];
+        let temp = [];
+        console.log('getNewList', res);
+        //  console.log('categoryContent', res.data.results);
+        setNewList(res.data.results);
+        con = res.data.results;
+        for (let i = 0; i < con.length; i++) {
+          try {
+            const response = await axios({
               method: 'get',
               url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}/child/attachment`,
               headers: {
@@ -80,48 +75,43 @@ const Articles = (props) => {
                 'cache-control': 'no-cache',
                 'X-Atlassian-Token': 'no-check',
               },
-            })
-              .then((response) => {
-                console.log('response', response);
-                const data = response.data.results;
-                const imgUrl = [];
-                // content = [];
-                for (let i = 0; i < data.length; i++) {
-                  imgUrl.push(
-                    `${articlesBaseUrl}${
-                      data[i]._links.download.split('?')[0]
-                    }?os_authType=basic`,
-                  );
-                }
-                //  newest.push({
-                //    ...con[i],
-                //    cover: imgUrl[0],
-                //    image: imgUrl,
-                //    //catId: catId,
-                //  });
-                //  setNewest({ ...con[i],
-                //   cover: imgUrl[0],
-                //   image: imgUrl,})
-                temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
-                setNewest(temp);
-                setNewestIsLoading(false);
-                console.log('imgUrl', imgUrl);
-                console.log('newest*********', newest);
-              })
-              .catch((err) => {
-                console.error(err, err.response);
-                // if (err.response && err.response.data) {
-                //   setServerError(err.response.data.message)
-                // }
-              });
+            });
+            console.log('response', response);
+            const data = response.data.results;
+            const imgUrl = [];
+            // content = [];
+            for (let j = 0; j < data.length; j++) {
+              imgUrl.push(
+                `${articlesBaseUrl}${
+                  data[j]._links.download.split('?')[0]
+                }?os_authType=basic`,
+              );
+            }
+            //  newest.push({
+            //    ...con[i],
+            //    cover: imgUrl[0],
+            //    image: imgUrl,
+            //    //catId: catId,
+            //  });
+            //  setNewest({ ...con[i],
+            //   cover: imgUrl[0],
+            //   image: imgUrl,})
+            temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
+            setNewest(temp);
+            // console.log('imgUrl', imgUrl);
+            // console.log('newest*********', newest);
+          } catch (err) {
+            console.error(err, err.response);
+            // if (err.response && err.response.data) {
+            //   setServerError(err.response.data.message)
+            // }
           }
-        })
-
-        .catch((err) => {
-          console.error(err, err.response);
-        });
+          setNewestIsLoading(false);
+        }
+      } catch (err) {
+        console.error(err, err.response);
+      }
     };
-
     getNewList();
   }, []);
 
@@ -161,7 +151,7 @@ const Articles = (props) => {
                 />
               </>
             }
-            // style={{ paddingBottom:40,backgroundColor:'pink' }}
+            // style={{ paddingBottom: 40, backgroundColor: 'pink' }}
             data={categoryList}
             renderItem={({ item }) => (
               <CategoryList
