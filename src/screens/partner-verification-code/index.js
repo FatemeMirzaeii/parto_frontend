@@ -10,12 +10,9 @@ import { getData } from '../../util/func';
 import { devUrl } from '../../services/urls';
 
 const PartnerVerificationCode = ({ navigation }) => {
-  const [code, setCode] = useState('PRT-4493');
+  const [code, setCode] = useState('');
   const [notRegistered, setNotRegistered] = useState();
   const [isLoading, setIsLoading] = useState(true);
-  const coded = async () => {
-    return await getData('@token');
-  };
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'کد همسر',
@@ -36,25 +33,32 @@ const PartnerVerificationCode = ({ navigation }) => {
     });
   }, [navigation]);
   useEffect(() => {
-    const userId = checkIfRegistered();
-    if (!notRegistered)
-      axios({
-        method: 'GET',
-        url: `${devUrl}/auth​/partnerVerificationCode​/${userId}/fa`,
-        credentials: 'include',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'x-auth-token': coded(),
-        },
-      }).then((res) => {
-        console.log('gggggggggggggggggggggggggggggg', res.data);
-      });
-  }, []);
+    const getPartnerCode = async () => {
+      const userId = await checkIfRegistered();
+      if (!notRegistered) {
+        try {
+          const res = await axios({
+            method: 'GET',
+            url: `${devUrl}/auth/partnerVerificationCode/${userId}/fa`,
+            credentials: 'include',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              'x-auth-token': await getData('@token'),
+            },
+          });
+          setCode(res.data.data.partnerCode);
+        } catch (error) {
+          console.error(error);
+        }
+        setIsLoading(false);
+      }
+    };
+    getPartnerCode();
+  }, [notRegistered]);
   const checkIfRegistered = async () => {
     const usr = await getUser();
     setNotRegistered(usr ? false : true);
-    setIsLoading(false);
     return usr ? usr.id : -1;
   };
   return (

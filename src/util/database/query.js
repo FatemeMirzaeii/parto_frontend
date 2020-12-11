@@ -369,7 +369,7 @@ export async function findUnsyncedTrackingOptions(lastSyncTime) {
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedProfileData(lastSyncTime) {
-  const res = lastSyncTime
+  const [res] = lastSyncTime
     ? await db.exec(
         `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
         PROFILE,
@@ -385,4 +385,12 @@ export async function findUnsyncedPregnancyInfo(lastSyncTime) {
       )
     : await db.exec(`SELECT * FROM  ${PREGNANCY}`, PREGNANCY);
   return res === EMPTY_TABLE ? [] : res;
+}
+
+export async function clearingDatabase() {
+  db.exec(`DELETE FROM ${USER}`, USER);
+  db.exec(`DELETE FROM ${PROFILE}`, PROFILE);
+  db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
+  db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
+  db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
 }
