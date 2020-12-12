@@ -71,7 +71,7 @@ const Q5 = ({ route, navigation }) => {
           به ما در تحلیل بهتر اطلاعات کمک کن.
         </Text>
         <View style={styles.picker}>
-          <PersianDatePicker onDateSelected={setDate} />
+          <PersianDatePicker onDateSelected={setDate} startOfRange={1340} endOfRange={1390}/>
         </View>
         <View>
           <Button

@@ -6,28 +6,27 @@ import { FONT } from '../styles/static';
 
 ////todo: 1- should return both Gregorian date and jalali.
 ////      2- should check if month has 31 days or not.
-
-const days = setPickerRange(1, 31);
-const years = setPickerRange(1340, 1390);
-const months = [
-  'فروردین',
-  'اردیبهشت',
-  'خرداد',
-  'تیر',
-  'مرداد',
-  'شهریور',
-  'مهر',
-  'آبان',
-  'آذر',
-  'دی',
-  'بهمن',
-  'اسفند',
-];
-
 const PersianDatePicker = (props) => {
+  const days = setPickerRange(1, 31);
+  const years = setPickerRange(props.startOfRange, props.endOfRange);
+  const months = [
+    'فروردین',
+    'اردیبهشت',
+    'خرداد',
+    'تیر',
+    'مرداد',
+    'شهریور',
+    'مهر',
+    'آبان',
+    'آذر',
+    'دی',
+    'بهمن',
+    'اسفند',
+  ];
+
   const [day, setDay] = useState(1);
   const [month, setMonth] = useState(1);
-  const [year, setYear] = useState(1340);
+  const [year, setYear] = useState(props.startOfRange);
   const [dayIndex, setDayIndex] = useState();
   const [monthIndex, setMonthIndex] = useState();
   const [yearIndex, setYearIndex] = useState();
@@ -46,7 +45,7 @@ const PersianDatePicker = (props) => {
       // if (dateArr.length === 3) {
       setDayIndex(parseInt(dateArr[2]) - 1);
       setMonthIndex(parseInt(dateArr[1]) - 1);
-      setYearIndex(parseInt(dateArr[0]) - 1340);
+      setYearIndex(parseInt(dateArr[0]) - props.startOfRange);
       // }
     }
   };
@@ -69,7 +68,7 @@ const PersianDatePicker = (props) => {
   };
   const onYearSelected = (item) => {
     setYearIndex(item);
-    setYear(item + 1340);
+    setYear(item + props.startOfRange);
   };
   return (
     <View style={styles.container}>
