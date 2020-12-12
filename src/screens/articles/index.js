@@ -26,116 +26,104 @@ const Articles = (props) => {
   const { navigation } = props;
 
   useEffect(() => {
-    const getCategoryList = () => {
-      axios({
-        method: 'get',
-        url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
-        headers: {
-          Authorization: 'Basic ' + authCode,
-          'X-Atlassian-Token': 'no-check',
-        },
-      })
-        .then((res) => {
-          setCategoryList(res.data.results);
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          console.error(err, err.response);
-          setIsLoading(false);
-          if (err.toString() === 'Error: Network Error')
-            ToastAndroid.show(
-              'لطفا اتصال اینترنت رو چک کن.',
-              ToastAndroid.LONG,
-            );
+    const getCategoryList = async () => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
         });
+        setCategoryList(res.data.results);
+      } catch (err) {
+        console.error(err, err.response);
+        if (err.toString() === 'Error: Network Error')
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      }
+      setIsLoading(false);
     };
-
     getCategoryList();
   }, []);
-  
+
   useEffect(() => {
-    const getNewList = () => {
-      axios({
-       method: 'get',
-      url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
-       headers: {
-         Authorization: 'Basic ' + authCode,
-         'X-Atlassian-Token': 'no-check',
-       },
-     })
-       .then((res) => {
-         let con = [];
-         let temp=[]
-         console.log('getNewList',res);
+    const getNewList = async () => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+        let con = [];
+        let temp = [];
+        console.log('getNewList', res);
         //  console.log('categoryContent', res.data.results);
-         setNewList(res.data.results);
-         con = res.data.results;
-         for (let i = 0; i < con.length; i++) {
-           axios({
-             method: 'get',
-             url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}/child/attachment`,
-             headers: {
-               Authorization: 'Basic ' + authCode,
-               'Content-Type': 'application/json',
-               'cache-control': 'no-cache',
-               'X-Atlassian-Token': 'no-check',
-             },
-           })
-             .then((response) => {
-               console.log('response', response);
-               const data = response.data.results;
-               const imgUrl = [];
-               // content = [];
-               for (let i = 0; i < data.length; i++) {
-                 imgUrl.push(
-                   `${articlesBaseUrl}${
-                     data[i]._links.download.split('?')[0]
-                   }?os_authType=basic`,
-                 );
-               }
-              //  newest.push({
-              //    ...con[i],
-              //    cover: imgUrl[0],
-              //    image: imgUrl,
-              //    //catId: catId,
-              //  });
-              //  setNewest({ ...con[i],
-              //   cover: imgUrl[0],
-              //   image: imgUrl,})
-               temp[i]={...con[i],
-                   cover: imgUrl[0],
-                   image: imgUrl,}
-               setNewest(temp)
-               setNewestIsLoading(false)
-               console.log('imgUrl', imgUrl);
-               console.log('newest*********', newest);
-             })
-             .catch((err) => {
-               console.error(err, err.response);
-               // if (err.response && err.response.data) {
-               //   setServerError(err.response.data.message)
-               // }
-             });
-         }
-       })
-
-       .catch((err) => {
-         console.error(err, err.response);
-       });
-   };
-
-   getNewList();
+        setNewList(res.data.results);
+        con = res.data.results;
+        for (let i = 0; i < con.length; i++) {
+          try {
+            const response = await axios({
+              method: 'get',
+              url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}/child/attachment`,
+              headers: {
+                Authorization: 'Basic ' + authCode,
+                'Content-Type': 'application/json',
+                'cache-control': 'no-cache',
+                'X-Atlassian-Token': 'no-check',
+              },
+            });
+            console.log('response', response);
+            const data = response.data.results;
+            const imgUrl = [];
+            // content = [];
+            for (let j = 0; j < data.length; j++) {
+              imgUrl.push(
+                `${articlesBaseUrl}${
+                  data[j]._links.download.split('?')[0]
+                }?os_authType=basic`,
+              );
+            }
+            //  newest.push({
+            //    ...con[i],
+            //    cover: imgUrl[0],
+            //    image: imgUrl,
+            //    //catId: catId,
+            //  });
+            //  setNewest({ ...con[i],
+            //   cover: imgUrl[0],
+            //   image: imgUrl,})
+            temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
+            setNewest(temp);
+            // console.log('imgUrl', imgUrl);
+            // console.log('newest*********', newest);
+          } catch (err) {
+            console.error(err, err.response);
+            // if (err.response && err.response.data) {
+            //   setServerError(err.response.data.message)
+            // }
+          }
+          setNewestIsLoading(false);
+        }
+      } catch (err) {
+        console.error(err, err.response);
+      }
+    };
+    getNewList();
   }, []);
 
   return (
     <>
-      {isLoading && newestIsLoading? (
+      {isLoading && newestIsLoading ? (
         <Loader />
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList
             ListHeaderComponent={
-               <>
+              <>
                 <Carousel
                   slideStyle={styles.slider}
                   // containerCustomStyle={{ flex: 1 }}
@@ -144,7 +132,10 @@ const Articles = (props) => {
                   data={newest}
                   onSnapToItem={(index) => setActiveSlide(4 - index)}
                   renderItem={({ item }) => (
-                    <NewestArticles title={item.content.title} image={item.cover}/>
+                    <NewestArticles
+                      title={item.content.title}
+                      image={item.cover}
+                    />
                   )}
                   sliderWidth={WIDTH}
                   itemWidth={WIDTH - 65}
@@ -160,7 +151,7 @@ const Articles = (props) => {
                 />
               </>
             }
-            // style={{ paddingBottom:40,backgroundColor:'pink' }}
+            // style={{ paddingBottom: 40, backgroundColor: 'pink' }}
             data={categoryList}
             renderItem={({ item }) => (
               <CategoryList

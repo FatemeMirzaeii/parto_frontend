@@ -84,7 +84,7 @@ const ArticlesList = ({ route, navigation }) => {
       .catch((err) => {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error')
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG); //to maryam: ToastAndroid is not defined
       });
   };
 

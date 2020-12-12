@@ -1,21 +1,24 @@
 import axios from 'axios';
 import React, { useContext, useState } from 'react';
 import {
-  Keyboard, KeyboardAvoidingView, Text, ToastAndroid,
-  View
+  Keyboard,
+  KeyboardAvoidingView,
+  Text,
+  ToastAndroid,
+  View,
 } from 'react-native';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
-  useClearByFocusCell
+  useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import { Button, Icon } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
 
 //components
 import Ptxt from '../../components/Ptxt';
-import Loader from '../../components/Loader'
+import Loader from '../../components/Loader';
 
 //util
 import DataBase from '../../util/database';
@@ -125,15 +128,22 @@ const SignUp = ({ navigation }) => {
           'res.headers.x-auth-token***** ',
           res.headers['x-auth-token'],
         );
-        const id=res.data.data.id;
-        console.log('res.data',res.data)
-        console.log('id',id)
+        const id = res.data.data.id;
+        console.log('res.data', res.data);
+        console.log('id', id);
         storeData('@token', res.headers['x-auth-token']);
+        //to maryam:
+        //1. If the user signs out and then sign in again, what would happen?
+        //I think we need ON CONFLICT phrase here.(I get in trouble with that, so I changed it.)
+        //2. now that we are inserting a row for user it is better to save all data, such as phone number.
+        //3. isn't it better to move queries in query.js file?
+        //4. it is better to use table names as variables.
+        //so if someday we decide to rename them we will change them just in one place.
         db.exec(
-          `INSERT INTO user (id) VALUES (${id})`,
+          `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
-        console.log('res.data++++++++++++',res.data)
+        console.log('res.data++++++++++++', res.data);
         signUp();
       })
       .catch((err) => {
@@ -145,8 +155,7 @@ const SignUp = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView
-      style={styles.main}>
+    <KeyboardAvoidingView style={styles.main}>
       <Icon
         name="close"
         color="#f50"
@@ -177,7 +186,7 @@ const SignUp = ({ navigation }) => {
           value={phoneNumber}
           onChangeText={_handlePhoneInput}
           CountryCode={(ele) => {
-            setCountryCode(ele);
+            setCountryCode(ele); //to maryam: setCountryCode is not defined.
           }}
           withShadow
           autoFocus
@@ -191,37 +200,37 @@ const SignUp = ({ navigation }) => {
           onPress={getVerificationCode}
         />
       </View>
-        {isLoading?<Loader/>:null}
-      {codeFieldActive?
-      <>
-      <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
-      <CodeField
-        ref={ref}
-        {...props}
-        value={value}
-        onChangeText={(text) => setValue(text)}
-        cellCount={5}
-        rootStyle={styles.codeFieldRoot}
-        keyboardType="number-pad"
-        textContentType="oneTimeCode"
-        renderCell={({ index, symbol, isFocused }) => (
-          <Text
-            key={index}
-            style={[styles.cell, isFocused && styles.focusCell]}
-            onLayout={getCellOnLayoutHandler(index)}>
-            {symbol || (isFocused ? <Cursor /> : null)}
-          </Text>
-        )}
-      />
-      <Button
-        title="تایید کد"
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.button}
-        titleStyle={styles.btnTitle}
-        onPress={handleSubmit}
-      />
-      </>:null
-      }
+      {isLoading ? <Loader /> : null}
+      {codeFieldActive ? (
+        <>
+          <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
+          <CodeField
+            ref={ref}
+            {...props}
+            value={value}
+            onChangeText={(text) => setValue(text)}
+            cellCount={5}
+            rootStyle={styles.codeFieldRoot}
+            keyboardType="number-pad"
+            textContentType="oneTimeCode"
+            renderCell={({ index, symbol, isFocused }) => (
+              <Text
+                key={index}
+                style={[styles.cell, isFocused && styles.focusCell]}
+                onLayout={getCellOnLayoutHandler(index)}>
+                {symbol || (isFocused ? <Cursor /> : null)}
+              </Text>
+            )}
+          />
+          <Button
+            title="تایید کد"
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
+            onPress={handleSubmit}
+          />
+        </>
+      ) : null}
     </KeyboardAvoidingView>
   );
 };

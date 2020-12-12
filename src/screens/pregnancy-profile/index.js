@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { Alert, ScrollView } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
@@ -8,17 +9,21 @@ import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import pregnancyModule from '../../util/pregnancy';
 import {
+  deletePregnancyData,
   getActivePregnancyData,
   updatePregnancyData,
+  updateUserStatus,
 } from '../../util/database/query';
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 import globalStyles from '../../styles';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
   const [pregnancyWeek, setPregnancyWeek] = useState(0);
   const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
+  const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل بارداری',
@@ -51,8 +56,8 @@ const PregnancyProfile = ({ navigation, route }) => {
   }, [dueDate, navigation]);
 
   useEffect(() => {
-    getActivePregnancyData().then((d) => {
-      setDueDate(d.due_date);
+    getActivePregnancyData().then((dd) => {
+      setDueDate(dd.due_date);
     });
     setPregnancyAge();
   }, []);
@@ -163,7 +168,12 @@ const PregnancyProfile = ({ navigation, route }) => {
             [
               {
                 text: 'بله',
-                onPress: () => {},
+                onPress: async () => {
+                  await deletePregnancyData();
+                  await updateUserStatus(0, 0);
+                  dispatch(fetchInitialCycleData());
+                  navigation.pop();
+                },
               },
               {
                 text: 'خیر',

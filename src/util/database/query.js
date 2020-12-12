@@ -91,30 +91,49 @@ export async function updateUserStatus(pregnant, pregnancyTry) {
 }
 export async function getFormerPregnancyData() {
   const res = await db.exec(
-    `SELECT * FROM ${PREGNANCY} WHERE state=3`, //former pregnancy states is 3
+    `SELECT * FROM ${PREGNANCY} WHERE state=3 OR state=2 `, //former pregnancy states is 3
     PREGNANCY,
   );
-  console.log('all pregnancy data', res);
+  console.log('former pregnancy data', res);
   return res === EMPTY_TABLE ? [] : res;
 }
+export async function correctFormerPregnancyStates() {
+  await db.exec(
+    `UPDATE ${PREGNANCY} SET state=3 WHERE id NOT IN (
+      SELECT id FROM ${PREGNANCY} WHERE state=1 ORDER BY id DESC LIMIT 1)
+      AND id NOT IN (SELECT id FROM ${PREGNANCY} WHERE state=2)`,
+  );
+}
 export async function getActivePregnancyData() {
-  const res = await db.exec(
-    `SELECT * FROM ${PREGNANCY} WHERE state=1 ORDER BY id DESC LIMIT 1`,
+  // await db.exec(
+  //   `UPDATE ${PREGNANCY} SET state=2 WHERE id IN (SELECT id FROM ${PREGNANCY} ORDER BY id DESC LIMIT 1)`,
+  // );
+  correctFormerPregnancyStates();
+  //this function is temp and could have been deleted if we went sure all users updated to new versions.
+  const [res] = await db.exec(
+    `SELECT * FROM ${PREGNANCY} WHERE state=1`,
     PREGNANCY,
   );
   console.log('active pregnancy data', res);
-  return res === EMPTY_TABLE ? [] : res[0];
+  return res === EMPTY_TABLE ? [] : res;
 }
-export async function updatePregnancyData(dueDate, abortionDate) {
+export async function updatePregnancyData(dueDate) {
+  return await db.exec(
+    `UPDATE ${PREGNANCY} SET due_date='${dueDate}',
+        updated_at='${moment().format(DATETIME_FORMAT)}' WHERE state=1`,
+    PREGNANCY,
+  );
+}
+export async function endPregnancy(dueDate, abortionDate) {
   return abortionDate
     ? await db.exec(
         `UPDATE ${PREGNANCY} SET abortion=1, due_date=null, abortion_date='${abortionDate}', state=3,
-        updated_at='${moment().format(DATETIME_FORMAT)}'`,
+        updated_at='${moment().format(DATETIME_FORMAT)}' WHERE state=1`,
         PREGNANCY,
       )
     : await db.exec(
-        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null,
-        updated_at='${moment().format(DATETIME_FORMAT)}'`,
+        `UPDATE ${PREGNANCY} SET abortion=0, due_date='${dueDate}', abortion_date=null, state=3,
+        updated_at='${moment().format(DATETIME_FORMAT)}' WHERE state=1`,
         PREGNANCY,
       );
 }
@@ -350,7 +369,7 @@ export async function findUnsyncedTrackingOptions(lastSyncTime) {
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedProfileData(lastSyncTime) {
-  const res = lastSyncTime
+  const [res] = lastSyncTime
     ? await db.exec(
         `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
         PROFILE,
@@ -366,4 +385,12 @@ export async function findUnsyncedPregnancyInfo(lastSyncTime) {
       )
     : await db.exec(`SELECT * FROM  ${PREGNANCY}`, PREGNANCY);
   return res === EMPTY_TABLE ? [] : res;
+}
+
+export async function clearingDatabase() {
+  db.exec(`DELETE FROM ${USER}`, USER);
+  db.exec(`DELETE FROM ${PROFILE}`, PROFILE);
+  db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
+  db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
+  db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
 }

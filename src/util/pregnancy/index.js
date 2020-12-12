@@ -69,29 +69,22 @@ export default async function PregnancyModule() {
   ) {
     const pregnancyDayNumber = pregnancyWeek * 7 + pregnancyWeekDay;
     const t = moment();
-    console.log(
-      'pregnancyDayNumber',
-      pregnancyWeek,
-      pregnancyWeekDay,
-      pregnancyDayNumber,
-      t,
-    );
     const d = t.subtract(pregnancyDayNumber, 'days').format(FORMAT);
-    console.log('pregnancyDayNumber', d);
+    // console.log('pregnancyDayNumber', d);
     return d;
   }
   function determineDueDate(pDate) {
     let delivery;
     if (lastPeriodDate || pDate) {
       const lastPeriod = lastPeriodDate || pDate;
-      console.log('lastPeriod', lastPeriod, lastPeriodDate, pDate);
+      // console.log('lastPeriod', lastPeriod, lastPeriodDate, pDate);
       delivery = moment(lastPeriod)
         .add(PREGNANCY_WEEKS, 'weeks')
         .format(FORMAT);
     } else if (conceptionDate) {
       delivery = conceptionDate.add(38, 'weeks').format(FORMAT);
     }
-    console.log('determineDueDate', delivery);
+    // console.log('determineDueDate', delivery);
     updatePregnancyData(delivery);
     return delivery;
   }
@@ -100,7 +93,7 @@ export default async function PregnancyModule() {
     // //   return dueDate.diff(date, 'days');
     // // } else {
     const due = determineDueDate();
-    console.log('due', due);
+    // console.log('due', due);
     return moment(due).diff(date, 'days');
     // }
   }
@@ -113,7 +106,6 @@ export default async function PregnancyModule() {
           .format(FORMAT),
       );
     }
-    console.log('nefas days', days);
     setBleedingDays(days);
   }
   return {
