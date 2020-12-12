@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView } from 'react-native';
+import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
 
 //components
 import ArticleCard from '../../components/ArticleCard';
@@ -84,7 +84,7 @@ const ArticlesList = ({ route, navigation }) => {
       .catch((err) => {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error')
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG); //to maryam: ToastAndroid is not defined
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG); 
       });
   };
 

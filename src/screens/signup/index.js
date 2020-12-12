@@ -55,7 +55,7 @@ const SignUp = ({ navigation }) => {
     }
   };
 
-  const handleSubmit = async () => {
+  const _handleSubmit = async () => {
     await axios({
       method: 'post',
       url: `${devUrl}/auth/checkVerificationCode/fa`,
@@ -64,13 +64,12 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone: phoneNumber,
+        phone: '98'+ phoneNumber,
         code: value,
       },
     })
       .then((res) => {
         console.log('res', res);
-        //setIsLoading(false);
         handleLogin();
       })
       .catch((err) => {
@@ -82,7 +81,7 @@ const SignUp = ({ navigation }) => {
       });
   };
 
-  const getVerificationCode = () => {
+  const _getVerificationCode = () => {
     setIsLoading(true);
     axios({
       method: 'post',
@@ -92,7 +91,7 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone: phoneNumber,
+        phone: '98'+ phoneNumber,
       },
     })
       .then((res) => {
@@ -119,7 +118,7 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone: phoneNumber,
+        phone:'98'+ phoneNumber,
       },
     })
       .then((res) => {
@@ -185,9 +184,6 @@ const SignUp = ({ navigation }) => {
           defaultCode="IR"
           value={phoneNumber}
           onChangeText={_handlePhoneInput}
-          CountryCode={(ele) => {
-            setCountryCode(ele); //to maryam: setCountryCode is not defined.
-          }}
           withShadow
           autoFocus
         />
@@ -197,7 +193,7 @@ const SignUp = ({ navigation }) => {
           containerStyle={styles.btnContainer}
           buttonStyle={styles.button}
           titleStyle={styles.btnTitle}
-          onPress={getVerificationCode}
+          onPress={_getVerificationCode}
         />
       </View>
       {isLoading ? <Loader /> : null}
@@ -227,7 +223,7 @@ const SignUp = ({ navigation }) => {
             containerStyle={styles.btnContainer}
             buttonStyle={styles.button}
             titleStyle={styles.btnTitle}
-            onPress={handleSubmit}
+            onPress={_handleSubmit}
           />
         </>
       ) : null}
