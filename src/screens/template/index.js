@@ -6,7 +6,7 @@ import {
   View,
   Text,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import {
   handleMainSelected,
   handleTeenagerSelected,
@@ -17,20 +17,27 @@ import styles from './styles';
 
 const Template = (props) => {
   //const modeState = useSelector((state) => state.mode.mode);
+  const modeState = useSelector((state) => state.template.mode);
+  
   const dispatch = useDispatch();
 
   const _handleMainSelected = useCallback(() => {
     dispatch(handleMainSelected());
+    props.navigation.navigate('Interview');
   }, [dispatch]);
 
   const _handleTeenagerSelected = useCallback(() => {
     dispatch(handleTeenagerSelected());
+//props.navigation.navigate('TeenagerQ1');
+
   }, [dispatch]);
 
   const _handlePartnerSelected = useCallback(() => {
     dispatch(handlePartnerSelected());
   }, [dispatch]);
 
+
+  console.log('mod of app$$$$$$$$$$$$',modeState)
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -41,17 +48,17 @@ const Template = (props) => {
           <View style={styles.btnGroup}>
             <TouchableOpacity
               style={styles.mode}
-              onPress={{ _handleMainSelected }}>
+              onPress={ _handleMainSelected }>
               <Text style={styles.btnTitle}>بانو</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.mode}
-              onPress={{ _handleTeenagerSelected }}>
+              onPress={ _handleTeenagerSelected }>
               <Text style={styles.btnTitle}>نوجوان</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.mode}
-              onPress={{ _handlePartnerSelected }}>
+              onPress={ _handlePartnerSelected }>
               <Text style={styles.btnTitle}>همسر</Text>
             </TouchableOpacity>
           </View>
