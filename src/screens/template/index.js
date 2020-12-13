@@ -17,14 +17,13 @@ import {
 import styles from './styles';
 
 const Template = (props) => {
-
   const modeState = useSelector((state) => state.template.mode);
   const dispatch = useDispatch();
 
   const _handleMainSelected = useCallback(() => {
     dispatch(handleMainSelected());
     props.navigation.navigate('Interview');
-  }, [dispatch]);
+  }, [dispatch, props.navigation]);
 
   const _handleTeenagerSelected = useCallback(() => {
     dispatch(handleTeenagerSelected());
@@ -33,7 +32,8 @@ const Template = (props) => {
 
   const _handlePartnerSelected = useCallback(() => {
     dispatch(handlePartnerSelected());
-  }, [dispatch]);
+    props.navigation.navigate('PartnerCode');
+  }, [dispatch, props.navigation]);
 
   console.log('mod of app$$$$$$$$$$$$', modeState);
   return (

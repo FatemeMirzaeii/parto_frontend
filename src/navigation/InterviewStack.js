@@ -12,6 +12,7 @@ import Pregnancy_Q3 from '../screens/interview/determine-week-Q3';
 import Pregnancy_Q4 from '../screens/interview/pregnancy-calendar-Q4';
 import Notice from '../screens/interview/notice';
 import Template from '../screens/template';
+import PartnerCode from '../screens/interview/partner-code';
 
 const InterviewStack = createStackNavigator();
 
@@ -28,6 +29,7 @@ const InterviewStackScreen = () => {
       <InterviewStack.Screen name="Pregnancy_Q3" component={Pregnancy_Q3} />
       <InterviewStack.Screen name="Pregnancy_Q4" component={Pregnancy_Q4} />
       <InterviewStack.Screen name="Notice" component={Notice} />
+      <InterviewStack.Screen name="PartnerCode" component={PartnerCode} />
     </InterviewStack.Navigator>
   );
 };
