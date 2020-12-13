@@ -70,7 +70,7 @@ const SignUp = ({ navigation }) => {
     })
       .then((res) => {
         console.log('res', res);
-        handleLogin();
+        _handleLogin();
       })
       .catch((err) => {
         console.error(err, err.response);
@@ -108,7 +108,7 @@ const SignUp = ({ navigation }) => {
       });
   };
 
-  const handleLogin = () => {
+  const _handleLogin = () => {
     //setIsLoading(true);
     axios({
       method: 'POST',
@@ -193,7 +193,8 @@ const SignUp = ({ navigation }) => {
           containerStyle={styles.btnContainer}
           buttonStyle={styles.button}
           titleStyle={styles.btnTitle}
-          onPress={_getVerificationCode}
+          // onPress={_getVerificationCode}
+          onPress={()=>{setIsLoading(false),setCodeFieldActive(true)}}
         />
       </View>
       {isLoading ? <Loader /> : null}
@@ -223,7 +224,9 @@ const SignUp = ({ navigation }) => {
             containerStyle={styles.btnContainer}
             buttonStyle={styles.button}
             titleStyle={styles.btnTitle}
-            onPress={_handleSubmit}
+            //onPress={_handleSubmit}
+            onPress={_handleLogin}
+            
           />
         </>
       ) : null}
