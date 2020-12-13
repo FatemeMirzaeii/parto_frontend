@@ -13,12 +13,11 @@ import {
   handlePartnerSelected,
 } from '../../store/actions/template';
 
+//styles
 import styles from './styles';
 
 const Template = (props) => {
-  //const modeState = useSelector((state) => state.mode.mode);
   const modeState = useSelector((state) => state.template.mode);
-
   const dispatch = useDispatch();
 
   const _handleMainSelected = useCallback(() => {
@@ -28,7 +27,7 @@ const Template = (props) => {
 
   const _handleTeenagerSelected = useCallback(() => {
     dispatch(handleTeenagerSelected());
-    //props.navigation.navigate('TeenagerQ1');
+    props.navigation.navigate('Q2');
   }, [dispatch]);
 
   const _handlePartnerSelected = useCallback(() => {
