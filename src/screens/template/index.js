@@ -7,6 +7,8 @@ import {
   Text,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
+
+//store
 import {
   handleMainSelected,
   handleTeenagerSelected,
@@ -27,7 +29,9 @@ const Template = (props) => {
 
   const _handleTeenagerSelected = useCallback(() => {
     dispatch(handleTeenagerSelected());
-    props.navigation.navigate('Q2');
+    props.navigation.navigate('Q2', {
+      mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
+    });
   }, [dispatch]);
 
   const _handlePartnerSelected = useCallback(() => {
