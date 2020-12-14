@@ -19,8 +19,8 @@ import { migration } from './util/database/migration';
 //# restore tokens dispatch(restoreToken());
 //## lock
 //# setup notifications
-//#migration
-//fetchinitialdata
+//# migration
+//# fetchinitialdata
 //splash goes away
 
 // console.disableYellowBox = true;
