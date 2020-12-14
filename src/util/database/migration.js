@@ -18,22 +18,22 @@ const db = new Database();
 
 export async function migration() {
   let inUseDbVersion = await getInUseDbVersion();
-  console.log('inUseDbVersion', inUseDbVersion);
   if (CURRENT_SCHEMA_VERSION < inUseDbVersion) console.log('Downgrading!!!');
   while (inUseDbVersion < CURRENT_SCHEMA_VERSION) {
+    console.log('inUseDbVersion', inUseDbVersion);
     switch (inUseDbVersion) {
       case 1:
-        v1Tov2();
+        await v1Tov2();
         break;
       case 2:
-        v2ToV3();
+        await v2ToV3();
         break;
       case 3:
         break;
       default:
         break;
     }
-    inUseDbVersion = getInUseDbVersion();
+    inUseDbVersion = await getInUseDbVersion();
   }
 }
 async function v2ToV3() {
@@ -76,9 +76,7 @@ async function v2ToV3() {
   await db.exec(`ALTER TABLE ${PROFILE} ADD COLUMN last_sync_time datetime`);
   await db.exec(`ALTER TABLE ${PREGNANCY} ADD COLUMN state INTEGER DEFAULT 1`);
   //todo: must be tested again and again
-  // const test = await db.exec(`SELECT * from ${USER}`);
-  // console.log('commands executed now we are testing one of tables', test);
-  updateInUseDbVersion(3);
+  await updateInUseDbVersion(3);
 }
 async function v1Tov2() {
   SQLite.enablePromise(true);
@@ -89,7 +87,7 @@ async function v1Tov2() {
     },
     transferOldData,
   );
-  updateInUseDbVersion(2);
+  await updateInUseDbVersion(2);
 }
 
 //transferring data from parto v1 to v2

@@ -337,7 +337,7 @@ export async function getInUseDbVersion() {
   return res ? res.version : 0;
 }
 export async function updateInUseDbVersion(version) {
-  return db.exec(`UPDATE ${VERSION} SET version=${version}`, VERSION);
+  return await db.exec(`UPDATE ${VERSION} SET version=${version}`, VERSION);
 }
 export async function getLastSyncTime() {
   const [res] = await db.exec(`SELECT last_sync_time FROM ${PROFILE}`, PROFILE);
