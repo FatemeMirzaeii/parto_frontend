@@ -1,33 +1,35 @@
 import React, { useEffect, useState } from 'react';
 import { View, ImageBackground, SafeAreaView } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Input, Button } from 'react-native-elements';
 import axios from 'axios';
 import { FONT, HEIGHT, WIDTH } from '../../styles/static';
 import styles from './styles';
 import { devUrl } from '../../services/urls';
+import { getData } from '../../util/func';
 const PartenerCode = ({ route, navigation }) => {
   const [code, setCode] = useState();
-  useEffect(() => {
-    const verifyCode = async () => {
-      try {
-        const res = await axios({
-          method: 'POST',
-          url: `${devUrl}/auth/partnerVerificationCode/${user.id}/fa`,
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            'x-auth-token': await getData('@token'),
-          },
-          data: {
-            partnerCode: code,
-          },
-        });
-      } catch (error) {
-        console.error(error);
-      }
-    };
-    verifyCode();
-  }, []);
+  const userId = useSelector((state) => state.user.id);
+
+  const verifyCode = async () => {
+    try {
+      console.log('userId', userId);
+      // const res = await axios({
+      //   method: 'POST',
+      //   url: `${devUrl}/auth/partnerVerificationCode/${userId}/fa`,
+      //   headers: {
+      //     Accept: 'application/json',
+      //     'Content-Type': 'application/json',
+      //     'x-auth-token': await getData('@token'),
+      //   },
+      //   data: {
+      //     partnerCode: code,
+      //   },
+      // });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
@@ -57,7 +59,7 @@ const PartenerCode = ({ route, navigation }) => {
             buttonStyle={styles.nextButton}
             titleStyle={styles.btnTitle}
             type="solid"
-            onPress={() => navigation.replace('dkfjsk', { ...route.params })}
+            onPress={verifyCode}
           />
         </View>
       </ImageBackground>
