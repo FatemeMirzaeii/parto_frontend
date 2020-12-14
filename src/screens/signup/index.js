@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   View,
 } from 'react-native';
+import { useDispatch } from 'react-redux';
 import {
   CodeField,
   Cursor,
@@ -24,19 +25,18 @@ import Loader from '../../components/Loader';
 import DataBase from '../../util/database';
 import { storeData } from '../../util/func';
 
-//contexts
-import { AuthContext } from '../../contexts';
 import { devUrl } from '../../services/urls';
 
 //styles
 import { WIDTH } from '../../styles/static';
 import styles from './styles';
+import { setUser } from '../../store/actions/user';
+import { signUp } from '../../store/actions/auth';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
   const [codeFieldActive, setCodeFieldActive] = useState(false);
-  const { signUp } = useContext(AuthContext);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -44,6 +44,7 @@ const SignUp = ({ navigation }) => {
     value,
     setValue,
   });
+  const dispatch = useDispatch();
   const db = new DataBase();
   const CELL_COUNT = 5;
 
@@ -64,7 +65,7 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone: '98'+ phoneNumber,
+        phone: '98' + phoneNumber,
         code: value,
       },
     })
@@ -91,7 +92,7 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone: '98'+ phoneNumber,
+        phone: '98' + phoneNumber,
       },
     })
       .then((res) => {
@@ -118,7 +119,7 @@ const SignUp = ({ navigation }) => {
         'Content-Type': 'application/json',
       },
       data: {
-        phone:'98'+ phoneNumber,
+        phone: '98' + phoneNumber,
       },
     })
       .then((res) => {
@@ -142,8 +143,9 @@ const SignUp = ({ navigation }) => {
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
+        dispatch(setUser(id));
         console.log('res.data++++++++++++', res.data);
-        signUp();
+        dispatch(signUp());
       })
       .catch((err) => {
         console.error(err, err.response);
@@ -194,7 +196,10 @@ const SignUp = ({ navigation }) => {
           buttonStyle={styles.button}
           titleStyle={styles.btnTitle}
           // onPress={_getVerificationCode}
-          onPress={()=>{setIsLoading(false),setCodeFieldActive(true)}}
+          onPress={() => {
+            setIsLoading(false);
+            setCodeFieldActive(true);
+          }}
         />
       </View>
       {isLoading ? <Loader /> : null}
@@ -226,7 +231,6 @@ const SignUp = ({ navigation }) => {
             titleStyle={styles.btnTitle}
             //onPress={_handleSubmit}
             onPress={_handleLogin}
-            
           />
         </>
       ) : null}

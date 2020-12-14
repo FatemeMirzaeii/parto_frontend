@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Card, Avatar, Input, Button } from 'react-native-elements';
 import DataBase from '../../util/database';
-import { AuthContext } from '../../contexts';
 import styles from './styles';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { signUp } from '../../store/actions/auth';
 const db = new DataBase();
 
 const UserAvatar = ({ navigation }) => {
   const [name, setName] = useState();
   const [isEditing, setIsEditing] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
-  const { signUp } = useContext(AuthContext);
+  const dispatch = useDispatch();
   useEffect(() => {
     db.exec('SELECT id, name, email FROM user', 'user').then((n) => {
       if (n[0]) {
@@ -69,7 +70,9 @@ const UserAvatar = ({ navigation }) => {
           )}
         </TouchableOpacity>
         {isRegistered ? null : (
-          <TouchableOpacity style={styles.register} onPress={() => signUp()}>
+          <TouchableOpacity
+            style={styles.register}
+            onPress={() => dispatch(signUp())}>
             <Text style={[styles.text, { color: '#ffffff' }]}>
               شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام
               کنید.

@@ -1,7 +1,7 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { ListItem } from 'react-native-elements';
-import { AuthContext } from '../../contexts';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
@@ -12,10 +12,12 @@ import sync from '../../util/database/sync';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
+import { signOut } from '../../store/actions/auth';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const { signOut } = useContext(AuthContext);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     determineLockStatus();
   }, []);
@@ -205,7 +207,7 @@ const Menu = ({ navigation }) => {
           title="خروج"
           leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => signOut()}
+          onPress={() => dispatch(signOut())}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}

@@ -11,25 +11,43 @@ import EitaIcon from './customIcon/eita/icon-font';
 import lock from './util/lock';
 import setupNotifications from './util/notifications';
 import { fetchInitialCycleData } from './store/actions/cycle';
+import SplashScreen from 'react-native-splash-screen';
+import { restoreToken } from './store/actions/auth';
+import { migration } from './util/database/migration';
+
+//splash comes in
+//# restore tokens dispatch(restoreToken());
+//## lock
+//# setup notifications
+//#migration
+//fetchinitialdata
+//splash goes away
 
 // console.disableYellowBox = true;
 
 const App: () => React$Node = () => {
   const store = configureStore();
-  store.dispatch(fetchInitialCycleData());
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
   registerCustomIconType('Bale', BaleIcon);
   registerCustomIconType('Eita', EitaIcon);
-
   useEffect(() => {
-    setupNotifications();
     AppState.addEventListener('change', _handleAppStateChange);
-
+    launchApp();
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
   }, []);
+
+  const launchApp = async () => {
+    store.dispatch(restoreToken());
+    setupNotifications();
+    await migration();
+    //check internet connection
+    //sync
+    store.dispatch(fetchInitialCycleData());
+    SplashScreen.hide();
+  };
 
   const _handleAppStateChange = (nextAppState) => {
     if (
@@ -38,7 +56,6 @@ const App: () => React$Node = () => {
     ) {
       lock();
     }
-
     appState.current = nextAppState;
     setAppStateVisible(appState.current);
   };

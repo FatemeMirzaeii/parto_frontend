@@ -1,20 +1,18 @@
 import LottieView from 'lottie-react-native';
-import React, { useContext } from 'react';
+import React from 'react';
 import { SafeAreaView, View } from 'react-native';
+import { useDispatch } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
+import { signIn } from '../../store/actions/auth';
 
 //components
 import Ptxt from '../../components/Ptxt';
-
-//contexts
-import { AuthContext } from '../../contexts';
 
 //styles
 import styles from './styles';
 
 const Login = ({ navigation }) => {
-  const { signIn } = useContext(AuthContext);
-
+  const dispatch = useDispatch();
   return (
     <SafeAreaView style={styles.container}>
       <Icon
@@ -22,7 +20,7 @@ const Login = ({ navigation }) => {
         color="#f50"
         containerStyle={styles.close}
         size={30}
-        onPress={() => signIn('dummyToken')}
+        onPress={() => dispatch(signIn('dummyToken'))}
       />
       <View style={styles.lottieWrraper}>
         <LottieView

@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import cycle from './cycle';
-import template from './template';
+import user from './user';
+import auth from './auth';
 
-export default combineReducers({ cycle, template });
+export default combineReducers({ auth, user, cycle });
