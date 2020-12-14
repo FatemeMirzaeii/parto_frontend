@@ -48,6 +48,7 @@
     "react-native-screens": "^2.11.0",
     "react-native-share": "^3.7.1",
     "react-native-snap-carousel": "^3.9.1",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-sqlite-storage": "^5.0.0",
     "react-native-sticky-parallax-header": "^0.3.1",
     "react-native-svg": "^12.1.0",
