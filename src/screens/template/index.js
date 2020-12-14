@@ -11,13 +11,13 @@ import {
   handleMainSelected,
   handleTeenagerSelected,
   handlePartnerSelected,
-} from '../../store/actions/template';
+} from '../../store/actions/user';
 
 //styles
 import styles from './styles';
 
 const Template = (props) => {
-  const modeState = useSelector((state) => state.template.mode);
+  const modeState = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 
   const _handleMainSelected = useCallback(() => {
