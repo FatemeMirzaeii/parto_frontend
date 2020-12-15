@@ -21,17 +21,19 @@ import PhoneInput from 'react-native-phone-number-input';
 import Ptxt from '../../components/Ptxt';
 import Loader from '../../components/Loader';
 
+//store
+import { setUser } from '../../store/actions/user';
+import { signUp } from '../../store/actions/auth';
+
 //util
 import DataBase from '../../util/database';
 import { storeData } from '../../util/func';
 
+//services
 import { devUrl } from '../../services/urls';
 
 //styles
-import { WIDTH } from '../../styles/static';
 import styles from './styles';
-import { setUser } from '../../store/actions/user';
-import { signUp } from '../../store/actions/auth';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -75,10 +77,11 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
-        alert('error: ' + err);
-        if (err.toString() === 'Error: Network Error')
+        if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        } else {
+          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        }
       });
   };
 
@@ -103,9 +106,11 @@ const SignUp = ({ navigation }) => {
       .catch((err) => {
         console.error(err, err.response);
         setIsLoading(false);
-        if (err.toString() === 'Error: Network Error')
+        if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        } else {
+          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        }
       });
   };
 
@@ -149,9 +154,11 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
-        if (err.toString() === 'Error: Network Error')
+        if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        } else {
+          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        }
       });
   };
 
@@ -169,17 +176,8 @@ const SignUp = ({ navigation }) => {
       <View style={styles.container}>
         <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
-          containerStyle={{
-            width: WIDTH * 0.6,
-            borderRadius: 10,
-            alignSelf: 'center',
-            margin: 20,
-          }}
-          textContainerStyle={{
-            borderTopRightRadius: 10,
-            borderBottomRightRadius: 10,
-            marginLeft: -10,
-          }}
+          containerStyle={styles.phoneInputWrraper}
+          textContainerStyle={styles.phoneInputTxtWrraper}
           textInputStyle={styles.phoneInputTxt}
           codeTextStyle={styles.phoneInputTxt}
           placeholder="۹ - - - - - - - - -"
