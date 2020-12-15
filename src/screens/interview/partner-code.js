@@ -1,5 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, ImageBackground, SafeAreaView } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  ImageBackground,
+  SafeAreaView,
+  ToastAndroid,
+} from 'react-native';
 import { useSelector } from 'react-redux';
 import { Input, Button } from 'react-native-elements';
 import axios from 'axios';
@@ -13,21 +18,22 @@ const PartenerCode = ({ route, navigation }) => {
 
   const verifyCode = async () => {
     try {
-      console.log('userId', userId);
-      // const res = await axios({
-      //   method: 'POST',
-      //   url: `${devUrl}/auth/partnerVerificationCode/${userId}/fa`,
-      //   headers: {
-      //     Accept: 'application/json',
-      //     'Content-Type': 'application/json',
-      //     'x-auth-token': await getData('@token'),
-      //   },
-      //   data: {
-      //     partnerCode: code,
-      //   },
-      // });
-    } catch (error) {
-      console.error(error);
+      await axios({
+        method: 'POST',
+        url: `${devUrl}/user/partnerVerificationCode/${userId}/fa`,
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'x-auth-token': await getData('@token'),
+        },
+        data: {
+          partnerCode: code,
+        },
+      });
+    } catch (err) {
+      if (err.toString() === 'Error: Network Error')
+        ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
     }
   };
 

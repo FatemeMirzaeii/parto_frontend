@@ -12,6 +12,7 @@ const initialState = {
 };
 
 const userReducer = (state = initialState, action) => {
+  console.log('actionnnnnnnnnnnnnnn', action);
   switch (action.type) {
     case MAIN_MODE:
       return { ...state, template: 'main' };
@@ -20,7 +21,7 @@ const userReducer = (state = initialState, action) => {
     case PARTNER_MODE:
       return { ...state, template: 'partner' };
     case SET_USER: {
-      return { ...state, id: action.payload.id };
+      return { ...state, id: action.id };
     }
     default:
       return state;

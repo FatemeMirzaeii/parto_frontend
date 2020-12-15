@@ -12,6 +12,5 @@ export const handlePartnerSelected = () => {
   return { type: PARTNER_MODE };
 };
 export const setUser = (id) => {
-  console.log('setUser', id);
-  return { type: SET_USER, payload: id };
+  return { type: SET_USER, id };
 };
