@@ -22,7 +22,11 @@ export default StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
-  buttons: { flexDirection: 'row', justifyContent: 'space-around', margin: 3 },
+  buttons: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-around',
+    margin: 3,
+  },
   btnContainer: {
     elevation: 5,
     width: WIDTH / 3,
@@ -60,6 +64,14 @@ export default StyleSheet.create({
     color: COLOR.textColor,
     lineHeight: 30,
     paddingTop: 20,
+  },
+  modal: {
+    backgroundColor: '#fff',
+    borderRadius: 15,
+    padding: 20,
+  },
+  modalTxt: {
+    margin: 20,
   },
   mode: {
     backgroundColor: 'white',
