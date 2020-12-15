@@ -26,6 +26,8 @@ const useFetcher = ({ method, dev = false, url, data = null }) => {
             'x-auth-token': await getData('@token'),
           },
         });
+      //to maryam: when you are using await there is no need to use .then too.
+      //you can have await function result in some variable then use it.
       else
         await axios({
           method: method,
