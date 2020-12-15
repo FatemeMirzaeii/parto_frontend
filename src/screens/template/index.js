@@ -15,6 +15,9 @@ import {
   handlePartnerSelected,
 } from '../../store/actions/user';
 
+//util
+import { storeData } from '../../util/func';
+
 //styles
 import styles from './styles';
 
@@ -22,20 +25,23 @@ const Template = (props) => {
   const modeState = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 
-  const _handleMainSelected = useCallback(() => {
+  const _handleMainSelected = useCallback(async () => {
     dispatch(handleMainSelected());
+    await storeData('@appMode', 'main');
     props.navigation.navigate('Interview');
   }, [dispatch, props.navigation]);
 
-  const _handleTeenagerSelected = useCallback(() => {
+  const _handleTeenagerSelected = useCallback(async () => {
     dispatch(handleTeenagerSelected());
+    await storeData('@appMode', 'teenager');
     props.navigation.navigate('Q2', {
       mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
     });
-  }, [dispatch]);
+  }, [dispatch, props.navigation]);
 
-  const _handlePartnerSelected = useCallback(() => {
+  const _handlePartnerSelected = useCallback(async () => {
     dispatch(handlePartnerSelected());
+    await storeData('@appMode', 'partner');
     props.navigation.navigate('PartnerCode');
   }, [dispatch, props.navigation]);
 
