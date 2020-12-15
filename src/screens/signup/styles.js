@@ -14,16 +14,16 @@ export default StyleSheet.create({
     top: 25,
     left: 15,
   },
-  phoneInput: {
-    margin: 10,
+  phoneInputWrraper: {
+    width: WIDTH * 0.6,
+    borderRadius: 10,
     alignSelf: 'center',
-    padding: 5,
-    height: 50,
-    width: 120,
-    borderColor: '#9FE6FD',
-    borderWidth: 1,
-    fontSize: 15,
-    fontFamily: FONT.regular,
+    margin: 20,
+  },
+  phoneInputTxtWrraper: {
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    marginLeft: -10,
   },
   phoneInputTxt: {
     fontFamily: FONT.regular,
