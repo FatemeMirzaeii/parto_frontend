@@ -1,81 +1,31 @@
+import axios from 'axios';
+import { ToastAndroid } from 'react-native';
 import { getData } from '../util/func';
 import { baseUrl, devUrl } from './urls';
-export class api {
-  constructor() {
-    this.Date;
-    this.state = {
-      _status: null,
-      _data: null,
-      _error: null,
-      _message: null,
-      _token: null,
-      url: 'https://',
-    };
-  }
 
-  async request(_url, _body = null, _method = 'POST', dev, isEncrypt = null) {
-    const url = dev ? devUrl : baseUrl + _url;
-    console.log('url,url', url);
-    const token = await getData('@token');
-    console.log(token);
-    _method = _method.toUpperCase();
-    var body1, header, RI;
-    header = new Headers({
-      Accept: 'application/json',
-      'Content-Type': 'application/json',
-      'x-auth-token': token,
-    });
-    if (isEncrypt === 'LoginPage') {
-      //body1 = aes.EncryptBody(_body);
-    } else {
-      body1 = _body;
+export default async ({ url, data = null, method = 'GET', dev = false }) => {
+  const uri = dev ? devUrl + url : baseUrl + url;
+  const token = await getData('@token');
+  const headers = {
+    Accept: 'application/json',
+    'Content-Type': 'application/json',
+    'x-auth-token': token,
+  };
+  const config = {
+    method: method.toUpperCase(),
+    credentials: 'include',
+    headers: headers,
+  };
+  if (data) config.data = data;
+  try {
+    const res = await axios(uri, config);
+    console.log('api result', res);
+    if (res.status === 200) {
+      return res;
     }
-    if (_method === 'GET') {
-      RI = {
-        method: _method,
-        headers: header,
-      };
-    } else {
-      RI = {
-        method: _method,
-        headers: header,
-        body: JSON.stringify(body1),
-      };
-    }
-    console.log('body,body', body1);
-    await this.FetchWithTimeOut(
-      url.includes('http://') || url.includes('https://')
-        ? url
-        : this.state.url + url,
-      RI,
-    )
-      .then((response) => {
-        console.log('response,response', response);
-        this.state._token = response.headers.get('x-auth-token');
-        this.state._status = response.status;
-        return response.json();
-      })
-      .then((responseJson) => {
-        console.log('responseJson: ', responseJson);
-        this.state._data = responseJson;
-        // if (isEncrypt === 'LoginPage') {
-        //     const DecryptedResponse = aes.DecryptBody(responseJson);
-        //     this.state._Response._data = DecryptedResponse.data ? DecryptedResponse.data : DecryptedResponse.error ? DecryptedResponse.error : null;
-        // }
-      })
-      .catch((error) => {
-        this.state._error = error;
-      });
-
-    return this.state;
+  } catch (err) {
+    if (err.toString() === 'Error: Network Error')
+      ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+    else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
   }
-
-  async FetchWithTimeOut(url, options, timeout = 5000) {
-    return Promise.race([
-      fetch(url, options),
-      new Promise((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), timeout),
-      ),
-    ]);
-  }
-}
+};

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
-import { storeData } from '../../util/func';
 import { saveProfileData, addPregnancy } from '../../util/database/query';
 import CycleModule from '../../util/cycle';
 import PersianDatePicker from '../../components/PersianDatePicker';
@@ -55,7 +54,6 @@ const Q5 = ({ route, navigation }) => {
       if (mode.pregnant) {
         addPregnancy({ dueDate, conceptionDate });
       }
-      await storeData('@startPages', 'true');
       dispatch(interview());
       dispatch(fetchInitialCycleData());
     });

@@ -5,9 +5,7 @@ import { COLOR } from '../../styles/static';
 import { getUser } from '../../util/database/query';
 import Loader from '../../components/Loader';
 import styles from './styles';
-import axios from 'axios';
-import { getData } from '../../util/func';
-import { devUrl } from '../../services/urls';
+import api from '../../services/api';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -36,21 +34,11 @@ const PartnerVerificationCode = ({ navigation }) => {
     const getPartnerCode = async () => {
       const userId = await checkIfRegistered();
       if (!notRegistered) {
-        try {
-          const res = await axios({
-            method: 'GET',
-            url: `${devUrl}/auth/partnerVerificationCode/${userId}/fa`,
-            credentials: 'include',
-            headers: {
-              Accept: 'application/json',
-              'Content-Type': 'application/json',
-              'x-auth-token': await getData('@token'),
-            },
-          });
-          setCode(res.data.data.partnerCode);
-        } catch (error) {
-          console.error(error);
-        }
+        const res = await api({
+          url: `/user/partnerVerificationCode/${userId}/fa`,
+          dev: true,
+        });
+        if (res) setCode(res.data.data.partnerCode);
         setIsLoading(false);
       }
     };

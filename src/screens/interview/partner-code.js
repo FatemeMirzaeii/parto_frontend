@@ -1,39 +1,35 @@
 import React, { useState } from 'react';
-import {
-  View,
-  ImageBackground,
-  SafeAreaView,
-  ToastAndroid,
-} from 'react-native';
-import { useSelector } from 'react-redux';
+import { View, ImageBackground, SafeAreaView } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from 'react-native-elements';
-import axios from 'axios';
 import { FONT, HEIGHT, WIDTH } from '../../styles/static';
 import styles from './styles';
-import { devUrl } from '../../services/urls';
-import { getData } from '../../util/func';
+import { interview } from '../../store/actions/auth';
+import api from '../../services/api';
+
 const PartenerCode = ({ route, navigation }) => {
   const [code, setCode] = useState();
   const userId = useSelector((state) => state.user.id);
-
+  const dispatch = useDispatch();
   const verifyCode = async () => {
-    try {
-      await axios({
+    const res = await api({
+      method: 'POST',
+      url: `/user/partnerVerificationCode/${userId}/fa`,
+      data: {
+        partnerCode: code,
+      },
+      dev: true,
+    });
+    if (res) {
+      const resul = await api({
         method: 'POST',
-        url: `${devUrl}/user/partnerVerificationCode/${userId}/fa`,
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          'x-auth-token': await getData('@token'),
-        },
-        data: {
-          partnerCode: code,
-        },
+        url: `/user/versionType/${userId}/Partner/fa`,
+        dev: true,
       });
-    } catch (err) {
-      if (err.toString() === 'Error: Network Error')
-        ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-      else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+      if (resul) {
+        dispatch(interview());
+        // dispatch todo
+      }
     }
   };
 

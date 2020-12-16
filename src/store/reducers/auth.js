@@ -13,7 +13,7 @@ const authReducer = (state = initialState, action) => {
       return {
         ...state,
         userToken: action.token,
-        interviewToken: action.iToken,
+        interviewToken: action.interviewToken,
         isLoading: false,
       };
     case actions.SIGN_IN:
@@ -27,11 +27,12 @@ const authReducer = (state = initialState, action) => {
         ...state,
         isSignout: true,
         userToken: null,
+        interviewToken: null,
       };
     case actions.INTERVIEW:
       return {
         ...state,
-        interviewToken: action.iToken,
+        interviewToken: action.interviewToken,
       };
     default:
       return state;

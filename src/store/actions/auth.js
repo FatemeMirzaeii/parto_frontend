@@ -1,5 +1,5 @@
 import * as actions from './types';
-import { getData, removeData } from '../../util/func';
+import { getData, removeData, storeData } from '../../util/func';
 
 export const signIn = (dummyToken) => async (dispatch, getState) => {
   dispatch({
@@ -8,13 +8,21 @@ export const signIn = (dummyToken) => async (dispatch, getState) => {
   });
 };
 export const signOut = () => async (dispatch, getState) => {
-  dispatch({ type: actions.SIGN_OUT, token: await removeData('@token') });
+  dispatch({
+    type: actions.SIGN_OUT,
+    token: await removeData('@token'),
+    interviewToken: await removeData('@startPages'),
+  });
 };
 export const signUp = () => async (dispatch, getState) => {
   dispatch({ type: actions.SIGN_IN, token: await getData('@token') });
 };
 export const interview = () => async (dispatch, getState) => {
-  dispatch({ type: actions.INTERVIEW, iToken: await getData('@startPages') });
+  await storeData('@startPages', 'true');
+  dispatch({
+    type: actions.INTERVIEW,
+    interviewToken: await getData('@startPages'),
+  });
 };
 export const restoreToken = () => async (dispatch, getState) => {
   try {
@@ -23,7 +31,7 @@ export const restoreToken = () => async (dispatch, getState) => {
     dispatch({
       type: actions.RESTORE_TOKEN,
       token: userToken,
-      iToken: interviewToken,
+      interviewToken: interviewToken,
     });
   } catch (e) {}
 };

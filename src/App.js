@@ -12,7 +12,7 @@ import lock from './util/lock';
 import setupNotifications from './util/notifications';
 import { fetchInitialCycleData } from './store/actions/cycle';
 import SplashScreen from 'react-native-splash-screen';
-import { restoreToken } from './store/actions/auth';
+import { restoreToken, signOut } from './store/actions/auth';
 import { migration } from './util/database/migration';
 
 //splash comes in
@@ -40,6 +40,7 @@ const App: () => React$Node = () => {
   }, []);
 
   const launchApp = async () => {
+    // store.dispatch(signOut());
     store.dispatch(restoreToken());
     setupNotifications();
     await migration();
