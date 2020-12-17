@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Text, SafeAreaView, View, ImageBackground } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import { saveProfileData, addPregnancy } from '../../util/database/query';
-import CycleModule from '../../util/cycle';
+import Modal from 'react-native-modal';
+import { useDispatch, useSelector } from 'react-redux';
 import PersianDatePicker from '../../components/PersianDatePicker';
-import styles from './styles';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
 import { interview } from '../../store/actions/auth';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
+import CycleModule from '../../util/cycle';
+import { addPregnancy, saveProfileData } from '../../util/database/query';
+import styles from './styles';
+let counter = 0;
 
 const Q5 = ({ route, navigation }) => {
+  const [birthdate, setBirthdate] = useState();
+  const [alertVisible, setAlertVisible] = useState(false);
   const {
     mode,
     lastPeriodDate,
@@ -18,15 +22,23 @@ const Q5 = ({ route, navigation }) => {
     dueDate,
     conceptionDate,
   } = route.params;
-  const [birthdate, setBirthdate] = useState();
   const modeState = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
-  // دوست عزیز پرتو برای نوجوانان نسخه ی مناسب و جذابی دارد که می
-  // توانید آن را دانلود کنید.
 
   useEffect(() => {
     console.log('params', route.params);
   }, [route.params]);
+
+  useEffect(() => {
+    if (
+      birthdate &&
+      counter === 0 &&
+      modeState === 'main' &&
+      Number(birthdate.split('/')[0]) >= 1381
+    ) {
+      setAlertVisible(true);
+    }
+  }, [birthdate, modeState]);
 
   const setDate = (date, persianDate) => {
     console.log('hi from interview', date);
@@ -36,7 +48,7 @@ const Q5 = ({ route, navigation }) => {
   };
 
   const onNextPress = (bd) => {
-    //todo: need to check if save function was successfull or not
+    //todo: need to check if save function was successfull or
     saveProfileData({
       pregnant: mode.pregnant,
       pregnancyTry: mode.pregnancy_try,
@@ -72,7 +84,7 @@ const Q5 = ({ route, navigation }) => {
         <View style={styles.picker}>
           <PersianDatePicker
             onDateSelected={setDate}
-            startOfRange={modeState == 'teenager' ? 1381 : 1340}
+            startOfRange={modeState === 'teenager' ? 1381 : 1340}
             endOfRange={1390}
           />
         </View>
@@ -103,6 +115,38 @@ const Q5 = ({ route, navigation }) => {
           </View>
         </View>
       </ImageBackground>
+      <Modal
+        animationType="fade"
+        isVisible={alertVisible}
+        onRequestClose={() => setAlertVisible(false)}
+        onBackdropPress={() => setAlertVisible(false)}>
+        <View style={styles.modal}>
+          <View>
+            <Text style={{ ...styles.question, ...styles.modalTxt }}>
+              پرتویی جان! مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
+              طراحی شده، استفاده کنی؟
+            </Text>
+            <View style={styles.buttons}>
+              <Button
+                title="بله"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.nextButton}
+                titleStyle={styles.btnTitle}
+                type="solid"
+                onPress={() => navigation.navigate('Template')}
+              />
+              <Button
+                title="نه"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.prevButton}
+                titleStyle={styles.darkBtnTitle}
+                type="solid"
+                onPress={() => setAlertVisible(false)}
+              />
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 };
