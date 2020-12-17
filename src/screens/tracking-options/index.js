@@ -54,6 +54,7 @@ import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
+import { getData } from '../../util/func';
 
 const detailPageRef = createRef();
 
@@ -71,7 +72,12 @@ const TrackingOptions = ({ route, navigation }) => {
 
   const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
-    setCategories(td);
+    const appMode = await getData('@appMode');
+    if (td && appMode === 'teenager') {
+      setCategories(td.filter((item) => item.id !== SEX));
+    } else {
+      setCategories(td);
+    }
   }, [date]);
 
   useEffect(() => {
@@ -275,6 +281,17 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
+  // const getModeData = async () => {
+  //   appMode = await getData('@appMode');
+  //   if (appMode === 'teenager') {
+  //     const teenagerTrackingOptionData = categories.filter((item) => {
+  //       item.id !== SEX;
+  //     });
+  //     setCategories(teenagerTrackingOptionData);
+  //     console.log('yesssssssssssss');
+  //   }
+  //   return categories;
+  // };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>
