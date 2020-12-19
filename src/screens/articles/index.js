@@ -8,6 +8,9 @@ import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/Loader';
 import NewestArticles from '../../components/NewestArticles';
 
+//util
+import { getData } from '../../util/func';
+
 //services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
@@ -23,14 +26,31 @@ const Articles = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [newestIsLoading, setNewestIsLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(4);
+  const [spaceKey, setSpaceKey] = useState('');
   const { navigation } = props;
+
+  useEffect(() => {
+    const initialize = async () => {
+      const modApp = await getData('@appMode');
+      switch (modApp) {
+        case 'main':
+          return setSpaceKey('appcontent');
+        case 'teenager':
+          return setSpaceKey('teenager');
+        case 'partner':
+          return setSpaceKey('HusbandContent');
+      }
+    };
+    initialize();
+  }, []);
 
   useEffect(() => {
     const getCategoryList = async () => {
       try {
         const res = await axios({
           method: 'get',
-          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+          //url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=${spaceKey} and type=page and label= "دسته‌بندی")order by created asc`,
           headers: {
             Authorization: 'Basic ' + authCode,
             'X-Atlassian-Token': 'no-check',
@@ -45,15 +65,17 @@ const Articles = (props) => {
       }
       setIsLoading(false);
     };
-    getCategoryList();
-  }, []);
+    if (spaceKey) {
+      getCategoryList();
+    }
+  }, [spaceKey]);
 
   useEffect(() => {
     const getNewList = async () => {
       try {
         const res = await axios({
           method: 'get',
-          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
+          url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=${spaceKey} and type=page and label= "مقاله")order by created desc&start=${0}&limit=${5}`,
           headers: {
             Authorization: 'Basic ' + authCode,
             'X-Atlassian-Token': 'no-check',
@@ -101,8 +123,10 @@ const Articles = (props) => {
         console.error(err, err.response);
       }
     };
-    getNewList();
-  }, []);
+    if (spaceKey) {
+      getNewList();
+    }
+  }, [spaceKey]);
 
   return (
     <>
