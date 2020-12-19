@@ -19,7 +19,6 @@ import { articlesBaseUrl } from '../services/urls';
 import { COLOR, FONT, SIZE } from '../styles/static';
 
 const CategoryList = (props) => {
-  const [categoryContent, setCategoryContent] = useState([]);
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -31,8 +30,8 @@ const CategoryList = (props) => {
         let arts = [];
         const res = await axios({
           method: 'get',
-          url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
-          // url:`${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
+          //url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
+          url: `${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
           headers: {
             Authorization: 'Basic ' + authCode,
             'X-Atlassian-Token': 'no-check',
@@ -41,7 +40,6 @@ const CategoryList = (props) => {
         let con = [];
         console.log('myres', res);
         console.log('categoryContent', res.data.results);
-        setCategoryContent(res.data.results);
         con = res.data.results;
         for (let i = 0; i < con.length; i++) {
           try {

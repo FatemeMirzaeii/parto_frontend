@@ -68,6 +68,10 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
     flexDirection: 'row',
   },
+  btnWrapper: {
+    flex: 0.2,
+    flexDirection: 'row-reverse',
+  },
   categoryWrapper: {
     margin: 10,
     backgroundColor: COLOR.btn,

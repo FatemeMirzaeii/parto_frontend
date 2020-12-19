@@ -1,6 +1,6 @@
+import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
-import axios from 'axios';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 //components
@@ -13,7 +13,7 @@ import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
 
 //styles
-import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
+import { WIDTH } from '../../styles/static';
 import styles from './styles';
 
 const Articles = (props) => {
@@ -39,8 +39,9 @@ const Articles = (props) => {
         setCategoryList(res.data.results);
       } catch (err) {
         console.error(err, err.response);
-        if (err.toString() === 'Error: Network Error')
+        if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        }
       }
       setIsLoading(false);
     };
@@ -61,7 +62,6 @@ const Articles = (props) => {
         let con = [];
         let temp = [];
         console.log('getNewList', res);
-        //  console.log('categoryContent', res.data.results);
         setNewList(res.data.results);
         con = res.data.results;
         for (let i = 0; i < con.length; i++) {
@@ -79,7 +79,6 @@ const Articles = (props) => {
             console.log('response', response);
             const data = response.data.results;
             const imgUrl = [];
-            // content = [];
             for (let j = 0; j < data.length; j++) {
               imgUrl.push(
                 `${articlesBaseUrl}${
@@ -87,19 +86,9 @@ const Articles = (props) => {
                 }?os_authType=basic`,
               );
             }
-            //  newest.push({
-            //    ...con[i],
-            //    cover: imgUrl[0],
-            //    image: imgUrl,
-            //    //catId: catId,
-            //  });
-            //  setNewest({ ...con[i],
-            //   cover: imgUrl[0],
-            //   image: imgUrl,})
             temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
             setNewest(temp);
-            // console.log('imgUrl', imgUrl);
-            // console.log('newest*********', newest);
+            console.log('setNewest', temp);
           } catch (err) {
             console.error(err, err.response);
             // if (err.response && err.response.data) {
@@ -126,7 +115,6 @@ const Articles = (props) => {
               <>
                 <Carousel
                   slideStyle={styles.slider}
-                  // containerCustomStyle={{ flex: 1 }}
                   autoplay
                   inverted
                   data={newest}
@@ -135,6 +123,12 @@ const Articles = (props) => {
                     <NewestArticles
                       title={item.content.title}
                       image={item.cover}
+                      // onSelectArticle={() => {
+                      //   props.navigation.navigate('ArticleDetails', {
+                      //     articleContent: item,
+                      //    catName: catName,
+                      //   });
+                      // }}
                     />
                   )}
                   sliderWidth={WIDTH}
@@ -143,7 +137,6 @@ const Articles = (props) => {
                 <Pagination
                   dotsLength={newList.length}
                   activeDotIndex={activeSlide}
-                  //containerStyle={{ backgroundColor: 'rgba(0, 0, 0, 0.75)',margin:0,padding:0 }}
                   dotStyle={styles.paginationDots}
                   inactiveDotStyle={styles.inactiveDot}
                   inactiveDotOpacity={0.4}
@@ -151,7 +144,6 @@ const Articles = (props) => {
                 />
               </>
             }
-            // style={{ paddingBottom: 40, backgroundColor: 'pink' }}
             data={categoryList}
             renderItem={({ item }) => (
               <CategoryList

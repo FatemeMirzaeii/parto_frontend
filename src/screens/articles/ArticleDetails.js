@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Animated,
   Dimensions,
@@ -9,11 +9,20 @@ import {
   Text,
   TouchableOpacity,
   View,
+  ToastAndroid,
 } from 'react-native';
+import axios from 'axios';
 import { Icon } from 'react-native-elements';
 import HTML from 'react-native-render-html';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import TextTicker from 'react-native-text-ticker';
+
+//components
+import Loader from '../../components/Loader';
+
+//services
+import { authCode } from '../../services/authCode';
+import { articlesBaseUrl } from '../../services/urls';
 
 //styles
 import styles from './styles';
@@ -24,7 +33,33 @@ const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
 
 const ArticleDetails = ({ route, navigation }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [articleBody, setArticleBody] = useState([]);
   const { articleContent, catName } = route.params;
+
+  useEffect(() => {
+    const getArticleBody = async () => {
+      try {
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/content/${articleContent.id}?expand=body.storage&depth=all`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+        setArticleBody(res.data.body.storage.value);
+        console.log('setArticleBody', res.data.body.storage.value);
+      } catch (err) {
+        console.error(err, err.response);
+        if (err.toString() === 'Error: Network Error') {
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        }
+      }
+      setIsLoading(false);
+    };
+    getArticleBody();
+  }, [articleContent.id]);
 
   const _renderHeader = () => {
     const opacity = scrollY.y.interpolate({
@@ -32,7 +67,7 @@ const ArticleDetails = ({ route, navigation }) => {
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
-    // console.log('articleContent', articleContent);
+    console.log('articleContent', articleContent);
     return (
       <>
         <SafeAreaView style={styles.headerCotainer}>
@@ -80,7 +115,7 @@ const ArticleDetails = ({ route, navigation }) => {
       <View style={styles.headerTitleWrapper}>
         <Text style={styles.titleStyle}>{articleContent.title}</Text>
       </View>
-      <View style={{ flex: 0.2, flexDirection: 'row-reverse' }}>
+      <View style={styles.btnWrapper}>
         <TouchableOpacity
           style={styles.categoryWrapper}
           onPress={() => {
@@ -97,21 +132,22 @@ const ArticleDetails = ({ route, navigation }) => {
 
   const _renderBody = () => (
     <View style={styles.contentContiner}>
-      <HTML
-        tagsStyles={HTMLTagsStyles}
-        html={articleContent.body.storage.value.toString()}
-        ignoredStyles={['height', 'width']}
-        imagesMaxWidth={Dimensions.get('window').width}
-        style={styles.HTML}
-        onLinkPress={(event, url) => {
-          Linking.openURL(url);
-        }}
-      />
+      {isLoading ? (
+        <Loader />
+      ) : (
+        <HTML
+          tagsStyles={HTMLTagsStyles}
+          html={articleBody.toString()}
+          ignoredStyles={['height', 'width']}
+          imagesMaxWidth={Dimensions.get('window').width}
+          style={styles.HTML}
+          onLinkPress={(event, url) => {
+            Linking.openURL(url);
+          }}
+        />
+      )}
     </View>
   );
-
-  // console.log(articleContent.body.storage.value);
-  // console.log('catName', catName);
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
