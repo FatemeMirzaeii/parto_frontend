@@ -7,7 +7,7 @@ import styles from './styles';
 import { interview } from '../../store/actions/auth';
 import api from '../../services/api';
 
-const PartenerCode = ({ route, navigation }) => {
+const PartnerCode = ({ route, navigation }) => {
   const [code, setCode] = useState();
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
@@ -68,4 +68,4 @@ const PartenerCode = ({ route, navigation }) => {
     </SafeAreaView>
   );
 };
-export default PartenerCode;
+export default PartnerCode;
