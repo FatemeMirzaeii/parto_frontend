@@ -176,8 +176,8 @@ const SignUp = ({ navigation }) => {
       <View style={styles.container}>
         <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
-          containerStyle={styles.phoneInputWrraper}
-          textContainerStyle={styles.phoneInputTxtWrraper}
+          containerStyle={styles.phoneInputwrapper}
+          textContainerStyle={styles.phoneInputTxtwrapper}
           textInputStyle={styles.phoneInputTxt}
           codeTextStyle={styles.phoneInputTxt}
           placeholder="۹ - - - - - - - - -"

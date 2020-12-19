@@ -22,7 +22,7 @@ const Login = ({ navigation }) => {
         size={30}
         onPress={() => dispatch(signIn('dummyToken'))}
       />
-      <View style={styles.lottieWrraper}>
+      <View style={styles.lottiewrapper}>
         <LottieView
           source={require('../../../assets/lotties/verification.json')}
           autoPlay

@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 24,
   },
-  lottieWrraper:{ height: HEIGHT / 2.3, width: WIDTH * 0.8, alignSelf: 'center',marginTop:"10%" },
+  lottiewrapper:{ height: HEIGHT / 2.3, width: WIDTH * 0.8, alignSelf: 'center',marginTop:"10%" },
   btnContainer: {
     elevation: 5,
     width: WIDTH * 0.6,

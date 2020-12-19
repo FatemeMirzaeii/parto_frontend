@@ -14,13 +14,13 @@ export default StyleSheet.create({
     top: 25,
     left: 15,
   },
-  phoneInputWrraper: {
+  phoneInputwrapper: {
     width: WIDTH * 0.6,
     borderRadius: 10,
     alignSelf: 'center',
     margin: 20,
   },
-  phoneInputTxtWrraper: {
+  phoneInputTxtwrapper: {
     borderTopRightRadius: 10,
     borderBottomRightRadius: 10,
     marginLeft: -10,
