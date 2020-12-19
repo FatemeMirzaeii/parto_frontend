@@ -42,24 +42,6 @@ export async function requestSTORAGEPermission() {
     console.warn(err);
   }
 }
-export async function request_READ_PHONE_STATE() {
-  try {
-    const granted = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.READ_PHONE_STATE,
-      {
-        title: 'ReactNativeCode wants to READ_PHONE_STATE',
-        message: 'ReactNativeCode App needs access to your personal data. ',
-      },
-    );
-    if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-      Alert.alert('Permission Granted.'); //to maryam: Alert is not defined
-    } else {
-      Alert.alert('Permission Not Granted');
-    }
-  } catch (err) {
-    console.warn(err);
-  }
-}
 export function RemoveHTML(Text) {
   const Entities = require('html-entities').AllHtmlEntities;
   const entities = new Entities();
@@ -118,6 +100,8 @@ export function wait(timeout) {
     setTimeout(resolve, timeout);
   });
 }
+
+/* eslint-disable no-undef */
 export const shareContent = async (url) => {
   const shareOptions = {
     title: 'Share file',
@@ -130,9 +114,11 @@ export const shareContent = async (url) => {
     shareTxt = JSON.stringify(ShareResponse, null, 2);
   } catch (error) {
     console.log('Error =>', error);
-    shareTxt = 'error: '.concat(getErrorString(error)); //to maryam: shareTxt and getErrorString are not defined.
+    shareTxt = 'error: '.concat(getErrorString(error));
   }
 };
+/* eslint-enable no-undef*/
+
 export const convert2MD5 = (value) => {
   return md5(value);
 };
