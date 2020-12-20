@@ -13,14 +13,25 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
+import { getData } from '../../util/func';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
+  const [appMode, setAppMode] = useState('');
   const dispatch = useDispatch();
 
   useEffect(() => {
     determineLockStatus();
   }, []);
+
+  useEffect(() => {
+    const initialize = async () => {
+      const mode = await getData('@appMode');
+      setAppMode(mode);
+    };
+    initialize();
+  }, []);
+
   const determineLockStatus = async () => {
     const status = await lockStatus();
     setIsLock(status ? true : false);
@@ -71,7 +82,7 @@ const Menu = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
-      <UserGoal navigation={navigation} />
+      {appMode === 'main' ? <UserGoal navigation={navigation} /> : null}
       <Card>
         <ListItem
           title="اطلاعات سلامت"
@@ -102,21 +113,23 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider
+          bottomDivider={appMode === 'main' ? true : false}
         />
-        <ListItem
-          title="کد همسر"
-          leftIcon={{
-            name: 'barcode',
-            color: COLOR.tiffany,
-            type: 'font-awesome',
-          }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('PartnerVerificationCode')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
+        {appMode === 'main' ? (
+          <ListItem
+            title="کد همسر"
+            leftIcon={{
+              name: 'barcode',
+              color: COLOR.tiffany,
+              type: 'font-awesome',
+            }}
+            chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+            onPress={() => navigateTo('PartnerVerificationCode')}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+          />
+        ) : null}
       </Card>
       <Card>
         {/* <ListItem
