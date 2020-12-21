@@ -117,6 +117,7 @@ const Template = ({ navigation }) => {
           <Carousel
             data={carousel}
             inactiveSlideScale={0.7}
+            inactiveSlideOpacity={1}
             renderItem={_renderItem}
             sliderWidth={WIDTH - 40}
             itemWidth={120}
