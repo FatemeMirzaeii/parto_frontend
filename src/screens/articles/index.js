@@ -31,8 +31,8 @@ const Articles = (props) => {
 
   useEffect(() => {
     const initialize = async () => {
-      const modApp = await getData('@appMode');
-      switch (modApp) {
+      const modeApp = await getData('@appMode');
+      switch (modeApp) {
         case 'main':
           return setSpaceKey('appcontent');
         case 'teenager':
