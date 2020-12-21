@@ -23,8 +23,9 @@ const PartnerCode = ({ route, navigation }) => {
     if (res) {
       const resul = await api({
         method: 'POST',
-        url: `/user/versionType/${userId}/Partner/fa`,
+        url: `/user/versionType/${userId}/fa`,
         dev: true,
+        data: { type: 'Partner' },
       });
       if (resul) {
         dispatch(interview());
