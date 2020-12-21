@@ -59,7 +59,7 @@ const Menu = ({ navigation }) => {
           link = MyketLink;
           break;
         default:
-          link = CafeBazaarLink;
+          link = 'www.parto.app';
           break;
       }
       shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):{'\n'}${link}`);
