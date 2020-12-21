@@ -4,17 +4,17 @@ import {
   Text,
   StyleSheet,
   TouchableOpacity,
-  ImageBackground
+  ImageBackground,
 } from 'react-native';
 
 import Ptxt from './Ptxt';
 //styles
-import { COLOR, FONT, SIZE,WIDTH } from '../styles/static';
+import { COLOR, FONT, SIZE, WIDTH } from '../styles/static';
 
-const NewestArticles = props => {
+const NewestArticles = (props) => {
   return (
     <View style={styles.mealItem}>
-      <TouchableOpacity 
+      <TouchableOpacity
       //onPress={props.onSelectMeal}
       >
         <View>
@@ -22,8 +22,7 @@ const NewestArticles = props => {
             <ImageBackground
               source={{ uri: props.image }}
               //source={require('../../assets/images/NoPic.jpeg')}
-              style={styles.bgImage}
-            >
+              style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Ptxt style={styles.title} numberOfLines={2}>
                   {props.title}
@@ -40,10 +39,10 @@ const NewestArticles = props => {
 const styles = StyleSheet.create({
   mealItem: {
     height: 170,
-    width:WIDTH-70 ,
+    width: WIDTH - 70,
     borderRadius: 15,
     overflow: 'hidden',
-    marginTop:10
+    marginTop: 10,
   },
   bgImage: {
     width: '100%',
@@ -51,7 +50,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   mealRow: {
-    flexDirection: 'row'
+    flexDirection: 'row',
   },
   mealHeader: {
     //height: '85%'
@@ -60,18 +59,18 @@ const styles = StyleSheet.create({
     //paddingHorizontal: 10,
     justifyContent: 'space-between',
     alignItems: 'center',
-    height: '15%'
+    height: '15%',
   },
   titleContainer: {
     backgroundColor: 'rgba(0,0,0,0.5)',
     paddingVertical: 5,
-    paddingHorizontal: 12
+    paddingHorizontal: 12,
   },
   title: {
     fontSize: SIZE[17],
     color: 'white',
-    textAlign: 'center'
-  }
+    textAlign: 'center',
+  },
 });
 
 export default NewestArticles;
