@@ -2,6 +2,24 @@ import { StyleSheet } from 'react-native';
 import { COLOR, FONT } from '../../styles/static';
 
 export default StyleSheet.create({
+  main: {
+    paddingBottom: 50,
+    paddingTop: 24,
+  },
+  slider: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paginationDots: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+    //marginHorizontal: 8,
+    backgroundColor: COLOR.btn,
+  },
+  inactiveDot: {
+    backgroundColor: COLOR.btn,
+  },
   safeAreaView: {
     flex: 1,
     paddingBottom: 50,

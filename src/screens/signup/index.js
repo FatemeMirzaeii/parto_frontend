@@ -40,7 +40,6 @@ const SignUp = ({ navigation }) => {
   const { signUp } = useContext(AuthContext);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [countryCode, setCountryCode] = useState('');
-  const [serverCode, setServerCode] = useState(0);
   const [serverError, setServerError] = useState(null);
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -49,10 +48,6 @@ const SignUp = ({ navigation }) => {
     setValue,
   });
   const CELL_COUNT = 5;
-
-  // useEffect(() => {
-  //   getVerificationCode();
-  // }, []);
 
   const _handlePhoneInput = (text) => {
     setPhoneNumber(text);
@@ -65,23 +60,20 @@ const SignUp = ({ navigation }) => {
   const handleSubmit = async () => {
     await axios({
       method: 'post',
-      url: `${devUrl}/auth/checkVerifyCode/fa`,
+      url: `${devUrl}/auth/checkVerificationCode/fa`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
       },
       data: {
         phone: phoneNumber,
-        code: value,
-        // code:'12345' ,
+        code: value
       },
     })
       .then((res) => {
         console.log('res', res);
-        //storeData('@token', res._token);
-        signUp();
-        // setServerCode(res.data.code);
         setIsLoading(false);
+        handleLogin();
       })
       .catch((err) => {
         console.error(err, err.response);
@@ -89,23 +81,15 @@ const SignUp = ({ navigation }) => {
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         else
-          // switch (err.response.status) {
-          //   case 400:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          //   case 418:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          //   case 502:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          // }
           ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
       });
   };
 
-  const getVerificationCode = async () => {
+  const getVerificationCode = () => {
     setIsLoading(true);
     axios({
       method: 'post',
-      url: `${baseUrl}/auth/verifyCode`,
+      url: `${devUrl}/auth/verificationCode`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -116,28 +100,45 @@ const SignUp = ({ navigation }) => {
     })
       .then((res) => {
         console.log('res', res);
-        setServerCode(res.data.code);
         setIsLoading(false);
+      })
+      .catch((err) => {
+        console.error(err, err.response);
+         alert('error: ' + err);
+        if (err.toString() === 'Error: Network Error')
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+      });
+  };
+
+  const handleLogin = () => {
+    //setIsLoading(true);
+    axios({
+      method: "POST",
+      url: `${devUrl}/auth/logIn/fa`,
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+  
+      data: {
+        phone: phoneNumber,
+      },
+    })
+      .then((res) => {
+        console.log('handleLoginRes====== ', res);
+        console.log('res.headers.x-auth-token***** ', res.headers['x-auth-token']);
+        storeData('@token', res.headers['x-auth-token']);
+        signUp();
       })
       .catch((err) => {
         console.error(err, err.response);
         // alert('error: ' + err);
         if (err.toString() === 'Error: Network Error')
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        else
-          // switch (err.response.status) {
-          //   case 400:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          //   case 418:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          //   case 502:
-          //     ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-          // }
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
       });
   };
-  console.log('code', serverCode);
-  console.log('country', countryCode);
 
   return (
     <KeyboardAvoidingView
@@ -161,7 +162,6 @@ const SignUp = ({ navigation }) => {
       <View style={styles.container}>
         <Ptxt style={styles.title}>برای ثبت‌نام شماره موبایلت رو وارد کن:</Ptxt>
         <PhoneInput
-          //ref={phoneInput}
           containerStyle={{
             width: WIDTH * 0.6,
             borderRadius: 10,
@@ -182,11 +182,6 @@ const SignUp = ({ navigation }) => {
           CountryCode={(ele) => {
             setCountryCode(ele);
           }}
-          // onChangeFormattedText={_handlePhoneInput}
-          // onChangeFormattedText={(text) => {
-          //   setPhoneNumber(text);
-          // }}
-
           withShadow
           autoFocus
         />
@@ -220,7 +215,6 @@ const SignUp = ({ navigation }) => {
       />
       <Button
         title="تایید کد"
-        // disabled={!lastPeriodDate}
         containerStyle={styles.btnContainer}
         buttonStyle={styles.button}
         titleStyle={styles.btnTitle}
