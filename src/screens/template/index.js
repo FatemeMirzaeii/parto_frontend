@@ -133,11 +133,13 @@ const Template = ({ navigation }) => {
               color="#FB77A4"
               size={20}
             />
-            <View style={styles.textbox}>
+            <TouchableOpacity
+              style={styles.textbox}
+              onPress={() => onItemPress(activeSlide)}>
               <Text style={styles.title}>
                 {carousel.map((c) => c.title)[activeSlide]}
               </Text>
-            </View>
+            </TouchableOpacity>
             <Icon
               name="chevron-circle-left"
               type="font-awesome"

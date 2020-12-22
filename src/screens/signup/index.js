@@ -164,7 +164,7 @@ const SignUp = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.main}>
-      <Icon
+      {/* <Icon
         name="close"
         color="#f50"
         containerStyle={styles.close}
@@ -172,9 +172,10 @@ const SignUp = ({ navigation }) => {
         onPress={() => {
           navigation.pop();
         }}
-      />
+      /> */}
       <View style={styles.container}>
         <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
+        {/* to maryam: it is better to set character limit for phone number input. */}
         <PhoneInput
           containerStyle={styles.phoneInputwrapper}
           textContainerStyle={styles.phoneInputTxtwrapper}
