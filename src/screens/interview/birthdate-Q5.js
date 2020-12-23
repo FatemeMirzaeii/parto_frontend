@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
+import axios from 'axios';
+import {
+  ImageBackground,
+  SafeAreaView,
+  Text,
+  View,
+  ToastAndroid,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +15,8 @@ import { interview } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 import CycleModule from '../../util/cycle';
 import { addPregnancy, saveProfileData } from '../../util/database/query';
+import { getData } from '../../util/func';
+import { devUrl } from '../../services/urls';
 import styles from './styles';
 let counter = 0;
 
@@ -23,6 +32,7 @@ const Q5 = ({ route, navigation }) => {
     conceptionDate,
   } = route.params;
   const modeState = useSelector((state) => state.user.template);
+  const userIdState = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -47,8 +57,61 @@ const Q5 = ({ route, navigation }) => {
     }
   };
 
+  const setVersionType = async () => {
+    // await axios({
+    //   method: 'post',
+    //    url: `${devUrl}​/user​/versionType​/${userIdState}​/fa`,
+    //   credentials: 'include',
+    //   headers: {
+    //     Accept: 'application/json',
+    //     'Content-Type': 'application/json',
+    //     'x-auth-token': await getData('@token'),
+    //   },
+    //   data: {
+    //    type: modeState,
+    //   },
+    // })
+    //   .then((res) => {
+    //     console.log('res', res);
+    //   })
+    //   .catch((err) => {
+    //     console.error(err, err.response);
+    //     if (err.toString() === 'Error: Network Error') {
+    //       ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+    //     } else {
+    //       ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    //     }
+    //   });
+    try {
+      const res = await axios({
+        method: 'post',
+        url: `${devUrl}​/user​/versionType​/${userIdState}​/fa`,
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          'x-auth-token': await getData('@token'),
+        },
+        data: {
+          type: modeState,
+        },
+      });
+      console.log('res', res);
+    } catch (err) {
+      console.error(err, err.response);
+      if (err.toString() === 'Error: Network Error') {
+        ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      } else {
+        ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+      }
+    }
+  };
+
   const onNextPress = (bd) => {
     //todo: need to check if save function was successfull or
+    if (userIdState) {
+      setVersionType();
+    }
     saveProfileData({
       pregnant: mode.pregnant,
       pregnancyTry: mode.pregnancy_try,
@@ -71,6 +134,7 @@ const Q5 = ({ route, navigation }) => {
     });
   };
 
+  console.log('userIdState', userIdState);
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ImageBackground
