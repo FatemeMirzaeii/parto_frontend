@@ -83,10 +83,33 @@ const Articles = (props) => {
         });
         let con = [];
         let temp = [];
-        console.log('getNewList', res);
+        let temp1 = [];
+        //console.log('getNewList', res);
         setNewList(res.data.results);
         con = res.data.results;
         for (let i = 0; i < con.length; i++) {
+          try {
+            const result = await axios({
+              method: 'get',
+              //url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
+              url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}?expand=ancestors`,
+              headers: {
+                Authorization: 'Basic ' + authCode,
+                'X-Atlassian-Token': 'no-check',
+              },
+            });
+
+            // console.log('resParent', res.data.ancestors);
+            temp1 = result.data.ancestors;
+          } catch (err) {
+            console.error(err, err.response);
+            if (err.toString() === 'Error: Network Error') {
+              ToastAndroid.show(
+                'لطفا اتصال اینترنت رو چک کن.',
+                ToastAndroid.LONG,
+              );
+            }
+          }
           try {
             const response = await axios({
               method: 'get',
@@ -98,7 +121,7 @@ const Articles = (props) => {
                 'X-Atlassian-Token': 'no-check',
               },
             });
-            console.log('response', response);
+            //console.log('response', response);
             const data = response.data.results;
             const imgUrl = [];
             for (let j = 0; j < data.length; j++) {
@@ -108,14 +131,22 @@ const Articles = (props) => {
                 }?os_authType=basic`,
               );
             }
-            temp[i] = { ...con[i], cover: imgUrl[0], image: imgUrl };
+            temp[i] = {
+              ...con[i],
+              cover: imgUrl[0],
+              image: imgUrl,
+              catName: temp1[3].title,
+            };
             setNewest(temp);
-            console.log('setNewest', temp);
+            //console.log('setNewest', temp);
           } catch (err) {
             console.error(err, err.response);
-            // if (err.response && err.response.data) {
-            //   setServerError(err.response.data.message)
-            // }
+            if (err.toString() === 'Error: Network Error') {
+              ToastAndroid.show(
+                'لطفا اتصال اینترنت رو چک کن.',
+                ToastAndroid.LONG,
+              );
+            }
           }
           setNewestIsLoading(false);
         }
@@ -147,12 +178,12 @@ const Articles = (props) => {
                     <NewestArticles
                       title={item.content.title}
                       image={item.cover}
-                      // onSelectArticle={() => {
-                      //   props.navigation.navigate('ArticleDetails', {
-                      //     articleContent: item,
-                      //    catName: catName,
-                      //   });
-                      // }}
+                      onSelectArticle={() => {
+                        props.navigation.navigate('ArticleDetails', {
+                          articleContent: item.content,
+                          catName: item.catName,
+                        });
+                      }}
                     />
                   )}
                   sliderWidth={WIDTH}
