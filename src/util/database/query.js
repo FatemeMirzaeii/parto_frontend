@@ -24,34 +24,38 @@ export async function getProfileData() {
   return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function saveProfileData(profileSchema) {
-  const birthdate = !profileSchema.birthdate
-    ? null
-    : `'${profileSchema.birthdate}'`;
-  const lperiodDate = !profileSchema.lastPeriodDate
-    ? null
-    : `'${profileSchema.lastPeriodDate}'`;
-  const periodLength = !profileSchema.periodLength
-    ? null
-    : `${profileSchema.periodLength}`;
+  const exists = await db.exec(`SELECT 1 FROM ${PROFILE} LIMIT 1`);
+  if (exists === EMPTY_TABLE) {
+    const birthdate = !profileSchema.birthdate
+      ? null
+      : `'${profileSchema.birthdate}'`;
+    const lperiodDate = !profileSchema.last_period_date
+      ? null
+      : `'${profileSchema.last_period_date}'`;
+    const periodLength = !profileSchema.avg_period_length
+      ? null
+      : `${profileSchema.avg_period_length}`;
 
-  const cycleLength = !profileSchema.cycleLength
-    ? null
-    : `${profileSchema.cycleLength}`;
-  const res = await db.exec(
-    `INSERT INTO ${PROFILE}
+    const cycleLength = !profileSchema.avg_cycle_length
+      ? null
+      : `${profileSchema.avg_cycle_length}`;
+    const res = await db.exec(
+      `INSERT INTO ${PROFILE}
              (pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
-              birthdate, last_period_date, created_at)
+              birthdate, last_period_date, user_id, created_at)
              VALUES(
                 ${profileSchema.pregnant},
-                ${profileSchema.pregnancyTry},
+                ${profileSchema.pregnancy_try},
                 ${periodLength},
                 ${cycleLength},
                 ${birthdate},
                 ${lperiodDate},
+                ${profileSchema.userId},
                 '${moment().format(DATETIME_FORMAT)}')`,
-    PROFILE,
-  );
-  return res ?? 0;
+      PROFILE,
+    );
+    return res ?? 0;
+  }
 }
 export async function saveProfileHealthData(
   bloodType,
@@ -72,7 +76,7 @@ export async function saveProfileHealthData(
 }
 export async function pregnancyMode() {
   const res = await db.exec(`SELECT pregnant FROM ${PROFILE}`, PROFILE);
-  return res === EMPTY_TABLE ? [] : res[0].pregnant;
+  return res === EMPTY_TABLE ? false : res[0].pregnant;
 }
 export async function getUserStatus() {
   const res = await db.exec(
@@ -346,7 +350,7 @@ export async function getLastSyncTime() {
 }
 export async function updateLastSyncTime(lastSyncTime) {
   return db.exec(
-    `UPDATE ${PROFILE} SET last_sync_time=${lastSyncTime}, updated_at='${moment().format(
+    `UPDATE ${PROFILE} SET last_sync_time='${lastSyncTime}', updated_at='${moment().format(
       DATETIME_FORMAT,
     )}'`,
     VERSION,
@@ -356,7 +360,7 @@ export async function findUnsyncedTrackingOptions(lastSyncTime) {
   let res;
   if (lastSyncTime) {
     res = await db.exec(
-      `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime} OR created_at=null`,
+      `SELECT * FROM  ${USER_TRACKING_OPTION} WHERE created_at > '${lastSyncTime}' OR updated_at > '${lastSyncTime}' OR created_at=null`,
       USER_TRACKING_OPTION,
     );
   } else {
@@ -369,9 +373,9 @@ export async function findUnsyncedTrackingOptions(lastSyncTime) {
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedProfileData(lastSyncTime) {
-  const [res] = lastSyncTime
+  const res = lastSyncTime
     ? await db.exec(
-        `SELECT * FROM  ${PROFILE} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+        `SELECT * FROM  ${PROFILE} WHERE created_at > '${lastSyncTime}' OR updated_at > '${lastSyncTime}'`,
         PROFILE,
       )
     : await db.exec(`SELECT * FROM  ${PROFILE}`, PROFILE);
@@ -380,17 +384,16 @@ export async function findUnsyncedProfileData(lastSyncTime) {
 export async function findUnsyncedPregnancyInfo(lastSyncTime) {
   const res = lastSyncTime
     ? await db.exec(
-        `SELECT * FROM  ${PREGNANCY} WHERE created_at > ${lastSyncTime} OR updated_at > ${lastSyncTime}`,
+        `SELECT * FROM  ${PREGNANCY} WHERE created_at > '${lastSyncTime}' OR updated_at > '${lastSyncTime}'`,
         PREGNANCY,
       )
     : await db.exec(`SELECT * FROM  ${PREGNANCY}`, PREGNANCY);
   return res === EMPTY_TABLE ? [] : res;
 }
-
-export async function clearingDatabase() {
-  db.exec(`DELETE FROM ${USER}`, USER);
-  db.exec(`DELETE FROM ${PROFILE}`, PROFILE);
-  db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
-  db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
-  db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
+export async function cleanDatabase() {
+  await db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
+  await db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
+  await db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
+  await db.exec(`DELETE FROM ${PROFILE}`, PROFILE);
+  await db.exec(`DELETE FROM ${USER}`, USER);
 }

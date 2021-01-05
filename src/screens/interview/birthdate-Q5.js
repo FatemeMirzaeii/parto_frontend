@@ -107,19 +107,21 @@ const Q5 = ({ route, navigation }) => {
     }
   };
 
-  const onNextPress = (bd) => {
+  const onNextPress = async (bd) => {
     //todo: need to check if save function was successfull or
     if (userIdState) {
       setVersionType();
     }
-    saveProfileData({
+    const res = await saveProfileData({
       pregnant: mode.pregnant,
-      pregnancyTry: mode.pregnancy_try,
-      lastPeriodDate,
-      periodLength,
-      cycleLength,
+      pregnancy_try: mode.pregnancy_try,
+      last_period_date: lastPeriodDate,
+      avg_period_length: periodLength,
+      avg_cycle_length: cycleLength,
       birthdate: bd,
-    }).then(async (i) => {
+      userId: userIdState ?? null,
+    });
+    if (res.insertId) {
       const c = await CycleModule();
       if (lastPeriodDate) {
         c.setFirstPeriod(periodLength, lastPeriodDate);
@@ -131,7 +133,7 @@ const Q5 = ({ route, navigation }) => {
       }
       dispatch(interview());
       dispatch(fetchInitialCycleData());
-    });
+    }
   };
 
   console.log('userIdState', userIdState);

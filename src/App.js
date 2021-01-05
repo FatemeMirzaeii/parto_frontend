@@ -3,6 +3,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useRef, useState, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
+import NetInfo from '@react-native-community/netinfo';
+
 import AppNavigator from './navigation';
 import { registerCustomIconType } from 'react-native-elements';
 import configureStore from './store';
@@ -14,6 +16,7 @@ import { fetchInitialCycleData } from './store/actions/cycle';
 import SplashScreen from 'react-native-splash-screen';
 import { restoreToken, signOut } from './store/actions/auth';
 import { migration } from './util/database/migration';
+import sync from './util/database/sync';
 
 //splash comes in
 //# restore tokens dispatch(restoreToken());
@@ -29,6 +32,7 @@ const App: () => React$Node = () => {
   const store = configureStore();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
   registerCustomIconType('Bale', BaleIcon);
   registerCustomIconType('Eita', EitaIcon);
   useEffect(() => {
@@ -37,15 +41,16 @@ const App: () => React$Node = () => {
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, []);
+  }, [appStateVisible]);
 
   const launchApp = async () => {
     // store.dispatch(signOut());
     store.dispatch(restoreToken());
     setupNotifications();
     await migration();
-    //check internet connection
-    //sync
+    NetInfo.addEventListener(async (state) => {
+      if (state.isConnected && store.getState().auth.userToken) await sync();
+    });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
   };
