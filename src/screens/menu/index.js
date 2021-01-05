@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
+import UserProfile from './UserProfile';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
@@ -18,6 +19,7 @@ import { getData } from '../../util/func';
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const [appMode, setAppMode] = useState('');
+  const isLoggedIn = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -81,19 +83,20 @@ const Menu = ({ navigation }) => {
   };
   return (
     <ScrollView style={styles.container}>
-      {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
-      {appMode === 'main' ? <UserGoal navigation={navigation} /> : null}
+      {/* <UserProfile onPress={() => navigateTo('Profile')} /> */}
       <Card>
         <ListItem
-          title="اطلاعات سلامت"
+          title="پروفایل"
           leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Profile')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider
         />
+      </Card>
+      {appMode === 'Main' ? <UserGoal navigation={navigation} /> : null}
+      <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ name: 'settings', color: COLOR.tiffany }}
@@ -113,9 +116,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider={appMode === 'main' ? true : false}
+          bottomDivider={appMode === 'Main' ? true : false}
         />
-        {appMode === 'main' ? (
+        {appMode === 'Main' ? (
           <ListItem
             title="کد همسر"
             leftIcon={{
@@ -214,8 +217,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider
+          bottomDivider //todo: should remove if sign out is disabled.
         />
+        {/* {!isLoggedIn === 'dummyToken' && ( */}
         <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
@@ -225,6 +229,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
+        {/* )} */}
       </Card>
     </ScrollView>
   );

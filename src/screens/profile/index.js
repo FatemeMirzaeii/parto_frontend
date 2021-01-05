@@ -21,7 +21,7 @@ const Profile = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'اطلاعات سلامت',
+      title: 'پروفایل',
       headerLeft: null,
       headerRight: () => (
         <Icon
@@ -70,7 +70,7 @@ const Profile = ({ navigation }) => {
       style={styles.safeAreaView}
       contentContainerStyle={styles.container}>
       <ScrollView>
-        {/* <UserAvatar navigation={navigation} /> */}
+        <UserAvatar navigation={navigation} />
         <Card>
           <PickerListItem
             DatePicker

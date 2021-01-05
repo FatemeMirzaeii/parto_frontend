@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { useDispatch } from 'react-redux';
-import { Card, Avatar, Input, Button } from 'react-native-elements';
+import { Avatar, Input, Button } from 'react-native-elements';
+import Card from '../../components/Card';
 import DataBase from '../../util/database';
 import styles from './styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { signUp } from '../../store/actions/auth';
 const db = new DataBase();
 
@@ -34,53 +34,52 @@ const UserAvatar = ({ navigation }) => {
     });
   };
   return (
-    <SafeAreaView>
-      <Card>
-        {isEditing ? (
-          <View style={styles.buttons}>
-            <Button
-              type="clear"
-              title="لغو"
-              onPress={() => {
-                setIsEditing(false);
-              }}
-            />
-            <Button type="clear" title="انجام" onPress={() => done()} />
-          </View>
-        ) : null}
-        <Avatar
-          rounded
-          showEditButton
-          size="large"
-          icon={{ name: 'user', type: 'font-awesome' }}
-          containerStyle={styles.avatar}
-        />
+    <View>
+      {isRegistered ? null : (
         <TouchableOpacity
-          onPress={() => {
-            setIsEditing(true);
-          }}>
-          {isEditing ? (
-            <Input value={name} onChangeText={setName} />
-          ) : (
-            <View style={styles.name}>
-              <Text style={styles.text}>
-                {name ? name : 'نام خود را وارد کنید.'}
-              </Text>
-            </View>
-          )}
+          style={styles.register}
+          onPress={() => dispatch(signUp())}>
+          <Text style={[styles.text, { color: '#ffffff' }]}>
+            شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
+          </Text>
         </TouchableOpacity>
-        {isRegistered ? null : (
-          <TouchableOpacity
-            style={styles.register}
-            onPress={() => dispatch(signUp())}>
-            <Text style={[styles.text, { color: '#ffffff' }]}>
-              شما ثبت نام نکرده اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام
-              کنید.
-            </Text>
-          </TouchableOpacity>
-        )}
-      </Card>
-    </SafeAreaView>
+      )}
+    </View>
+    // <Card>
+    //   {isEditing ? (
+    //     <View style={styles.buttons}>
+    //       <Button
+    //         type="clear"
+    //         title="لغو"
+    //         onPress={() => {
+    //           setIsEditing(false);
+    //         }}
+    //       />
+    //       <Button type="clear" title="انجام" onPress={() => done()} />
+    //     </View>
+    //   ) : null}
+    //   <Avatar
+    //     rounded
+    //     showEditButton
+    //     size="large"
+    //     icon={{ name: 'user', type: 'font-awesome' }}
+    //     containerStyle={styles.avatar}
+    //   />
+    //   <TouchableOpacity
+    //     onPress={() => {
+    //       setIsEditing(true);
+    //     }}>
+    //     {isEditing ? (
+    //       <Input value={name} onChangeText={setName} />
+    //     ) : (
+    //       <View style={styles.name}>
+    //         <Text style={styles.text}>
+    //           {name ? name : 'نام خود را وارد کنید.'}
+    //         </Text>
+    //       </View>
+    //     )}
+    //   </TouchableOpacity>
+    // </Card>
   );
 };
 export default UserAvatar;
