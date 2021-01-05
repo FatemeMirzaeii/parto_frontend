@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "22488231960",
-    "firebase_url": "https://partofrontend.firebaseio.com",
-    "project_id": "partofrontend",
-    "storage_bucket": "partofrontend.appspot.com"
+    "project_number": "32579861638",
+    "project_id": "parto-app",
+    "storage_bucket": "parto-app.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:22488231960:android:2831131f0af0b95485136d",
+        "mobilesdk_app_id": "1:32579861638:android:7dc2b95149d175d3602507",
         "android_client_info": {
           "package_name": "ir.parto.parto"
         }
       },
       "oauth_client": [
         {
-          "client_id": "22488231960-0g4siiqkliqcpoh7jv3vkccikenudbbn.apps.googleusercontent.com",
+          "client_id": "32579861638-3tid9tvltql1me9imie7n2nsgb9ig9hg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDrNdxPFe4mbHErj5qrXyfzCCNzJpuvgm0"
+          "current_key": "AIzaSyCJ2l8_gJV3X3knnVx2WgoJS7hvfuakzQE"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "22488231960-0g4siiqkliqcpoh7jv3vkccikenudbbn.apps.googleusercontent.com",
+              "client_id": "32579861638-3tid9tvltql1me9imie7n2nsgb9ig9hg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
