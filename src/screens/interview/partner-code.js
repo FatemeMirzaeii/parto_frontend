@@ -6,6 +6,7 @@ import { FONT, HEIGHT, WIDTH } from '../../styles/static';
 import styles from './styles';
 import { interview } from '../../store/actions/auth';
 import api from '../../services/api';
+import sync from '../../util/database/sync';
 
 const PartnerCode = ({ route, navigation }) => {
   const [code, setCode] = useState();
@@ -29,7 +30,7 @@ const PartnerCode = ({ route, navigation }) => {
       });
       if (resul) {
         dispatch(interview());
-        // dispatch todo
+        await sync();
       }
     }
   };
