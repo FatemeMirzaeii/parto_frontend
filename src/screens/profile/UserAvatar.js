@@ -27,7 +27,7 @@ const UserAvatar = ({ navigation }) => {
   // };
   return (
     <View>
-      {isRegistered ? null : (
+      {!isRegistered && (
         <TouchableOpacity
           style={styles.register}
           onPress={() => dispatch(signUp())}>

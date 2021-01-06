@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
 import {
   getUserStatus,
@@ -16,6 +16,7 @@ import { updatePerdictions } from '../../store/actions/cycle';
 const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
   const dispatch = useDispatch();
+  const template = useSelector((state) => state.user.template);
 
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
@@ -27,6 +28,7 @@ const UserGoal = ({ navigation }) => {
     });
   }, [mode]);
   const onModePress = (i) => {
+    if (template === 'Partner') return;
     if (mode === 2 && i !== 2) {
       Alert.alert(
         '',

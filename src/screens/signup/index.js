@@ -22,7 +22,7 @@ import Ptxt from '../../components/Ptxt';
 import Loader from '../../components/Loader';
 
 //store
-import { setUser } from '../../store/actions/user';
+import { handleTemplate, setUser } from '../../store/actions/user';
 import { interview, signUp } from '../../store/actions/auth';
 
 //util
@@ -146,8 +146,8 @@ const SignUp = ({ navigation }) => {
           'user',
         );
         dispatch(setUser(id));
-        if (res.data.type !== null) {
-          if (template && template !== res.data.type) {
+        if (res.data.data.type) {
+          if (template && template !== res.data.data.type) {
             Alert.alert(
               '',
               'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده اید.',
@@ -158,7 +158,8 @@ const SignUp = ({ navigation }) => {
             setCodeFieldActive(false);
             await sync();
             setIsLoading(false);
-            await dispatch(interview());
+            dispatch(interview());
+            dispatch(handleTemplate(res.data.data.type));
             dispatch(fetchInitialCycleData());
           }
         }

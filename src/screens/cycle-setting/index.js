@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 import Card from '../../components/Card';
@@ -23,18 +24,21 @@ const CycleSetting = ({ navigation }) => {
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
   const [lastPeriod, setLastPeriod] = useState('');
+  const template = useSelector((state) => state.user.template);
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
-      headerLeft: () => (
-        <CycleSettingbtn
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
-          }}
-          onPress={() => save()}
-        />
-      ),
+      headerLeft: () => {
+        template !== 'Partner' && (
+          <CycleSettingbtn
+            addAppTourTarget={(appTourTarget) => {
+              appTourTargets.push(appTourTarget);
+            }}
+            onPress={() => save()}
+          />
+        );
+      },
       headerRight: () => (
         <Icon
           reverse

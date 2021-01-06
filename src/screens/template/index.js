@@ -15,11 +15,7 @@ import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
-import {
-  handleMainSelected,
-  handleTeenagerSelected,
-  handlePartnerSelected,
-} from '../../store/actions/user';
+import { handleTemplate } from '../../store/actions/user';
 import { signOut } from '../../store/actions/auth';
 
 //assets
@@ -65,20 +61,19 @@ const Template = ({ navigation }) => {
     }
   };
   const _handleMainSelected = useCallback(async () => {
-    dispatch(handleMainSelected());
+    dispatch(handleTemplate('Main'));
     navigation.navigate('Interview');
   }, [dispatch, navigation]);
 
   const _handleTeenagerSelected = useCallback(async () => {
-    dispatch(handleTeenagerSelected());
-    // await storeData('@appMode', 'teenager');
+    dispatch(handleTemplate('Teenager'));
     navigation.navigate('Q2', {
       mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
     });
   }, [dispatch, navigation]);
 
   const _handlePartnerSelected = useCallback(async () => {
-    dispatch(handlePartnerSelected());
+    dispatch(handleTemplate('Partner'));
     if (!userMode.id) {
       return Alert.alert(
         '',
@@ -97,7 +92,6 @@ const Template = ({ navigation }) => {
   }, [dispatch, navigation, userMode.id]);
 
   const _renderItem = ({ item, index }) => {
-    // console.log('activvvvvvvvvvvvvvvvvvv', activeSlide);
     return (
       <TouchableOpacity style={styles.item} onPress={() => onItemPress(index)}>
         <Image source={item.icon} style={styles.image} />

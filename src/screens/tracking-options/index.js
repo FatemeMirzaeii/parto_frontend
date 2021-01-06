@@ -68,16 +68,16 @@ const TrackingOptions = ({ route, navigation }) => {
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const modeState = useSelector((state) => state.user.template);
+  const template = useSelector((state) => state.user.template);
 
   const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
-    if (td && modeState === 'teenager') {
+    if (td && template === 'Teenager') {
       setCategories(td.filter((item) => item.id !== SEX));
     } else {
       setCategories(td);
     }
-  }, [date, modeState]);
+  }, [date, template]);
 
   useEffect(() => {
     getInitialData();
@@ -189,6 +189,7 @@ const TrackingOptions = ({ route, navigation }) => {
   };
 
   const onOptionPress = async (category, option) => {
+    if (template === 'Partner') return;
     const c = await CycleModule();
     if (option.selected.length > 0) {
       await deselectTrackingOption(option.id, date);

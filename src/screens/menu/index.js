@@ -18,7 +18,7 @@ import { signOut } from '../../store/actions/auth';
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const isLoggedIn = useSelector((state) => state.auth.userToken);
-  const modeState = useSelector((state) => state.user.template);
+  const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -75,6 +75,7 @@ const Menu = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigateTo('Profile')} /> */}
+      {template !== 'Teenager' ? <UserGoal navigation={navigation} /> : null}
       <Card>
         <ListItem
           title="پروفایل"
@@ -84,10 +85,8 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
+          bottomDivider
         />
-      </Card>
-      {modeState === 'main' ? <UserGoal navigation={navigation} /> : null}
-      <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ name: 'settings', color: COLOR.tiffany }}
@@ -96,20 +95,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
+          bottomDivider={template === 'Main' ? true : false}
         />
-      </Card>
-      <Card>
-        <ListItem
-          title="احکام"
-          leftIcon={{ name: 'list', color: COLOR.tiffany }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('Treatise')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          bottomDivider={modeState === 'main' ? true : false}
-        />
-        {modeState === 'main' ? (
+        {template === 'Main' ? (
           <ListItem
             title="کد همسر"
             leftIcon={{
@@ -124,6 +112,17 @@ const Menu = ({ navigation }) => {
             contentContainerStyle={styles.listItemContent}
           />
         ) : null}
+      </Card>
+      <Card>
+        <ListItem
+          title="احکام"
+          leftIcon={{ name: 'list', color: COLOR.tiffany }}
+          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+          onPress={() => navigateTo('Treatise')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
       </Card>
       <Card>
         {/* <ListItem
@@ -145,12 +144,11 @@ const Menu = ({ navigation }) => {
             trackColor: { true: COLOR.lightPink, false: '#aaa' },
             thumbColor: isLock ? COLOR.btn : '#f4f3f4',
           }}
-          bottomDivider
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-        <ListItem
+        {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -158,7 +156,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
         {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}

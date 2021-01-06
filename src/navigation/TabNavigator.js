@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import Home from '../screens/home';
 import ArticleStack from './ArticleStack';
@@ -13,6 +14,7 @@ import Tour from '../util/tourGuide/Tour';
 const Tab = createBottomTabNavigator();
 const TabNavigator = () => {
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const template = useSelector((state) => state.user);
   Tour(appTourTargets, 'plusIcon', 'TabTour');
 
   return (

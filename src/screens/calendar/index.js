@@ -21,6 +21,7 @@ import { calendarMarkedDatesObject } from '../../util/func';
 const Calendar = ({ navigation }) => {
   const today = jalaali();
   const cycle = useSelector((state) => state.cycle);
+  const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
@@ -206,7 +207,7 @@ const Calendar = ({ navigation }) => {
           },
         }}
       />
-      {!editMode ? (
+      {template === 'Partner' ? null : !editMode ? (
         <SaveBleendingButton
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);

@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
+import { useSelector } from 'react-redux';
 import { Button, Icon } from 'react-native-elements';
 import styles from './styles';
 import UserAvatar from './UserAvatar';
@@ -19,6 +20,7 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
+  const template = useSelector((state) => state.user.template);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل',
@@ -116,16 +118,18 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
-        <Button
-          loading={loading}
-          title="ذخیره"
-          onPress={() => save()}
-          containerStyle={styles.btnContainer}
-          buttonStyle={styles.nextButton}
-          titleStyle={styles.listItemText}
-          loadingStyle={{ color: COLOR.btn }}
-          // icon={{name: 'user'}}
-        />
+        {template !== 'Partner' && (
+          <Button
+            loading={loading}
+            title="ذخیره"
+            onPress={() => save()}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.nextButton}
+            titleStyle={styles.listItemText}
+            loadingStyle={{ color: COLOR.btn }}
+            // icon={{name: 'user'}}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
