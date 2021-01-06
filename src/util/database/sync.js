@@ -19,9 +19,8 @@ export default async () => {
   const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
   const profile = await findUnsyncedProfileData(lastSyncTime);
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
-  console.log('hereeeeeee in sync', trackingOptions);
   const user = await getUser();
-  console.log('پروفایل', profile, pregnancy, trackingOptions);
+  console.log('datas to send for server', profile, pregnancy, trackingOptions);
   if (profile.length !== 0)
     await api({
       method: 'POST',

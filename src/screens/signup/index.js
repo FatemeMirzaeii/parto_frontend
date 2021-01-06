@@ -36,6 +36,7 @@ import { devUrl } from '../../services/urls';
 import styles from './styles';
 import sync from '../../util/database/sync';
 import { Alert } from 'react-native';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -131,14 +132,7 @@ const SignUp = ({ navigation }) => {
       },
     })
       .then(async (res) => {
-        console.log('handleLoginRes====== ', res);
-        console.log(
-          'res.headers.x-auth-token***** ',
-          res.headers['x-auth-token'],
-        );
         const id = res.data.data.id;
-        console.log('res.data', res.data);
-        console.log('id', id);
         storeData('@token', res.headers['x-auth-token']);
         //to maryam:
         //1. If the user signs out and then sign in again, what would happen?
@@ -152,10 +146,7 @@ const SignUp = ({ navigation }) => {
           'user',
         );
         dispatch(setUser(id));
-        console.log('res.data++++++++++++', res.data);
-        dispatch(signUp());
         if (res.data.type !== null) {
-          console.log('template-template-template-template-template', template);
           if (template && template !== res.data.type) {
             Alert.alert(
               '',
@@ -163,10 +154,15 @@ const SignUp = ({ navigation }) => {
             );
             //todo: should ask for changing app template or not?
           } else {
-            await dispatch(interview());
+            setIsLoading(true);
+            setCodeFieldActive(false);
             await sync();
+            setIsLoading(false);
+            await dispatch(interview());
+            dispatch(fetchInitialCycleData());
           }
         }
+        dispatch(signUp());
       })
       .catch((err) => {
         console.error(err, err.response);
