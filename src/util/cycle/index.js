@@ -122,7 +122,7 @@ export default async function CycleModule() {
             daysNo === 0
               ? 'امروز روز پریود شماست'
               : `${daysNo} روز به پریود بعدی`,
-          subSentence: 'کمترین احتمال بارداری',
+          subSentence: 'احتمال بارداری',
           thirdSentence: `روز ${dayNo + 1} دوره`,
         };
       }

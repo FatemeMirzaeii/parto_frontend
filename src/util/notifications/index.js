@@ -115,7 +115,7 @@ async function periodLate() {
   notification.scheduled(
     PERIOD_LATE,
     date,
-    '10 روز از زمانی که انتظار داشتیم پریود بشی گذشته.هنوز تاریخ جدید وارد نکردی؟',
+    'بیشتر از 10 روز از زمانی که انتظار داشتیم پریود بشی گذشته.هنوز تاریخ جدید وارد نکردی؟',
   );
 }
 async function userAppChecking() {
