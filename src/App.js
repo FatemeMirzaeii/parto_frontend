@@ -3,18 +3,18 @@ import { NavigationContainer } from '@react-navigation/native';
 import React, { useRef, useState, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
 import NetInfo from '@react-native-community/netinfo';
-
 import AppNavigator from './navigation';
 import { registerCustomIconType } from 'react-native-elements';
-import configureStore from './store';
+import SplashScreen from 'react-native-splash-screen';
 import BaleIcon from './customIcon/bale/icon-font';
 import EitaIcon from './customIcon/eita/icon-font';
+import configureStore from './store';
+import { fetchInitialCycleData } from './store/actions/cycle';
+import { restoreToken, signOut } from './store/actions/auth';
 import lock from './util/lock';
 import setupNotifications from './util/notifications';
-import { fetchInitialCycleData } from './store/actions/cycle';
-import SplashScreen from 'react-native-splash-screen';
-import { restoreToken, signOut } from './store/actions/auth';
 import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 
@@ -29,7 +29,7 @@ import sync from './util/database/sync';
 // console.disableYellowBox = true;
 
 const App: () => React$Node = () => {
-  const store = configureStore();
+  const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
@@ -68,14 +68,16 @@ const App: () => React$Node = () => {
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
-        <StatusBar
-          translucent
-          barStyle="dark-content"
-          backgroundColor="transparent"
-        />
-        <AppNavigator />
-      </NavigationContainer>
+      <PersistGate loading={null} persistor={persistor}>
+        <NavigationContainer>
+          <StatusBar
+            translucent
+            barStyle="dark-content"
+            backgroundColor="transparent"
+          />
+          <AppNavigator />
+        </NavigationContainer>
+      </PersistGate>
     </Provider>
   );
 };

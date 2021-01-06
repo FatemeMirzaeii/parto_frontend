@@ -52,9 +52,8 @@ import {
 import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
-import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
-import { getData } from '../../util/func';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 
 const detailPageRef = createRef();
 
@@ -69,16 +68,16 @@ const TrackingOptions = ({ route, navigation }) => {
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const modeState = useSelector((state) => state.user.template);
 
   const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
-    const appMode = await getData('@appMode');
-    if (td && appMode === 'teenager') {
+    if (td && modeState === 'teenager') {
       setCategories(td.filter((item) => item.id !== SEX));
     } else {
       setCategories(td);
     }
-  }, [date]);
+  }, [date, modeState]);
 
   useEffect(() => {
     getInitialData();
@@ -281,17 +280,6 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
-  // const getModeData = async () => {
-  //   appMode = await getData('@appMode');
-  //   if (appMode === 'teenager') {
-  //     const teenagerTrackingOptionData = categories.filter((item) => {
-  //       item.id !== SEX;
-  //     });
-  //     setCategories(teenagerTrackingOptionData);
-  //     console.log('yesssssssssssss');
-  //   }
-  //   return categories;
-  // };
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView>

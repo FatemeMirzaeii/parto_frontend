@@ -14,24 +14,15 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
-import { getData } from '../../util/func';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const [appMode, setAppMode] = useState('');
   const isLoggedIn = useSelector((state) => state.auth.userToken);
+  const modeState = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 
   useEffect(() => {
     determineLockStatus();
-  }, []);
-
-  useEffect(() => {
-    const initialize = async () => {
-      const mode = await getData('@appMode');
-      setAppMode(mode);
-    };
-    initialize();
   }, []);
 
   const determineLockStatus = async () => {
@@ -95,7 +86,7 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
       </Card>
-      {appMode === 'Main' ? <UserGoal navigation={navigation} /> : null}
+      {modeState === 'main' ? <UserGoal navigation={navigation} /> : null}
       <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
@@ -116,9 +107,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider={appMode === 'Main' ? true : false}
+          bottomDivider={modeState === 'main' ? true : false}
         />
-        {appMode === 'Main' ? (
+        {modeState === 'main' ? (
           <ListItem
             title="کد همسر"
             leftIcon={{
