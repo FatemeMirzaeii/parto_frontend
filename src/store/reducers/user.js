@@ -1,9 +1,4 @@
-import {
-  MAIN_MODE,
-  TEENAGER_MODE,
-  PARTNER_MODE,
-  SET_USER,
-} from '../actions/types';
+import { SET_USER, SET_TEMPLATE, RESET } from '../actions/types';
 
 const initialState = {
   id: null,
@@ -14,14 +9,13 @@ const initialState = {
 const userReducer = (state = initialState, action) => {
   console.log('actionnnnnnnnnnnnnnn', action);
   switch (action.type) {
-    case MAIN_MODE:
-      return { ...state, template: 'main' };
-    case TEENAGER_MODE:
-      return { ...state, template: 'teenager' };
-    case PARTNER_MODE:
-      return { ...state, template: 'partner' };
+    case SET_TEMPLATE:
+      return { ...state, template: action.template };
     case SET_USER: {
       return { ...state, id: action.id };
+    }
+    case RESET: {
+      return initialState;
     }
     default:
       return state;

@@ -1,6 +1,7 @@
 import * as actions from './types';
 import { getData, removeData, storeData } from '../../util/func';
 import { cleanDatabase } from '../../util/database/query';
+import { reset } from './user';
 
 export const signIn = (dummyToken) => async (dispatch, getState) => {
   dispatch({
@@ -10,6 +11,7 @@ export const signIn = (dummyToken) => async (dispatch, getState) => {
 };
 export const signOut = () => async (dispatch, getState) => {
   await cleanDatabase();
+  await dispatch(reset());
   dispatch({
     type: actions.SIGN_OUT,
     token: await removeData('@token'),

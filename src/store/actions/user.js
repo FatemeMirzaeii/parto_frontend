@@ -1,16 +1,13 @@
-import { MAIN_MODE, TEENAGER_MODE, PARTNER_MODE, SET_USER } from './types';
+import { SET_TEMPLATE, SET_USER, RESET } from './types';
 
-export const handleMainSelected = () => {
-  return { type: MAIN_MODE };
+export const handleTemplate = (template) => {
+  return { type: SET_TEMPLATE, template };
 };
 
-export const handleTeenagerSelected = () => {
-  return { type: TEENAGER_MODE };
-};
-
-export const handlePartnerSelected = () => {
-  return { type: PARTNER_MODE };
-};
 export const setUser = (id) => {
   return { type: SET_USER, id };
+};
+
+export const reset = () => {
+  return { type: RESET };
 };

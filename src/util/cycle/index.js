@@ -42,7 +42,7 @@ export default async function CycleModule() {
     if (!lastPeriodDate) {
       return;
     }
-    console.log('cycle day number', date, lastPeriodDate.format(FORMAT));
+    console.log('cycle day number', lastPeriodDate.format(FORMAT));
     return date
       .clone()
       .startOf('day')
@@ -232,7 +232,7 @@ export default async function CycleModule() {
   async function pastBleedingDays() {
     const all = await getUserAllPeriodDays();
     //will return all bleeding days in json {date: string with 'YYYY-MM-DD' format, tracking_option_id: number}.
-    console.log('all', all);
+    // console.log('all', all);
     if (all.length > 0) {
       return all
         .map((d) => {
@@ -249,7 +249,7 @@ export default async function CycleModule() {
       return;
     }
     const dates = prevBleedingDays.map((d) => d.date);
-    console.log('pastDayssss', dates, prevBleedingDays);
+    // console.log('pastDayssss', dates, prevBleedingDays);
 
     let lpd;
     for (let i = 0; i < dates.length; i++) {
@@ -267,7 +267,7 @@ export default async function CycleModule() {
       return;
     }
     if (!pervLastPeriodDate || pervLastPeriodDate !== lpd) {
-      console.log('lpd', lpd);
+      console.log('last period date', lpd);
       setLastPeriodDate(lpd);
     }
     return lpd;

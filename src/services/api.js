@@ -18,7 +18,6 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
   };
   if (data) config.data = data;
   try {
-    // console.log(`{${url}} result`, config);
     const res = await axios(uri, config);
     console.log(`{${url}} result`, res);
     if (res.status === 200) {
