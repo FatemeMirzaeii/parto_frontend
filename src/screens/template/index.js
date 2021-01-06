@@ -9,8 +9,10 @@ import {
   Alert,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { useDispatch, useSelector } from 'react-redux';
 import Carousel from 'react-native-snap-carousel';
+
+//redux
+import { useDispatch, useSelector } from 'react-redux';
 
 //store
 import {
@@ -20,16 +22,15 @@ import {
 } from '../../store/actions/user';
 import { signOut } from '../../store/actions/auth';
 
-//util
-import { storeData } from '../../util/func';
-
-//styles and images
-import styles from './styles';
-import { WIDTH } from '../../styles/static';
+//assets
 import Background from '../../../assets/images/start/00.png';
 import Parto from '../../../assets/images/start/parto.png';
 import Nopar from '../../../assets/images/start/nopar.png';
 import Hampar from '../../../assets/images/start/hampar.png';
+
+//styles
+import styles from './styles';
+import { WIDTH } from '../../styles/static';
 
 const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);
@@ -65,13 +66,12 @@ const Template = ({ navigation }) => {
   };
   const _handleMainSelected = useCallback(async () => {
     dispatch(handleMainSelected());
-    await storeData('@appMode', 'main');
     navigation.navigate('Interview');
   }, [dispatch, navigation]);
 
   const _handleTeenagerSelected = useCallback(async () => {
     dispatch(handleTeenagerSelected());
-    await storeData('@appMode', 'teenager');
+    // await storeData('@appMode', 'teenager');
     navigation.navigate('Q2', {
       mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
     });
@@ -79,7 +79,6 @@ const Template = ({ navigation }) => {
 
   const _handlePartnerSelected = useCallback(async () => {
     dispatch(handlePartnerSelected());
-    await storeData('@appMode', 'partner');
     if (!userMode.id) {
       return Alert.alert(
         '',
@@ -97,7 +96,6 @@ const Template = ({ navigation }) => {
     navigation.navigate('PartnerCode');
   }, [dispatch, navigation, userMode.id]);
 
-  console.log('mod of app$$$$$$$$$$$$', userMode);
   const _renderItem = ({ item, index }) => {
     // console.log('activvvvvvvvvvvvvvvvvvv', activeSlide);
     return (

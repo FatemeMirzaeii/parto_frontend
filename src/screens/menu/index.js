@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
@@ -13,23 +13,14 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
-import { getData } from '../../util/func';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const [appMode, setAppMode] = useState('');
   const dispatch = useDispatch();
+  const modeState = useSelector((state) => state.user.template);
 
   useEffect(() => {
     determineLockStatus();
-  }, []);
-
-  useEffect(() => {
-    const initialize = async () => {
-      const mode = await getData('@appMode');
-      setAppMode(mode);
-    };
-    initialize();
   }, []);
 
   const determineLockStatus = async () => {
@@ -79,10 +70,11 @@ const Menu = ({ navigation }) => {
       shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):{'\n'}${link}`);
     });
   };
+
   return (
     <ScrollView style={styles.container}>
       {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
-      {appMode === 'main' ? <UserGoal navigation={navigation} /> : null}
+      {modeState === 'main' ? <UserGoal navigation={navigation} /> : null}
       <Card>
         <ListItem
           title="اطلاعات سلامت"
@@ -113,9 +105,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider={appMode === 'main' ? true : false}
+          bottomDivider={modeState === 'main' ? true : false}
         />
-        {appMode === 'main' ? (
+        {modeState === 'main' ? (
           <ListItem
             title="کد همسر"
             leftIcon={{

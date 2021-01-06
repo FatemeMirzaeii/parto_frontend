@@ -10,6 +10,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@native-html/table-plugin": "^3.1.0",
     "@react-native-community/async-storage": "^1.11.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.9",
@@ -27,6 +28,7 @@
     "native-base": "^2.13.12",
     "prop-types": "^15.7.2",
     "react": "16.13.1",
+    "react-content-loader": "^5.1.4",
     "react-native": "0.63.1",
     "react-native-actions-sheet": "^0.3.1",
     "react-native-app-tour": "^1.0.4",
@@ -36,6 +38,7 @@
     "react-native-elements": "^2.0.4",
     "react-native-floating-action": "^1.21.0",
     "react-native-gesture-handler": "^1.6.1",
+    "react-native-htmlview": "^0.16.0",
     "react-native-jalali-calendars": "github:FatemeMirzaeii/react-native-jalali-calendars",
     "react-native-linear-gradient": "^2.5.6",
     "react-native-modal": "^11.5.6",
@@ -56,11 +59,12 @@
     "react-native-text-ticker": "^1.8.0",
     "react-native-touch-id": "^4.4.1",
     "react-native-vector-icons": "^7.0.0",
-    "react-native-webview": "^10.8.3",
+    "react-native-webview": "^11.0.2",
     "react-native-wheel-picker-android": "^2.0.6",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "victory-native": "^35.0.1",
     "yup": "^0.29.1"

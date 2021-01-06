@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
+//redux
+import { useSelector } from 'react-redux';
+
 //components
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/Loader';
 import NewestArticles from '../../components/NewestArticles';
-
-//util
-import { getData } from '../../util/func';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -28,11 +28,11 @@ const Articles = (props) => {
   const [activeSlide, setActiveSlide] = useState(4);
   const [spaceKey, setSpaceKey] = useState('');
   const { navigation } = props;
+  const modeState = useSelector((state) => state.user.template);
 
   useEffect(() => {
     const initialize = async () => {
-      const modeApp = await getData('@appMode');
-      switch (modeApp) {
+      switch (modeState) {
         case 'main':
           return setSpaceKey('appcontent');
         case 'teenager':
@@ -42,7 +42,7 @@ const Articles = (props) => {
       }
     };
     initialize();
-  }, []);
+  }, [modeState]);
 
   useEffect(() => {
     const getCategoryList = async () => {
