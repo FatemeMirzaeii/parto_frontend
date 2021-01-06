@@ -4,6 +4,7 @@ import { Avatar } from 'react-native-elements';
 import DataBase from '../../util/database';
 import Card from '../../components/Card';
 import styles from './styles';
+import { View } from 'native-base';
 const db = new DataBase();
 const UserProfile = (props) => {
   const [name, setName] = useState('');
@@ -16,14 +17,16 @@ const UserProfile = (props) => {
   });
   return (
     <TouchableOpacity onPress={props.onPress}>
-      <Card wrapperStyle={styles.avatarContainer}>
-        <Avatar
-          rounded
-          size="large"
-          icon={{ name: 'user', type: 'font-awesome' }}
-          containerStyle={styles.avatar}
-        />
-        <Text style={styles.text}>{name ? name : 'حساب کاربری بسازید!'}</Text>
+      <Card>
+        <View style={styles.avatarContainer}>
+          <Avatar
+            rounded
+            size="large"
+            icon={{ name: 'user', type: 'font-awesome' }}
+            containerStyle={styles.avatar}
+          />
+          <Text style={styles.text}>{name ? name : 'حساب کاربری بسازید!'}</Text>
+        </View>
       </Card>
     </TouchableOpacity>
   );

@@ -18,12 +18,14 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
   };
   if (data) config.data = data;
   try {
+    // console.log(`{${url}} result`, config);
     const res = await axios(uri, config);
-    console.log('api result', res);
+    console.log(`{${url}} result`, res);
     if (res.status === 200) {
       return res;
     }
   } catch (err) {
+    console.error(err, '--------', err.response.data.message, url);
     if (err.toString() === 'Error: Network Error')
       ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
     else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);

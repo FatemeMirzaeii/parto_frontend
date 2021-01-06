@@ -2,7 +2,7 @@ import * as actions from '../actions/types';
 
 const initialState = {
   isLoading: true,
-  isSignout: true,
+  isSignout: false,
   userToken: null,
   interviewToken: null,
 };
@@ -15,6 +15,7 @@ const authReducer = (state = initialState, action) => {
         userToken: action.token,
         interviewToken: action.interviewToken,
         isLoading: false,
+        isSignout: false,
       };
     case actions.SIGN_IN:
       return {

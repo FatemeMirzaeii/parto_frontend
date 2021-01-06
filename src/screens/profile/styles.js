@@ -47,8 +47,8 @@ export default StyleSheet.create({
     borderRadius: 25,
     width: WIDTH / 1.1,
     alignSelf: 'center',
+    justifyContent: 'center',
     padding: 5,
-    marginTop: 10,
   },
   name: {
     borderTopWidth: 0.2,
@@ -69,5 +69,9 @@ export default StyleSheet.create({
     color: COLOR.btn,
     fontFamily: FONT.bold,
     fontSize: SIZE[18],
+  },
+  text: {
+    fontFamily: FONT.regular,
+    textAlign: 'center',
   },
 });

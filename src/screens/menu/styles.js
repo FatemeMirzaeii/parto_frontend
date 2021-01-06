@@ -46,6 +46,7 @@ export default StyleSheet.create({
   text: {
     alignSelf: 'center',
     textAlign: 'center',
+    paddingRight: 15,
     fontFamily: FONT.regular,
     fontSize: SIZE[12],
   },

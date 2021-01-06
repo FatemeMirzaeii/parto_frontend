@@ -5,6 +5,7 @@ import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
+import UserProfile from './UserProfile';
 import Card from '../../components/Card';
 import { lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
@@ -16,8 +17,9 @@ import { signOut } from '../../store/actions/auth';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.userToken);
   const modeState = useSelector((state) => state.user.template);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     determineLockStatus();
@@ -70,22 +72,22 @@ const Menu = ({ navigation }) => {
       shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):{'\n'}${link}`);
     });
   };
-
   return (
     <ScrollView style={styles.container}>
-      {/* <UserProfile onPress={() => navigation.push('Profile')} /> */}
-      {modeState === 'main' ? <UserGoal navigation={navigation} /> : null}
+      {/* <UserProfile onPress={() => navigateTo('Profile')} /> */}
       <Card>
         <ListItem
-          title="اطلاعات سلامت"
+          title="پروفایل"
           leftIcon={{ name: 'local-pharmacy', color: COLOR.tiffany }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Profile')}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider
         />
+      </Card>
+      {modeState === 'main' ? <UserGoal navigation={navigation} /> : null}
+      <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ name: 'settings', color: COLOR.tiffany }}
@@ -206,8 +208,9 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider
+          bottomDivider //todo: should remove if sign out is disabled.
         />
+        {/* {!isLoggedIn === 'dummyToken' && ( */}
         <ListItem
           title="خروج"
           leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
@@ -217,6 +220,7 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
+        {/* )} */}
       </Card>
     </ScrollView>
   );

@@ -6,7 +6,7 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  id: '',
+  id: null,
   phone: '',
   template: '',
 };

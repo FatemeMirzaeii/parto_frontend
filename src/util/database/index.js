@@ -28,22 +28,25 @@ export default class Database {
 
   async exec(_query, _table) {
     let arr = [];
+    let insertId;
     const _db = await this.open(_table);
     try {
       await _db.transaction(async (tx) => {
         const [fn, res] = await tx.executeSql(_query);
+        insertId = res.insertId;
         var len = res.rows.length;
         for (let i = 0; i < len; i++) {
           let item = res.rows.item(i);
           item.data === undefined
             ? arr.push(item)
-            : arr.push(JSON.parse(item.data));
+            : arr.push(JSON.parse(item.data)); //json_object queries will return an object with 'data' property.
         }
       });
     } catch (error) {
       console.error(error.message);
     }
     // this.close(_db);
-    return arr.length > 0 ? arr : EMPTY_TABLE; //todo: should correct insertId
+    if (insertId) return { insertId };
+    return arr.length > 0 ? arr : EMPTY_TABLE;
   }
 }

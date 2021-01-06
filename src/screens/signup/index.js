@@ -7,7 +7,7 @@ import {
   ToastAndroid,
   View,
 } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   CodeField,
   Cursor,
@@ -23,7 +23,7 @@ import Loader from '../../components/Loader';
 
 //store
 import { setUser } from '../../store/actions/user';
-import { signUp } from '../../store/actions/auth';
+import { interview, signUp } from '../../store/actions/auth';
 
 //util
 import DataBase from '../../util/database';
@@ -34,6 +34,8 @@ import { devUrl } from '../../services/urls';
 
 //styles
 import styles from './styles';
+import sync from '../../util/database/sync';
+import { Alert } from 'react-native';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +48,7 @@ const SignUp = ({ navigation }) => {
     value,
     setValue,
   });
+  const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const db = new DataBase();
   const CELL_COUNT = 5;
@@ -127,7 +130,7 @@ const SignUp = ({ navigation }) => {
         phone: '98' + phoneNumber,
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         console.log('handleLoginRes====== ', res);
         console.log(
           'res.headers.x-auth-token***** ',
@@ -151,6 +154,19 @@ const SignUp = ({ navigation }) => {
         dispatch(setUser(id));
         console.log('res.data++++++++++++', res.data);
         dispatch(signUp());
+        if (res.data.type !== null) {
+          console.log('template-template-template-template-template', template);
+          if (template && template !== res.data.type) {
+            Alert.alert(
+              '',
+              'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده اید.',
+            );
+            //todo: should ask for changing app template or not?
+          } else {
+            await dispatch(interview());
+            await sync();
+          }
+        }
       })
       .catch((err) => {
         console.error(err, err.response);
