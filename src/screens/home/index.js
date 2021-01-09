@@ -1,23 +1,43 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
+import { Button } from 'react-native-elements';
+
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+
+//store
+import { setPregnancyMode } from '../../store/actions/cycle';
+
+//components
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import Ruler from '../../components/Ruler';
-import styles from './styles';
-import { Button } from 'react-native-elements';
+
+//util
 import CycleModule from '../../util/cycle';
 import PregnancyModule from '../../util/pregnancy';
 import { pregnancyMode } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
-import { COLOR, FONT } from '../../styles/static';
-import { setPregnancyMode } from '../../store/actions/cycle';
+
+//constants
 import { FORMAT } from '../../constants/cycle';
+
+//assets
+import MainBg from '../../../assets/images/home/main.png';
+import TeenagerBg from '../../../assets/images/home/teenager.png';
+import PartnerBg from '../../../assets/images/home/partner.png';
+
+//styles
+import { COLOR, FONT } from '../../styles/static';
+import styles from './styles';
+
 const today = moment().format(FORMAT);
+
 const Home = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
+  const template = useSelector((state) => state.user.template);
   console.log('useSelector', cycle);
   const dispatch = useDispatch();
   const [mainSentence, setMainSentence] = useState('');
@@ -72,7 +92,15 @@ const Home = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/bg.png')}
+        source={
+          template === 'Teenager'
+            ? TeenagerBg
+            : template === 'Partner'
+            ? PartnerBg
+            : MainBg
+        }
+        // source={require('../../../assets/images/bg.png')
+        // }
         style={styles.sky}>
         <HomeCalendar
           addAppTourTarget={(appTourTarget) => {
