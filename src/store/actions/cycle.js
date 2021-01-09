@@ -5,9 +5,14 @@ import { COLOR } from '../../styles/static';
 import { calendarMarkedDatesObject } from '../../util/func';
 
 export const fetchInitialCycleData = () => async (dispatch, getState) => {
+  const stateBefore = getState();
+  console.log('stateBefore', stateBefore);
   const c = await CycleModule();
   const past = await c.pastBleedingDays();
-  const ovulationPerdictions = c.perdictedOvulationDaysInCurrentYear();
+  const ovulationPerdictions =
+    stateBefore.user.template === 'Teenager'
+      ? []
+      : c.perdictedOvulationDaysInCurrentYear();
   const periodPerdictions = c.perdictedPeriodDaysInCurrentYear();
   let periodDays = [];
   if (past) {
@@ -24,7 +29,7 @@ export const fetchInitialCycleData = () => async (dispatch, getState) => {
       ),
       ovulationPerdictions: makeMarkedDateObj(
         ovulationPerdictions,
-        COLOR.tiffany,
+        COLOR.ovulationPerdictions,
         true,
       ),
     },
@@ -39,8 +44,12 @@ export const updatePeriodDays = (days) => {
 };
 
 export const updatePerdictions = (setToNull) => async (dispatch, getState) => {
+  const stateBefore = getState();
   const c = await CycleModule();
-  const ovulationPerdictions = c.perdictedOvulationDaysInCurrentYear();
+  const ovulationPerdictions =
+    stateBefore.user.template === 'Teenager'
+      ? []
+      : c.perdictedOvulationDaysInCurrentYear();
   const periodPerdictions = c.perdictedPeriodDaysInCurrentYear();
   dispatch({
     type: actions.UPDATE_PERDICTIONS,
@@ -50,7 +59,11 @@ export const updatePerdictions = (setToNull) => async (dispatch, getState) => {
         : makeMarkedDateObj(periodPerdictions, COLOR.periodPerdiction, true),
       ovulationPerdictions: setToNull
         ? {}
-        : makeMarkedDateObj(ovulationPerdictions, COLOR.tiffany, true),
+        : makeMarkedDateObj(
+            ovulationPerdictions,
+            COLOR.ovulationPerdictions,
+            true,
+          ),
     },
   });
 };
