@@ -9,7 +9,9 @@ export const COLOR = {
   btn: '#ec5f91',
   lightPink: '#fdf1f1',
   tiffany: '#0BB4B4',
-  bleeding: '#e23343',
+  bleeding: '#ff0066',
+  periodPerdiction: '#f26ab0',
+  ovulationPerdictions: '#00c3e8',
   today: '#c6d436',
   // currentPage: '#79EBEE',
   nextPage: '#E0E0E0',
@@ -17,8 +19,8 @@ export const COLOR = {
   textColorDark: '#424242',
   // reView: '#9E9E9E',
   story: '#322C6D',
-  periodPerdiction: '#F9616F',
   vaginalAndSleep: '#B6D443',
+  teenagerFirstText: '#562369',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',

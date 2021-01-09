@@ -12,8 +12,6 @@ import { setPregnancyMode } from '../../store/actions/cycle';
 //components
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
-import CalendarButton from '../../components/CalendarButton';
-import Ruler from '../../components/Ruler';
 
 //util
 import CycleModule from '../../util/cycle';
@@ -80,13 +78,26 @@ const Home = ({ navigation }) => {
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
-    return (
-      <View style={styles.sentenceContainer}>
-        <Text style={styles.mainSentence}>{mainSentence}</Text>
-        <Text style={styles.subSentence}>{subSentence}</Text>
-        <Text style={styles.thirdSentence}>{thirdSentence}</Text>
-      </View>
-    );
+    switch (template) {
+      case 'Main':
+        return (
+          <View style={styles.sentenceContainer}>
+            <Text style={styles.mainSentence}>{mainSentence}</Text>
+            <Text style={styles.subSentence}>{subSentence}</Text>
+            <Text style={styles.thirdSentence}>{thirdSentence}</Text>
+          </View>
+        );
+      case 'Teenager':
+        return <Text style={styles.teenagerText}>{mainSentence}</Text>;
+      case 'Partner':
+        return (
+          <View style={styles.sentenceContainer}>
+            <Text style={styles.mainSentence}>{mainSentence}</Text>
+            <Text style={styles.subSentence}>{subSentence}</Text>
+            <Text style={styles.thirdSentence}>{thirdSentence}</Text>
+          </View>
+        );
+    }
   };
 
   return (
@@ -107,26 +118,26 @@ const Home = ({ navigation }) => {
             appTourTargets.push(appTourTarget);
           }}
         />
-        <CalendarButton
+        {/* <CalendarButton
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
           onPress={() => {
             navigation.navigate('Calendar');
           }}
-        />
+        /> */}
         <WeekCalendar
           current={date}
           onDateChanged={(d) => setDate(d)}
           onDayPress={(d) => setDate(d.dateString)}
-          dividerColor={COLOR.lightPink}
+          // dividerColor={COLOR.lightPink}
           theme={{
             calendarBackground: 'transparent',
           }}
           showTodayButton
         />
         <View style={styles.moonText}>
-          <Ruler />
+          {/* <Ruler /> */}
           {renderText()}
         </View>
         {cycle.isPregnant ? (

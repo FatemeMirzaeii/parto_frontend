@@ -15,15 +15,26 @@ export default StyleSheet.create({
   },
   moonText: {
     flexDirection: 'row-reverse',
-    top: -HEIGHT / 7,
-    right: WIDTH / 10,
-    // backgroundColor: 'red',
+    top: -HEIGHT / 3.5,
+    // right: WIDTH / 10,
+    //backgroundColor: 'green',
+    justifyContent: 'center',
   },
-  sentenceContainer: { top: -11, marginRight: 10 },
+  sentenceContainer: { top: 20 },
+  teenagerText: {
+    fontFamily: FONT.bold,
+    fontSize: 16,
+    color: COLOR.teenagerFirstText,
+    //backgroundColor:'red',
+    justifyContent: 'center',
+    alignItems: 'center',
+    alignSelf: 'center',
+  },
   mainSentence: {
     fontFamily: FONT.bold,
     fontSize: 16,
     color: COLOR.black,
+    textAlign: 'center',
     // backgroundColor: 'green',
   },
   subSentence: {
@@ -31,6 +42,7 @@ export default StyleSheet.create({
     fontSize: 14.5,
     color: COLOR.black,
     lineHeight: 50,
+    textAlign: 'center',
     // backgroundColor: 'purple',
   },
   thirdSentence: {
@@ -38,6 +50,7 @@ export default StyleSheet.create({
     fontSize: 14.5,
     color: COLOR.black,
     lineHeight: 45,
+    textAlign: 'center',
     // backgroundColor: 'red',
   },
   calendarIcon: {
