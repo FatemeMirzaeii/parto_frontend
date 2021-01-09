@@ -75,10 +75,10 @@ export default StyleSheet.create({
   },
   mode: {
     backgroundColor: 'white',
-    margin: 5,
-    padding: 10,
-    borderRadius: 40,
-    width: WIDTH * 0.9,
+    margin: 7,
+    padding: 15,
+    borderRadius: 15,
+    width: WIDTH * 0.6,
     elevation: 2,
     alignItems: 'center',
     justifyContent: 'center',
@@ -86,6 +86,8 @@ export default StyleSheet.create({
   btnGroup: {
     alignItems: 'center',
     justifyContent: 'center',
+    // width:'70%',
+    //backgroundColor:'red'
   },
   textContainer: {
     flex: 1,
