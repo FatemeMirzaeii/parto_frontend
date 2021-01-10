@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR, FONT, WIDTH, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   main: {
@@ -9,12 +9,19 @@ export default StyleSheet.create({
   slider: {
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 20,
+  },
+  paginationContainer: {
+    padding: 0,
+    margin: 0,
+    position: 'absolute',
+    top: HEIGHT / 4.5,
+    left: WIDTH / 3.5,
   },
   paginationDots: {
     width: 10,
     height: 10,
     borderRadius: 5,
-    //marginHorizontal: 8,
     backgroundColor: COLOR.btn,
   },
   inactiveDot: {
