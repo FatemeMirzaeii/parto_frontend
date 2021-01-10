@@ -33,11 +33,11 @@ const Articles = (props) => {
   useEffect(() => {
     const initialize = async () => {
       switch (modeState) {
-        case 'main':
+        case 'Main':
           return setSpaceKey('appcontent');
-        case 'teenager':
+        case 'Teenager':
           return setSpaceKey('teenager');
-        case 'partner':
+        case 'Partner':
           return setSpaceKey('HusbandContent');
       }
     };

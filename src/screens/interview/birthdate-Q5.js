@@ -2,14 +2,27 @@ import React, { useEffect, useState } from 'react';
 import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
+
+//redux
 import { useDispatch, useSelector } from 'react-redux';
-import PersianDatePicker from '../../components/PersianDatePicker';
-import api from '../../services/api';
+
+//store
 import { interview } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
+
+//components
+import PersianDatePicker from '../../components/PersianDatePicker';
+
+//services
+import api from '../../services/api';
+
+//util
 import CycleModule from '../../util/cycle';
 import { addPregnancy, saveProfileData } from '../../util/database/query';
+
+//style
 import styles from './styles';
+
 let counter = 0;
 
 const Q5 = ({ route, navigation }) => {
@@ -35,7 +48,7 @@ const Q5 = ({ route, navigation }) => {
     if (
       birthdate &&
       counter === 0 &&
-      modeState === 'main' &&
+      modeState === 'Main' &&
       Number(birthdate.split('/')[0]) >= 1381
     ) {
       setAlertVisible(true);
@@ -54,7 +67,7 @@ const Q5 = ({ route, navigation }) => {
       method: 'POST',
       url: `/user/versionType/${userIdState}/fa`,
       dev: true,
-      data: { type: modeState === 'main' ? 'Main' : 'Teenager' },
+      data: { type: modeState },
     });
     if (res) {
       dispatch(interview());
@@ -104,7 +117,7 @@ const Q5 = ({ route, navigation }) => {
         <View style={styles.picker}>
           <PersianDatePicker
             onDateSelected={setDate}
-            startOfRange={modeState === 'teenager' ? 1381 : 1340}
+            startOfRange={modeState === 'Teenager' ? 1381 : 1340}
             endOfRange={1390}
           />
         </View>
