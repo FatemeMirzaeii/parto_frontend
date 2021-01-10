@@ -52,6 +52,7 @@ const Q5 = ({ route, navigation }) => {
       Number(birthdate.split('/')[0]) >= 1381
     ) {
       setAlertVisible(true);
+      counter++;
     }
   }, [birthdate, modeState]);
 
