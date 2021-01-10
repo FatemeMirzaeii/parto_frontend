@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import moment from 'moment';
 import { Button } from 'react-native-elements';
@@ -48,33 +48,35 @@ const Home = ({ navigation }) => {
     navigation.addListener('focus', async () => {
       determineMode();
     });
-  }, [navigation]);
+  }, [navigation, determineMode]);
 
   useEffect(() => {
     determineMode();
-  }, [date]);
+  }, [date, determineMode]);
 
-  const determineMode = async () => {
-    const preg = await pregnancyMode();
-    dispatch(setPregnancyMode(preg));
-    const momentDate = moment(date);
-    if (preg) {
-      const p = await PregnancyModule();
-      const pregnancyAge = p.determinePregnancyWeek(momentDate);
-      setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
-      setSubSentence(
-        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-      );
-      setThirdSentence('');
-    } else {
-      const c = await CycleModule();
-      const s = c.determinePhaseSentence(momentDate);
-      setMainSentence(s.mainSentence);
-      setSubSentence(s.subSentence);
-      setThirdSentence(s.thirdSentence);
-    }
-  };
-
+  const determineMode = useCallback(
+    () => async () => {
+      const preg = await pregnancyMode();
+      dispatch(setPregnancyMode(preg));
+      const momentDate = moment(date);
+      if (preg) {
+        const p = await PregnancyModule();
+        const pregnancyAge = p.determinePregnancyWeek(momentDate);
+        setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
+        setSubSentence(
+          `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
+        );
+        setThirdSentence('');
+      } else {
+        const c = await CycleModule();
+        const s = c.determinePhaseSentence(momentDate);
+        setMainSentence(s.mainSentence);
+        setSubSentence(s.subSentence);
+        setThirdSentence(s.thirdSentence);
+      }
+    },
+    [date, dispatch],
+  );
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
@@ -110,27 +112,16 @@ const Home = ({ navigation }) => {
             ? PartnerBg
             : MainBg
         }
-        // source={require('../../../assets/images/bg.png')
-        // }
         style={styles.sky}>
         <HomeCalendar
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
         />
-        {/* <CalendarButton
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
-          }}
-          onPress={() => {
-            navigation.navigate('Calendar');
-          }}
-        /> */}
         <WeekCalendar
           current={date}
           onDateChanged={(d) => setDate(d)}
           onDayPress={(d) => setDate(d.dateString)}
-          // dividerColor={COLOR.lightPink}
           theme={{
             calendarBackground: 'transparent',
           }}
