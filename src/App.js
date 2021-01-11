@@ -10,6 +10,7 @@ import { registerCustomIconType } from 'react-native-elements';
 import SplashScreen from 'react-native-splash-screen';
 import BaleIcon from './customIcon/bale/icon-font';
 import EitaIcon from './customIcon/eita/icon-font';
+import PartoIcon from './customIcon';
 import configureStore from './store';
 import { fetchInitialCycleData } from './store/actions/cycle';
 import { restoreToken, signOut } from './store/actions/auth';
@@ -35,13 +36,14 @@ const App: () => React$Node = () => {
 
   registerCustomIconType('Bale', BaleIcon);
   registerCustomIconType('Eita', EitaIcon);
+  registerCustomIconType('parto', PartoIcon);
   useEffect(() => {
     AppState.addEventListener('change', _handleAppStateChange);
     launchApp();
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, [appStateVisible]);
+  }, []);
 
   const launchApp = async () => {
     // store.dispatch(signOut());
