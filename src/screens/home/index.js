@@ -54,29 +54,26 @@ const Home = ({ navigation }) => {
     determineMode();
   }, [date, determineMode]);
 
-  const determineMode = useCallback(
-    () => async () => {
-      const preg = await pregnancyMode();
-      dispatch(setPregnancyMode(preg));
-      const momentDate = moment(date);
-      if (preg) {
-        const p = await PregnancyModule();
-        const pregnancyAge = p.determinePregnancyWeek(momentDate);
-        setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
-        setSubSentence(
-          `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-        );
-        setThirdSentence('');
-      } else {
-        const c = await CycleModule();
-        const s = c.determinePhaseSentence(momentDate);
-        setMainSentence(s.mainSentence);
-        setSubSentence(s.subSentence);
-        setThirdSentence(s.thirdSentence);
-      }
-    },
-    [date, dispatch],
-  );
+  const determineMode = useCallback(async () => {
+    const preg = await pregnancyMode();
+    dispatch(setPregnancyMode(preg));
+    const momentDate = moment(date);
+    if (preg) {
+      const p = await PregnancyModule();
+      const pregnancyAge = p.determinePregnancyWeek(momentDate);
+      setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
+      setSubSentence(
+        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
+      );
+      setThirdSentence('');
+    } else {
+      const c = await CycleModule();
+      const s = c.determinePhaseSentence(momentDate);
+      setMainSentence(s.mainSentence);
+      setSubSentence(s.subSentence);
+      setThirdSentence(s.thirdSentence);
+    }
+  }, [date, dispatch]);
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
