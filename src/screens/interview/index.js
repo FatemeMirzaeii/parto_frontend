@@ -5,6 +5,7 @@ import {
   ImageBackground,
   View,
   Text,
+  FlatList,
 } from 'react-native';
 import styles from './styles';
 
@@ -12,7 +13,7 @@ const Interview = (props) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../../../assets/images/start/0.png')}
+        source={require('../../../assets/images/interview/main/choiceScreen.png')}
         style={styles.bg}>
         <View style={styles.cont}>
           <Text style={styles.question}>
@@ -38,7 +39,7 @@ const Interview = (props) => {
                   mode: { pregnant: 0, pregnancy_try: 1, period: 0 },
                 });
               }}>
-              <Text style={styles.btnTitle}>تلاش برای بارداری</Text>
+              <Text style={styles.btn1Title}>تلاش برای بارداری</Text>
               <Text style={styles.btnSubtitle}>
                 برخی از روزها برایم مهم‌تر هستند
               </Text>

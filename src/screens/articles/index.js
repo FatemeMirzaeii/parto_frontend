@@ -33,11 +33,11 @@ const Articles = (props) => {
   useEffect(() => {
     const initialize = async () => {
       switch (modeState) {
-        case 'main':
+        case 'Main':
           return setSpaceKey('appcontent');
-        case 'teenager':
+        case 'Teenager':
           return setSpaceKey('teenager');
-        case 'partner':
+        case 'Partner':
           return setSpaceKey('HusbandContent');
       }
     };
@@ -68,9 +68,10 @@ const Articles = (props) => {
     if (spaceKey) {
       getCategoryList();
     }
-  }, [spaceKey]);
+  }, [spaceKey, newest]);
 
   useEffect(() => {
+    let isCancelled = false;
     const getNewList = async () => {
       try {
         const res = await axios({
@@ -91,7 +92,6 @@ const Articles = (props) => {
           try {
             const result = await axios({
               method: 'get',
-              //url: `${articlesBaseUrl}/rest/api/search?os_authType=basic&cql=(space.key=appcontent and type=page and label= "دسته‌بندی")order by created asc`,
               url: `${articlesBaseUrl}/rest/api/content/${con[i].content.id}?expand=ancestors`,
               headers: {
                 Authorization: 'Basic ' + authCode,
@@ -99,7 +99,7 @@ const Articles = (props) => {
               },
             });
 
-            // console.log('resParent', res.data.ancestors);
+            console.log('resParent', res.data.ancestors);
             temp1 = result.data.ancestors;
           } catch (err) {
             console.error(err, err.response);
@@ -136,8 +136,11 @@ const Articles = (props) => {
               cover: imgUrl[0],
               image: imgUrl,
               catName: temp1[3].title,
+              id: con[i].content.id,
             };
-            setNewest(temp);
+            if (!isCancelled) {
+              setNewest(temp);
+            }
             //console.log('setNewest', temp);
           } catch (err) {
             console.error(err, err.response);
@@ -148,15 +151,18 @@ const Articles = (props) => {
               );
             }
           }
-          setNewestIsLoading(false);
         }
       } catch (err) {
         console.error(err, err.response);
       }
+      setNewestIsLoading(false);
     };
     if (spaceKey) {
       getNewList();
     }
+    return () => {
+      isCancelled = true;
+    };
   }, [spaceKey]);
 
   return (
@@ -174,13 +180,13 @@ const Articles = (props) => {
                   inverted
                   data={newest}
                   onSnapToItem={(index) => setActiveSlide(4 - index)}
-                  renderItem={({ item }) => (
+                  renderItem={({ item, index }) => (
                     <NewestArticles
                       title={item.content.title}
                       image={item.cover}
                       onSelectArticle={() => {
                         props.navigation.navigate('ArticleDetails', {
-                          articleContent: item.content,
+                          articleContent: item,
                           catName: item.catName,
                         });
                       }}
@@ -192,6 +198,7 @@ const Articles = (props) => {
                 <Pagination
                   dotsLength={newList.length}
                   activeDotIndex={activeSlide}
+                  containerStyle={styles.paginationContainer}
                   dotStyle={styles.paginationDots}
                   inactiveDotStyle={styles.inactiveDot}
                   inactiveDotOpacity={0.4}

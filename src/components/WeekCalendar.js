@@ -8,7 +8,6 @@ import {
   WeekCalendar as WeekCal,
 } from 'react-native-jalali-calendars';
 import { getUserVaginalAndSleepOptions } from '../util/database/query';
-import Divider from '../components/Divider';
 
 const WeekCalendar = (props) => {
   const cycle = useSelector((state) => state.cycle);
@@ -52,7 +51,6 @@ const WeekCalendar = (props) => {
           {jalaali(selectedDate).format('jD jMMMM jYYYY')}
         </Text>
       </View>
-      <Divider color={props.dividerColor} width={WIDTH - 25} />
       <WeekCal
         jalali
         firstDay={6}
@@ -85,6 +83,8 @@ const WeekCalendar = (props) => {
                 borderRadius: 50,
                 // backgroundColor: COLOR.today,
                 elevation: 2,
+                // backgroundColor: 'green',
+                // height: 100,
               },
             },
           },
@@ -98,14 +98,11 @@ const WeekCalendar = (props) => {
 const styles = StyleSheet.create({
   calendar: {},
   header: {
-    right: 20,
-    width: '100%',
-    alignSelf: 'flex-end',
     padding: 5,
-    marginTop: 5,
+    marginTop: 25,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   headerText: { fontFamily: FONT.bold, fontSize: 15 },
   today: {
