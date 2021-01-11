@@ -5,15 +5,18 @@ import { Avatar, Input, Button } from 'react-native-elements';
 import Card from '../../components/Card';
 import styles from './styles';
 import { signUp } from '../../store/actions/auth';
+import MainAvatar from './../../../assets/images/start/Main.png';
+import PartnerAvatar from './../../../assets/images/start/Partner.png';
+import TeenagerAvatar from './../../../assets/images/start/Teenager.png';
 
 const UserAvatar = ({ navigation }) => {
   // const [name, setName] = useState();
   // const [isEditing, setIsEditing] = useState(false);
   const [isRegistered, setIsRegistered] = useState(true);
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user.id);
+  const user = useSelector((state) => state.user);
   useEffect(() => {
-    if (!user) setIsRegistered(false);
+    if (!user.id) setIsRegistered(false);
   }, []);
   // const done = () => {
   //   db.exec(
@@ -36,6 +39,18 @@ const UserAvatar = ({ navigation }) => {
           </Text>
         </TouchableOpacity>
       )}
+      <Avatar
+        size="xlarge"
+        source={
+          user.template === 'Main'
+            ? MainAvatar
+            : user.template === 'Partner'
+            ? PartnerAvatar
+            : TeenagerAvatar
+        }
+        imageProps={{ resizeMode: 'center' }}
+        containerStyle={styles.avatar}
+      />
     </View>
     // <Card>
     //   {isEditing ? (

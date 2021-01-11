@@ -33,7 +33,6 @@ export default StyleSheet.create({
   },
   avatar: {
     backgroundColor: '#f1f1f1',
-    elevation: 5,
     alignSelf: 'center',
     margin: 10,
   },

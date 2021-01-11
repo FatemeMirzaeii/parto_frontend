@@ -20,9 +20,9 @@ import { signOut } from '../../store/actions/auth';
 
 //assets
 import Background from '../../../assets/images/start/00.png';
-import Parto from '../../../assets/images/start/parto.png';
-import Nopar from '../../../assets/images/start/nopar.png';
-import Hampar from '../../../assets/images/start/hampar.png';
+import Parto from '../../../assets/images/start/Main.png';
+import Nopar from '../../../assets/images/start/Teenager.png';
+import Hampar from '../../../assets/images/start/Partner.png';
 
 //styles
 import styles from './styles';
