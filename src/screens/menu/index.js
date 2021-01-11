@@ -7,13 +7,14 @@ import DeviceInfo from 'react-native-device-info';
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
 import Card from '../../components/Card';
-import { lockStatus, setLock } from '../../util/database/query';
+import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
 import sync from '../../util/database/sync';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
@@ -69,8 +70,12 @@ const Menu = ({ navigation }) => {
           link = CafeBazaarLink;
           break;
       }
-      shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):{'\n'}${link}`);
+      shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):\n${link}`);
     });
+  };
+  const clearData = () => {
+    resetDatabase();
+    dispatch(fetchInitialCycleData());
   };
   return (
     <ScrollView style={styles.container}>
@@ -97,7 +102,7 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
           bottomDivider={template === 'Main' ? true : false}
         />
-        {template === 'Main' ? (
+        {template === 'Main' && (
           <ListItem
             title="کد همسر"
             leftIcon={{
@@ -111,7 +116,7 @@ const Menu = ({ navigation }) => {
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
           />
-        ) : null}
+        )}
       </Card>
       <Card>
         <ListItem
@@ -208,6 +213,18 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
           bottomDivider //todo: should remove if sign out is disabled.
         />
+        {template !== 'Partner' && (
+          <ListItem
+            title="پاک کردن داده‌ها"
+            leftIcon={{ name: 'delete', color: COLOR.tiffany }}
+            chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+            onPress={clearData}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+            bottomDivider //todo: should remove if sign out is disabled.
+          />
+        )}
         {/* {!isLoggedIn === 'dummyToken' && ( */}
         <ListItem
           title="خروج"

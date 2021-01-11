@@ -397,3 +397,25 @@ export async function cleanDatabase() {
   await db.exec(`DELETE FROM ${PROFILE}`, PROFILE);
   await db.exec(`DELETE FROM ${USER}`, USER);
 }
+export async function resetDatabase() {
+  await db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
+  await db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
+  await db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
+  await db.exec(
+    `UPDATE ${PROFILE} SET avg_cycle_length=28,
+                             avg_period_length=7,
+                             last_period_date=null,
+                             blood_type=null,
+                             weight=null,
+                             height=null,
+                             birthdate=null,
+                             avg_sleeping_hour=null,
+                             ovulation_perdiction=null,
+                             period_perdiction=null,
+                             pms_length=null,
+                             pregnancy_try=0,
+                             pregnant=0,
+                             updated_at='${moment().format(DATETIME_FORMAT)}'`,
+    PROFILE,
+  );
+}

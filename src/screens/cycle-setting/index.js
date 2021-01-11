@@ -23,7 +23,7 @@ const CycleSetting = ({ navigation }) => {
   const [pregnancyPrediction, setPregnancyPrediction] = useState(false);
   const [forcast, setForcast] = useState(false);
   const [periodCount, setPeriodCount] = useState(false);
-  const [lastPeriod, setLastPeriod] = useState('');
+  const [lastPeriod, setLastPeriod] = useState();
   const template = useSelector((state) => state.user.template);
 
   useLayoutEffect(() => {
@@ -63,7 +63,9 @@ const CycleSetting = ({ navigation }) => {
       setPmsLength(info.pms_length);
     });
     getLastPeriodDate().then((lpd) => {
-      setLastPeriod(jalaali(lpd).format('jYYYY / jMM / jDD'));
+      if (lpd) {
+        setLastPeriod(jalaali(lpd).format('jYYYY / jMM / jDD'));
+      }
     });
   }, []);
 
@@ -78,7 +80,7 @@ const CycleSetting = ({ navigation }) => {
           <ListItem
             title="تاریخ آخرین پریود"
             leftIcon={{ name: 'restore', color: COLOR.tiffany }}
-            rightTitle={lastPeriod ?? 'تاریخی وارد نشده است'}
+            rightTitle={lastPeriod ?? '---- / ---- / ----'}
             titleStyle={styles.listItemText}
             rightTitleStyle={styles.listItemText}
             containerStyle={styles.listItem}
