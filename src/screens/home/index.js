@@ -77,25 +77,51 @@ const Home = ({ navigation }) => {
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
-    switch (template) {
-      case 'Main':
-        return (
-          <View style={styles.sentenceContainer}>
-            <Text style={styles.mainSentence}>{mainSentence}</Text>
-            <Text style={styles.subSentence}>{subSentence}</Text>
-            <Text style={styles.thirdSentence}>{thirdSentence}</Text>
-          </View>
-        );
-      case 'Teenager':
-        return <Text style={styles.teenagerText}>{mainSentence}</Text>;
-      case 'Partner':
-        return (
-          <View style={styles.sentenceContainer}>
-            <Text style={styles.mainSentence}>{mainSentence}</Text>
-            <Text style={styles.subSentence}>{subSentence}</Text>
-            <Text style={styles.thirdSentence}>{thirdSentence}</Text>
-          </View>
-        );
+    if (mainSentence && subSentence && thirdSentence) {
+      switch (template) {
+        case 'Main':
+          return (
+            <View style={styles.sentenceContainer}>
+              <Text style={{ ...styles.subSentence, ...styles.mainTxt }}>
+                {thirdSentence}
+              </Text>
+              <Text style={{ ...styles.thirdSentence, ...styles.mainTxt }}>
+              {subSentence}
+              </Text>
+              <View
+                style={{
+                  ...styles.mainSentenceContainer,
+                  ...styles.bgColorMain,
+                }}>
+                <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
+                  {mainSentence}
+                </Text>
+              </View>
+            </View>
+          );
+        case 'Teenager':
+          return <Text style={styles.teenagerText}>{mainSentence}</Text>;
+        case 'Partner':
+          return (
+            <View style={styles.sentenceContainer}>
+              <Text style={{ ...styles.subSentence, ...styles.partnerTxt }}>
+                {subSentence}
+              </Text>
+              <Text style={{ ...styles.thirdSentence, ...styles.partnerTxt }}>
+                {thirdSentence}
+              </Text>
+              <View
+                style={{
+                  ...styles.mainSentenceContainer,
+                  ...styles.bgColorPartner,
+                }}>
+                <Text style={{ ...styles.mainSentence, ...styles.partnerTxt }}>
+                  {mainSentence}
+                </Text>
+              </View>
+            </View>
+          );
+      }
     }
   };
 
