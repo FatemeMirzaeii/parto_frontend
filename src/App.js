@@ -43,7 +43,7 @@ const App: () => React$Node = () => {
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, []);
+  }, [appStateVisible]);
 
   const launchApp = async () => {
     // store.dispatch(signOut());
