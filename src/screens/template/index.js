@@ -19,14 +19,14 @@ import { handleTemplate } from '../../store/actions/user';
 import { signOut } from '../../store/actions/auth';
 
 //assets
-import Background from '../../../assets/images/start/00.png';
-import Parto from '../../../assets/images/start/Main.png';
-import Nopar from '../../../assets/images/start/Teenager.png';
-import Hampar from '../../../assets/images/start/Partner.png';
+import Background from '../../../assets/images/00.png';
+import Parto from '../../../assets/images/main/avatar.png';
+import Nopar from '../../../assets/images/teenager/avatar.png';
+import Hampar from '../../../assets/images/partner/avatar.png';
 
 //styles
 import styles from './styles';
-import { WIDTH } from '../../styles/static';
+import { COLOR, WIDTH } from '../../styles/static';
 
 const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);
@@ -62,13 +62,14 @@ const Template = ({ navigation }) => {
   };
   const _handleMainSelected = useCallback(async () => {
     dispatch(handleTemplate('Main'));
-    navigation.navigate('Interview');
+    navigation.navigate('Interview', { template: 'Main' });
   }, [dispatch, navigation]);
 
   const _handleTeenagerSelected = useCallback(async () => {
     dispatch(handleTemplate('Teenager'));
     navigation.navigate('Q2', {
       mode: { pregnant: 0, pregnancy_try: 0, period: 1 },
+      template: 'Teenager',
     });
   }, [dispatch, navigation]);
 
@@ -122,7 +123,7 @@ const Template = ({ navigation }) => {
             <Icon
               name="chevron-circle-right"
               type="font-awesome"
-              color="#FB77A4"
+              color={COLOR.pink}
               size={20}
             />
             <TouchableOpacity
@@ -135,7 +136,7 @@ const Template = ({ navigation }) => {
             <Icon
               name="chevron-circle-left"
               type="font-awesome"
-              color="#FB77A4"
+              color={COLOR.pink}
               size={20}
             />
           </View>

@@ -6,6 +6,9 @@ import { setPickerRange } from '../../util/func';
 import { PERIOD_LENGTH } from '../../constants/cycle';
 import { FONT } from '../../styles/static';
 import styles from './styles';
+import Main from '../../../assets/images/main/interview.png';
+import Teenager from '../../../assets/images/teenager/interview.png';
+import Stepper from '../../components/Stepper';
 
 const Q3 = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState();
@@ -27,15 +30,14 @@ const Q3 = ({ route, navigation }) => {
     });
   };
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/2.png')}
-        style={styles.bg}>
-        <Text style={styles.question}>
-          پریودت تقریبا چند روز طول می‌کشه؟
-          {'\n'}
-          معمولا 3 الی 10 روز
-        </Text>
+    <ImageBackground
+      source={route.params.template === 'Main' ? Main : Teenager}
+      style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
+        <View>
+          <Text style={styles.question}>پریودت تقریبا چند روز طول می‌کشه؟</Text>
+          <Text style={styles.subtext}>معمولا 3 الی 10 روز</Text>
+        </View>
         <WheelPicker
           data={setPickerRange(2, 15)}
           selectedItem={selectedItem}
@@ -55,6 +57,7 @@ const Q3 = ({ route, navigation }) => {
             type="clear"
             onPress={() => onForgotPress()}
           />
+          <Stepper index={2} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -74,8 +77,8 @@ const Q3 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

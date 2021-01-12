@@ -7,6 +7,8 @@ import PregnancyModule from '../../util/pregnancy';
 import { FONT } from '../../styles/static';
 import Ptxt from '../../components/Ptxt';
 import styles from './styles';
+import Main from '../../../assets/images/main/interview.png';
+import Stepper from '../../components/Stepper';
 
 const Pregnancy_Q2 = ({ route, navigation }) => {
   const [selectedWeek, setSelectedWeek] = useState();
@@ -38,10 +40,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
     });
   }
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/1.png')}
-        style={styles.bg}>
+    <ImageBackground source={Main} style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
         <Ptxt style={styles.question}>چند هفته است که باردار هستید؟</Ptxt>
         <View style={styles.pickerGroup}>
           <WheelPicker
@@ -90,6 +90,7 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             type="clear"
             onPress={() => onForgotPress()}
           />
+          <Stepper index={1} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -109,8 +110,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

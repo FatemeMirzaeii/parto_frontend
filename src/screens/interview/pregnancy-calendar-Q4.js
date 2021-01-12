@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Calendar } from 'react-native-jalali-calendars';
+import Calendar from '../../components/Calendar';
 import moment from 'moment';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import { FORMAT } from '../../constants/cycle';
+import Main from '../../../assets/images/main/interview.png';
+import Stepper from '../../components/Stepper';
 const today = moment();
 
 const Pregnancy_Q4 = ({ route, navigation }) => {
@@ -31,52 +33,25 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
     }
   };
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/3.png')}
-        style={styles.bg}>
+    <ImageBackground source={Main} style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
         <Text style={styles.question}>{determineTitle()}</Text>
         <Calendar
-          firstDay={6}
-          jalali
-          enableSwipeMonths
           onDayPress={(day) => {
             setSelectedDate(day.dateString);
           }}
           markedDates={{
             [selectedDate]: { selected: true },
           }}
-          markingType="multi-period"
-          style={styles.calendar}
           minDate={
             route.params.type === 'dueDate' ? today.format(FORMAT) : null
           }
           maxDate={
             route.params.type !== 'dueDate' ? today.format(FORMAT) : null
           }
-          disableAllTouchEventsForDisabledDays
-          hideExtraDays
-          theme={{
-            textSectionTitleColor: COLOR.black,
-            calendarBackground: 'transparent',
-            selectedDayTextColor: COLOR.white,
-            textDisabledColor: COLOR.textColorDark,
-            textDayFontFamily: FONT.regular,
-            textMonthFontFamily: FONT.regular,
-            textDayHeaderFontFamily: FONT.regular,
-            selectedDayBackgroundColor: COLOR.tiffany,
-            textDayHeaderFontSize: 8,
-            arrowColor: COLOR.tiffany,
-            todayTextColor: COLOR.tiffany,
-          }}
         />
         <View>
-          {/* <Button
-            title="فراموش کردم"
-            titleStyle={styles.darkBtnTitle}
-            type="clear"
-            onPress={() => onForgotPress()}
-          /> */}
+          <Stepper index={3} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -97,8 +72,8 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 export default Pregnancy_Q4;

@@ -12,6 +12,7 @@ import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 //components
 import PersianDatePicker from '../../components/PersianDatePicker';
+import Stepper from '../../components/Stepper';
 
 //services
 import api from '../../services/api';
@@ -22,6 +23,8 @@ import { addPregnancy, saveProfileData } from '../../util/database/query';
 
 //style
 import styles from './styles';
+import Main from '../../../assets/images/main/interview.png';
+import Teenager from '../../../assets/images/teenager/interview.png';
 
 let counter = 0;
 
@@ -106,48 +109,51 @@ const Q5 = ({ route, navigation }) => {
 
   console.log('userIdState', userIdState);
   return (
-    <SafeAreaView style={styles.safeAreaView}>
+    <>
       <ImageBackground
-        source={require('../../../assets/images/start/4.png')}
+        source={route.params.template === 'Main' ? Main : Teenager}
         style={styles.bg}>
-        <Text style={styles.question}>
-          با وارد کردن تاریخ تولدت
-          {'\n'}
-          به ما در تحلیل بهتر اطلاعات کمک کن.
-        </Text>
-        <View style={styles.picker}>
-          <PersianDatePicker
-            onDateSelected={setDate}
-            startOfRange={modeState === 'Teenager' ? 1381 : 1340}
-            endOfRange={1390}
-          />
-        </View>
-        <View>
-          <Button
-            title="بعدا وارد میکنم"
-            titleStyle={styles.darkBtnTitle}
-            type="clear"
-            onPress={() => onNextPress(null)}
-          />
-          <View style={styles.buttons}>
-            <Button
-              title="بعدی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
-              titleStyle={styles.btnTitle}
-              type="solid"
-              onPress={() => onNextPress(birthdate)}
-            />
-            <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
-              titleStyle={styles.darkBtnTitle}
-              type="solid"
-              onPress={() => navigation.goBack()}
+        <SafeAreaView style={styles.safeAreaView}>
+          <Text style={styles.question}>
+            با وارد کردن تاریخ تولدت
+            {'\n'}
+            به ما در تحلیل بهتر اطلاعات کمک کن.
+          </Text>
+          <View style={styles.picker}>
+            <PersianDatePicker
+              onDateSelected={setDate}
+              startOfRange={modeState === 'Teenager' ? 1381 : 1340}
+              endOfRange={1390}
             />
           </View>
-        </View>
+          <View>
+            <Button
+              title="بعدا وارد میکنم"
+              titleStyle={styles.darkBtnTitle}
+              type="clear"
+              onPress={() => onNextPress(null)}
+            />
+            <Stepper index={4} />
+            <View style={styles.buttons}>
+              <Button
+                title="بعدی"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.nextButton}
+                titleStyle={styles.btnTitle}
+                type="solid"
+                onPress={() => onNextPress(birthdate)}
+              />
+              <Button
+                title="قبلی"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.prevButton}
+                titleStyle={styles.darkBtnTitle}
+                type="solid"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
+          </View>
+        </SafeAreaView>
       </ImageBackground>
       <Modal
         animationType="fade"
@@ -181,7 +187,7 @@ const Q5 = ({ route, navigation }) => {
           </View>
         </View>
       </Modal>
-    </SafeAreaView>
+    </>
   );
 };
 

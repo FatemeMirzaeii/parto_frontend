@@ -7,9 +7,9 @@ export default StyleSheet.create({
     flex: 1,
   },
   safeAreaView: {
-    backgroundColor: COLOR.bgColor,
-    flex: 1,
-    paddingTop: 25,
+    justifyContent: 'space-between',
+    height: HEIGHT / 1.5,
+    top: 70,
   },
   bg: {
     width: '100%',
@@ -35,7 +35,7 @@ export default StyleSheet.create({
   },
   nextButton: {
     height: 40,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.purple,
   },
   prevButton: {
     backgroundColor: COLOR.white,
@@ -61,9 +61,16 @@ export default StyleSheet.create({
     fontFamily: FONT.bold,
     fontSize: 15,
     textAlign: 'center',
-    color: COLOR.textColor,
+    color: COLOR.textColorDark,
     lineHeight: 30,
     paddingTop: 20,
+  },
+  subtext: {
+    fontFamily: FONT.medium,
+    fontSize: 13,
+    textAlign: 'center',
+    color: COLOR.textColor,
+    lineHeight: 30,
   },
   modal: {
     backgroundColor: '#fff',
@@ -94,7 +101,7 @@ export default StyleSheet.create({
     justifyContent: 'space-evenly',
     alignItems: 'center',
     alignSelf: 'center',
-    width: WIDTH - 30,
+    width: WIDTH - 90,
   },
   pickerGroup: {
     flexDirection: 'row',
@@ -109,8 +116,8 @@ export default StyleSheet.create({
     textAlignVertical: 'center',
   },
   picker: {
-    width: '90%',
-    height: HEIGHT / 3,
+    width: '75%',
+    height: HEIGHT / 4,
     justifyContent: 'center',
     alignSelf: 'center',
     margin: 30,

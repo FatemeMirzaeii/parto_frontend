@@ -20,6 +20,8 @@ export const COLOR = {
   // reView: '#9E9E9E',
   story: '#322C6D',
   vaginalAndSleep: '#B6D443',
+  pink: '#FB77A4',
+  purple: '#959CDA',
   teenagerFirstText: '#562369',
 };
 export const FONT = {

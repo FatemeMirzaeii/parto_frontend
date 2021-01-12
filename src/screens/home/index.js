@@ -23,9 +23,9 @@ import Tour from '../../util/tourGuide/Tour';
 import { FORMAT } from '../../constants/cycle';
 
 //assets
-import MainBg from '../../../assets/images/home/main.png';
-import TeenagerBg from '../../../assets/images/home/teenager.png';
-import PartnerBg from '../../../assets/images/home/partner.png';
+import MainBg from '../../../assets/images/main/home.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
 
 //styles
 import { COLOR, FONT } from '../../styles/static';
