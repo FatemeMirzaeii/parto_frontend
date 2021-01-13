@@ -20,10 +20,12 @@ export const COLOR = {
   // reView: '#9E9E9E',
   story: '#322C6D',
   vaginalAndSleep: '#B6D443',
+  mainFirstText: '#2c3279',
   pink: '#FB77A4',
   purple: '#959CDA',
   sentence: '#2C3279',
   teenagerFirstText: '#562369',
+  PartnerFirstText: '#562369',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',

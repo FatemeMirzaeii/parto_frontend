@@ -68,10 +68,8 @@ export default StyleSheet.create({
     flex: 1,
   },
   main: {
-    flex: 1,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    paddingBottom: 50,
+    paddingTop: 24,
   },
   button: {
     backgroundColor: '#f9d1de',

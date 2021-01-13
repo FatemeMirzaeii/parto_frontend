@@ -11,6 +11,9 @@ import axios from 'axios';
 import { Icon } from 'native-base';
 import LinearGradient from 'react-native-linear-gradient';
 
+//components
+import Loader from './CatListLoader';
+
 //services
 import { authCode } from '../services/authCode';
 import { articlesBaseUrl } from '../services/urls';
@@ -22,7 +25,7 @@ const CategoryList = (props) => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  const { catId, catName } = props;
+  const { catId, catName, treatise } = props;
 
   useEffect(() => {
     const getCategoryContent = async () => {
@@ -30,7 +33,6 @@ const CategoryList = (props) => {
         let arts = [];
         const res = await axios({
           method: 'get',
-          //url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${0}&limit=${9}`,
           url: `${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc&start=${0}&limit=${10}`,
           headers: {
             Authorization: 'Basic ' + authCode,
@@ -73,9 +75,6 @@ const CategoryList = (props) => {
             console.log('imgUrl', imgUrl);
           } catch (err) {
             console.error(err, err.response);
-            // if (err.response && err.response.data) {
-            //   setServerError(err.response.data.message)
-            // }
           }
           setArticles(arts);
         }
@@ -91,10 +90,14 @@ const CategoryList = (props) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.navigation.navigate('ArticleDetails', {
-            articleContent: item,
-            catName: catName,
-          });
+          treatise
+            ? props.navigation.navigate('TreatiseDetails', {
+                treatiseContent: item,
+              })
+            : props.navigation.navigate('ArticleDetails', {
+                articleContent: item,
+                catName: catName,
+              });
         }}
         style={styles.cardButton}>
         <ImageBackground
@@ -118,22 +121,26 @@ const CategoryList = (props) => {
       </TouchableOpacity>
     );
   };
-  console.log('new', articles);
+  //console.log('new', articles);
 
   return (
     <>
-      {!isLoading && (
+      {isLoading ? (
+        <Loader leftTxt={treatise ? false : true} />
+      ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
             <TouchableOpacity onPress={props.MoreBtnOnPress}>
-              <View style={styles.moreButtonBox}>
-                <Icon
-                  type="FontAwesome"
-                  name="angle-left"
-                  style={styles.moreButtonIcon}
-                />
-                <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
-              </View>
+              {props.moreBtn ? (
+                <View style={styles.moreButtonBox}>
+                  <Icon
+                    type="FontAwesome"
+                    name="angle-left"
+                    style={styles.moreButtonIcon}
+                  />
+                  <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
+                </View>
+              ) : null}
             </TouchableOpacity>
             <Text style={styles.categoryText}>{props.category}</Text>
           </View>
@@ -171,6 +178,7 @@ const styles = StyleSheet.create({
   moreButtonIcon: {
     fontSize: 14,
     color: COLOR.tiffany,
+    //paddingVertical: '2%',//for responsive
     paddingVertical: 6,
     paddingRight: 5,
   },
@@ -193,7 +201,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-    elevation: 6,
+    elevation: 3,
   },
   imageWrapper: {
     width: 140,

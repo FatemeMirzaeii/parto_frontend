@@ -10,16 +10,20 @@ import {
 import Ptxt from './Ptxt';
 
 //styles
-import { SIZE, WIDTH } from '../styles/static';
+import { SIZE, WIDTH, HEIGHT } from '../styles/static';
 
 const NewestArticles = (props) => {
   return (
     <View style={styles.item}>
       <TouchableOpacity onPress={props.onSelectArticle}>
-        <View>
+        <>
           <View style={styles.imageWrapper}>
             <ImageBackground
-              source={{ uri: props.image }}
+              source={
+                props.image
+                  ? { uri: props.image }
+                  : require('../../assets/images/NoPic.jpeg')
+              }
               style={styles.bgImage}>
               <View style={styles.titleContainer}>
                 <Ptxt style={styles.title} numberOfLines={2}>
@@ -28,7 +32,7 @@ const NewestArticles = (props) => {
               </View>
             </ImageBackground>
           </View>
-        </View>
+        </>
       </TouchableOpacity>
     </View>
   );
@@ -36,11 +40,12 @@ const NewestArticles = (props) => {
 
 const styles = StyleSheet.create({
   item: {
-    height: 170,
+    height: HEIGHT / 4,
     width: WIDTH - 70,
     borderRadius: 15,
     overflow: 'hidden',
     marginTop: 10,
+    backgroundColor: 'green',
   },
   bgImage: {
     width: '100%',

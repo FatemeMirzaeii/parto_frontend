@@ -209,6 +209,7 @@ const Articles = (props) => {
             data={categoryList}
             renderItem={({ item }) => (
               <CategoryList
+                moreBtn
                 navigation={navigation}
                 catId={item.content.id}
                 catName={item.title}
