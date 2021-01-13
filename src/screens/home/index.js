@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import moment from 'moment';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
@@ -26,6 +26,7 @@ import styles from './styles';
 import MainBg from '../../../assets/images/main/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
+import PlusButton from '../../components/PlusButton';
 
 const today = moment().format(FORMAT);
 
@@ -146,10 +147,13 @@ const Home = ({ navigation }) => {
           }}
           showTodayButton
         />
-        <View style={styles.moonText}>
-          {/* <Ruler /> */}
-          {renderText()}
-        </View>
+        <View style={styles.moonText}>{renderText()}</View>
+        <PlusButton
+          navigation={navigation}
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+        />
         {cycle.isPregnant ? (
           <Button
             title="پروفایل بارداری"

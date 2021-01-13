@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import Home from '../screens/home';
@@ -11,7 +11,8 @@ import { COLOR, FONT } from '../styles/static';
 import PlusButton from '../components/PlusButton';
 import Tour from '../util/tourGuide/Tour';
 
-const Tab = createBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator();
+
 const TabNavigator = () => {
   const [appTourTargets, setAppTourTargets] = useState([]);
   const template = useSelector((state) => state.user);
@@ -20,57 +21,28 @@ const TabNavigator = () => {
   return (
     <Tab.Navigator
       initialRouteName="Home"
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName;
-          let type;
-          switch (route.name) {
-            case 'Home':
-              type = 'parto';
-              iconName = 'moon';
-              break;
-            case 'Articles':
-              type = 'parto';
-              iconName = 'article';
-              break;
-            case 'Analysis':
-              type = 'parto';
-              iconName = focused ? 'barchart' : 'linechart';
-              break;
-            case 'Menu':
-              type = 'parto';
-              iconName = 'more';
-              break;
-            default:
-              break;
-          }
-          return <Icon name={iconName} size={20} color={color} type={type} />;
-        },
-      })}
-      tabBarOptions={{
-        activeTintColor: COLOR.btn,
-        inactiveTintColor: COLOR.black,
-        style: {
-          // backgroundColor: 'rgba(253, 241, 241, 0.9)',
-          // backgroundColor: 'rgba(22, 22, 22, 0.2)',
-          // backgroundColor: 'rgba(235, 184, 197, 0.2)',
-          backgroundColor: 'transparent',
-          borderWidth: 0,
-          position: 'absolute',
-          elevation: 0,
-          padding: 5,
-          height: 55,
-        },
-        labelStyle: {
-          fontFamily: FONT.bold,
-          fontSize: 13,
-        },
-      }}>
+      backBehavior="initialRoute"
+      activeColor={COLOR.white}
+      inactiveColor={COLOR.white}
+      // theme={{ mode: 'exact', fonts: FONT.bold }}
+      barStyle={{
+        backgroundColor: 'transparent',
+        elevation: 0,
+        position: 'absolute',
+      }}
+      // backgroundColor: 'rgba(253, 241, 241, 0.9)',
+      // backgroundColor: 'rgba(22, 22, 22, 0.2)',
+      // backgroundColor: 'rgba(235, 184, 197, 0.2)',
+    >
       <Tab.Screen
         name="Menu"
         component={MenuStack}
         options={{
           tabBarLabel: 'بیشتر',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="more" size={20} color={color} type="parto" />
+          ),
+          tabBarColor: 'rgba(22, 22, 22, 0.2)',
         }}
       />
       <Tab.Screen
@@ -78,22 +50,30 @@ const TabNavigator = () => {
         component={ArticleStack}
         options={{
           tabBarLabel: 'مقالات',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="article" size={25} color={color} type="parto" />
+          ),
+          tabBarColor: 'rgba(22, 22, 22, 0.2)',
         }}
       />
       <Tab.Screen
-        name="TrackingOptions"
+        name="TempTrackingOption"
         component={TrackingOptions}
+        listeners={{
+          tabPress: (e) => {
+            e.preventDefault();
+          },
+        }}
         options={{
-          // tabBarVisible: false,
           tabBarLabel: 'ثبت پریود',
-          tabBarIcon: (props) => (
-            <PlusButton
-              {...props}
-              addAppTourTarget={(appTourTarget) => {
-                appTourTargets.push(appTourTarget);
-              }}
-            />
-          ),
+          // tabBarIcon: (props) => (
+          //   <PlusButton
+          //     {...props}
+          //     addAppTourTarget={(appTourTarget) => {
+          //       appTourTargets.push(appTourTarget);
+          //     }}
+          //   />
+          // ),
         }}
       />
       <Tab.Screen
@@ -101,6 +81,10 @@ const TabNavigator = () => {
         component={Analysis}
         options={{
           tabBarLabel: 'تحلیل',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="barchart" size={20} color={color} type="parto" />
+          ),
+          tabBarColor: 'rgba(22, 22, 22, 0.2)',
         }}
       />
       <Tab.Screen
@@ -108,6 +92,10 @@ const TabNavigator = () => {
         component={Home}
         options={{
           tabBarLabel: 'ماه من',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="moon" size={25} color={color} type="parto" />
+          ),
+          // tabBarColor: COLOR.purple,
         }}
       />
     </Tab.Navigator>

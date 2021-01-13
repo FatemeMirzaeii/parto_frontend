@@ -22,6 +22,7 @@ export const COLOR = {
   vaginalAndSleep: '#B6D443',
   pink: '#FB77A4',
   purple: '#959CDA',
+  sentence: '#2C3279',
   teenagerFirstText: '#562369',
 };
 export const FONT = {

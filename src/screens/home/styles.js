@@ -16,8 +16,6 @@ export default StyleSheet.create({
   moonText: {
     flexDirection: 'row-reverse',
     top: -HEIGHT / 3.5,
-    // right: WIDTH / 10,
-    //backgroundColor: 'green',
     justifyContent: 'center',
   },
   sentenceContainer: {
@@ -44,25 +42,19 @@ export default StyleSheet.create({
   mainSentence: {
     fontFamily: FONT.bold,
     fontSize: 16,
-    // color: COLOR.black,
     textAlign: 'center',
-    // backgroundColor: 'green',
   },
   subSentence: {
     fontFamily: FONT.medium,
     fontSize: 16,
-    // color: COLOR.black,
     lineHeight: 50,
     textAlign: 'center',
-    // backgroundColor: 'purple',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
     fontSize: 14,
-    // color: COLOR.black,
     lineHeight: 45,
     textAlign: 'center',
-    // backgroundColor: 'red',
   },
   bgColorPartner: {
     backgroundColor: '#6576c7',
@@ -71,7 +63,7 @@ export default StyleSheet.create({
     //backgroundColor: '#c7b0de',
   },
   mainTxt: {
-    color: COLOR.mainFirstText,
+    color: COLOR.sentence,
   },
   calendarIcon: {
     top: 40,
