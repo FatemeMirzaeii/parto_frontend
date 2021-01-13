@@ -8,7 +8,6 @@ import NetInfo from '@react-native-community/netinfo';
 import AppNavigator from './navigation';
 import { registerCustomIconType } from 'react-native-elements';
 import SplashScreen from 'react-native-splash-screen';
-import BaleIcon from './customIcon/bale/icon-font';
 import EitaIcon from './customIcon/eita/icon-font';
 import PartoIcon from './customIcon';
 import configureStore from './store';
@@ -34,7 +33,6 @@ const App: () => React$Node = () => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  registerCustomIconType('Bale', BaleIcon);
   registerCustomIconType('Eita', EitaIcon);
   registerCustomIconType('parto', PartoIcon);
   useEffect(() => {
