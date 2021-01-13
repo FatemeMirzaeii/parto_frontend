@@ -26,20 +26,20 @@ const TabNavigator = () => {
           let type;
           switch (route.name) {
             case 'Home':
-              type = focused ? 'feather' : 'font-awesome-5';
+              type = 'parto';
               iconName = 'moon';
               break;
             case 'Articles':
-              type = 'feather';
-              iconName = focused ? 'book-open' : 'book';
+              type = 'parto';
+              iconName = 'article';
               break;
             case 'Analysis':
-              type = 'antdesign';
-              iconName = focused ? 'barchart' : 'barschart';
+              type = 'parto';
+              iconName = focused ? 'barchart' : 'linechart';
               break;
             case 'Menu':
-              type = 'antdesign';
-              iconName = focused ? 'menuunfold' : 'menufold';
+              type = 'parto';
+              iconName = 'more';
               break;
             default:
               break;

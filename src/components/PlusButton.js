@@ -25,8 +25,8 @@ const PlusButton = (props) => {
           props.addAppTourTarget(AppTourView.for(ref, { ...tprops }));
       }}
       raised
-      name="plus"
-      type="octicon"
+      name="lady"
+      type="parto"
       color={COLOR.btn}
       size={25}
       containerStyle={{
