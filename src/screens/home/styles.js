@@ -1,5 +1,7 @@
 import { StyleSheet } from 'react-native';
-import { SIZE, FONT, HEIGHT, COLOR, WIDTH } from '../../styles/static';
+
+//styles
+import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -46,7 +48,6 @@ export default StyleSheet.create({
     fontSize: 16,
     // color: COLOR.black,
     textAlign: 'center',
-    // backgroundColor: 'green',
   },
   subSentence: {
     fontFamily: FONT.medium,
