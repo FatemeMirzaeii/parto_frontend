@@ -16,7 +16,7 @@ const CatListLoader = (props) => {
       {...props}>
       <Rect x="23" y="30" rx="3" ry="3" width="80" height="6" />
       {props.leftTxt ? (
-        <Rect x={WIDTH - 110} y="30" rx="3" ry="3" width="80" height="6" />
+        <Rect x={WIDTH - 100} y="30" rx="3" ry="3" width="80" height="6" />
       ) : null}
       <Rect x="5" y="65" rx="15" ry="15" width="140" height="180" />
       <Rect x="155" y="65" rx="15" ry="15" width="140" height="180" />
