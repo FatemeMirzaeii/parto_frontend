@@ -127,7 +127,6 @@ const Profile = ({ navigation }) => {
             buttonStyle={styles.nextButton}
             titleStyle={styles.listItemText}
             loadingStyle={{ color: COLOR.btn }}
-            // icon={{name: 'user'}}
           />
         )}
       </ScrollView>

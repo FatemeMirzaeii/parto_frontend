@@ -1,16 +1,18 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { useDispatch, useSelector } from 'react-redux';
+import { Button, Icon } from 'react-native-elements';
 import { COLOR } from '../../styles/static';
-import { getUser } from '../../util/database/query';
 import Loader from '../../components/Loader';
 import styles from './styles';
 import api from '../../services/api';
+import { signUp } from '../../store/actions/auth';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
-  const [notRegistered, setNotRegistered] = useState();
   const [isLoading, setIsLoading] = useState(true);
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.user.id);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'کد همسر',
@@ -32,8 +34,7 @@ const PartnerVerificationCode = ({ navigation }) => {
   }, [navigation]);
   useEffect(() => {
     const getPartnerCode = async () => {
-      const userId = await checkIfRegistered();
-      if (!notRegistered) {
+      if (userId) {
         const res = await api({
           url: `/user/partnerVerificationCode/${userId}/fa`,
           dev: true,
@@ -43,23 +44,26 @@ const PartnerVerificationCode = ({ navigation }) => {
       }
     };
     getPartnerCode();
-  }, [notRegistered]);
-  const checkIfRegistered = async () => {
-    const usr = await getUser();
-    setNotRegistered(usr ? false : true);
-    return usr ? usr.id : -1;
-  };
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.codeBox}>
-        {isLoading ? (
-          <Loader />
-        ) : notRegistered ? (
-          <View>
+        {!userId ? (
+          <>
             <Text style={styles.title}>
-              برای استفاده از نسخه همسر باید اول ثبت نام کنید.
+              برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
             </Text>
-          </View>
+            <Button
+              title="ثبت‌نام"
+              onPress={() => dispatch(signUp())}
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.buttonText}
+            />
+          </>
+        ) : isLoading ? (
+          <Loader />
         ) : (
           <>
             <Text style={styles.title}>
