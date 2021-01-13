@@ -2,8 +2,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import moment from 'moment';
 import { Button } from 'react-native-elements';
-
-//redux
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
@@ -22,14 +20,12 @@ import Tour from '../../util/tourGuide/Tour';
 //constants
 import { FORMAT } from '../../constants/cycle';
 
-//assets
-import MainBg from '../../../assets/images/home/main.png';
-import TeenagerBg from '../../../assets/images/home/teenager.png';
-import PartnerBg from '../../../assets/images/home/partner.png';
-
-//styles
+//styles and images
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
+import MainBg from '../../../assets/images/main/home.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
 
 const today = moment().format(FORMAT);
 
@@ -86,7 +82,7 @@ const Home = ({ navigation }) => {
                 {thirdSentence}
               </Text>
               <Text style={{ ...styles.thirdSentence, ...styles.mainTxt }}>
-              {subSentence}
+                {subSentence}
               </Text>
               <View
                 style={{

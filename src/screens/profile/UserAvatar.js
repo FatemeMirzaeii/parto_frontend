@@ -5,9 +5,10 @@ import { Avatar, Input, Button } from 'react-native-elements';
 import Card from '../../components/Card';
 import styles from './styles';
 import { signUp } from '../../store/actions/auth';
-import MainAvatar from './../../../assets/images/start/Main.png';
-import PartnerAvatar from './../../../assets/images/start/Partner.png';
-import TeenagerAvatar from './../../../assets/images/start/Teenager.png';
+import MainAvatar from './../../../assets/images/main/avatar.png';
+import PartnerAvatar from './../../../assets/images/partner/avatar.png';
+import TeenagerAvatar from './../../../assets/images/teenager/avatar.png';
+import { COLOR } from '../../styles/static';
 
 const UserAvatar = ({ navigation }) => {
   // const [name, setName] = useState();
@@ -34,7 +35,7 @@ const UserAvatar = ({ navigation }) => {
         <TouchableOpacity
           style={styles.register}
           onPress={() => dispatch(signUp())}>
-          <Text style={[styles.text, { color: '#ffffff' }]}>
+          <Text style={[styles.text, { color: COLOR.white }]}>
             شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
           </Text>
         </TouchableOpacity>

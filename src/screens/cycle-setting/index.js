@@ -3,16 +3,22 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { Icon, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
+
+//components
 import Card from '../../components/Card';
 import CycleSettingbtn from '../../components/CycleSettingbtn';
 import PickerListItem from '../../components/PickerListItem';
-import { COLOR } from '../../styles/static';
+
+//utils
 import {
   getCycleInfoFromProfile,
   updateProfileData,
   getLastPeriodDate,
 } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
+
+//styles
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const CycleSetting = ({ navigation }) => {
@@ -29,16 +35,15 @@ const CycleSetting = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'تنظیمات دوره‌ها',
-      headerLeft: () => {
+      headerLeft: () =>
         template !== 'Partner' && (
           <CycleSettingbtn
             addAppTourTarget={(appTourTarget) => {
               appTourTargets.push(appTourTarget);
             }}
-            onPress={() => save()}
+            onPress={save}
           />
-        );
-      },
+        ),
       headerRight: () => (
         <Icon
           reverse
@@ -54,7 +59,7 @@ const CycleSetting = ({ navigation }) => {
       updateProfileData({ periodLength, cycleLength, pmsLength });
       navigation.pop();
     };
-  }, [navigation, cycleLength, periodLength, pmsLength]);
+  }, [navigation, cycleLength, periodLength, pmsLength, template]);
 
   useEffect(() => {
     getCycleInfoFromProfile().then((info) => {

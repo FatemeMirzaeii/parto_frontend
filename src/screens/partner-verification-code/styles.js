@@ -16,4 +16,17 @@ export default StyleSheet.create({
   },
   title: { fontFamily: FONT.regular, fontSize: SIZE[14] },
   code: { fontFamily: FONT.bold, fontSize: SIZE[21] },
+  btnContainer: {
+    elevation: 5,
+    width: 100,
+    alignSelf: 'center',
+  },
+  button: {
+    backgroundColor: COLOR.purple,
+    borderRadius: 40,
+  },
+  buttonText: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
+  },
 });

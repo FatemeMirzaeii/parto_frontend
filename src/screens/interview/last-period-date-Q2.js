@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
-import moment from 'moment';
-import { Calendar } from 'react-native-jalali-calendars';
 import { Button } from 'react-native-elements';
-import { COLOR, FONT } from '../../styles/static';
-import styles from './styles';
+import moment from 'moment';
+
+//components
+import Calendar from '../../components/Calendar';
+import Stepper from '../../components/Stepper';
 import { FORMAT } from '../../constants/cycle';
+
+//styles and images
+import Main from '../../../assets/images/main/interview.png';
+import Teenager from '../../../assets/images/teenager/interview.png';
+import styles from './styles';
+
 const today = moment();
 
 const Q2 = ({ route, navigation }) => {
@@ -29,51 +36,30 @@ const Q2 = ({ route, navigation }) => {
     });
   };
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/1.png')}
-        style={styles.bg}>
-        <Text style={styles.question}>
-          آخرین پریودت چه روزی شروع شد؟
-          {'\n'}
-          لطفا روی تقویم مشخص کن.
-        </Text>
+    <ImageBackground
+      source={route.params.template === 'Main' ? Main : Teenager}
+      style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
+        <Text style={styles.question}>آخرین پریودت چه روزی شروع شد؟</Text>
+        <Text style={styles.subtext}>لطفا روی تقویم مشخص کن.</Text>
         <Calendar
-          firstDay={6}
-          jalali
-          enableSwipeMonths
           onDayPress={(day) => {
             setLastPeriodDate(day.dateString);
           }}
           maxDate={today.format(FORMAT)}
-          disableAllTouchEventsForDisabledDays
-          hideExtraDays
-          theme={{
-            textSectionTitleColor: COLOR.black,
-            calendarBackground: 'transparent',
-            selectedDayTextColor: COLOR.white,
-            textDisabledColor: COLOR.textColorDark,
-            textDayFontFamily: FONT.medium,
-            textMonthFontFamily: FONT.bold,
-            textDayHeaderFontFamily: FONT.medium,
-            selectedDayBackgroundColor: COLOR.tiffany,
-            textDayHeaderFontSize: 8,
-            arrowColor: COLOR.tiffany,
-            todayTextColor: COLOR.tiffany,
-          }}
           markedDates={{
             [lastPeriodDate]: { selected: true },
           }}
-          markingType="multi-period"
           style={styles.calendar}
         />
-        <View>
+        <View style={{ flex: 1 }}>
           <Button
             title="فراموش کردم"
             titleStyle={styles.darkBtnTitle}
             type="clear"
             onPress={onForgotPress}
           />
+          <Stepper index={1} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -92,8 +78,8 @@ const Q2 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

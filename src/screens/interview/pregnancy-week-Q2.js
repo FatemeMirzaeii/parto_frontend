@@ -2,11 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
+
+//components and utils
+import Stepper from '../../components/Stepper';
+import Ptxt from '../../components/Ptxt';
 import { setPickerRange } from '../../util/func';
 import PregnancyModule from '../../util/pregnancy';
+
+//styles and images
 import { FONT } from '../../styles/static';
-import Ptxt from '../../components/Ptxt';
 import styles from './styles';
+import Main from '../../../assets/images/main/interview.png';
 
 const Pregnancy_Q2 = ({ route, navigation }) => {
   const [selectedWeek, setSelectedWeek] = useState();
@@ -38,10 +44,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
     });
   }
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/1.png')}
-        style={styles.bg}>
+    <ImageBackground source={Main} style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
         <Ptxt style={styles.question}>چند هفته است که باردار هستید؟</Ptxt>
         <View style={styles.pickerGroup}>
           <WheelPicker
@@ -90,6 +94,7 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             type="clear"
             onPress={() => onForgotPress()}
           />
+          <Stepper index={1} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -109,8 +114,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

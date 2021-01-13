@@ -21,6 +21,8 @@ export const COLOR = {
   story: '#322C6D',
   vaginalAndSleep: '#B6D443',
   mainFirstText: '#2c3279',
+  pink: '#FB77A4',
+  purple: '#959CDA',
   teenagerFirstText: '#562369',
   PartnerFirstText: '#562369',
 };

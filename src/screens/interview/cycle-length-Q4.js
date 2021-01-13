@@ -2,8 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { SafeAreaView, Text, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
+
+//components and utils
+import Stepper from '../../components/Stepper';
 import { setPickerRange } from '../../util/func';
 import { CYCLE_LENGTH } from '../../constants/cycle';
+
+//styles and images
+import Main from '../../../assets/images/main/interview.png';
+import Teenager from '../../../assets/images/teenager/interview.png';
 import { FONT } from '../../styles/static';
 import styles from './styles';
 
@@ -27,17 +34,20 @@ const Q4 = ({ route, navigation }) => {
     });
   }
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/3.png')}
-        style={styles.bg}>
-        <Text style={styles.question}>
-          طول یک دوره ماهانه‌ات تقریبا چند روزه است؟
-          {'\n'}
-          (فاصله بین اولین روز هر پریود تا اولین روز پریود بعدی)
-          {/* {'\n'}
-          معمولا بین 28 الی 30 روز */}
-        </Text>
+    <ImageBackground
+      source={route.params.template === 'Main' ? Main : Teenager}
+      style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
+        <View>
+          <Text style={styles.question}>
+            طول یک دوره ماهانه‌ات تقریبا چند روزه است؟
+          </Text>
+          <Text style={styles.subtext}>
+            فاصله بین اولین روز هر پریود تا اولین روز پریود بعدی
+            {'\n'}
+            معمولا بین 28 الی 30 روز
+          </Text>
+        </View>
         <WheelPicker
           data={setPickerRange(10, 100)}
           selectedItem={selectedItem}
@@ -57,6 +67,7 @@ const Q4 = ({ route, navigation }) => {
             type="clear"
             onPress={() => onForgotPress()}
           />
+          <Stepper index={3} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"
@@ -76,8 +87,8 @@ const Q4 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

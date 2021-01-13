@@ -1,5 +1,5 @@
 import React, { useLayoutEffect } from 'react';
-import { View, Image, Linking, Text } from 'react-native';
+import { View, Image, Linking } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import { COLOR } from '../../styles/static';
 import styles from './styles';
@@ -53,7 +53,7 @@ const ContactUs = ({ navigation }) => {
           reverse
           size={25}
           name="bale"
-          type="Bale"
+          type="parto"
           color={COLOR.btn}
           onPress={() => Linking.openURL('https://ble.ir/partobanoo')}
         />

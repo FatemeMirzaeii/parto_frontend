@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { COLOR } from '../styles/static';
 
 const Card = (props) => {
   return <View style={styles.card(props)}>{props.children}</View>;
@@ -10,7 +11,7 @@ Card.propTypes = {
   color: PropTypes.string,
 };
 Card.defaultProps = {
-  color: '#fff',
+  color: COLOR.white,
   children: <View />,
 };
 const styles = StyleSheet.create({
@@ -20,7 +21,7 @@ const styles = StyleSheet.create({
     margin: 10,
     padding: 10,
     borderRadius: 10,
-    shadowColor: '#000',
+    shadowColor: COLOR.black,
     shadowOffset: {
       width: 0,
       height: 3,
