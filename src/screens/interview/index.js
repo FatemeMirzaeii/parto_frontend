@@ -1,5 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, ImageBackground, View, Text } from 'react-native';
+
+//styles
 import styles from './styles';
 
 const Interview = ({ route, navigation }) => {
@@ -9,7 +11,7 @@ const Interview = ({ route, navigation }) => {
       style={styles.bg}>
       <View style={styles.cont}>
         <Text style={styles.question}>
-          پرتویی جان سلام!
+          پرتویی عزیز سلام!
           {'\n'}
           پرتو چطور میتونه کمکت کنه؟
         </Text>

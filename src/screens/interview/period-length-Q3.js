@@ -2,13 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Text, View, ImageBackground, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
+
+//components and utils
+import Stepper from '../../components/Stepper';
 import { setPickerRange } from '../../util/func';
 import { PERIOD_LENGTH } from '../../constants/cycle';
-import { FONT } from '../../styles/static';
-import styles from './styles';
+
+//styles and images
 import Main from '../../../assets/images/main/interview.png';
 import Teenager from '../../../assets/images/teenager/interview.png';
-import Stepper from '../../components/Stepper';
+import { FONT } from '../../styles/static';
+import styles from './styles';
 
 const Q3 = ({ route, navigation }) => {
   const [selectedItem, setSelectedItem] = useState();

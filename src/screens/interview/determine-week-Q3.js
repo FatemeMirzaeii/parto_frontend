@@ -7,9 +7,13 @@ import {
   Text,
 } from 'react-native';
 import { Button } from 'react-native-elements';
+
+//components
+import Stepper from '../../components/Stepper';
+
+//styles
 import { HEIGHT } from '../../styles/static';
 import styles from './styles';
-import Stepper from '../../components/Stepper';
 
 const Pregnancy_Q3 = ({ route, navigation }) => {
   useEffect(() => {

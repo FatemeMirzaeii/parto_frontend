@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
-
-//redux
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
@@ -21,7 +19,7 @@ import api from '../../services/api';
 import CycleModule from '../../util/cycle';
 import { addPregnancy, saveProfileData } from '../../util/database/query';
 
-//style
+//style and images
 import styles from './styles';
 import Main from '../../../assets/images/main/interview.png';
 import Teenager from '../../../assets/images/teenager/interview.png';
@@ -60,7 +58,6 @@ const Q5 = ({ route, navigation }) => {
   }, [birthdate, modeState]);
 
   const setDate = (date, persianDate) => {
-    console.log('hi from interview', date);
     if (date) {
       setBirthdate(date);
     }

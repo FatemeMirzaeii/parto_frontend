@@ -10,23 +10,19 @@ import {
 } from 'react-native';
 import { Icon } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
-
-//redux
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
 import { handleTemplate } from '../../store/actions/user';
 import { signOut } from '../../store/actions/auth';
 
-//assets
+//styles and images
+import styles from './styles';
+import { COLOR, WIDTH } from '../../styles/static';
 import Background from '../../../assets/images/00.png';
 import Parto from '../../../assets/images/main/avatar.png';
 import Nopar from '../../../assets/images/teenager/avatar.png';
 import Hampar from '../../../assets/images/partner/avatar.png';
-
-//styles
-import styles from './styles';
-import { COLOR, WIDTH } from '../../styles/static';
 
 const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);

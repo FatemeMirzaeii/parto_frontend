@@ -1,14 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
-import moment from 'moment';
-import Calendar from '../../components/Calendar';
 import { Button } from 'react-native-elements';
-import { HEIGHT } from '../../styles/static';
-import styles from './styles';
-import { FORMAT } from '../../constants/cycle';
+import moment from 'moment';
+
+//components
+import Calendar from '../../components/Calendar';
 import Stepper from '../../components/Stepper';
+import { FORMAT } from '../../constants/cycle';
+
+//styles and images
 import Main from '../../../assets/images/main/interview.png';
 import Teenager from '../../../assets/images/teenager/interview.png';
+import styles from './styles';
+
 const today = moment();
 
 const Q2 = ({ route, navigation }) => {

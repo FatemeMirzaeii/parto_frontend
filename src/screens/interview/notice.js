@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react';
 import { Text, View, ImageBackground, SafeAreaView } from 'react-native';
 import { Button } from 'react-native-elements';
+
+//styles and images
 import { HEIGHT } from '../../styles/static';
 import styles from './styles';
 import Main from '../../../assets/images/main/notice.png';

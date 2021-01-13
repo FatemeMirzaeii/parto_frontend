@@ -1,8 +1,10 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
-import { FONT, COLOR } from '../styles/static';
 import { Calendar as Cal } from 'react-native-jalali-calendars';
 import { Icon } from 'react-native-elements';
+
+//styles
+import { FONT, COLOR } from '../styles/static';
 
 const Calendar = (props) => {
   return (

@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
 import { Button } from 'react-native-elements';
-import Calendar from '../../components/Calendar';
 import moment from 'moment';
-import { COLOR, FONT } from '../../styles/static';
-import styles from './styles';
-import { FORMAT } from '../../constants/cycle';
-import Main from '../../../assets/images/main/interview.png';
+
+//components
+import Calendar from '../../components/Calendar';
 import Stepper from '../../components/Stepper';
+import { FORMAT } from '../../constants/cycle';
+
+//styles and images
+import styles from './styles';
+import Main from '../../../assets/images/main/interview.png';
+
 const today = moment();
 
 const Pregnancy_Q4 = ({ route, navigation }) => {
@@ -21,7 +25,6 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
       [route.params.type]: selectedDate,
     });
   };
-  const onForgotPress = () => {};
   const determineTitle = () => {
     switch (route.params.type) {
       case 'conceptionDate':

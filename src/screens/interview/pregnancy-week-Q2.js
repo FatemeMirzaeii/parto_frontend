@@ -2,13 +2,17 @@ import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ImageBackground, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
+
+//components and utils
+import Stepper from '../../components/Stepper';
+import Ptxt from '../../components/Ptxt';
 import { setPickerRange } from '../../util/func';
 import PregnancyModule from '../../util/pregnancy';
+
+//styles and images
 import { FONT } from '../../styles/static';
-import Ptxt from '../../components/Ptxt';
 import styles from './styles';
 import Main from '../../../assets/images/main/interview.png';
-import Stepper from '../../components/Stepper';
 
 const Pregnancy_Q2 = ({ route, navigation }) => {
   const [selectedWeek, setSelectedWeek] = useState();
