@@ -3,7 +3,7 @@ import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   main: {
-    paddingBottom: 50,
+    //paddingBottom: 50,
     paddingTop: 24,
   },
   slider: {
@@ -20,10 +20,10 @@ export default StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
   },
   inactiveDot: {
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
   },
   safeAreaView: {
     flex: 1,
@@ -91,7 +91,9 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     alignItems: 'center',
   },
-  HTML: { width: '100%' },
+  HTML: {
+    width: '100%',
+  },
   contentContiner: {
     flex: 1,
     padding: 10,

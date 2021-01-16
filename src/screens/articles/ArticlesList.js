@@ -17,75 +17,92 @@ import { e2p, a2p } from '../../util/func';
 
 ///styles
 import { COLOR } from '../../styles/static';
+import styles from './styles';
 
 const ArticlesList = ({ route, navigation }) => {
-  const [data, setData] = useState([]);
-  const [article, setArticle] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [page, setPage] = useState(0);
   const { catId, catName } = route.params;
+  const [article, setArticle] = useState([]);
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
+  const [page, setPage] = useState(0);
   const perPage = 25;
 
   useEffect(() => {
-    _handleLoadMore();
-  }, [catId]);
-
-  const _handleLoadMore = async () => {
-    await axios({
-      method: 'get',
-      url: `${articlesBaseUrl}/rest/api/content/${catId}/child/page/?expand=body.storage&depth=all order by created asc&start=${page}&limit=${perPage}`,
-      // url: `${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created asc & start=${page} & limit=${perPage}`,
-      headers: {
-        Authorization: 'Basic ' + authCode,
-        'X-Atlassian-Token': 'no-check',
-      },
-    })
-      .then((res) => {
+    const getArticles = async () => {
+      try {
+        let arts = [];
+        const res = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/content/search?cql=(parent=${catId} and type=page) order by created desc &start=${page}&limit=${perPage}`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
         let con = [];
+        // console.log('myres', res);
+        // console.log('categoryContent', res.data.results);
         con = res.data.results;
-        for (let i = 0; i < res.data.results.length; i++) {
-          axios({
-            method: 'get',
-            url: `${articlesBaseUrl}/rest/api/content/${res.data.results[i].id}/child/attachment`,
-            headers: {
-              Authorization: 'Basic ' + authCode,
-              'Content-Type': 'application/json',
-              'cache-control': 'no-cache',
-              'X-Atlassian-Token': 'no-check',
-            },
-          })
-            .then((response) => {
-              const data = response.data.results;
-              const imgUrl = [];
-
-              for (let i = 0; i < data.length; i++) {
-                imgUrl.push(
-                  `${articlesBaseUrl}${
-                    data[i]._links.download.split('?')[0]
-                  }?os_authType=basic`,
-                );
-              }
-              article.push({
-                ...con[i],
-                cover: imgUrl[0],
-                images: imgUrl,
-                catId: catId,
-              });
-              setIsLoading(false);
-              setData(article);
-              setPage((pre) => pre + 25);
-            })
-            .catch((err) => {
-              console.error(err, err.response);
-              setIsLoading(false);
-            });
+        if (con.length === 0) {
+          setVisible(false);
         }
-      })
-      .catch((err) => {
+
+        for (let i = 0; i < con.length; i++) {
+          try {
+            const response = await axios({
+              method: 'get',
+              url: `${articlesBaseUrl}/rest/api/content/${con[i].id}/child/attachment`,
+              headers: {
+                Authorization: 'Basic ' + authCode,
+                'Content-Type': 'application/json',
+                'cache-control': 'no-cache',
+                'X-Atlassian-Token': 'no-check',
+              },
+            });
+            //console.log('response', response);
+            const dataSource = response.data.results;
+            const imgUrl = [];
+            for (let j = 0; j < dataSource.length; j++) {
+              imgUrl.push(
+                `${articlesBaseUrl}${
+                  dataSource[j]._links.download.split('?')[0]
+                }?os_authType=basic`,
+              );
+            }
+            arts.push({
+              ...con[i],
+              cover: imgUrl[0],
+              images: imgUrl,
+              catId: catId,
+            });
+            //console.log('imgUrl', imgUrl);
+          } catch (err) {
+            console.error(err, err.response);
+            if (err.toString() === 'Error: Network Error') {
+              ToastAndroid.show(
+                'لطفا اتصال اینترنت رو چک کن.',
+                ToastAndroid.LONG,
+              );
+            }
+          }
+          setArticle([...article, ...arts]);
+          setData([...article, ...arts]);
+          setVisible(true);
+        }
+      } catch (err) {
         console.error(err, err.response);
-        if (err.toString() === 'Error: Network Error')
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG); 
-      });
+        if (err.toString() === 'Error: Network Error') {
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        }
+      }
+      setLoading(false);
+    };
+    getArticles();
+  }, [catId, page]);
+
+  const _handleLoadMore = () => {
+    setPage(page + 25);
   };
 
   const _handleSearch = (text) => {
@@ -97,20 +114,19 @@ const ArticlesList = ({ route, navigation }) => {
         i.title.includes(a2p(text))
       );
     });
-    console.log('result', result);
     setData(result);
   };
 
   return (
     <>
-      {isLoading ? (
+      {loading ? (
         <Loader />
       ) : (
-        <SafeAreaView style={{ flex: 1, paddingTop: 24, paddingBottom: 50 }}>
+        <SafeAreaView style={styles.main}>
           <SearchBar
             undertxt="جستجو"
             onChangeText={_handleSearch}
-            iconColor={COLOR.btn}
+            iconColor={COLOR.pink}
           />
           <FlatList
             data={data}
@@ -127,8 +143,9 @@ const ArticlesList = ({ route, navigation }) => {
               />
             )}
             keyExtractor={(item, index) => index.toString()}
-            onEndReached={_handleLoadMore}
-            onEndReachedThreshold={0.1}
+            ListFooterComponent={visible ? <Loader /> : null}
+            onEndReached={() => _handleLoadMore()}
+            onEndReachedThreshold={10}
             ListEmptyComponent={() => {
               return <EmptyList />;
             }}
@@ -138,5 +155,4 @@ const ArticlesList = ({ route, navigation }) => {
     </>
   );
 };
-
 export default ArticlesList;
