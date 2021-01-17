@@ -90,6 +90,8 @@ const PickerListItem = (props) => {
               <PersianDatePicker
                 initialDate={props.initialDate}
                 onDateSelected={props.onDateSelected}
+                startOfRange={props.startOfRange}
+                endOfRange={props.endOfRange}
               />
             )}
           </View>

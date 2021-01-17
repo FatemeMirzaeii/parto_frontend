@@ -79,6 +79,8 @@ const Profile = ({ navigation }) => {
             title="تاریخ تولد"
             initialDate={birthdate}
             onDateSelected={onBirthdateSelected}
+            startOfRange={template === 'Teenager' ? 1381 : 1340}
+            endOfRange={1390}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: birthdate }}
           />
@@ -92,28 +94,25 @@ const Profile = ({ navigation }) => {
           />
           <PickerListItem
             title="قد"
-            selectedItem={height}
+            selectedItem={height ?? '160'}
             onItemSelected={setHeight}
-            initPosition={30}
             range={{ min: 130, max: 210 }}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: height, suffix: 'cm' }}
           />
           <PickerListItem
             title="وزن"
-            selectedItem={weight}
+            selectedItem={weight ?? '60'}
             onItemSelected={setWeight}
-            initPosition={30}
             range={{ min: 30, max: 150 }}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: weight, suffix: 'Kg' }}
           />
           <PickerListItem
             title="میانگین ساعت خواب"
-            selectedItem={avgSleepingHours}
+            selectedItem={avgSleepingHours ?? '9'}
             onItemSelected={setAvgSleepingHours}
             range={{ min: 2, max: 15 }}
-            initPosition={7}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
