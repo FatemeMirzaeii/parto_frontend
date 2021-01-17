@@ -12,7 +12,7 @@ const Stepper = ({ index }) => {
   );
 };
 const styles = StyleSheet.create({
-  container: { flexDirection: 'row', alignSelf: 'center' },
+  container: { flexDirection: 'row-reverse', alignSelf: 'center' },
   stepper: (stepperKey, index) => ({
     width: 8,
     height: 8,
