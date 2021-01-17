@@ -10,6 +10,8 @@ import { setPregnancyMode } from '../../store/actions/cycle';
 //components
 import WeekCalendar from '../../components/WeekCalendar';
 import HomeCalendar from '../../components/HomeCalendar';
+import CalendarButton from '../../components/CalendarButton';
+import PlusButton from '../../components/PlusButton';
 
 //util
 import CycleModule from '../../util/cycle';
@@ -26,7 +28,6 @@ import styles from './styles';
 import MainBg from '../../../assets/images/main/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
-import PlusButton from '../../components/PlusButton';
 
 const today = moment().format(FORMAT);
 
@@ -138,6 +139,14 @@ const Home = ({ navigation }) => {
             appTourTargets.push(appTourTarget);
           }}
         />
+        <CalendarButton
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+          onPress={() => {
+            navigation.navigate('Calendar');
+          }}
+        />
         <WeekCalendar
           current={date}
           onDateChanged={(d) => setDate(d)}
@@ -148,12 +157,12 @@ const Home = ({ navigation }) => {
           showTodayButton
         />
         <View style={styles.moonText}>{renderText()}</View>
-        <PlusButton
+        {/* <PlusButton
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
-        />
+        /> */}
         {cycle.isPregnant ? (
           <Button
             title="پروفایل بارداری"

@@ -27,9 +27,9 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
             addAppTourTarget(AppTourView.for(ref, { ...props }));
         }}
         name="calendar"
-        type="evilicon"
-        size={35}
-        color={COLOR.black}
+        type="parto"
+        size={30}
+        color={COLOR.white}
         containerStyle={styles.calendarIcon}
         onPress={onPress}
       />

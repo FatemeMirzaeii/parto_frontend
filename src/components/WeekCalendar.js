@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
   calendar: {},
   header: {
     padding: 5,
-    marginTop: 25,
+    marginTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
