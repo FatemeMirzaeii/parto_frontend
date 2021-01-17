@@ -3,6 +3,7 @@ import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   main: {
+    flex: 1,
     //paddingBottom: 50,
     paddingTop: 24,
   },
