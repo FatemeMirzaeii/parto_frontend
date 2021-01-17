@@ -21,11 +21,24 @@ import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
+
+// components
 import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
-import styles from './styles';
-import commonStyles from '../../styles/commonStyles';
-import { COLOR, WIDTH } from '../../styles/static';
+import Loader from '../../components/Loader';
+
+//utils
+import {
+  addTrackingOption,
+  deselectTrackingOption,
+  getTrackingOptionData,
+  replaceTrackingOption,
+} from '../../util/database/query';
+import { calendarMarkedDatesObject } from '../../util/func';
+import CycleModule from '../../util/cycle';
+import Tour from '../../util/tourGuide/Tour';
+
+// constants, store and contexts
 import {
   BLEEDING,
   EXCERSICE,
@@ -43,22 +56,17 @@ import {
   MORE_ABOUT_EXCERSICE,
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
-import { DateContext } from '../../contexts';
-import {
-  addTrackingOption,
-  deselectTrackingOption,
-  getTrackingOptionData,
-  replaceTrackingOption,
-} from '../../util/database/query';
-import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
-import Tour from '../../util/tourGuide/Tour';
-import { calendarMarkedDatesObject } from '../../util/func';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import { DateContext } from '../../contexts';
+
+// styles and images
+import styles from './styles';
+import commonStyles from '../../styles/commonStyles';
+import { COLOR, WIDTH } from '../../styles/static';
 import MainBg from '../../../assets/images/main/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
-import Loader from '../../components/Loader';
 
 const detailPageRef = createRef();
 
@@ -73,19 +81,24 @@ const TrackingOptions = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
-  const [categoriesOpt, setCategoriesOpt] = useState([]);
+  const [currentCategory, setCurrentCategory] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const template = useSelector((state) => state.user.template);
 
-  const getInitialData = useCallback(async () => {
-    const td = await getTrackingOptionData(date);
-    if (td && template === 'Teenager') {
-      setCategories(td.filter((item) => item.id !== SEX));
-    } else {
-      setCategories(td);
-    }
-    // setCategoriesOpt(td[0].options)
-  }, [date, template]);
+  const getInitialData = useCallback(
+    async (currentCategoryId) => {
+      const td = await getTrackingOptionData(date);
+      if (td && template === 'Teenager') {
+        setCategories(td.filter((item) => item.id !== SEX));
+      } else {
+        setCategories(td);
+      }
+      if (currentCategoryId)
+        setCurrentCategory(td.find((cat) => cat.id === currentCategoryId));
+      else setCurrentCategory(td[0]);
+    },
+    [date, template],
+  );
 
   useEffect(() => {
     getInitialData();
@@ -129,8 +142,7 @@ const TrackingOptions = ({ route, navigation }) => {
     console.log('index', index);
     for (let i = 0; i < categories.length; i++) {
       if (categories[i].id === index + 1) {
-        console.log('categories[i]', categories[i]);
-        setCategoriesOpt(categories[i]);
+        setCurrentCategory(categories[i]);
         setIsLoading(false);
       }
     }
@@ -213,19 +225,19 @@ const TrackingOptions = ({ route, navigation }) => {
     const c = await CycleModule();
     if (option.selected.length > 0) {
       await deselectTrackingOption(option.id, date);
-      getInitialData();
+      getInitialData(category.id);
     } else {
       if (category.hasMultipleChoice) {
         //this will add new option to others
         await addTrackingOption(option.id, date);
-        getInitialData();
+        getInitialData(category.id);
       } else {
         //this will remove other selected options and add new option
         const sameCategoryOptions = category.options.map((o) => {
           return o.id;
         });
         await replaceTrackingOption(option.id, date, sameCategoryOptions);
-        getInitialData();
+        getInitialData(category.id);
       }
       // setDetailPageId(category.id);
       // if (
@@ -301,7 +313,6 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
-  console.log('categories[i]   ****', categoriesOpt);
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -327,7 +338,6 @@ const TrackingOptions = ({ route, navigation }) => {
           onDateChanged={onDayPress}
           onDayPress={(d) => onDayPress(d.dateString)}
         />
-
         <View style={styles.sliderWrapper}>
           <View style={styles.carousel}>
             <Icon
@@ -359,39 +369,43 @@ const TrackingOptions = ({ route, navigation }) => {
             <Loader />
           ) : (
             <View style={styles.options}>
-              <FlatList
-                data={categoriesOpt.options}
-                numColumns={2}
-                keyExtractor={(item, index) => index.toString()}
-                showsVerticalScrollIndicator={false}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    key={item.id}
-                    onPress={() => onOptionPress(categoriesOpt, item)}
-                    style={[
-                      styles.option,
-                      {
-                        // borderColor: color,
-                        backgroundColor:
+              {currentCategory && (
+                <FlatList
+                  data={currentCategory.options}
+                  numColumns={2}
+                  keyExtractor={(item, index) => index.toString()}
+                  showsVerticalScrollIndicator={false}
+                  renderItem={({ item }) => (
+                    <TouchableOpacity
+                      key={item.id}
+                      onPress={() => onOptionPress(currentCategory, item)}
+                      style={[
+                        styles.option,
+                        {
+                          // borderColor: color,
+                          backgroundColor:
+                            item.selected.length > 0
+                              ? currentCategory.color
+                              : COLOR.white,
+                        },
+                      ]}>
+                      <SvgCss
+                        width="75%"
+                        height="75%"
+                        xml={item.icon}
+                        fill={
                           item.selected.length > 0
-                            ? categoriesOpt.color
-                            : COLOR.white,
-                      },
-                    ]}>
-                    <SvgCss
-                      width="75%"
-                      height="75%"
-                      xml={item.icon}
-                      fill={
-                        item.selected.length > 0
-                          ? COLOR.white
-                          : categoriesOpt.color
-                      }
-                    />
-                    <Text style={styles.txt}>{item.title}</Text>
-                  </TouchableOpacity>
-                )}
-              />
+                            ? COLOR.white
+                            : currentCategory.color
+                        }
+                      />
+                      <Text style={styles.txt} numberOfLines={1}>
+                        {item.title}
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                />
+              )}
             </View>
           )}
         </View>

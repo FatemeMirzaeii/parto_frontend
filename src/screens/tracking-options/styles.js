@@ -19,7 +19,7 @@ export default StyleSheet.create({
 
   sliderWrapper: {
     backgroundColor: 'white',
-    height: '75%',
+    height: '80%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 5,
@@ -115,8 +115,8 @@ export default StyleSheet.create({
     //backgroundColor:'green'
   },
   txt: {
-    fontFamily: FONT.light,
-    fontSize: SIZE[14],
+    fontFamily: FONT.medium,
+    fontSize: 11,
     textAlign: 'center',
     color: COLOR.black,
     flex: 1,
