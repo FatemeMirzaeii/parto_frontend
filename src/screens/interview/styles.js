@@ -23,7 +23,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   buttons: {
-    flexDirection: 'row-reverse',
+    flexDirection: 'row',
     justifyContent: 'space-around',
     margin: 3,
   },

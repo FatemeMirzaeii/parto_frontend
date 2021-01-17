@@ -58,7 +58,7 @@ const Calendar = (props) => {
       renderArrow={(direction) => (
         <Icon
           type="font-awesome"
-          name={`chevron-circle-${direction}`}
+          name={`chevron-circle-${direction === 'left' ? 'right' : 'left'}`}
           color={COLOR.pink}
           size={23}
         />
