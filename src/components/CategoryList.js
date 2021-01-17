@@ -40,8 +40,8 @@ const CategoryList = (props) => {
           },
         });
         let con = [];
-        console.log('myres', res);
-        console.log('categoryContent', res.data.results);
+        // console.log('myres', res);
+        // console.log('categoryContent', res.data.results);
         con = res.data.results;
         for (let i = 0; i < con.length; i++) {
           try {
@@ -55,10 +55,9 @@ const CategoryList = (props) => {
                 'X-Atlassian-Token': 'no-check',
               },
             });
-            console.log('response', response);
+            //console.log('response', response);
             const data = response.data.results;
             const imgUrl = [];
-            // content = [];
             for (let j = 0; j < data.length; j++) {
               imgUrl.push(
                 `${articlesBaseUrl}${
@@ -72,7 +71,7 @@ const CategoryList = (props) => {
               images: imgUrl,
               catId: catId,
             });
-            console.log('imgUrl', imgUrl);
+            // console.log('imgUrl', imgUrl);
           } catch (err) {
             console.error(err, err.response);
           }
@@ -177,7 +176,7 @@ const styles = StyleSheet.create({
   },
   moreButtonIcon: {
     fontSize: 14,
-    color: COLOR.tiffany,
+    color: COLOR.purple,
     //paddingVertical: '2%',//for responsive
     paddingVertical: 6,
     paddingRight: 5,
@@ -185,7 +184,7 @@ const styles = StyleSheet.create({
   moreButtonText: {
     fontFamily: FONT.bold,
     fontSize: SIZE[16],
-    color: COLOR.tiffany,
+    color: COLOR.purple,
   },
   categoryText: {
     fontFamily: FONT.bold,

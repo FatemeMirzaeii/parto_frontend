@@ -13,6 +13,7 @@ import {
   Text,
   ToastAndroid,
   FlatList,
+  ImageBackground,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -54,6 +55,10 @@ import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { calendarMarkedDatesObject } from '../../util/func';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import MainBg from '../../../assets/images/main/home.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
+import Loader from '../../components/Loader';
 
 const detailPageRef = createRef();
 
@@ -65,8 +70,10 @@ const TrackingOptions = ({ route, navigation }) => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
+  const [categoriesOpt, setCategoriesOpt] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const template = useSelector((state) => state.user.template);
 
@@ -77,6 +84,7 @@ const TrackingOptions = ({ route, navigation }) => {
     } else {
       setCategories(td);
     }
+    // setCategoriesOpt(td[0].options)
   }, [date, template]);
 
   useEffect(() => {
@@ -92,29 +100,41 @@ const TrackingOptions = ({ route, navigation }) => {
           style={[
             styles.category,
             {
-              borderColor: item.color,
+              // borderColor: item.color,
             },
           ]}>
           <SvgCss width="100%" height="100%" xml={item.icon} />
-          <Text style={styles.title}>{item.title}</Text>
         </View>
-        <TouchableOpacity
-          onPress={() => {
-            toggleOverlay(item.id);
-          }}
-          style={[styles.more, { backgroundColor: item.color }]}>
-          <Text style={styles.moreText}>
-            {'   '}
-            در مورد {item.title} بخوان.
-          </Text>
-          <Icon name="info" type="MaterialIcons" size={17} color="white" />
-        </TouchableOpacity>
-        <View style={styles.options}>{renderOptions(item, item.color)}</View>
+        <View style={styles.titleBox}>
+          <Text style={styles.title}>{item.title}</Text>
+          <Icon
+            // raised
+            name="info"
+            type="parto"
+            size={25}
+            //color={COLOR.black}
+            onPress={() => {
+              toggleOverlay(item.id);
+            }}
+          />
+        </View>
+        {/* <View style={styles.options}>{renderOptions(item, item.color)}</View> */}
         {/* {item.id === detailPageId ? renderDetailPage() : null} */}
       </View>
     );
   };
 
+  const _carouselSnap = (index) => {
+    setIsLoading(true);
+    console.log('index', index);
+    for (let i = 0; i < categories.length; i++) {
+      if (categories[i].id === index + 1) {
+        console.log('categories[i]', categories[i]);
+        setCategoriesOpt(categories[i]);
+        setIsLoading(false);
+      }
+    }
+  };
   const renderOptions = (category, color) => {
     return (
       <FlatList
@@ -131,7 +151,7 @@ const TrackingOptions = ({ route, navigation }) => {
               style={[
                 styles.icon,
                 {
-                  borderColor: color,
+                  // borderColor: color,
                   backgroundColor:
                     item.selected.length > 0 ? color : COLOR.white,
                 },
@@ -281,57 +301,122 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
+  console.log('categories[i]   ****', categoriesOpt);
   return (
     <SafeAreaView style={styles.container}>
-      <ScrollView>
+      <ImageBackground
+        source={
+          template === 'Teenager'
+            ? TeenagerBg
+            : template === 'Partner'
+            ? PartnerBg
+            : MainBg
+        }
+        style={styles.sky}>
         <CalendarPointer
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
         />
         <WeekCalendar
-          dividerColor="#fff"
           theme={{
-            calendarBackground: COLOR.lightPink,
+            calendarBackground: 'transparent',
           }}
           current={date}
           maxDate={moment().format(FORMAT)}
           onDateChanged={onDayPress}
           onDayPress={(d) => onDayPress(d.dateString)}
         />
-        <Text style={styles.descriptionTxt}>
-          لطفا ورق بزن و شرح حالت رو ثبت کن.
-        </Text>
-        <Carousel
-          layout={'default'}
-          data={categories}
-          renderItem={renderItem}
-          sliderWidth={WIDTH}
-          itemWidth={WIDTH - 130}
-          inverted={true}
-        />
-      </ScrollView>
-      <Overlay isVisible={visible}>
-        <>
-          <Icon
-            type="antdesign"
-            name="close"
-            color="red"
-            size={20}
-            onPress={toggleOverlay}
-            containerStyle={{ alignItems: 'flex-start' }}
-          />
-          <ScrollView style={{ margin: 5 }}>
-            <Text style={commonStyles.helpTxt}>{overlayText}</Text>
-          </ScrollView>
-        </>
-      </Overlay>
-      <ActionSheet
-        ref={detailPageRef}
-        gestureEnabled={true}
-        bounceOnOpen={true}>
-        <View style={styles.detailPage}>{renderDetailPage()}</View>
-      </ActionSheet>
+
+        <View style={styles.sliderWrapper}>
+          <View style={styles.carousel}>
+            <Icon
+              raised
+              name="chevron-circle-left"
+              type="font-awesome"
+              color="#aaa"
+              size={15}
+            />
+            <Carousel
+              layout={'default'}
+              data={categories}
+              renderItem={renderItem}
+              sliderWidth={WIDTH / 2.6}
+              itemWidth={WIDTH / 2.6}
+              inverted={true}
+              onSnapToItem={(index) => _carouselSnap(index)}
+            />
+            <Icon
+              raised
+              name="chevron-circle-right"
+              type="font-awesome"
+              color="#aaa"
+              size={15}
+            />
+          </View>
+
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <View style={styles.options}>
+              <FlatList
+                data={categoriesOpt.options}
+                numColumns={2}
+                keyExtractor={(item, index) => index.toString()}
+                showsVerticalScrollIndicator={false}
+                renderItem={({ item }) => (
+                  <TouchableOpacity
+                    key={item.id}
+                    onPress={() => onOptionPress(categoriesOpt, item)}
+                    style={[
+                      styles.option,
+                      {
+                        // borderColor: color,
+                        backgroundColor:
+                          item.selected.length > 0
+                            ? categoriesOpt.color
+                            : COLOR.white,
+                      },
+                    ]}>
+                    <SvgCss
+                      width="75%"
+                      height="75%"
+                      xml={item.icon}
+                      fill={
+                        item.selected.length > 0
+                          ? COLOR.white
+                          : categoriesOpt.color
+                      }
+                    />
+                    <Text style={styles.txt}>{item.title}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+            </View>
+          )}
+        </View>
+        <Overlay isVisible={visible}>
+          <>
+            <Icon
+              type="antdesign"
+              name="close"
+              color="red"
+              size={20}
+              onPress={toggleOverlay}
+              containerStyle={{ alignItems: 'flex-start' }}
+            />
+            <ScrollView style={{ margin: 5 }}>
+              <Text style={commonStyles.helpTxt}>{overlayText}</Text>
+            </ScrollView>
+          </>
+        </Overlay>
+        <ActionSheet
+          ref={detailPageRef}
+          gestureEnabled={true}
+          bounceOnOpen={true}>
+          <View style={styles.detailPage}>{renderDetailPage()}</View>
+        </ActionSheet>
+      </ImageBackground>
     </SafeAreaView>
   );
 };
