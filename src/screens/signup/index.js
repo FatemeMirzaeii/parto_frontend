@@ -150,7 +150,7 @@ const SignUp = ({ navigation }) => {
           if (template && template !== res.data.data.type) {
             Alert.alert(
               '',
-              'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده اید.',
+              'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
             );
             //todo: should ask for changing app template or not?
           } else {
@@ -161,9 +161,9 @@ const SignUp = ({ navigation }) => {
             dispatch(interview());
             dispatch(handleTemplate(res.data.data.type));
             dispatch(fetchInitialCycleData());
+            dispatch(signUp());
           }
         }
-        dispatch(signUp());
       })
       .catch((err) => {
         console.error(err, err.response);
