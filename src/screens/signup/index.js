@@ -164,6 +164,7 @@ const SignUp = ({ navigation }) => {
             dispatch(signUp());
           }
         }
+        dispatch(signUp());
       })
       .catch((err) => {
         console.error(err, err.response);

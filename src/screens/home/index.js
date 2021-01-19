@@ -66,7 +66,7 @@ const Home = ({ navigation }) => {
       setThirdSentence('');
     } else {
       const c = await CycleModule();
-      const s = c.determinePhaseSentence(momentDate);
+      const s = c.determinePhaseSentence(momentDate, template === 'Teenager');
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);

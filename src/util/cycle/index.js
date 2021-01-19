@@ -80,8 +80,9 @@ export default async function CycleModule() {
         return 'Unknown phase';
     }
   }
-  function determinePhaseSentence(date) {
-    const phase = determineCyclePhase(date);
+  function determinePhaseSentence(date, isTeenager) {
+    let phase = determineCyclePhase(date);
+    if (isTeenager && phase === 2) phase = 3; // teenager user dont need ovulation data
     const dayNo = cycleDayNumber(date);
     console.log('phase', phase);
     switch (phase) {
