@@ -79,19 +79,9 @@ const Menu = ({ navigation }) => {
   };
   return (
     <ScrollView style={styles.container}>
-      {/* <UserProfile onPress={() => navigateTo('Profile')} /> */}
+      <UserProfile onPress={() => navigateTo('Profile')} />
       {template !== 'Teenager' ? <UserGoal navigation={navigation} /> : null}
       <Card>
-        <ListItem
-          title="پروفایل"
-          leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('Profile')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          bottomDivider
-        />
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ type: 'parto', name: 'settings', color: COLOR.tiffany }}

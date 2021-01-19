@@ -145,7 +145,7 @@ const SignUp = ({ navigation }) => {
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
-        dispatch(setUser(id));
+        dispatch(setUser(id, phoneNumber));
         if (res.data.data.type) {
           if (template && template !== res.data.data.type) {
             Alert.alert(
