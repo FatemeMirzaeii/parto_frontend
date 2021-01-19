@@ -70,6 +70,7 @@ const WeekCalendar = (props) => {
             textDayFontFamily: FONT.medium,
             selectedDayBackgroundColor: COLOR.white,
             selectedDayTextColor: COLOR.black,
+            textDisabledColor: COLOR.black,
             'stylesheet.expandable.main': {
               dayHeader: {
                 width: 40,

@@ -1,23 +1,31 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, ToastAndroid } from 'react-native';
+import { ScrollView, ToastAndroid, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
+
+// components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
+import Loader from '../../components/Loader';
 import Card from '../../components/Card';
+
+// utils and store
 import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
 import sync from '../../util/database/sync';
-import { COLOR } from '../../styles/static';
-import styles from './styles';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 
+// styles
+import { COLOR } from '../../styles/static';
+import styles from './styles';
+
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
+  const [isLoading, setIsLoading] = useState(false);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
@@ -73,9 +81,30 @@ const Menu = ({ navigation }) => {
       shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):\n${link}`);
     });
   };
-  const clearData = () => {
-    resetDatabase();
-    dispatch(fetchInitialCycleData());
+  const clearData = async () => {
+    Alert.alert(
+      '',
+      'با تایید این پیام تمام اطلاعات شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ آیا مطمئن هستید؟',
+      [
+        {
+          text: 'بله',
+          onPress: async () => {
+            setIsLoading(true);
+            await resetDatabase();
+            dispatch(fetchInitialCycleData());
+            setIsLoading(false);
+          },
+        },
+        {
+          text: 'خیر',
+          onPress: () => {
+            return;
+          },
+          style: 'cancel',
+        },
+      ],
+      { cancelable: true },
+    );
   };
   return (
     <ScrollView style={styles.container}>
@@ -205,35 +234,39 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-          bottomDivider //todo: should remove if sign out is disabled.
+          bottomDivider
         />
-        {template !== 'Partner' && (
+        {isLoading ? (
+          <Loader />
+        ) : (
+          template !== 'Partner' && (
+            <ListItem
+              title="پاک کردن داده‌ها"
+              leftIcon={{
+                type: 'font-awesome',
+                name: 'trash-o',
+                color: COLOR.tiffany,
+              }}
+              chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+              onPress={clearData}
+              titleStyle={styles.listItemText}
+              containerStyle={styles.listItem}
+              contentContainerStyle={styles.listItemContent}
+              bottomDivider={!(isLoggedIn === 'dummyToken')}
+            />
+          )
+        )}
+        {!(isLoggedIn === 'dummyToken') && (
           <ListItem
-            title="پاک کردن داده‌ها"
-            leftIcon={{
-              type: 'font-awesome',
-              name: 'trash-o',
-              color: COLOR.tiffany,
-            }}
+            title="خروج"
+            leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
             chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-            onPress={clearData}
+            onPress={() => dispatch(signOut())}
             titleStyle={styles.listItemText}
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
-            bottomDivider //todo: should remove if sign out is disabled.
           />
         )}
-        {/* {!isLoggedIn === 'dummyToken' && ( */}
-        <ListItem
-          title="خروج"
-          leftIcon={{ name: 'exit-to-app', color: COLOR.tiffany }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => dispatch(signOut())}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-        {/* )} */}
       </Card>
     </ScrollView>
   );

@@ -92,8 +92,8 @@ export default async function CycleModule() {
       case 0: {
         return {
           mainSentence: 'تاریخ آخرین پریود خود را وارد کنید',
-          subSentence: 'تا بتوانیم تحلیل درستی از',
-          thirdSentence: 'دوره‌هایتان را نمایش دهیم.',
+          // subSentence: 'تا بتوانیم تحلیل درستی از',
+          // thirdSentence: 'دوره‌هایتان را نمایش دهیم.',
         };
       }
       case 1: {
@@ -258,7 +258,7 @@ export default async function CycleModule() {
         lpd = dates[i];
       } else if (
         dates[i].diff(dates[i + 1], 'days') > MIN_LENGTH_BETWEEN_PERIODS &&
-        dates[i].type !== OPTIONS.SPOTTING
+        prevBleedingDays[i].type !== OPTIONS.SPOTTING
       ) {
         lpd = dates[i];
         break;
@@ -298,7 +298,7 @@ export default async function CycleModule() {
       if (
         bleedingdates[i].diff(bleedingdates[i + 1], 'days') >
           MIN_LENGTH_BETWEEN_PERIODS &&
-        bleedingdates[i].type !== OPTIONS.SPOTTING
+        bdays[i].type !== OPTIONS.SPOTTING
       ) {
         intervals.push(bleedingdates.splice(0, i + 1));
         i = -1;

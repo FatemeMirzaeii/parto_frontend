@@ -83,6 +83,7 @@ const Template = ({ navigation }) => {
             },
           },
         ],
+        { cancelable: true },
       );
     }
     navigation.navigate('PartnerCode');

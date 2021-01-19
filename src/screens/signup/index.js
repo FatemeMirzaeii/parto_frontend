@@ -148,9 +148,18 @@ const SignUp = ({ navigation }) => {
         dispatch(setUser(id, phoneNumber));
         if (res.data.data.type) {
           if (template && template !== res.data.data.type) {
-            Alert.alert(
+            return Alert.alert(
               '',
               'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
+              [
+                {
+                  text: 'باشه',
+                  onPress: async () => {
+                    return;
+                  },
+                },
+              ],
+              { cancelable: true },
             );
             //todo: should ask for changing app template or not?
           } else {
