@@ -4,30 +4,38 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
+
+// components
 import SaveBleendingButton from '../../components/BleendingdaysSave';
 import CancelButton from '../../components/CancelButton';
 import Ptxt from '../../components/Ptxt';
 import SubmitButton from '../../components/SubmitButton';
+
+// utils and constants and store
 import { FORMAT } from '../../constants/cycle';
-import globalStyles from '../../styles';
-import { COLOR, FONT } from '../../styles/static';
 import CycleModule from '../../util/cycle';
 import { setBleedingDays } from '../../util/database/query';
 import Tour from '../../util/tourGuide/Tour';
-import styles from './styles';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
+
+// styles and images
+import globalStyles from '../../styles';
+import { COLOR, FONT } from '../../styles/static';
+import MainBg from '../../../assets/images/main/home.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
+import styles from './styles';
 
 const Calendar = ({ navigation }) => {
   const today = jalaali();
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
+
   const [editMode, setEditMode] = useState(false);
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
 
-  //to maryam: why should we use state if we don't need to setState?
-  //can't we just use a variable?
   const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
 
@@ -109,7 +117,13 @@ const Calendar = ({ navigation }) => {
   };
   return (
     <ImageBackground
-      source={require('../../../assets/images/bg.png')}
+      source={
+        template === 'Teenager'
+          ? TeenagerBg
+          : template === 'Partner'
+          ? PartnerBg
+          : MainBg
+      }
       style={{ height: '100%', width: '100%' }}
       blurRadius={50}>
       <CalendarList
@@ -165,6 +179,8 @@ const Calendar = ({ navigation }) => {
             : null
         }
         theme={{
+          // monthTextColor: COLOR.white,
+          // dayTextColor: COLOR.white,
           textSectionTitleColor: COLOR.black,
           todayTextColor: COLOR.white,
           todayBackgroundColor: COLOR.today,
@@ -192,6 +208,7 @@ const Calendar = ({ navigation }) => {
               textAlign: 'center',
               fontFamily: FONT.medium,
               fontSize: 11,
+              // color: template === 'Partner' ? COLOR.white : COLOR.black,
             },
             rtlHeader: {
               alignItems: 'center',

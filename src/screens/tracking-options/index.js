@@ -332,6 +332,9 @@ const TrackingOptions = ({ route, navigation }) => {
         <WeekCalendar
           theme={{
             calendarBackground: 'transparent',
+            headerColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            dayHeaderColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           }}
           current={date}
           maxDate={moment().format(FORMAT)}

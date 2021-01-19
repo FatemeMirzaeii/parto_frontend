@@ -95,7 +95,9 @@ const UserGoal = ({ navigation }) => {
     <SafeAreaView>
       <View style={styles.titleContainer}>
         <Icon size={30} name="goal" type="parto" color={COLOR.btn} />
-        <Text style={styles.title}>هدف من</Text>
+        <Text style={styles.title}>
+          {template === 'Partner' ? 'هدف' : 'هدف من'}
+        </Text>
       </View>
       <ButtonGroup
         onPress={onModePress}
