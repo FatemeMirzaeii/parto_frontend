@@ -20,9 +20,9 @@ import { signOut } from '../../store/actions/auth';
 import styles from './styles';
 import { COLOR, WIDTH } from '../../styles/static';
 import Background from '../../../assets/images/00.png';
-import Parto from '../../../assets/images/main/avatar.png';
-import Nopar from '../../../assets/images/teenager/avatar.png';
-import Hampar from '../../../assets/images/partner/avatar.png';
+import Main from '../../../assets/images/main/avatar.png';
+import Teenager from '../../../assets/images/teenager/avatar.png';
+import Partner from '../../../assets/images/partner/avatar.png';
 
 const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);
@@ -32,13 +32,13 @@ const Template = ({ navigation }) => {
     {
       title: 'نوجوان',
       desc: 'ثبت و تحلیل دوره‌ها برای نوجوانان 11 - 18 سال',
-      icon: Nopar,
+      icon: Teenager,
     },
-    { title: 'پرتو', desc: 'ثبت و تحلیل دوره‌ها و باروری', icon: Parto },
+    { title: 'پرتو', desc: 'ثبت و تحلیل دوره‌ها و باروری', icon: Main },
     {
-      title: 'همپر',
+      title: 'همسر',
       desc: 'اطلاع از دوره‌ها و باروری همسر',
-      icon: Hampar,
+      icon: Partner,
     },
   ];
   const onItemPress = (index) => {
