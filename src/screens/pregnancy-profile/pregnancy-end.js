@@ -13,7 +13,7 @@ const PregnancyEnd = ({ navigation, route }) => {
   };
   return (
     <ImageBackground
-      source={require('../../../assets/images/start/1.png')}
+      source={require('../../../assets/images/main/interview.png')}
       style={styles.bg}>
       <ButtonGroup
         onPress={onPress}
