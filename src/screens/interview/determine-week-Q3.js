@@ -34,7 +34,7 @@ const Pregnancy_Q3 = ({ route, navigation }) => {
               onPress={() => navigateToCal('lastPeriodDate')}>
               <Text style={styles.btnTitle}>ثبت تاریخ آخرین پریود</Text>
               <Text style={styles.btnSubtitle}>
-                اولین روز عادت ماهانه قبلی ام را میدانم
+                اولین روز پریود قبلی‌ام را می‌دانم
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
@@ -42,18 +42,18 @@ const Pregnancy_Q3 = ({ route, navigation }) => {
               onPress={() => navigateToCal('dueDate')}>
               <Text style={styles.btnTitle}>ثبت تاریخ زایمان</Text>
               <Text style={styles.btnSubtitle}>
-                پیش بینی تاریخ زایمان را میدانم
+                پیش‌بینی تاریخ زایمان را می‌دانم
               </Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.mode}
               onPress={() => navigateToCal('conceptionDate')}>
               <Text style={styles.btnTitle}>ثبت تاریخ لقاح</Text>
-              <Text style={styles.btnSubtitle}>تاریخ لقاح را میدانم</Text>
+              <Text style={styles.btnSubtitle}>تاریخ لقاح را می‌دانم</Text>
             </TouchableOpacity>
           </View>
           <Stepper index={2} />
-          <View style={[styles.buttons, { top: HEIGHT / 9 }]}>
+          <View style={[styles.buttons, { top: HEIGHT / 20 }]}>
             <Button
               title="قبلی"
               containerStyle={styles.btnContainer}

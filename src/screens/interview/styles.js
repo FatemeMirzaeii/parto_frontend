@@ -10,6 +10,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     height: HEIGHT / 1.5,
     top: 70,
+    padding: 5,
   },
   bg: {
     width: '100%',

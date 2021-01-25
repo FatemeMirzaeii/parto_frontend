@@ -25,7 +25,7 @@ const Notice = ({ route, navigation }) => {
           <Text style={styles.text}>{txt}</Text>
           <Button
             title="باشه!"
-            containerStyle={[styles.btnContainer, { top: HEIGHT / 9 }]}
+            containerStyle={[styles.btnContainer, { top: HEIGHT / 15 }]}
             buttonStyle={styles.nextButton}
             titleStyle={styles.btnTitle}
             type="solid"
