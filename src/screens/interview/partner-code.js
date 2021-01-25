@@ -2,14 +2,19 @@ import React, { useState } from 'react';
 import { View, ImageBackground, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from 'react-native-elements';
-import { FONT, HEIGHT, WIDTH } from '../../styles/static';
-import styles from './styles';
+
+// components, utils and store
 import { interview } from '../../store/actions/auth';
 import api from '../../services/api';
 import sync from '../../util/database/sync';
 import Loader from '../../components/Loader';
 import { handleTemplate } from '../../store/actions/user';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
+
+// styles
+import { COLOR, FONT, HEIGHT, WIDTH } from '../../styles/static';
+import styles from './styles';
+import Partner from '../../../assets/images/partner/interview.png';
 
 const PartnerCode = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -44,42 +49,36 @@ const PartnerCode = ({ route, navigation }) => {
   };
 
   return (
-    <SafeAreaView style={styles.safeAreaView}>
-      <ImageBackground
-        source={require('../../../assets/images/start/5.png')}
-        style={styles.bg}>
+    <ImageBackground source={Partner} style={styles.bg}>
+      <SafeAreaView style={styles.safeAreaView}>
         {isLoading ? (
           <Loader />
         ) : (
           <View style={styles.textContainer}>
-            <View
-              style={{
-                elevation: 2,
-                borderRadius: 60,
-                width: WIDTH * 0.8,
-                justifyContent: 'center',
-                alignItems: 'center',
-              }}>
+            <View style={styles.codeInpute}>
               <Input
                 value={code}
                 onChangeText={setCode}
-                placeholder="PRT-1234"
+                placeholder="PRT-XXXX"
                 containerStyle={{ width: WIDTH / 2 }}
                 inputStyle={{ fontFamily: FONT.medium }}
               />
             </View>
             <Button
               title="تایید"
-              containerStyle={[styles.btnContainer, { top: HEIGHT / 6 }]}
-              buttonStyle={styles.nextButton}
+              containerStyle={[styles.btnContainer, { top: HEIGHT / 9 }]}
+              buttonStyle={[
+                styles.nextButton,
+                { backgroundColor: COLOR.partner },
+              ]}
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={verifyCode}
             />
           </View>
         )}
-      </ImageBackground>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 export default PartnerCode;
