@@ -4,6 +4,7 @@ import React, {
   useCallback,
   createRef,
   useContext,
+  useRef,
 } from 'react';
 import {
   TouchableOpacity,
@@ -21,24 +22,10 @@ import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
-
-// components
+import HTML from 'react-native-render-html';
 import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
 import Loader from '../../components/Loader';
-
-//utils
-import {
-  addTrackingOption,
-  deselectTrackingOption,
-  getTrackingOptionData,
-  replaceTrackingOption,
-} from '../../util/database/query';
-import { calendarMarkedDatesObject } from '../../util/func';
-import CycleModule from '../../util/cycle';
-import Tour from '../../util/tourGuide/Tour';
-
-// constants, store and contexts
 import {
   BLEEDING,
   EXCERSICE,
@@ -56,49 +43,53 @@ import {
   MORE_ABOUT_EXCERSICE,
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
-import { FORMAT } from '../../constants/cycle';
-import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { DateContext } from '../../contexts';
-
-// styles and images
-import styles from './styles';
-import commonStyles from '../../styles/commonStyles';
-import { COLOR, WIDTH } from '../../styles/static';
+import {
+  addTrackingOption,
+  deselectTrackingOption,
+  getTrackingOptionData,
+  replaceTrackingOption,
+} from '../../util/database/query';
+import CycleModule from '../../util/cycle';
+import { FORMAT } from '../../constants/cycle';
+import Tour from '../../util/tourGuide/Tour';
+import { calendarMarkedDatesObject } from '../../util/func';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import MainBg from '../../../assets/images/main/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
+import styles from './styles';
+import { COLOR, WIDTH } from '../../styles/static';
+import { HTMLTagsStyles } from '../../styles/commonStyles';
 
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route, navigation }) => {
-  const cycle = useSelector((state) => state.cycle);
-  const dispatch = useDispatch();
-  const { today } = useContext(DateContext);
   const [date, setDate] = useState(route.params ? route.params.day : today);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [activeIndex, setActiveIndex] = useState(0);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
-  const [currentCategory, setCurrentCategory] = useState([]);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
+  const dispatch = useDispatch();
+  const { today } = useContext(DateContext);
+  const categoryCarousel = useRef(null);
+  const optionsCarousel = useRef(null);
 
-  const getInitialData = useCallback(
-    async (currentCategoryId) => {
-      const td = await getTrackingOptionData(date);
-      if (td && template === 'Teenager') {
-        setCategories(td.filter((item) => item.id !== SEX));
-      } else {
-        setCategories(td);
-      }
-      if (currentCategoryId)
-        setCurrentCategory(td.find((cat) => cat.id === currentCategoryId));
-      else setCurrentCategory(td[0]);
-    },
-    [date, template],
-  );
+  const getInitialData = useCallback(async () => {
+    const td = await getTrackingOptionData(date);
+    if (td && template === 'Teenager') {
+      setCategories(td.filter((item) => item.id !== SEX));
+    } else {
+      setCategories(td);
+    }
+    setIsLoading(false);
+  }, [date, template]);
 
   useEffect(() => {
     getInitialData();
@@ -106,47 +97,24 @@ const TrackingOptions = ({ route, navigation }) => {
 
   Tour(appTourTargets, 'calendarPointer', 'TrackingOptionTour');
 
-  const renderItem = ({ item }) => {
+  const _categoryCarouselRenderItem = ({ item }) => {
     return (
       <View style={styles.sliderItem}>
-        <View
-          style={[
-            styles.category,
-            {
-              // borderColor: item.color,
-            },
-          ]}>
+        <View style={styles.category}>
           <SvgCss width="100%" height="100%" xml={item.icon} />
         </View>
-        <View style={styles.titleBox}>
-          <Text style={styles.title}>{item.title}</Text>
-          <Icon
-            // raised
-            name="info"
-            type="parto"
-            size={25}
-            //color={COLOR.black}
-            onPress={() => {
-              toggleOverlay(item.id);
-            }}
-          />
-        </View>
-        {/* <View style={styles.options}>{renderOptions(item, item.color)}</View> */}
-        {/* {item.id === detailPageId ? renderDetailPage() : null} */}
       </View>
     );
   };
 
-  const _carouselSnap = (index) => {
-    setIsLoading(true);
-    console.log('index', index);
-    for (let i = 0; i < categories.length; i++) {
-      if (categories[i].id === index + 1) {
-        setCurrentCategory(categories[i]);
-        setIsLoading(false);
-      }
-    }
+  const _optionsCarouseRenderItem = ({ item }) => {
+    return (
+      <View style={styles.sliderItem}>
+        <View style={styles.options}>{renderOptions(item, item.color)}</View>
+      </View>
+    );
   };
+
   const renderOptions = (category, color) => {
     return (
       <FlatList
@@ -158,23 +126,18 @@ const TrackingOptions = ({ route, navigation }) => {
           <TouchableOpacity
             key={item.id}
             onPress={() => onOptionPress(category, item)}
-            style={styles.option}>
-            <View
-              style={[
-                styles.icon,
-                {
-                  // borderColor: color,
-                  backgroundColor:
-                    item.selected.length > 0 ? color : COLOR.white,
-                },
-              ]}>
-              <SvgCss
-                width="100%"
-                height="100%"
-                xml={item.icon}
-                fill={item.selected.length > 0 ? COLOR.white : color}
-              />
-            </View>
+            style={[
+              styles.option,
+              {
+                backgroundColor: item.selected.length > 0 ? color : COLOR.white,
+              },
+            ]}>
+            <SvgCss
+              width="75%"
+              height="75%"
+              xml={item.icon}
+              fill={item.selected.length > 0 ? COLOR.white : color}
+            />
             <Text style={styles.txt}>{item.title}</Text>
           </TouchableOpacity>
         )}
@@ -220,24 +183,34 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
+  const _categoryCarouselSnap = (index) => {
+    optionsCarousel.current.snapToItem(index);
+    setActiveIndex(index);
+  };
+
+  const _optionsCarouselSnap = (index) => {
+    categoryCarousel.current.snapToItem(index);
+    setActiveIndex(index);
+  };
+
   const onOptionPress = async (category, option) => {
     if (template === 'Partner') return;
     const c = await CycleModule();
     if (option.selected.length > 0) {
       await deselectTrackingOption(option.id, date);
-      getInitialData(category.id);
+      getInitialData();
     } else {
       if (category.hasMultipleChoice) {
         //this will add new option to others
         await addTrackingOption(option.id, date);
-        getInitialData(category.id);
+        getInitialData();
       } else {
         //this will remove other selected options and add new option
         const sameCategoryOptions = category.options.map((o) => {
           return o.id;
         });
         await replaceTrackingOption(option.id, date, sameCategoryOptions);
-        getInitialData(category.id);
+        getInitialData();
       }
       // setDetailPageId(category.id);
       // if (
@@ -313,6 +286,13 @@ const TrackingOptions = ({ route, navigation }) => {
     }
   };
 
+  const _handleOnNext = () => {
+    categoryCarousel.current.snapToNext();
+  };
+  const _handleOnPrevious = () => {
+    categoryCarousel.current.snapToPrev();
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
@@ -338,76 +318,65 @@ const TrackingOptions = ({ route, navigation }) => {
           onDateChanged={onDayPress}
           onDayPress={(d) => onDayPress(d.dateString)}
         />
-        <View style={styles.sliderWrapper}>
-          <View style={styles.carousel}>
-            <Icon
-              raised
-              name="chevron-circle-left"
-              type="font-awesome"
-              color="#aaa"
-              size={15}
-            />
-            <Carousel
-              layout={'default'}
-              data={categories}
-              renderItem={renderItem}
-              sliderWidth={WIDTH / 2.6}
-              itemWidth={WIDTH / 2.6}
-              inverted={true}
-              onSnapToItem={(index) => _carouselSnap(index)}
-            />
-            <Icon
-              raised
-              name="chevron-circle-right"
-              type="font-awesome"
-              color="#aaa"
-              size={15}
-            />
-          </View>
 
+        <View style={styles.sliderWrapper}>
           {isLoading ? (
             <Loader />
           ) : (
-            <View style={styles.options}>
-              {currentCategory && (
-                <FlatList
-                  data={currentCategory.options}
-                  numColumns={2}
-                  keyExtractor={(item, index) => index.toString()}
-                  showsVerticalScrollIndicator={false}
-                  renderItem={({ item }) => (
-                    <TouchableOpacity
-                      key={item.id}
-                      onPress={() => onOptionPress(currentCategory, item)}
-                      style={[
-                        styles.option,
-                        {
-                          // borderColor: color,
-                          backgroundColor:
-                            item.selected.length > 0
-                              ? currentCategory.color
-                              : COLOR.white,
-                        },
-                      ]}>
-                      <SvgCss
-                        width="75%"
-                        height="75%"
-                        xml={item.icon}
-                        fill={
-                          item.selected.length > 0
-                            ? COLOR.white
-                            : currentCategory.color
-                        }
-                      />
-                      <Text style={styles.txt} numberOfLines={1}>
-                        {item.title}
-                      </Text>
-                    </TouchableOpacity>
-                  )}
-                />
-              )}
+            <View style={styles.carousel}>
+              <Icon
+                raised
+                name="chevron-circle-left"
+                type="font-awesome"
+                color="#aaa"
+                size={15}
+                onPress={_handleOnNext}
+              />
+              <Carousel
+                inverted
+                //loop
+                ref={categoryCarousel}
+                data={categories}
+                renderItem={_categoryCarouselRenderItem}
+                sliderWidth={WIDTH / 1.4}
+                itemWidth={WIDTH / 4}
+                inactiveSlideScale={0.7}
+                inactiveSlideOpacity={0.5}
+                onSnapToItem={(index) => _categoryCarouselSnap(index)}
+              />
+              <Icon
+                raised
+                name="chevron-circle-right"
+                type="font-awesome"
+                color="#aaa"
+                size={15}
+                onPress={_handleOnPrevious}
+              />
             </View>
           )}
+          {categories.length !== 0 && (
+            <View style={styles.titleBox}>
+              <Text style={styles.title}>{categories[activeIndex].title}</Text>
+              <Icon
+                name="info"
+                type="parto"
+                size={25}
+                onPress={() => {
+                  toggleOverlay(categories[activeIndex].id);
+                }}
+              />
+            </View>
+          )}
+          <Carousel
+            inverted
+            //loop
+            ref={optionsCarousel}
+            data={categories}
+            renderItem={_optionsCarouseRenderItem}
+            sliderWidth={WIDTH}
+            itemWidth={WIDTH}
+            onSnapToItem={(index) => _optionsCarouselSnap(index)}
+          />
         </View>
         <Overlay isVisible={visible}>
           <>
@@ -420,7 +389,12 @@ const TrackingOptions = ({ route, navigation }) => {
               containerStyle={{ alignItems: 'flex-start' }}
             />
             <ScrollView style={{ margin: 5 }}>
-              <Text style={commonStyles.helpTxt}>{overlayText}</Text>
+              <HTML
+                tagsStyles={HTMLTagsStyles}
+                html={overlayText}
+                ignoredStyles={['height', 'width']}
+                style={styles.HTML}
+              />
             </ScrollView>
           </>
         </Overlay>

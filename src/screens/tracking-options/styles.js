@@ -5,21 +5,16 @@ export default StyleSheet.create({
   container: {
     height: '100%',
     backgroundColor: 'white',
-    //justifyContent: 'space-between',
-    //paddingTop: 25,
-    // flex:1,
   },
   sky: {
     width: '100%',
     height: '100%',
-    // justifyContent:'flex-end'
-    // flex:1,
-    //justifyContent: 'space-around',
+    paddingTop: 25,
   },
 
   sliderWrapper: {
     backgroundColor: 'white',
-    height: '80%',
+    height: '78%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 5,
@@ -35,10 +30,11 @@ export default StyleSheet.create({
   },
   carousel: {
     flexDirection: 'row',
-    width: WIDTH / 1.6,
+    // width: WIDTH / 1.6,
     // width: WIDTH /2,
-    marginTop: 10,
-    height: HEIGHT / 4.5,
+    width: WIDTH * 0.95,
+    marginVertical: '3%',
+    height: HEIGHT / 6,
     alignItems: 'center',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -61,12 +57,12 @@ export default StyleSheet.create({
   },
   options: {
     justifyContent: 'center',
-    alignItems: 'center',
+    //alignItems: 'center',
     alignSelf: 'center',
     flex: 1,
     flexDirection: 'row',
     //marginTop: '5%',
-    // backgroundColor:'pink',
+    //backgroundColor:'pink',
     // margin:10,
     width: '70%',
     // height: HEIGHT /5,
@@ -79,16 +75,9 @@ export default StyleSheet.create({
     alignSelf: 'center',
     alignItems: 'center',
     justifyContent: 'center',
-    // backgroundColor:'yellow',
+    //backgroundColor:'yellow',
     elevation: 3,
     borderRadius: 25,
-  },
-  icon: {
-    width: WIDTH / 4.2,
-    height: HEIGHT / 7.6,
-
-    // elevation: 3,
-    //backgroundColor:'red'
   },
   descriptionTxt: {
     fontFamily: FONT.medium,
@@ -98,21 +87,20 @@ export default StyleSheet.create({
     // paddingVertical: 5,
   },
   titleBox: {
+    //width: '25%',
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    // paddingHorizontal: 10,
+    justifyContent: 'space-around',
+    //paddingHorizontal: 10,
     alignItems: 'center',
     //backgroundColor:'yellow',
     alignSelf: 'center',
-    marginLeft: '30%',
+    //marginLeft: '10%',
   },
   title: {
     fontFamily: FONT.medium,
     fontSize: SIZE[15],
-    textAlign: 'right',
-    //paddingBottom: '10%',
-    paddingRight: '20%',
-    //backgroundColor:'green'
+    textAlign: 'center',
+    paddingRight: 10,
   },
   txt: {
     fontFamily: FONT.medium,
