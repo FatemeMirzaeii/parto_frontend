@@ -19,10 +19,12 @@ import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 
 //splash comes in
-//# restore tokens dispatch(restoreToken());
+//# restore tokens
 //## lock
 //# setup notifications
 //# migration
+//# check for internet connection
+//# sync
 //# fetchinitialdata
 //splash goes away
 
@@ -48,8 +50,8 @@ const App: () => React$Node = () => {
     store.dispatch(restoreToken());
     setupNotifications();
     await migration();
-    NetInfo.addEventListener(async (state) => {
-      if (state.isConnected && store.getState().auth.userToken) await sync();
+    NetInfo.addEventListener((state) => {
+      if (state.isConnected && store.getState().auth.userToken) sync();
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();

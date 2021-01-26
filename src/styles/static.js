@@ -26,6 +26,7 @@ export const COLOR = {
   sentence: '#2C3279',
   teenagerFirstText: '#562369',
   PartnerFirstText: '#562369',
+  partner: '#4C569C',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',

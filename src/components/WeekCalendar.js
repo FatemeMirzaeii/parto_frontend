@@ -113,10 +113,9 @@ const styles = StyleSheet.create({
   }),
   today: {
     alignSelf: 'flex-end',
-    height: 25,
-    width: 100,
+    height: 65,
+    width: 65,
     borderRadius: 40,
-    color: 'red',
   },
 });
 export default WeekCalendar;

@@ -17,7 +17,7 @@ export default StyleSheet.create({
   },
   moonText: {
     flexDirection: 'row-reverse',
-    top: -HEIGHT / 3.5,
+    top: -HEIGHT / 5.3,
     justifyContent: 'center',
   },
   sentenceContainer: {

@@ -46,6 +46,10 @@ const Home = ({ navigation }) => {
     navigation.addListener('focus', async () => {
       determineMode();
     });
+    const unsubscribe = navigation.addListener('tabPress', (e) => {
+      setDate(today);
+      return unsubscribe;
+    });
   }, [navigation, determineMode]);
 
   useEffect(() => {
@@ -149,15 +153,14 @@ const Home = ({ navigation }) => {
             dayHeaderColor: template === 'Partner' ? COLOR.white : COLOR.black,
             dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           }}
-          showTodayButton
         />
         <View style={styles.moonText}>{renderText()}</View>
-        {/* <PlusButton
+        <PlusButton
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
-        /> */}
+        />
         {cycle.isPregnant ? (
           <Button
             title="پروفایل بارداری"
