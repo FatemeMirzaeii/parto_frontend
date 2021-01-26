@@ -2,9 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { TouchableOpacity, View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Input, Button } from 'react-native-elements';
+
+// components and store
 import Card from '../../components/Card';
-import styles from './styles';
 import { signUp } from '../../store/actions/auth';
+
+// styles and images
+import styles from './styles';
 import MainAvatar from './../../../assets/images/main/avatar.png';
 import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 import TeenagerAvatar from './../../../assets/images/teenager/avatar.png';

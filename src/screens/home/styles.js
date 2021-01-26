@@ -58,15 +58,10 @@ export default StyleSheet.create({
     lineHeight: 45,
     textAlign: 'center',
   },
-  bgColorPartner: {
-    backgroundColor: '#6576c7',
-  },
-  bgColorMain: {
-    //backgroundColor: '#c7b0de',
-  },
   mainTxt: {
     color: COLOR.sentence,
   },
+  partnerTxt: { color: COLOR.white },
   calendarIcon: {
     top: 40,
     zIndex: 10,

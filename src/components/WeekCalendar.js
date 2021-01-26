@@ -47,7 +47,7 @@ const WeekCalendar = (props) => {
       showTodayButton={props.showTodayButton}
       todayButtonStyle={styles.today}>
       <View style={styles.header}>
-        <Text style={styles.headerText}>
+        <Text style={styles.headerText(props.theme.headerColor)}>
           {jalaali(selectedDate).format('jD jMMMM jYYYY')}
         </Text>
       </View>
@@ -70,12 +70,14 @@ const WeekCalendar = (props) => {
             textDayFontFamily: FONT.medium,
             selectedDayBackgroundColor: COLOR.white,
             selectedDayTextColor: COLOR.black,
+            textDisabledColor: COLOR.black,
             'stylesheet.expandable.main': {
               dayHeader: {
                 width: 40,
                 textAlign: 'center',
                 fontFamily: FONT.medium,
                 fontSize: 11,
+                color: props.theme.dayHeaderColor,
               },
             },
             'stylesheet.day.single': {
@@ -104,7 +106,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  headerText: { fontFamily: FONT.bold, fontSize: 15 },
+  headerText: (headerColor) => ({
+    fontFamily: FONT.bold,
+    fontSize: 15,
+    color: headerColor,
+  }),
   today: {
     alignSelf: 'flex-end',
     height: 25,

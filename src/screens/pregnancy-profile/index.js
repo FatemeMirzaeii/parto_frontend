@@ -1,9 +1,10 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { Alert, ScrollView } from 'react-native';
-import { useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Button, ListItem } from 'react-native-elements';
-import { Calendar } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
+
+// components and utils
 // import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
@@ -14,15 +15,18 @@ import {
   updatePregnancyData,
   updateUserStatus,
 } from '../../util/database/query';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
+
+// styles
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 import globalStyles from '../../styles';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
   const [pregnancyWeek, setPregnancyWeek] = useState(0);
   const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
+  const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -151,45 +155,51 @@ const PregnancyProfile = ({ navigation, route }) => {
           subtitleStyle={styles.subTitle}
         />
       </Card>
-      <Button
-        title="پایان بارداری"
-        onPress={() => navigation.navigate('PregnancyEnd', { ...route.params })}
-        buttonStyle={styles.saveContainer}
-        containerStyle={styles.saveButton}
-        titleStyle={styles.saveTitle}
-      />
-      <Button
-        title="حذف اطلاعات بارداری"
-        type="outline"
-        onPress={() =>
-          Alert.alert(
-            '',
-            'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
-            [
-              {
-                text: 'بله',
-                onPress: async () => {
-                  await deletePregnancyData();
-                  await updateUserStatus(0, 0);
-                  dispatch(fetchInitialCycleData());
-                  navigation.pop();
-                },
-              },
-              {
-                text: 'خیر',
-                onPress: () => {
-                  return;
-                },
-                style: 'cancel',
-              },
-            ],
-            { cancelable: true },
-          )
-        }
-        buttonStyle={styles.deleteContainer}
-        containerStyle={styles.deleteButton}
-        titleStyle={styles.deleteTitle}
-      />
+      {template === 'Main' && (
+        <>
+          <Button
+            title="پایان بارداری"
+            onPress={() =>
+              navigation.navigate('PregnancyEnd', { ...route.params })
+            }
+            buttonStyle={styles.saveContainer}
+            containerStyle={styles.saveButton}
+            titleStyle={styles.saveTitle}
+          />
+          <Button
+            title="حذف اطلاعات بارداری"
+            type="outline"
+            onPress={() =>
+              Alert.alert(
+                '',
+                'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
+                [
+                  {
+                    text: 'بله',
+                    onPress: async () => {
+                      await deletePregnancyData();
+                      await updateUserStatus(0, 0);
+                      dispatch(fetchInitialCycleData());
+                      navigation.pop();
+                    },
+                  },
+                  {
+                    text: 'خیر',
+                    onPress: () => {
+                      return;
+                    },
+                    style: 'cancel',
+                  },
+                ],
+                { cancelable: true },
+              )
+            }
+            buttonStyle={styles.deleteContainer}
+            containerStyle={styles.deleteButton}
+            titleStyle={styles.deleteTitle}
+          />
+        </>
+      )}
     </ScrollView>
   );
 };

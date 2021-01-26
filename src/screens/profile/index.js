@@ -1,15 +1,19 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Button, Icon } from 'react-native-elements';
-import styles from './styles';
-import UserAvatar from './UserAvatar';
+import { ListItem, Button, Icon } from 'react-native-elements';
+
+// components and utils
 import PickerListItem from '../../components/PickerListItem';
 import Card from '../../components/Card';
+import UserAvatar from './UserAvatar';
 import {
   getProfileData,
   saveProfileHealthData,
 } from '../../util/database/query';
+
+// styles
+import styles from './styles';
 import { COLOR } from '../../styles/static';
 
 const Profile = ({ navigation }) => {
@@ -20,7 +24,7 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
-  const template = useSelector((state) => state.user.template);
+  const user = useSelector((state) => state.user);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل',
@@ -74,12 +78,23 @@ const Profile = ({ navigation }) => {
       <ScrollView>
         <UserAvatar navigation={navigation} />
         <Card>
+          <ListItem
+            title="َشماره تلفن"
+            leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+            rightTitle={user.phone ? `0${user.phone}` : '09XXXXXXXXX'}
+            rightTitleStyle={styles.listItemText}
+          />
+        </Card>
+        <Card>
           <PickerListItem
             DatePicker
             title="تاریخ تولد"
             initialDate={birthdate}
             onDateSelected={onBirthdateSelected}
-            startOfRange={template === 'Teenager' ? 1381 : 1340}
+            startOfRange={user.template === 'Teenager' ? 1381 : 1340}
             endOfRange={1390}
             leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: birthdate }}
@@ -117,7 +132,7 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
-        {template !== 'Partner' && (
+        {user.template !== 'Partner' && (
           <Button
             loading={loading}
             title="ذخیره"

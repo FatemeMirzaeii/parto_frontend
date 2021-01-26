@@ -136,6 +136,7 @@ export const calendarMarkedDatesObject = (color, dashed) => {
     customStyles: {
       container: {
         width: !dashed ? '100%' : '75%',
+        height: 35,
         borderBottomWidth: !dashed ? 3 : 1.5,
         borderColor: color,
         borderRadius: 0,

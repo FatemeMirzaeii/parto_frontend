@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
-import { ButtonGroup } from 'react-native-elements';
+import { ButtonGroup, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
 import {
@@ -9,7 +9,6 @@ import {
   updateUserStatus,
 } from '../../util/database/query';
 import { COLOR } from '../../styles/static';
-import Card from '../../components/Card';
 import PregnancyModule from '../../util/pregnancy';
 import { updatePerdictions } from '../../store/actions/cycle';
 
@@ -94,21 +93,22 @@ const UserGoal = ({ navigation }) => {
   };
   return (
     <SafeAreaView>
-      <Card>
-        <View>
-          <Text style={styles.title}>هدف من</Text>
-        </View>
-        <ButtonGroup
-          onPress={onModePress}
-          selectedIndex={mode}
-          buttons={modes}
-          containerStyle={styles.goals}
-          selectedButtonStyle={{ backgroundColor: COLOR.btn }}
-          textStyle={styles.text}
-          innerBorderStyle={{ width: 0 }}
-          buttonStyle={styles.goal}
-        />
-      </Card>
+      <View style={styles.titleContainer}>
+        <Icon size={30} name="goal" type="parto" color={COLOR.btn} />
+        <Text style={styles.title}>
+          {template === 'Partner' ? 'هدف' : 'هدف من'}
+        </Text>
+      </View>
+      <ButtonGroup
+        onPress={onModePress}
+        selectedIndex={mode}
+        buttons={modes}
+        containerStyle={styles.goals}
+        selectedButtonStyle={{ backgroundColor: COLOR.btn }}
+        textStyle={styles.text}
+        innerBorderStyle={{ width: 0 }}
+        buttonStyle={styles.goal}
+      />
     </SafeAreaView>
   );
 };

@@ -42,7 +42,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
   };
   return (
     <ImageBackground
-      source={require('../../../assets/images/start/2.png')}
+      source={require('../../../assets/images/main/interview.png')}
       style={styles.bg}>
       <Text style={styles.question}>{determineTitle()}</Text>
       <Calendar

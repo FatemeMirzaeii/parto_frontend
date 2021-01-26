@@ -12,7 +12,7 @@ const userReducer = (state = initialState, action) => {
     case SET_TEMPLATE:
       return { ...state, template: action.template };
     case SET_USER: {
-      return { ...state, id: action.id };
+      return { ...state, id: action.id, phone: action.phone };
     }
     case RESET: {
       return initialState;

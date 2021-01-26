@@ -21,8 +21,9 @@ export default async () => {
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
   const user = await getUser();
   console.log('datas to send for server', profile, pregnancy, trackingOptions);
+  let sentProfileData;
   if (profile.length !== 0)
-    await api({
+    sentProfileData = await api({
       method: 'POST',
       url: `/profile/syncProfile/${user.id}/fa`,
       dev: true,
@@ -35,7 +36,7 @@ export default async () => {
   if (profileData.data.data.length !== 0) {
     saveProfileData(profileData.data.data[0]);
   }
-  await api({
+  const sentPregnancyInfo = await api({
     method: 'POST',
     url: `/pregnancy/syncPregnancyInfo/${user.id}/fa`,
     dev: true,
@@ -46,7 +47,7 @@ export default async () => {
     dev: true,
   });
   if (pregnancyInfo.data.data) addPregnancy(pregnancyInfo.data.data);
-  await api({
+  const sentUserInfo = await api({
     method: 'POST',
     url: `/healthTracking/syncUserInfo/${user.id}/fa`,
     dev: true,
@@ -61,6 +62,14 @@ export default async () => {
       addTrackingOption(i.tracking_option_id, i.date);
     });
   }
-  updateLastSyncTime(moment().format(DATETIME_FORMAT));
+  if (
+    sentProfileData &&
+    profileData &&
+    sentPregnancyInfo &&
+    pregnancyInfo &&
+    sentUserInfo &&
+    userInfo
+  )
+    updateLastSyncTime(moment().format(DATETIME_FORMAT));
   // }
 };

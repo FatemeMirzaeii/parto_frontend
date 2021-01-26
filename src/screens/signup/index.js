@@ -145,12 +145,21 @@ const SignUp = ({ navigation }) => {
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
-        dispatch(setUser(id));
+        dispatch(setUser(id, phoneNumber));
         if (res.data.data.type) {
           if (template && template !== res.data.data.type) {
-            Alert.alert(
+            return Alert.alert(
               '',
               'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
+              [
+                {
+                  text: 'باشه',
+                  onPress: async () => {
+                    return;
+                  },
+                },
+              ],
+              { cancelable: true },
             );
             //todo: should ask for changing app template or not?
           } else {
@@ -164,6 +173,7 @@ const SignUp = ({ navigation }) => {
             dispatch(signUp());
           }
         }
+        dispatch(signUp());
       })
       .catch((err) => {
         console.error(err, err.response);

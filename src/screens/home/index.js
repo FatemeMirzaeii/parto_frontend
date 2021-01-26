@@ -66,7 +66,7 @@ const Home = ({ navigation }) => {
       setThirdSentence('');
     } else {
       const c = await CycleModule();
-      const s = c.determinePhaseSentence(momentDate);
+      const s = c.determinePhaseSentence(momentDate, template === 'Teenager');
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
@@ -75,7 +75,7 @@ const Home = ({ navigation }) => {
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
-    if (mainSentence && subSentence && thirdSentence) {
+    if (mainSentence) {
       switch (template) {
         case 'Main':
           return (
@@ -86,11 +86,7 @@ const Home = ({ navigation }) => {
               <Text style={{ ...styles.thirdSentence, ...styles.mainTxt }}>
                 {subSentence}
               </Text>
-              <View
-                style={{
-                  ...styles.mainSentenceContainer,
-                  ...styles.bgColorMain,
-                }}>
+              <View style={styles.mainSentenceContainer}>
                 <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
                   {mainSentence}
                 </Text>
@@ -108,11 +104,7 @@ const Home = ({ navigation }) => {
               <Text style={{ ...styles.thirdSentence, ...styles.partnerTxt }}>
                 {thirdSentence}
               </Text>
-              <View
-                style={{
-                  ...styles.mainSentenceContainer,
-                  ...styles.bgColorPartner,
-                }}>
+              <View style={styles.mainSentenceContainer}>
                 <Text style={{ ...styles.mainSentence, ...styles.partnerTxt }}>
                   {mainSentence}
                 </Text>
@@ -153,6 +145,9 @@ const Home = ({ navigation }) => {
           onDayPress={(d) => setDate(d.dateString)}
           theme={{
             calendarBackground: 'transparent',
+            headerColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            dayHeaderColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           }}
           showTodayButton
         />

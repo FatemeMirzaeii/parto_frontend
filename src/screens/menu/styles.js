@@ -12,10 +12,7 @@ export default StyleSheet.create({
     backgroundColor: '#f1f1f1',
     justifyContent: 'center',
   },
-  avatar: {
-    backgroundColor: '#f1f1f1',
-    elevation: 5,
-  },
+  avatar: {},
   avatarContainer: { flexDirection: 'row-reverse' },
   listItemText: {
     fontFamily: FONT.regular,
@@ -37,8 +34,13 @@ export default StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   goal: { borderRadius: 50 },
-  title: {
+  titleContainer: {
+    paddingLeft: 10,
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
     margin: 10,
+  },
+  title: {
     paddingRight: 10,
     fontFamily: FONT.bold,
     fontSize: SIZE[21],
@@ -46,8 +48,7 @@ export default StyleSheet.create({
   text: {
     alignSelf: 'center',
     textAlign: 'center',
-    paddingRight: 15,
-    fontFamily: FONT.regular,
-    fontSize: SIZE[12],
+    fontFamily: FONT.medium,
+    fontSize: 12,
   },
 });

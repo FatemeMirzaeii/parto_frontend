@@ -10,6 +10,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     height: HEIGHT / 1.5,
     top: 70,
+    padding: 5,
   },
   bg: {
     width: '100%',
@@ -45,7 +46,7 @@ export default StyleSheet.create({
   },
   btnTitle: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 13,
   },
   darkBtnTitle: {
     fontFamily: FONT.medium,
@@ -54,7 +55,7 @@ export default StyleSheet.create({
   },
   btnSubtitle: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[12],
+    fontSize: 11,
     color: COLOR.textColor,
   },
   question: {
@@ -132,5 +133,16 @@ export default StyleSheet.create({
   cont: {
     justifyContent: 'space-evenly',
     height: HEIGHT / 1.5,
+  },
+  codeInpute: {
+    elevation: 1,
+    borderColor: COLOR.partner,
+    borderWidth: 3,
+    borderRadius: 60,
+    width: WIDTH * 0.8,
+    height: 70,
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 75,
   },
 });
