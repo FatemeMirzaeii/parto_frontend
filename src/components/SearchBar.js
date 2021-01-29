@@ -66,8 +66,6 @@ const styles = StyleSheet.create({
     marginTop: 6,
     height: 45,
     width: 50,
-    // fontSize: 20,
-    // color: props.iconColor,
   },
 });
 
