@@ -69,7 +69,6 @@ export default StyleSheet.create({
   },
   main: {
     paddingBottom: 50,
-    paddingTop: 24,
   },
   button: {
     backgroundColor: '#f9d1de',

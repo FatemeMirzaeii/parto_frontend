@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 //components
 import CategoryList from '../../components/CategoryList';
-import Loader from '../../components/Loader';
+import Loader from '../../components/CatListLoader';
 import NewestArticles from '../../components/NewestArticles';
 
 //services
@@ -19,7 +19,7 @@ import { articlesBaseUrl } from '../../services/urls';
 import { WIDTH } from '../../styles/static';
 import styles from './styles';
 
-const Articles = (props) => {
+const Articles = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [newList, setNewList] = useState([]);
   const [newest, setNewest] = useState([]);
@@ -27,8 +27,8 @@ const Articles = (props) => {
   const [newestIsLoading, setNewestIsLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(4);
   const [spaceKey, setSpaceKey] = useState('');
-  const { navigation } = props;
   const modeState = useSelector((state) => state.user.template);
+  const counter = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
   useEffect(() => {
     const initialize = async () => {
@@ -105,7 +105,7 @@ const Articles = (props) => {
               },
             });
 
-            console.log('resParent', res.data.ancestors);
+            //console.log('resParent', result.data.ancestors);
             temp1 = result.data.ancestors;
           } catch (err) {
             console.error(err, err.response);
@@ -174,7 +174,11 @@ const Articles = (props) => {
   return (
     <>
       {isLoading && newestIsLoading ? (
-        <Loader />
+        counter.map((item) => (
+          <Loader key={item.toString()} leftTxt>
+            {item}
+          </Loader>
+        ))
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList
@@ -191,7 +195,7 @@ const Articles = (props) => {
                       title={item.content.title}
                       image={item.cover}
                       onSelectArticle={() => {
-                        props.navigation.navigate('ArticleDetails', {
+                        navigation.navigate('ArticleDetails', {
                           articleContent: item,
                           catName: item.catName,
                         });
@@ -222,7 +226,7 @@ const Articles = (props) => {
                 buttonTitle="مشاهده همه"
                 category={item.title}
                 MoreBtnOnPress={() => {
-                  props.navigation.navigate('ArticlesList', {
+                  navigation.navigate('ArticlesList', {
                     catId: item.content.id,
                     catName: item.title,
                   });
