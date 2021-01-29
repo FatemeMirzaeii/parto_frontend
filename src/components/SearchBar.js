@@ -1,4 +1,4 @@
-import { Icon } from 'native-base';
+import { Icon } from 'react-native-elements';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { StyleSheet, TextInput, View } from 'react-native';
@@ -7,13 +7,15 @@ import { FONT } from '../styles/static';
 const SearchBar = (props) => {
   return (
     <View style={styles.container}>
-      <Icon type="FontAwesome5" name="search" style={styles.icon(props)} />
+      <Icon
+        style={styles.icon}
+        type="font-awesome-5"
+        name="search"
+        size={20}
+        color={props.iconColor}
+      />
       <TextInput
-        style={{
-          flex: 1,
-          paddingRight: 30,
-          fontFamily: FONT.light,
-        }}
+        style={styles.text}
         placeholder={props.undertxt}
         underlineColorAndroid="transparent"
         onChangeText={props.onChangeText}
@@ -51,17 +53,22 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 6,
   },
+  text: {
+    flex: 1,
+    paddingRight: 30,
+    fontFamily: FONT.light,
+  },
 
-  icon: (props) => ({
+  icon: {
     padding: 10,
     paddingLeft: 20,
     margin: 3,
     marginTop: 6,
     height: 45,
     width: 50,
-    fontSize: 20,
-    color: props.iconColor,
-  }),
+    // fontSize: 20,
+    // color: props.iconColor,
+  },
 });
 
 export default SearchBar;

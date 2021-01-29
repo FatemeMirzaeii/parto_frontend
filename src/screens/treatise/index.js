@@ -140,7 +140,7 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
-import { Icon as IconElement } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 
 //components
 import CategoryList from '../../components/CategoryList';
@@ -163,7 +163,7 @@ const Treatise = ({ navigation }) => {
       title: 'احکام',
       headerLeft: () => null,
       headerRight: () => (
-        <IconElement
+        <Icon
           reverse
           size={15}
           name="arrow-right"

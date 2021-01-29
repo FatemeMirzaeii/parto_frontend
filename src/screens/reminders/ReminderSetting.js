@@ -1,7 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
 import { ScrollView, TextInput } from 'react-native';
-import { Button, ListItem, Icon as IconElement } from 'react-native-elements';
-import { Icon } from 'native-base';
+import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
 import setupNotifications from '../../util/notifications';
 import { BREAST_EXAM } from '../../constants/reminders';
@@ -41,7 +40,7 @@ const ReminderSetting = ({ navigation, route }) => {
         />
       ),
       headerRight: () => (
-        <IconElement
+        <Icon
           reverse
           size={15}
           name="arrow-right"
@@ -122,13 +121,9 @@ const ReminderSetting = ({ navigation, route }) => {
             title="یادآور"
             leftIcon={
               <Icon
-                type="MaterialIcons"
+                type="material"
                 name={isActive ? 'notifications-active' : 'notifications-off'}
-                style={
-                  isActive
-                    ? { color: COLOR.btn }
-                    : { color: COLOR.textColorDark }
-                }
+                color={isActive ? COLOR.btn : COLOR.textColorDark}
               />
             }
             switch={{
@@ -148,11 +143,7 @@ const ReminderSetting = ({ navigation, route }) => {
                 title="عنوان"
                 bottomDivider
                 leftIcon={
-                  <Icon
-                    type="Entypo"
-                    name="new-message"
-                    style={{ color: '#aaa' }}
-                  />
+                  <Icon type="entypo" name="new-message" color="#aaa" />
                 }
                 customComponent={
                   <TextInput
@@ -174,9 +165,9 @@ const ReminderSetting = ({ navigation, route }) => {
                 }
                 leftIcon={
                   <Icon
-                    type="FontAwesome"
+                    type="font-awesome"
                     name="calendar-check-o"
-                    style={{ color: '#aaa' }}
+                    color="#aaa"
                   />
                 }
                 customComponent={
