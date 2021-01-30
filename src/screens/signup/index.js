@@ -14,7 +14,7 @@ import {
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
 
 //components
@@ -135,8 +135,6 @@ const SignUp = ({ navigation }) => {
         const id = res.data.data.id;
         storeData('@token', res.headers['x-auth-token']);
         //to maryam:
-        //1. If the user signs out and then sign in again, what would happen?
-        //I think we need ON CONFLICT phrase here.(I get in trouble with that, so I changed it.)
         //2. now that we are inserting a row for user it is better to save all data, such as phone number.
         //3. isn't it better to move queries in query.js file?
         //4. it is better to use table names as variables.
@@ -148,6 +146,8 @@ const SignUp = ({ navigation }) => {
         dispatch(setUser(id, phoneNumber));
         if (res.data.data.type) {
           if (template && template !== res.data.data.type) {
+            // this will happen if user is using the app offline and wants to signup,
+            // but will signup with a number that has been registered already.
             return Alert.alert(
               '',
               'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
@@ -187,15 +187,6 @@ const SignUp = ({ navigation }) => {
 
   return (
     <KeyboardAvoidingView style={styles.main}>
-      {/* <Icon
-        name="close"
-        color="#f50"
-        containerStyle={styles.close}
-        size={30}
-        onPress={() => {
-          navigation.pop();
-        }}
-      /> */}
       <View style={styles.container}>
         <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
         {/* to maryam: it is better to set character limit for phone number input. */}

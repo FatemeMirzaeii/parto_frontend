@@ -51,7 +51,8 @@ const App: () => React$Node = () => {
     setupNotifications();
     await migration();
     NetInfo.addEventListener((state) => {
-      if (state.isConnected && store.getState().auth.userToken) sync();
+      const token = store.getState().auth.userToken;
+      if (state.isConnected && token && token !== 'dummyToken') sync();
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();

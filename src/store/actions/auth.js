@@ -4,9 +4,10 @@ import { cleanDatabase } from '../../util/database/query';
 import { reset } from './user';
 
 export const signIn = (dummyToken) => async (dispatch, getState) => {
+  if (dummyToken) await storeData('@token', 'dummyToken');
   dispatch({
     type: actions.SIGN_IN,
-    token: dummyToken ? dummyToken : await getData('@token'),
+    token: await getData('@token'),
   });
 };
 export const signOut = () => async (dispatch, getState) => {
