@@ -43,8 +43,9 @@ const Home = ({ navigation }) => {
   const [appTourTargets, setAppTourTargets] = useState([]);
 
   useEffect(() => {
-    navigation.addListener('focus', async () => {
+    const focusUnsubscribe = navigation.addListener('focus', async () => {
       determineMode();
+      return focusUnsubscribe;
     });
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       setDate(today);
