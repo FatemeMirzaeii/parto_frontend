@@ -22,9 +22,9 @@ import { calendarMarkedDatesObject } from '../../util/func';
 // styles and images
 import globalStyles from '../../styles';
 import { COLOR, FONT } from '../../styles/static';
-import MainBg from '../../../assets/images/main/home.png';
-import TeenagerBg from '../../../assets/images/teenager/home.png';
-import PartnerBg from '../../../assets/images/partner/home.png';
+import MainBg from '../../../assets/images/main/calendarScreen.png';
+import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
+import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
 import styles from './styles';
 
 const Calendar = ({ navigation }) => {
@@ -124,8 +124,7 @@ const Calendar = ({ navigation }) => {
           ? PartnerBg
           : MainBg
       }
-      style={{ height: '100%', width: '100%' }}
-      blurRadius={50}>
+      style={{ height: '100%', width: '100%' }}>
       <CalendarList
         ref={calendar}
         jalali
