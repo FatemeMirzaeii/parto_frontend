@@ -43,15 +43,18 @@ const Home = ({ navigation }) => {
   const [appTourTargets, setAppTourTargets] = useState([]);
 
   useEffect(() => {
-    const focusUnsubscribe = navigation.addListener('focus', async () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       determineMode();
-      return focusUnsubscribe;
     });
+    return unsubscribe;
+  }, [navigation, determineMode]);
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       setDate(today);
-      return unsubscribe;
     });
-  }, [navigation, determineMode]);
+    return unsubscribe;
+  }, [navigation]);
 
   useEffect(() => {
     determineMode();
