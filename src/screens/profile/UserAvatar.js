@@ -13,6 +13,7 @@ import MainAvatar from './../../../assets/images/main/avatar.png';
 import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 import TeenagerAvatar from './../../../assets/images/teenager/avatar.png';
 import { COLOR } from '../../styles/static';
+import { removeData } from '../../util/func';
 
 const UserAvatar = ({ navigation }) => {
   // const [name, setName] = useState();
@@ -38,7 +39,10 @@ const UserAvatar = ({ navigation }) => {
       {!isRegistered && (
         <TouchableOpacity
           style={styles.register}
-          onPress={() => dispatch(signUp())}>
+          onPress={async () => {
+            await removeData('@token');
+            dispatch(signUp());
+          }}>
           <Text style={[styles.text, { color: COLOR.white }]}>
             شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
           </Text>

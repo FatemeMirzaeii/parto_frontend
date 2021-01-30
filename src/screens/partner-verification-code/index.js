@@ -7,6 +7,7 @@ import Loader from '../../components/Loader';
 import styles from './styles';
 import api from '../../services/api';
 import { signUp } from '../../store/actions/auth';
+import { removeData } from '../../util/func';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -56,7 +57,10 @@ const PartnerVerificationCode = ({ navigation }) => {
             </Text>
             <Button
               title="ثبت‌نام"
-              onPress={() => dispatch(signUp())}
+              onPress={async () => {
+                await removeData('@token');
+                dispatch(signUp());
+              }}
               containerStyle={styles.btnContainer}
               buttonStyle={styles.button}
               titleStyle={styles.buttonText}
