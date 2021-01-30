@@ -56,9 +56,9 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  useEffect(() => {
-    determineMode();
-  }, [date, determineMode]);
+  // useEffect(() => {
+  //   determineMode();
+  // }, [date, determineMode]);
 
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
@@ -80,6 +80,7 @@ const Home = ({ navigation }) => {
       setThirdSentence(s.thirdSentence);
     }
   }, [date, dispatch]);
+
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
   const renderText = () => {
