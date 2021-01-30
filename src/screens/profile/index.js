@@ -80,7 +80,7 @@ const Profile = ({ navigation }) => {
         <Card>
           <ListItem
             title="َشماره تلفن"
-            leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+            // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
             titleStyle={styles.listItemText}
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
@@ -96,39 +96,43 @@ const Profile = ({ navigation }) => {
             onDateSelected={onBirthdateSelected}
             startOfRange={user.template === 'Teenager' ? 1381 : 1340}
             endOfRange={1390}
-            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: birthdate }}
+            bottomDivider
           />
           <PickerListItem
             title="گروه خونی"
             data={bloodTypes}
             selectedItem={bloodType}
             onItemSelected={setBloodType}
-            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: bloodType }}
+            bottomDivider
           />
           <PickerListItem
             title="قد"
             selectedItem={height ?? '160'}
             onItemSelected={setHeight}
             range={{ min: 130, max: 210 }}
-            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: height, suffix: 'cm' }}
+            bottomDivider
           />
           <PickerListItem
             title="وزن"
             selectedItem={weight ?? '60'}
             onItemSelected={setWeight}
             range={{ min: 30, max: 150 }}
-            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: weight, suffix: 'Kg' }}
+            bottomDivider
           />
           <PickerListItem
             title="میانگین ساعت خواب"
             selectedItem={avgSleepingHours ?? '9'}
             onItemSelected={setAvgSleepingHours}
             range={{ min: 2, max: 15 }}
-            leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>

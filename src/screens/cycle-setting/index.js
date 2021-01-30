@@ -84,7 +84,7 @@ const CycleSetting = ({ navigation }) => {
         <Card>
           <ListItem
             title="تاریخ آخرین پریود"
-            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             rightTitle={lastPeriod ?? '---- / ---- / ----'}
             titleStyle={styles.listItemText}
             rightTitleStyle={styles.listItemText}
@@ -99,7 +99,8 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={periodLength ?? '7'}
             onItemSelected={setPeriodLength}
             rightTitle={{ title: periodLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            bottomDivider
           />
           <PickerListItem
             title="طول چرخه قاعدگی"
@@ -107,7 +108,8 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={cycleLength ?? '28'}
             onItemSelected={setCycleLength}
             rightTitle={{ title: cycleLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            bottomDivider
           />
           <PickerListItem
             title="طول سندروم پیش از قاعدگی"
@@ -115,7 +117,7 @@ const CycleSetting = ({ navigation }) => {
             selectedItem={pmsLength ?? '3'}
             onItemSelected={setPmsLength}
             rightTitle={{ title: pmsLength, suffix: 'روز' }}
-            leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+            // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           />
           {/* <ListItem
             title="نمایش احتمال بارداری"
