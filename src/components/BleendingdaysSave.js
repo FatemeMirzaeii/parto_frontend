@@ -2,6 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
 import { COLOR, FONT, SIZE } from '../styles/static';
 
 const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
@@ -30,6 +31,7 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
       }}>
       <Text style={styles.buttonTitle}>ویرایش پریود</Text>
     </TouchableOpacity>
+   
   );
 };
 
@@ -73,13 +75,15 @@ const styles = StyleSheet.create({
     width: 150,
     height: 30,
     borderRadius: 50,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
+    padding:20
   },
   buttonTitle: {
     color: COLOR.white,
     fontFamily: FONT.bold,
-    fontSize: SIZE[12],
+    fontSize: SIZE[14],
     textAlign: 'center',
+    // padding:10
   },
 });
 
