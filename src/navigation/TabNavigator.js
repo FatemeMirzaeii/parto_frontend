@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Text } from 'react-native';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { Icon } from 'react-native-elements';
 
@@ -23,10 +24,10 @@ const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Home"
       backBehavior="initialRoute"
-      activeColor={COLOR.white}
-      inactiveColor={COLOR.white}
+      activeColor='#d6407c'
+      inactiveColor='white'
       barStyle={{
-        backgroundColor: 'transparent',
+        backgroundColor: 'rgba(255,255,255, 0.1)',
         elevation: 0,
         position: 'absolute',
         overflow: 'visible',
@@ -39,22 +40,34 @@ const TabNavigator = () => {
         name="Menu"
         component={MenuStack}
         options={{
-          tabBarLabel: 'بیشتر',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="more" size={20} color={color} type="parto" />
+          //tabBarLabel: 'بیشتر',
+          tabBarLabel: (
+            <Text style={{ fontFamily: FONT.regular, textAlign: 'center' }}>
+              بیشتر
+            </Text>
           ),
-          tabBarColor: 'rgba(22, 22, 22, 0.2)',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="more" size={23} color={color} type="parto" />
+          ),
+          tabBarColor:'rgba(22, 22, 22, 0.2)',
+         //tabBarColor: 'rgba(149,156,218,0.5)',
         }}
       />
       <Tab.Screen
         name="Articles"
         component={ArticleStack}
         options={{
-          tabBarLabel: 'مقالات',
+          //tabBarLabel: 'مقالات',
+          tabBarLabel: (
+            <Text style={{ fontFamily: FONT.regular, textAlign: 'center' }}>
+              مقالات
+            </Text>
+          ),
           tabBarIcon: ({ focused, color, size }) => (
             <Icon name="article" size={25} color={color} type="parto" />
           ),
-          tabBarColor: 'rgba(22, 22, 22, 0.2)',
+          // tabBarColor: 'white',
+          tabBarColor:'rgba(22, 22, 22, 0.2)',
         }}
       />
       {/* <Tab.Screen
@@ -97,22 +110,33 @@ const TabNavigator = () => {
         name="Analysis"
         component={Analysis}
         options={{
-          tabBarLabel: 'تحلیل',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="barchart" size={20} color={color} type="parto" />
+          //tabBarLabel: 'تحلیل',
+          tabBarLabel: (
+            <Text style={{ fontFamily: FONT.regular, textAlign: 'center' }}>
+              تحلیل
+            </Text>
           ),
-          tabBarColor: 'rgba(22, 22, 22, 0.2)',
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="barchart" size={23} color={color} type="parto" />
+          ),
+          // tabBarColor: 'white',
+          tabBarColor:'rgba(22, 22, 22, 0.2)',
         }}
       />
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          tabBarLabel: 'ماه من',
-          tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="moon" size={25} color={color} type="parto" />
+          //tabBarLabel: 'ماه من',
+          tabBarLabel: (
+            <Text style={{ fontFamily: FONT.regular, textAlign: 'center' }}>
+              ماه من
+            </Text>
           ),
-          // tabBarColor: COLOR.purple,
+          tabBarIcon: ({ focused, color, size }) => (
+            <Icon name="moon" size={23} color={color} type="parto" />
+          ),
+          tabBarColor:'rgba(255, 255, 255, 0.1)',
         }}
       />
     </Tab.Navigator>
