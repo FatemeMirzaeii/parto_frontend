@@ -4,7 +4,7 @@ import { COLOR, FONT } from '../../styles/static';
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
-    paddingBottom: 50,
+    paddingBottom: 53,
   },
   headerCotainer: {
     flex: 1,
@@ -68,7 +68,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   main: {
-    paddingBottom: 50,
+    paddingBottom: 53,
   },
   button: {
     backgroundColor: '#f9d1de',
