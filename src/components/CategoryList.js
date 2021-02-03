@@ -8,7 +8,7 @@ import {
   View,
 } from 'react-native';
 import axios from 'axios';
-import { Icon } from 'native-base';
+import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 //components
@@ -24,10 +24,10 @@ import { COLOR, FONT, SIZE } from '../styles/static';
 const CategoryList = (props) => {
   const [articles, setArticles] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-
   const { catId, catName, treatise } = props;
 
   useEffect(() => {
+    let isCancelled = false;
     const getCategoryContent = async () => {
       try {
         let arts = [];
@@ -43,39 +43,41 @@ const CategoryList = (props) => {
         // console.log('myres', res);
         // console.log('categoryContent', res.data.results);
         con = res.data.results;
-        for (let i = 0; i < con.length; i++) {
-          try {
-            const response = await axios({
-              method: 'get',
-              url: `${articlesBaseUrl}/rest/api/content/${con[i].id}/child/attachment`,
-              headers: {
-                Authorization: 'Basic ' + authCode,
-                'Content-Type': 'application/json',
-                'cache-control': 'no-cache',
-                'X-Atlassian-Token': 'no-check',
-              },
-            });
-            //console.log('response', response);
-            const data = response.data.results;
-            const imgUrl = [];
-            for (let j = 0; j < data.length; j++) {
-              imgUrl.push(
-                `${articlesBaseUrl}${
-                  data[j]._links.download.split('?')[0]
-                }?os_authType=basic`,
-              );
+        if (!isCancelled) {
+          for (let i = 0; i < con.length; i++) {
+            try {
+              const response = await axios({
+                method: 'get',
+                url: `${articlesBaseUrl}/rest/api/content/${con[i].id}/child/attachment`,
+                headers: {
+                  Authorization: 'Basic ' + authCode,
+                  'Content-Type': 'application/json',
+                  'cache-control': 'no-cache',
+                  'X-Atlassian-Token': 'no-check',
+                },
+              });
+              //console.log('response', response);
+              const data = response.data.results;
+              const imgUrl = [];
+              for (let j = 0; j < data.length; j++) {
+                imgUrl.push(
+                  `${articlesBaseUrl}${
+                    data[j]._links.download.split('?')[0]
+                  }?os_authType=basic`,
+                );
+              }
+              arts.push({
+                ...con[i],
+                cover: imgUrl[0],
+                images: imgUrl,
+                catId: catId,
+              });
+              // console.log('imgUrl', imgUrl);
+            } catch (err) {
+              console.error(err, err.response);
             }
-            arts.push({
-              ...con[i],
-              cover: imgUrl[0],
-              images: imgUrl,
-              catId: catId,
-            });
-            // console.log('imgUrl', imgUrl);
-          } catch (err) {
-            console.error(err, err.response);
+            setArticles(arts);
           }
-          setArticles(arts);
         }
       } catch (err) {
         console.error(err, err.response);
@@ -83,6 +85,9 @@ const CategoryList = (props) => {
       setIsLoading(false);
     };
     getCategoryContent();
+    return () => {
+      isCancelled = true;
+    };
   }, [catId]);
 
   const _renderItem = ({ item }) => {
@@ -133,9 +138,11 @@ const CategoryList = (props) => {
               {props.moreBtn ? (
                 <View style={styles.moreButtonBox}>
                   <Icon
-                    type="FontAwesome"
+                    type="font-awesome"
                     name="angle-left"
                     style={styles.moreButtonIcon}
+                    color={COLOR.purple}
+                    size={15}
                   />
                   <Text style={styles.moreButtonText}>{props.buttonTitle}</Text>
                 </View>
@@ -175,10 +182,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   moreButtonIcon: {
-    fontSize: 14,
-    color: COLOR.purple,
     //paddingVertical: '2%',//for responsive
-    paddingVertical: 6,
+    paddingVertical: 5,
     paddingRight: 5,
   },
   moreButtonText: {

@@ -177,6 +177,7 @@ const Treatise = ({ navigation }) => {
   });
 
   useEffect(() => {
+    let isCancelled = false;
     const getCategoryList = async () => {
       try {
         const res = await axios({
@@ -187,7 +188,10 @@ const Treatise = ({ navigation }) => {
             'X-Atlassian-Token': 'no-check',
           },
         });
-        setCategoryList(res.data.results);
+
+        if (!isCancelled) {
+          setCategoryList(res.data.results);
+        }
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
@@ -198,6 +202,9 @@ const Treatise = ({ navigation }) => {
     };
 
     getCategoryList();
+    return () => {
+      isCancelled = true;
+    };
   }, []);
 
   return (

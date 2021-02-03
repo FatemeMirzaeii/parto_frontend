@@ -38,6 +38,7 @@ const ArticleDetails = ({ route, navigation }) => {
   const { articleContent, catName } = route.params;
 
   useEffect(() => {
+    let isCancelled = false;
     const getArticleBody = async () => {
       try {
         const res = await axios({
@@ -48,8 +49,10 @@ const ArticleDetails = ({ route, navigation }) => {
             'X-Atlassian-Token': 'no-check',
           },
         });
-        setArticleBody(res.data.body.storage.value);
-        console.log('setArticleBody', res.data.body.storage.value);
+        if (!isCancelled) {
+          setArticleBody(res.data.body.storage.value);
+        }
+        //console.log('setArticleBody', res.data.body.storage.value);
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
@@ -59,6 +62,9 @@ const ArticleDetails = ({ route, navigation }) => {
       setIsLoading(false);
     };
     getArticleBody();
+    return () => {
+      isCancelled = true;
+    };
   }, [articleContent.id]);
 
   const _renderHeader = () => {
@@ -67,7 +73,7 @@ const ArticleDetails = ({ route, navigation }) => {
       outputRange: [0, 0, 1],
       extrapolate: 'clamp',
     });
-    console.log('articleContent', articleContent);
+    //console.log('articleContent', articleContent);
     return (
       <>
         <SafeAreaView style={styles.headerCotainer}>
@@ -84,12 +90,6 @@ const ArticleDetails = ({ route, navigation }) => {
                 {articleContent.title}
               </TextTicker>
             </Animated.View>
-            {/* <Icon
-              type="AntDesign"
-              name="arrowright"
-              onPress={() => navigation.goBack()}
-              style={styles.icon}
-            /> */}
             <Icon
               reverse
               size={15}
@@ -141,7 +141,7 @@ const ArticleDetails = ({ route, navigation }) => {
           ignoredStyles={['height', 'width']}
           imagesMaxWidth={Dimensions.get('window').width}
           style={styles.HTML}
-          onLinkPress={(event, url) => {
+          onLinkPress={(e, url) => {
             Linking.openURL(url);
           }}
         />
