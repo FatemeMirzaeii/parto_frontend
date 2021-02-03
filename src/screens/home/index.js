@@ -1,46 +1,47 @@
-import React, { useEffect, useState, useCallback } from 'react';
-import { SafeAreaView, View, ImageBackground, Text } from 'react-native';
 import moment from 'moment';
-import { Button, Icon } from 'react-native-elements';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Image, ImageBackground, SafeAreaView, Text, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
-
-//store
-import { setPregnancyMode } from '../../store/actions/cycle';
+import MainBg from '../../../assets/images/main/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
+import PregnancyProfile from '../../../assets/images/PregnancyProfile.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import CalendarButton from '../../components/CalendarButton';
+import HomeCalendar from '../../components/HomeCalendar';
+import PlusButton from '../../components/PlusButton';
 
 //components
 import WeekCalendar from '../../components/WeekCalendar';
-import HomeCalendar from '../../components/HomeCalendar';
-import CalendarButton from '../../components/CalendarButton';
-import PlusButton from '../../components/PlusButton';
-
-//util
-import CycleModule from '../../util/cycle';
-import PregnancyModule from '../../util/pregnancy';
-import { pregnancyMode } from '../../util/database/query';
-import Tour from '../../util/tourGuide/Tour';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
 
+//store
+import { setPregnancyMode } from '../../store/actions/cycle';
+
 //styles and images
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
+
+//util
+import CycleModule from '../../util/cycle';
+import { pregnancyMode } from '../../util/database/query';
+import PregnancyModule from '../../util/pregnancy';
+import Tour from '../../util/tourGuide/Tour';
 import styles from './styles';
-import MainBg from '../../../assets/images/main/home.png';
-import TeenagerBg from '../../../assets/images/teenager/home.png';
-import PartnerBg from '../../../assets/images/partner/home.png';
 
 const today = moment().format(FORMAT);
 
 const Home = ({ navigation }) => {
-  const cycle = useSelector((state) => state.cycle);
-  const template = useSelector((state) => state.user.template);
-  console.log('useSelector', cycle);
-  const dispatch = useDispatch();
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
   const [thirdSentence, setThirdSentence] = useState('');
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const cycle = useSelector((state) => state.cycle);
+  const template = useSelector((state) => state.user.template);
+  //console.log('useSelector', cycle);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -148,6 +149,26 @@ const Home = ({ navigation }) => {
             navigation.navigate('Calendar');
           }}
         />
+        {cycle.isPregnant ? (
+          <TouchableOpacity
+            containerStyle={styles.pregnancyIcon}
+            onPress={() => {
+              navigation.navigate('PregnancyProfile');
+            }}>
+            <View style={styles.imageWrapper}>
+              {/* <Text
+                style={{
+                  fontFamily: FONT.bold,
+                  color: COLOR.white,
+                  fontSize: 11,
+                }}>
+                پروفایل بارداری
+              </Text> */}
+              <Image source={PregnancyProfile} style={styles.pregnancyIcon} />
+            </View>
+          </TouchableOpacity>
+        ) : null}
+
         <WeekCalendar
           current={date}
           onDateChanged={(d) => setDate(d)}
@@ -159,6 +180,7 @@ const Home = ({ navigation }) => {
             dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           }}
         />
+
         <View style={styles.moonText}>{renderText()}</View>
         <PlusButton
           navigation={navigation}
@@ -166,32 +188,6 @@ const Home = ({ navigation }) => {
             appTourTargets.push(appTourTarget);
           }}
         />
-        {cycle.isPregnant ? (
-          <Button
-            title="پروفایل بارداری"
-            type="outline"
-            buttonStyle={{
-              borderWidth: 0,
-            }}
-            containerStyle={{
-              height: 25,
-              width: 140,
-              borderRadius: 40,
-              bottom: 65,
-              left: 15,
-              justifyContent: 'center',
-              backgroundColor: COLOR.btn,
-            }}
-            titleStyle={{
-              fontFamily: FONT.bold,
-              color: COLOR.white,
-              fontSize: 11,
-            }}
-            onPress={() => {
-              navigation.navigate('PregnancyProfile');
-            }}
-          />
-        ) : null}
       </ImageBackground>
     </SafeAreaView>
   );
