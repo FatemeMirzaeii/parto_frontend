@@ -164,7 +164,7 @@ const Home = ({ navigation }) => {
                 }}>
                 پروفایل بارداری
               </Text> */}
-              <Image source={PregnancyProfile} style={styles.pregnancyIcon} />
+              <Image source={PregnancyProfile} style={styles.pregnancyImage} />
             </View>
           </TouchableOpacity>
         ) : null}
