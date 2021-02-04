@@ -61,7 +61,7 @@ const ContactUs = ({ navigation }) => {
           reverse
           size={25}
           name="eita"
-          type="Eita"
+          type="parto"
           color={COLOR.btn}
           onPress={() => Linking.openURL('https://eitaa.com/partobanoo')}
         />
