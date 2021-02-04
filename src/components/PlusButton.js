@@ -6,7 +6,6 @@ import { COLOR, FONT } from '../styles/static';
 import { useSelector } from 'react-redux';
 
 const PlusButton = (props) => {
-  const template = useSelector((state) => state.user.template);
   return (
     <>
       <Icon
@@ -32,21 +31,14 @@ const PlusButton = (props) => {
         onPress={() => props.navigation.navigate('TrackingOptions')}
         name="lady"
         type="parto"
-        // color={template === 'Partner' ? '#13ffe7' : COLOR.pink}
         color={COLOR.pink} 
         size={35}
         containerStyle={{
-          borderColor: COLOR.white,
           borderRadius: 40,
-          width: 65,
-          height: 65,
-          borderWidth: 2,
           bottom: 30,
-          backgroundColor: 'white',
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
-          // left: 20,
         }}
       />
       {/* <Text>ثبت پریود</Text> */}

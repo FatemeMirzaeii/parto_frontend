@@ -42,7 +42,8 @@ const styles = StyleSheet.create({
     width: 150,
     height: 30,
     borderRadius: 50,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
+    padding: 20,
     alignSelf: 'flex-start',
     shadowColor: '#000',
     shadowOffset: {

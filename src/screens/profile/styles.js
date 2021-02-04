@@ -9,13 +9,13 @@ export default StyleSheet.create({
   },
   btnContainer: {
     elevation: 5,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     marginVertical: 30,
     width: WIDTH - 20,
     alignSelf: 'center',
   },
   nextButton: {
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     borderRadius: 40,
     alignSelf: 'center',
     width: '100%',
@@ -42,7 +42,7 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   register: {
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     borderRadius: 25,
     width: WIDTH / 1.1,
     alignSelf: 'center',
@@ -57,7 +57,7 @@ export default StyleSheet.create({
   saveButton: {
     borderWidth: 0.7,
     borderRadius: 30,
-    borderColor: COLOR.btn,
+    borderColor: COLOR.pink,
   },
   saveContainer: {
     width: WIDTH / 1.1,

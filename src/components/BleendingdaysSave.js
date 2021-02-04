@@ -31,7 +31,6 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
       }}>
       <Text style={styles.buttonTitle}>ویرایش پریود</Text>
     </TouchableOpacity>
-   
   );
 };
 
@@ -59,7 +58,6 @@ const styles = StyleSheet.create({
   // },
   bottomButton: {
     position: 'absolute',
-    borderWidth: 0,
     marginBottom: 15,
     bottom: 25,
     shadowColor: '#000',
@@ -76,7 +74,7 @@ const styles = StyleSheet.create({
     height: 30,
     borderRadius: 50,
     backgroundColor: COLOR.pink,
-    padding:20
+    padding: 20,
   },
   buttonTitle: {
     color: COLOR.white,

@@ -32,7 +32,7 @@ export default StyleSheet.create({
     width: 150,
     height: 25,
     borderRadius: 50,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
   },
   buttonTitle: {
     color: COLOR.white,

@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
     width: 150,
     height: 30,
     borderRadius: 50,
+    padding: 20,
     alignSelf: 'flex-start',
     backgroundColor: COLOR.white,
     shadowColor: '#000',
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonTitle: {
-    color: COLOR.btn,
+    color: COLOR.pink,
     fontFamily: FONT.regular,
     fontSize: 14,
     textAlign: 'center',
