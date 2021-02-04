@@ -32,7 +32,7 @@ const PregnancyEnd = ({ navigation, route }) => {
           margin: 10,
         }}
         buttonStyle={{ borderRadius: 50 }}
-        selectedButtonStyle={{ backgroundColor: COLOR.btn }}
+        selectedButtonStyle={{ backgroundColor: COLOR.pink }}
       />
       {/* <Button
         title="بعدی"

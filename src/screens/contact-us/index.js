@@ -62,7 +62,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="eita"
           type="parto"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() => Linking.openURL('https://eitaa.com/partobanoo')}
         />
         <Icon

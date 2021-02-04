@@ -144,7 +144,7 @@ const Profile = ({ navigation }) => {
             containerStyle={styles.btnContainer}
             buttonStyle={styles.nextButton}
             titleStyle={styles.listItemText}
-            loadingStyle={{ color: COLOR.btn }}
+            loadingStyle={{ color: COLOR.pink }}
           />
         )}
       </ScrollView>
