@@ -112,6 +112,7 @@ async function periodLate() {
   const date = moment(nextPeriodDate).add(10, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
+  if (moment(date).isBefore(today)) return;
   notification.scheduled(
     PERIOD_LATE,
     date,

@@ -7,7 +7,7 @@ import {
   findUnsyncedPregnancyInfo,
   updateLastSyncTime,
   getUser,
-  saveProfileData,
+  addProfileData,
   addPregnancy,
   addTrackingOption,
 } from './query';
@@ -15,44 +15,31 @@ import api from '../../services/api';
 
 export default async () => {
   const lastSyncTime = await getLastSyncTime();
-  // if (new Date() > lastSyncTime) {
-  const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
   const profile = await findUnsyncedProfileData(lastSyncTime);
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
-  const user = await getUser();
+  const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
   console.log('datas to send for server', profile, pregnancy, trackingOptions);
-  let sentProfileData;
-  if (profile.length !== 0)
-    sentProfileData = await api({
-      method: 'POST',
-      url: `/profile/syncProfile/${user.id}/fa`,
-      dev: true,
-      data: profile,
-    });
+  const user = await getUser();
+  // if (new Date() > lastSyncTime) {
+
+  // first will get data from server, if exists!
   const profileData = await api({
     url: `/profile/syncProfile/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
   if (profileData.data.data.length !== 0) {
-    saveProfileData(profileData.data.data[0]);
+    console.log('herereeeeeeee', profileData.data.data);
+    addProfileData(profileData.data.data[0]);
   }
-  const sentPregnancyInfo = await api({
-    method: 'POST',
-    url: `/pregnancy/syncPregnancyInfo/${user.id}/fa`,
-    dev: true,
-    data: { data: pregnancy },
-  });
   const pregnancyInfo = await api({
     url: `/pregnancy/syncPregnancyInfo/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
-  if (pregnancyInfo.data.data) addPregnancy(pregnancyInfo.data.data);
-  const sentUserInfo = await api({
-    method: 'POST',
-    url: `/healthTracking/syncUserInfo/${user.id}/fa`,
-    dev: true,
-    data: { data: trackingOptions },
-  });
+  if (pregnancyInfo.data.data && pregnancyInfo.data.data.length !== 0) {
+    pregnancyInfo.data.data.forEach((i) => {
+      addPregnancy(i);
+    });
+  }
   const userInfo = await api({
     url: `/healthTracking/syncUserInfo/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
@@ -62,6 +49,36 @@ export default async () => {
       addTrackingOption(i.tracking_option_id, i.date);
     });
   }
+
+  let sentProfileData = [];
+  if (profile.length !== 0) {
+    sentProfileData = await api({
+      method: 'POST',
+      url: `/profile/syncProfile/${user.id}/fa`,
+      dev: true,
+      data: { data: profile },
+    });
+  }
+
+  let sentPregnancyInfo = [];
+  if (pregnancy.length !== 0) {
+    sentPregnancyInfo = await api({
+      method: 'POST',
+      url: `/pregnancy/syncPregnancyInfo/${user.id}/fa`,
+      dev: true,
+      data: { data: pregnancy },
+    });
+  }
+
+  let sentUserInfo = [];
+  if (trackingOptions.length !== 0) {
+    sentUserInfo = await api({
+      method: 'POST',
+      url: `/healthTracking/syncUserInfo/${user.id}/fa`,
+      dev: true,
+      data: { data: trackingOptions },
+    });
+  }
   if (
     sentProfileData &&
     profileData &&
@@ -69,7 +86,8 @@ export default async () => {
     pregnancyInfo &&
     sentUserInfo &&
     userInfo
-  )
+  ) {
     updateLastSyncTime(moment().format(DATETIME_FORMAT));
+  }
   // }
 };

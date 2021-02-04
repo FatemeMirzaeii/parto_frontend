@@ -6,7 +6,7 @@ import { calendarMarkedDatesObject } from '../../util/func';
 
 export const fetchInitialCycleData = () => async (dispatch, getState) => {
   const stateBefore = getState();
-  console.log('stateBefore', stateBefore);
+  // console.log('stateBefore', stateBefore);
   const c = await CycleModule();
   const past = await c.pastBleedingDays();
   const ovulationPerdictions =
