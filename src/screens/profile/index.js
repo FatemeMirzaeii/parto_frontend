@@ -142,8 +142,8 @@ const Profile = ({ navigation }) => {
             title="ذخیره"
             onPress={() => save()}
             containerStyle={styles.btnContainer}
-            buttonStyle={styles.nextButton}
-            titleStyle={styles.listItemText}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
             loadingStyle={{ color: COLOR.pink }}
           />
         )}
