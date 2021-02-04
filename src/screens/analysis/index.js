@@ -62,7 +62,7 @@ const Analysis = ({ navigation }) => {
           style={{
             data: {
               fill: ({ datum }) => {
-                return day.type === 'period' ? COLOR.btn : COLOR.bgColor;
+                return day.type === 'period' ? COLOR.pink : COLOR.bgColor;
               },
               strokeWidth: 5,
             },
@@ -139,7 +139,7 @@ const Analysis = ({ navigation }) => {
           <Icon
             type="entypo"
             name="info-with-circle"
-            color={COLOR.btn}
+            color={COLOR.pink}
             size={50}
           />
           <Ptext

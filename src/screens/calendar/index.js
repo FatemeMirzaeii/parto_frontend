@@ -64,7 +64,7 @@ const Calendar = ({ navigation }) => {
           name="go-to-day"
           type="parto"
           color={COLOR.purple}
-          onPress={() => calendar.current.scrollToDay(new Date(), -200)}
+          onPress={() => calendar.current.scrollToDay(new Date(), -520)}
         />
       ),
       headerRight: () => (

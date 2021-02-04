@@ -166,7 +166,7 @@ const Menu = ({ navigation }) => {
             value: isLock,
             onValueChange: lock,
             trackColor: { true: COLOR.lightPink, false: '#aaa' },
-            thumbColor: isLock ? COLOR.btn : '#f4f3f4',
+            thumbColor: isLock ? COLOR.pink : '#f4f3f4',
           }}
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}

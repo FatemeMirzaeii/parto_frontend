@@ -45,10 +45,10 @@ const PregnancyProfile = ({ navigation, route }) => {
       headerRight: () => (
         <Icon
           reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.purple}
           onPress={() => navigation.pop()}
         />
       ),
@@ -80,7 +80,7 @@ const PregnancyProfile = ({ navigation, route }) => {
           rightTitle={`${pregnancyWeek} هفته ${
             pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
           }`}
-          leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+          // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
@@ -105,7 +105,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         <ListItem
           title="تاریخ زایمان"
           rightTitle={jalaali(dueDate).format('jYYYY / jM / jD')}
-          leftIcon={{ name: 'restore', color: COLOR.tiffany }}
+          // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="تاریخ زایمان شما بر اساس تاریخ آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}

@@ -19,7 +19,7 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
           description:
             'از لیست زیر هر موردی که خواستی رو تغییر بده و با زدن دکمه تغیرات رو ثبت کن',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
+          outerCircleColor: COLOR.purple,
           outerCircleAlpha: 0.99,
           fontFamily: FONT.regular,
         };
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
     width: 50,
     height: 30,
     borderRadius: 50,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.purple,
     justifyContent: 'center',
   },
   headerBtnTitle: {

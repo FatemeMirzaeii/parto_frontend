@@ -32,17 +32,17 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   nextButton: {
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
   },
   saveButton: {
     elevation: 5,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     marginTop: 30,
     width: WIDTH - 20,
     alignSelf: 'center',
   },
   saveContainer: {
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     borderWidth: 0,
     borderRadius: 40,
     alignSelf: 'center',
@@ -67,7 +67,7 @@ export default StyleSheet.create({
   deleteTitle: {
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
-    color: COLOR.btn,
+    color: COLOR.pink,
     textDecorationLine: 'underline',
   },
   listItem: {

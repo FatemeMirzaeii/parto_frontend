@@ -15,10 +15,10 @@ const ContactUs = ({ navigation }) => {
       headerRight: () => (
         <Icon
           reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.purple}
           onPress={() => navigation.pop()}
         />
       ),
@@ -38,7 +38,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="telegram"
           type="font-awesome"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() => Linking.openURL('https://t.me/Partobanoo ')}
         />
         {/* <Icon
@@ -54,7 +54,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="bale"
           type="parto"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() => Linking.openURL('https://ble.ir/partobanoo')}
         />
         <Icon
@@ -62,7 +62,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="eita"
           type="parto"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() => Linking.openURL('https://eitaa.com/partobanoo')}
         />
         <Icon
@@ -70,7 +70,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="linkedin-square"
           type="font-awesome"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() =>
             Linking.openURL('https://www.linkedin.com/company/partoapp')
           }
@@ -80,7 +80,7 @@ const ContactUs = ({ navigation }) => {
           size={25}
           name="instagram"
           type="antdesign"
-          color={COLOR.btn}
+          color={COLOR.pink}
           onPress={() => Linking.openURL('https://instagram.com/parto.app')}
         />
       </View>

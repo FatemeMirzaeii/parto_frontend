@@ -5,7 +5,7 @@ import { COLOR } from '../styles/static';
 const Loader = () => {
   return (
     <View style={styles.container}>
-      <ActivityIndicator size="large" color={COLOR.btn} />
+      <ActivityIndicator size="large" color={COLOR.pink} />
     </View>
   );
 };

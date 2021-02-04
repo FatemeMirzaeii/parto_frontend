@@ -166,10 +166,10 @@ const Treatise = ({ navigation }) => {
       headerRight: () => (
         <Icon
           reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.purple}
           onPress={() => navigation.pop()}
         />
       ),

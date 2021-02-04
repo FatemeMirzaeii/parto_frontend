@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../util/func';
-import { FONT, SIZE } from '../styles/static';
+import { COLOR, FONT, SIZE } from '../styles/static';
 import PersianDatePicker from './PersianDatePicker';
 //todo: should add pregnancy picker same as datepicker and remove timepicker
 
@@ -85,6 +85,7 @@ const PickerListItem = (props) => {
                 selectedItemTextSize={20}
                 itemTextFontFamily={FONT.regular}
                 selectedItemTextFontFamily={FONT.regular}
+                indicatorColor={COLOR.pink}
               />
             ) : (
               <PersianDatePicker

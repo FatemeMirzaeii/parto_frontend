@@ -11,7 +11,6 @@ import commonStyles from '../../styles/commonStyles';
 import styles from './styles';
 
 const TreatiseHelp = ({ navigation }) => {
-  
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'راهنما',
@@ -19,10 +18,10 @@ const TreatiseHelp = ({ navigation }) => {
       headerRight: () => (
         <Icon
           reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.purple}
           onPress={() => navigation.pop()}
         />
       ),

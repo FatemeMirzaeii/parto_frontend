@@ -94,7 +94,7 @@ const UserGoal = ({ navigation }) => {
   return (
     <SafeAreaView>
       <View style={styles.titleContainer}>
-        <Icon size={30} name="goal" type="parto" color={COLOR.btn} />
+        <Icon size={30} name="goal" type="parto" color={COLOR.pink} />
         <Text style={styles.title}>
           {template === 'Partner' ? 'هدف' : 'هدف من'}
         </Text>
@@ -104,7 +104,7 @@ const UserGoal = ({ navigation }) => {
         selectedIndex={mode}
         buttons={modes}
         containerStyle={styles.goals}
-        selectedButtonStyle={{ backgroundColor: COLOR.btn }}
+        selectedButtonStyle={{ backgroundColor: COLOR.pink }}
         textStyle={styles.text}
         innerBorderStyle={{ width: 0 }}
         buttonStyle={styles.goal}
