@@ -243,8 +243,8 @@ const Menu = ({ navigation }) => {
             <ListItem
               title="پاک کردن داده‌ها"
               leftIcon={{
-                type: 'font-awesome',
-                name: 'trash-o',
+                type: 'parto',
+                name: 'trash',
                 color: COLOR.purple,
               }}
               chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -259,7 +259,7 @@ const Menu = ({ navigation }) => {
         {!(isLoggedIn === 'dummyToken') && (
           <ListItem
             title="خروج"
-            leftIcon={{ name: 'exit-to-app', color: COLOR.purple }}
+            leftIcon={{ type: 'parto', name: 'exit', color: COLOR.purple }}
             chevron={{ name: 'chevron-left', type: 'font-awesome' }}
             onPress={() => dispatch(signOut())}
             titleStyle={styles.listItemText}

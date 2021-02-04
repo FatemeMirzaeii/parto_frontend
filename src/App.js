@@ -8,7 +8,6 @@ import NetInfo from '@react-native-community/netinfo';
 import AppNavigator from './navigation';
 import { registerCustomIconType } from 'react-native-elements';
 import SplashScreen from 'react-native-splash-screen';
-import EitaIcon from './util/customIcon/eita/icon-font';
 import PartoIcon from './util/customIcon';
 import configureStore from './store';
 import { fetchInitialCycleData } from './store/actions/cycle';
@@ -35,7 +34,6 @@ const App: () => React$Node = () => {
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
 
-  registerCustomIconType('Eita', EitaIcon);
   registerCustomIconType('parto', PartoIcon);
   useEffect(() => {
     AppState.addEventListener('change', _handleAppStateChange);
