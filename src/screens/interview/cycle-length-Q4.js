@@ -67,7 +67,7 @@ const Q4 = ({ route, navigation }) => {
             type="clear"
             onPress={() => onForgotPress()}
           />
-          <Stepper index={3} />
+          <Stepper foursome index={3} />
           <View style={styles.buttons}>
             <Button
               title="بعدی"

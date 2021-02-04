@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ImageBackground } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 import styles from './styles';
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT, SIZE } from '../../styles/static';
 
 const PregnancyEnd = ({ navigation, route }) => {
   const [selectedIndex, setSelectedIndex] = useState();
@@ -33,6 +33,7 @@ const PregnancyEnd = ({ navigation, route }) => {
         }}
         buttonStyle={{ borderRadius: 50 }}
         selectedButtonStyle={{ backgroundColor: COLOR.pink }}
+        textStyle={{ fontFamily: FONT.medium, fontSize: SIZE[14] }}
       />
       {/* <Button
         title="بعدی"

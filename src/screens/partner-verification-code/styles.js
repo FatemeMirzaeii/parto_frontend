@@ -22,7 +22,7 @@ export default StyleSheet.create({
     alignSelf: 'center',
   },
   button: {
-    backgroundColor: COLOR.purple,
+    backgroundColor: COLOR.pink,
     borderRadius: 40,
   },
   buttonText: {

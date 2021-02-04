@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, Text } from 'react-native';
+import { ImageBackground, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { Calendar } from 'react-native-jalali-calendars';
 import { useDispatch } from 'react-redux';
@@ -44,45 +44,48 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     <ImageBackground
       source={require('../../../assets/images/main/interview.png')}
       style={styles.bg}>
-      <Text style={styles.question}>{determineTitle()}</Text>
-      <Calendar
-        firstDay={6}
-        jalali
-        enableSwipeMonths
-        onDayPress={(day) => {
-          setSelectedDate(day.dateString);
-        }}
-        markedDates={{
-          [selectedDate]: { selected: true },
-        }}
-        markingType="multi-period"
-        maxDate={today.format(FORMAT)}
-        disableAllTouchEventsForDisabledDays
-        hideExtraDays
-        theme={{
-          textSectionTitleColor: '#111111',
-          calendarBackground: 'transparent',
-          selectedDayTextColor: '#ffffff',
-          textDisabledColor: COLOR.textColorDark,
-          textDayFontFamily: FONT.regular,
-          textMonthFontFamily: FONT.regular,
-          textDayHeaderFontFamily: FONT.regular,
-          selectedDayBackgroundColor: COLOR.purple,
-          textDayHeaderFontSize: 8,
-          arrowColor: COLOR.purple,
-          todayTextColor: COLOR.purple,
-        }}
-        style={styles.calendar}
-      />
-      <Button
-        title="ذخیره"
-        disabled={!selectedDate}
-        containerStyle={styles.btnContainer}
-        buttonStyle={styles.nextButton}
-        titleStyle={styles.saveTitle}
-        type="solid"
-        onPress={save}
-      />
+      <View
+        style={{ alignItems: 'center', alignSelf: 'center', marginTop: '50%' }}>
+        <Text style={styles.question}>{determineTitle()}</Text>
+        <Calendar
+          firstDay={6}
+          jalali
+          enableSwipeMonths
+          onDayPress={(day) => {
+            setSelectedDate(day.dateString);
+          }}
+          markedDates={{
+            [selectedDate]: { selected: true },
+          }}
+          markingType="multi-period"
+          maxDate={today.format(FORMAT)}
+          disableAllTouchEventsForDisabledDays
+          hideExtraDays
+          theme={{
+            textSectionTitleColor: '#111111',
+            calendarBackground: 'transparent',
+            selectedDayTextColor: '#ffffff',
+            textDisabledColor: COLOR.textColorDark,
+            textDayFontFamily: FONT.regular,
+            textMonthFontFamily: FONT.regular,
+            textDayHeaderFontFamily: FONT.regular,
+            selectedDayBackgroundColor: COLOR.purple,
+            textDayHeaderFontSize: 8,
+            arrowColor: COLOR.purple,
+            todayTextColor: COLOR.purple,
+          }}
+          style={styles.calendar}
+        />
+        <Button
+          title="ذخیره"
+          disabled={!selectedDate}
+          containerStyle={styles.btnContainer}
+          buttonStyle={styles.nextButton}
+          titleStyle={styles.saveTitle}
+          type="solid"
+          onPress={save}
+        />
+      </View>
     </ImageBackground>
   );
 };

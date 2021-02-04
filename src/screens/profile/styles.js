@@ -3,16 +3,37 @@ import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: { flex: 1, paddingTop: 25, paddingBottom: 53 },
+  box: {
+    margin: 20,
+    padding: 10,
+    alignItems: 'center',
+    justifyContent: 'space-around',
+    elevation: 2,
+    borderRadius: 20,
+    width: WIDTH - 50,
+    height: 125,
+    backgroundColor: COLOR.white,
+  },
   container: {
     flex: 1,
     justifyContent: 'space-evenly',
   },
   btnContainer: {
-    elevation: 5,
-    backgroundColor: COLOR.pink,
-    marginVertical: 30,
-    width: WIDTH - 20,
+    elevation: 3,
+    width: 150,
+    height: 40,
+    borderRadius: 40,
     alignSelf: 'center',
+    margin: 30,
+  },
+  button: {
+    height: 40,
+    //backgroundColor: '#4c569c',
+    backgroundColor: COLOR.pink,
+  },
+  btnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
   },
   nextButton: {
     backgroundColor: COLOR.pink,

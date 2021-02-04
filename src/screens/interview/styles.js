@@ -28,6 +28,11 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
     margin: 3,
   },
+  modalBtnWrapper: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-around',
+    margin: 3,
+  },
   btnContainer: {
     elevation: 5,
     width: WIDTH / 3,

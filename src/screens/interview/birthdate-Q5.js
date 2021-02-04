@@ -130,7 +130,7 @@ const Q5 = ({ route, navigation }) => {
               type="clear"
               onPress={() => onNextPress(null)}
             />
-            <Stepper index={4} />
+            <Stepper foursome={mode.pregnant ? false : true} index={4} />
             <View style={styles.buttons}>
               <Button
                 title="بعدی"
@@ -163,7 +163,7 @@ const Q5 = ({ route, navigation }) => {
               پرتویی جان! مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
               طراحی شده، استفاده کنی؟
             </Text>
-            <View style={styles.buttons}>
+            <View style={styles.modalBtnWrapper}>
               <Button
                 title="بله"
                 containerStyle={styles.btnContainer}

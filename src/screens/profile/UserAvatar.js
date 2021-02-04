@@ -37,16 +37,31 @@ const UserAvatar = ({ navigation }) => {
   return (
     <View>
       {!isRegistered && (
-        <TouchableOpacity
-          style={styles.register}
-          onPress={async () => {
-            await removeData('@token');
-            dispatch(signUp());
-          }}>
-          <Text style={[styles.text, { color: COLOR.white }]}>
+        // <TouchableOpacity
+        //   style={styles.register}
+        //   onPress={async () => {
+        //     await removeData('@token');
+        //     dispatch(signUp());
+        //   }}>
+        //   <Text style={[styles.text, { color: COLOR.white }]}>
+        //     شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
+        //   </Text>
+        // </TouchableOpacity>
+        <View style={styles.box}>
+          <Text style={[styles.text, { color: COLOR.black, padding: 20 }]}>
             شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
           </Text>
-        </TouchableOpacity>
+          <Button
+            title="ثبت‌نام"
+            onPress={async () => {
+              await removeData('@token');
+              dispatch(signUp());
+            }}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
+          />
+        </View>
       )}
       <Avatar
         size="xlarge"
