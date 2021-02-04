@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { Alert, ScrollView } from 'react-native';
+import {View, Alert, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
@@ -156,19 +156,22 @@ const PregnancyProfile = ({ navigation, route }) => {
         />
       </Card>
       {template === 'Main' && (
-        <>
+        <View style={{flexDirection:'row-reverse'}}>
           <Button
             title="پایان بارداری"
             onPress={() =>
               navigation.navigate('PregnancyEnd', { ...route.params })
             }
-            buttonStyle={styles.saveContainer}
-            containerStyle={styles.saveButton}
-            titleStyle={styles.saveTitle}
+            // buttonStyle={styles.saveContainer}
+            // containerStyle={styles.saveButton}
+            // titleStyle={styles.saveTitle}
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.btnTitle}
           />
           <Button
             title="حذف اطلاعات بارداری"
-            type="outline"
+            //type="outline"
             onPress={() =>
               Alert.alert(
                 '',
@@ -194,11 +197,14 @@ const PregnancyProfile = ({ navigation, route }) => {
                 { cancelable: true },
               )
             }
-            buttonStyle={styles.deleteContainer}
-            containerStyle={styles.deleteButton}
-            titleStyle={styles.deleteTitle}
+            // buttonStyle={styles.deleteContainer}
+            // containerStyle={styles.deleteButton}
+            // titleStyle={styles.deleteTitle}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.deletebutton}
+            titleStyle={styles.deleteBtnTitle}
           />
-        </>
+        </View>
       )}
     </ScrollView>
   );

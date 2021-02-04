@@ -26,11 +26,38 @@ export default StyleSheet.create({
     justifyContent: 'center',
   },
   btnContainer: {
-    elevation: 5,
-    width: WIDTH / 3,
+    elevation: 3,
+    width: 150,
+    height: 40,
     borderRadius: 40,
     alignSelf: 'center',
+    margin: 30,
   },
+  button: {
+    height: 40,
+    //backgroundColor: '#4c569c',
+    backgroundColor: COLOR.pink,
+  },
+  deletebutton: {
+    height: 40,
+    //backgroundColor: '#4c569c',
+    backgroundColor: COLOR.white,
+  },
+  btnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
+  },
+  deleteBtnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
+    color:COLOR.pink
+  },
+  // btnContainer: {
+  //   elevation: 5,
+  //   width: WIDTH / 3,
+  //   borderRadius: 40,
+  //   alignSelf: 'center',
+  // },
   nextButton: {
     backgroundColor: COLOR.pink,
   },
