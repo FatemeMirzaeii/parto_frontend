@@ -4,11 +4,12 @@ import { COLOR, FONT } from './static';
 export const HTMLTagsStyles = {
   h2: {
     textAlign: 'right',
-    color: COLOR.tiffany,
+    color: COLOR.purple,
     fontFamily: FONT.black,
     fontWeight: 'normal',
     margin: 3,
     paddingVertical: 10,
+    lineHeight: 50,
   },
   h3: {
     textAlign: 'right',

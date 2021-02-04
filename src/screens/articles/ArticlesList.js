@@ -29,6 +29,7 @@ const ArticlesList = ({ route, navigation }) => {
   const perPage = 25;
 
   useEffect(() => {
+    let isCancelled = false;
     const getArticles = async () => {
       try {
         let arts = [];
@@ -86,9 +87,12 @@ const ArticlesList = ({ route, navigation }) => {
               );
             }
           }
-          setArticle([...article, ...arts]);
-          setData([...article, ...arts]);
-          setVisible(true);
+
+          if (!isCancelled) {
+            setArticle([...article, ...arts]);
+            setData([...article, ...arts]);
+            setVisible(true);
+          }
         }
       } catch (err) {
         console.error(err, err.response);
@@ -99,6 +103,9 @@ const ArticlesList = ({ route, navigation }) => {
       setLoading(false);
     };
     getArticles();
+    return () => {
+      isCancelled = true;
+    };
   }, [catId, page]);
 
   const _handleLoadMore = () => {

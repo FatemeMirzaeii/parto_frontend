@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
-  safeAreaView: { flex: 1, paddingBottom: 50 },
+  safeAreaView: { flex: 1, paddingBottom: 53 },
   // text: {
   //   marginLeft: 15,
   //   alignSelf: 'center',

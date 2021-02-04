@@ -31,7 +31,6 @@ const TreatiseList = ({ route, navigation }) => {
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { catId, catTitle } = route.params;
-  let ruleContent = [];
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -62,7 +61,6 @@ const TreatiseList = ({ route, navigation }) => {
       })
         .then((res) => {
           let con = [];
-          ruleContent = [];
           console.log(res);
           console.log('categoryContent', res.data.results);
           con = res.data.results;

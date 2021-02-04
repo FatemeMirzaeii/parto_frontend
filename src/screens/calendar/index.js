@@ -1,7 +1,13 @@
 import React, { useLayoutEffect, useRef, useState } from 'react';
-import { ToastAndroid, ImageBackground, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  ToastAndroid,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
 
@@ -42,15 +48,102 @@ const Calendar = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: '',
-      headerTransparent: true,
+      //headerTransparent: true,
       headerLeft: () => (
-        <Button
-          title="امروز"
-          type="outline"
+        // <Button
+        //   title="امروز"
+        //   type="outline"
+        //   onPress={() => calendar.current.scrollToDay(new Date(), -200)}
+        //   titleStyle={globalStyles.headerBtnTitle}
+        //   containerStyle={globalStyles.smallHeaderBtn}
+        // />
+        <Icon
+          reverse
+          //raised
+          size={20}
+          name="go-to-day"
+          type="parto"
+          color={COLOR.purple}
           onPress={() => calendar.current.scrollToDay(new Date(), -200)}
-          titleStyle={globalStyles.headerBtnTitle}
-          containerStyle={globalStyles.smallHeaderBtn}
         />
+      ),
+      headerRight: () => (
+        <View style={{ flexDirection: 'row' }}>
+          {template !== 'Teenager' && (
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: 90,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: FONT.medium,
+                  fontSize: 11,
+                }}>
+                تخمک‌گذاری
+              </Text>
+              <View
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: 7,
+                  backgroundColor: COLOR.ovulationPerdictions,
+                }}
+              />
+            </View>
+          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: 100,
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: FONT.medium,
+                fontSize: 11,
+              }}>
+              پیش‌بینی پریود
+            </Text>
+            <View
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: 7,
+                backgroundColor: COLOR.periodPerdiction,
+              }}
+            />
+          </View>
+          <View
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'space-around',
+              width: 60,
+              alignItems: 'center',
+            }}>
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: FONT.medium,
+                fontSize: 11,
+              }}>
+              پریود
+            </Text>
+            <View
+              style={{
+                width: 14,
+                height: 14,
+                borderRadius: 7,
+                backgroundColor: COLOR.bleeding,
+              }}
+            />
+          </View>
+        </View>
       ),
     });
   }, [editMode, navigation]);
@@ -125,6 +218,9 @@ const Calendar = ({ navigation }) => {
           : MainBg
       }
       style={{ height: '100%', width: '100%' }}>
+      {/* <View style={{backgroundColor:'red',height:80}}>
+
+        </View> */}
       <CalendarList
         ref={calendar}
         jalali
@@ -141,7 +237,7 @@ const Calendar = ({ navigation }) => {
         markingType="custom"
         onDayPress={onDayPress}
         onDayLongPress={(day) => console.log('day long press', day)}
-        calendarHeight={400}
+        calendarHeight={430}
         dayComponent={
           editMode
             ? ({ date, state, marking, onPress, onLongPress }) => {
@@ -178,7 +274,7 @@ const Calendar = ({ navigation }) => {
             : null
         }
         theme={{
-          // monthTextColor: COLOR.white,
+          monthTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           // dayTextColor: COLOR.white,
           textSectionTitleColor: COLOR.black,
           todayTextColor: COLOR.white,
@@ -194,11 +290,14 @@ const Calendar = ({ navigation }) => {
           },
           'stylesheet.calendar.main': {
             container: {
-              borderBottomWidth: 0.2,
+              // borderBottomWidth: 0.2,
               backgroundColor: 'transparent',
             },
             monthView: {
-              backgroundColor: 'transparent',
+              backgroundColor: 'rgba(255,255,255, 0.9)',
+              borderRadius: 15,
+              elevation: 2,
+              padding: 10,
             },
           },
           'stylesheet.calendar.header': {
@@ -207,17 +306,28 @@ const Calendar = ({ navigation }) => {
               textAlign: 'center',
               fontFamily: FONT.medium,
               fontSize: 11,
-              // color: template === 'Partner' ? COLOR.white : COLOR.black,
+              marginBottom: 10,
+              color: template === 'Partner' ? COLOR.white : COLOR.black,
             },
             rtlHeader: {
               alignItems: 'center',
-              borderBottomWidth: 0.2,
+              //borderBottomWidth: 0.2,
+              backgroundColor: 'rgba(255,255,255, 0.1)',
+              justifyContent: 'center',
+              alignSelf: 'center',
+              //padding: 5,
+              // paddingHorizontal: 20,
+              margin: 10,
+              borderRadius: 30,
+              elevation: 1,
+              width: 170,
             },
           },
           'stylesheet.day.single': {
             today: {
               borderRadius: 50,
               // backgroundColor: COLOR.today,
+              backgroundColor: COLOR.purple,
               elevation: 2,
             },
           },

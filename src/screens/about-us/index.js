@@ -30,7 +30,7 @@ const AboutUs = ({ navigation }) => {
     <ImageBackground
       source={require('../../../assets/images/about-us.png')}
       style={styles.bg}>
-      <ScrollView style={{ marginBottom: 50 }}>
+      <ScrollView style={{ marginBottom: 53 }}>
         <Text style={[styles.question, { textAlign: 'center' }]}>
           به نام خدای مهربان
           {'\n'}

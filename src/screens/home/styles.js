@@ -10,6 +10,24 @@ export default StyleSheet.create({
     height: '100%',
     justifyContent: 'space-around',
   },
+  pregnancyIcon: {
+    backgroundColor: COLOR.purple,
+    borderRadius: 30,
+    //width:120,
+    padding: 5,
+    position: 'absolute',
+    alignSelf: 'flex-end',
+    top: 32,
+    right: 20,
+    elevation: 3,
+  },
+  imageWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 5,
+    justifyContent: 'space-between',
+  },
+  pregnancyImage: { width: 33, height: 33 },
   moon: {
     width: '100%',
     height: '65%',
@@ -38,7 +56,8 @@ export default StyleSheet.create({
     paddingHorizontal: 20,
     margin: 20,
     borderRadius: 20,
-    elevation: 2,
+    elevation: 1,
+    backgroundColor: 'rgba(255,255,255, 0.1)',
   },
 
   mainSentence: {

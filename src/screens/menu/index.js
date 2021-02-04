@@ -113,7 +113,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
-          leftIcon={{ type: 'parto', name: 'settings', color: COLOR.tiffany }}
+          leftIcon={{ type: 'parto', name: 'settings', color: COLOR.purple }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('CycleSettings')}
           titleStyle={styles.listItemText}
@@ -126,7 +126,7 @@ const Menu = ({ navigation }) => {
             title="کد همسر"
             leftIcon={{
               name: 'barcode',
-              color: COLOR.tiffany,
+              color: COLOR.purple,
               type: 'font-awesome',
             }}
             chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -140,7 +140,7 @@ const Menu = ({ navigation }) => {
       <Card>
         <ListItem
           title="احکام"
-          leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.tiffany }}
+          leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.purple }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('Treatise')}
           titleStyle={styles.listItemText}
@@ -161,7 +161,7 @@ const Menu = ({ navigation }) => {
         /> */}
         <ListItem
           title="قفل نرم افزار"
-          leftIcon={{ type: 'parto', name: 'lock', color: COLOR.tiffany }}
+          leftIcon={{ type: 'parto', name: 'lock', color: COLOR.purple }}
           switch={{
             value: isLock,
             onValueChange: lock,
@@ -207,7 +207,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{
             type: 'parto',
             name: 'tell-a-friend',
-            color: COLOR.tiffany,
+            color: COLOR.purple,
           }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
@@ -218,7 +218,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="ارتباط با پرتو"
-          leftIcon={{ type: 'parto', name: 'contact-us', color: COLOR.tiffany }}
+          leftIcon={{ type: 'parto', name: 'contact-us', color: COLOR.purple }}
           bottomDivider
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('ContactUs')}
@@ -228,7 +228,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="درباره‌ی پرتو"
-          leftIcon={{ type: 'parto', name: 'info', color: COLOR.tiffany }}
+          leftIcon={{ type: 'parto', name: 'info', color: COLOR.purple }}
           chevron={{ name: 'chevron-left', type: 'font-awesome' }}
           onPress={() => navigateTo('AboutUs')}
           titleStyle={styles.listItemText}
@@ -245,7 +245,7 @@ const Menu = ({ navigation }) => {
               leftIcon={{
                 type: 'parto',
                 name: 'trash',
-                color: COLOR.tiffany,
+                color: COLOR.purple,
               }}
               chevron={{ name: 'chevron-left', type: 'font-awesome' }}
               onPress={clearData}
@@ -259,7 +259,7 @@ const Menu = ({ navigation }) => {
         {!(isLoggedIn === 'dummyToken') && (
           <ListItem
             title="خروج"
-            leftIcon={{ type: 'parto', name: 'exit', color: COLOR.tiffany }}
+            leftIcon={{ type: 'parto', name: 'exit', color: COLOR.purple }}
             chevron={{ name: 'chevron-left', type: 'font-awesome' }}
             onPress={() => dispatch(signOut())}
             titleStyle={styles.listItemText}

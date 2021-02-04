@@ -5,7 +5,7 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     marginTop: 25,
-    marginBottom: 50,
+    marginBottom: 53,
   },
   divider: {
     height: 20,

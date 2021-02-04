@@ -4,7 +4,7 @@ import { COLOR, FONT, HEIGHT } from '../../styles/static';
 export default StyleSheet.create({
   main: {
     flex: 1,
-    //paddingBottom: 50,
+    paddingBottom: 53,
     paddingTop: 24,
   },
   slider: {
@@ -28,7 +28,7 @@ export default StyleSheet.create({
   },
   safeAreaView: {
     flex: 1,
-    paddingBottom: 50,
+    paddingBottom: 53,
     paddingTop: 3,
   },
   headerCotainer: {
@@ -61,7 +61,7 @@ export default StyleSheet.create({
     textAlign: 'right',
     fontFamily: FONT.medium,
   },
-  icon: { fontSize: 18, color: COLOR.btn, padding: 10 },
+  icon: { fontSize: 18, color: COLOR.pink, padding: 10 },
   imageHeader: {
     marginTop: 75,
     resizeMode: 'cover',
@@ -80,7 +80,7 @@ export default StyleSheet.create({
   },
   categoryWrapper: {
     margin: 10,
-    backgroundColor: COLOR.btn,
+    backgroundColor: COLOR.pink,
     justifyContent: 'center',
     padding: 5,
     borderRadius: 40,

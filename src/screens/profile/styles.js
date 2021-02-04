@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
-  safeAreaView: { flex: 1, paddingTop: 25, paddingBottom: 50 },
+  safeAreaView: { flex: 1, paddingTop: 25, paddingBottom: 53 },
   container: {
     flex: 1,
     justifyContent: 'space-evenly',

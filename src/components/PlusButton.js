@@ -3,12 +3,15 @@ import { Text } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
+import { useSelector } from 'react-redux';
 
 const PlusButton = (props) => {
+  const template = useSelector((state) => state.user.template);
   return (
     <>
       <Icon
         {...props}
+        raised
         key={'plusIcon'}
         title={'plusIcon'}
         ref={(ref) => {
@@ -29,7 +32,8 @@ const PlusButton = (props) => {
         onPress={() => props.navigation.navigate('TrackingOptions')}
         name="lady"
         type="parto"
-        color={COLOR.white}
+        // color={template === 'Partner' ? '#13ffe7' : COLOR.pink}
+        color={COLOR.pink} 
         size={35}
         containerStyle={{
           borderColor: COLOR.white,
@@ -37,12 +41,12 @@ const PlusButton = (props) => {
           width: 65,
           height: 65,
           borderWidth: 2,
-          bottom: 100,
-          backgroundColor: 'transparent',
+          bottom: 30,
+          backgroundColor: 'white',
           alignItems: 'center',
           justifyContent: 'center',
-          // alignSelf: 'center',
-          left: 20,
+          alignSelf: 'center',
+          // left: 20,
         }}
       />
       {/* <Text>ثبت پریود</Text> */}

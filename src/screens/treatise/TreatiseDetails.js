@@ -38,6 +38,7 @@ const TreatiseDetails = ({ route, navigation }) => {
   });
 
   useEffect(() => {
+    let isCancelled = false;
     const getArticleBody = async () => {
       try {
         const res = await axios({
@@ -48,7 +49,10 @@ const TreatiseDetails = ({ route, navigation }) => {
             'X-Atlassian-Token': 'no-check',
           },
         });
-        setArticleBody(res.data.body.storage.value);
+        if (!isCancelled) {
+          setArticleBody(res.data.body.storage.value);
+        }
+
         console.log('setArticleBody', res.data.body.storage.value);
       } catch (err) {
         console.error(err, err.response);
@@ -59,6 +63,9 @@ const TreatiseDetails = ({ route, navigation }) => {
       setIsLoading(false);
     };
     getArticleBody();
+    return () => {
+      isCancelled = true;
+    };
   }, [treatiseContent.id]);
 
   return (
