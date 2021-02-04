@@ -57,6 +57,44 @@ export async function saveProfileData(profileSchema) {
     return res ?? 0;
   }
 }
+
+export async function addProfileData(profileSchema) {
+  const birthdate = !profileSchema.birthdate
+    ? null
+    : `'${profileSchema.birthdate}'`;
+  const lperiodDate = !profileSchema.last_period_date
+    ? null
+    : `'${profileSchema.last_period_date}'`;
+  const periodLength = !profileSchema.avg_period_length
+    ? null
+    : `${profileSchema.avg_period_length}`;
+
+  const cycleLength = !profileSchema.avg_cycle_length
+    ? null
+    : `${profileSchema.avg_cycle_length}`;
+  const res = await db.exec(
+    `INSERT OR REPLACE INTO ${PROFILE}
+             (id, pregnant, pregnancy_try, avg_period_length, avg_cycle_length, 
+              birthdate, last_period_date, pms_length, blood_type, weight, height, avg_sleeping_hour, user_id, created_at)
+             VALUES(
+              (SELECT id FROM ${PROFILE} WHERE user_id=${profileSchema.userId}),
+                ${profileSchema.pregnant},
+                ${profileSchema.pregnancy_try},
+                ${periodLength},
+                ${cycleLength},
+                ${birthdate},
+                ${lperiodDate},
+                ${profileSchema.pms_length},
+                '${profileSchema.blood_type}',
+                ${profileSchema.weight},
+                ${profileSchema.height},
+                ${profileSchema.avg_sleeping_hour},
+                ${profileSchema.userId},
+                '${moment().format(DATETIME_FORMAT)}')`,
+    PROFILE,
+  );
+  return res ?? 0;
+}
 export async function saveProfileHealthData(
   bloodType,
   weight,
@@ -142,6 +180,7 @@ export async function endPregnancy(dueDate, abortionDate) {
       );
 }
 export async function addPregnancy(pregnancySchema) {
+  //todo: if record exists?
   const dueDate = !pregnancySchema.dueDate
     ? null
     : `'${pregnancySchema.dueDate}'`;
@@ -186,7 +225,7 @@ export async function getUserAllPeriodDays() {
       (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY}) AND state=1`,
     USER_TRACKING_OPTION,
   );
-  console.log('kkkk', res);
+  console.log('getUserAllPeriodDays()', res);
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function getTrackingOptionData(date) {

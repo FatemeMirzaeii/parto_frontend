@@ -57,10 +57,6 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation]);
 
-  // useEffect(() => {
-  //   determineMode();
-  // }, [date, determineMode]);
-
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
     dispatch(setPregnancyMode(preg));
