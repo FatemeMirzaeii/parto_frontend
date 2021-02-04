@@ -65,7 +65,7 @@ export default StyleSheet.create({
     margin: 10,
   },
   saveTitle: {
-    color: COLOR.btn,
+    color: COLOR.pink,
     fontFamily: FONT.bold,
     fontSize: SIZE[18],
   },
