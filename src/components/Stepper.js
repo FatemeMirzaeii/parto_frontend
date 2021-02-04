@@ -1,13 +1,17 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { COLOR } from '../styles/static';
-const Stepper = ({ index }) => {
+const Stepper = ({ index, foursome }) => {
   return (
     <View style={styles.container}>
       <View style={styles.stepper(1, index)} />
       <View style={styles.stepper(2, index)} />
-      <View style={styles.stepper(3, index)} />
-      <View style={styles.stepper(4, index)} />
+      {foursome && (
+        <>
+          <View style={styles.stepper(3, index)} />
+          <View style={styles.stepper(4, index)} />
+        </>
+      )}
     </View>
   );
 };
