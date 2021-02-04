@@ -3,9 +3,11 @@ import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
+  SafeAreaView,
   Text,
   ToastAndroid,
   View,
+  ImageBackground,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -32,6 +34,9 @@ import { storeData } from '../../util/func';
 //services
 import { devUrl } from '../../services/urls';
 
+//assets
+import bgImage from '../../../assets/images/00.png';
+
 //styles
 import styles from './styles';
 import sync from '../../util/database/sync';
@@ -42,6 +47,7 @@ const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
   const [codeFieldActive, setCodeFieldActive] = useState(false);
+  const [inputActive, setInputActive] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [value, setValue] = useState('');
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
@@ -106,6 +112,7 @@ const SignUp = ({ navigation }) => {
         console.log('res', res);
         setIsLoading(false);
         setCodeFieldActive(true);
+        setInputActive(false);
       })
       .catch((err) => {
         console.error(err, err.response);
@@ -161,6 +168,7 @@ const SignUp = ({ navigation }) => {
               ],
               { cancelable: true },
             );
+
             //todo: should ask for changing app template or not?
           } else {
             setIsLoading(true);
@@ -186,68 +194,77 @@ const SignUp = ({ navigation }) => {
   };
 
   return (
-    <KeyboardAvoidingView style={styles.main}>
-      <View style={styles.container}>
-        <Ptxt style={styles.title}>لطفا شماره موبایلت رو وارد کن:</Ptxt>
-        {/* to maryam: it is better to set character limit for phone number input. */}
-        <PhoneInput
-          containerStyle={styles.phoneInputwrapper}
-          textContainerStyle={styles.phoneInputTxtwrapper}
-          textInputStyle={styles.phoneInputTxt}
-          codeTextStyle={styles.phoneInputTxt}
-          placeholder="۹ - - - - - - - - -"
-          defaultCode="IR"
-          value={phoneNumber}
-          onChangeText={_handlePhoneInput}
-          withShadow
-          autoFocus
-        />
-        <Button
-          title="ارسال پیامک"
-          disabled={!btnActive}
-          containerStyle={styles.btnContainer}
-          buttonStyle={styles.button}
-          titleStyle={styles.btnTitle}
-          // onPress={_getVerificationCode}
-          onPress={() => {
-            setIsLoading(false);
-            setCodeFieldActive(true);
-          }}
-        />
-      </View>
-      {isLoading ? <Loader /> : null}
-      {codeFieldActive ? (
-        <>
-          <Ptxt style={styles.title}>حالا نوبت کد پیامک شده است:</Ptxt>
-          <CodeField
-            ref={ref}
-            {...props}
-            value={value}
-            onChangeText={(text) => setValue(text)}
-            cellCount={5}
-            rootStyle={styles.codeFieldRoot}
-            keyboardType="number-pad"
-            textContentType="oneTimeCode"
-            renderCell={({ index, symbol, isFocused }) => (
-              <Text
-                key={index}
-                style={[styles.cell, isFocused && styles.focusCell]}
-                onLayout={getCellOnLayoutHandler(index)}>
-                {symbol || (isFocused ? <Cursor /> : null)}
-              </Text>
-            )}
-          />
-          <Button
-            title="تایید کد"
-            containerStyle={styles.btnContainer}
-            buttonStyle={styles.button}
-            titleStyle={styles.btnTitle}
-            //onPress={_handleSubmit}
-            onPress={_handleLogin}
-          />
-        </>
-      ) : null}
-    </KeyboardAvoidingView>
+    <ImageBackground source={bgImage} style={styles.bg}>
+      <SafeAreaView style={styles.main}>
+        {!codeFieldActive && (
+          <KeyboardAvoidingView style={styles.container}>
+            <Ptxt style={styles.title}>شماره تماس خود را وارد کنید:</Ptxt>
+            {/* to maryam: it is better to set character limit for phone number input. */}
+            <PhoneInput
+              containerStyle={styles.phoneInputwrapper}
+              textContainerStyle={styles.phoneInputTxtwrapper}
+              textInputStyle={styles.phoneInputTxt}
+              codeTextStyle={styles.phoneInputTxt}
+              placeholder="۹ - - - - - - - - -"
+              defaultCode="IR"
+              value={phoneNumber}
+              onChangeText={_handlePhoneInput}
+              withShadow
+              autoFocus
+              maxLength={9}
+            />
+            <Text style={styles.description}>
+              (پس از وارد کردن شماره تماس، کد تایید برای شما ارسال خواهد شد.)
+            </Text>
+            <Button
+              title="ادامه فرایند"
+              disabled={!btnActive}
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.btnTitle}
+              // onPress={_getVerificationCode}
+              onPress={() => {
+                setIsLoading(false);
+                setCodeFieldActive(true);
+              }}
+            />
+          </KeyboardAvoidingView>
+        )}
+        {isLoading ? <Loader /> : null}
+        {codeFieldActive && (
+          <>
+            <Ptxt style={styles.title}>کد تایید را وارد کنید:</Ptxt>
+            <CodeField
+              ref={ref}
+              {...props}
+              value={value}
+              onChangeText={(text) => setValue(text)}
+              cellCount={5}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              renderCell={({ index, symbol, isFocused }) => (
+                <Text
+                  key={index}
+                  style={[styles.cell, isFocused && styles.focusCell]}
+                  onLayout={getCellOnLayoutHandler(index)}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              )}
+            />
+
+            <Button
+              title="تایید کد"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.btnTitle}
+              //onPress={_handleSubmit}
+              onPress={_handleLogin}
+            />
+          </>
+        )}
+      </SafeAreaView>
+    </ImageBackground>
   );
 };
 

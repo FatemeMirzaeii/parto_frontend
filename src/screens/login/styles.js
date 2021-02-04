@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE, WIDTH,HEIGHT, COLOR } from '../../styles/static';
+import { FONT, SIZE, WIDTH, HEIGHT, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
   close: {
@@ -12,10 +12,15 @@ export default StyleSheet.create({
     backgroundColor: '#fff',
     paddingTop: 24,
   },
-  lottiewrapper:{ height: HEIGHT / 2.3, width: WIDTH * 0.8, alignSelf: 'center',marginTop:"10%" },
+  lottiewrapper: {
+    height: HEIGHT / 2.3,
+    width: WIDTH * 0.8,
+    alignSelf: 'center',
+    marginTop: '10%',
+  },
   btnContainer: {
     elevation: 5,
-    width: WIDTH * 0.6,
+    width: 150,
     height: 40,
     borderRadius: 40,
     alignSelf: 'center',
@@ -23,7 +28,8 @@ export default StyleSheet.create({
   },
   button: {
     height: 40,
-    backgroundColor: COLOR.btn,
+    //backgroundColor: '#4c569c',
+    backgroundColor: COLOR.purple,
   },
   buttonSecond: {
     height: 40,
@@ -36,7 +42,8 @@ export default StyleSheet.create({
   btnSecondTitle: {
     fontFamily: FONT.medium,
     fontSize: SIZE[14],
-    color: COLOR.btn,
+    // color: '#4c569c',
+    color: COLOR.purple,
   },
   title: {
     fontSize: SIZE[15],
