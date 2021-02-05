@@ -139,16 +139,20 @@
 
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
+import { FlatList, SafeAreaView, ToastAndroid, Linking } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 //components
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/CatListLoader';
+import TreatiseIconBox from '../../components/TreatiseIconBox';
 
 //services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
+
+//util
+import Tour from '../../util/tourGuide/Tour';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -157,12 +161,22 @@ import styles from './styles';
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [appTourTargets, setAppTourTargets] = useState([]);
   const counter = [1, 2, 3];
 
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'احکام',
-      headerLeft: () => null,
+      headerLeft: () => (
+        <TreatiseIconBox
+          addAppTourTarget={(appTourTarget) => {
+            appTourTargets.push(appTourTarget);
+          }}
+          callPress={() => Linking.openURL(`tel:${'+985132020'}`)}
+          smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
+          helpPress={() => navigation.navigate('TreatiseHelp')}
+        />
+      ),
       headerRight: () => (
         <Icon
           reverse
@@ -206,6 +220,8 @@ const Treatise = ({ navigation }) => {
       isCancelled = true;
     };
   }, []);
+
+  Tour(appTourTargets, 'goCalls', 'TreatiseTour');
 
   return (
     <>
