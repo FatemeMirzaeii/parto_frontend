@@ -41,7 +41,7 @@ const PersianDatePicker = (props) => {
   });
   const setInitialDate = () => {
     if (props.initialDate) {
-      const dateArr = props.initialDate.split('/');
+      const dateArr = props.initialDate.split(/-|\//);
       // if (dateArr.length === 3) {
       setDayIndex(parseInt(dateArr[2]) - 1);
       setMonthIndex(parseInt(dateArr[1]) - 1);
@@ -50,7 +50,7 @@ const PersianDatePicker = (props) => {
     }
   };
   const onDateSelected = () => {
-    setSelectedDate(`${year}/${month}/${day}`);
+    setSelectedDate(`${year}/${month}/${day}`); //todo: should change slashes(/) to dash(-)
     setPersianDateString(
       `${days[dayIndex]}/${months[monthIndex]}/${years[yearIndex]}`,
     );
