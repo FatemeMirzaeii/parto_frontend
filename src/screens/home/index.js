@@ -64,11 +64,15 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
-      setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
-      setSubSentence(
-        `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-      );
-      setThirdSentence('');
+      if (pregnancyAge) {
+        setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
+        setSubSentence(
+          `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
+        );
+        setThirdSentence('');
+      } else {
+        setMainSentence('لطفا تاریخ آخرین پریود خود را وارد کنید.');
+      }
     } else {
       const c = await CycleModule();
       const s = c.determinePhaseSentence(momentDate, template === 'Teenager');

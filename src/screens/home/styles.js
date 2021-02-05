@@ -1,7 +1,7 @@
 import { StyleSheet } from 'react-native';
 
 //styles
-import { COLOR, FONT, HEIGHT } from '../../styles/static';
+import { COLOR, FONT, HEIGHT, SIZE } from '../../styles/static';
 
 export default StyleSheet.create({
   container: { justifyContent: 'center', alignItems: 'center' },
@@ -28,26 +28,29 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
   },
   pregnancyImage: { width: 33, height: 33 },
-  moon: {
-    width: '100%',
-    height: '65%',
-    top: 5,
-  },
   moonText: {
     flexDirection: 'row-reverse',
-    top: -HEIGHT / 5.3,
+    //top: '-30%',
+    marginBottom: '7%',
+    //top: -HEIGHT / 5.6,
     justifyContent: 'center',
+    //backgroundColor: 'red',
   },
   sentenceContainer: {
-    top: '20%',
+    // marginTop: '20%',
+    //alignSelf: 'flex-end',
+    //backgroundColor: 'yellow',
   },
   teenagerText: {
     fontFamily: FONT.bold,
-    fontSize: 16,
+    fontSize: SIZE[16],
     color: COLOR.teenagerFirstText,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
+    backgroundColor: 'red',
+    marginBottom: HEIGHT * 0.1,
+    // marginBottom: '30%',
   },
   mainSentenceContainer: {
     justifyContent: 'center',
@@ -62,19 +65,22 @@ export default StyleSheet.create({
 
   mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: 16,
+    fontSize: SIZE[16],
     textAlign: 'center',
+    // padding: 5,
   },
   subSentence: {
     fontFamily: FONT.medium,
-    fontSize: 16,
-    lineHeight: 50,
+    fontSize: SIZE[16],
+    //lineHeight: 50,
+    padding: '10%',
+    //backgroundColor: 'green',
     textAlign: 'center',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
-    fontSize: 14,
-    lineHeight: 45,
+    fontSize: SIZE[14],
+    ///lineHeight: 45,
     textAlign: 'center',
   },
   mainTxt: {
@@ -83,6 +89,7 @@ export default StyleSheet.create({
   partnerTxt: { color: COLOR.white },
   calendarIcon: {
     top: 40,
+    padding: 5,
     zIndex: 10,
     alignItems: 'flex-start',
     paddingLeft: 20,

@@ -1,5 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, SafeAreaView, Text, View } from 'react-native';
+import {
+  ImageBackground,
+  SafeAreaView,
+  Text,
+  View,
+  ScrollView,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
@@ -110,13 +116,18 @@ const Q5 = ({ route, navigation }) => {
       <ImageBackground
         source={route.params.template === 'Main' ? Main : Teenager}
         style={styles.bg}>
-        <SafeAreaView style={styles.safeAreaView}>
+        <ScrollView style={styles.safeAreaView}>
           <Text style={styles.question}>
             با وارد کردن تاریخ تولدت
             {'\n'}
             به ما در تحلیل بهتر اطلاعات کمک کن.
           </Text>
-          <View style={styles.picker}>
+          <View
+            style={{
+              ...styles.picker,
+              height: 200,
+              backgroundColor: 'red',
+            }}>
             <PersianDatePicker
               onDateSelected={setDate}
               startOfRange={modeState === 'Teenager' ? 1381 : 1340}
@@ -150,7 +161,7 @@ const Q5 = ({ route, navigation }) => {
               />
             </View>
           </View>
-        </SafeAreaView>
+        </ScrollView>
       </ImageBackground>
       <Modal
         animationType="fade"

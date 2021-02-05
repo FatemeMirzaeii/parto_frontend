@@ -7,9 +7,10 @@ export default StyleSheet.create({
     flex: 1,
   },
   safeAreaView: {
-    justifyContent: 'space-between',
-    height: HEIGHT / 1.5,
-    top: 70,
+    backgroundColor: 'rgba(12,12,12,0.7)',
+    // justifyContent: 'center',
+    height: HEIGHT / 1.4,
+    marginTop: '45%',
     padding: 5,
   },
   bg: {
@@ -126,7 +127,7 @@ export default StyleSheet.create({
     height: HEIGHT / 4,
     justifyContent: 'center',
     alignSelf: 'center',
-    margin: 30,
+    margin: '4%',
   },
   text: {
     fontFamily: FONT.medium,
@@ -136,8 +137,12 @@ export default StyleSheet.create({
     lineHeight: 30,
   },
   cont: {
-    justifyContent: 'space-evenly',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    alignItems: 'center',
     height: HEIGHT / 1.5,
+    //backgroundColor: 'red',
+    marginTop: '10%', //response in 4 inch
   },
   codeInpute: {
     elevation: 1,

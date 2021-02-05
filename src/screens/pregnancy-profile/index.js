@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import {View, Alert, ScrollView } from 'react-native';
+import { View, Alert, ScrollView } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
@@ -61,15 +61,17 @@ const PregnancyProfile = ({ navigation, route }) => {
 
   useEffect(() => {
     getActivePregnancyData().then((dd) => {
-      setDueDate(dd.due_date);
+      if (dd.due_date) setDueDate(dd.due_date);
     });
     setPregnancyAge();
   }, []);
   const setPregnancyAge = async () => {
     const p = await pregnancyModule();
     const pregnancyAge = p.determinePregnancyWeek(jalaali());
-    setPregnancyWeek(pregnancyAge.week);
-    setPregnancyWeekDay(pregnancyAge.days);
+    if (pregnancyAge) {
+      setPregnancyWeek(pregnancyAge.week);
+      setPregnancyWeekDay(pregnancyAge.days);
+    }
   };
 
   return (
@@ -77,9 +79,13 @@ const PregnancyProfile = ({ navigation, route }) => {
       <Card>
         <ListItem
           title="سن بارداری"
-          rightTitle={`${pregnancyWeek} هفته ${
-            pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
-          }`}
+          rightTitle={
+            pregnancyWeek
+              ? `${pregnancyWeek} هفته ${
+                  pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
+                }`
+              : ''
+          }
           // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
@@ -104,7 +110,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         />
         <ListItem
           title="تاریخ زایمان"
-          rightTitle={jalaali(dueDate).format('jYYYY / jM / jD')}
+          rightTitle={dueDate && jalaali(dueDate).format('jYYYY / jM / jD')}
           // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="تاریخ زایمان شما بر اساس تاریخ آخرین پریود شما محاسبه شده است."
           titleStyle={styles.listItemText}
@@ -156,7 +162,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         />
       </Card>
       {template === 'Main' && (
-        <View style={{flexDirection:'row-reverse', flex:1, backgroundColor:'red'}}>
+        <View style={styles.btnsWrapper}>
           <Button
             title="پایان بارداری"
             onPress={() =>
@@ -165,9 +171,9 @@ const PregnancyProfile = ({ navigation, route }) => {
             // buttonStyle={styles.saveContainer}
             // containerStyle={styles.saveButton}
             // titleStyle={styles.saveTitle}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.button}
-              titleStyle={styles.btnTitle}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
           />
           <Button
             title="حذف اطلاعات بارداری"

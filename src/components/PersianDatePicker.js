@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 import { setPickerRange } from '../util/func';
-import { FONT } from '../styles/static';
+import { COLOR, FONT } from '../styles/static';
 
 ////todo: 1- should return both Gregorian date and jalali.
 ////      2- should check if month has 31 days or not.
@@ -82,6 +82,7 @@ const PersianDatePicker = (props) => {
           selectedItemTextSize={20}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
+          indicatorColor={COLOR.pink}
         />
       </View>
       <View style={styles.verticalWrapper}>
@@ -94,6 +95,7 @@ const PersianDatePicker = (props) => {
           selectedItemTextSize={20}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
+          indicatorColor={COLOR.pink}
         />
       </View>
       <View style={styles.verticalWrapper}>
@@ -106,6 +108,7 @@ const PersianDatePicker = (props) => {
           selectedItemTextSize={20}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
+          indicatorColor={COLOR.pink}
         />
       </View>
     </View>

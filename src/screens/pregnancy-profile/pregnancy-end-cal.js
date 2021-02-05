@@ -45,8 +45,14 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
       source={require('../../../assets/images/main/interview.png')}
       style={styles.bg}>
       <View
-        style={{ alignItems: 'center', alignSelf: 'center', marginTop: '50%' }}>
+        style={{
+          alignItems: 'center',
+          alignSelf: 'center',
+          marginTop: '50%',
+          //backgroundColor: 'red',
+        }}>
         <Text style={styles.question}>{determineTitle()}</Text>
+        {/* todo: should import this calendar from components. */}
         <Calendar
           firstDay={6}
           jalali

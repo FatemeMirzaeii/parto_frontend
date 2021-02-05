@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
+import {
+  SafeAreaView,
+  ImageBackground,
+  View,
+  Text,
+  ScrollView,
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 
@@ -39,7 +45,7 @@ const Q2 = ({ route, navigation }) => {
     <ImageBackground
       source={route.params.template === 'Main' ? Main : Teenager}
       style={styles.bg}>
-      <SafeAreaView style={styles.safeAreaView}>
+      <ScrollView style={styles.safeAreaView}>
         <Text style={styles.question}>آخرین پریودت چه روزی شروع شد؟</Text>
         <Text style={styles.subtext}>لطفا روی تقویم مشخص کن.</Text>
         <Calendar
@@ -78,7 +84,7 @@ const Q2 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     </ImageBackground>
   );
 };

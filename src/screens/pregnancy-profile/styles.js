@@ -10,8 +10,9 @@ export default StyleSheet.create({
   bg: {
     width: '100%',
     height: '100%',
-    justifyContent: 'space-evenly',
-    flex: 1,
+    // justifyContent: 'flex-end',
+    justifyContent: 'center',
+    // flex: 1,
   },
   question: {
     fontFamily: FONT.bold,
@@ -25,13 +26,20 @@ export default StyleSheet.create({
     alignSelf: 'center',
     justifyContent: 'center',
   },
+  btnsWrapper: {
+    flexDirection: 'row-reverse',
+    alignSelf: 'center',
+    justifyContent: 'space-between',
+    flex: 1,
+  },
   btnContainer: {
     elevation: 3,
     width: 150,
     height: 40,
     borderRadius: 40,
     alignSelf: 'center',
-    margin: 30,
+    margin: 5,
+    marginVertical: 20,
   },
   button: {
     height: 40,
@@ -50,7 +58,7 @@ export default StyleSheet.create({
   deleteBtnTitle: {
     fontFamily: FONT.medium,
     fontSize: SIZE[14],
-    color:COLOR.pink
+    color: COLOR.pink,
   },
   // btnContainer: {
   //   elevation: 5,

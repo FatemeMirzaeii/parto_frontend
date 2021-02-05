@@ -11,7 +11,7 @@ import { CYCLE_LENGTH } from '../../constants/cycle';
 //styles and images
 import Main from '../../../assets/images/main/interview.png';
 import Teenager from '../../../assets/images/teenager/interview.png';
-import { FONT } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const Q4 = ({ route, navigation }) => {
@@ -37,7 +37,8 @@ const Q4 = ({ route, navigation }) => {
     <ImageBackground
       source={route.params.template === 'Main' ? Main : Teenager}
       style={styles.bg}>
-      <SafeAreaView style={styles.safeAreaView}>
+      <SafeAreaView
+        style={{ ...styles.safeAreaView, justifyContent: 'space-between' }}>
         <View>
           <Text style={styles.question}>
             طول یک دوره ماهانه‌ات تقریبا چند روزه است؟
@@ -59,6 +60,7 @@ const Q4 = ({ route, navigation }) => {
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
           style={styles.picker}
+          indicatorColor={COLOR.pink}
         />
         <View>
           <Button

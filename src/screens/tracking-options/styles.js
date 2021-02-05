@@ -14,7 +14,7 @@ export default StyleSheet.create({
 
   sliderWrapper: {
     backgroundColor: 'white',
-    height: '78%',
+    height: '75%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
     marginTop: 5,
@@ -34,11 +34,11 @@ export default StyleSheet.create({
     // width: WIDTH /2,
     width: WIDTH * 0.95,
     marginVertical: '3%',
-    height: HEIGHT / 6,
+    height: HEIGHT / 5.7,
     alignItems: 'center',
     alignSelf: 'center',
-    justifyContent: 'space-between',
-    //backgroundColor:"red"
+    justifyContent: 'center',
+    //backgroundColor: 'red',
   },
   detailPage: {
     height: 200,
@@ -53,7 +53,7 @@ export default StyleSheet.create({
     height: HEIGHT / 6.3,
     justifyContent: 'center',
     alignItems: 'center',
-    //backgroundColor:'#aaa'
+    //backgroundColor: '#aaa',
   },
   options: {
     justifyContent: 'center',
@@ -95,6 +95,7 @@ export default StyleSheet.create({
     //backgroundColor:'yellow',
     alignSelf: 'center',
     //marginLeft: '10%',
+    // backgroundColor: 'red',
   },
   title: {
     fontFamily: FONT.medium,
