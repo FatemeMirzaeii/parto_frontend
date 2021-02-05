@@ -1,6 +1,15 @@
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
-import { Image, ImageBackground, SafeAreaView, Text, View } from 'react-native';
+import {
+  Image,
+  ImageBackground,
+  SafeAreaView,
+  Text,
+  View,
+  BackHandler,
+  ToastAndroid,
+} from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import MainBg from '../../../assets/images/main/home.png';
@@ -49,6 +58,32 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation, determineMode]);
 
+  useFocusEffect(
+    useCallback(() => {
+      let backPressed = 0;
+      const handleBackButton = () => {
+        if (backPressed > 0) {
+          BackHandler.exitApp();
+          backPressed = 0;
+        } else {
+          backPressed++;
+          ToastAndroid.show(
+            'برای خروج دوباره کلید بازگشت را لمس کنید.',
+            ToastAndroid.SHORT,
+          );
+          setTimeout(() => {
+            backPressed = 0;
+          }, 2000);
+          return true;
+        }
+      };
+
+      BackHandler.addEventListener('hardwareBackPress', handleBackButton);
+
+      return () =>
+        BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
+    }, []),
+  );
   useEffect(() => {
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       setDate(today);
@@ -58,6 +93,7 @@ const Home = ({ navigation }) => {
   useEffect(() => {
     determineMode();
   }, [date, determineMode]);
+
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
     dispatch(setPregnancyMode(preg));
