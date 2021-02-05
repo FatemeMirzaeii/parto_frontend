@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
-import { Icon as IconElement } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
 
 const TreatiseIconBox = ({
@@ -12,20 +12,20 @@ const TreatiseIconBox = ({
 }) => {
   return (
     <View style={styles.iconContainer}>
-      <IconElement
+      <Icon
         key={'goCall'}
         title={'goCall'}
-        style={styles.bottomButton}
         ref={(ref) => {
-          if (!ref) return;
-          const goCall = ref;
+          if (!ref) {
+            return;
+          }
           let props = {
             order: 12,
             title: 'تماس با پاسخگوی شرعی',
             description:
               'اساتید خبره احکام بانوان، به صورت 24 ساعته و رایگان آماده پاسخگویی به شما هستن',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.tiffany,
+            outerCircleColor: COLOR.pink,
             outerCircleAlpha: 0.99,
             fontFamily: FONT.regular,
           };
@@ -33,10 +33,10 @@ const TreatiseIconBox = ({
             addAppTourTarget(AppTourView.for(ref, { ...props }));
         }}
         reverse
-        size={25}
-        name="call"
-        type="MaterialIcons"
-        color={COLOR.btn}
+        size={16}
+        name="phone"
+        type="feather"
+        color={COLOR.purple}
         onPress={callPress}
       />
       {/* <IconElement
@@ -60,24 +60,24 @@ const TreatiseIconBox = ({
           }}
           reverse
           size={25}
-          type="FontAwesome5" 
+          type="FontAwesome5"
           name="sms"
           color={COLOR.btn}
           onPress={smsPress}
         /> */}
-      <IconElement
+      <Icon
         key={'goHelp'}
         title={'goHelp'}
-        style={styles.bottomButton}
         ref={(ref) => {
-          if (!ref) return;
-          goHelp = ref;
+          if (!ref) {
+            return;
+          }
           let props = {
             order: 11,
             title: 'راهنمای احکام',
             description: 'این‌جا رو حتما بخون',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.tiffany,
+            outerCircleColor: COLOR.pink,
             outerCircleAlpha: 0.9,
             fontFamily: FONT.regular,
           };
@@ -85,11 +85,10 @@ const TreatiseIconBox = ({
             addAppTourTarget(AppTourView.for(ref, { ...props }));
         }}
         reverse
-        size={25}
-        type="MaterialIcons"
-        name="help"
-        color={COLOR.btn}
-        style={{ elevation: 6 }}
+        size={16}
+        type="feather"
+        name="help-circle"
+        color={COLOR.purple}
         onPress={helpPress}
       />
     </View>
@@ -97,13 +96,10 @@ const TreatiseIconBox = ({
 };
 const styles = StyleSheet.create({
   iconContainer: {
-    width: '35%',
-    //width:'65%',
     justifyContent: 'space-between',
     alignItems: 'center',
     alignSelf: 'center',
     flexDirection: 'row',
-    paddingTop: 20,
   },
 });
 
