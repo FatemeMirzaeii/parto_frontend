@@ -26,7 +26,8 @@ import styles from './styles';
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  const isLoggedIn = useSelector((state) => state.user.id);
+  // const isLoggedIn = useSelector((state) => state.user.id);
+  const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 

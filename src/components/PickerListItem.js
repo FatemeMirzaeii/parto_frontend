@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   },
   listItemText: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[14],
+    fontSize: 12,
     maxWidth: 200,
   },
   listItem: {

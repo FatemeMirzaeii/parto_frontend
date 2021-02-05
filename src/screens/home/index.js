@@ -40,7 +40,6 @@ const Home = ({ navigation }) => {
   const [appTourTargets, setAppTourTargets] = useState([]);
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
-  //console.log('useSelector', cycle);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -56,7 +55,9 @@ const Home = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation]);
-
+  useEffect(() => {
+    determineMode();
+  }, [date, determineMode]);
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
     dispatch(setPregnancyMode(preg));
@@ -64,12 +65,14 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
-      if (pregnancyAge) {
+      if (pregnancyAge >= 0) {
         setMainSentence(`از هفته ${pregnancyAge.week} بارداری لذت ببر.`);
         setSubSentence(
           `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
         );
         setThirdSentence('');
+      } else if (pregnancyAge < 0) {
+        setMainSentence('پیش از بارداری');
       } else {
         setMainSentence('لطفا تاریخ آخرین پریود خود را وارد کنید.');
       }

@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   Text,
   ToastAndroid,
-  View,
   ImageBackground,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
@@ -155,6 +154,12 @@ const SignUp = ({ navigation }) => {
           if (template && template !== res.data.data.type) {
             // this will happen if user is using the app offline and wants to signup,
             // but will signup with a number that has been registered already.
+            console.log(
+              '%c res.data.data.type:',
+              'background: yellow; color: red',
+              res.data.data.type,
+              template,
+            );
             return Alert.alert(
               '',
               'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
@@ -172,13 +177,11 @@ const SignUp = ({ navigation }) => {
             //todo: should ask for changing app template or not?
           } else {
             setIsLoading(true);
-            setCodeFieldActive(false);
-            await sync();
-            setIsLoading(false);
             dispatch(interview());
+            await sync();
             dispatch(handleTemplate(res.data.data.type));
-            dispatch(fetchInitialCycleData());
             dispatch(signUp());
+            dispatch(fetchInitialCycleData());
           }
         }
         dispatch(signUp());
@@ -196,10 +199,12 @@ const SignUp = ({ navigation }) => {
   return (
     <ImageBackground source={bgImage} style={styles.bg}>
       <SafeAreaView style={styles.main}>
-        {!codeFieldActive && (
+        {isLoading ? (
+          <Loader />
+        ) : !codeFieldActive ? (
           <KeyboardAvoidingView style={styles.container}>
             <Ptxt style={styles.title}>شماره تماس خود را وارد کنید:</Ptxt>
-            {/* to maryam: it is better to set character limit for phone number input. */}
+            {/* todo: limit for phone number input. */}
             <PhoneInput
               containerStyle={styles.phoneInputwrapper}
               textContainerStyle={styles.phoneInputTxtwrapper}
@@ -229,9 +234,7 @@ const SignUp = ({ navigation }) => {
               }}
             />
           </KeyboardAvoidingView>
-        )}
-        {isLoading ? <Loader /> : null}
-        {codeFieldActive && (
+        ) : (
           <>
             <Ptxt style={styles.title}>کد تایید را وارد کنید:</Ptxt>
             <CodeField

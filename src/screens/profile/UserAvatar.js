@@ -65,12 +65,14 @@ const UserAvatar = ({ navigation }) => {
       )}
       <Avatar
         size="xlarge"
+        //todo: avatar loads really slow
         source={
-          user.template === 'Main'
+          (user.template === 'Main'
             ? MainAvatar
             : user.template === 'Partner'
             ? PartnerAvatar
-            : TeenagerAvatar
+            : TeenagerAvatar,
+          { cache: 'force-cache' })
         }
         imageProps={{ resizeMode: 'center' }}
         containerStyle={styles.avatar}

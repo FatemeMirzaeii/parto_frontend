@@ -10,7 +10,7 @@ export default StyleSheet.create({
   // },
   listItemText: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[14],
+    fontSize: 12,
   },
   listItem: {
     flexDirection: 'row-reverse',

@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useRef, useState, useEffect } from 'react';
-import { StatusBar, AppState } from 'react-native';
+import React, { useRef, useState, useEffect, useCallback } from 'react';
+import { StatusBar, AppState, BackHandler, ToastAndroid } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import NetInfo from '@react-native-community/netinfo';
@@ -33,9 +33,10 @@ const App: () => React$Node = () => {
   const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
   const [appStateVisible, setAppStateVisible] = useState(appState.current);
-
   registerCustomIconType('parto', PartoIcon);
+
   useEffect(() => {
+    BackHandler.addEventListener('hardwareBackPress', handleBackButton);
     AppState.addEventListener('change', _handleAppStateChange);
     launchApp();
     return () => {
@@ -55,7 +56,23 @@ const App: () => React$Node = () => {
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
   };
-
+  let backPressed = 0;
+  const handleBackButton = () => {
+    if (backPressed > 0) {
+      BackHandler.exitApp();
+      backPressed = 0;
+    } else {
+      backPressed++;
+      ToastAndroid.show(
+        'برای خروج دوباره کلید بازگشت را لمس کنید.',
+        ToastAndroid.SHORT,
+      );
+      setTimeout(() => {
+        backPressed = 0;
+      }, 2000);
+      return true;
+    }
+  };
   const _handleAppStateChange = (nextAppState) => {
     if (
       appState.current.match(/inactive|background/) &&
