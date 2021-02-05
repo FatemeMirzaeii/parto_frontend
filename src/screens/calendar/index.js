@@ -326,7 +326,6 @@ const Calendar = ({ navigation }) => {
           'stylesheet.day.single': {
             today: {
               borderRadius: 50,
-              // backgroundColor: COLOR.today,
               backgroundColor: COLOR.purple,
               elevation: 2,
             },

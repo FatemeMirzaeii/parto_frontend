@@ -7,7 +7,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   safeAreaView: {
-    backgroundColor: 'rgba(12,12,12,0.7)',
+    // backgroundColor: 'rgba(12,12,12,0.7)',
     // justifyContent: 'center',
     height: HEIGHT / 1.4,
     marginTop: '45%',
@@ -80,7 +80,7 @@ export default StyleSheet.create({
     lineHeight: 30,
   },
   modal: {
-    backgroundColor: '#fff',
+    backgroundColor: COLOR.white,
     borderRadius: 15,
     padding: 20,
   },
@@ -88,7 +88,7 @@ export default StyleSheet.create({
     margin: 20,
   },
   mode: {
-    backgroundColor: 'white',
+    backgroundColor: COLOR.white,
     margin: 7,
     padding: 15,
     borderRadius: 15,

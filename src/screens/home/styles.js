@@ -48,7 +48,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-    backgroundColor: 'red',
+    // backgroundColor: 'red',
     marginBottom: HEIGHT * 0.1,
     // marginBottom: '30%',
   },

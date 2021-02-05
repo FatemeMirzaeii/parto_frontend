@@ -126,7 +126,7 @@ const Q5 = ({ route, navigation }) => {
             style={{
               ...styles.picker,
               height: 200,
-              backgroundColor: 'red',
+              // backgroundColor: 'red',
             }}>
             <PersianDatePicker
               onDateSelected={setDate}
