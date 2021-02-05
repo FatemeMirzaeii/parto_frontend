@@ -156,7 +156,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         />
       </Card>
       {template === 'Main' && (
-        <View style={{flexDirection:'row-reverse'}}>
+        <View style={{flexDirection:'row-reverse', flex:1, backgroundColor:'red'}}>
           <Button
             title="پایان بارداری"
             onPress={() =>
