@@ -1,40 +1,35 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ImageBackground,
-  SafeAreaView,
-  Text,
-  View,
-  ScrollView,
-} from 'react-native';
+import { ImageBackground, ScrollView, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import Modal from 'react-native-modal';
 import { useDispatch, useSelector } from 'react-redux';
+import Main from '../../../assets/images/main/interview.png';
+import Teenager from '../../../assets/images/teenager/interview.png';
+
+//components
+import PersianDatePicker from '../../components/PersianDatePicker';
+import Stepper from '../../components/Stepper';
+import DialogBox from '../../components/DialogBox';
+
+//services
+import api from '../../services/api';
 
 //store
 import { interview } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 
-//components
-import PersianDatePicker from '../../components/PersianDatePicker';
-import Stepper from '../../components/Stepper';
-
-//services
-import api from '../../services/api';
-
 //util
 import CycleModule from '../../util/cycle';
 import { addPregnancy, saveProfileData } from '../../util/database/query';
+import useModal from '../../util/hooks/useModal';
 
 //style and images
 import styles from './styles';
-import Main from '../../../assets/images/main/interview.png';
-import Teenager from '../../../assets/images/teenager/interview.png';
 
 let counter = 0;
 
 const Q5 = ({ route, navigation }) => {
   const [birthdate, setBirthdate] = useState();
-  const [alertVisible, setAlertVisible] = useState(false);
+  const { isVisible, toggle } = useModal();
   const {
     mode,
     lastPeriodDate,
@@ -58,10 +53,10 @@ const Q5 = ({ route, navigation }) => {
       modeState === 'Main' &&
       Number(birthdate.split('/')[0]) >= 1381
     ) {
-      setAlertVisible(true);
+      toggle();
       counter++;
     }
-  }, [birthdate, modeState]);
+  }, [birthdate, modeState, toggle]);
 
   const setDate = (date, persianDate) => {
     if (date) {
@@ -126,7 +121,6 @@ const Q5 = ({ route, navigation }) => {
             style={{
               ...styles.picker,
               height: 200,
-              // backgroundColor: 'red',
             }}>
             <PersianDatePicker
               onDateSelected={setDate}
@@ -163,38 +157,18 @@ const Q5 = ({ route, navigation }) => {
           </View>
         </ScrollView>
       </ImageBackground>
-      <Modal
-        animationType="fade"
-        isVisible={alertVisible}
-        onRequestClose={() => setAlertVisible(false)}
-        onBackdropPress={() => setAlertVisible(false)}>
-        <View style={styles.modal}>
-          <View>
-            <Text style={{ ...styles.question, ...styles.modalTxt }}>
-              پرتویی جان! مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
-              طراحی شده، استفاده کنی؟
-            </Text>
-            <View style={styles.modalBtnWrapper}>
-              <Button
-                title="بله"
-                containerStyle={styles.btnContainer}
-                buttonStyle={styles.nextButton}
-                titleStyle={styles.btnTitle}
-                type="solid"
-                onPress={() => navigation.navigate('Template')}
-              />
-              <Button
-                title="نه"
-                containerStyle={styles.btnContainer}
-                buttonStyle={styles.prevButton}
-                titleStyle={styles.darkBtnTitle}
-                type="solid"
-                onPress={() => setAlertVisible(false)}
-              />
-            </View>
-          </View>
-        </View>
-      </Modal>
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        text=" پرتویی جان! مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
+        طراحی شده، استفاده کنی؟"
+        twoButtons
+        firstBtnPress={() => {
+          toggle;
+          navigation.navigate('Template');
+        }}
+        secondBtnPress={toggle}
+      />
     </>
   );
 };
