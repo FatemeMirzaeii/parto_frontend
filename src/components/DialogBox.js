@@ -47,7 +47,7 @@ const DialogBox = ({
             />
           </View>
         ) : (
-          <View style={style.oneBtnWrapper}>
+          <View style={styles.oneBtnWrapper}>
             <Button
               title={firstBtnTitle}
               containerStyle={styles.btnContainer}
