@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid, Alert } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 
@@ -10,11 +10,13 @@ import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
 import Loader from '../../components/Loader';
 import Card from '../../components/Card';
+import DialogBox from '../../components/DialogBox';
 
 // utils and store
 import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
 import { shareContent } from '../../util/func';
 import sync from '../../util/database/sync';
+import useModal from '../../util/hooks/useModal';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
 import { signOut } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
@@ -30,6 +32,7 @@ const Menu = ({ navigation }) => {
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
+  const { isVisible, toggle } = useModal();
 
   useEffect(() => {
     determineLockStatus();
@@ -85,7 +88,7 @@ const Menu = ({ navigation }) => {
   const clearData = async () => {
     Alert.alert(
       '',
-      'با تایید این پیام تمام اطلاعات شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ آیا مطمئن هستید؟',
+      'با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟',
       [
         {
           text: 'بله',
@@ -249,7 +252,8 @@ const Menu = ({ navigation }) => {
                 color: COLOR.purple,
               }}
               chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-              onPress={clearData}
+              // onPress={clearData}
+              onPress={toggle}
               titleStyle={styles.listItemText}
               containerStyle={styles.listItem}
               contentContainerStyle={styles.listItemContent}
@@ -269,6 +273,20 @@ const Menu = ({ navigation }) => {
           />
         )}
       </Card>
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
+        text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
+        twoButtons
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          await resetDatabase();
+          dispatch(fetchInitialCycleData());
+          setIsLoading(false);
+        }}
+        secondBtnPress={toggle}
+      />
     </ScrollView>
   );
 };
