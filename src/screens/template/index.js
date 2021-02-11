@@ -16,6 +16,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { handleTemplate } from '../../store/actions/user';
 import { signOut } from '../../store/actions/auth';
 
+//components
+import DialogBox from '../../components/DialogBox';
+
+//util
+import useModal from '../../util/hooks/useModal';
+
 //styles and images
 import styles from './styles';
 import { COLOR, WIDTH } from '../../styles/static';
@@ -28,6 +34,7 @@ const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);
   const userMode = useSelector((state) => state.user);
   const dispatch = useDispatch();
+  const { isVisible, toggle } = useModal();
   const carousel = [
     {
       title: 'نوجوان',
@@ -72,22 +79,22 @@ const Template = ({ navigation }) => {
   const _handlePartnerSelected = useCallback(async () => {
     dispatch(handleTemplate('Partner'));
     if (!userMode.id) {
-      return Alert.alert(
-        '',
-        'برای استفاده از این نسخه نرم‌افزار باید ثبت نام کنید.',
-        [
-          {
-            text: 'باشه',
-            onPress: () => {
-              dispatch(signOut());
-            },
-          },
-        ],
-        { cancelable: true },
-      );
-    }
-    navigation.navigate('PartnerCode');
-  }, [dispatch, navigation, userMode.id]);
+      toggle();
+      // return Alert.alert(
+      //   '',
+      //   'برای استفاده از این نسخه نرم‌افزار باید ثبت نام کنید.',
+      //   [
+      //     {
+      //       text: 'باشه',
+      //       onPress: () => {
+      //         dispatch(signOut());
+      //       },
+      //     },
+      //   ],
+      //   { cancelable: true },
+      // );
+    } else navigation.navigate('PartnerCode');
+  }, [dispatch, navigation, userMode.id, toggle]);
 
   const _renderItem = ({ item, index }) => {
     return (
@@ -141,6 +148,17 @@ const Template = ({ navigation }) => {
             {carousel.map((c) => c.desc)[activeSlide]}
           </Text>
         </View>
+        <DialogBox
+          isVisible={isVisible}
+          hide={toggle}
+          text="برای استفاده از این نسخه نرم‌افزار باید ثبت نام کنید."
+          twoButtons
+          firstBtnPress={() => {
+            toggle;
+            dispatch(signOut());
+          }}
+          secondBtnPress={toggle}
+        />
       </SafeAreaView>
     </ImageBackground>
   );
