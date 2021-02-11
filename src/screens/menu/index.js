@@ -280,6 +280,7 @@ const Menu = ({ navigation }) => {
         text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
+          toggle();
           setIsLoading(true);
           await resetDatabase();
           dispatch(fetchInitialCycleData());
