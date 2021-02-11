@@ -71,13 +71,16 @@ DialogBox.propTypes = {
   firstBtnPress: PropTypes.func.isRequired,
   firstBtnTitle: PropTypes.string,
   secondBtnTitle: PropTypes.string,
-  secondBtnPress: PropTypes.func.isRequired,
+  secondBtnPress: PropTypes.func,
 };
 DialogBox.defaultProps = {
   icon: <Icon type="antdesign" name="warning" color="#aaa" size={50} />,
   twoButtons: false,
   firstBtnTitle: 'بله',
   secondBtnTitle: 'نه',
+  secondBtnPress: () => {
+    return;
+  },
 };
 const styles = StyleSheet.create({
   modal: {
