@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { ScrollView, ToastAndroid, Alert } from 'react-native';
+import {
+  ScrollView,
+  ToastAndroid,
+  Alert,
+  TouchableOpacity,
+  View,
+  Text,
+} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
@@ -113,8 +120,48 @@ const Menu = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <UserProfile onPress={() => navigateTo('Profile')} />
-      {template !== 'Teenager' ? <UserGoal navigation={navigation} /> : null}
-      <Card>
+
+      {template !== 'Teenager' && (
+        <Card>
+          <UserGoal navigation={navigation} />
+        </Card>
+      )}
+
+      {template !== 'Partner' && (
+        <View style={styles.containerBtnItems}>
+          {template === 'Main' && (
+            <Card>
+              <TouchableOpacity>
+                <View style={styles.BtnItem}>
+                  <Icon
+                    type="font-awesome"
+                    name="barcode"
+                    color={COLOR.purple}
+                  />
+                  <Text style={styles.listItemText}>کد همسر</Text>
+                </View>
+              </TouchableOpacity>
+            </Card>
+          )}
+          <Card>
+            <TouchableOpacity>
+              <View style={styles.BtnItem}>
+                <Icon type="parto" name="ahkam" color={COLOR.purple} />
+                <Text style={styles.listItemText}>احکام</Text>
+              </View>
+            </TouchableOpacity>
+          </Card>
+          <Card>
+            <TouchableOpacity>
+              <View style={styles.BtnItem}>
+                <Icon type="parto" name="settings" color={COLOR.purple} />
+                <Text style={styles.listItemText}>تنظیمات دوره‌ها</Text>
+              </View>
+            </TouchableOpacity>
+          </Card>
+        </View>
+      )}
+      {/* <Card>
         <ListItem
           title="تنظیمات دوره‌ها"
           leftIcon={{ type: 'parto', name: 'settings', color: COLOR.purple }}
@@ -125,6 +172,7 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
           bottomDivider={template === 'Main' ? true : false}
         />
+
         {template === 'Main' && (
           <ListItem
             title="کد همسر"
@@ -140,18 +188,20 @@ const Menu = ({ navigation }) => {
             contentContainerStyle={styles.listItemContent}
           />
         )}
-      </Card>
-      <Card>
-        <ListItem
-          title="احکام"
-          leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.purple }}
-          chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-          onPress={() => navigateTo('Treatise')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-      </Card>
+      </Card> */}
+      {template === 'Partner' && (
+        <Card>
+          <ListItem
+            title="احکام"
+            leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.purple }}
+            chevron={{ name: 'chevron-left', type: 'font-awesome' }}
+            onPress={() => navigateTo('Treatise')}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+          />
+        </Card>
+      )}
       <Card>
         {/* <ListItem
           title="یادآوری‌ها"
