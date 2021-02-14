@@ -1,13 +1,21 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, Alert, ScrollView } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 
-// components and utils
+//redux
+import { useSelector, useDispatch } from 'react-redux';
+
+//store
+import { fetchInitialCycleData } from '../../store/actions/cycle';
+
+//components
 // import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
+import DialogBox from '../../components/DialogBox';
 import PickerListItem from '../../components/PickerListItem';
+
+//util
 import pregnancyModule from '../../util/pregnancy';
 import {
   deletePregnancyData,
@@ -15,9 +23,9 @@ import {
   updatePregnancyData,
   updateUserStatus,
 } from '../../util/database/query';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
+import useModal from '../../util/hooks/useModal';
 
-// styles
+//styles
 import styles from './styles';
 import { COLOR, FONT } from '../../styles/static';
 import globalStyles from '../../styles';
@@ -28,6 +36,8 @@ const PregnancyProfile = ({ navigation, route }) => {
   const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
+  const { isVisible, toggle } = useModal();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'پروفایل بارداری',
@@ -178,30 +188,31 @@ const PregnancyProfile = ({ navigation, route }) => {
           <Button
             title="حذف اطلاعات بارداری"
             //type="outline"
-            onPress={() =>
-              Alert.alert(
-                '',
-                'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
-                [
-                  {
-                    text: 'بله',
-                    onPress: async () => {
-                      await deletePregnancyData();
-                      await updateUserStatus(0, 0);
-                      dispatch(fetchInitialCycleData());
-                      navigation.pop();
-                    },
-                  },
-                  {
-                    text: 'خیر',
-                    onPress: () => {
-                      return;
-                    },
-                    style: 'cancel',
-                  },
-                ],
-                { cancelable: true },
-              )
+            onPress={
+              toggle
+              // Alert.alert(
+              //   '',
+              //   'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
+              //   [
+              //     {
+              //       text: 'بله',
+              //       onPress: async () => {
+              //         await deletePregnancyData();
+              //         await updateUserStatus(0, 0);
+              //         dispatch(fetchInitialCycleData());
+              //         navigation.pop();
+              //       },
+              //     },
+              //     {
+              //       text: 'خیر',
+              //       onPress: () => {
+              //         return;
+              //       },
+              //       style: 'cancel',
+              //     },
+              //   ],
+              //   { cancelable: true },
+              // )
             }
             // buttonStyle={styles.deleteContainer}
             // containerStyle={styles.deleteButton}
@@ -212,6 +223,21 @@ const PregnancyProfile = ({ navigation, route }) => {
           />
         </View>
       )}
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
+        text="آیا از حذف اطلاعات بارداری خود مطمئن هستید؟"
+        twoButtons
+        firstBtnPress={async () => {
+          toggle();
+          await deletePregnancyData();
+          await updateUserStatus(0, 0);
+          dispatch(fetchInitialCycleData());
+          navigation.pop();
+        }}
+        secondBtnPress={toggle}
+      />
     </ScrollView>
   );
 };
