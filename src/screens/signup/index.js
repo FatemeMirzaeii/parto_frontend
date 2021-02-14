@@ -7,8 +7,8 @@ import {
   Text,
   ToastAndroid,
   ImageBackground,
+  Alert,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   CodeField,
   Cursor,
@@ -18,9 +18,16 @@ import {
 import { Button } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
 
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+
+//store
+import { fetchInitialCycleData } from '../../store/actions/cycle';
+
 //components
 import Ptxt from '../../components/Ptxt';
 import Loader from '../../components/Loader';
+import DialogBox from '../../components/DialogBox';
 
 //store
 import { handleTemplate, setUser } from '../../store/actions/user';
@@ -29,6 +36,8 @@ import { interview, signUp } from '../../store/actions/auth';
 //util
 import DataBase from '../../util/database';
 import { storeData } from '../../util/func';
+import sync from '../../util/database/sync';
+import useModal from '../../util/hooks/useModal';
 
 //services
 import { devUrl } from '../../services/urls';
@@ -38,17 +47,14 @@ import bgImage from '../../../assets/images/00.png';
 
 //styles
 import styles from './styles';
-import sync from '../../util/database/sync';
-import { Alert } from 'react-native';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
   const [codeFieldActive, setCodeFieldActive] = useState(false);
-  const [inputActive, setInputActive] = useState(true);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [value, setValue] = useState('');
+  const { isVisible, toggle } = useModal();
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -111,7 +117,6 @@ const SignUp = ({ navigation }) => {
         console.log('res', res);
         setIsLoading(false);
         setCodeFieldActive(true);
-        setInputActive(false);
       })
       .catch((err) => {
         console.error(err, err.response);
@@ -160,19 +165,20 @@ const SignUp = ({ navigation }) => {
               res.data.data.type,
               template,
             );
-            return Alert.alert(
-              '',
-              'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
-              [
-                {
-                  text: 'باشه',
-                  onPress: async () => {
-                    return;
-                  },
-                },
-              ],
-              { cancelable: true },
-            );
+            return toggle();
+            // return Alert.alert(
+            //   '',
+            //   'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
+            //   [
+            //     {
+            //       text: 'باشه',
+            //       onPress: async () => {
+            //         return;
+            //       },
+            //     },
+            //   ],
+            //   { cancelable: true },
+            // );
 
             //todo: should ask for changing app template or not?
           } else {
@@ -241,7 +247,13 @@ const SignUp = ({ navigation }) => {
               ref={ref}
               {...props}
               value={value}
-              onChangeText={(text) => setValue(text)}
+              autoFocus
+              onChangeText={(text) => {
+                setValue(text);
+                if (value.length === 4) {
+                  Keyboard.dismiss();
+                }
+              }}
               cellCount={5}
               rootStyle={styles.codeFieldRoot}
               keyboardType="number-pad"
@@ -255,7 +267,6 @@ const SignUp = ({ navigation }) => {
                 </Text>
               )}
             />
-
             <Button
               title="تایید کد"
               containerStyle={styles.btnContainer}
@@ -266,6 +277,13 @@ const SignUp = ({ navigation }) => {
             />
           </>
         )}
+        <DialogBox
+          isVisible={isVisible}
+          hide={toggle}
+          text="پرتویی عزیز! پیش از این، با این شماره در نسخه‌ی دیگری ثبت‌نام کرده‌ای."
+          firstBtnPress={toggle}
+          firstBtnTitle="متوجه شدم"
+        />
       </SafeAreaView>
     </ImageBackground>
   );
