@@ -131,7 +131,8 @@ const Menu = ({ navigation }) => {
         <View style={styles.containerBtnItems}>
           {template === 'Main' && (
             <Card>
-              <TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => navigateTo('PartnerVerificationCode')}>
                 <View style={styles.BtnItem}>
                   <Icon
                     type="font-awesome"
@@ -144,7 +145,7 @@ const Menu = ({ navigation }) => {
             </Card>
           )}
           <Card>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigateTo('Treatise')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="ahkam" color={COLOR.purple} />
                 <Text style={styles.listItemText}>احکام</Text>
@@ -152,7 +153,7 @@ const Menu = ({ navigation }) => {
             </TouchableOpacity>
           </Card>
           <Card>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="settings" color={COLOR.purple} />
                 <Text style={styles.listItemText}>تنظیمات دوره‌ها</Text>
