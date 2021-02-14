@@ -1,22 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, Alert } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
+
+//redux
 import { useDispatch, useSelector } from 'react-redux';
-import styles from './styles';
+
+//store
+import { updatePerdictions } from '../../store/actions/cycle';
+
+//components
+import DialogBox from '../../components/DialogBox';
+
+//util
 import {
   getUserStatus,
   addPregnancy,
   updateUserStatus,
 } from '../../util/database/query';
+import useModal from '../../util/hooks/useModal';
+
+//styles
+import styles from './styles';
 import { COLOR } from '../../styles/static';
 import PregnancyModule from '../../util/pregnancy';
-import { updatePerdictions } from '../../store/actions/cycle';
 
 const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
   const dispatch = useDispatch();
   const template = useSelector((state) => state.user.template);
-
+  const { isVisible: firstvisible, toggle: firstToggle } = useModal();
+  const { isVisible: secondvisible, toggle: secondToggle } = useModal();
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
   useEffect(() => {
@@ -26,29 +39,32 @@ const UserGoal = ({ navigation }) => {
       }
     });
   }, [mode]);
+
   const onModePress = (i) => {
     if (template === 'Partner') return;
     if (mode === 2 && i !== 2) {
-      Alert.alert(
-        '',
-        'آیا میخواهید از حالت بارداری خارج شوید؟',
-        [
-          {
-            text: 'بله',
-            onPress: () => {
-              navigation.navigate('PregnancyProfile', { mode: i });
-            },
-          },
-          {
-            text: 'خیر',
-            onPress: () => {
-              return;
-            },
-            style: 'cancel',
-          },
-        ],
-        { cancelable: true },
-      );
+     firstToggle();
+
+      // Alert.alert(
+      //   '',
+      //   'آیا میخواهید از حالت بارداری خارج شوید؟',
+      //   [
+      //     {
+      //       text: 'بله',
+      //       onPress: () => {
+      //         navigation.navigate('PregnancyProfile', { mode: i });
+      //       },
+      //     },
+      //     {
+      //       text: 'خیر',
+      //       onPress: () => {
+      //         return;
+      //       },
+      //       style: 'cancel',
+      //     },
+      //   ],
+      //   { cancelable: true },
+      // );
     } else {
       switch (i) {
         case 0:
@@ -60,31 +76,32 @@ const UserGoal = ({ navigation }) => {
           setMode(i);
           break;
         case 2:
-          Alert.alert(
-            '',
-            'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
-            [
-              {
-                text: 'بله',
-                onPress: async () => {
-                  updateUserStatus(1, 0);
-                  const p = await PregnancyModule();
-                  await addPregnancy({ dueDate: p.determineDueDate() });
-                  setMode(i);
-                  dispatch(updatePerdictions());
-                  navigation.navigate('PregnancyProfile');
-                },
-              },
-              {
-                text: 'خیر',
-                onPress: () => {
-                  return;
-                },
-                style: 'cancel',
-              },
-            ],
-            { cancelable: true },
-          );
+          // Alert.alert(
+          //   '',
+          //   'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
+          //   [
+          //     {
+          //       text: 'بله',
+          //       onPress: async () => {
+          //         updateUserStatus(1, 0);
+          //         const p = await PregnancyModule();
+          //         await addPregnancy({ dueDate: p.determineDueDate() });
+          //         setMode(i);
+          //         dispatch(updatePerdictions());
+          //         navigation.navigate('PregnancyProfile');
+          //       },
+          //     },
+          //     {
+          //       text: 'خیر',
+          //       onPress: () => {
+          //         return;
+          //       },
+          //       style: 'cancel',
+          //     },
+          //   ],
+          //   { cancelable: true },
+          // );
+          secondToggle();
           break;
         default:
           break;
@@ -108,6 +125,33 @@ const UserGoal = ({ navigation }) => {
         textStyle={styles.text}
         innerBorderStyle={{ width: 0 }}
         buttonStyle={styles.goal}
+      />
+      <DialogBox
+        isVisible={firstvisible}
+        hide={firstToggle}
+        text="آیا میخواهید از حالت بارداری خارج شوید؟"
+        twoButtons
+        firstBtnPress={(i) => {
+          firstToggle();
+          navigation.navigate('PregnancyProfile', { mode: i });
+        }}
+        secondBtnPress={firstToggle}
+      />
+      <DialogBox
+        isVisible={secondvisible}
+        hide={secondToggle}
+        text="درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟"
+        twoButtons
+        firstBtnPress={async (i) => {
+          secondToggle();
+          updateUserStatus(1, 0);
+          const p = await PregnancyModule();
+          await addPregnancy({ dueDate: p.determineDueDate() });
+          setMode(i);
+          dispatch(updatePerdictions());
+          navigation.navigate('PregnancyProfile');
+        }}
+        secondBtnPress={secondToggle}
       />
     </SafeAreaView>
   );
