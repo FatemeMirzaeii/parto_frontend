@@ -119,4 +119,12 @@ export default StyleSheet.create({
     padding: 10,
     textAlign: 'center',
   },
+  helpTxt: {
+    textAlign: 'right',
+    fontFamily: FONT.regular,
+    fontWeight: 'normal',
+    margin: 7,
+    fontSize: 16,
+    lineHeight: 35,
+  },
 });

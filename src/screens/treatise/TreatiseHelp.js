@@ -7,7 +7,6 @@ import { HELP_TEXT } from '../../constants/treatise';
 
 //styles
 import { COLOR } from '../../styles/static';
-import commonStyles from '../../styles/commonStyles';
 import styles from './styles';
 
 const TreatiseHelp = ({ navigation }) => {
@@ -31,7 +30,7 @@ const TreatiseHelp = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView style={styles.contentContiner}>
-        <Text style={commonStyles.helpTxt}>{HELP_TEXT}</Text>
+        <Text style={styles.helpTxt}>{HELP_TEXT}</Text>
         <View style={styles.logosWrapper}>
           <Image
             style={styles.img}
