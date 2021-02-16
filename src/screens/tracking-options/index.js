@@ -16,16 +16,25 @@ import {
   FlatList,
   ImageBackground,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Carousel from 'react-native-snap-carousel';
 import { Icon, Overlay, ButtonGroup, Input } from 'react-native-elements';
 import ActionSheet from 'react-native-actions-sheet';
 import { SvgCss } from 'react-native-svg';
-import HTML from 'react-native-render-html';
+
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+
+//store
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+
+//components
 import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
 import Loader from '../../components/Loader';
+import HTMLRender from '../../components/HTMLRender';
+
+//constants
 import {
   BLEEDING,
   EXCERSICE,
@@ -44,6 +53,8 @@ import {
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
 import { DateContext } from '../../contexts';
+
+//util
 import {
   addTrackingOption,
   deselectTrackingOption,
@@ -54,17 +65,19 @@ import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import Tour from '../../util/tourGuide/Tour';
 import { calendarMarkedDatesObject } from '../../util/func';
-import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+
+//assets
 import MainBg from '../../../assets/images/main/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
+
+//styles
 import styles from './styles';
 import { COLOR, WIDTH } from '../../styles/static';
-import { HTMLTagsStyles } from '../../styles/commonStyles';
 
 const detailPageRef = createRef();
 
-const TrackingOptions = ({ route, navigation }) => {
+const TrackingOptions = ({ route }) => {
   const [date, setDate] = useState(route.params ? route.params.day : today);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -389,15 +402,10 @@ const TrackingOptions = ({ route, navigation }) => {
               color="red"
               size={20}
               onPress={toggleOverlay}
-              containerStyle={{ alignItems: 'flex-start' }}
+              containerStyle={styles.icon}
             />
-            <ScrollView style={{ margin: 5 }}>
-              <HTML
-                tagsStyles={HTMLTagsStyles}
-                html={overlayText}
-                ignoredStyles={['height', 'width']}
-                style={styles.HTML}
-              />
+            <ScrollView style={styles.htmlWrapper}>
+              <HTMLRender html={overlayText} />
             </ScrollView>
           </>
         </Overlay>

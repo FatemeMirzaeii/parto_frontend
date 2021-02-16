@@ -1,23 +1,21 @@
-import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import {
   Animated,
-  Dimensions,
   ImageBackground,
-  Linking,
   SafeAreaView,
   StatusBar,
   Text,
+  ToastAndroid,
   TouchableOpacity,
   View,
-  ToastAndroid,
 } from 'react-native';
-import axios from 'axios';
 import { Icon } from 'react-native-elements';
-import HTML from 'react-native-render-html';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import TextTicker from 'react-native-text-ticker';
 
 //components
+import HTMLRender from '../../components/HTMLRender';
 import Loader from '../../components/Loader';
 
 //services
@@ -25,9 +23,8 @@ import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
 
 //styles
-import styles from './styles';
 import { COLOR } from '../../styles/static';
-import { HTMLTagsStyles } from '../../styles/commonStyles';
+import styles from './styles';
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
@@ -132,20 +129,7 @@ const ArticleDetails = ({ route, navigation }) => {
 
   const _renderBody = () => (
     <View style={styles.contentContiner}>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <HTML
-          tagsStyles={HTMLTagsStyles}
-          html={articleBody.toString()}
-          ignoredStyles={['height', 'width']}
-          imagesMaxWidth={Dimensions.get('window').width}
-          style={styles.HTML}
-          onLinkPress={(e, url) => {
-            Linking.openURL(url);
-          }}
-        />
-      )}
+      {isLoading ? <Loader /> : <HTMLRender html={articleBody.toString()} />}
     </View>
   );
 

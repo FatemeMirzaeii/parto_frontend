@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useLayoutEffect } from 'react';
-import { Dimensions, Linking, SafeAreaView, ToastAndroid } from 'react-native';
 import axios from 'axios';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
+import { SafeAreaView, ScrollView, ToastAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { ScrollView } from 'react-native-gesture-handler';
-import HTML from 'react-native-render-html';
+
+//components
+import HTMLRender from '../../components/HTMLRender';
+import Loader from '../../components/Loader';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -12,8 +14,6 @@ import { articlesBaseUrl } from '../../services/urls';
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
-import { HTMLTagsStyles } from '../../styles/commonStyles';
-import Loader from '../../components/Loader';
 
 const TreatiseDetails = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -74,16 +74,7 @@ const TreatiseDetails = ({ route, navigation }) => {
         <Loader />
       ) : (
         <ScrollView style={styles.contentContiner}>
-          <HTML
-            tagsStyles={HTMLTagsStyles}
-            html={articleBody.toString()}
-            ignoredStyles={['height', 'width']}
-            imagesMaxWidth={Dimensions.get('window').width}
-            style={styles.HTML}
-            onLinkPress={(event, url) => {
-              Linking.openURL(url);
-            }}
-          />
+          <HTMLRender html={articleBody.toString()} />
         </ScrollView>
       )}
     </SafeAreaView>

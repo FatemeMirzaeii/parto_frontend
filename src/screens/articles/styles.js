@@ -92,9 +92,6 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     alignItems: 'center',
   },
-  HTML: {
-    width: '100%',
-  },
   contentContiner: {
     flex: 1,
     padding: 10,

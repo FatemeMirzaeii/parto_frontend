@@ -11,7 +11,6 @@ export default StyleSheet.create({
     height: '100%',
     paddingTop: 25,
   },
-
   sliderWrapper: {
     backgroundColor: 'white',
     height: '75%',
@@ -136,5 +135,11 @@ export default StyleSheet.create({
     height: 75,
     width: 50,
     fontFamily: FONT.regular,
+  },
+  icon: {
+    alignItems: 'flex-start',
+  },
+  htmlWrapper: {
+    margin: 5,
   },
 });

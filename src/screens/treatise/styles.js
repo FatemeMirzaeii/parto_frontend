@@ -62,7 +62,6 @@ export default StyleSheet.create({
     height: 90,
     borderRadius: 20,
   },
-  HTML: { width: '100%' },
   contentContiner: {
     padding: 10,
     flex: 1,
