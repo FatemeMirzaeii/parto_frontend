@@ -64,6 +64,7 @@ const ArticlesList = ({ route, navigation }) => {
             //console.log('response', response);
             const dataSource = response.data.results;
             const imgUrl = [];
+
             for (let j = 0; j < dataSource.length; j++) {
               imgUrl.push(
                 `${articlesBaseUrl}${
@@ -87,12 +88,9 @@ const ArticlesList = ({ route, navigation }) => {
               );
             }
           }
-
-          if (!isCancelled) {
-            setArticle([...article, ...arts]);
-            setData([...article, ...arts]);
-            setVisible(true);
-          }
+          setArticle([...article, ...arts]);
+          setData([...article, ...arts]);
+          setVisible(true);
         }
       } catch (err) {
         console.error(err, err.response);
