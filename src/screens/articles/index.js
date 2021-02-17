@@ -142,6 +142,7 @@ const Articles = ({ navigation }) => {
               cover: imgUrl[0],
               image: imgUrl,
               catName: temp1[3].title,
+              catId: temp1[3].id,
               id: con[i].content.id,
             };
             if (!isCancelled) {
