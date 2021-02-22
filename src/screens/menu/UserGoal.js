@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, Alert } from 'react-native';
+import { SafeAreaView, View, Text } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
 
 //redux
@@ -43,28 +43,7 @@ const UserGoal = ({ navigation }) => {
   const onModePress = (i) => {
     if (template === 'Partner') return;
     if (mode === 2 && i !== 2) {
-     firstToggle();
-
-      // Alert.alert(
-      //   '',
-      //   'آیا میخواهید از حالت بارداری خارج شوید؟',
-      //   [
-      //     {
-      //       text: 'بله',
-      //       onPress: () => {
-      //         navigation.navigate('PregnancyProfile', { mode: i });
-      //       },
-      //     },
-      //     {
-      //       text: 'خیر',
-      //       onPress: () => {
-      //         return;
-      //       },
-      //       style: 'cancel',
-      //     },
-      //   ],
-      //   { cancelable: true },
-      // );
+      firstToggle();
     } else {
       switch (i) {
         case 0:
@@ -76,31 +55,6 @@ const UserGoal = ({ navigation }) => {
           setMode(i);
           break;
         case 2:
-          // Alert.alert(
-          //   '',
-          //   'درحال فعالسازی حالت بارداری هستید. آیا مطمئنید؟',
-          //   [
-          //     {
-          //       text: 'بله',
-          //       onPress: async () => {
-          //         updateUserStatus(1, 0);
-          //         const p = await PregnancyModule();
-          //         await addPregnancy({ dueDate: p.determineDueDate() });
-          //         setMode(i);
-          //         dispatch(updatePerdictions());
-          //         navigation.navigate('PregnancyProfile');
-          //       },
-          //     },
-          //     {
-          //       text: 'خیر',
-          //       onPress: () => {
-          //         return;
-          //       },
-          //       style: 'cancel',
-          //     },
-          //   ],
-          //   { cancelable: true },
-          // );
           secondToggle();
           break;
         default:

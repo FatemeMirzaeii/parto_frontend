@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { View, Alert, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 
@@ -27,8 +27,7 @@ import useModal from '../../util/hooks/useModal';
 
 //styles
 import styles from './styles';
-import { COLOR, FONT } from '../../styles/static';
-import globalStyles from '../../styles';
+import { COLOR } from '../../styles/static';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
@@ -178,45 +177,13 @@ const PregnancyProfile = ({ navigation, route }) => {
             onPress={() =>
               navigation.navigate('PregnancyEnd', { ...route.params })
             }
-            // buttonStyle={styles.saveContainer}
-            // containerStyle={styles.saveButton}
-            // titleStyle={styles.saveTitle}
             containerStyle={styles.btnContainer}
             buttonStyle={styles.button}
             titleStyle={styles.btnTitle}
           />
           <Button
             title="حذف اطلاعات بارداری"
-            //type="outline"
-            onPress={
-              toggle
-              // Alert.alert(
-              //   '',
-              //   'آیا از حذف اطلاعات بارداری خود مطمئن هستید؟',
-              //   [
-              //     {
-              //       text: 'بله',
-              //       onPress: async () => {
-              //         await deletePregnancyData();
-              //         await updateUserStatus(0, 0);
-              //         dispatch(fetchInitialCycleData());
-              //         navigation.pop();
-              //       },
-              //     },
-              //     {
-              //       text: 'خیر',
-              //       onPress: () => {
-              //         return;
-              //       },
-              //       style: 'cancel',
-              //     },
-              //   ],
-              //   { cancelable: true },
-              // )
-            }
-            // buttonStyle={styles.deleteContainer}
-            // containerStyle={styles.deleteButton}
-            // titleStyle={styles.deleteTitle}
+            onPress={toggle}
             containerStyle={styles.btnContainer}
             buttonStyle={styles.deletebutton}
             titleStyle={styles.deleteBtnTitle}

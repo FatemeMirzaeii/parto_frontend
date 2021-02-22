@@ -7,7 +7,6 @@ import {
   Text,
   ToastAndroid,
   ImageBackground,
-  Alert,
 } from 'react-native';
 import {
   CodeField,
@@ -166,20 +165,6 @@ const SignUp = ({ navigation }) => {
               template,
             );
             return toggle();
-            // return Alert.alert(
-            //   '',
-            //   'شما قبلا با این حساب کاربری در نوع دیگری از پرتو ثبت نام کرده‌اید.',
-            //   [
-            //     {
-            //       text: 'باشه',
-            //       onPress: async () => {
-            //         return;
-            //       },
-            //     },
-            //   ],
-            //   { cancelable: true },
-            // );
-
             //todo: should ask for changing app template or not?
           } else {
             setIsLoading(true);
@@ -280,7 +265,7 @@ const SignUp = ({ navigation }) => {
         <DialogBox
           isVisible={isVisible}
           hide={toggle}
-          text="پرتویی عزیز! پیش از این، با این شماره در نسخه‌ی دیگری ثبت‌نام کرده‌ای."
+          text="پرتویی عزیز! پیش از این، با این شماره در نسخه‌ی دیگری از پرتو ثبت‌نام کرده‌ای."
           firstBtnPress={toggle}
           firstBtnTitle="متوجه شدم"
         />
