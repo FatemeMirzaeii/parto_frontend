@@ -6,9 +6,8 @@ import {
   Image,
   View,
   Text,
-  Alert,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import Carousel from 'react-native-snap-carousel';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -32,7 +31,7 @@ import Partner from '../../../assets/images/partner/avatar.png';
 
 const Template = ({ navigation }) => {
   const [activeSlide, setActiveSlide] = useState(1);
-  const userMode = useSelector((state) => state.user);
+  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
   const carousel = [
@@ -78,7 +77,7 @@ const Template = ({ navigation }) => {
 
   const _handlePartnerSelected = useCallback(async () => {
     dispatch(handleTemplate('Partner'));
-    if (!userMode.id) {
+    if (!user.id) {
       toggle();
       // return Alert.alert(
       //   '',
@@ -94,7 +93,7 @@ const Template = ({ navigation }) => {
       //   { cancelable: true },
       // );
     } else navigation.navigate('PartnerCode');
-  }, [dispatch, navigation, userMode.id, toggle]);
+  }, [dispatch, navigation, user.id, toggle]);
 
   const _renderItem = ({ item, index }) => {
     return (
@@ -105,6 +104,14 @@ const Template = ({ navigation }) => {
   };
   return (
     <ImageBackground source={Background} style={styles.bg}>
+      <Button
+        title="خروج"
+        type="clear"
+        onPress={() => dispatch(signOut())}
+        icon={{ type: 'parto', name: 'exit', color: COLOR.textColor }}
+        buttonStyle={styles.button}
+        titleStyle={styles.title}
+      />
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.title}>به پرتو خوش‌اومدی</Text>
@@ -153,6 +160,7 @@ const Template = ({ navigation }) => {
           hide={toggle}
           text="برای استفاده از این نسخه نرم‌افزار باید ثبت نام کنید."
           twoButtons
+          firstBtnTitle="باشه"
           firstBtnPress={() => {
             toggle;
             dispatch(signOut());

@@ -1,10 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, SIZE, FONT, WIDTH, HEIGHT } from '../../styles/static';
+import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: HEIGHT / 3.5,
+    marginTop: HEIGHT / 4.5,
     justifyContent: 'space-around',
   },
   bg: {
@@ -57,5 +57,12 @@ export default StyleSheet.create({
     elevation: 1,
     borderRadius: 30,
     width: 130,
+  },
+  button: {
+    flexDirection: 'row-reverse',
+    width: 100,
+    alignSelf: 'flex-end',
+    top: 25,
+    marginBottom: 20,
   },
 });
