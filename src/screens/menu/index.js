@@ -92,30 +92,9 @@ const Menu = ({ navigation }) => {
       shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):\n${link}`);
     });
   };
-  const clearData = async () => {
-    Alert.alert(
-      '',
-      'با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟',
-      [
-        {
-          text: 'بله',
-          onPress: async () => {
-            setIsLoading(true);
-            await resetDatabase();
-            dispatch(fetchInitialCycleData());
-            setIsLoading(false);
-          },
-        },
-        {
-          text: 'خیر',
-          onPress: () => {
-            return;
-          },
-          style: 'cancel',
-        },
-      ],
-      { cancelable: true },
-    );
+  const exit = async () => {
+    await sync();
+    dispatch(signOut());
   };
   return (
     <ScrollView style={styles.container}>
@@ -303,7 +282,6 @@ const Menu = ({ navigation }) => {
                 color: COLOR.purple,
               }}
               chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-              // onPress={clearData}
               onPress={toggle}
               titleStyle={styles.listItemText}
               containerStyle={styles.listItem}
@@ -317,7 +295,7 @@ const Menu = ({ navigation }) => {
             title="خروج"
             leftIcon={{ type: 'parto', name: 'exit', color: COLOR.purple }}
             chevron={{ name: 'chevron-left', type: 'font-awesome' }}
-            onPress={() => dispatch(signOut())}
+            onPress={exit}
             titleStyle={styles.listItemText}
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
