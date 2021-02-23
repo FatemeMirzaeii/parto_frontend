@@ -31,7 +31,7 @@ const PlusButton = (props) => {
         onPress={() => props.navigation.navigate('TrackingOptions')}
         name="lady"
         type="parto"
-        color={COLOR.pink} 
+        color={COLOR.pink}
         size={35}
         containerStyle={{
           borderRadius: 40,

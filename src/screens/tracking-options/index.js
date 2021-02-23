@@ -78,6 +78,7 @@ import { COLOR, WIDTH } from '../../styles/static';
 const detailPageRef = createRef();
 
 const TrackingOptions = ({ route }) => {
+  const { today } = useContext(DateContext);
   const [date, setDate] = useState(route.params ? route.params.day : today);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [activeIndex, setActiveIndex] = useState(0);
@@ -90,7 +91,6 @@ const TrackingOptions = ({ route }) => {
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
-  const { today } = useContext(DateContext);
   const categoryCarousel = useRef(null);
   const optionsCarousel = useRef(null);
 
