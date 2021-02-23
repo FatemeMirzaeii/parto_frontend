@@ -11,10 +11,11 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         key={'calendarIcon'}
         title={'calendarIcon'}
         ref={(ref) => {
-          if (!ref) return;
-          const calendarIcon = ref;
+          if (!ref) {
+            return;
+          }
           let props = {
-            order: 12,
+            order: 13,
             title: 'تقویم پرتو',
             description: 'از این‌جا می‌تونی تقویمت رو ببینی',
             descriptionTextSize: 15,

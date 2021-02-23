@@ -12,8 +12,9 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
       onPress={onPress}
       style={styles.bottomWrapper}
       ref={(ref) => {
-        if (!ref) return;
-        const submitbtn = ref;
+        if (!ref) {
+          return;
+        }
         let props = {
           order: 12,
           title: 'ثبت تغییرات روزها',

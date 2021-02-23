@@ -4,7 +4,7 @@ import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
 import { COLOR, FONT, SIZE } from '../styles/static';
 
-const GoTodayButton = ({ addAppTourTarget, onPress, editMode }) => {
+const GoTodayButton = ({ addAppTourTarget, onPress }) => {
   return (
     <TouchableOpacity
       key={'goToday'}
@@ -12,8 +12,9 @@ const GoTodayButton = ({ addAppTourTarget, onPress, editMode }) => {
       onPress={onPress}
       style={styles.bottomButton}
       ref={(ref) => {
-        if (!ref) return;
-        const goToday = ref;
+        if (!ref) {
+          return;
+        }
         let props = {
           order: 11,
           title: 'برو به امروز',

@@ -11,8 +11,9 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
       onPress={onPress}
       style={styles.smallHeaderBtn}
       ref={(ref) => {
-        if (!ref) return;
-        const settingbtn = ref;
+        if (!ref) {
+          return;
+        }
         let props = {
           order: 11,
           title: 'ثبت تغییرات دوره‌ها',

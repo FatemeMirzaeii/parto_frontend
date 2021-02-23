@@ -10,8 +10,9 @@ const CalendarPointer = ({ addAppTourTarget }) => {
       key={'calendarPointer'}
       title={'calendarPointer'}
       ref={(ref) => {
-        if (!ref) return;
-        const calendarPointer = ref;
+        if (!ref) {
+          return;
+        }
         let targetprops = {
           order: 11,
           title: 'تقویم شرح حال',
@@ -38,7 +39,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'absolute',
     top: 40,
-    left: WIDTH - 60,
+    left: WIDTH * 0.5,
   },
 });
 

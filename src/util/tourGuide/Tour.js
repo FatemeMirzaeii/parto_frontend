@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { DeviceEventEmitter } from 'react-native';
 import { getData, storeData } from '../func';
 import { AppTour, AppTourSequence } from 'react-native-app-tour';
@@ -8,7 +8,7 @@ const Tour = (appTourTargets, key, storeKey) => {
 
   useEffect(() => {
     registerFinishSequenceEvent();
-  }, []);
+  }, [registerFinishSequenceEvent]);
 
   useEffect(() => {
     if (!appTour) {
@@ -21,13 +21,13 @@ const Tour = (appTourTargets, key, storeKey) => {
       }, 100);
       return () => clearTimeout(appTourSequence);
     }
-  }, [appTour]);
+  }, [appTour, appTourTargets]);
 
   useEffect(() => {
     checkIfAppTourIsNeeded();
-  }, []);
+  }, [checkIfAppTourIsNeeded]);
 
-  const registerFinishSequenceEvent = () => {
+  const registerFinishSequenceEvent = useCallback(() => {
     if (finishSequenceListener) {
       finishSequenceListener.remove();
     }
@@ -42,11 +42,12 @@ const Tour = (appTourTargets, key, storeKey) => {
         await storeData(storeKey, 'true');
       },
     );
-  };
-  const checkIfAppTourIsNeeded = async () => {
+  }, [appTourTargets, key, storeKey]);
+
+  const checkIfAppTourIsNeeded = useCallback(async () => {
     const keyInStore = await getData(storeKey);
     setAppTour(keyInStore);
-  };
+  }, [storeKey]);
 };
 
 export default Tour;
