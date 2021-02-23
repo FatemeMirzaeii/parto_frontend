@@ -40,6 +40,7 @@ import useModal from '../../util/hooks/useModal';
 
 //services
 import { devUrl } from '../../services/urls';
+import api from '../../services/api';
 
 //assets
 import bgImage from '../../../assets/images/00.png';
@@ -127,7 +128,14 @@ const SignUp = ({ navigation }) => {
         }
       });
   };
-
+  const setVersionType = async (userId, type) => {
+    await api({
+      method: 'POST',
+      url: `/user/versionType/${userId}/fa`,
+      dev: true,
+      data: { type },
+    });
+  };
   const _handleLogin = () => {
     //setIsLoading(true);
     axios({
@@ -143,6 +151,7 @@ const SignUp = ({ navigation }) => {
     })
       .then(async (res) => {
         const id = res.data.data.id;
+        const type = res.data.data.type;
         storeData('@token', res.headers['x-auth-token']);
         //to maryam:
         //2. now that we are inserting a row for user it is better to save all data, such as phone number.
@@ -154,26 +163,18 @@ const SignUp = ({ navigation }) => {
           'user',
         );
         dispatch(setUser(id, phoneNumber));
-        if (res.data.data.type) {
-          if (template && template !== res.data.data.type) {
-            // this will happen if user is using the app offline and wants to signup,
-            // but will signup with a number that has been registered already.
-            console.log(
-              '%c res.data.data.type:',
-              'background: yellow; color: red',
-              res.data.data.type,
-              template,
-            );
-            return toggle();
-            //todo: should ask for changing app template or not?
-          } else {
-            setIsLoading(true);
-            dispatch(interview());
-            await sync();
-            dispatch(handleTemplate(res.data.data.type));
-            dispatch(signUp());
-            dispatch(fetchInitialCycleData());
-          }
+        if (type || template) {
+          if (!template) dispatch(handleTemplate(type));
+          else if (!type) setVersionType(id, template);
+          // todo: if this api returns error?
+          else if (template !== type) return toggle();
+          // last else if will happen if user is using the app offline and wants to signup,
+          // but will signup with a number that has been registered already and they dont match.
+          // todo: should ask for changing app template or not?
+          setIsLoading(true);
+          dispatch(interview());
+          await sync();
+          dispatch(fetchInitialCycleData());
         }
         dispatch(signUp());
       })

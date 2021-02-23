@@ -77,22 +77,7 @@ const Template = ({ navigation }) => {
 
   const _handlePartnerSelected = useCallback(async () => {
     dispatch(handleTemplate('Partner'));
-    if (!user.id) {
-      toggle();
-      // return Alert.alert(
-      //   '',
-      //   'برای استفاده از این نسخه نرم‌افزار باید ثبت نام کنید.',
-      //   [
-      //     {
-      //       text: 'باشه',
-      //       onPress: () => {
-      //         dispatch(signOut());
-      //       },
-      //     },
-      //   ],
-      //   { cancelable: true },
-      // );
-    } else navigation.navigate('PartnerCode');
+    !user.id ? toggle() : navigation.navigate('PartnerCode');
   }, [dispatch, navigation, user.id, toggle]);
 
   const _renderItem = ({ item, index }) => {

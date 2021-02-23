@@ -27,7 +27,11 @@ export default async () => {
     url: `/profile/syncProfile/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
-  if (profileData.data.data && profileData.data.data.length !== 0) {
+  if (
+    profileData &&
+    profileData.data.data &&
+    profileData.data.data.length !== 0
+  ) {
     console.log('herereeeeeeee', profileData.data.data);
     addProfileData(profileData.data.data[0]);
   }
@@ -35,7 +39,11 @@ export default async () => {
     url: `/pregnancy/syncPregnancyInfo/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
-  if (pregnancyInfo.data.data && pregnancyInfo.data.data.length !== 0) {
+  if (
+    pregnancyInfo &&
+    pregnancyInfo.data.data &&
+    pregnancyInfo.data.data.length !== 0
+  ) {
     pregnancyInfo.data.data.forEach((i) => {
       addPregnancy(i);
     });
@@ -44,7 +52,7 @@ export default async () => {
     url: `/healthTracking/syncUserInfo/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
-  if (userInfo.data.data && userInfo.data.data.length !== 0) {
+  if (userInfo && userInfo.data.data && userInfo.data.data.length !== 0) {
     userInfo.data.data.forEach((i) => {
       addTrackingOption(i.tracking_option_id, i.date);
     });

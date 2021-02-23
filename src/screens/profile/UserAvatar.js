@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { TouchableOpacity, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar, Input, Button } from 'react-native-elements';
 
@@ -37,16 +37,6 @@ const UserAvatar = ({ navigation }) => {
   return (
     <View>
       {!isRegistered && (
-        // <TouchableOpacity
-        //   style={styles.register}
-        //   onPress={async () => {
-        //     await removeData('@token');
-        //     dispatch(signUp());
-        //   }}>
-        //   <Text style={[styles.text, { color: COLOR.white }]}>
-        //     شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
-        //   </Text>
-        // </TouchableOpacity>
         <View style={styles.box}>
           <Text style={[styles.text, { color: COLOR.black, padding: 20 }]}>
             شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
@@ -67,12 +57,11 @@ const UserAvatar = ({ navigation }) => {
         size="xlarge"
         //todo: avatar loads really slow
         source={
-          (user.template === 'Main'
+          user.template === 'Main'
             ? MainAvatar
             : user.template === 'Partner'
             ? PartnerAvatar
-            : TeenagerAvatar,
-          { cache: 'force-cache' })
+            : TeenagerAvatar
         }
         imageProps={{ resizeMode: 'center' }}
         containerStyle={styles.avatar}
