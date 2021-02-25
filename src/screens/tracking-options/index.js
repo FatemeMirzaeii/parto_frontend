@@ -212,6 +212,13 @@ const TrackingOptions = ({ route }) => {
     if (option.selected.length > 0) {
       await deselectTrackingOption(option.id, date);
       getInitialData();
+      if (category.id === BLEEDING) {
+        const {
+          [date]: {},
+          ...periodDays
+        } = cycle.periodDays;
+        dispatch(updatePeriodDays(periodDays));
+      }
     } else {
       if (category.hasMultipleChoice) {
         //this will add new option to others
@@ -235,13 +242,7 @@ const TrackingOptions = ({ route }) => {
     }
     if (category.id === BLEEDING) {
       await c.determineLastPeriodDate();
-      if (date in cycle.periodDays) {
-        const {
-          [date]: {},
-          ...periodDays
-        } = cycle.periodDays;
-        dispatch(updatePeriodDays(periodDays));
-      } else {
+      if (!(date in cycle.periodDays)) {
         dispatch(
           updatePeriodDays({
             ...cycle.periodDays,
