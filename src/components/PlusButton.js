@@ -1,9 +1,7 @@
 import React from 'react';
-import { Text } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
-import { useSelector } from 'react-redux';
 
 const PlusButton = (props) => {
   return (
@@ -15,7 +13,6 @@ const PlusButton = (props) => {
         title={'plusIcon'}
         ref={(ref) => {
           if (!ref) return;
-          const plusIcon = ref;
           let tprops = {
             order: 11,
             title: 'شرح حال من',

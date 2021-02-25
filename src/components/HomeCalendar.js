@@ -10,10 +10,11 @@ const HomeCalendar = ({ addAppTourTarget }) => {
       key={'weeklyCalendar'}
       title={'weeklyCalendar'}
       ref={(ref) => {
-        if (!ref) return;
-        const weeklyCalendar = ref;
+        if (!ref) {
+          return;
+        }
         let targetprops = {
-          order: 11,
+          order: 12,
           title: 'برشی از تقویم',
           description: 'ورق بزن و تاریخ‌های قبلی و بعدی رو ببین',
           descriptionTextSize: 15,
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     position: 'absolute',
     top: 40,
-    left: WIDTH - 60,
+    left: WIDTH * 0.5,
   },
 });
 

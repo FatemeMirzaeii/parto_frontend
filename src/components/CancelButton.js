@@ -12,8 +12,9 @@ const CancelButton = ({ addAppTourTarget, onPress }) => {
       onPress={onPress}
       style={styles.bottomWrapper}
       ref={(ref) => {
-        if (!ref) return;
-        const cancelbtn = ref;
+        if (!ref) {
+          return;
+        }
         let props = {
           order: 21,
           title: 'انصراف از ویرایش',

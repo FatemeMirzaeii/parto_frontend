@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
 import { COLOR, FONT, SIZE } from '../styles/static';
 
 const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
@@ -13,8 +12,9 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
       onPress={onPress}
       style={styles.bottomButton}
       ref={(ref) => {
-        if (!ref) return;
-        const redDaysSave = ref;
+        if (!ref) {
+          return;
+        }
         let props = {
           order: 12,
           title: 'ویرایش پریود',
