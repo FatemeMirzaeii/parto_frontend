@@ -29,18 +29,19 @@ const Analysis = ({ navigation }) => {
     initialData();
   }, []);
   useEffect(() => {
+    const popped = cycles.splice(0, cycles.length - 1);
     setAvgCycleLength(
       Math.round(
-        cycles.reduce((a, b) => parseInt(a) + b.length, 0) / cycles.length,
+        popped.reduce((a, b) => parseInt(a) + b.length, 0) / popped.length,
       ),
     );
     setAvgPeriodLength(
       Math.round(
-        cycles.reduce(
+        popped.reduce(
           (a, b) =>
             parseInt(a) + b.filter((obj) => obj.type === 'period').length,
           0,
-        ) / cycles.length,
+        ) / popped.length,
       ),
     );
   }, [cycles]);
