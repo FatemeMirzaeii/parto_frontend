@@ -1,6 +1,6 @@
 import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useRef, useState, useEffect } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -11,7 +11,7 @@ import SplashScreen from 'react-native-splash-screen';
 import PartoIcon from './util/customIcon';
 import configureStore from './store';
 import { fetchInitialCycleData } from './store/actions/cycle';
-import { restoreToken, signOut } from './store/actions/auth';
+import { restoreToken } from './store/actions/auth';
 import lock from './util/lock';
 import setupNotifications from './util/notifications';
 import { migration } from './util/database/migration';
@@ -32,31 +32,31 @@ import sync from './util/database/sync';
 const App: () => React$Node = () => {
   const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
-  const [appStateVisible, setAppStateVisible] = useState(appState.current);
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
     AppState.addEventListener('change', _handleAppStateChange);
-    launchApp();
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, [appStateVisible]);
+  }, []);
 
   const launchApp = async () => {
-    // store.dispatch(signOut());
     store.dispatch(restoreToken());
     setupNotifications();
     await migration();
     NetInfo.addEventListener((state) => {
       const token = store.getState().auth.userToken;
       if (state.isConnected && token && token !== 'dummyToken') sync();
+      else
+        console.log('No Internet Connection Is Available To Sync With Server.');
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
   };
 
   const _handleAppStateChange = (nextAppState) => {
+    launchApp();
     if (
       appState.current.match(/inactive|background/) &&
       nextAppState === 'active'
@@ -64,7 +64,6 @@ const App: () => React$Node = () => {
       lock();
     }
     appState.current = nextAppState;
-    setAppStateVisible(appState.current);
   };
 
   return (
