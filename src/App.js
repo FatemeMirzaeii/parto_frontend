@@ -49,7 +49,10 @@ const App: () => React$Node = () => {
       const token = store.getState().auth.userToken;
       if (state.isConnected && token && token !== 'dummyToken') sync();
       else
-        console.log('No Internet Connection Is Available To Sync With Server.');
+        console.log(
+          '%c No Internet Connection Is Available To Sync With Server.',
+          'background: yellow',
+        );
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
