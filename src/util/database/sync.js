@@ -27,7 +27,6 @@ export default async () => {
     url: `/profile/syncProfile/${user.id}/${lastSyncTime ?? null}/fa`,
     dev: true,
   });
-  console.log('herrrrrrreeeeeee in user onfo', profileData);
   if (
     profileData &&
     profileData.data &&
