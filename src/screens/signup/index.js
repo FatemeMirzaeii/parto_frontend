@@ -162,13 +162,12 @@ const SignUp = ({ navigation }) => {
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
-        dispatch(setUser(id, phoneNumber));
         if (type || template) {
           if (!template) dispatch(handleTemplate(type));
           else if (!type) setVersionType(id, template);
           // todo: if this api returns error?
           else if (template !== type) return toggle();
-          // last else if will happen if user is using the app offline and wants to signup,
+          // this else if will happen if user is using the app offline and wants to signup,
           // but will signup with a number that has been registered already and they dont match.
           // todo: should ask for changing app template or not?
           setIsLoading(true);
@@ -176,6 +175,7 @@ const SignUp = ({ navigation }) => {
           await sync();
           dispatch(fetchInitialCycleData());
         }
+        dispatch(setUser(id, phoneNumber));
         dispatch(signUp());
       })
       .catch((err) => {
