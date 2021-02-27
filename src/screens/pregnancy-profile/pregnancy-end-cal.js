@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import { Calendar } from 'react-native-jalali-calendars';
+import Calendar from '../../components/Calendar';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 import PregnancyModule from '../../util/pregnancy';
 import CycleModule from '../../util/cycle';
 import { endPregnancy, updateUserStatus } from '../../util/database/query';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
+import {
+  fetchInitialCycleData,
+  setPregnancyMode,
+} from '../../store/actions/cycle';
 import { FORMAT } from '../../constants/cycle';
 const today = moment();
 
@@ -28,6 +30,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     route.params.mode ? updateUserStatus(0, 1) : updateUserStatus(0, 0);
     await p.determineNefasDays(selectedDate);
     await c.determineLastPeriodDate();
+    dispatch(setPregnancyMode(0));
     dispatch(fetchInitialCycleData());
     navigation.popToTop();
   };
@@ -49,38 +52,16 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
           alignItems: 'center',
           alignSelf: 'center',
           marginTop: '50%',
-          //backgroundColor: 'red',
         }}>
         <Text style={styles.question}>{determineTitle()}</Text>
-        {/* todo: should import this calendar from components. */}
         <Calendar
-          firstDay={6}
-          jalali
-          enableSwipeMonths
           onDayPress={(day) => {
             setSelectedDate(day.dateString);
           }}
           markedDates={{
             [selectedDate]: { selected: true },
           }}
-          markingType="multi-period"
           maxDate={today.format(FORMAT)}
-          disableAllTouchEventsForDisabledDays
-          hideExtraDays
-          theme={{
-            textSectionTitleColor: '#111111',
-            calendarBackground: 'transparent',
-            selectedDayTextColor: '#ffffff',
-            textDisabledColor: COLOR.textColorDark,
-            textDayFontFamily: FONT.regular,
-            textMonthFontFamily: FONT.regular,
-            textDayHeaderFontFamily: FONT.regular,
-            selectedDayBackgroundColor: COLOR.purple,
-            textDayHeaderFontSize: 8,
-            arrowColor: COLOR.purple,
-            todayTextColor: COLOR.purple,
-          }}
-          style={styles.calendar}
         />
         <Button
           title="ذخیره"

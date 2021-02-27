@@ -28,6 +28,7 @@ const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
   const dispatch = useDispatch();
   const template = useSelector((state) => state.user.template);
+  const isPregnant = useSelector((state) => state.cycle.isPregnant);
   const { isVisible: firstvisible, toggle: firstToggle } = useModal();
   const { isVisible: secondvisible, toggle: secondToggle } = useModal();
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
@@ -35,10 +36,10 @@ const UserGoal = ({ navigation }) => {
   useEffect(() => {
     getUserStatus().then((res) => {
       if (res) {
-        res.pregnant ? setMode(2) : res.pregnancy_try ? setMode(1) : setMode(0);
+        isPregnant ? setMode(2) : res.pregnancy_try ? setMode(1) : setMode(0);
       }
     });
-  }, [mode]);
+  }, [isPregnant]);
 
   const onModePress = (i) => {
     if (template === 'Partner') return;

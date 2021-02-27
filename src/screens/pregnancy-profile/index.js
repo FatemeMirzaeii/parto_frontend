@@ -7,7 +7,10 @@ import jalaali from 'moment-jalaali';
 import { useSelector, useDispatch } from 'react-redux';
 
 //store
-import { fetchInitialCycleData } from '../../store/actions/cycle';
+import {
+  fetchInitialCycleData,
+  setPregnancyMode,
+} from '../../store/actions/cycle';
 
 //components
 // import PregnancyPicker from '../../components/PregnancyPicker';
@@ -89,7 +92,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         <ListItem
           title="سن بارداری"
           rightTitle={
-            pregnancyWeek
+            pregnancyWeek >= 0
               ? `${pregnancyWeek} هفته ${
                   pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
                 }`
@@ -200,6 +203,7 @@ const PregnancyProfile = ({ navigation, route }) => {
           toggle();
           await deletePregnancyData();
           await updateUserStatus(0, 0);
+          dispatch(setPregnancyMode(0));
           dispatch(fetchInitialCycleData());
           navigation.pop();
         }}
