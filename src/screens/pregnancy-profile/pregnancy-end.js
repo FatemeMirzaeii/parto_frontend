@@ -35,15 +35,6 @@ const PregnancyEnd = ({ navigation, route }) => {
         selectedButtonStyle={{ backgroundColor: COLOR.pink }}
         textStyle={{ fontFamily: FONT.medium, fontSize: SIZE[14] }}
       />
-      {/* <Button
-        title="بعدی"
-        onPress={async () => {
-          console.log('pregnancy end', res);
-        }}
-        buttonStyle={styles.saveContainer}
-        containerStyle={styles.saveButton}
-        titleStyle={styles.saveTitle}
-      /> */}
     </ImageBackground>
   );
 };

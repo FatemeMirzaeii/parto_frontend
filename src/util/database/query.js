@@ -147,9 +147,6 @@ export async function correctFormerPregnancyStates() {
   );
 }
 export async function getActivePregnancyData() {
-  // await db.exec(
-  //   `UPDATE ${PREGNANCY} SET state=2 WHERE id IN (SELECT id FROM ${PREGNANCY} ORDER BY id DESC LIMIT 1)`,
-  // );
   correctFormerPregnancyStates();
   //this function is temp and could have been deleted if we went sure all users updated to new versions.
   const [res] = await db.exec(
@@ -222,10 +219,28 @@ export async function getCycleInfoFromProfile() {
 export async function getUserAllPeriodDays() {
   const res = await db.exec(
     `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
-      (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY}) AND state=1`,
+      (${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY}) AND state=1`,
     USER_TRACKING_OPTION,
   );
   console.log('getUserAllPeriodDays()', res);
+  return res === EMPTY_TABLE ? [] : res;
+}
+export async function getUserAllBleedingDays() {
+  const res = await db.exec(
+    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id IN
+      (${OPTIONS.SPOTTING}, ${OPTIONS.LIGHT}, ${OPTIONS.MEDIUM}, ${OPTIONS.HEAVY}) AND state=1`,
+    USER_TRACKING_OPTION,
+  );
+  console.log('getUserAllBleedingDays()', res);
+  return res === EMPTY_TABLE ? [] : res;
+}
+export async function getCycleSpottingDays(cycleStartDay, cycleEndDay) {
+  const res = await db.exec(
+    `SELECT * FROM ${USER_TRACKING_OPTION} WHERE tracking_option_id=${OPTIONS.SPOTTING} AND state=1 AND
+    date > '${cycleStartDay}' AND date <= '${cycleEndDay}' `,
+    USER_TRACKING_OPTION,
+  );
+  console.log('getCycleSpottingDays()', cycleStartDay, cycleEndDay, res);
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function getTrackingOptionData(date) {

@@ -21,11 +21,6 @@ export default StyleSheet.create({
     color: COLOR.textColor,
     lineHeight: 20,
   },
-  calendar: {
-    width: WIDTH - 40,
-    alignSelf: 'center',
-    justifyContent: 'center',
-  },
   btnsWrapper: {
     flexDirection: 'row-reverse',
     alignSelf: 'center',

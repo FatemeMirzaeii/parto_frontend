@@ -28,7 +28,7 @@ export default async function PregnancyModule() {
       return pregnancyWeekBasedOnConceptionDate(date);
     } else if (dueDate) {
       return pregnancyWeekBasedOnDueDate(date);
-    }
+    } else return null;
   }
   function pregnancyWeekBasedOnLastPeriodDate(date) {
     const d = date.diff(lastPeriodDate);

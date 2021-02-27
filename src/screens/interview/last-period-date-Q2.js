@@ -1,11 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import {
-  SafeAreaView,
-  ImageBackground,
-  View,
-  Text,
-  ScrollView,
-} from 'react-native';
+import { ImageBackground, View, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 

@@ -56,9 +56,9 @@ const WeekCalendar = (props) => {
         firstDay={6}
         onDayPress={onDayPress}
         markedDates={{
-          ...cycle.periodDays,
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
+          ...cycle.periodDays,
         }}
         markingType="custom"
         theme={{
@@ -66,7 +66,6 @@ const WeekCalendar = (props) => {
           ...{
             textSectionTitleColor: COLOR.black,
             todayTextColor: COLOR.white,
-            todayBackgroundColor: COLOR.today,
             textDayFontFamily: FONT.medium,
             selectedDayBackgroundColor: COLOR.white,
             selectedDayTextColor: COLOR.black,
@@ -83,9 +82,7 @@ const WeekCalendar = (props) => {
             'stylesheet.day.single': {
               today: {
                 borderRadius: 50,
-                // backgroundColor: COLOR.today,
                 elevation: 2,
-                // backgroundColor: 'green',
                 // height: 100,
               },
             },
