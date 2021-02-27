@@ -2,14 +2,75 @@ import React from 'react';
 import { Dimensions, Linking, Text, View, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import HTML from 'react-native-render-html';
+import table, {
+  IGNORED_TAGS,
+  defaultTableStylesSpecs,
+  cssRulesFromSpecs,
+} from '@native-html/table-plugin';
+import WebView from 'react-native-webview';
 
 //styles
 import { COLOR, FONT } from '../styles/static';
 
 const HTMLRender = ({ html }) => {
+  function getFontAssetURL(fontFileName) {
+    return `url(../../android/app/src/main/assets/fonts/${fontFileName})`;
+  }
+  const openSansUnicodeRanges =
+    'U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD';
+
+  const openSansRegular = getFontAssetURL('IRANSansMobile(FaNum).ttf');
+
+  const cssRules =
+    cssRulesFromSpecs({
+      ...defaultTableStylesSpecs,
+      // outerBorderWidthPx: 1,
+      // rowsBorderWidthPx: 1,
+      // columnsBorderWidthPx: 2,
+      thOddBackground: COLOR.purple,
+      thEvenBackground: COLOR.purple,
+      trOddBackground: 'transparent',
+      trEvenBackground: 'transparent',
+      thEvenColor: '#000000',
+      trOddColor: '#000000',
+      thOddColor: '#000000',
+      trEvenColor: '#000000',
+      // cellSpacingEm: 0.3,
+      fitContainerWidth: true,
+      fontWeight: 'normal',
+      fontFamily: '"Open Sans"',
+    }) +
+    `
+body {
+  direction: rtl;
+}
+` +
+    `
+@font-face {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: normal;
+  src: ${openSansRegular}, format('ttf');
+  unicode-range: ${openSansUnicodeRanges};
+
+}
+`;
+
+  const htmlProps = {
+    WebView,
+    ignoredTags: IGNORED_TAGS,
+    renderersProps: {
+      table: {
+        // ...tableConfig,
+        ...cssRules,
+      },
+    },
+  };
+
   return (
     <HTML
-      html={html}
+      {...htmlProps}
+      source={{ html }}
       tagsStyles={HTMLTagsStyles}
       ignoredStyles={['height', 'width']}
       imagesMaxWidth={Dimensions.get('window').width}
@@ -19,18 +80,12 @@ const HTMLRender = ({ html }) => {
         Linking.openURL(url);
       }}
       renderers={{
+        table: table,
         ul: (htmlAttribs, children, convertedCSSStyles, passProps) => {
-          const {
-            rawChildren,
-            nodeIndex,
-            key,
-            listsPrefixesRenderers,
-          } = passProps;
-
+          const { nodeIndex, key, listsPrefixesRenderers } = passProps;
           children =
             children &&
             children.map((child, index) => {
-              const rawChild = rawChildren[index];
               let prefix = false;
               const rendererArgs = [
                 htmlAttribs,
@@ -41,17 +96,13 @@ const HTMLRender = ({ html }) => {
                   index,
                 },
               ];
+              prefix =
+                listsPrefixesRenderers && listsPrefixesRenderers.ul ? (
+                  listsPrefixesRenderers.ul(...rendererArgs)
+                ) : (
+                  <View style={styles.circle} />
+                );
 
-              if (rawChild) {
-                if (rawChild.parentTag === 'ul' && rawChild.tagName === 'li') {
-                  prefix =
-                    listsPrefixesRenderers && listsPrefixesRenderers.ul ? (
-                      listsPrefixesRenderers.ul(...rendererArgs)
-                    ) : (
-                      <View style={styles.circle} />
-                    );
-                }
-              }
               return (
                 <View
                   key={`list-${nodeIndex}-${index}-${key}`}
@@ -66,16 +117,13 @@ const HTMLRender = ({ html }) => {
         ol: (htmlAttribs, children, convertedCSSStyles, passProps) => {
           const {
             allowFontScaling,
-            rawChildren,
             nodeIndex,
             key,
             listsPrefixesRenderers,
           } = passProps;
-
           children =
             children &&
             children.map((child, index) => {
-              const rawChild = rawChildren[index];
               let prefix = false;
               const rendererArgs = [
                 htmlAttribs,
@@ -86,21 +134,17 @@ const HTMLRender = ({ html }) => {
                   index,
                 },
               ];
+              prefix =
+                listsPrefixesRenderers && listsPrefixesRenderers.ol ? (
+                  listsPrefixesRenderers.ol(...rendererArgs)
+                ) : (
+                  <Text
+                    allowFontScaling={allowFontScaling}
+                    style={styles.number}>
+                    ({index + 1}
+                  </Text>
+                );
 
-              if (rawChild) {
-                if (rawChild.parentTag === 'ol' && rawChild.tagName === 'li') {
-                  prefix =
-                    listsPrefixesRenderers && listsPrefixesRenderers.ol ? (
-                      listsPrefixesRenderers.ol(...rendererArgs)
-                    ) : (
-                      <Text
-                        allowFontScaling={allowFontScaling}
-                        style={styles.number}>
-                        ({index + 1}
-                      </Text>
-                    );
-                }
-              }
               return (
                 <View
                   key={`list-${nodeIndex}-${index}-${key}`}
@@ -116,6 +160,7 @@ const HTMLRender = ({ html }) => {
     />
   );
 };
+
 HTMLRender.propTypes = {
   html: PropTypes.string.isRequired,
 };
