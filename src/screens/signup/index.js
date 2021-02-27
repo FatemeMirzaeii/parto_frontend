@@ -1,11 +1,9 @@
-import axios from 'axios';
 import React, { useState } from 'react';
 import {
   Keyboard,
   KeyboardAvoidingView,
   SafeAreaView,
   Text,
-  ToastAndroid,
   ImageBackground,
 } from 'react-native';
 import {
@@ -39,7 +37,6 @@ import sync from '../../util/database/sync';
 import useModal from '../../util/hooks/useModal';
 
 //services
-import { devUrl } from '../../services/urls';
 import api from '../../services/api';
 
 //assets
@@ -74,60 +71,29 @@ const SignUp = ({ navigation }) => {
   };
 
   const _handleSubmit = async () => {
-    await axios({
-      method: 'post',
-      url: `${devUrl}/auth/checkVerificationCode/fa`,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        phone: '98' + phoneNumber,
-        code: value,
-      },
-    })
-      .then((res) => {
-        console.log('res', res);
-        _handleLogin();
-      })
-      .catch((err) => {
-        console.error(err, err.response);
-        if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
-      });
+    const res = await api({
+      method: 'POST',
+      url: '/auth/checkVerificationCode/fa',
+      dev: true,
+      data: { phone: '98' + phoneNumber, code: value },
+    });
+    console.log('res', res);
+    _handleLogin();
   };
 
-  const _getVerificationCode = () => {
+  const _getVerificationCode = async () => {
     setIsLoading(true);
-    axios({
-      method: 'post',
-      url: `${devUrl}/auth/verificationCode`,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        phone: '98' + phoneNumber,
-      },
-    })
-      .then((res) => {
-        console.log('res', res);
-        setIsLoading(false);
-        setCodeFieldActive(true);
-      })
-      .catch((err) => {
-        console.error(err, err.response);
-        setIsLoading(false);
-        if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
-      });
+    const res = await api({
+      method: 'POST',
+      url: '/auth/verificationCode',
+      dev: true,
+      data: { phone: '98' + phoneNumber },
+    });
+    console.log('res', res);
+    setIsLoading(false);
+    setCodeFieldActive(true);
   };
+
   const setVersionType = async (userId, type) => {
     await api({
       method: 'POST',
@@ -136,56 +102,44 @@ const SignUp = ({ navigation }) => {
       data: { type },
     });
   };
-  const _handleLogin = () => {
+
+  const _handleLogin = async () => {
     //setIsLoading(true);
-    axios({
+    console.log('here here here here here here');
+    const res = await api({
       method: 'POST',
-      url: `${devUrl}/auth/logIn/fa`,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: {
-        phone: '98' + phoneNumber,
-      },
-    })
-      .then(async (res) => {
-        const id = res.data.data.id;
-        const type = res.data.data.type;
-        storeData('@token', res.headers['x-auth-token']);
-        //to maryam:
-        //2. now that we are inserting a row for user it is better to save all data, such as phone number.
-        //3. isn't it better to move queries in query.js file?
-        //4. it is better to use table names as variables.
-        //so if someday we decide to rename them we will change them just in one place.
-        db.exec(
-          `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
-          'user',
-        );
-        if (type || template) {
-          if (!template) dispatch(handleTemplate(type));
-          else if (!type) setVersionType(id, template);
-          // todo: if this api returns error?
-          else if (template !== type) return toggle();
-          // this else if will happen if user is using the app offline and wants to signup,
-          // but will signup with a number that has been registered already and they dont match.
-          // todo: should ask for changing app template or not?
-          setIsLoading(true);
-          dispatch(interview());
-          await sync();
-          dispatch(fetchInitialCycleData());
-        }
-        dispatch(setUser(id, phoneNumber));
-        dispatch(signUp());
-      })
-      .catch((err) => {
-        console.error(err, err.response);
-        if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
-      });
+      url: '/auth/logIn/fa',
+      dev: true,
+      data: { phone: '98' + phoneNumber },
+    });
+    console.log('here here here here here here 2 2 2 2 2 2');
+    const id = res.data.data.id;
+    const type = res.data.data.type;
+    storeData('@token', res.headers['x-auth-token']);
+    //to maryam:
+    //2. now that we are inserting a row for user it is better to save all data, such as phone number.
+    //3. isn't it better to move queries in query.js file?
+    //4. it is better to use table names as variables.
+    //so if someday we decide to rename them we will change them just in one place.
+    db.exec(
+      `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
+      'user',
+    );
+    if (type || template) {
+      if (!template) dispatch(handleTemplate(type));
+      else if (!type) setVersionType(id, template);
+      // todo: if this api returns error?
+      else if (template !== type) return toggle();
+      // this else if will happen if user is using the app offline and wants to signup,
+      // but will signup with a number that has been registered already and they dont match.
+      // todo: should ask for changing app template or not?
+      setIsLoading(true);
+      dispatch(interview());
+      await sync();
+      dispatch(fetchInitialCycleData());
+    }
+    dispatch(setUser(id, phoneNumber));
+    dispatch(signUp());
   };
 
   return (
