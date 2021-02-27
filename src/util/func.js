@@ -42,13 +42,15 @@ export async function requestSTORAGEPermission() {
     console.warn(err);
   }
 }
-export function RemoveHTML(Text) {
-  const Entities = require('html-entities').AllHtmlEntities;
-  const entities = new Entities();
-  const regex = /(<([^>]+)>)/gi;
-  const result = Text.replace(regex, '');
-  return entities.decode(result);
-}
+//todo: solve error ('html-entities')
+
+// export function RemoveHTML(Text) {
+//   const Entities = require('html-entities').AllHtmlEntities;
+//   const entities = new Entities();
+//   const regex = /(<([^>]+)>)/gi;
+//   const result = Text.replace(regex, '');
+//   return entities.decode(result);
+// }
 export function TextCleaner(i) {
   let filtered = i.filter(function (el) {
     return el != null;
