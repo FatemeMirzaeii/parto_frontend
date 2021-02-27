@@ -255,14 +255,12 @@ const Calendar = ({ navigation }) => {
                         styles.editableDays,
                         {
                           color:
-                            dateString in cycle.periodDays || state === 'today'
+                            dateString in cycle.periodDays
                               ? COLOR.white
                               : COLOR.black,
                           backgroundColor:
                             dateString in cycle.periodDays
                               ? COLOR.bleeding
-                              : state === 'today'
-                              ? COLOR.today
                               : 'transparent',
                         },
                       ]}>
@@ -326,7 +324,6 @@ const Calendar = ({ navigation }) => {
           'stylesheet.day.single': {
             today: {
               borderRadius: 50,
-              backgroundColor: COLOR.purple,
               elevation: 2,
             },
           },
