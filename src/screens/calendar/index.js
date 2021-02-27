@@ -64,7 +64,7 @@ const Calendar = ({ navigation }) => {
           name="go-to-day"
           type="parto"
           color={COLOR.purple}
-          onPress={() => calendar.current.scrollToDay(new Date(), -600)}
+          onPress={() => calendar.current.scrollToDay(new Date())}
         />
       ),
       headerRight: () => (
@@ -275,7 +275,7 @@ const Calendar = ({ navigation }) => {
           monthTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
           // dayTextColor: COLOR.white,
           textSectionTitleColor: COLOR.black,
-          todayTextColor: COLOR.white,
+          todayTextColor: COLOR.black,
           todayBackgroundColor: COLOR.today,
           selectedDayTextColor: COLOR.white,
           textDisabledColor: COLOR.textColorDark,
