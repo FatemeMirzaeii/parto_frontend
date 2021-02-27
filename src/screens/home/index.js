@@ -101,7 +101,13 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
-      if (pregnancyAge.week >= 0) {
+      if (!pregnancyAge) {
+        setMainSentence(
+          'لطفا تاریخ آخرین پریود خود را جهت محاسبه سن بارداری وارد کنید.',
+        );
+        setSubSentence('');
+        setThirdSentence('');
+      } else if (pregnancyAge.week >= 0) {
         setMainSentence(`هفته ${pregnancyAge.week} بارداری `);
         setSubSentence(
           `سن بارداری شما ${pregnancyAge.week} هفته ${
@@ -113,8 +119,8 @@ const Home = ({ navigation }) => {
         );
       } else if (pregnancyAge.week < 0) {
         setMainSentence('پیش از بارداری');
-      } else {
-        setMainSentence('لطفا تاریخ آخرین پریود خود را وارد کنید.');
+        setSubSentence('');
+        setThirdSentence('');
       }
     } else {
       const c = await CycleModule();
