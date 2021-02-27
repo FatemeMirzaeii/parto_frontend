@@ -147,9 +147,6 @@ export async function correctFormerPregnancyStates() {
   );
 }
 export async function getActivePregnancyData() {
-  // await db.exec(
-  //   `UPDATE ${PREGNANCY} SET state=2 WHERE id IN (SELECT id FROM ${PREGNANCY} ORDER BY id DESC LIMIT 1)`,
-  // );
   correctFormerPregnancyStates();
   //this function is temp and could have been deleted if we went sure all users updated to new versions.
   const [res] = await db.exec(

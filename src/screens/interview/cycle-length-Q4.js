@@ -50,7 +50,7 @@ const Q4 = ({ route, navigation }) => {
           </Text>
         </View>
         <WheelPicker
-          data={setPickerRange(10, 100)}
+          data={setPickerRange(15, 100)}
           selectedItem={selectedItem}
           onItemSelected={setSelectedItem}
           initPosition={18}
