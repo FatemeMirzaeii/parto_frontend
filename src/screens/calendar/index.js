@@ -230,9 +230,9 @@ const Calendar = ({ navigation }) => {
         pastScrollRange={12}
         futureScrollRange={12}
         markedDates={{
-          ...cycle.periodDays,
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
+          ...cycle.periodDays,
         }}
         markingType="custom"
         onDayPress={onDayPress}

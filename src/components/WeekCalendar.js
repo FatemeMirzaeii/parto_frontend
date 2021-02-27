@@ -56,9 +56,9 @@ const WeekCalendar = (props) => {
         firstDay={6}
         onDayPress={onDayPress}
         markedDates={{
-          ...cycle.periodDays,
           ...cycle.periodPerdictions,
           ...cycle.ovulationPerdictions,
+          ...cycle.periodDays,
         }}
         markingType="custom"
         theme={{
