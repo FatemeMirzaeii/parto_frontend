@@ -20,8 +20,8 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
           title: 'ثبت تغییرات روزها',
           description: 'بعد از ویرایش، تغییرات رو ثبت کن',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.99,
+          outerCircleColor: COLOR.purple,
+          outerCircleAlpha: 0.9,
           targetRadius: 80,
           fontFamily: FONT.regular,
         };

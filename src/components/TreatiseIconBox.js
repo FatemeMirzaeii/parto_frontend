@@ -25,8 +25,8 @@ const TreatiseIconBox = ({
             description:
               'اساتید خبره احکام بانوان، به صورت 24 ساعته و رایگان آماده پاسخگویی به شما هستن',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.pink,
-            outerCircleAlpha: 0.99,
+            outerCircleColor: COLOR.purple,
+            outerCircleAlpha: 0.9,
             fontFamily: FONT.regular,
           };
           addAppTourTarget &&
@@ -51,7 +51,7 @@ const TreatiseIconBox = ({
               title: 'سامانه پیامکی',
               description: 'We have the best targets, believe me',
               descriptionTextSize:15,
-              outerCircleColor: COLOR.tiffany,
+              outerCircleColor: COLOR.purple,
               outerCircleAlpha: 0.9,
               fontFamily: FONT.regular,
             };
@@ -77,7 +77,7 @@ const TreatiseIconBox = ({
             title: 'راهنمای احکام',
             description: 'این‌جا رو حتما بخون',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.pink,
+            outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,
             fontFamily: FONT.regular,
           };

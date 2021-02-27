@@ -21,7 +21,7 @@ const CycleSettingbtn = ({ addAppTourTarget, onPress }) => {
             'از لیست زیر هر موردی که خواستی رو تغییر بده و با زدن دکمه تغیرات رو ثبت کن',
           descriptionTextSize: 15,
           outerCircleColor: COLOR.purple,
-          outerCircleAlpha: 0.99,
+          outerCircleAlpha: 0.9,
           fontFamily: FONT.regular,
         };
         addAppTourTarget &&

@@ -21,8 +21,8 @@ const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
           description:
             'اطلاعات یه روز اشتباه وارد شده؟ با لمس این دکمه می‌تونی ویرایش کنی',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.99,
+          outerCircleColor: COLOR.purple,
+          outerCircleAlpha: 0.9,
           targetRadius: 80,
           fontFamily: FONT.regular,
         };

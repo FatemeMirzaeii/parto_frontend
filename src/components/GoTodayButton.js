@@ -20,7 +20,7 @@ const GoTodayButton = ({ addAppTourTarget, onPress }) => {
           title: 'برو به امروز',
           description: 'We have the best targets, believe me',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
+          outerCircleColor: COLOR.purple,
           outerCircleAlpha: 0.9,
           fontFamily: FONT.regular,
         };

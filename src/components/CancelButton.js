@@ -20,8 +20,8 @@ const CancelButton = ({ addAppTourTarget, onPress }) => {
           title: 'انصراف از ویرایش',
           description: 'اگر از ویرایش منصرف شدی، این دکمه رو لمس کن',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.99,
+          outerCircleColor: COLOR.purple,
+          outerCircleAlpha: 0.9,
           targetRadius: 80,
           fontFamily: FONT.regular,
         };

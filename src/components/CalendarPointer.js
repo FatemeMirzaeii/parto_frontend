@@ -19,8 +19,8 @@ const CalendarPointer = ({ addAppTourTarget }) => {
           description:
             ' با ورق زدن تقویم روز مورد نظرت رو مشخص و علایمی که توی روز داشتی رو از لیست پایین انتخاب کن ',
           descriptionTextSize: 15,
-          outerCircleColor: COLOR.tiffany,
-          outerCircleAlpha: 0.99,
+          outerCircleColor: COLOR.purple,
+          outerCircleAlpha: 0.9,
           targetRadius: 100,
           fontFamily: FONT.regular,
         };
