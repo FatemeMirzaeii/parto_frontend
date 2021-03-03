@@ -375,9 +375,10 @@ const TrackingOptions = ({ route }) => {
             <View style={styles.titleBox}>
               <Text style={styles.title}>{categories[activeIndex].title}</Text>
               <Icon
+                raised
                 name="info"
                 type="parto"
-                size={25}
+                size={15}
                 onPress={() => {
                   toggleOverlay(categories[activeIndex].id);
                 }}

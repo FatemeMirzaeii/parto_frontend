@@ -12,6 +12,7 @@ import WebView from 'react-native-webview';
 //styles
 import { COLOR, FONT } from '../styles/static';
 
+//todo:set fontFamily for table
 const HTMLRender = ({ html }) => {
   function getFontAssetURL(fontFileName) {
     return `url(../../android/app/src/main/assets/fonts/${fontFileName})`;
