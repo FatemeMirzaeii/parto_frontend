@@ -11,32 +11,37 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+//redux
 import { useDispatch, useSelector } from 'react-redux';
-import MainBg from '../../../assets/images/main/home.png';
-import PartnerBg from '../../../assets/images/partner/home.png';
-import PregnancyProfile from '../../../assets/images/PregnancyProfile.png';
-import TeenagerBg from '../../../assets/images/teenager/home.png';
-import CalendarButton from '../../components/CalendarButton';
-import HomeCalendar from '../../components/HomeCalendar';
-import PlusButton from '../../components/PlusButton';
-
-//components
-import WeekCalendar from '../../components/WeekCalendar';
-
-//constants
-import { FORMAT } from '../../constants/cycle';
 
 //store
 import { setPregnancyMode } from '../../store/actions/cycle';
 
-//styles and images
-import { COLOR } from '../../styles/static';
+//components
+import WeekCalendar from '../../components/WeekCalendar';
+import CalendarButton from '../../components/CalendarButton';
+import HomeCalendar from '../../components/HomeCalendar';
+import PlusButton from '../../components/PlusButton';
+
+//constants
+import { FORMAT } from '../../constants/cycle';
 
 //util
 import CycleModule from '../../util/cycle';
 import { pregnancyMode } from '../../util/database/query';
 import PregnancyModule from '../../util/pregnancy';
 import Tour from '../../util/tourGuide/Tour';
+
+//assets
+import MainBg from '../../../assets/images/main/home.png';
+import PartnerBg from '../../../assets/images/partner/home.png';
+import PregnancyProfile from '../../../assets/images/PregnancyProfile.png';
+import TeenagerBg from '../../../assets/images/teenager/home.png';
+import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
+
+//styles
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const today = moment().format(FORMAT);
@@ -182,6 +187,8 @@ const Home = ({ navigation }) => {
             ? TeenagerBg
             : template === 'Partner'
             ? PartnerBg
+            : cycle.isPregnant
+            ? PregnancyModeBg
             : MainBg
         }
         style={styles.sky}>
