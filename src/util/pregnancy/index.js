@@ -31,7 +31,7 @@ export default async function PregnancyModule() {
     } else return null;
   }
   function pregnancyWeekBasedOnLastPeriodDate(date) {
-    const d = date.diff(lastPeriodDate);
+    const d = date.diff(moment(lastPeriodDate));
     const total = moment.duration(d);
     // the result of this is: 5 months, 1 weeks, 5 days.
     // console.log(
@@ -48,7 +48,7 @@ export default async function PregnancyModule() {
     };
   }
   function pregnancyWeekBasedOnDueDate(date) {
-    const d = dueDate.diff(date);
+    const d = moment(dueDate).diff(date);
     const total = moment.duration(d);
     return {
       week: PREGNANCY_WEEKS - Math.floor(total.asWeeks()),
@@ -56,7 +56,7 @@ export default async function PregnancyModule() {
     };
   }
   function pregnancyWeekBasedOnConceptionDate(date) {
-    const d = date.diff(conceptionDate);
+    const d = date.diff(moment(conceptionDate));
     const total = moment.duration(d);
     return {
       week: Math.floor(total.asWeeks()) + 2,

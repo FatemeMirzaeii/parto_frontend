@@ -114,9 +114,11 @@ const Home = ({ navigation }) => {
             pregnancyAge.days ? `و ${pregnancyAge.days} روز می‌باشد.` : ''
           }`,
         );
-        setThirdSentence(
-          `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
-        );
+        p.remainingDaysToDueDate(momentDate) <= 0
+          ? setThirdSentence('')
+          : setThirdSentence(
+              `${p.remainingDaysToDueDate(momentDate)} روز تا تولد نوزاد!`,
+            );
       } else if (pregnancyAge.week < 0) {
         setMainSentence('پیش از بارداری');
         setSubSentence('');
