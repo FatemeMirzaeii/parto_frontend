@@ -53,7 +53,7 @@ const Q4 = ({ route, navigation }) => {
           data={setPickerRange(15, 100)}
           selectedItem={selectedItem}
           onItemSelected={setSelectedItem}
-          initPosition={18}
+          initPosition={13}
           isCyclic={true}
           itemTextSize={21}
           selectedItemTextSize={21}
