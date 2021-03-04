@@ -10,7 +10,8 @@ export default StyleSheet.create({
     // backgroundColor: 'rgba(12,12,12,0.7)',
     // justifyContent: 'center',
     height: HEIGHT / 1.4,
-    marginTop: '45%',
+    marginTop: '47%', //for responsive
+    //marginTop: '45%',
     padding: 5,
   },
   bg: {
@@ -28,6 +29,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     margin: 3,
+    marginBottom: '5%', //for responsive
   },
   modalBtnWrapper: {
     flexDirection: 'row-reverse',
