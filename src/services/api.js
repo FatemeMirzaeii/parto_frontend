@@ -25,7 +25,8 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
     }
   } catch (err) {
     console.error(err, '--------', err.response.data.message, url);
-    if (err.toString() === 'Error: Network Error')
+    if (err.status === 500) return;
+    else if (err.toString() === 'Error: Network Error')
       ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
     else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
   }
