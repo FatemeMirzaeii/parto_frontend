@@ -36,6 +36,7 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     AppState.addEventListener('change', _handleAppStateChange);
+    SplashScreen.hide();
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
@@ -55,7 +56,6 @@ const App: () => React$Node = () => {
         );
     });
     store.dispatch(fetchInitialCycleData());
-    SplashScreen.hide();
   };
 
   const _handleAppStateChange = (nextAppState) => {
