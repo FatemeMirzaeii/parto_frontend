@@ -36,7 +36,9 @@ const App: () => React$Node = () => {
 
   useEffect(() => {
     AppState.addEventListener('change', _handleAppStateChange);
-    SplashScreen.hide();
+    setTimeout(() => {
+      SplashScreen.hide();
+    }, 500);
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
