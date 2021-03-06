@@ -27,6 +27,8 @@ export const COLOR = {
   teenagerFirstText: '#562369',
   PartnerFirstText: '#562369',
   partner: '#4C569C',
+  icon: '#b3b3b3',
+  listItemTxt: '#808080',
 };
 export const FONT = {
   regular: 'IRANSansMobile(FaNum)',
