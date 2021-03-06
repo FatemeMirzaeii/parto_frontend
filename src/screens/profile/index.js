@@ -101,9 +101,8 @@ const Profile = ({ navigation }) => {
             contentContainerStyle={styles.listItemContent}
             rightTitle={user.phone ? `0${user.phone}` : '09XXXXXXXXX'}
             rightTitleStyle={styles.listItemText}
+            bottomDivider
           />
-        </Card>
-        <Card hasHeader headerTitle="اطلاعات سلامت">
           <PickerListItem
             DatePicker
             title="تاریخ تولد"
@@ -113,8 +112,9 @@ const Profile = ({ navigation }) => {
             endOfRange={1390}
             // leftIcon={{ name: 'dashboard', color: COLOR.tiffany }}
             rightTitle={{ title: birthdate }}
-            bottomDivider
           />
+        </Card>
+        <Card hasHeader headerTitle="اطلاعات سلامت">
           <PickerListItem
             title="گروه خونی"
             data={bloodTypes}
