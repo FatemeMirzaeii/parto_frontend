@@ -1,13 +1,15 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, SafeAreaView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Icon } from 'react-native-elements';
+import { Button, Icon, Avatar } from 'react-native-elements';
 import { COLOR } from '../../styles/static';
 import Loader from '../../components/Loader';
+import Card from '../../components/Card';
 import styles from './styles';
 import api from '../../services/api';
 import { signUp } from '../../store/actions/auth';
 import { removeData } from '../../util/func';
+import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -69,12 +71,18 @@ const PartnerVerificationCode = ({ navigation }) => {
         ) : isLoading ? (
           <Loader />
         ) : (
-          <>
+          <Card>
+            <Avatar
+              size="large"
+              source={PartnerAvatar}
+              imageProps={{ resizeMode: 'center' }}
+              containerStyle={styles.avatar}
+            />
             <Text style={styles.title}>
               جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید.
             </Text>
             <Text style={styles.code}>{code}</Text>
-          </>
+          </Card>
         )}
       </View>
     </SafeAreaView>

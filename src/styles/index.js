@@ -16,4 +16,11 @@ export default StyleSheet.create({
     fontFamily: FONT.bold,
     fontSize: SIZE[14],
   },
+  avatar: {
+    backgroundColor: 'transparent',
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    margin: 20,
+  },
 });

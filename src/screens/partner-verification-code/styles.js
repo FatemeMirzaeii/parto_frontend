@@ -14,6 +14,11 @@ export default StyleSheet.create({
     height: 125,
     backgroundColor: COLOR.white,
   },
+  avatar: {
+    backgroundColor: '#f1f1f1',
+    alignSelf: 'center',
+    margin: 10,
+  },
   title: { fontFamily: FONT.regular, fontSize: SIZE[14] },
   code: { fontFamily: FONT.bold, fontSize: SIZE[21] },
   btnContainer: {

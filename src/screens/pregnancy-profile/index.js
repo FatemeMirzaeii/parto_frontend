@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { View, ScrollView } from 'react-native';
 import { Icon, Button, ListItem } from 'react-native-elements';
+import { Avatar } from 'react-native-paper';
 import jalaali from 'moment-jalaali';
 
 //redux
@@ -28,9 +29,13 @@ import {
 } from '../../util/database/query';
 import useModal from '../../util/hooks/useModal';
 
+//assets
+import pregnancyAvatar from '../../../assets/images/pregAvatar.png';
+
 //styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
+import commomStyles from '../../styles/index';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
@@ -89,6 +94,11 @@ const PregnancyProfile = ({ navigation, route }) => {
   return (
     <ScrollView>
       <Card>
+        <Avatar.Image
+          size={170}
+          source={pregnancyAvatar}
+          style={commomStyles.avatar}
+        />
         <ListItem
           title="سن بارداری"
           rightTitle={
