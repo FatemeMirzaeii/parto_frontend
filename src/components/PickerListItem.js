@@ -23,6 +23,8 @@ const PickerListItem = (props) => {
     return {
       name: visible ? 'up' : 'down',
       type: 'parto',
+      size:10,
+      color: COLOR.icon
     };
   };
 
