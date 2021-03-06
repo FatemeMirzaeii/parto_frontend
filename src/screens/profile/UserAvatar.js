@@ -36,23 +36,6 @@ const UserAvatar = ({ navigation }) => {
   // };
   return (
     <View>
-      {!isRegistered && (
-        <View style={styles.box}>
-          <Text style={[styles.text, { color: COLOR.black, padding: 20 }]}>
-            شما ثبت نام نکرده‌اید!{'\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام کنید.
-          </Text>
-          <Button
-            title="ثبت‌نام"
-            onPress={async () => {
-              await removeData('@token');
-              dispatch(signUp());
-            }}
-            containerStyle={styles.btnContainer}
-            buttonStyle={styles.button}
-            titleStyle={styles.btnTitle}
-          />
-        </View>
-      )}
       <Avatar
         size="xlarge"
         //todo: avatar loads really slow
@@ -66,6 +49,24 @@ const UserAvatar = ({ navigation }) => {
         imageProps={{ resizeMode: 'center' }}
         containerStyle={styles.avatar}
       />
+      {!isRegistered && (
+        <View style={styles.box}>
+          <Text style={[styles.text, { color: COLOR.black }]}>
+            شما ثبت نام نکرده‌اید!{'\n\n'}برای ثبت همیشگی اطلاعاتتان ثبت نام
+            کنید.
+          </Text>
+          <Button
+            title="ثبت‌نام"
+            onPress={async () => {
+              await removeData('@token');
+              dispatch(signUp());
+            }}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
+          />
+        </View>
+      )}
     </View>
     // <Card>
     //   {isEditing ? (
