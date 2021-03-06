@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE, WIDTH } from '../../styles/static';
+import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -24,6 +24,7 @@ export default StyleSheet.create({
   avatar: {},
   avatarContainer: { flexDirection: 'row-reverse' },
   listItemText: {
+    color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
     fontSize: 12,
     textAlign: 'center',
@@ -39,11 +40,17 @@ export default StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: 'transparent',
     borderWidth: 0,
-    width: WIDTH / 1.2,
-    height: 26,
+    width: WIDTH * 0.9,
+    height: 50,
+    //backgroundColor:'yellow',
     flexDirection: 'row-reverse',
   },
-  goal: { borderRadius: 50 },
+  goal: {
+    borderRadius: 50,
+    margin: 5,
+    borderWidth: 2,
+    borderColor: COLOR.purple,
+  },
   titleContainer: {
     paddingLeft: 10,
     flexDirection: 'row-reverse',
@@ -54,11 +61,13 @@ export default StyleSheet.create({
     paddingRight: 10,
     fontFamily: FONT.medium,
     fontSize: 12,
+    color: '#666666',
   },
   text: {
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: FONT.medium,
+    color: '#666666',
     fontSize: 12,
   },
 });

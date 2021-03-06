@@ -107,6 +107,7 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
   },
   listItemText: {
+    color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
     maxWidth: 200,

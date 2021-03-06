@@ -108,6 +108,7 @@ const styles = StyleSheet.create({
     alignSelf: 'center',
   },
   listItemText: {
+    color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
     fontSize: 12,
     maxWidth: 200,
