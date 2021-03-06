@@ -58,9 +58,6 @@ export default StyleSheet.create({
     padding: 5,
     paddingHorizontal: 20,
     margin: 20,
-    borderRadius: 20,
-    elevation: 1,
-    backgroundColor: 'rgba(255,255,255, 0.1)',
   },
 
   mainSentence: {
