@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
-    elevation: 4,
+    elevation: 3.1,
   }),
   card: (props) => ({
     backgroundColor: props.color,

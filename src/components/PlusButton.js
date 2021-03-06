@@ -29,7 +29,7 @@ const PlusButton = (props) => {
         name="lady"
         type="parto"
         color={COLOR.pink}
-        size={35}
+        size={30}
         containerStyle={{
           borderRadius: 40,
           bottom: 30,
