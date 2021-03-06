@@ -2,17 +2,13 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
-  safeAreaView: { flex: 1, paddingTop: 25, paddingBottom: 53 },
+  safeAreaView: { flex: 1, paddingBottom: 53 },
   box: {
-    margin: 20,
-    padding: 10,
     alignItems: 'center',
-    justifyContent: 'space-around',
-    elevation: 2,
+    alignSelf: 'center',
+    justifyContent: 'center',
     borderRadius: 20,
     width: WIDTH - 50,
-    height: 125,
-    backgroundColor: COLOR.white,
   },
   container: {
     flex: 1,
@@ -20,11 +16,11 @@ export default StyleSheet.create({
   },
   btnContainer: {
     elevation: 3,
-    width: 150,
+    width: 100,
     height: 40,
     borderRadius: 40,
     alignSelf: 'center',
-    margin: 30,
+    margin: 20,
   },
   button: {
     height: 40,
@@ -32,6 +28,7 @@ export default StyleSheet.create({
     backgroundColor: COLOR.pink,
   },
   btnTitle: {
+    color: COLOR.white,
     fontFamily: FONT.medium,
     fontSize: SIZE[14],
   },
@@ -41,8 +38,8 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
   },
-
   listItemText: {
+    color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
   },

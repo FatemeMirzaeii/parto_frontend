@@ -1,4 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListItem, Button, Icon } from 'react-native-elements';
@@ -27,8 +32,7 @@ const Profile = ({ navigation }) => {
   const user = useSelector((state) => state.user);
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'پروفایل',
-      headerLeft: null,
+      title: 'حساب کاربری',
       headerRight: () => (
         <Icon
           reverse
@@ -39,8 +43,19 @@ const Profile = ({ navigation }) => {
           onPress={() => navigation.pop()}
         />
       ),
+      headerLeft: () =>
+        // <Button
+        //   title="ذخیره"
+        //   type="outline"
+        //   onPress={() => save()}
+        //   containerStyle={styles.btnContainer}
+        //   buttonStyle={styles.button}
+        //   titleStyle={styles.btnTitle}
+        //   loadingStyle={{ color: COLOR.pink }}
+        // />
+        null,
     });
-  }, []);
+  }, [navigation]);
   useEffect(() => {
     getProfileData().then((res) => {
       if (res) {
@@ -59,7 +74,7 @@ const Profile = ({ navigation }) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
   };
-  const save = async () => {
+  const save = useCallback(async () => {
     setLoading(true);
     await saveProfileHealthData(
       bloodType,
@@ -70,14 +85,14 @@ const Profile = ({ navigation }) => {
     );
     setLoading(false);
     navigation.pop();
-  };
+  }, [bloodType, weight, height, birthdate, avgSleepingHours, navigation]);
   return (
     <SafeAreaView
       style={styles.safeAreaView}
       contentContainerStyle={styles.container}>
       <ScrollView>
         <UserAvatar navigation={navigation} />
-        <Card>
+        <Card hasHeader headerTitle="اطلاعات کاربری">
           <ListItem
             title="َشماره تلفن"
             // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
@@ -88,7 +103,7 @@ const Profile = ({ navigation }) => {
             rightTitleStyle={styles.listItemText}
           />
         </Card>
-        <Card>
+        <Card hasHeader headerTitle="اطلاعات سلامت">
           <PickerListItem
             DatePicker
             title="تاریخ تولد"
