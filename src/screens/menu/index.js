@@ -112,11 +112,7 @@ const Menu = ({ navigation }) => {
               <TouchableOpacity
                 onPress={() => navigateTo('PartnerVerificationCode')}>
                 <View style={styles.BtnItem}>
-                  <Icon
-                    type="font-awesome"
-                    name="barcode"
-                    color={COLOR.purple}
-                  />
+                  <Icon type="parto" name="man" color={COLOR.purple} />
                   <Text style={styles.listItemText}>کد همسر</Text>
                 </View>
               </TouchableOpacity>

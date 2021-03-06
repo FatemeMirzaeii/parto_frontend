@@ -21,8 +21,8 @@ const PickerListItem = (props) => {
 
   const chooseChevron = (visible) => {
     return {
-      name: visible ? 'chevron-down' : 'chevron-left',
-      type: 'font-awesome',
+      name: visible ? 'up' : 'down',
+      type: 'parto',
     };
   };
 
