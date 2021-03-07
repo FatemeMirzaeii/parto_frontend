@@ -15,8 +15,10 @@ const DialogBox = ({
   twoButtons,
   firstBtnPress,
   firstBtnTitle,
+  firstBtnColor,
   secondBtnTitle,
   secondBtnPress,
+  secondBtnColor,
 }) => {
   return (
     <Modal
@@ -32,7 +34,7 @@ const DialogBox = ({
             <Button
               title={firstBtnTitle}
               containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
+              buttonStyle={styles.nextButton(firstBtnColor)}
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
@@ -40,7 +42,7 @@ const DialogBox = ({
             <Button
               title={secondBtnTitle}
               containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
+              buttonStyle={styles.prevButton(secondBtnColor)}
               titleStyle={styles.darkBtnTitle}
               type="solid"
               onPress={secondBtnPress}
@@ -70,14 +72,18 @@ DialogBox.propTypes = {
   twoButtons: PropTypes.bool,
   firstBtnPress: PropTypes.func.isRequired,
   firstBtnTitle: PropTypes.string,
+  firstBtnColor: PropTypes.string,
   secondBtnTitle: PropTypes.string,
   secondBtnPress: PropTypes.func,
+  secondBtnColor: PropTypes.string,
 };
 DialogBox.defaultProps = {
   icon: <Icon type="antdesign" name="warning" color="#aaa" size={50} />,
   twoButtons: false,
   firstBtnTitle: 'بله',
   secondBtnTitle: 'نه',
+  firstBtnColor: COLOR.purple,
+  secondBtnColor: COLOR.white,
   secondBtnPress: () => {
     return;
   },
@@ -112,16 +118,16 @@ const styles = StyleSheet.create({
     height: 40,
     borderRadius: 40,
   },
-  nextButton: {
+  nextButton: (firstBtnColor) => ({
     height: 40,
-    backgroundColor: COLOR.purple,
-  },
-  prevButton: {
-    backgroundColor: COLOR.white,
+    backgroundColor: firstBtnColor,
+  }),
+  prevButton: (secondBtnColor) => ({
+    backgroundColor: secondBtnColor,
     width: WIDTH / 3,
     height: 40,
     borderRadius: 40,
-  },
+  }),
   btnTitle: {
     fontFamily: FONT.medium,
     fontSize: 13,

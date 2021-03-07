@@ -35,7 +35,7 @@ import pregnancyAvatar from '../../../assets/images/pregAvatar.png';
 //styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
-import commomStyles from '../../styles/index';
+import commonStyles from '../../styles/index';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
@@ -43,7 +43,8 @@ const PregnancyProfile = ({ navigation, route }) => {
   const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
-  const { isVisible, toggle } = useModal();
+  const { isVisible: firstvisible, toggle: firstToggle } = useModal();
+  const { isVisible: secondvisible, toggle: secondToggle } = useModal();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,12 +62,12 @@ const PregnancyProfile = ({ navigation, route }) => {
       // ),
       headerRight: () => (
         <Icon
-          reverse
           size={16}
           name="right-arrow"
           type="parto"
-          color={COLOR.purple}
+          color={COLOR.pink}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
     });
@@ -97,7 +98,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         <Avatar.Image
           size={170}
           source={pregnancyAvatar}
-          style={commomStyles.avatar}
+          style={commonStyles.avatar}
         />
         <ListItem
           title="سن بارداری"
@@ -187,16 +188,14 @@ const PregnancyProfile = ({ navigation, route }) => {
         <View style={styles.btnsWrapper}>
           <Button
             title="پایان بارداری"
-            onPress={() =>
-              navigation.navigate('PregnancyEnd', { ...route.params })
-            }
+            onPress={firstToggle}
             containerStyle={styles.btnContainer}
             buttonStyle={styles.button}
             titleStyle={styles.btnTitle}
           />
           <Button
             title="حذف اطلاعات بارداری"
-            onPress={toggle}
+            onPress={secondToggle}
             containerStyle={styles.btnContainer}
             buttonStyle={styles.deletebutton}
             titleStyle={styles.deleteBtnTitle}
@@ -204,20 +203,44 @@ const PregnancyProfile = ({ navigation, route }) => {
         </View>
       )}
       <DialogBox
-        isVisible={isVisible}
-        hide={toggle}
+        isVisible={firstvisible}
+        hide={firstToggle}
+        icon={<Icon type="parto" name="baby" color="#aaa" size={50} />}
+        twoButtons
+        text="نحوه پایان بارداری"
+        firstBtnTitle="تولد نوزاد"
+        secondBtnTitle="سقط جنین"
+        firstBtnColor={COLOR.pink}
+        firstBtnPress={() => {
+          firstToggle();
+          navigation.navigate('PregnancyEndCalendar', {
+            ...route.params,
+            type: 0,
+          });
+        }}
+        secondBtnPress={() => {
+          firstToggle();
+          navigation.navigate('PregnancyEndCalendar', {
+            ...route.params,
+            type: 1,
+          });
+        }}
+      />
+      <DialogBox
+        isVisible={secondvisible}
+        hide={secondToggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="آیا از حذف اطلاعات بارداری خود مطمئن هستید؟"
         twoButtons
         firstBtnPress={async () => {
-          toggle();
+          secondToggle();
           await deletePregnancyData();
           await updateUserStatus(0, 0);
           dispatch(setPregnancyMode(0));
           dispatch(fetchInitialCycleData());
           navigation.pop();
         }}
-        secondBtnPress={toggle}
+        secondBtnPress={secondToggle}
       />
     </ScrollView>
   );
