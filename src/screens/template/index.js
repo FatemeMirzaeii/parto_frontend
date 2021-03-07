@@ -42,7 +42,7 @@ const Template = ({ navigation }) => {
     },
     { title: 'پرتو', desc: 'ثبت و تحلیل دوره‌ها و باروری', icon: Main },
     {
-      title: 'همپر',
+      title: 'هم‌پر',
       desc: 'مشاهده اطلاعات همسر',
       icon: Partner,
     },

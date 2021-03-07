@@ -238,11 +238,14 @@ const Calendar = ({ navigation }) => {
           dayComponent={
             editMode
               ? ({ date, state, marking, onPress, onLongPress }) => {
-                  // console.log('marking', marking.length, state);
                   const dateString = date.dateString;
                   return jalaali(dateString).isAfter(today) &&
                     !(dateString in markedDatesBeforeEdit) ? (
-                    <Ptxt>{jalaali(dateString).format('jD')}</Ptxt>
+                    <Ptxt>
+                      {dateString === '2021-03-22'
+                        ? '2'
+                        : jalaali(dateString).format('jD')}
+                    </Ptxt>
                   ) : (
                     <TouchableOpacity
                       onPress={() => onPress(date)}

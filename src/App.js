@@ -56,7 +56,7 @@ const App: () => React$Node = () => {
       if (state.isConnected && token && token !== 'dummyToken') sync();
       else
         console.log(
-          '%c No Internet Connection Is Available To Sync With Server.',
+          '%c No Internet Connection Or UserId Is Available To Sync With Server.',
           'background: yellow',
         );
     });

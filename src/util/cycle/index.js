@@ -184,7 +184,8 @@ export default async function CycleModule() {
     for (let i = 0; i < OVULATION_WINDOW_LENGTH; i++) {
       window.push(moment(firstDay).add(i, 'days').format(FORMAT));
     }
-    return window;
+    const corrected = correct2farvardin(window);
+    return corrected;
   }
   function perdictedPeriodDaysInCurrentYear() {
     if (isPregnant) return [];
@@ -218,6 +219,16 @@ export default async function CycleModule() {
     let days = [];
     for (let i = 0; i < avgPeriodLength; i++) {
       days.push(moment(pdate).add(i, 'days').format(FORMAT));
+    }
+    const corrected = correct2farvardin(days);
+    return corrected;
+  }
+  function correct2farvardin(days) {
+    const duplicate = days.filter((item, index) => {
+      return days.indexOf(item) !== index;
+    });
+    if (duplicate.length === 1 && duplicate[0] === '2021-03-21') {
+      days.push('2021-03-22');
     }
     return days;
   }
