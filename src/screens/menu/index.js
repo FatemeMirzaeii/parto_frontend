@@ -134,34 +134,6 @@ const Menu = ({ navigation }) => {
           </Card>
         </View>
       )}
-      {/* <Card>
-        <ListItem
-          title="تنظیمات دوره‌ها"
-          leftIcon={{ type: 'parto', name: 'settings', color: COLOR.icon }}
-          chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
-          onPress={() => navigateTo('CycleSettings')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          bottomDivider={template === 'Main' ? true : false}
-        />
-
-        {template === 'Main' && (
-          <ListItem
-            title="کد همسر"
-            leftIcon={{
-              name: 'barcode',
-              color: COLOR.icon,
-              type: 'font-awesome',
-            }}
-            chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
-            onPress={() => navigateTo('PartnerVerificationCode')}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
-          />
-        )}
-      </Card> */}
       {template === 'Partner' && (
         <Card>
           <ListItem

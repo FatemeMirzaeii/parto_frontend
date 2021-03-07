@@ -1,15 +1,30 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, Text, SafeAreaView, ToastAndroid } from 'react-native';
+import Clipboard from '@react-native-clipboard/clipboard';
 import { Button, Icon, Avatar } from 'react-native-elements';
-import { COLOR } from '../../styles/static';
+
+//redux
+import { useDispatch, useSelector } from 'react-redux';
+
+//store
+import { signUp } from '../../store/actions/auth';
+
+//components
 import Loader from '../../components/Loader';
 import Card from '../../components/Card';
-import styles from './styles';
+
+//services
 import api from '../../services/api';
-import { signUp } from '../../store/actions/auth';
+
+//util
 import { removeData } from '../../util/func';
+
+//assets
 import PartnerAvatar from './../../../assets/images/partner/avatar.png';
+
+//styles
+import { COLOR } from '../../styles/static';
+import styles from './styles';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -51,40 +66,50 @@ const PartnerVerificationCode = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.codeBox}>
-        {!userId ? (
-          <>
-            <Text style={styles.title}>
-              برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
-            </Text>
-            <Button
-              title="ثبت‌نام"
-              onPress={async () => {
-                await removeData('@token');
-                dispatch(signUp());
-              }}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.button}
-              titleStyle={styles.buttonText}
-            />
-          </>
-        ) : isLoading ? (
-          <Loader />
-        ) : (
-          <Card>
-            <Avatar
-              size="large"
-              source={PartnerAvatar}
-              imageProps={{ resizeMode: 'center' }}
-              containerStyle={styles.avatar}
-            />
-            <Text style={styles.title}>
-              جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید.
-            </Text>
+      {!userId ? (
+        <View style={styles.codeBox}>
+          <Text style={styles.title}>
+            برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
+          </Text>
+          <Button
+            title="ثبت‌نام"
+            onPress={async () => {
+              await removeData('@token');
+              dispatch(signUp());
+            }}
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.buttonText}
+          />
+        </View>
+      ) : isLoading ? (
+        <Loader />
+      ) : (
+        <Card>
+          <Avatar
+            size="xlarge"
+            source={PartnerAvatar}
+            imageProps={{ resizeMode: 'center' }}
+            containerStyle={styles.avatar}
+          />
+          <Text style={styles.title}>
+            جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید:
+          </Text>
+          <View style={styles.codeWrapper}>
             <Text style={styles.code}>{code}</Text>
-          </Card>
-        )}
-      </View>
+            <Icon
+              type="materialicons"
+              name="content-copy"
+              color="#aaa"
+              size={35}
+              onPress={() => {
+                Clipboard.setString(code);
+                ToastAndroid.show('کد کپی شد.', ToastAndroid.LONG);
+              }}
+            />
+          </View>
+        </Card>
+      )}
     </SafeAreaView>
   );
 };
