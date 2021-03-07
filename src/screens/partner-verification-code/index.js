@@ -1,7 +1,7 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ToastAndroid } from 'react-native';
+import { View, Text, SafeAreaView, ToastAndroid, Image } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
-import { Button, Icon, Avatar } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -25,6 +25,7 @@ import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import commonStyles from '../../styles/index';
 
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
@@ -34,18 +35,15 @@ const PartnerVerificationCode = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'کد همسر',
-      headerStyle: {
-        elevation: 0,
-      },
       headerLeft: () => null,
       headerRight: () => (
         <Icon
-          reverse
           size={16}
           name="right-arrow"
           type="parto"
           color={COLOR.purple}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
     });
@@ -66,50 +64,51 @@ const PartnerVerificationCode = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {!userId ? (
-        <View style={styles.codeBox}>
-          <Text style={styles.title}>
-            برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
-          </Text>
-          <Button
-            title="ثبت‌نام"
-            onPress={async () => {
-              await removeData('@token');
-              dispatch(signUp());
-            }}
-            containerStyle={styles.btnContainer}
-            buttonStyle={styles.button}
-            titleStyle={styles.buttonText}
-          />
-        </View>
-      ) : isLoading ? (
-        <Loader />
-      ) : (
-        <Card>
-          <Avatar
-            size="xlarge"
-            source={PartnerAvatar}
-            imageProps={{ resizeMode: 'center' }}
-            containerStyle={styles.avatar}
-          />
-          <Text style={styles.title}>
-            جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید:
-          </Text>
-          <View style={styles.codeWrapper}>
-            <Text style={styles.code}>{code}</Text>
-            <Icon
-              type="materialicons"
-              name="content-copy"
-              color="#aaa"
-              size={35}
-              onPress={() => {
-                Clipboard.setString(code);
-                ToastAndroid.show('کد کپی شد.', ToastAndroid.LONG);
+      <Card>
+        <Image
+          source={PartnerAvatar}
+          style={commonStyles.avatar}
+          resizeMode="center"
+        />
+        {!userId ? (
+          <>
+            <Text style={styles.title}>
+              برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
+            </Text>
+            <Button
+              title="ثبت‌نام"
+              onPress={async () => {
+                await removeData('@token');
+                dispatch(signUp());
               }}
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.buttonText}
             />
-          </View>
-        </Card>
-      )}
+          </>
+        ) : isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <Text style={styles.title}>
+              جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید:
+            </Text>
+            <View style={styles.codeWrapper}>
+              <Text style={styles.code}>{code}</Text>
+              <Icon
+                type="materialicons"
+                name="content-copy"
+                color="#aaa"
+                size={35}
+                onPress={() => {
+                  Clipboard.setString(code);
+                  ToastAndroid.show('کد کپی شد.', ToastAndroid.LONG);
+                }}
+              />
+            </View>
+          </>
+        )}
+      </Card>
     </SafeAreaView>
   );
 };

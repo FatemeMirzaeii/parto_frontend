@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar } from 'react-native-elements';
+import commonStyles from '../../styles/index';
 
 // components
 import Card from '../../components/Card';
@@ -23,8 +23,7 @@ const UserProfile = (props) => {
     <TouchableOpacity onPress={props.onPress}>
       <Card>
         <View style={styles.avatarContainer}>
-          <Avatar
-            size="large"
+          <Image
             source={
               user.template === 'Main'
                 ? MainAvatar
@@ -32,8 +31,8 @@ const UserProfile = (props) => {
                 ? PartnerAvatar
                 : TeenagerAvatar
             }
-            imageProps={{ resizeMode: 'center' }}
-            containerStyle={styles.avatar}
+            style={[commonStyles.avatar, { width: 75, height: 75, margin: 0 }]}
+            resizeMode="center"
           />
           <Text style={styles.text}>
             {isRegistered ? `0${user.phone}` : 'حساب کاربری بسازید!'}

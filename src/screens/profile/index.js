@@ -35,27 +35,31 @@ const Profile = ({ navigation }) => {
       title: 'حساب کاربری',
       headerRight: () => (
         <Icon
-          reverse
           size={16}
           name="right-arrow"
           type="parto"
-          color={COLOR.purple}
+          color={COLOR.pink}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
-      headerLeft: () =>
-        // <Button
-        //   title="ذخیره"
-        //   type="outline"
-        //   onPress={() => save()}
-        //   containerStyle={styles.btnContainer}
-        //   buttonStyle={styles.button}
-        //   titleStyle={styles.btnTitle}
-        //   loadingStyle={{ color: COLOR.pink }}
-        // />
-        null,
+      headerLeft: () => {
+        return (
+          user.template !== 'Partner' && (
+            <Button
+              loading={loading}
+              title="ذخیره"
+              onPress={save}
+              containerStyle={[styles.btnContainer, { width: 50, height: 30 }]}
+              buttonStyle={styles.button}
+              titleStyle={styles.btnTitle}
+              loadingStyle={{ color: COLOR.pink }}
+            />
+          )
+        );
+      },
     });
-  }, [navigation]);
+  }, [loading, navigation, save, user.template]);
   useEffect(() => {
     getProfileData().then((res) => {
       if (res) {
@@ -151,17 +155,6 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
-        {user.template !== 'Partner' && (
-          <Button
-            loading={loading}
-            title="ذخیره"
-            onPress={() => save()}
-            containerStyle={styles.btnContainer}
-            buttonStyle={styles.button}
-            titleStyle={styles.btnTitle}
-            loadingStyle={{ color: COLOR.pink }}
-          />
-        )}
       </ScrollView>
     </SafeAreaView>
   );

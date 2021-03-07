@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, Input, Button } from 'react-native-elements';
+import { Input, Button } from 'react-native-elements';
 
 // components and store
 import Card from '../../components/Card';
@@ -14,6 +14,7 @@ import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 import TeenagerAvatar from './../../../assets/images/teenager/avatar.png';
 import { COLOR } from '../../styles/static';
 import { removeData } from '../../util/func';
+import commonStyles from '../../styles/index';
 
 const UserAvatar = ({ navigation }) => {
   // const [name, setName] = useState();
@@ -36,9 +37,7 @@ const UserAvatar = ({ navigation }) => {
   // };
   return (
     <View>
-      <Avatar
-        size="xlarge"
-        //todo: avatar loads really slow
+      <Image
         source={
           user.template === 'Main'
             ? MainAvatar
@@ -46,8 +45,8 @@ const UserAvatar = ({ navigation }) => {
             ? PartnerAvatar
             : TeenagerAvatar
         }
-        imageProps={{ resizeMode: 'center' }}
-        containerStyle={styles.avatar}
+        style={commonStyles.avatar}
+        resizeMode="center"
       />
       {!isRegistered && (
         <View style={styles.box}>

@@ -22,5 +22,7 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     margin: 20,
+    width: 170,
+    height: 170,
   },
 });
