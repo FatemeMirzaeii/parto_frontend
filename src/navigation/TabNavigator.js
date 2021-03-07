@@ -24,10 +24,10 @@ const TabNavigator = () => {
     <Tab.Navigator
       initialRouteName="Home"
       backBehavior="initialRoute"
-      activeColor='#d6407c'
-      inactiveColor='white'
+      activeColor={COLOR.pink}
+      inactiveColor={COLOR.white}
       barStyle={{
-        backgroundColor: 'rgba(255,255,255, 0.1)',
+        backgroundColor: 'transparent',
         elevation: 0,
         position: 'absolute',
         overflow: 'visible',
@@ -35,6 +35,7 @@ const TabNavigator = () => {
       // backgroundColor: 'rgba(253, 241, 241, 0.9)',
       // backgroundColor: 'rgba(22, 22, 22, 0.2)',
       // backgroundColor: 'rgba(235, 184, 197, 0.2)',
+      // tabBarColor: 'rgba(246, 246, 246, 0.2)',
     >
       <Tab.Screen
         name="Menu"
@@ -49,8 +50,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused, color, size }) => (
             <Icon name="more" size={23} color={color} type="parto" />
           ),
-          tabBarColor:'rgba(22, 22, 22, 0.2)',
-         //tabBarColor: 'rgba(149,156,218,0.5)',
+          tabBarColor: '#E0E0E0',
         }}
       />
       <Tab.Screen
@@ -66,8 +66,7 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused, color, size }) => (
             <Icon name="article" size={25} color={color} type="parto" />
           ),
-          // tabBarColor: 'white',
-          tabBarColor:'rgba(22, 22, 22, 0.2)',
+          tabBarColor: '#E0E0E0',
         }}
       />
       {/* <Tab.Screen
@@ -119,24 +118,27 @@ const TabNavigator = () => {
           tabBarIcon: ({ focused, color, size }) => (
             <Icon name="barchart" size={23} color={color} type="parto" />
           ),
-          // tabBarColor: 'white',
-          tabBarColor:'rgba(22, 22, 22, 0.2)',
+          tabBarColor: '#E0E0E0',
         }}
       />
       <Tab.Screen
         name="Home"
         component={Home}
         options={{
-          //tabBarLabel: 'ماه من',
+          //tabBarLabel: 'ماه‌من',
           tabBarLabel: (
-            <Text style={{ fontFamily: FONT.regular, textAlign: 'center' }}>
-              ماه من
+            <Text
+              style={{
+                fontFamily: FONT.regular,
+                textAlign: 'center',
+                color: COLOR.white,
+              }}>
+              ماه‌من
             </Text>
           ),
           tabBarIcon: ({ focused, color, size }) => (
-            <Icon name="moon" size={23} color={color} type="parto" />
+            <Icon name="moon" size={23} color={COLOR.white} type="parto" />
           ),
-          tabBarColor:'rgba(255, 255, 255, 0.1)',
         }}
       />
     </Tab.Navigator>
