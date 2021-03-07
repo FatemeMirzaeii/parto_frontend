@@ -48,7 +48,9 @@ const WeekCalendar = (props) => {
       todayButtonStyle={styles.today}>
       <View style={styles.header}>
         <Text style={styles.headerText(props.theme.headerColor)}>
-          {jalaali(selectedDate).format('jD jMMMM jYYYY')}
+          {selectedDate === '2021-03-22'
+            ? '2 فروردین 1400'
+            : jalaali(selectedDate).format('jD jMMMM jYYYY')}
         </Text>
       </View>
       <WeekCal
