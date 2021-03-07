@@ -11,7 +11,7 @@ import { getUserVaginalAndSleepOptions } from '../util/database/query';
 
 const WeekCalendar = (props) => {
   const cycle = useSelector((state) => state.cycle);
-  const [selectedDate, setSelectedDate] = useState();
+  const [selectedDate, setSelectedDate] = useState(props.current ?? '');
   const today = new Date().toISOString().split('T')[0];
   // const period = { key: 'period', color: COLOR.bleeding };
   // const periodPerdictiin = {
@@ -36,6 +36,7 @@ const WeekCalendar = (props) => {
     if (props.onDayPress) props.onDayPress(date);
   };
   const onDateChanged = (date, propUpdate) => {
+    console.log('here***********************************');
     setSelectedDate(date);
     if (props.onDateChanged) props.onDateChanged(date);
   };
