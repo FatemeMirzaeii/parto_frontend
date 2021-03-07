@@ -36,7 +36,7 @@ const SubmitButton = ({ addAppTourTarget, onPress }) => {
 const styles = StyleSheet.create({
   bottomWrapper: {
     position: 'absolute',
-    marginBottom: 15,
+    marginBottom: 95,
     bottom: 25,
     right: 15,
     justifyContent: 'center',

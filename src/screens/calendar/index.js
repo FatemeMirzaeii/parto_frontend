@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import {
   View,
   Text,
@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button, Icon } from 'react-native-elements';
+import { Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
 
@@ -26,7 +26,6 @@ import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
 
 // styles and images
-import globalStyles from '../../styles';
 import { COLOR, FONT } from '../../styles/static';
 import MainBg from '../../../assets/images/main/calendarScreen.png';
 import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
@@ -44,109 +43,6 @@ const Calendar = ({ navigation }) => {
 
   const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      title: '',
-      //headerTransparent: true,
-      headerLeft: () => (
-        // <Button
-        //   title="امروز"
-        //   type="outline"
-        //   onPress={() => calendar.current.scrollToDay(new Date(), -200)}
-        //   titleStyle={globalStyles.headerBtnTitle}
-        //   containerStyle={globalStyles.smallHeaderBtn}
-        // />
-        <Icon
-          reverse
-          //raised
-          size={20}
-          name="go-to-day"
-          type="parto"
-          color={COLOR.purple}
-          onPress={() => calendar.current.scrollToDay(new Date())}
-        />
-      ),
-      headerRight: () => (
-        <View style={{ flexDirection: 'row' }}>
-          {template !== 'Teenager' && (
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                width: 90,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: FONT.medium,
-                  fontSize: 11,
-                }}>
-                تخمک‌گذاری
-              </Text>
-              <View
-                style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: 7,
-                  backgroundColor: COLOR.ovulationPerdictions,
-                }}
-              />
-            </View>
-          )}
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: 100,
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontFamily: FONT.medium,
-                fontSize: 11,
-              }}>
-              پیش‌بینی پریود
-            </Text>
-            <View
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: 7,
-                backgroundColor: COLOR.periodPerdiction,
-              }}
-            />
-          </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-around',
-              width: 60,
-              alignItems: 'center',
-            }}>
-            <Text
-              style={{
-                textAlign: 'center',
-                fontFamily: FONT.medium,
-                fontSize: 11,
-              }}>
-              پریود
-            </Text>
-            <View
-              style={{
-                width: 14,
-                height: 14,
-                borderRadius: 7,
-                backgroundColor: COLOR.bleeding,
-              }}
-            />
-          </View>
-        </View>
-      ),
-    });
-  }, [editMode, navigation]);
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
 
@@ -217,7 +113,6 @@ const Calendar = ({ navigation }) => {
           ? PartnerBg
           : MainBg
       }
-      // blurRadius={5}
       style={{ height: '100%', width: '100%' }}>
       <View
         style={{
@@ -226,6 +121,103 @@ const Calendar = ({ navigation }) => {
               ? 'transparent'
               : 'rgba( 254, 254, 254, 0.4 )',
         }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 25,
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+          }}>
+          <Icon
+            raised
+            size={20}
+            name="go-to-day"
+            type="parto"
+            color={COLOR.purple}
+            onPress={() => calendar.current.scrollToDay(new Date())}
+            containerStyle={{ right: 0 }}
+          />
+          <View
+            style={{
+              flexDirection: 'row',
+            }}>
+            {template !== 'Teenager' && (
+              <View
+                style={{
+                  flexDirection: 'row',
+                  justifyContent: 'space-around',
+                  width: 90,
+                  alignItems: 'center',
+                }}>
+                <Text
+                  style={{
+                    textAlign: 'center',
+                    fontFamily: FONT.medium,
+                    fontSize: 11,
+                  }}>
+                  تخمک‌گذاری
+                </Text>
+                <View
+                  style={{
+                    width: 14,
+                    height: 14,
+                    borderRadius: 7,
+                    backgroundColor: COLOR.ovulationPerdictions,
+                  }}
+                />
+              </View>
+            )}
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: 100,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: FONT.medium,
+                  fontSize: 11,
+                }}>
+                پیش‌بینی پریود
+              </Text>
+              <View
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: 7,
+                  backgroundColor: COLOR.periodPerdiction,
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                justifyContent: 'space-around',
+                width: 60,
+                alignItems: 'center',
+              }}>
+              <Text
+                style={{
+                  textAlign: 'center',
+                  fontFamily: FONT.medium,
+                  fontSize: 11,
+                }}>
+                پریود
+              </Text>
+              <View
+                style={{
+                  width: 14,
+                  height: 14,
+                  borderRadius: 7,
+                  backgroundColor: COLOR.bleeding,
+                }}
+              />
+            </View>
+          </View>
+        </View>
         <CalendarList
           ref={calendar}
           jalali

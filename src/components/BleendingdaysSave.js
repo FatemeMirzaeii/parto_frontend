@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
   // },
   bottomButton: {
     position: 'absolute',
-    marginBottom: 15,
+    marginBottom: 95,
     bottom: 25,
     shadowColor: '#000',
     shadowOffset: {
