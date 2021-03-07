@@ -16,7 +16,7 @@ const HomeCalendar = ({ addAppTourTarget }) => {
         let targetprops = {
           order: 12,
           title: 'برشی از تقویم',
-          description: 'ورق بزن و تاریخ‌های قبلی و بعدی رو ببین',
+          description: 'ورق بزن و تاریخ‌های قبلی و بعدی رو روی تقویم ببین',
           descriptionTextSize: 15,
           outerCircleColor: COLOR.purple,
           outerCircleAlpha: 0.9,

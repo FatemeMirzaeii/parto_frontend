@@ -21,9 +21,9 @@ const TreatiseIconBox = ({
           }
           let props = {
             order: 12,
-            title: 'تماس با پاسخگوی شرعی',
+            title: 'تماس با کارشناس',
             description:
-              'اساتید خبره احکام بانوان، به صورت 24 ساعته و رایگان آماده پاسخگویی به شما هستن',
+              'کارشناس های خبره احکام 24 ساعته منتظرن تا باهاشون تماس بگیری و سوالاتتو بپرسی ',
             descriptionTextSize: 15,
             outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,
@@ -75,7 +75,7 @@ const TreatiseIconBox = ({
           let props = {
             order: 11,
             title: 'راهنمای احکام',
-            description: 'این‌جا رو حتما بخون',
+            description: 'این قسمت رو حتما بخون !',
             descriptionTextSize: 15,
             outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,

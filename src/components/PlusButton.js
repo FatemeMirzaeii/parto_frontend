@@ -1,9 +1,12 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
 
 const PlusButton = (props) => {
+  const template = useSelector((state) => state.user.template);
+
   return (
     <>
       <Icon
@@ -15,8 +18,11 @@ const PlusButton = (props) => {
           if (!ref) return;
           let tprops = {
             order: 11,
-            title: 'شرح حال من',
-            description: 'اطلاعات سلامتت رو این‌جا در اختیار دستیارت قرار بده',
+            title: 'شرح حال',
+            description:
+              template === 'Partner'
+                ? 'اطلاعات تکمیلی از حال هر روز همسرت اینجا وارد میشه '
+                : 'اطلاعات  تکمیلی از حال هر روز رو اینجا در اختیار دستیارت قرار بده ',
             descriptionTextSize: 15,
             outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,
