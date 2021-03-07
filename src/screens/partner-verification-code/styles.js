@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 import { WIDTH, FONT, SIZE, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
-  container: { flex: 1, alignItems: 'center' },
+  container: {
+    flex: 1,
+  },
   codeBox: {
     margin: 20,
     padding: 10,
@@ -14,13 +16,35 @@ export default StyleSheet.create({
     height: 125,
     backgroundColor: COLOR.white,
   },
+  codeWrapper: {
+    flexDirection: 'row',
+    borderRadius: 25,
+    borderWidth: 1,
+    width: WIDTH * 0.7,
+    margin: 20,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: '#aaa',
+  },
   avatar: {
-    backgroundColor: '#f1f1f1',
+    backgroundColor: 'transparent',
     alignSelf: 'center',
     margin: 10,
   },
-  title: { fontFamily: FONT.regular, fontSize: SIZE[14] },
-  code: { fontFamily: FONT.bold, fontSize: SIZE[21] },
+  title: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    textAlign: 'center',
+    color: COLOR.listItemTxt,
+  },
+  code: {
+    fontFamily: FONT.bold,
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 15,
+    color: '#aaa',
+  },
   btnContainer: {
     elevation: 5,
     width: 100,

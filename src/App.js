@@ -1,4 +1,5 @@
 import 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
 import { NavigationContainer } from '@react-navigation/native';
 import React, { useRef, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
@@ -32,6 +33,8 @@ import sync from './util/database/sync';
 const App: () => React$Node = () => {
   const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
+  const navigationRef = useRef();
+  const routeNameRef = useRef();
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
@@ -74,7 +77,24 @@ const App: () => React$Node = () => {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <NavigationContainer>
+        <NavigationContainer
+          ref={navigationRef}
+          onReady={() =>
+            (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
+          }
+          onStateChange={async () => {
+            const previousRouteName = routeNameRef.current;
+            const currentRouteName = navigationRef.current.getCurrentRoute()
+              .name;
+
+            if (previousRouteName !== currentRouteName) {
+              await analytics().logScreenView({
+                screen_name: currentRouteName,
+                screen_class: currentRouteName,
+              });
+            }
+            routeNameRef.current = currentRouteName;
+          }}>
           <StatusBar
             translucent
             barStyle="dark-content"

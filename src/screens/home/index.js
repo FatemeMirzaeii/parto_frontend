@@ -1,7 +1,6 @@
 import moment from 'moment';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
-  Image,
   ImageBackground,
   SafeAreaView,
   Text,
@@ -10,7 +9,9 @@ import {
   ToastAndroid,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
+import { Icon } from 'react-native-elements';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+import analytics from '@react-native-firebase/analytics';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -36,7 +37,6 @@ import Tour from '../../util/tourGuide/Tour';
 //assets
 import MainBg from '../../../assets/images/main/home.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
-import PregnancyProfile from '../../../assets/images/PregnancyProfile.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 
@@ -54,6 +54,7 @@ const Home = ({ navigation }) => {
   const [appTourTargets, setAppTourTargets] = useState([]);
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
+  const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -82,19 +83,19 @@ const Home = ({ navigation }) => {
           return true;
         }
       };
-
       BackHandler.addEventListener('hardwareBackPress', handleBackButton);
-
       return () =>
         BackHandler.removeEventListener('hardwareBackPress', handleBackButton);
     }, []),
   );
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('tabPress', (e) => {
       setDate(today);
     });
     return unsubscribe;
   }, [navigation]);
+
   useEffect(() => {
     determineMode();
   }, [date, determineMode]);
@@ -210,11 +211,15 @@ const Home = ({ navigation }) => {
         {cycle.isPregnant ? (
           <TouchableOpacity
             containerStyle={styles.pregnancyIcon}
-            onPress={() => {
+            onPress={async () => {
               navigation.navigate('PregnancyProfile');
+              await analytics().logEvent('PregnancyProfilePress', {
+                template: template,
+                userId: userId,
+              });
             }}>
             <View style={styles.imageWrapper}>
-              <Image source={PregnancyProfile} style={styles.pregnancyImage} />
+              <Icon type="parto" name="baby" color={COLOR.white} size={25} />
             </View>
           </TouchableOpacity>
         ) : null}
