@@ -232,6 +232,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="آیا از حذف اطلاعات بارداری خود مطمئن هستید؟"
         twoButtons
+        firstBtnColor={COLOR.pink}
         firstBtnPress={async () => {
           secondToggle();
           await deletePregnancyData();
