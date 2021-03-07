@@ -46,12 +46,12 @@ const CycleSetting = ({ navigation }) => {
         ),
       headerRight: () => (
         <Icon
-          reverse
           size={16}
           name="right-arrow"
           type="parto"
-          color={COLOR.purple}
+          color={COLOR.pink}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
     });

@@ -20,6 +20,7 @@ export default StyleSheet.create({
     height: 40,
     borderRadius: 40,
     alignSelf: 'center',
+    justifyContent: 'center',
     margin: 20,
   },
   button: {

@@ -49,9 +49,10 @@ export default StyleSheet.create({
     elevation: 5,
     width: 100,
     alignSelf: 'center',
+    margin: 15,
   },
   button: {
-    backgroundColor: COLOR.pink,
+    backgroundColor: COLOR.purple,
     borderRadius: 40,
   },
   buttonText: {
