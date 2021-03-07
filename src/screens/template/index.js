@@ -37,13 +37,13 @@ const Template = ({ navigation }) => {
   const carousel = [
     {
       title: 'نوجوان',
-      desc: 'ثبت و تحلیل دوره‌ها برای نوجوانان 11 - 18 سال',
+      desc: 'ثبت و تحلیل دوره‌های قاعدگی',
       icon: Teenager,
     },
     { title: 'پرتو', desc: 'ثبت و تحلیل دوره‌ها و باروری', icon: Main },
     {
-      title: 'همسر',
-      desc: 'اطلاع از دوره‌ها و باروری همسر',
+      title: 'همپر',
+      desc: 'مشاهده اطلاعات همسر',
       icon: Partner,
     },
   ];
@@ -100,7 +100,7 @@ const Template = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.title}>به پرتو خوش‌اومدی</Text>
-          <Text style={styles.header}>نسخه اختصاصیت رو انتخاب کن:</Text>
+          <Text style={styles.header}>نسخه اختصاصیت رو انتخاب کن</Text>
         </View>
         <View style={styles.carousel}>
           <Carousel

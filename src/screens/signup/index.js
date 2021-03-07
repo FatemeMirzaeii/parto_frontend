@@ -105,14 +105,12 @@ const SignUp = ({ navigation }) => {
 
   const _handleLogin = async () => {
     //setIsLoading(true);
-    console.log('here here here here here here');
     const res = await api({
       method: 'POST',
       url: '/auth/logIn/fa',
       dev: true,
       data: { phone: '98' + phoneNumber },
     });
-    console.log('here here here here here here 2 2 2 2 2 2');
     const id = res.data.data.id;
     const type = res.data.data.type;
     storeData('@token', res.headers['x-auth-token']);
@@ -149,7 +147,7 @@ const SignUp = ({ navigation }) => {
           <Loader />
         ) : !codeFieldActive ? (
           <KeyboardAvoidingView style={styles.container}>
-            <Ptxt style={styles.title}>شماره تماس خود را وارد کنید:</Ptxt>
+            <Ptxt style={styles.title}>شماره تماس خود را وارد کنید</Ptxt>
             {/* todo: limit for phone number input. */}
             <PhoneInput
               containerStyle={styles.phoneInputwrapper}
@@ -165,10 +163,10 @@ const SignUp = ({ navigation }) => {
               maxLength={9}
             />
             <Text style={styles.description}>
-              (پس از وارد کردن شماره تماس، کد تایید برای شما ارسال خواهد شد.)
+              بعد از وارد کردن شماره تماس، کد تایید برای شما ارسال خواهد شد.
             </Text>
             <Button
-              title="ادامه فرایند"
+              title="ادامه"
               disabled={!btnActive}
               containerStyle={styles.btnContainer}
               buttonStyle={styles.button}
@@ -182,7 +180,7 @@ const SignUp = ({ navigation }) => {
           </KeyboardAvoidingView>
         ) : (
           <>
-            <Ptxt style={styles.title}>کد تایید را وارد کنید:</Ptxt>
+            <Ptxt style={styles.title}>کد تایید را وارد کنید</Ptxt>
             <CodeField
               ref={ref}
               {...props}
