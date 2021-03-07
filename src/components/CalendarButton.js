@@ -1,10 +1,12 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
 
 const CalendarButton = ({ addAppTourTarget, onPress }) => {
+  const template = useSelector((state) => state.user.template);
   return (
     <View>
       <Icon
@@ -17,7 +19,10 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
           let props = {
             order: 13,
             title: 'تقویم پرتو',
-            description: 'از این‌جا می‌تونی تقویمت رو ببینی',
+            description:
+              template === 'Partner'
+                ? 'تقویم پریود همسرت اینجاست!در تقویم پریود میتونی همه ی اطلاعات پریود همسرت رو ببینی'
+                : 'تقویم پریودت اینجاست ! در تقویم میتونی همه اطلاعات پریودت رو ببینی',
             descriptionTextSize: 15,
             outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,
