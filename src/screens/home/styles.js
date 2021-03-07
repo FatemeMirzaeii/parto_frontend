@@ -12,7 +12,7 @@ export default StyleSheet.create({
   },
   pregnancyIcon: {
     backgroundColor: COLOR.purple,
-    borderRadius: 30,
+    borderRadius: 35,
     //width:120,
     padding: 5,
     position: 'absolute',
