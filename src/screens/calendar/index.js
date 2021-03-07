@@ -217,128 +217,135 @@ const Calendar = ({ navigation }) => {
           ? PartnerBg
           : MainBg
       }
+      // blurRadius={5}
       style={{ height: '100%', width: '100%' }}>
-      {/* <View style={{backgroundColor:'red',height:80}}>
-
-        </View> */}
-      <CalendarList
-        ref={calendar}
-        jalali
-        firstDay={6}
-        showSixWeeks
-        maxDate={editMode ? null : today.format(FORMAT)}
-        pastScrollRange={12}
-        futureScrollRange={12}
-        markedDates={{
-          ...cycle.periodPerdictions,
-          ...cycle.ovulationPerdictions,
-          ...cycle.periodDays,
-        }}
-        markingType="custom"
-        onDayPress={onDayPress}
-        onDayLongPress={(day) => console.log('day long press', day)}
-        calendarHeight={430}
-        dayComponent={
-          editMode
-            ? ({ date, state, marking, onPress, onLongPress }) => {
-                // console.log('marking', marking.length, state);
-                const dateString = date.dateString;
-                return jalaali(dateString).isAfter(today) &&
-                  !(dateString in markedDatesBeforeEdit) ? (
-                  <Ptxt>{jalaali(dateString).format('jD')}</Ptxt>
-                ) : (
-                  <TouchableOpacity
-                    onPress={() => onPress(date)}
-                    onLongPress={() => onLongPress(date)}>
-                    <Ptxt
-                      style={[
-                        styles.editableDays,
-                        {
-                          color:
-                            dateString in cycle.periodDays
-                              ? COLOR.white
-                              : COLOR.black,
-                          backgroundColor:
-                            dateString in cycle.periodDays
-                              ? COLOR.bleeding
-                              : 'transparent',
-                        },
-                      ]}>
-                      {jalaali(dateString).format('jD')}
-                    </Ptxt>
-                  </TouchableOpacity>
-                );
-              }
-            : null
-        }
-        theme={{
-          monthTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
-          // dayTextColor: COLOR.white,
-          textSectionTitleColor: COLOR.black,
-          todayTextColor: COLOR.black,
-          todayBackgroundColor: COLOR.today,
-          selectedDayTextColor: COLOR.white,
-          textDisabledColor: COLOR.textColorDark,
-          textDayFontFamily: FONT.medium,
-          textMonthFontFamily: FONT.bold,
-          'stylesheet.calendar-list.main': {
-            container: {
-              backgroundColor: 'transparent',
-            },
-          },
-          'stylesheet.calendar.main': {
-            container: {
-              // borderBottomWidth: 0.2,
-              backgroundColor: 'transparent',
-            },
-            monthView: {
-              backgroundColor: 'rgba(255,255,255, 0.9)',
-              borderRadius: 15,
-              elevation: 2,
-              padding: 10,
-            },
-          },
-          'stylesheet.calendar.header': {
-            dayHeader: {
-              width: 40,
-              textAlign: 'center',
-              fontFamily: FONT.medium,
-              fontSize: 11,
-              marginBottom: 10,
-              color: template === 'Partner' ? COLOR.white : COLOR.black,
-            },
-            rtlHeader: {
-              alignItems: 'center',
-              //borderBottomWidth: 0.2,
-              backgroundColor: 'rgba(255,255,255, 0.1)',
-              justifyContent: 'center',
-              alignSelf: 'center',
-              //padding: 5,
-              // paddingHorizontal: 20,
-              margin: 10,
-              borderRadius: 30,
-              elevation: 1,
-              width: 170,
-            },
-          },
-          'stylesheet.day.single': {
-            today: {
-              borderRadius: 50,
-              elevation: 2,
-            },
-          },
-        }}
-      />
-      {template === 'Partner' ? null : !editMode ? (
-        <SaveBleendingButton
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
+      <View
+        style={{
+          backgroundColor:
+            template === 'Partner'
+              ? 'transparent'
+              : 'rgba( 254, 254, 254, 0.4 )',
+        }}>
+        <CalendarList
+          ref={calendar}
+          jalali
+          firstDay={6}
+          showSixWeeks
+          maxDate={editMode ? null : today.format(FORMAT)}
+          pastScrollRange={12}
+          futureScrollRange={12}
+          markedDates={{
+            ...cycle.periodPerdictions,
+            ...cycle.ovulationPerdictions,
+            ...cycle.periodDays,
           }}
-          onPress={onEditPress}
+          markingType="custom"
+          onDayPress={onDayPress}
+          onDayLongPress={(day) => console.log('day long press', day)}
+          calendarHeight={430}
+          dayComponent={
+            editMode
+              ? ({ date, state, marking, onPress, onLongPress }) => {
+                  // console.log('marking', marking.length, state);
+                  const dateString = date.dateString;
+                  return jalaali(dateString).isAfter(today) &&
+                    !(dateString in markedDatesBeforeEdit) ? (
+                    <Ptxt>{jalaali(dateString).format('jD')}</Ptxt>
+                  ) : (
+                    <TouchableOpacity
+                      onPress={() => onPress(date)}
+                      onLongPress={() => onLongPress(date)}>
+                      <Ptxt
+                        style={[
+                          styles.editableDays,
+                          {
+                            color:
+                              dateString in cycle.periodDays
+                                ? COLOR.white
+                                : COLOR.black,
+                            backgroundColor:
+                              dateString in cycle.periodDays
+                                ? COLOR.bleeding
+                                : 'transparent',
+                          },
+                        ]}>
+                        {jalaali(dateString).format('jD')}
+                      </Ptxt>
+                    </TouchableOpacity>
+                  );
+                }
+              : null
+          }
+          theme={{
+            monthTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
+            textSectionTitleColor: COLOR.black,
+            todayTextColor: COLOR.black,
+            todayBackgroundColor: COLOR.today,
+            selectedDayTextColor: COLOR.white,
+            textDisabledColor:
+              template === 'Partner' ? COLOR.white : COLOR.textColorDark,
+            textDayFontFamily: FONT.medium,
+            textMonthFontFamily: FONT.bold,
+            'stylesheet.calendar-list.main': {
+              container: {
+                backgroundColor: 'transparent',
+              },
+            },
+            'stylesheet.calendar.main': {
+              container: {
+                // borderBottomWidth: 0.2,
+                backgroundColor: 'transparent',
+              },
+              monthView: {
+                backgroundColor: 'transparent',
+                // backgroundColor: 'rgba(255,255,255, 0.9)',
+                // borderRadius: 15,
+                // elevation: 2,
+                // padding: 10,
+              },
+            },
+            'stylesheet.calendar.header': {
+              dayHeader: {
+                width: 40,
+                textAlign: 'center',
+                fontFamily: FONT.medium,
+                fontSize: 11,
+                marginBottom: 10,
+                color: template === 'Partner' ? COLOR.white : COLOR.black,
+              },
+              rtlHeader: {
+                alignItems: 'center',
+                //borderBottomWidth: 0.2,
+                backgroundColor: 'rgba(255,255,255, 0.1)',
+                justifyContent: 'center',
+                alignSelf: 'center',
+                //padding: 5,
+                // paddingHorizontal: 20,
+                margin: 10,
+                borderRadius: 30,
+                elevation: 1,
+                width: 170,
+              },
+            },
+            'stylesheet.day.single': {
+              today: {
+                borderRadius: 50,
+                elevation: 2,
+              },
+            },
+          }}
         />
-      ) : (
-        <>
-          {/* <Button
+        {template === 'Partner' ? null : !editMode ? (
+          <SaveBleendingButton
+            addAppTourTarget={(appTourTarget) => {
+              appTourTargets.push(appTourTarget);
+            }}
+            onPress={onEditPress}
+          />
+        ) : (
+          <>
+            {/* <Button
             title="ثبت"
             type="outline"
             onPress={onSubmitEditing}
@@ -351,13 +358,13 @@ const Calendar = ({ navigation }) => {
               },
             ]}
           /> */}
-          <SubmitButton
-            addAppTourTarget={(appTourTarget) => {
-              appTourTargets.push(appTourTarget);
-            }}
-            onPress={() => onSubmitEditing()}
-          />
-          {/* <Button
+            <SubmitButton
+              addAppTourTarget={(appTourTarget) => {
+                appTourTargets.push(appTourTarget);
+              }}
+              onPress={() => onSubmitEditing()}
+            />
+            {/* <Button
             title="انصراف"
             type="outline"
             onPress={onCancelEditing}
@@ -370,14 +377,15 @@ const Calendar = ({ navigation }) => {
               },
             ]}
           /> */}
-          <CancelButton
-            addAppTourTarget={(appTourTarget) => {
-              appTourTargets.push(appTourTarget);
-            }}
-            onPress={() => onCancelEditing()}
-          />
-        </>
-      )}
+            <CancelButton
+              addAppTourTarget={(appTourTarget) => {
+                appTourTargets.push(appTourTarget);
+              }}
+              onPress={() => onCancelEditing()}
+            />
+          </>
+        )}
+      </View>
     </ImageBackground>
   );
 };
