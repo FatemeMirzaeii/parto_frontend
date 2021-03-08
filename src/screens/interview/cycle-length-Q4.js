@@ -78,7 +78,6 @@ const Q4 = ({ route, navigation }) => {
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={() => {
-                console.log('=============================', selectedItem);
                 onNextPress(selectedItem + 15);
               }}
             />
