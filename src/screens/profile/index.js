@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListItem, Button, Icon } from 'react-native-elements';
