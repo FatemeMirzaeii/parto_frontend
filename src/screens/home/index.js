@@ -114,7 +114,11 @@ const Home = ({ navigation }) => {
         setSubSentence('');
         setThirdSentence('');
       } else if (pregnancyAge.week >= 0) {
-        setMainSentence(`هفته ${pregnancyAge.week} بارداری `);
+        setMainSentence(
+          pregnancyAge.days
+            ? `در حال سپری کردن هفته ${pregnancyAge.week + 1} بارداری `
+            : `هفته ${pregnancyAge.week} بارداری شما سپری شده است.`,
+        );
         setSubSentence(
           `سن بارداری شما ${pregnancyAge.week} هفته ${
             pregnancyAge.days ? `و ${pregnancyAge.days} روز می‌باشد.` : ''
