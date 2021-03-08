@@ -28,6 +28,6 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
     if (err.status === 500 || err.status === 502) return;
     else if (err.toString() === 'Error: Network Error')
       ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-    else ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
+    else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
   }
 };
