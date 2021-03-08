@@ -36,7 +36,6 @@ const WeekCalendar = (props) => {
     if (props.onDayPress) props.onDayPress(date);
   };
   const onDateChanged = (date, propUpdate) => {
-    console.log('here***********************************');
     setSelectedDate(date);
     if (props.onDateChanged) props.onDateChanged(date);
   };
