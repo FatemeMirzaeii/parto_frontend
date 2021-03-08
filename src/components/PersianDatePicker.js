@@ -5,9 +5,9 @@ import { setPickerRange } from '../util/func';
 import { COLOR, FONT } from '../styles/static';
 
 ////todo: 1- should return both Gregorian date and jalali.
-////      2- should check if month has 31 days or not.
 const PersianDatePicker = (props) => {
   const days = setPickerRange(1, 31);
+  const days30 = setPickerRange(1, 30);
   const years = setPickerRange(props.startOfRange, props.endOfRange);
   const months = [
     'فروردین',
@@ -100,7 +100,7 @@ const PersianDatePicker = (props) => {
       </View>
       <View style={styles.verticalWrapper}>
         <WheelPicker
-          data={days}
+          data={month > 6 ? days30 : days}
           selectedItem={dayIndex}
           onItemSelected={onDaySelected}
           isCyclic
