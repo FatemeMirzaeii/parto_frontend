@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, SIZE, FONT, WIDTH, HEIGHT } from '../../styles/static';
+import { COLOR, FONT, WIDTH, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -7,12 +7,9 @@ export default StyleSheet.create({
     flex: 1,
   },
   safeAreaView: {
-    // backgroundColor: 'rgba(12,12,12,0.7)',
-    // justifyContent: 'center',
-    height: HEIGHT / 1.4,
-    marginTop: '47%', //for responsive
-    //marginTop: '45%',
-    padding: 5,
+    flex: 3,
+    marginTop: '10%',
+    justifyContent: 'space-between',
   },
   bg: {
     width: '100%',
@@ -21,7 +18,7 @@ export default StyleSheet.create({
     flex: 1,
   },
   calendar: {
-    width: WIDTH - 40,
+    width: WIDTH - 50,
     alignSelf: 'center',
     justifyContent: 'center',
   },
@@ -41,6 +38,7 @@ export default StyleSheet.create({
     width: WIDTH / 3,
     height: 40,
     borderRadius: 40,
+    marginTop: 10,
   },
   nextButton: {
     height: 40,
@@ -116,6 +114,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     alignSelf: 'center',
+    height: HEIGHT / 4,
   },
   pregnancy_picker: {
     width: WIDTH / 5,
@@ -142,12 +141,12 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignSelf: 'center',
     alignItems: 'center',
-    height: HEIGHT / 1.5,
+    // height: HEIGHT / 1.2,
     //backgroundColor: 'red',
     marginTop: '10%', //response in 4 inch
+    flex: 6,
   },
   codeInpute: {
-    elevation: 1,
     borderColor: COLOR.partner,
     borderWidth: 3,
     borderRadius: 60,

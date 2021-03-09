@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ImageBackground, View } from 'react-native';
+import { ImageBackground, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 
@@ -45,7 +45,8 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
   }
   return (
     <ImageBackground source={Main} style={styles.bg}>
-      <SafeAreaView style={styles.safeAreaView}>
+      <View style={{ flex: 1 }} />
+      <View style={styles.safeAreaView}>
         <Ptxt style={styles.question}>چند هفته است که باردار هستید؟</Ptxt>
         <View style={styles.pickerGroup}>
           <WheelPicker
@@ -114,7 +115,7 @@ const Pregnancy_Q2 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </ImageBackground>
   );
 };

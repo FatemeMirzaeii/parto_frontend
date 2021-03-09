@@ -39,46 +39,49 @@ const Q2 = ({ route, navigation }) => {
     <ImageBackground
       source={route.params.template === 'Main' ? Main : Teenager}
       style={styles.bg}>
-      <ScrollView style={styles.safeAreaView}>
-        <Text style={styles.question}>آخرین پریودت چه روزی شروع شد؟</Text>
-        <Text style={styles.subtext}>لطفا روی تقویم مشخص کن.</Text>
-        <Calendar
-          onDayPress={(day) => {
-            setLastPeriodDate(day.dateString);
-          }}
-          maxDate={today.format(FORMAT)}
-          markedDates={{
-            [lastPeriodDate]: { selected: true },
-          }}
-          style={styles.calendar}
-        />
-        <View style={{ flex: 1 }}>
-          <Button
-            title="فراموش کردم"
-            titleStyle={styles.darkBtnTitle}
-            type="clear"
-            onPress={onForgotPress}
+      <View style={{ flex: 1 }} />
+      <View style={styles.safeAreaView}>
+        <ScrollView>
+          <Text style={styles.question}>آخرین پریودت چه روزی شروع شد؟</Text>
+          {/* <Text style={styles.subtext}>لطفا روی تقویم مشخص کن.</Text> */}
+          <Calendar
+            onDayPress={(day) => {
+              setLastPeriodDate(day.dateString);
+            }}
+            maxDate={today.format(FORMAT)}
+            markedDates={{
+              [lastPeriodDate]: { selected: true },
+            }}
+            style={styles.calendar}
           />
-          <Stepper foursome index={1} />
-          <View style={styles.buttons}>
+          <View>
             <Button
-              title="بعدی"
-              disabled={!lastPeriodDate}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
-              titleStyle={styles.btnTitle}
-              onPress={onNextPress}
-            />
-            <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
+              title="فراموش کردم"
               titleStyle={styles.darkBtnTitle}
-              onPress={() => navigation.goBack()}
+              type="clear"
+              onPress={onForgotPress}
             />
+            <Stepper foursome index={1} />
+            <View style={styles.buttons}>
+              <Button
+                title="بعدی"
+                disabled={!lastPeriodDate}
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.nextButton}
+                titleStyle={styles.btnTitle}
+                onPress={onNextPress}
+              />
+              <Button
+                title="قبلی"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.prevButton}
+                titleStyle={styles.darkBtnTitle}
+                onPress={() => navigation.goBack()}
+              />
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </ImageBackground>
   );
 };
