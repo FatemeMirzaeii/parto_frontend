@@ -38,17 +38,15 @@ const App: () => React$Node = () => {
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
-    store.dispatch(restoreToken());
+    launchApp();
     AppState.addEventListener('change', _handleAppStateChange);
-    setTimeout(() => {
-      SplashScreen.hide();
-    }, 2000);
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
   }, []);
 
   const launchApp = async () => {
+    store.dispatch(restoreToken());
     setupNotifications();
     await migration();
     NetInfo.addEventListener((state) => {
@@ -61,6 +59,7 @@ const App: () => React$Node = () => {
         );
     });
     store.dispatch(fetchInitialCycleData());
+    SplashScreen.hide();
   };
 
   const _handleAppStateChange = (nextAppState) => {
