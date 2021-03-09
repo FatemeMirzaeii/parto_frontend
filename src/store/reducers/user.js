@@ -15,7 +15,11 @@ const userReducer = (state = initialState, action) => {
       return { ...state, id: action.id, phone: action.phone };
     }
     case RESET: {
-      return initialState;
+      return {
+        id: null,
+        phone: '',
+        template: '',
+      };
     }
     default:
       return state;
