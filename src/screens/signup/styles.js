@@ -36,7 +36,7 @@ export default StyleSheet.create({
     left: 15,
   },
   phoneInputwrapper: {
-    width: WIDTH * 0.6,
+    width: WIDTH * 0.7,
     borderRadius: 10,
     alignSelf: 'center',
     margin: 30,
