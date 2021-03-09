@@ -11,21 +11,11 @@ export default StyleSheet.create({
     justifyContent: 'space-around',
   },
   pregnancyIcon: {
-    backgroundColor: COLOR.purple,
-    borderRadius: 35,
-    //width:120,
-    padding: 5,
     position: 'absolute',
     alignSelf: 'flex-end',
     top: 32,
     right: 20,
     elevation: 3,
-  },
-  imageWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 5,
-    justifyContent: 'space-between',
   },
   pregnancyImage: { width: 33, height: 33 },
   moonText: {

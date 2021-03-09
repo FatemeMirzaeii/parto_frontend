@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
 import { ListItem, Button, Icon } from 'react-native-elements';
@@ -59,7 +54,28 @@ const Profile = ({ navigation }) => {
         );
       },
     });
-  }, [loading, navigation, save, user.template]);
+    const save = async () => {
+      setLoading(true);
+      await saveProfileHealthData(
+        bloodType,
+        weight,
+        height,
+        birthdate,
+        avgSleepingHours,
+      );
+      setLoading(false);
+      navigation.pop();
+    };
+  }, [
+    avgSleepingHours,
+    birthdate,
+    bloodType,
+    height,
+    loading,
+    navigation,
+    user.template,
+    weight,
+  ]);
   useEffect(() => {
     getProfileData().then((res) => {
       if (res) {
@@ -78,18 +94,7 @@ const Profile = ({ navigation }) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
   };
-  const save = useCallback(async () => {
-    setLoading(true);
-    await saveProfileHealthData(
-      bloodType,
-      weight,
-      height,
-      birthdate,
-      avgSleepingHours,
-    );
-    setLoading(false);
-    navigation.pop();
-  }, [bloodType, weight, height, birthdate, avgSleepingHours, navigation]);
+
   return (
     <SafeAreaView
       style={styles.safeAreaView}

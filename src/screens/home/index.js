@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
-import { TouchableOpacity } from 'react-native-gesture-handler';
 import analytics from '@react-native-firebase/analytics';
 
 //redux
@@ -30,7 +29,7 @@ import { FORMAT } from '../../constants/cycle';
 
 //util
 import CycleModule from '../../util/cycle';
-import { pregnancyMode } from '../../util/database/query';
+import { getPregnancyEndDate, pregnancyMode } from '../../util/database/query';
 import PregnancyModule from '../../util/pregnancy';
 import Tour from '../../util/tourGuide/Tour';
 
@@ -102,6 +101,7 @@ const Home = ({ navigation }) => {
 
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
+    const pregnancyEndDate = await getPregnancyEndDate();
     dispatch(setPregnancyMode(preg));
     const momentDate = moment(date);
     if (preg) {
@@ -114,7 +114,11 @@ const Home = ({ navigation }) => {
         setSubSentence('');
         setThirdSentence('');
       } else if (pregnancyAge.week >= 0) {
-        setMainSentence(`هفته ${pregnancyAge.week} بارداری `);
+        setMainSentence(
+          pregnancyAge.days
+            ? `در حال سپری کردن هفته ${pregnancyAge.week + 1} بارداری `
+            : `هفته ${pregnancyAge.week} بارداری شما سپری شده است.`,
+        );
         setSubSentence(
           `سن بارداری شما ${pregnancyAge.week} هفته ${
             pregnancyAge.days ? `و ${pregnancyAge.days} روز می‌باشد.` : ''
@@ -130,6 +134,13 @@ const Home = ({ navigation }) => {
         setSubSentence('');
         setThirdSentence('');
       }
+    } else if (
+      momentDate.diff(moment(pregnancyEndDate), 'days') < 10 &&
+      momentDate.diff(moment(pregnancyEndDate), 'days') >= 0
+    ) {
+      setMainSentence('نفاس');
+      setSubSentence('پس از بارداری');
+      setThirdSentence('');
     } else {
       const c = await CycleModule();
       const s = c.determinePhaseSentence(momentDate, template === 'Teenager');
@@ -209,19 +220,21 @@ const Home = ({ navigation }) => {
           }}
         />
         {cycle.isPregnant ? (
-          <TouchableOpacity
-            containerStyle={styles.pregnancyIcon}
+          <Icon
+            reverse
+            type="parto"
+            name="baby"
+            color={COLOR.purple}
+            size={20}
             onPress={async () => {
               navigation.navigate('PregnancyProfile');
               await analytics().logEvent('PregnancyProfilePress', {
                 template: template,
                 userId: userId,
               });
-            }}>
-            <View style={styles.imageWrapper}>
-              <Icon type="parto" name="baby" color={COLOR.white} size={25} />
-            </View>
-          </TouchableOpacity>
+            }}
+            containerStyle={styles.pregnancyIcon}
+          />
         ) : null}
 
         <WeekCalendar

@@ -149,12 +149,21 @@ export async function correctFormerPregnancyStates() {
 export async function getActivePregnancyData() {
   correctFormerPregnancyStates();
   //this function is temp and could have been deleted if we went sure all users updated to new versions.
-  const [res] = await db.exec(
+  const res = await db.exec(
     `SELECT * FROM ${PREGNANCY} WHERE state=1`,
     PREGNANCY,
   );
   console.log('active pregnancy data', res);
-  return res === EMPTY_TABLE ? [] : res;
+  return res === EMPTY_TABLE ? [] : res[0];
+}
+export async function getPregnancyEndDate() {
+  const hasActivePregnancy = await getActivePregnancyData();
+  if (hasActivePregnancy.length > 0) return null;
+  const res = await db.exec(
+    `SELECT due_date, abortion_date FROM ${PREGNANCY} WHERE state=3 ORDER BY id DESC LIMIT 1`, //former pregnancy states is 3
+    PREGNANCY,
+  );
+  return res === EMPTY_TABLE ? null : res[0].abortion_date ?? res[0].due_date;
 }
 export async function updatePregnancyData(dueDate) {
   return await db.exec(

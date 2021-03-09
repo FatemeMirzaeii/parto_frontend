@@ -3,6 +3,7 @@ import { View, ScrollView } from 'react-native';
 import { Icon, Button, ListItem } from 'react-native-elements';
 import { Avatar } from 'react-native-paper';
 import jalaali from 'moment-jalaali';
+import moment from 'moment';
 
 //redux
 import { useSelector, useDispatch } from 'react-redux';
@@ -85,7 +86,7 @@ const PregnancyProfile = ({ navigation, route }) => {
   }, []);
   const setPregnancyAge = async () => {
     const p = await pregnancyModule();
-    const pregnancyAge = p.determinePregnancyWeek(jalaali());
+    const pregnancyAge = p.determinePregnancyWeek(moment());
     if (pregnancyAge) {
       setPregnancyWeek(pregnancyAge.week);
       setPregnancyWeekDay(pregnancyAge.days);

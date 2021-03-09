@@ -18,6 +18,7 @@ export default async function PregnancyModule() {
     ? moment(pdata.conception_date)
     : null;
   const dueDate = pdata.due_date ? moment(pdata.due_date) : null;
+  const abortionDate = pdata.abortion_date ? moment(pdata.abortion_date) : null;
 
   console.log('databse pure data', lp, pdata);
 
@@ -105,6 +106,17 @@ export default async function PregnancyModule() {
     }
     setBleedingDays(days);
   }
+  // function determinePregnancySentences(date) {
+  //   switch (true) {
+  //     case
+  //     case (abortionDate && date.isAfter(abortionDate)) ||
+  //       (dueDate && date.isAfter(dueDate)):
+  //       return '';
+  //     // case :
+  //     default:
+  //       break;
+  //   }
+  // }
   return {
     determineLastPeriodDateBasedOnPregnancyWeek,
     determinePregnancyWeek,

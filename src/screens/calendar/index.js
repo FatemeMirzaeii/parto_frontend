@@ -123,13 +123,13 @@ const Calendar = ({ navigation }) => {
         }}>
         <View
           style={{
-            flexDirection: 'row',
+            // flexDirection: 'row',
             marginTop: 25,
-            alignItems: 'center',
+            alignItems: 'flex-end',
             justifyContent: 'space-between',
             width: '100%',
           }}>
-          <Icon
+          {/* <Icon
             raised
             size={20}
             name="go-to-day"
@@ -137,7 +137,7 @@ const Calendar = ({ navigation }) => {
             color={COLOR.purple}
             onPress={() => calendar.current.scrollToDay(new Date())}
             containerStyle={{ right: 0 }}
-          />
+          /> */}
           <View
             style={{
               flexDirection: 'row',
