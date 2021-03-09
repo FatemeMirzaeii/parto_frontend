@@ -124,7 +124,7 @@ const Calendar = ({ navigation }) => {
         <View
           style={{
             // flexDirection: 'row',
-            marginTop: 25,
+            marginTop: 30,
             alignItems: 'flex-end',
             justifyContent: 'space-between',
             width: '100%',

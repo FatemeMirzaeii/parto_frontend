@@ -21,9 +21,10 @@ const Analysis = ({ navigation }) => {
   const [avgPeriodLength, setAvgPeriodLength] = useState();
 
   useEffect(() => {
-    navigation.addListener('focus', async () => {
+    const unsubscribe = navigation.addListener('focus', async () => {
       initialData();
     });
+    return unsubscribe;
   }, [navigation]);
   useEffect(() => {
     initialData();
@@ -149,8 +150,8 @@ const Analysis = ({ navigation }) => {
               lineHeight: 30,
               fontFamily: FONT.medium,
             }}>
-            هنوز پریودی در شرح حال وارد نکردی.{'\n'}به محض ثبت دو دوره پریود،
-            تحلیلش رو اینجا میبینی.
+            هنوز پریودی در شرح حال وارد نشده.{'\n'}به محض ثبت دو دوره پریود،
+            تحلیلش اینجا نمایش داده میشه.
           </Ptext>
         </View>
       )}
