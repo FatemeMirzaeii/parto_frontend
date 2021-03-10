@@ -50,6 +50,7 @@ export default StyleSheet.create({
     color: 'black',
     fontSize: 17,
     fontFamily: FONT.medium,
+    marginRight: 10,
   },
   titleStyle: {
     flex: 1,
