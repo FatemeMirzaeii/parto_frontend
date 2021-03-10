@@ -104,7 +104,7 @@ const SignUp = ({ navigation }) => {
   };
 
   const _handleLogin = async () => {
-    //setIsLoading(true);
+    setIsLoading(true);
     const res = await api({
       method: 'POST',
       url: '/auth/logIn/fa',
@@ -171,11 +171,11 @@ const SignUp = ({ navigation }) => {
               containerStyle={styles.btnContainer}
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}
-              // onPress={_getVerificationCode}
-              onPress={() => {
-                setIsLoading(false);
-                setCodeFieldActive(true);
-              }}
+              onPress={_getVerificationCode}
+              // onPress={() => {
+              //   setIsLoading(false);
+              //   setCodeFieldActive(true);
+              // }}
             />
           </KeyboardAvoidingView>
         ) : (
@@ -210,8 +210,8 @@ const SignUp = ({ navigation }) => {
               containerStyle={styles.btnContainer}
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}
-              //onPress={_handleSubmit}
-              onPress={_handleLogin}
+              onPress={_handleSubmit}
+              //onPress={_handleLogin}
             />
           </>
         )}

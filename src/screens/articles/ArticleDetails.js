@@ -88,11 +88,10 @@ const ArticleDetails = ({ route, navigation }) => {
               </TextTicker>
             </Animated.View>
             <Icon
-              reverse
               size={16}
               name="right-arrow"
               type="parto"
-              color={COLOR.purple}
+              color={COLOR.pink}
               onPress={() => navigation.pop()}
             />
           </View>
