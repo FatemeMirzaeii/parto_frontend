@@ -114,11 +114,6 @@ const SignUp = ({ navigation }) => {
     const id = res.data.data.id;
     const type = res.data.data.type;
     storeData('@token', res.headers['x-auth-token']);
-    //to maryam:
-    //2. now that we are inserting a row for user it is better to save all data, such as phone number.
-    //3. isn't it better to move queries in query.js file?
-    //4. it is better to use table names as variables.
-    //so if someday we decide to rename them we will change them just in one place.
     db.exec(
       `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
       'user',
