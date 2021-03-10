@@ -8,7 +8,7 @@ import {
   updateLastSyncTime,
   getUser,
   addProfileData,
-  addPregnancy,
+  addSynedPregnancyData,
   addTrackingOption,
 } from './query';
 import api from '../../services/api';
@@ -47,7 +47,7 @@ export default async () => {
     pregnancyInfo.data.data.length !== 0
   ) {
     pregnancyInfo.data.data.forEach((i) => {
-      addPregnancy(i);
+      addSynedPregnancyData(i);
     });
   }
   const userInfo = await api({

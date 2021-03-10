@@ -200,6 +200,29 @@ export async function addPregnancy(pregnancySchema) {
   );
   return res ?? 0;
 }
+export async function addSynedPregnancyData(pregnancySchema) {
+  //todo: if record exists?
+  const dueDate = !pregnancySchema.due_date
+    ? null
+    : `'${pregnancySchema.due_date}'`;
+  const conceptionDate = !pregnancySchema.conception_date
+    ? null
+    : `'${pregnancySchema.conception_date}'`;
+  const abortionDate = !pregnancySchema.abortion_date
+    ? null
+    : `'${pregnancySchema.abortion_date}'`;
+  const res = await db.exec(
+    `INSERT INTO ${PREGNANCY} (due_date, conception_date, abortion_date, abortion, children_number, kick_count, state, created_at)
+     VALUES(
+      ${dueDate},${conceptionDate}, ${abortionDate}, ${
+      pregnancySchema.abortion
+    }, ${pregnancySchema.children_number}, ${pregnancySchema.kick_count}, ${
+      pregnancySchema.state
+    }, '${moment().format(DATETIME_FORMAT)}')`,
+    PREGNANCY,
+  );
+  return res ?? 0;
+}
 export async function deletePregnancyData() {
   return await db.exec(
     `UPDATE ${PREGNANCY} SET state=2,
@@ -445,6 +468,7 @@ export async function findUnsyncedProfileData(lastSyncTime) {
   return res === EMPTY_TABLE ? [] : res;
 }
 export async function findUnsyncedPregnancyInfo(lastSyncTime) {
+  // todo: doesn't need to send deleted pregnancies.
   const res = lastSyncTime
     ? await db.exec(
         `SELECT * FROM  ${PREGNANCY} WHERE created_at > '${lastSyncTime}' OR updated_at > '${lastSyncTime}'`,
