@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, ImageBackground, SafeAreaView } from 'react-native';
+import { View, ImageBackground, SafeAreaView, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Input, Button } from 'react-native-elements';
 
@@ -12,7 +12,7 @@ import { handleTemplate } from '../../store/actions/user';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 // styles
-import { COLOR, FONT, HEIGHT, WIDTH } from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
 import styles from './styles';
 import Partner from '../../../assets/images/partner/interview.png';
 
@@ -50,12 +50,20 @@ const PartnerCode = ({ route, navigation }) => {
 
   return (
     <ImageBackground source={Partner} style={styles.bg}>
-      <View style={{ flex: 1 }} />
+      <View style={{ flex: 2 }} />
       <SafeAreaView style={styles.safeAreaView}>
         {isLoading ? (
           <Loader />
         ) : (
           <View style={styles.textContainer}>
+            <View>
+              <Text style={styles.question}>
+                لطفا کد فعالسازی را وارد کنید.
+              </Text>
+              <Text style={styles.subtext}>
+                این کد در نسخه همسر شما قرار گرفته است.
+              </Text>
+            </View>
             <View style={styles.codeInpute}>
               <Input
                 value={code}
@@ -67,7 +75,7 @@ const PartnerCode = ({ route, navigation }) => {
             </View>
             <Button
               title="تایید"
-              containerStyle={[styles.btnContainer, { top: HEIGHT / 9 }]}
+              containerStyle={styles.btnContainer}
               buttonStyle={[
                 styles.nextButton,
                 { backgroundColor: COLOR.partner },
