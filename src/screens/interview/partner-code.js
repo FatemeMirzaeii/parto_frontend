@@ -37,7 +37,6 @@ const PartnerCode = ({ route, navigation }) => {
         dev: true,
         data: { type: 'Partner' },
       });
-      console.log('================res===================', res);
       if (resul) {
         setIsLoading(true);
         await sync();

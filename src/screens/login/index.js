@@ -29,7 +29,7 @@ const Login = ({ navigation }) => {
         />
       </View>
       <View style={styles.container}>
-        <Ptxt style={styles.title}>به پرتو خوش اومدی!</Ptxt>
+        <Ptxt style={styles.title}>به پرتو خوش‌آمدی!</Ptxt>
         <Button
           title="ورود"
           containerStyle={styles.btnContainer}

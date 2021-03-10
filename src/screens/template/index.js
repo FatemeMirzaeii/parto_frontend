@@ -99,7 +99,7 @@ const Template = ({ navigation }) => {
       />
       <SafeAreaView style={styles.container}>
         <View>
-          <Text style={styles.title}>به پرتو خوش‌اومدی</Text>
+          <Text style={styles.title}>به پرتو خوش‌آمدی</Text>
           <Text style={styles.header}>نسخه اختصاصیت رو انتخاب کن</Text>
         </View>
         <View style={styles.carousel}>
