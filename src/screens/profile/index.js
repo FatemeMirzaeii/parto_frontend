@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Button, Icon } from 'react-native-elements';
 
 // components and utils
@@ -11,6 +11,10 @@ import {
   getProfileData,
   saveProfileHealthData,
 } from '../../util/database/query';
+import DialogBox from '../../components/DialogBox';
+import useModal from '../../util/hooks/useModal';
+import api from '../../services/api';
+import { signOut } from '../../store/actions/auth';
 
 // styles
 import styles from './styles';
@@ -25,6 +29,9 @@ const Profile = ({ navigation }) => {
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  const { isVisible, toggle } = useModal();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'حساب کاربری',
@@ -95,6 +102,14 @@ const Profile = ({ navigation }) => {
     setPersianDateString(persianDate);
   };
 
+  const deleteAccount = async () => {
+    const res = await api({
+      method: 'DELETE',
+      url: `/user/v1/user/${user.id}/fa`,
+      dev: true,
+    });
+    if (res) dispatch(signOut());
+  };
   return (
     <SafeAreaView
       style={styles.safeAreaView}
@@ -160,7 +175,35 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
+        <Card>
+          <ListItem
+            title="َحذف حساب کاربری"
+            // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+            onPress={toggle}
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+          />
+        </Card>
       </ScrollView>
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
+        text="با تایید این پیام حساب کاربری و تمام اطلاعات شما حذف خواهد شد؛ آیا مطمئن هستی؟"
+        twoButtons
+        firstBtnPress={async () => {
+          toggle();
+          await deleteAccount();
+        }}
+        secondBtnPress={toggle}
+      />
     </SafeAreaView>
   );
 };
