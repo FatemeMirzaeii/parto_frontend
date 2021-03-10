@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, Text, View, ImageBackground } from 'react-native';
+import { Text, View, ImageBackground } from 'react-native';
 import { Button } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 
@@ -37,8 +37,8 @@ const Q4 = ({ route, navigation }) => {
     <ImageBackground
       source={route.params.template === 'Main' ? Main : Teenager}
       style={styles.bg}>
-      <SafeAreaView
-        style={{ ...styles.safeAreaView, justifyContent: 'space-between' }}>
+      <View style={{ flex: 1 }} />
+      <View style={styles.safeAreaView}>
         <View>
           <Text style={styles.question}>
             طول یک دوره ماهانه‌ات تقریبا چند روزه است؟
@@ -91,7 +91,7 @@ const Q4 = ({ route, navigation }) => {
             />
           </View>
         </View>
-      </SafeAreaView>
+      </View>
     </ImageBackground>
   );
 };

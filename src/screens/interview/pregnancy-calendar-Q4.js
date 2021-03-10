@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { SafeAreaView, ImageBackground, View, Text } from 'react-native';
+import { ImageBackground, View, Text, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import moment from 'moment';
 
@@ -37,45 +37,49 @@ const Pregnancy_Q4 = ({ route, navigation }) => {
   };
   return (
     <ImageBackground source={Main} style={styles.bg}>
-      <SafeAreaView style={styles.safeAreaView}>
-        <Text style={styles.question}>{determineTitle()}</Text>
-        <Calendar
-          onDayPress={(day) => {
-            setSelectedDate(day.dateString);
-          }}
-          markedDates={{
-            [selectedDate]: { selected: true },
-          }}
-          minDate={
-            route.params.type === 'dueDate' ? today.format(FORMAT) : null
-          }
-          maxDate={
-            route.params.type !== 'dueDate' ? today.format(FORMAT) : null
-          }
-        />
-        <View>
-          <Stepper index={3} />
-          <View style={styles.buttons}>
-            <Button
-              title="بعدی"
-              disabled={!selectedDate}
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
-              titleStyle={styles.btnTitle}
-              type="solid"
-              onPress={onNextPress}
-            />
-            <Button
-              title="قبلی"
-              containerStyle={styles.btnContainer}
-              buttonStyle={styles.prevButton}
-              titleStyle={styles.darkBtnTitle}
-              type="solid"
-              onPress={() => navigation.goBack()}
-            />
+      <View style={{ flex: 1 }} />
+      <View style={styles.safeAreaView}>
+        <ScrollView>
+          <Text style={styles.question}>{determineTitle()}</Text>
+          <Calendar
+            onDayPress={(day) => {
+              setSelectedDate(day.dateString);
+            }}
+            markedDates={{
+              [selectedDate]: { selected: true },
+            }}
+            minDate={
+              route.params.type === 'dueDate' ? today.format(FORMAT) : null
+            }
+            maxDate={
+              route.params.type !== 'dueDate' ? today.format(FORMAT) : null
+            }
+            style={styles.calendar}
+          />
+          <View>
+            <Stepper index={3} />
+            <View style={styles.buttons}>
+              <Button
+                title="بعدی"
+                disabled={!selectedDate}
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.nextButton}
+                titleStyle={styles.btnTitle}
+                type="solid"
+                onPress={onNextPress}
+              />
+              <Button
+                title="قبلی"
+                containerStyle={styles.btnContainer}
+                buttonStyle={styles.prevButton}
+                titleStyle={styles.darkBtnTitle}
+                type="solid"
+                onPress={() => navigation.goBack()}
+              />
+            </View>
           </View>
-        </View>
-      </SafeAreaView>
+        </ScrollView>
+      </View>
     </ImageBackground>
   );
 };

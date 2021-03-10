@@ -3,7 +3,7 @@ import { SET_USER, SET_TEMPLATE, RESET } from '../actions/types';
 const initialState = {
   id: null,
   phone: '',
-  template: '',
+  template: 'Main',
 };
 
 const userReducer = (state = initialState, action) => {
@@ -15,7 +15,11 @@ const userReducer = (state = initialState, action) => {
       return { ...state, id: action.id, phone: action.phone };
     }
     case RESET: {
-      return initialState;
+      return {
+        id: null,
+        phone: '',
+        template: '',
+      };
     }
     default:
       return state;

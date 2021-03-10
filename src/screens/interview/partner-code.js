@@ -37,12 +37,13 @@ const PartnerCode = ({ route, navigation }) => {
         dev: true,
         data: { type: 'Partner' },
       });
+      console.log('================res===================', res);
       if (resul) {
         setIsLoading(true);
         await sync();
         setIsLoading(false);
         dispatch(interview());
-        dispatch(handleTemplate(res.data.data.type));
+        dispatch(handleTemplate('Partner'));
         dispatch(fetchInitialCycleData());
       }
     }
@@ -50,6 +51,7 @@ const PartnerCode = ({ route, navigation }) => {
 
   return (
     <ImageBackground source={Partner} style={styles.bg}>
+      <View style={{ flex: 1 }} />
       <SafeAreaView style={styles.safeAreaView}>
         {isLoading ? (
           <Loader />

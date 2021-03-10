@@ -65,7 +65,7 @@ const Calendar = (props) => {
       )}
       markedDates={props.markedDates}
       markingType="multi-period"
-      style={props.calendar}
+      style={props.style}
     />
   );
 };

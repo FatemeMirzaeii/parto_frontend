@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ImageBackground, ScrollView, Text, View } from 'react-native';
+import { ImageBackground, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 import Main from '../../../assets/images/main/interview.png';
@@ -111,17 +111,14 @@ const Q5 = ({ route, navigation }) => {
       <ImageBackground
         source={route.params.template === 'Main' ? Main : Teenager}
         style={styles.bg}>
-        <ScrollView style={styles.safeAreaView}>
+        <View style={{ flex: 1 }} />
+        <View style={styles.safeAreaView}>
           <Text style={styles.question}>
             با وارد کردن تاریخ تولدت
             {'\n'}
             به ما در تحلیل بهتر اطلاعات کمک کن.
           </Text>
-          <View
-            style={{
-              ...styles.picker,
-              height: 200,
-            }}>
+          <View style={styles.picker}>
             <PersianDatePicker
               onDateSelected={setDate}
               startOfRange={modeState === 'Teenager' ? 1381 : 1340}
@@ -155,7 +152,7 @@ const Q5 = ({ route, navigation }) => {
               />
             </View>
           </View>
-        </ScrollView>
+        </View>
       </ImageBackground>
       <DialogBox
         isVisible={isVisible}
