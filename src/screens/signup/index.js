@@ -74,7 +74,7 @@ const SignUp = ({ navigation }) => {
     const res = await api({
       method: 'POST',
       url: '/auth/checkVerificationCode/fa',
-      dev: true,
+      // dev: true,
       data: { phone: '98' + phoneNumber, code: value },
     });
     console.log('res', res);
@@ -86,7 +86,7 @@ const SignUp = ({ navigation }) => {
     const res = await api({
       method: 'POST',
       url: '/auth/verificationCode',
-      dev: true,
+      // dev: true,
       data: { phone: '98' + phoneNumber },
     });
     console.log('res', res);
@@ -98,7 +98,7 @@ const SignUp = ({ navigation }) => {
     await api({
       method: 'POST',
       url: `/user/versionType/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: { type },
     });
   };
@@ -108,7 +108,7 @@ const SignUp = ({ navigation }) => {
     const res = await api({
       method: 'POST',
       url: '/auth/logIn/fa',
-      dev: true,
+      // dev: true,
       data: { phone: '98' + phoneNumber },
     });
     const id = res.data.data.id;

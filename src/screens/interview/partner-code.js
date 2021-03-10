@@ -28,13 +28,13 @@ const PartnerCode = ({ route, navigation }) => {
       data: {
         partnerCode: code,
       },
-      dev: true,
+      // dev: true,
     });
     if (res) {
       const resul = await api({
         method: 'POST',
         url: `/user/versionType/${userId}/fa`,
-        dev: true,
+        // dev: true,
         data: { type: 'Partner' },
       });
       if (resul) {

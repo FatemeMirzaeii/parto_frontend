@@ -53,7 +53,7 @@ const PartnerVerificationCode = ({ navigation }) => {
       if (userId) {
         const res = await api({
           url: `/user/partnerVerificationCode/${userId}/fa`,
-          dev: true,
+          // dev: true,
         });
         if (res) setCode(res.data.data.partnerCode);
         setIsLoading(false);

@@ -106,7 +106,7 @@ const Profile = ({ navigation }) => {
     const res = await api({
       method: 'DELETE',
       url: `/user/v1/user/${user.id}/fa`,
-      dev: true,
+      // dev: true,
     });
     if (res) dispatch(signOut());
   };

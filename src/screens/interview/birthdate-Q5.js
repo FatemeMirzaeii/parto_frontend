@@ -68,7 +68,7 @@ const Q5 = ({ route, navigation }) => {
     const res = await api({
       method: 'POST',
       url: `/user/versionType/${userIdState}/fa`,
-      dev: true,
+      // dev: true,
       data: { type: modeState },
     });
     if (res) {

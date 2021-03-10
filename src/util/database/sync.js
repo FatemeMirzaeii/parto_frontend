@@ -25,7 +25,7 @@ export default async () => {
   // first will get data from server, if exists!
   const profileData = await api({
     url: `/profile/syncProfile/${user.id}/${lastSyncTime ?? null}/fa`,
-    dev: true,
+    // dev: true,
   });
   if (
     profileData &&
@@ -38,7 +38,7 @@ export default async () => {
   }
   const pregnancyInfo = await api({
     url: `/pregnancy/syncPregnancyInfo/${user.id}/${lastSyncTime ?? null}/fa`,
-    dev: true,
+    // dev: true,
   });
   if (
     pregnancyInfo &&
@@ -52,7 +52,7 @@ export default async () => {
   }
   const userInfo = await api({
     url: `/healthTracking/syncUserInfo/${user.id}/${lastSyncTime ?? null}/fa`,
-    dev: true,
+    // dev: true,
   });
   if (
     userInfo &&
@@ -70,7 +70,7 @@ export default async () => {
     sentProfileData = await api({
       method: 'POST',
       url: `/profile/syncProfile/${user.id}/fa`,
-      dev: true,
+      // dev: true,
       data: { data: profile },
     });
   }
@@ -80,7 +80,7 @@ export default async () => {
     sentPregnancyInfo = await api({
       method: 'POST',
       url: `/pregnancy/syncPregnancyInfo/${user.id}/fa`,
-      dev: true,
+      // dev: true,
       data: { data: pregnancy },
     });
   }
@@ -90,7 +90,7 @@ export default async () => {
     sentUserInfo = await api({
       method: 'POST',
       url: `/healthTracking/syncUserInfo/${user.id}/fa`,
-      dev: true,
+      // dev: true,
       data: { data: trackingOptions },
     });
   }
