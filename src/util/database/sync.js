@@ -102,7 +102,7 @@ export default async () => {
     sentUserInfo &&
     userInfo
   ) {
-    updateLastSyncTime(moment().format(DATETIME_FORMAT));
+    await updateLastSyncTime(moment().format(DATETIME_FORMAT));
   }
   // }
 };

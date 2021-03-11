@@ -75,7 +75,6 @@ async function v2ToV3() {
   );
   await db.exec(`ALTER TABLE ${PROFILE} ADD COLUMN last_sync_time datetime`);
   await db.exec(`ALTER TABLE ${PREGNANCY} ADD COLUMN state INTEGER DEFAULT 1`);
-  //todo: must be tested again and again
   await updateInUseDbVersion(3);
 }
 async function v1Tov2() {

@@ -88,7 +88,9 @@ const Menu = ({ navigation }) => {
           link = 'www.parto.app';
           break;
       }
-      shareContent(`لینک دانلود اپلیکیشن پرتو (سلامت بانوان):\n${link}`);
+      shareContent(
+        `لینک دانلود اپلیکیشن پرتو (دستیار هوشمند سلامت بانوان):\n${link}`,
+      );
     });
   };
   const exit = async () => {
@@ -299,8 +301,8 @@ const Menu = ({ navigation }) => {
         text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
-          toggle();
           setIsLoading(true);
+          toggle();
           await resetDatabase();
           dispatch(fetchInitialCycleData());
           setIsLoading(false);
