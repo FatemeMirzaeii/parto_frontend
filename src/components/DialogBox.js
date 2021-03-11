@@ -53,7 +53,7 @@ const DialogBox = ({
             <Button
               title={firstBtnTitle}
               containerStyle={styles.btnContainer}
-              buttonStyle={styles.nextButton}
+              buttonStyle={styles.nextButton(firstBtnColor)}
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
