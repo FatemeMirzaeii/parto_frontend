@@ -132,8 +132,8 @@ android {
         applicationId "ir.parto.parto"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 214
-        versionName "2.1.4"
+        versionCode 215
+        versionName "2.1.5"
         multiDexEnabled true
     }
     splits {
