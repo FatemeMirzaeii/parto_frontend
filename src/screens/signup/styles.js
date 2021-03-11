@@ -93,4 +93,15 @@ export default StyleSheet.create({
   focusCell: {
     borderColor: COLOR.purple,
   },
+  countdown: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    width: WIDTH * 0.6,
+  },
+  countdownText: {
+    color: '#969696',
+    fontFamily: FONT.bold,
+    fontWeight: 'normal',
+  },
 });

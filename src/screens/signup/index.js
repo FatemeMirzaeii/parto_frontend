@@ -7,6 +7,7 @@ import {
   Text,
   ImageBackground,
   ToastAndroid,
+  View,
 } from 'react-native';
 import {
   CodeField,
@@ -16,6 +17,7 @@ import {
 } from 'react-native-confirmation-code-field';
 import { Button } from 'react-native-elements';
 import PhoneInput from 'react-native-phone-number-input';
+import CountDown from 'react-native-countdown-component';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +41,7 @@ import sync from '../../util/database/sync';
 import useModal from '../../util/hooks/useModal';
 
 //services
-import { devUrl } from '../../services/urls';
+import { baseUrl } from '../../services/urls';
 import api from '../../services/api';
 
 //assets
@@ -47,11 +49,14 @@ import bgImage from '../../../assets/images/00.png';
 
 //styles
 import styles from './styles';
+import { COLOR } from '../../styles/static';
 
 const SignUp = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [btnActive, setBtnActive] = useState(false);
   const [codeFieldActive, setCodeFieldActive] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [timerId, setTimerId] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [value, setValue] = useState('');
   const { isVisible, toggle } = useModal();
@@ -77,7 +82,7 @@ const SignUp = ({ navigation }) => {
   //   const res = await api({
   //     method: 'POST',
   //     url: '/auth/checkVerificationCode/fa',
-  //     dev: true,
+  //    // dev: true,
   //     data: { phone: '98' + phoneNumber, code: value },
   //   });
   //   console.log('res', res);
@@ -89,7 +94,7 @@ const SignUp = ({ navigation }) => {
   //   const res = await api({
   //     method: 'POST',
   //     url: '/auth/verificationCode',
-  //     dev: true,
+  //    // dev: true,
   //     data: { phone: '98' + phoneNumber },
   //   });
   //   console.log('res', res);
@@ -101,7 +106,7 @@ const SignUp = ({ navigation }) => {
   //   await api({
   //     method: 'POST',
   //     url: `/user/versionType/${userId}/fa`,
-  //     dev: true,
+  //   // dev: true,
   //     data: { type },
   //   });
   // };
@@ -119,11 +124,6 @@ const SignUp = ({ navigation }) => {
   //   const id = res.data.data.id;
   //   const type = res.data.data.type;
   //   storeData('@token', res.headers['x-auth-token']);
-  //   //to maryam:
-  //   //2. now that we are inserting a row for user it is better to save all data, such as phone number.
-  //   //3. isn't it better to move queries in query.js file?
-  //   //4. it is better to use table names as variables.
-  //   //so if someday we decide to rename them we will change them just in one place.
   //   db.exec(
   //     `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
   //     'user',
@@ -147,7 +147,7 @@ const SignUp = ({ navigation }) => {
   const _handleSubmit = async () => {
     await axios({
       method: 'post',
-      url: `${devUrl}/auth/checkVerificationCode/fa`,
+      url: `${baseUrl}/auth/checkVerificationCode/fa`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -175,7 +175,7 @@ const SignUp = ({ navigation }) => {
     // setIsLoading(true);
     axios({
       method: 'post',
-      url: `${devUrl}/auth/verificationCode`,
+      url: `${baseUrl}/auth/verificationCode`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -201,18 +201,19 @@ const SignUp = ({ navigation }) => {
   };
 
   const setVersionType = async (userId, type) => {
-    await api({
+    const res = await api({
       method: 'POST',
       url: `/user/versionType/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: { type },
     });
+    if (res) return true;
   };
   const _handleLogin = () => {
     //setIsLoading(true);
     axios({
       method: 'POST',
-      url: `${devUrl}/auth/logIn/fa`,
+      url: `${baseUrl}/auth/logIn/fa`,
       credentials: 'include',
       headers: {
         'Content-Type': 'application/json',
@@ -225,11 +226,6 @@ const SignUp = ({ navigation }) => {
         const id = res.data.data.id;
         const type = res.data.data.type;
         storeData('@token', res.headers['x-auth-token']);
-        //to maryam:
-        //2. now that we are inserting a row for user it is better to save all data, such as phone number.
-        //3. isn't it better to move queries in query.js file?
-        //4. it is better to use table names as variables.
-        //so if someday we decide to rename them we will change them just in one place.
         db.exec(
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
@@ -259,7 +255,11 @@ const SignUp = ({ navigation }) => {
         }
       });
   };
-
+  const getVerificationCodeAgain = () => {
+    setDisabled(true);
+    setTimerId(timerId + 1);
+    _getVerificationCode();
+  };
   return (
     <ImageBackground source={bgImage} style={styles.bg}>
       <SafeAreaView style={styles.main}>
@@ -325,6 +325,27 @@ const SignUp = ({ navigation }) => {
                 </Text>
               )}
             />
+            <View style={styles.countdown}>
+              <Button
+                title="ارسال مجدد"
+                type="clear"
+                titleStyle={[styles.btnTitle, { color: COLOR.purple }]}
+                onPress={getVerificationCodeAgain}
+                disabled={disabled}
+              />
+              <CountDown
+                id={timerId.toString()}
+                until={60 * 2}
+                size={15}
+                onFinish={() => setDisabled(false)}
+                digitStyle={{ backgroundColor: '#FFF' }}
+                digitTxtStyle={styles.countdownText}
+                separatorStyle={{ color: '#969696' }}
+                timeToShow={['M', 'S']}
+                timeLabels={{ m: null, s: null }}
+                showSeparator
+              />
+            </View>
             <Button
               title="تایید کد"
               containerStyle={styles.btnContainer}
