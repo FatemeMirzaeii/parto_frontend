@@ -352,7 +352,7 @@ const SignUp = ({ navigation }) => {
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}
               onPress={_handleSubmit}
-              //onPress={_handleLogin}
+              // onPress={_handleLogin}
             />
           </>
         )}
