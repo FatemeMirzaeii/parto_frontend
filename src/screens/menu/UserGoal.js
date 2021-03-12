@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { SafeAreaView, View, Text } from 'react-native';
 import { ButtonGroup, Icon } from 'react-native-elements';
 
@@ -6,17 +6,13 @@ import { ButtonGroup, Icon } from 'react-native-elements';
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
-import { updatePerdictions } from '../../store/actions/cycle';
+import { setGoal, updatePerdictions } from '../../store/actions/cycle';
 
 //components
 import DialogBox from '../../components/DialogBox';
 
 //util
-import {
-  getUserStatus,
-  addPregnancy,
-  updateUserStatus,
-} from '../../util/database/query';
+import { addPregnancy, updateUserStatus } from '../../util/database/query';
 import useModal from '../../util/hooks/useModal';
 
 //styles
@@ -28,32 +24,25 @@ const UserGoal = ({ navigation }) => {
   const [mode, setMode] = useState();
   const dispatch = useDispatch();
   const template = useSelector((state) => state.user.template);
-  const isPregnant = useSelector((state) => state.cycle.isPregnant);
+  const goal = useSelector((state) => state.cycle.goal);
   const { isVisible: firstvisible, toggle: firstToggle } = useModal();
   const { isVisible: secondvisible, toggle: secondToggle } = useModal();
   const modes = ['ثبت روزهای قرمز', 'اقدام برای بارداری', 'بارداری'];
 
-  useEffect(() => {
-    getUserStatus().then((res) => {
-      if (res) {
-        isPregnant ? setMode(2) : res.pregnancy_try ? setMode(1) : setMode(0);
-      }
-    });
-  }, [isPregnant]);
-
   const onModePress = (i) => {
     if (template === 'Partner') return;
-    if (mode === 2 && i !== 2) {
-      firstToggle();
+    setMode(i);
+    if (goal === 2) {
+      return i !== 2 ? firstToggle() : null;
     } else {
       switch (i) {
         case 0:
           updateUserStatus(0, 0);
-          setMode(i);
+          dispatch(setGoal(i));
           break;
         case 1:
           updateUserStatus(0, 1);
-          setMode(i);
+          dispatch(setGoal(i));
           break;
         case 2:
           secondToggle();
@@ -73,7 +62,7 @@ const UserGoal = ({ navigation }) => {
       </View>
       <ButtonGroup
         onPress={onModePress}
-        selectedIndex={mode}
+        selectedIndex={goal}
         buttons={modes}
         containerStyle={styles.goals}
         selectedButtonStyle={{
@@ -91,7 +80,7 @@ const UserGoal = ({ navigation }) => {
         twoButtons
         firstBtnPress={(i) => {
           firstToggle();
-          navigation.navigate('PregnancyProfile', { mode: i });
+          navigation.navigate('PregnancyProfile', { mode });
         }}
         secondBtnPress={firstToggle}
       />
@@ -102,10 +91,10 @@ const UserGoal = ({ navigation }) => {
         twoButtons
         firstBtnPress={async (i) => {
           secondToggle();
-          updateUserStatus(1, 0);
+          await updateUserStatus(1, 0);
           const p = await PregnancyModule();
           await addPregnancy({ dueDate: p.determineDueDate() });
-          setMode(i);
+          dispatch(setGoal(2));
           dispatch(updatePerdictions());
           navigation.navigate('PregnancyProfile');
         }}

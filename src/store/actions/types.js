@@ -7,6 +7,7 @@ export const UPDATE_PERDICTIONS = 'UPDATE_PERDICTIONS';
 
 export const SET_LAST_PERIOD_DATE = 'SET_LAST_PERIOD_DATE';
 export const SET_PREGNANT_MODE = 'SET_PREGNANT_MODE';
+export const SET_GOAL = 'SET_GOAL';
 
 export const SET_MODE = 'SET_MODE';
 

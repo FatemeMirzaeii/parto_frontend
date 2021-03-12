@@ -2,6 +2,7 @@ import * as actions from '../actions/types';
 
 const initialStates = {
   isPregnant: false,
+  goal: null,
   lastPeriodDate: '',
   cycleLength: 29,
   periodLength: 7,
@@ -19,6 +20,7 @@ const cycleReducer = (state = initialStates, action) => {
         periodDays: action.payload.periodDays,
         ovulationPerdictions: action.payload.ovulationPerdictions,
         periodPerdictions: action.payload.periodPerdictions,
+        goal: action.payload.goal,
       };
     case actions.UPDATE_PERIOD_DAYS:
       return {
@@ -35,6 +37,8 @@ const cycleReducer = (state = initialStates, action) => {
       return { ...state, lastPeriodDate: action.payload };
     case actions.SET_PREGNANT_MODE:
       return { ...state, isPregnant: action.payload };
+    case actions.SET_GOAL:
+      return { ...state, goal: action.payload };
     default:
       return state;
   }

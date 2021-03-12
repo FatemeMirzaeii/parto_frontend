@@ -11,6 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 //store
 import {
   fetchInitialCycleData,
+  setGoal,
   setPregnancyMode,
 } from '../../store/actions/cycle';
 
@@ -40,8 +41,8 @@ import commonStyles from '../../styles/index';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
-  const [pregnancyWeek, setPregnancyWeek] = useState(0);
-  const [pregnancyWeekDay, setPregnancyWeekDay] = useState(0);
+  const [pregnancyWeek, setPregnancyWeek] = useState(null);
+  const [pregnancyWeekDay, setPregnancyWeekDay] = useState(null);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const { isVisible: firstvisible, toggle: firstToggle } = useModal();
@@ -104,7 +105,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         <ListItem
           title="سن بارداری"
           rightTitle={
-            pregnancyWeek >= 0
+            pregnancyWeek && pregnancyWeek >= 0
               ? `${pregnancyWeek} هفته ${
                   pregnancyWeekDay ? `و ${pregnancyWeekDay} روز` : ''
                 }`
@@ -216,14 +217,14 @@ const PregnancyProfile = ({ navigation, route }) => {
           firstToggle();
           navigation.navigate('PregnancyEndCalendar', {
             ...route.params,
-            type: 0,
+            type: 0, //تولد
           });
         }}
         secondBtnPress={() => {
           firstToggle();
           navigation.navigate('PregnancyEndCalendar', {
             ...route.params,
-            type: 1,
+            type: 1, //سقط
           });
         }}
       />
@@ -237,7 +238,13 @@ const PregnancyProfile = ({ navigation, route }) => {
         firstBtnPress={async () => {
           secondToggle();
           await deletePregnancyData();
-          await updateUserStatus(0, 0);
+          if (route.params && route.params.mode) {
+            updateUserStatus(0, 1);
+            dispatch(setGoal(1));
+          } else {
+            updateUserStatus(0, 0);
+            dispatch(setGoal(0));
+          }
           dispatch(setPregnancyMode(0));
           dispatch(fetchInitialCycleData());
           navigation.pop();

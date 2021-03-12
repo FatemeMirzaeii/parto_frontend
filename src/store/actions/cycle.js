@@ -3,12 +3,14 @@ import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import { COLOR } from '../../styles/static';
 import { calendarMarkedDatesObject } from '../../util/func';
+import { getUserStatus } from '../../util/database/query';
 
 export const fetchInitialCycleData = () => async (dispatch, getState) => {
   const stateBefore = getState();
   // console.log('stateBefore', stateBefore);
   const c = await CycleModule();
   const past = await c.pastBleedingDays();
+  const goal = await getUserStatus();
   const ovulationPerdictions =
     stateBefore.user.template === 'Teenager'
       ? []
@@ -32,6 +34,7 @@ export const fetchInitialCycleData = () => async (dispatch, getState) => {
         COLOR.ovulationPerdictions,
         true,
       ),
+      goal: goal.pregnant ? 2 : goal.pregnancy_try ? 1 : 0,
     },
   });
 };
@@ -78,6 +81,9 @@ export const setPregnancyMode = (p) => {
   return { type: actions.SET_PREGNANT_MODE, payload: p };
 };
 
+export const setGoal = (g) => {
+  return { type: actions.SET_GOAL, payload: g };
+};
 export const setMainSentence = (sentence) => {
   return {
     type: actions.SET_MAIN_SENTENCE,

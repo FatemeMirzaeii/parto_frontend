@@ -10,6 +10,7 @@ import CycleModule from '../../util/cycle';
 import { endPregnancy, updateUserStatus } from '../../util/database/query';
 import {
   fetchInitialCycleData,
+  setGoal,
   setPregnancyMode,
 } from '../../store/actions/cycle';
 import { FORMAT } from '../../constants/cycle';
@@ -27,7 +28,13 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     !route.params.type
       ? await endPregnancy(selectedDate)
       : await endPregnancy(null, selectedDate);
-    route.params.mode ? updateUserStatus(0, 1) : updateUserStatus(0, 0);
+    if (route.params.mode) {
+      updateUserStatus(0, 1);
+      dispatch(setGoal(1));
+    } else {
+      updateUserStatus(0, 0);
+      dispatch(setGoal(0));
+    }
     await p.determineNefasDays(selectedDate);
     await c.determineLastPeriodDate();
     dispatch(setPregnancyMode(0));
