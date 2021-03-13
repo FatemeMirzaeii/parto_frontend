@@ -94,7 +94,7 @@ const Menu = ({ navigation }) => {
     });
   };
   const exit = async () => {
-    await sync();
+    await sync(true);
     dispatch(signOut());
   };
   return (
