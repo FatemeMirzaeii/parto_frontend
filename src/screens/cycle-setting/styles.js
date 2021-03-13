@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: { flex: 1, paddingBottom: 53 },
@@ -9,6 +9,7 @@ export default StyleSheet.create({
   //   fontFamily: Theme.fonts.regular,
   // },
   listItemText: {
+    color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
     fontSize: 12,
   },

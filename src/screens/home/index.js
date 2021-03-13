@@ -117,10 +117,10 @@ const Home = ({ navigation }) => {
         setMainSentence(
           pregnancyAge.days
             ? `در حال سپری کردن هفته ${pregnancyAge.week + 1} بارداری `
-            : `هفته ${pregnancyAge.week} بارداری شما سپری شده است.`,
+            : `هفته ${pregnancyAge.week} بارداری سپری شده است.`,
         );
         setSubSentence(
-          `سن بارداری شما ${pregnancyAge.week} هفته ${
+          `سن بارداری ${pregnancyAge.week} هفته ${
             pregnancyAge.days ? `و ${pregnancyAge.days} روز می‌باشد.` : ''
           }`,
         );
@@ -143,7 +143,11 @@ const Home = ({ navigation }) => {
       setThirdSentence('');
     } else {
       const c = await CycleModule();
-      const s = c.determinePhaseSentence(momentDate, template === 'Teenager');
+      const s = c.determinePhaseSentence(
+        momentDate,
+        template === 'Teenager',
+        template === 'Partner',
+      );
       setMainSentence(s.mainSentence);
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);

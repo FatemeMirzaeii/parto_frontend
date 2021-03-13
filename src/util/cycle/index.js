@@ -81,7 +81,7 @@ export default async function CycleModule() {
         return 'Unknown phase';
     }
   }
-  function determinePhaseSentence(date, isTeenager) {
+  function determinePhaseSentence(date, isTeenager, isPartner) {
     let phase = determineCyclePhase(date);
     if (isTeenager && phase === 2) phase = 3; // teenager user dont need ovulation data
     const dayNo = cycleDayNumber(date);
@@ -92,7 +92,7 @@ export default async function CycleModule() {
       }
       case 0: {
         return {
-          mainSentence: 'تاریخ آخرین پریود خود را وارد کنید',
+          mainSentence: '.تاریخ آخرین پریود را وارد کنید',
           // subSentence: 'تا بتوانیم تحلیل درستی از',
           // thirdSentence: 'دوره‌هایتان را نمایش دهیم.',
         };
@@ -122,7 +122,7 @@ export default async function CycleModule() {
         return {
           mainSentence:
             daysNo === 0
-              ? 'امروز روز پریود شماست'
+              ? `امروز روز پریود${isPartner ? ' همسر ' : ' '}شماست.`
               : `${daysNo} روز به پریود بعدی`,
           subSentence: 'احتمال بارداری',
           thirdSentence: `روز ${dayNo + 1} دوره`,
@@ -299,8 +299,9 @@ export default async function CycleModule() {
     for (let i = 0; i < plength; i++) {
       days.push(moment(lpDate).add(i, 'days').format(FORMAT));
     }
-    console.log('fist period', days);
-    setBleedingDays(days);
+    const corrected = correct2farvardin(days);
+    console.log('fist period', corrected);
+    setBleedingDays(corrected);
   }
 
   async function determinePeriodIntervals() {
