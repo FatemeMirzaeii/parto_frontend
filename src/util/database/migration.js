@@ -68,6 +68,9 @@ async function v2ToV3() {
     `ALTER TABLE ${USER_REMINDER} ADD COLUMN updated_at datetime DEFAULT '${defaultDate}'`,
   );
   await db.exec(
+    `ALTER TABLE ${USER_REMINDER} ADD COLUMN state INTEGER DEFAULT 1`,
+  );
+  await db.exec(
     `ALTER TABLE ${PERIOD} ADD COLUMN created_at datetime NOT NULL DEFAULT '${defaultDate}'`,
   );
   await db.exec(

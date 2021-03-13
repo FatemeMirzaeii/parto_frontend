@@ -485,9 +485,17 @@ export async function cleanDatabase() {
   await db.exec(`DELETE FROM ${USER}`, USER);
 }
 export async function resetDatabase() {
-  await db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER);
-  await db.exec(`DELETE FROM ${PREGNANCY}`, PREGNANCY);
-  await db.exec(`DELETE FROM ${USER_TRACKING_OPTION}`, USER_TRACKING_OPTION);
+  await db.exec(`DELETE FROM ${USER_REMINDER}`, USER_REMINDER); // todo: should have state?
+  await db.exec(
+    `UPDATE ${PREGNANCY} set state=2,
+      updated_at='${moment().format(DATETIME_FORMAT)}'`,
+    PREGNANCY,
+  );
+  await db.exec(
+    `UPDATE ${USER_TRACKING_OPTION} SET state=2,
+      updated_at='${moment().format(DATETIME_FORMAT)}'`,
+    USER_TRACKING_OPTION,
+  );
   await db.exec(
     `UPDATE ${PROFILE} SET avg_cycle_length=28,
                              avg_period_length=7,
