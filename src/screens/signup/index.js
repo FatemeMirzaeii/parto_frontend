@@ -163,6 +163,12 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
+        if (
+          err.response.status === 500 ||
+          err.response.status === 502 ||
+          !err.response.data.message
+        )
+          return;
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         } else {
@@ -192,6 +198,12 @@ const SignUp = ({ navigation }) => {
       .catch((err) => {
         console.error(err, err.response);
         setIsLoading(false);
+        if (
+          err.response.status === 500 ||
+          err.response.status === 502 ||
+          !err.response.data.message
+        )
+          return;
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         } else {
@@ -248,6 +260,12 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         console.error(err, err.response);
+        if (
+          err.response.status === 500 ||
+          err.response.status === 502 ||
+          !err.response.data.message
+        )
+          return;
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         } else {
