@@ -255,6 +255,8 @@ const TrackingOptions = ({ route }) => {
   };
   const onDayPress = (d) => {
     console.log('dayyyyyyyyy', d);
+    setActiveIndex(0);
+    categoryCarousel.current.snapToItem(0);
     if (moment(d).isSameOrBefore(today)) {
       setDate(d);
     } else {
