@@ -9,7 +9,7 @@ export default async () => {
     imageColor: '#e00606', // Android
     imageErrorColor: '#ff0000', // Android
     sensorDescription: 'حسگر اثر انگشت', // Android
-    //sensorErrorDescription: 'Failed', // Android
+    sensorErrorDescription: 'ناموفق؛ لطفا دوباره تلاش کنید.', // Android
     cancelText: ' انصراف ', // Android
     fallbackLabel: 'Show Passcode', // iOS (if empty, then label is hidden)
     unifiedErrors: false, // use unified error messages (default false)
