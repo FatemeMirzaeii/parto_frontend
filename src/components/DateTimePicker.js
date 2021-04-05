@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { FONT } from '../styles/static';
+import { COLOR, FONT } from '../styles/static';
 import { setPickerRange } from '../util/func';
 
 const days = setPickerRange(0, 10);
@@ -47,6 +47,7 @@ const DateTimePicker = (props) => {
           selectedItemTextSize={20}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
+          indicatorColor={COLOR.pink}
         />
       </View>
       <View style={styles.verticalWrapper}>
@@ -59,6 +60,7 @@ const DateTimePicker = (props) => {
           selectedItemTextSize={20}
           itemTextFontFamily={FONT.regular}
           selectedItemTextFontFamily={FONT.regular}
+          indicatorColor={COLOR.pink}
         />
       </View>
       {props.isFrequent ? (
@@ -71,6 +73,7 @@ const DateTimePicker = (props) => {
             selectedItemTextSize={20}
             itemTextFontFamily={FONT.regular}
             selectedItemTextFontFamily={FONT.regular}
+            indicatorColor={COLOR.pink}
           />
         </View>
       ) : (
@@ -84,6 +87,7 @@ const DateTimePicker = (props) => {
             selectedItemTextSize={20}
             itemTextFontFamily={FONT.regular}
             selectedItemTextFontFamily={FONT.regular}
+            indicatorColor={COLOR.pink}
           />
         </View>
       )}
