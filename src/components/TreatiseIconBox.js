@@ -25,7 +25,7 @@ const TreatiseIconBox = ({
             description:
               'کارشناس های خبره احکام 24 ساعته منتظرن تا باهاشون تماس بگیری و سوالاتتو بپرسی ',
             descriptionTextSize: 15,
-            outerCircleColor: COLOR.pink,
+            outerCircleColor: COLOR.purple,
             outerCircleAlpha: 0.9,
             fontFamily: FONT.regular,
           };
@@ -88,7 +88,7 @@ const TreatiseIconBox = ({
         size={16}
         type="feather"
         name="help-circle"
-        color={COLOR.purple}
+        color={COLOR.pink}
         onPress={helpPress}
       />
     </View>
