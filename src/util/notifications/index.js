@@ -15,6 +15,7 @@ import { FORMAT } from '../../constants/cycle';
 const notification = new NotificationService();
 const today = moment().format(FORMAT);
 let c;
+
 export default async () => {
   const reminders = await getUserReminders(1);
   c = await CycleModule();
@@ -25,7 +26,7 @@ export default async () => {
   periodLate();
   console.log('reminders', reminders);
   reminders.forEach((reminder) => {
-    if (reminder.active) {
+    if (reminder.active === 1) {
       switch (reminder.reminder_id) {
         case BREAST_EXAM:
           breastExam(reminder);
@@ -43,9 +44,12 @@ export default async () => {
         default:
           break;
       }
+    } else {
+      notification.cancel(reminder.reminder_id);
     }
   });
 };
+
 async function breastExam(reminder) {
   let repeatType;
   switch (reminder.Xdays_ago) {
@@ -67,8 +71,15 @@ async function breastExam(reminder) {
   d.setHours(hours);
   d.setMinutes(minutes);
   notification.scheduled(BREAST_EXAM, d, reminder.custom_message, repeatType);
+  // notification.scheduled(
+  //   BREAST_EXAM,
+  //   new Date(Date.now()),
+  //   reminder.custom_message,
+  //   'minute',
+  // );
   console.log('breast exam reminder set for', d);
 }
+
 async function periodInACoupleOfDays(reminder) {
   notification.cancel(PERIOD_START);
   const nextPeriodDate = c.nextPeriodDate();
@@ -81,6 +92,7 @@ async function periodInACoupleOfDays(reminder) {
   notification.scheduled(PERIOD_START, date, reminder.custom_message);
   console.log('period reminder set for', date);
 }
+
 async function ovulationInACoupleOfDays(reminder) {
   notification.cancel(OVULATION);
   const nextOvulationDate = c.nextOvulationDate();
@@ -93,6 +105,7 @@ async function ovulationInACoupleOfDays(reminder) {
   notification.scheduled(OVULATION, date, reminder.custom_message);
   console.log('ovulation reminder set for', date);
 }
+
 async function pmsInACoupleOfDays(reminder) {
   notification.cancel(PMS);
   const nextPmsDate = c.nextPmsDate();
@@ -105,6 +118,7 @@ async function pmsInACoupleOfDays(reminder) {
   notification.scheduled(PMS, date, reminder.custom_message);
   console.log('PMS reminder set for', date);
 }
+
 async function periodLate() {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
@@ -119,6 +133,7 @@ async function periodLate() {
     'بیشتر از 10 روز از زمانی که انتظار داشتیم پریود بشی گذشته.هنوز تاریخ جدید وارد نکردی؟',
   );
 }
+
 async function userAppChecking() {
   notification.cancel(CHECK_THE_APP);
   const date = moment(today).add(90, 'days').toDate();
@@ -130,6 +145,7 @@ async function userAppChecking() {
     'چندوقتی هست که حال و احوالت رو ثبت نکردی! دلمون برات تنگ شده.',
   );
 }
+
 function getReminderDateTime(targetDate, time, daysAgo) {
   const date = moment(targetDate).subtract(daysAgo).toDate();
   const [hours, minutes] = time.split(':');

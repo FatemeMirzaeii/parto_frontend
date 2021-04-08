@@ -50,6 +50,7 @@ const ReminderSetting = ({ navigation, route }) => {
         />
       ),
     });
+
     const save = () => {
       let cusTime;
       reminder.id === BREAST_EXAM
@@ -113,6 +114,7 @@ const ReminderSetting = ({ navigation, route }) => {
         break;
     }
   };
+
   return (
     <ScrollView>
       {data && (
@@ -160,7 +162,7 @@ const ReminderSetting = ({ navigation, route }) => {
                 title="زمان"
                 subtitle={
                   reminder.id === BREAST_EXAM
-                    ? `هر ${daysAgo} روز یک‌بار ساعت ${hours}:${minutes}`
+                    ? `هر ${daysAgo} روز ساعت ${hours}:${minutes}`
                     : `${daysAgo} روز قبل ساعت ${hours}:${minutes}`
                 }
                 leftIcon={
