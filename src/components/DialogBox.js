@@ -11,6 +11,7 @@ const DialogBox = ({
   isVisible,
   hide,
   icon,
+  children,
   text,
   twoButtons,
   firstBtnPress,
@@ -29,6 +30,7 @@ const DialogBox = ({
       <View style={styles.modal}>
         {icon}
         <Text style={styles.modalTxt}>{text}</Text>
+        {children}
         {twoButtons ? (
           <View style={styles.modalBtnWrapper}>
             <Button
@@ -67,6 +69,7 @@ const DialogBox = ({
 DialogBox.propTypes = {
   isVisible: PropTypes.bool.isRequired,
   hide: PropTypes.func.isRequired,
+  children: PropTypes.node,
   icon: PropTypes.node,
   text: PropTypes.string.isRequired,
   twoButtons: PropTypes.bool,
@@ -78,6 +81,7 @@ DialogBox.propTypes = {
   secondBtnColor: PropTypes.string,
 };
 DialogBox.defaultProps = {
+  children: <View />,
   icon: <Icon type="antdesign" name="warning" color="#aaa" size={50} />,
   twoButtons: false,
   firstBtnTitle: 'بله',
