@@ -25,7 +25,7 @@ export default class NotificationService {
     PushNotification.createChannel(
       {
         channelId: 'default-channel-id', // (required)
-        channelName: `Default channel`, // (required)
+        channelName: 'Default channel', // (required)
         channelDescription: 'A default channel', // (optional) default: undefined.
         soundName: 'default', // (optional) See `soundName` parameter of `localNotification` function
         importance: 4, // (optional) default: 4. Int value of the Android notification importance
@@ -37,7 +37,7 @@ export default class NotificationService {
     PushNotification.createChannel(
       {
         channelId: 'sound-channel-id', // (required)
-        channelName: `Sound channel`, // (required)
+        channelName: 'Sound channel', // (required)
         channelDescription: 'A sound channel', // (optional) default: undefined.
         soundName: 'sample.mp3', // (optional) See `soundName` parameter of `localNotification` function
         importance: 4, // (optional) default: 4. Int value of the Android notification importance
@@ -110,6 +110,7 @@ export default class NotificationService {
   }
 
   scheduled(id, date, message, repeatType, soundName) {
+    //todo: set 'when' for showing time in banner
     // this.lastId++;
     PushNotification.localNotificationSchedule({
       date: date,
@@ -134,7 +135,7 @@ export default class NotificationService {
       invokeApp: false, // (optional) This enable click on actions to bring back the application to foreground or stay in background, default: true
 
       showWhen: true, // This is probably not needed, since default value is TRUE.
-      when: new Date(date).getTime(), // (optionnal) Add a timestamp pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
+      //when: new Date().getTime(), // (optionnal) Add a timestamp pertaining to the notification (usually the time the event occurred). For apps targeting Build.VERSION_CODES.N and above, this time is not shown anymore by default and must be opted into by using `showWhen`, default: null.
       usesChronometer: false, // (optional) Show the `when` field as a stopwatch. Instead of presenting `when` as a timestamp, the notification will show an automatically updating display of the minutes and seconds since when. Useful when showing an elapsed time (like an ongoing phone call), default: false.
       timeoutAfter: null, // (optional) Specifies a duration in milliseconds after which this notification should be canceled, if it is not already canceled, default: null
 

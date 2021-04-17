@@ -16,14 +16,14 @@ const notification = new NotificationService();
 const today = moment().format(FORMAT);
 let c;
 
-export default async () => {
+export const setupNotifications = async () => {
   const reminders = await getUserReminders(1);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
     console.log('scheduled notifs', res),
   );
-  userAppChecking();
-  periodLate();
+  //userAppChecking();
+  // periodLate();
   console.log('reminders', reminders);
   reminders.forEach((reminder) => {
     if (reminder.active === 1) {
@@ -119,7 +119,7 @@ async function pmsInACoupleOfDays(reminder) {
   console.log('PMS reminder set for', date);
 }
 
-async function periodLate() {
+export async function periodLate() {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
   if (nextPeriodDate === '') return;
@@ -134,7 +134,7 @@ async function periodLate() {
   );
 }
 
-async function userAppChecking() {
+export async function userAppChecking() {
   notification.cancel(CHECK_THE_APP);
   const date = moment(today).add(90, 'days').toDate();
   date.setHours(10);

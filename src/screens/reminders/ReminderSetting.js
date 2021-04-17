@@ -2,7 +2,7 @@ import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
 import { ScrollView, TextInput } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
-import setupNotifications from '../../util/notifications';
+import { setupNotifications } from '../../util/notifications';
 import { BREAST_EXAM } from '../../constants/reminders';
 import { DateContext } from '../../contexts';
 import Card from '../../components/Card';
