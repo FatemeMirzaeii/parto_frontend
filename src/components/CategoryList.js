@@ -103,25 +103,29 @@ const CategoryList = (props) => {
                 catName: catName,
               });
         }}
-        style={styles.cardButton}>
-        <ImageBackground
-          style={styles.imageWrapper}
-          imageStyle={styles.image}
-          source={
-            item.cover
-              ? { uri: item.cover }
-              : require('../../assets/images/NoPic.jpeg')
-          }>
-          <LinearGradient
-            colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
-            style={styles.textGradient}>
-            <View style={styles.textWrapper}>
-              <Text numberOfLines={2} style={styles.text}>
-                {item.title}
-              </Text>
-            </View>
-          </LinearGradient>
-        </ImageBackground>
+        style={treatise ? styles.treatiseCardButton : styles.cardButton}>
+        {treatise ? (
+          <Text style={{ ...styles.text, color: 'black' }}>{item.title}</Text>
+        ) : (
+          <ImageBackground
+            style={styles.imageWrapper}
+            imageStyle={styles.image}
+            source={
+              item.cover
+                ? { uri: item.cover }
+                : require('../../assets/images/NoPic.jpeg')
+            }>
+            <LinearGradient
+              colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0)', 'rgba(0,0,0,1)']}
+              style={styles.textGradient}>
+              <View style={styles.textWrapper}>
+                <Text numberOfLines={2} style={styles.text}>
+                  {item.title}
+                </Text>
+              </View>
+            </LinearGradient>
+          </ImageBackground>
+        )}
       </TouchableOpacity>
     );
   };
@@ -148,15 +152,23 @@ const CategoryList = (props) => {
                 </View>
               ) : null}
             </TouchableOpacity>
-            <Text style={styles.categoryText}>{props.category}</Text>
+            <Text
+              style={[
+                styles.categoryText,
+                treatise ? styles.treatiseCategoryText : null,
+              ]}>
+              {props.category}
+            </Text>
           </View>
-
           <FlatList
             horizontal
             inverted
             data={articles}
             renderItem={_renderItem}
             keyExtractor={(item, index) => index.toString()}
+            ListHeaderComponent={
+              treatise ? <View style={{ width: 150, height: 150 }} /> : null
+            }
             showsHorizontalScrollIndicator={false}
             initialNumToRender={10}
           />
@@ -195,6 +207,11 @@ const styles = StyleSheet.create({
     fontFamily: FONT.bold,
     fontSize: SIZE[16],
   },
+  treatiseCategoryText: {
+    marginRight: 120,
+    marginTop: 20,
+    color: 'white',
+  },
   cardButton: {
     margin: 5,
     borderRadius: 25,
@@ -206,6 +223,18 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.27,
     shadowRadius: 4.65,
     elevation: 3,
+  },
+  treatiseCardButton: {
+    backgroundColor: 'white',
+    width: 140,
+    height: 100,
+    margin: 10,
+    padding: 5,
+    borderRadius: 15,
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 3,
+    marginTop: 20,
   },
   imageWrapper: {
     width: 140,
