@@ -264,7 +264,9 @@ const Calendar = ({ navigation }) => {
                                 : 'transparent',
                           },
                         ]}>
-                        {jalaali(dateString).format('jD')}
+                        {dateString === '2021-03-22'
+                          ? '2'
+                          : jalaali(dateString).format('jD')}
                       </Ptxt>
                     </TouchableOpacity>
                   );

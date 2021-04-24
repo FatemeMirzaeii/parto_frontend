@@ -243,13 +243,14 @@ const SignUp = ({ navigation }) => {
           'user',
         );
         if (type || template) {
+          let versionTypeRes;
           if (!template) dispatch(handleTemplate(type));
-          else if (!type) setVersionType(id, template);
-          // todo: if this api returns error?
+          else if (!type) versionTypeRes = setVersionType(id, template);
           else if (template !== type) return toggle();
           // this else if will happen if user is using the app offline and wants to signup,
           // but will signup with a number that has been registered already and they dont match.
           // todo: should ask for changing app template or not?
+          if (!type && !versionTypeRes) return;
           setIsLoading(true);
           dispatch(interview());
           await sync();
