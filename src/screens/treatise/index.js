@@ -23,6 +23,8 @@ import Tour from '../../util/tourGuide/Tour';
 
 //assets
 import estehazeImg from '../../../assets/images/treatise/estehaze.png';
+import heyzImg from '../../../assets/images/treatise/heyz.png';
+import nefasImg from '../../../assets/images/treatise/nefas.png';
 
 //styles
 import { COLOR, WIDTH } from '../../styles/static';
@@ -32,6 +34,7 @@ const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const imageList = [heyzImg, estehazeImg, nefasImg];
   const counter = [1, 2, 3];
 
   useLayoutEffect(() => {
@@ -103,7 +106,7 @@ const Treatise = ({ navigation }) => {
             data={categoryList}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
-            renderItem={({ item }) => (
+            renderItem={({ item, index }) => (
               <ImageBackground
                 style={{
                   flex: 1,
@@ -115,7 +118,7 @@ const Treatise = ({ navigation }) => {
                   borderBottomRightRadius: 15,
                   borderTopRightRadius: 15,
                 }}
-                source={estehazeImg}>
+                source={imageList[index]}>
                 <CategoryList
                   treatise
                   navigation={navigation}
