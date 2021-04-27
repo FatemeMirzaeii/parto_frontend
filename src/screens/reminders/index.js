@@ -6,7 +6,7 @@ import Card from '../../components/Card';
 import { COLOR } from '../../styles/static';
 import { getReminders } from '../../util/database/query';
 import { userAppChecking, periodLate } from '../../util/notifications';
-import styles from './Styles';
+import styles from './styles';
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
@@ -22,12 +22,12 @@ const Reminders = ({ navigation }) => {
       headerLeft: null,
       headerRight: () => (
         <Icon
-          reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.pink}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
     });

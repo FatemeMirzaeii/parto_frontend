@@ -10,8 +10,7 @@ import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
 import { COLOR } from '../../styles/static';
 import { getReminder, saveReminder } from '../../util/database/query';
-import globalStyles from '../../styles';
-import styles from './Styles';
+import styles from './styles';
 import { FORMAT } from '../../constants/cycle';
 
 const d = new Date();
@@ -35,18 +34,20 @@ const ReminderSetting = ({ navigation, route }) => {
           title="ثبت"
           type="outline"
           onPress={save}
-          titleStyle={globalStyles.headerBtnTitle}
-          containerStyle={globalStyles.smallHeaderBtn}
+          containerStyle={[styles.btnContainer, { width: 50, height: 30 }]}
+          buttonStyle={styles.button}
+          titleStyle={styles.btnTitle}
+          loadingStyle={{ color: COLOR.pink }}
         />
       ),
       headerRight: () => (
         <Icon
-          reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
+          size={16}
+          name="right-arrow"
+          type="parto"
+          color={COLOR.pink}
           onPress={() => navigation.pop()}
+          containerStyle={{ right: 40 }}
         />
       ),
     });
