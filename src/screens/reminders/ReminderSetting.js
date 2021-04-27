@@ -2,16 +2,22 @@ import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
 import { ScrollView, TextInput } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
+
+// utils
 import { setupNotifications } from '../../util/notifications';
-import { BREAST_EXAM } from '../../constants/reminders';
+import { getReminder, saveReminder } from '../../util/database/query';
 import { DateContext } from '../../contexts';
+
+//components
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
+
+//styles and constants
 import { COLOR } from '../../styles/static';
-import { getReminder, saveReminder } from '../../util/database/query';
 import styles from './styles';
 import { FORMAT } from '../../constants/cycle';
+import { BREAST_EXAM } from '../../constants/reminders';
 
 const d = new Date();
 const ReminderSetting = ({ navigation, route }) => {
