@@ -29,6 +29,7 @@ const Profile = ({ navigation }) => {
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
   const user = useSelector((state) => state.user);
+  const isLoggedIn = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
 
   const { isVisible, toggle } = useModal();
@@ -175,22 +176,24 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
-        <Card>
-          <ListItem
-            title="َحذف حساب کاربری"
-            // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
-            onPress={toggle}
-            chevron={{
-              type: 'parto',
-              name: 'back-arrow',
-              color: COLOR.icon,
-              size: 10,
-            }}
-          />
-        </Card>
+        {!(isLoggedIn === 'dummyToken') && (
+          <Card>
+            <ListItem
+              title="َحذف حساب کاربری"
+              // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+              titleStyle={styles.listItemText}
+              containerStyle={styles.listItem}
+              contentContainerStyle={styles.listItemContent}
+              onPress={toggle}
+              chevron={{
+                type: 'parto',
+                name: 'back-arrow',
+                color: COLOR.icon,
+                size: 10,
+              }}
+            />
+          </Card>
+        )}
       </ScrollView>
       <DialogBox
         isVisible={isVisible}
