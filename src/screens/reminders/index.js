@@ -59,20 +59,6 @@ const Reminders = ({ navigation }) => {
           );
         })}
       </Card>
-      <Card>
-        <ListItem
-          title="‌فعال‌سازی اعلان‌ها"
-          onPress={() => {
-            userAppChecking();
-            periodLate();
-            ToastAndroid.show('اعلان‌ها برای شما فعال شد.', ToastAndroid.LONG);
-          }}
-          leftIcon={{ name: 'alarm' }}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-        />
-      </Card>
     </ScrollView>
   );
 };

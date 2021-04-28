@@ -409,7 +409,7 @@ export async function getReminder(userId, reminderId) {
     `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId} AND reminder_id=${reminderId}`,
     USER_REMINDER,
   );
-  return res === EMPTY_TABLE ? [] : res;
+  return res === EMPTY_TABLE ? [] : res[0];
 }
 export async function getReminders() {
   const res = await db.exec(`SELECT * FROM ${REMINDER}`, REMINDER);
