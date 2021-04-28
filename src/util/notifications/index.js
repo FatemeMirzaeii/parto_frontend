@@ -12,7 +12,6 @@ import {
 } from '../../constants/reminders';
 
 const notification = new NotificationService();
-const today = moment();
 let c;
 
 export const setupNotifications = async (userId) => {
@@ -81,7 +80,7 @@ async function periodInACoupleOfDays(reminder) {
     reminder.custom_time,
     reminder.Xdays_ago,
   );
-  if (moment(date).isBefore(today)) return;
+  if (moment(date).isBefore(moment())) return;
   notification.scheduled(PERIOD_START, date, reminder.custom_message);
   console.log('period reminder set for', date);
 }
@@ -94,7 +93,7 @@ async function ovulationInACoupleOfDays(reminder) {
     reminder.custom_time,
     reminder.Xdays_ago,
   );
-  if (moment(date).isBefore(today)) return;
+  if (moment(date).isBefore(moment())) return;
   notification.scheduled(OVULATION, date, reminder.custom_message);
   console.log('ovulation reminder set for', date);
 }
@@ -107,7 +106,7 @@ async function pmsInACoupleOfDays(reminder) {
     reminder.custom_time,
     reminder.Xdays_ago,
   );
-  if (moment(date).isBefore(today)) return;
+  if (moment(date).isBefore(moment())) return;
   notification.scheduled(PMS, date, reminder.custom_message);
   console.log('PMS reminder set for', date);
 }
@@ -119,7 +118,7 @@ export async function periodLate() {
   const date = moment(nextPeriodDate).add(10, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
-  if (moment(date).isBefore(today)) return;
+  if (moment(date).isBefore(moment())) return;
   notification.scheduled(
     PERIOD_LATE,
     date,
@@ -129,7 +128,7 @@ export async function periodLate() {
 
 export async function userAppChecking() {
   notification.cancel(CHECK_THE_APP);
-  const date = moment(today).add(90, 'days').toDate();
+  const date = moment().add(90, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
   notification.scheduled(
