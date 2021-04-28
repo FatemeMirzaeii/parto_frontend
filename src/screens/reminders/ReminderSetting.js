@@ -112,17 +112,17 @@ const ReminderSetting = ({ navigation, route }) => {
 
   const determineRepeatType = (i) => {
     switch (i) {
-      case 0: //monthly
+      case 0: //daily
         setRepeatType(0);
-        setDaysAgo(30);
+        setDaysAgo(1);
         break;
       case 1: //weekly
         setRepeatType(1);
         setDaysAgo(7);
         break;
-      case 2: //daily
+      case 2: //monthly
         setRepeatType(2);
-        setDaysAgo(1);
+        setDaysAgo(30);
         break;
       default:
         break;

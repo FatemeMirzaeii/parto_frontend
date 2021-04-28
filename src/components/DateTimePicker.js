@@ -66,7 +66,7 @@ const DateTimePicker = (props) => {
       {props.isFrequent ? (
         <View style={styles.verticalWrapper}>
           <WheelPicker
-            data={['ماهانه', 'هفتگی', 'روزانه']}
+            data={['روزانه', 'هفتگی', 'ماهانه']}
             selectedItem={props.daySelectedItem}
             onItemSelected={props.onDaySelected}
             style={styles.picker}
