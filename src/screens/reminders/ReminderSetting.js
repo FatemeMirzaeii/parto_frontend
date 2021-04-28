@@ -139,14 +139,14 @@ const ReminderSetting = ({ navigation, route }) => {
               <Icon
                 type="material"
                 name={isActive ? 'notifications-active' : 'notifications-off'}
-                color={isActive ? COLOR.btn : COLOR.textColorDark}
+                color={isActive ? COLOR.pink : COLOR.textColorDark}
               />
             }
             switch={{
               value: isActive,
               onValueChange: setIsActive,
               trackColor: { true: COLOR.lightPink, false: '#aaa' },
-              thumbColor: isActive ? COLOR.btn : '#f4f3f4',
+              thumbColor: isActive ? COLOR.pink : '#f4f3f4',
             }}
             bottomDivider={isActive}
             titleStyle={styles.listItemTitle}
@@ -164,7 +164,7 @@ const ReminderSetting = ({ navigation, route }) => {
                 customComponent={
                   <TextInput
                     multiline
-                    selectionColor={COLOR.btn}
+                    selectionColor={COLOR.pink}
                     style={styles.inputMessage}
                     value={message}
                     onChangeText={setMessage}
