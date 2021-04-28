@@ -10,10 +10,9 @@ import {
   PERIOD_LATE,
   CHECK_THE_APP,
 } from '../../constants/reminders';
-import { FORMAT } from '../../constants/cycle';
 
 const notification = new NotificationService();
-const today = moment().format(FORMAT);
+const today = moment();
 let c;
 
 export const setupNotifications = async (userId) => {
@@ -141,7 +140,7 @@ export async function userAppChecking() {
 }
 
 function getReminderDateTime(targetDate, time, daysAgo) {
-  const date = moment(targetDate).subtract(daysAgo).toDate();
+  const date = moment(targetDate).subtract(daysAgo, 'days').toDate();
   const [hours, minutes] = time.split(':');
   date.setHours(hours);
   date.setMinutes(minutes);

@@ -1,11 +1,10 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ScrollView, ToastAndroid } from 'react-native';
+import { ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 import Card from '../../components/Card';
 import { COLOR } from '../../styles/static';
 import { getReminders } from '../../util/database/query';
-import { userAppChecking, periodLate } from '../../util/notifications';
 import styles from './styles';
 
 const Reminders = ({ navigation }) => {
