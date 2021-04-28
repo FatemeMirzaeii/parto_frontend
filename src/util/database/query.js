@@ -382,6 +382,7 @@ export async function lockStatus() {
   return data.locked;
 }
 export async function saveReminder(
+  userId,
   reminderId,
   isActive,
   message,
@@ -390,7 +391,7 @@ export async function saveReminder(
 ) {
   const res = await db.exec(
     `INSERT INTO ${USER_REMINDER} (reminder_id, user_id, active, custom_message , custom_time, Xdays_ago, created_at) VALUES 
-    (${reminderId}, ${1}, ${
+    (${reminderId}, ${userId}, ${
       isActive ? 1 : 0
     }, '${message}', '${time}', ${daysAgo}, '${moment().format(
       DATETIME_FORMAT,
@@ -408,8 +409,7 @@ export async function getReminder(userId, reminderId) {
     `SELECT * FROM ${USER_REMINDER} WHERE user_id=${userId} AND reminder_id=${reminderId}`,
     USER_REMINDER,
   );
-  const data = res[0] ? res[0] : [];
-  return data;
+  return res === EMPTY_TABLE ? [] : res;
 }
 export async function getReminders() {
   const res = await db.exec(`SELECT * FROM ${REMINDER}`, REMINDER);

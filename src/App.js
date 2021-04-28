@@ -6,16 +6,21 @@ import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import NetInfo from '@react-native-community/netinfo';
-import AppNavigator from './navigation';
 import { registerCustomIconType } from 'react-native-elements';
 import SplashScreen from 'react-native-splash-screen';
-import PartoIcon from './util/customIcon';
+import AppNavigator from './navigation';
+
+// store
 import configureStore from './store';
 import { fetchInitialCycleData } from './store/actions/cycle';
 import { restoreToken } from './store/actions/auth';
+
+// utils
 import lock from './util/lock';
 import { migration } from './util/database/migration';
 import sync from './util/database/sync';
+import { setupNotifications } from './util/notifications';
+import PartoIcon from './util/customIcon';
 
 //splash comes in
 //# restore tokens
@@ -73,9 +78,10 @@ const App: () => React$Node = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer
           ref={navigationRef}
-          onReady={() =>
-            (routeNameRef.current = navigationRef.current.getCurrentRoute().name)
-          }
+          onReady={() => {
+            routeNameRef.current = navigationRef.current.getCurrentRoute().name;
+            setupNotifications(store.getState().user.id);
+          }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;
             const currentRouteName = navigationRef.current.getCurrentRoute()

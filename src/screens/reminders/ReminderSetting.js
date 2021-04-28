@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
 import { ScrollView, TextInput } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
+import { useSelector } from 'react-redux';
 
 // utils
 import { setupNotifications } from '../../util/notifications';
@@ -31,6 +32,7 @@ const ReminderSetting = ({ navigation, route }) => {
   const [message, setMessage] = useState(reminder.message);
   const [daysAgo, setDaysAgo] = useState(1);
   const [repeatType, setRepeatType] = useState();
+  const userId = useSelector((state) => state.user.id);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -65,12 +67,17 @@ const ReminderSetting = ({ navigation, route }) => {
             .add(daysAgo, 'days')
             .format(FORMAT)}_${hours}:${minutes}`)
         : (cusTime = `${hours}:${minutes}`);
-      saveReminder(reminder.id, isActive, message, cusTime, daysAgo).then(
-        () => {
-          setupNotifications();
-          navigation.pop();
-        },
-      );
+      saveReminder(
+        userId,
+        reminder.id,
+        isActive,
+        message,
+        cusTime,
+        daysAgo,
+      ).then(() => {
+        setupNotifications(userId);
+        navigation.pop();
+      });
     };
   }, [
     daysAgo,
@@ -80,12 +87,12 @@ const ReminderSetting = ({ navigation, route }) => {
     minutes,
     navigation,
     reminder,
-    repeatType,
     today,
+    userId,
   ]);
 
   useEffect(() => {
-    getReminder(1, reminder.id).then((res) => {
+    getReminder(userId, reminder.id).then((res) => {
       console.log('getReminder()', res);
       setData(res);
       if (res.length === 0) return;
@@ -101,7 +108,7 @@ const ReminderSetting = ({ navigation, route }) => {
       setHours(hour);
       setDaysAgo(res.Xdays_ago);
     });
-  }, [reminder.id]);
+  }, [reminder.id, userId]);
 
   const determineRepeatType = (i) => {
     switch (i) {

@@ -16,14 +16,14 @@ const notification = new NotificationService();
 const today = moment().format(FORMAT);
 let c;
 
-export const setupNotifications = async () => {
-  const reminders = await getUserReminders(1);
+export const setupNotifications = async (userId) => {
+  const reminders = await getUserReminders(userId);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
     console.log('scheduled notifs', res),
   );
-  //userAppChecking();
-  // periodLate();
+  userAppChecking();
+  periodLate();
   console.log('reminders', reminders);
   reminders.forEach((reminder) => {
     if (reminder.active === 1) {
@@ -71,12 +71,6 @@ async function breastExam(reminder) {
   d.setHours(hours);
   d.setMinutes(minutes);
   notification.scheduled(BREAST_EXAM, d, reminder.custom_message, repeatType);
-  // notification.scheduled(
-  //   BREAST_EXAM,
-  //   new Date(Date.now()),
-  //   reminder.custom_message,
-  //   'minute',
-  // );
   console.log('breast exam reminder set for', d);
 }
 
