@@ -111,7 +111,7 @@ async function pmsInACoupleOfDays(reminder) {
   console.log('PMS reminder set for', date);
 }
 
-export async function periodLate() {
+async function periodLate() {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
   if (nextPeriodDate === '') return;
@@ -126,7 +126,7 @@ export async function periodLate() {
   );
 }
 
-export async function userAppChecking() {
+async function userAppChecking() {
   notification.cancel(CHECK_THE_APP);
   const date = moment().add(90, 'days').toDate();
   date.setHours(10);
