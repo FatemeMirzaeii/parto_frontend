@@ -166,6 +166,21 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
         <ListItem
+          title="دستیار"
+          leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+          bottomDivider
+          chevron={{
+            type: 'parto',
+            name: 'back-arrow',
+            color: COLOR.icon,
+            size: 10,
+          }}
+          onPress={() => navigateTo('Assistant')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
+        <ListItem
           title="قفل نرم افزار"
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
           switch={{
