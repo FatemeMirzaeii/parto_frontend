@@ -19,6 +19,7 @@ import { signOut } from '../../store/actions/auth';
 // styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
+import Loader from '../../components/Loader';
 
 const Profile = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState();
@@ -28,6 +29,7 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
@@ -178,20 +180,24 @@ const Profile = ({ navigation }) => {
         </Card>
         {!(isLoggedIn === 'dummyToken') && (
           <Card>
-            <ListItem
-              title="َحذف حساب کاربری"
-              // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
-              onPress={toggle}
-              chevron={{
-                type: 'parto',
-                name: 'back-arrow',
-                color: COLOR.icon,
-                size: 10,
-              }}
-            />
+            {isLoading ? (
+              <Loader />
+            ) : (
+              <ListItem
+                title="َحذف حساب کاربری"
+                // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+                titleStyle={styles.listItemText}
+                containerStyle={styles.listItem}
+                contentContainerStyle={styles.listItemContent}
+                onPress={toggle}
+                chevron={{
+                  type: 'parto',
+                  name: 'back-arrow',
+                  color: COLOR.icon,
+                  size: 10,
+                }}
+              />
+            )}
           </Card>
         )}
       </ScrollView>
@@ -202,8 +208,10 @@ const Profile = ({ navigation }) => {
         text="با تایید این پیام حساب کاربری و تمام اطلاعات شما حذف خواهد شد؛ آیا مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
+          setIsLoading(true);
           toggle();
           await deleteAccount();
+          setIsLoading(false);
         }}
         secondBtnPress={toggle}
       />
