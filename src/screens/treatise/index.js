@@ -45,9 +45,9 @@ const Treatise = ({ navigation }) => {
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
+          helpPress={() => navigation.navigate('TreatiseHelp')}
           callPress={() => Linking.openURL(`tel:${'+985132020'}`)}
           smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
-          helpPress={() => navigation.navigate('TreatiseHelp')}
         />
       ),
       headerRight: () => (
@@ -110,9 +110,12 @@ const Treatise = ({ navigation }) => {
               <ImageBackground
                 style={{
                   flex: 1,
-                  resizeMode: 'cover',
-                  width: WIDTH - 10,
-                  marginVertical: 15,
+                  //resizeMode: 'cover',
+                  width: '100%',
+                  height: '69%',
+                  width: WIDTH - 15,
+                  marginVertical: -80,
+                  marginTop: 37,
                 }}
                 imageStyle={{
                   borderBottomRightRadius: 15,
