@@ -13,6 +13,33 @@ const TreatiseIconBox = ({
   return (
     <View style={styles.iconContainer}>
       <Icon
+        key={'goHelp'}
+        title={'goHelp'}
+        ref={(ref) => {
+          if (!ref) {
+            return;
+          }
+          let props = {
+            order: 11,
+            title: 'راهنمای احکام',
+            description: 'این قسمت رو حتما بخون !',
+            descriptionTextSize: 15,
+            outerCircleColor: COLOR.purple,
+            outerCircleAlpha: 0.9,
+            fontFamily: FONT.regular,
+          };
+          addAppTourTarget &&
+            addAppTourTarget(AppTourView.for(ref, { ...props }));
+        }}
+        reverse
+        size={16}
+        type="feather"
+        name="info"
+        type="parto"
+        color={COLOR.pink}
+        onPress={helpPress}
+      />
+      <Icon
         key={'goCall'}
         title={'goCall'}
         ref={(ref) => {
@@ -65,32 +92,6 @@ const TreatiseIconBox = ({
           color={COLOR.btn}
           onPress={smsPress}
         /> */}
-      <Icon
-        key={'goHelp'}
-        title={'goHelp'}
-        ref={(ref) => {
-          if (!ref) {
-            return;
-          }
-          let props = {
-            order: 11,
-            title: 'راهنمای احکام',
-            description: 'این قسمت رو حتما بخون !',
-            descriptionTextSize: 15,
-            outerCircleColor: COLOR.purple,
-            outerCircleAlpha: 0.9,
-            fontFamily: FONT.regular,
-          };
-          addAppTourTarget &&
-            addAppTourTarget(AppTourView.for(ref, { ...props }));
-        }}
-        reverse
-        size={16}
-        type="feather"
-        name="help-circle"
-        color={COLOR.pink}
-        onPress={helpPress}
-      />
     </View>
   );
 };
