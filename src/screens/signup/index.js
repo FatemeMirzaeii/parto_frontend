@@ -145,6 +145,7 @@ const SignUp = ({ navigation }) => {
   //   dispatch(signUp());}
 
   const _handleSubmit = async () => {
+    setIsLoading(true);
     await axios({
       method: 'post',
       url: `${baseUrl}/auth/checkVerificationCode/fa`,
@@ -157,28 +158,28 @@ const SignUp = ({ navigation }) => {
         code: value,
       },
     })
-      .then((res) => {
+      .then(async (res) => {
         console.log('res', res);
-        _handleLogin();
+        await _handleLogin();
+        // setIsLoading(false);
       })
       .catch((err) => {
-        console.error(err, err.response);
-        if (
-          err.response.status === 500 ||
-          err.response.status === 502 ||
-          !err.response.data.message
-        )
-          return;
+        setIsLoading(false);
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
+        } else if (
+          err.response &&
+          (err.response.status === 500 ||
+            err.response.status === 502 ||
+            (err.response.data && !err.response.data.message))
+        )
+          return;
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
 
   const _getVerificationCode = () => {
-    // setIsLoading(true);
+    setIsLoading(true);
     axios({
       method: 'post',
       url: `${baseUrl}/auth/verificationCode`,
@@ -196,19 +197,17 @@ const SignUp = ({ navigation }) => {
         setCodeFieldActive(true);
       })
       .catch((err) => {
-        console.error(err, err.response);
         setIsLoading(false);
-        if (
-          err.response.status === 500 ||
-          err.response.status === 502 ||
-          !err.response.data.message
-        )
-          return;
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
+        } else if (
+          err.response &&
+          (err.response.status === 500 ||
+            err.response.status === 502 ||
+            (err.response.data && !err.response.data.message))
+        )
+          return;
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
 
@@ -221,8 +220,7 @@ const SignUp = ({ navigation }) => {
     });
     if (res) return true;
   };
-  const _handleLogin = () => {
-    //setIsLoading(true);
+  const _handleLogin = async () => {
     axios({
       method: 'POST',
       url: `${baseUrl}/auth/logIn/fa`,
@@ -251,7 +249,6 @@ const SignUp = ({ navigation }) => {
           // but will signup with a number that has been registered already and they dont match.
           // todo: should ask for changing app template or not?
           if (!type && !versionTypeRes) return;
-          setIsLoading(true);
           dispatch(interview());
           await sync();
           dispatch(fetchInitialCycleData());
@@ -260,18 +257,16 @@ const SignUp = ({ navigation }) => {
         dispatch(signUp());
       })
       .catch((err) => {
-        console.error(err, err.response);
-        if (
-          err.response.status === 500 ||
-          err.response.status === 502 ||
-          !err.response.data.message
-        )
-          return;
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else {
-          ToastAndroid.show(err.response.data.message, ToastAndroid.LONG);
-        }
+        } else if (
+          err.response &&
+          (err.response.status === 500 ||
+            err.response.status === 502 ||
+            (err.response.data && !err.response.data.message))
+        )
+          return;
+        else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
   const getVerificationCodeAgain = () => {

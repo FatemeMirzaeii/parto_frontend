@@ -54,6 +54,7 @@ const App: () => React$Node = () => {
     await migration();
     NetInfo.addEventListener((state) => {
       const token = store.getState().auth.userToken;
+      console.log('state.isConnected', state.isConnected); //todo
       if (state.isConnected && token && token !== 'dummyToken') sync();
       else
         console.log(

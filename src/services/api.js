@@ -24,16 +24,18 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
       return res;
     }
   } catch (err) {
-    // console.error(err.response, '--------', err.response.data.message, url);
-    if (
+    console.error(url, err);
+    // console.error(err.response, '--------', err.response.data.message);
+    if (err.toString() === 'Error: Network Error') {
+      console.log('chera nemiresi inja ensafan?');
+      ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+    } else if (
       err.response &&
       (err.response.status === 500 ||
         err.response.status === 502 ||
-        !err.response.data.message)
+        (err.response.data && !err.response.data.message))
     )
       return;
-    else if (err.toString() === 'Error: Network Error')
-      ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
     else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
   }
 };
