@@ -27,7 +27,6 @@ import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 //components
 import Ptxt from '../../components/Ptxt';
-import Loader from '../../components/Loader';
 import DialogBox from '../../components/DialogBox';
 
 //store
@@ -277,9 +276,7 @@ const SignUp = ({ navigation }) => {
   return (
     <ImageBackground source={bgImage} style={styles.bg}>
       <SafeAreaView style={styles.main}>
-        {isLoading ? (
-          <Loader />
-        ) : !codeFieldActive ? (
+        {!codeFieldActive ? (
           <KeyboardAvoidingView style={styles.container}>
             <Ptxt style={styles.title}>شماره تماس خود را وارد کنید</Ptxt>
             {/* todo: limit for phone number input. */}
@@ -306,6 +303,7 @@ const SignUp = ({ navigation }) => {
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}
               onPress={_getVerificationCode}
+              loading={isLoading}
               // onPress={() => {
               //   setIsLoading(false);
               //   setCodeFieldActive(true);
@@ -366,6 +364,7 @@ const SignUp = ({ navigation }) => {
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}
               onPress={_handleSubmit}
+              loading={isLoading}
               // onPress={_handleLogin}
             />
           </>

@@ -14,7 +14,6 @@ import DeviceInfo from 'react-native-device-info';
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
-import Loader from '../../components/Loader';
 import Card from '../../components/Card';
 import DialogBox from '../../components/DialogBox';
 
@@ -257,30 +256,26 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
           bottomDivider
         />
-        {isLoading ? (
-          <Loader />
-        ) : (
-          template !== 'Partner' && (
-            <ListItem
-              title="پاک کردن داده‌ها"
-              leftIcon={{
-                type: 'parto',
-                name: 'trash',
-                color: COLOR.icon,
-              }}
-              chevron={{
-                type: 'parto',
-                name: 'back-arrow',
-                color: COLOR.icon,
-                size: 10,
-              }}
-              onPress={toggle}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
-              bottomDivider={!(isLoggedIn === 'dummyToken')}
-            />
-          )
+        {template !== 'Partner' && (
+          <ListItem
+            title="پاک کردن داده‌ها"
+            leftIcon={{
+              type: 'parto',
+              name: 'trash',
+              color: COLOR.icon,
+            }}
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+            onPress={toggle}
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+            bottomDivider={!(isLoggedIn === 'dummyToken')}
+          />
         )}
         {!(isLoggedIn === 'dummyToken') && (
           <ListItem
@@ -301,15 +296,16 @@ const Menu = ({ navigation }) => {
       </Card>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
           setIsLoading(true);
-          toggle();
           await resetDatabase();
           dispatch(fetchInitialCycleData());
+          toggle();
           setIsLoading(false);
         }}
         secondBtnPress={toggle}

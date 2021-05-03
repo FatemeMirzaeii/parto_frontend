@@ -19,7 +19,6 @@ import { signOut } from '../../store/actions/auth';
 // styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
-import Loader from '../../components/Loader';
 
 const Profile = ({ navigation }) => {
   const [birthdate, setBirthdate] = useState();
@@ -180,37 +179,34 @@ const Profile = ({ navigation }) => {
         </Card>
         {!(isLoggedIn === 'dummyToken') && (
           <Card>
-            {isLoading ? (
-              <Loader />
-            ) : (
-              <ListItem
-                title="َحذف حساب کاربری"
-                // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-                titleStyle={styles.listItemText}
-                containerStyle={styles.listItem}
-                contentContainerStyle={styles.listItemContent}
-                onPress={toggle}
-                chevron={{
-                  type: 'parto',
-                  name: 'back-arrow',
-                  color: COLOR.icon,
-                  size: 10,
-                }}
-              />
-            )}
+            <ListItem
+              title="َحذف حساب کاربری"
+              // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+              titleStyle={styles.listItemText}
+              containerStyle={styles.listItem}
+              contentContainerStyle={styles.listItemContent}
+              onPress={toggle}
+              chevron={{
+                type: 'parto',
+                name: 'back-arrow',
+                color: COLOR.icon,
+                size: 10,
+              }}
+            />
           </Card>
         )}
       </ScrollView>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="با تایید این پیام حساب کاربری و تمام اطلاعات شما حذف خواهد شد؛ آیا مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
           setIsLoading(true);
-          toggle();
           await deleteAccount();
+          toggle();
           setIsLoading(false);
         }}
         secondBtnPress={toggle}
