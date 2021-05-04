@@ -15,6 +15,7 @@ const notification = new NotificationService();
 let c;
 
 export const setupNotifications = async (userId) => {
+  notification.removeAllDeliveredNotifications();
   const reminders = await getUserReminders(userId);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
@@ -68,6 +69,7 @@ async function breastExam(reminder) {
   const d = moment(date).toDate();
   d.setHours(hours);
   d.setMinutes(minutes);
+  if (moment(d).isBefore(moment())) return;
   notification.scheduled(BREAST_EXAM, d, reminder.custom_message, repeatType);
   console.log('breast exam reminder set for', d);
 }

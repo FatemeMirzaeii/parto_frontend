@@ -170,12 +170,17 @@ export default class NotificationService {
   cancelAll() {
     PushNotification.cancelAllLocalNotifications();
   }
-
+  removeAllDeliveredNotifications() {
+    PushNotification.removeAllDeliveredNotifications();
+  }
   abandonPermissions() {
     PushNotification.abandonPermissions();
   }
 
   getScheduledLocalNotifications(callback) {
     PushNotification.getScheduledLocalNotifications(callback);
+  }
+  getDeliveredNotifications(callback) {
+    PushNotification.getDeliveredNotifications(callback);
   }
 }

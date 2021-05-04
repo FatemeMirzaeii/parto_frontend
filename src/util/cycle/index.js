@@ -243,11 +243,11 @@ export default async function CycleModule() {
   ////// this function will return an object with 2 property: date, type.
   ////// date is in moment format and also sorted DESC.
   async function pastBleedingDays() {
-    const all = await getUserAllBleedingDays();
+    const allBleedingDays = await getUserAllBleedingDays();
     // will return all bleeding days in json {date: string with 'YYYY-MM-DD' format, tracking_option_id: number}.
     // console.log('all', all);
-    if (all.length > 0) {
-      return all
+    if (allBleedingDays.length > 0) {
+      return allBleedingDays
         .map((d) => {
           return { date: moment(d.date), type: d.tracking_option_id };
         })

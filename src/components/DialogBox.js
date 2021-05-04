@@ -9,6 +9,7 @@ import { COLOR, FONT, WIDTH } from '../styles/static';
 
 const DialogBox = ({
   isVisible,
+  isLoading,
   hide,
   icon,
   children,
@@ -40,6 +41,7 @@ const DialogBox = ({
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
+              loading={isLoading}
             />
             <Button
               title={secondBtnTitle}

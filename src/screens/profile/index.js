@@ -28,6 +28,7 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
@@ -197,13 +198,16 @@ const Profile = ({ navigation }) => {
       </ScrollView>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="با تایید این پیام حساب کاربری و تمام اطلاعات شما حذف خواهد شد؛ آیا مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
-          toggle();
+          setIsLoading(true);
           await deleteAccount();
+          toggle();
+          setIsLoading(false);
         }}
         secondBtnPress={toggle}
       />

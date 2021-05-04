@@ -63,10 +63,11 @@ const ReminderSetting = ({ navigation, route }) => {
     const save = () => {
       let cusTime;
       reminder.id === BREAST_EXAM
-        ? (cusTime = `${moment(today)
-            .add(daysAgo, 'days')
-            .format(FORMAT)}_${hours}:${minutes}`)
+        ? (cusTime = `${moment(today).format(FORMAT)}_${hours}:${minutes}`)
         : (cusTime = `${hours}:${minutes}`);
+
+      // .add(daysAgo, 'days')
+
       saveReminder(
         userId,
         reminder.id,
