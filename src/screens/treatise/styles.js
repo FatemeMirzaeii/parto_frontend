@@ -74,7 +74,7 @@ export default StyleSheet.create({
     backgroundColor: '#f9d1de',
     alignItems: 'flex-end',
     alignSelf: 'center',
-    width: '90%',
+    width: '50%',
     padding: '5%',
     margin: 5,
     borderRadius: 15,

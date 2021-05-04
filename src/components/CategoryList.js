@@ -167,7 +167,7 @@ const CategoryList = (props) => {
             renderItem={_renderItem}
             keyExtractor={(item, index) => index.toString()}
             ListHeaderComponent={
-              treatise ? <View style={{ width: 150, height: 150 }} /> : null
+              treatise ? <View style={{ width: 115, height: 180 }} /> : null
             }
             showsHorizontalScrollIndicator={false}
             initialNumToRender={10}
@@ -208,8 +208,9 @@ const styles = StyleSheet.create({
     fontSize: SIZE[16],
   },
   treatiseCategoryText: {
-    marginRight: 120,
-    marginTop: 20,
+    marginRight: 100,
+    paddingBottom: 20,
+    //marginTop: 20,
     color: 'white',
   },
   cardButton: {
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
-    marginTop: 20,
+    marginTop: 0,
   },
   imageWrapper: {
     width: 140,
