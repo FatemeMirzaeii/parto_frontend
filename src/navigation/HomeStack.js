@@ -6,6 +6,7 @@ import TrackingOptions from '../screens/tracking-options';
 import PregnancyProfile from '../screens/pregnancy-profile';
 import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
+import Passcode from '../screens/passcode';
 import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
@@ -44,6 +45,11 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="PregnancyEndCalendar"
         component={PregnancyEndCalendar}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="Passcode"
+        component={Passcode}
         options={{ headerShown: false }}
       />
     </HomeStack.Navigator>

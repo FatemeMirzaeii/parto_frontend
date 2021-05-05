@@ -5,6 +5,7 @@ import Profile from '../screens/profile';
 import CycleSetting from '../screens/cycle-setting';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
+import Lock from '../screens/lock';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
@@ -38,6 +39,7 @@ const MenuStackScreen = () => {
         // options={{ headerShown: false }}
       />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
+      <MenuStack.Screen name="Lock" component={Lock} />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
       <MenuStack.Screen name="Treatise" component={Treatise} />

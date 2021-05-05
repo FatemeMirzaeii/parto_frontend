@@ -68,11 +68,21 @@ const App: () => React$Node = () => {
   const _handleAppStateChange = (nextAppState) => {
     launchApp();
     if (nextAppState === 'active') {
-      lock();
+      console.log('navigationRef.current', navigationRef.current);
+      if (
+        navigationRef.current &&
+        store.getState().user.lockType === 'Passcode'
+      )
+        navigationRef.current.navigate('Passcode');
+      if (store.getState().user.lockType === 'Fingerprint') lock();
     }
     appState.current = nextAppState;
   };
 
+  // console.log(
+  //   'store.getState().user.lockType',
+  //   store.getState().user.lockType,
+  // );
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -81,6 +91,7 @@ const App: () => React$Node = () => {
           onReady={() => {
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             setupNotifications(store.getState().user.id);
+            if (store.getState().user.lockType === 'Fingerprint') lock();
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;

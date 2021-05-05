@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
+//import { Button, Snackbar } from 'react-native-paper';
+// import SnackBar from 'rn-snackbar-component';
 
 // components
 import UserGoal from './UserGoal';
@@ -28,7 +30,7 @@ import { signOut } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 // styles
-import { COLOR } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const Menu = ({ navigation }) => {
@@ -39,6 +41,11 @@ const Menu = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
+  const [visible, setVisible] = React.useState(false);
+
+  const onToggleSnackBar = () => setVisible(!visible);
+
+  const onDismissSnackBar = () => setVisible(false);
 
   useEffect(() => {
     determineLockStatus();
@@ -151,7 +158,7 @@ const Menu = ({ navigation }) => {
       )}
       <Card>
         <ListItem
-          title="یادآوری‌ها"
+          title="یادآورها"
           leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
           bottomDivider
           chevron={{
@@ -165,8 +172,8 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
-        <ListItem
-          title="قفل نرم افزار"
+        {/* <ListItem
+          title="قفل نرم‌افزار"
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
           switch={{
             value: isLock,
@@ -177,7 +184,7 @@ const Menu = ({ navigation }) => {
           titleStyle={styles.listItemText}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
-        />
+        /> */}
         {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
@@ -208,6 +215,21 @@ const Menu = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         /> */}
+        <ListItem
+          title="قفل"
+          leftIcon={{ name: 'dashboard', color: COLOR.icon }}
+          bottomDivider
+          chevron={{
+            type: 'parto',
+            name: 'back-arrow',
+            color: COLOR.icon,
+            size: 10,
+          }}
+          onPress={() => navigateTo('Lock')}
+          titleStyle={styles.listItemText}
+          containerStyle={styles.listItem}
+          contentContainerStyle={styles.listItemContent}
+        />
         <ListItem
           title="معرفی به دوستان"
           leftIcon={{
@@ -299,6 +321,60 @@ const Menu = ({ navigation }) => {
           />
         )}
       </Card>
+      {/* <Button onPress={onToggleSnackBar}>{visible ? 'Hide' : 'Show'}</Button>
+      <Snackbar
+       style={{flexDirection:'row-reverse',justifyContent:'center'}}
+        theme={{ fonts: { regular: FONT.regular } }}
+        // android: {
+        //   regular: {
+        //     fontFamily: 'sans-serif',
+        //     fontWeight: 'normal',
+        //   },
+        //   medium: {
+        //     fontFamily: 'sans-serif-medium',
+        //     fontWeight: 'normal',
+        //   },
+        //   light: {
+        //     fontFamily: 'sans-serif-light',
+        //     fontWeight: 'normal',
+        //   },
+        //   thin: {
+        //     fontFamily: 'sans-serif-thin',
+        //     fontWeight: 'normal',
+        //   },
+        // }
+        visible={visible}
+        fontFamily= {FONT.regular}
+        onDismiss={onDismissSnackBar}
+        action={{
+          label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}>
+
+        <Text style={{fontFamily:FONT.regular,color:'white',backgroundColor:'pink',textAlign:'right',marginRight:50,padding:30}}> اتاااااااااااااااااااااارا الببببببببببب ذبلبلب    ئذتاا للللللللللللل للل     ال احکام</Text>
+      </Snackbar> */}
+
+      {/* <SnackBar
+          containerStyle={{
+            backgroundColor: 'pink',
+            // flexDirection: 'row-reverse',
+            // margin: 20,
+            // borderRadius: 5,
+            position:'absolute'
+          }}
+          messageStyle={{ paddingRight: 14, textAlign: 'right', color: 'red' }}
+          bottom={50}
+          autoHidingTime={100}
+          visible={true}
+          message="Hello There!"
+          actionHandler={() => {
+            console.log('snackbar button clicked!');
+          }}
+          action="let's go"
+        /> */}
+
       <DialogBox
         isVisible={isVisible}
         hide={toggle}
