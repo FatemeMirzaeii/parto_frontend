@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import analytics from '@react-native-firebase/analytics';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useCallback } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
@@ -21,6 +21,7 @@ import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 import { setupNotifications } from './util/notifications';
 import PartoIcon from './util/customIcon';
+import * as Keychain from 'react-native-keychain';
 
 //splash comes in
 //# restore tokens
@@ -39,6 +40,7 @@ const App: () => React$Node = () => {
   const appState = useRef(AppState.currentState);
   const navigationRef = useRef();
   const routeNameRef = useRef();
+
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
@@ -47,9 +49,9 @@ const App: () => React$Node = () => {
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, []);
+  }, [_handleAppStateChange, launchApp]);
 
-  const launchApp = async () => {
+  const launchApp = useCallback(async () => {
     store.dispatch(restoreToken());
     await migration();
     NetInfo.addEventListener((state) => {
@@ -63,26 +65,30 @@ const App: () => React$Node = () => {
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
-  };
+  }, [store]);
 
-  const _handleAppStateChange = (nextAppState) => {
-    launchApp();
-    if (nextAppState === 'active') {
-      console.log('navigationRef.current', navigationRef.current);
-      if (
-        navigationRef.current &&
-        store.getState().user.lockType === 'Passcode'
-      )
-        navigationRef.current.navigate('Passcode');
-      if (store.getState().user.lockType === 'Fingerprint') lock();
-    }
-    appState.current = nextAppState;
-  };
+  const _handleAppStateChange = useCallback(
+    async (nextAppState) => {
+      launchApp();
+      if (nextAppState === 'active') {
+        console.log('navigationRef.current', navigationRef.current);
+        if (
+          navigationRef.current &&
+          store.getState().user.lockType === 'Passcode'
+        )
+          navigationRef.current.navigate('Passcode',{screenName:navigationRef.current.getCurrentRoute().name});
+        if (
+          store.getState().user.lockType === 'Fingerprint' ||
+          store.getState().user.lockType === 'Face' ||
+          store.getState().user.lockType === 'Iris'
+        )
+          lock();
+      }
+      appState.current = nextAppState;
+    },
+    [store, launchApp],
+  );
 
-  // console.log(
-  //   'store.getState().user.lockType',
-  //   store.getState().user.lockType,
-  // );
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
@@ -91,7 +97,6 @@ const App: () => React$Node = () => {
           onReady={() => {
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             setupNotifications(store.getState().user.id);
-            if (store.getState().user.lockType === 'Fingerprint') lock();
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;

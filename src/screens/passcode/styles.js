@@ -6,6 +6,31 @@ export default StyleSheet.create({
     // marginTop: 25,
     // marginBottom: 53,
   },
+  sky: {
+    width: '100%',
+    height: '100%',
+    justifyContent: 'space-around',
+  },
+  codeFieldRoot: {
+    marginVertical: 30,
+    justifyContent: 'space-evenly',
+    width: WIDTH * 0.6,
+    alignSelf: 'center',
+  },
+  cell: {
+    fontFamily: FONT.regular,
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 15,
+    borderWidth: 2,
+    borderColor: '#00000030',
+    textAlign: 'center',
+    elevation: 2,
+  },
+  focusCell: {
+    borderColor: COLOR.purple,
+  },
   listItemText: {
     color: COLOR.listItemTxt,
     fontFamily: FONT.regular,
