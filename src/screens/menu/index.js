@@ -166,7 +166,7 @@ const Menu = ({ navigation }) => {
         />
         <ListItem
           title="دستیار"
-          leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+          leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
           bottomDivider
           chevron={{
             type: 'parto',

@@ -33,11 +33,7 @@ const MenuStackScreen = () => {
         component={Menu}
         options={{ headerShown: false }}
       />
-      <MenuStack.Screen
-        name="Profile"
-        component={Profile}
-        // options={{ headerShown: false }}
-      />
+      <MenuStack.Screen name="Profile" component={Profile} />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />

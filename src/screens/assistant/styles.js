@@ -5,24 +5,15 @@ export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    bottom: 50,
   },
-  img: {
-    width: WIDTH,
-    height: HEIGHT / 4,
-    //margin: 5,
+  listItem: {
+    flexDirection: 'row-reverse',
   },
-  iconContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    paddingTop: 15,
+  listItemContent: {
+    alignItems: 'flex-end',
   },
-  items: {
-    height: HEIGHT / 3,
-    width: WIDTH / 1.15,
-    justifyContent: 'center',
-    alignSelf: 'center',
+  listItemText: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
   },
-  title: { fontFamily: FONT.regular, fontSize: SIZE[14] },
 });

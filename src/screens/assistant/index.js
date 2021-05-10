@@ -4,23 +4,34 @@ import React, {
   useLayoutEffect,
   useState,
 } from 'react';
-import { View, Text, SafeAreaView, ToastAndroid, Image } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
-import { WebView } from 'react-native-webview';
+import { View, Text, SafeAreaView } from 'react-native';
+import { ListItem, Icon } from 'react-native-elements';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 
 //components
-import Loader from '../../components/Loader';
 import Card from '../../components/Card';
 
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
-import commonStyles from '../../styles/index';
 
 const Assistant = ({ navigation }) => {
+  const categories = [
+    {
+      title: 'مامایی',
+      uri: 'https://www.goftino.com/c/BdaydR',
+    },
+    {
+      title: 'احکام',
+      uri: 'https://www.goftino.com/c/BdaydR',
+    },
+    {
+      title: 'تغذیه',
+      uri: 'https://www.goftino.com/c/BdaydR',
+    },
+  ];
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'دستیار',
@@ -30,7 +41,7 @@ const Assistant = ({ navigation }) => {
           size={16}
           name="right-arrow"
           type="parto"
-          // color={COLOR.purple}
+          color={COLOR.listItemTxt}
           onPress={() => navigation.pop()}
           containerStyle={{ right: 40 }}
         />
@@ -40,15 +51,24 @@ const Assistant = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <WebView
-        source={{ uri: 'https://www.goftino.com/c/BdaydR' }}
-        // injectedJavaScriptBeforeContentLoaded={runFirst}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        onMessage={(event) => {
-          alert(event.nativeEvent.data);
-        }}
-      />
+      <Card>
+        {categories.map((category) => {
+          return (
+            <ListItem
+              key={category.title}
+              title={category.title}
+              onPress={() => {
+                navigation.navigate('Chat', { uri: category.uri });
+              }}
+              bottomDivider
+              leftIcon={{ type: 'parto', name: 'health' }}
+              titleStyle={styles.listItemText}
+              containerStyle={styles.listItem}
+              contentContainerStyle={styles.listItemContent}
+            />
+          );
+        })}
+      </Card>
     </SafeAreaView>
   );
 };
