@@ -1,10 +1,11 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
+import { COLOR, FONT } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: 25,
-    // marginBottom: 53,
+  },
+  headerIcon: {
+    right: 40,
   },
   listItemText: {
     color: COLOR.listItemTxt,
@@ -19,7 +20,6 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
   },
   field: {
-    //marginVertical: 5,
     padding: 20,
   },
   label: {

@@ -1,21 +1,28 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
+
+//screens
 import Calendar from '../screens/calendar';
 import TrackingOptions from '../screens/tracking-options';
 import PregnancyProfile from '../screens/pregnancy-profile';
 import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 import Passcode from '../screens/passcode';
-import { FONT } from '../styles/static';
+
+//redux
 import { useSelector } from 'react-redux';
 
+//styles
+import { FONT } from '../styles/static';
+
 const HomeStack = createStackNavigator();
+
 const HomeStackScreen = () => {
   const lockType = useSelector((state) => state.user.lockType);
+
   return (
     <HomeStack.Navigator
-      initialRouteName={lockType === 'Passcode' ? Passcode : Tabs}
       screenOptions={{
         headerTitleStyle: {
           alignSelf: 'flex-end',
@@ -24,11 +31,13 @@ const HomeStackScreen = () => {
           fontFamily: FONT.medium,
         },
       }}>
-      <HomeStack.Screen
-        name="Passcode"
-        component={Passcode}
-        options={{ headerShown: false }}
-      />
+      {lockType === 'Passcode' ? (
+        <HomeStack.Screen
+          name="Passcode"
+          component={Passcode}
+          options={{ headerShown: false }}
+        />
+      ) : null}
       <HomeStack.Screen
         name="Tabs"
         component={TabNavigator}

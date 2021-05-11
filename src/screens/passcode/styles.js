@@ -3,30 +3,29 @@ import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    // marginTop: 25,
-    // marginBottom: 53,
   },
   sky: {
     width: '100%',
     height: '100%',
-    justifyContent: 'space-around',
   },
   codeFieldRoot: {
     marginVertical: 30,
     justifyContent: 'space-evenly',
-    width: WIDTH * 0.6,
+    width: WIDTH * 0.4,
     alignSelf: 'center',
   },
   cell: {
     fontFamily: FONT.regular,
-    width: 40,
-    height: 40,
-    lineHeight: 38,
-    fontSize: 15,
-    borderWidth: 2,
-    borderColor: '#00000030',
+    color: 'white',
+    width: 30,
+    height: 30,
+    lineHeight: 45,
+    fontSize: 13,
+    borderColor: 'transparent',
     textAlign: 'center',
-    elevation: 2,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   focusCell: {
     borderColor: COLOR.purple,
@@ -44,28 +43,38 @@ export default StyleSheet.create({
     alignItems: 'flex-end',
   },
   field: {
-    //marginVertical: 5,
+    flex: 1,
     padding: 20,
+    alignItems: 'center',
+    backgroundColor: 'rgba(0,0,0,0.4)',
   },
-  label: {
-    fontWeight: '500',
+  icon: {
+    marginTop: 40,
+  },
+  title: {
     fontSize: 15,
-    marginBottom: 5,
-  },
-  input: {
-    color: '#000',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ccc',
-    backgroundColor: 'white',
-    height: 32,
-    fontSize: 14,
-    padding: 8,
-  },
-  text: {
+    color: 'white',
     alignSelf: 'center',
-    textAlign: 'center',
+    marginTop: 20,
     fontFamily: FONT.medium,
-    color: '#666666',
-    fontSize: 12,
+  },
+  btnWrapper: {
+    backgroundColor: 'rgba(0,0,0,0.4)',
+  },
+  btnContainer: {
+    elevation: 3,
+    width: 150,
+    height: 40,
+    borderRadius: 40,
+    alignSelf: 'center',
+    margin: 30,
+  },
+  button: {
+    height: 40,
+    backgroundColor: COLOR.purple,
+  },
+  btnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
   },
 });

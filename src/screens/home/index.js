@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
-  }, [date, dispatch]);
+  }, [template, date, dispatch]);
 
   Tour(appTourTargets, 'calendarIcon', 'Home');
 

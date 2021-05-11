@@ -21,7 +21,6 @@ import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 import { setupNotifications } from './util/notifications';
 import PartoIcon from './util/customIcon';
-import * as Keychain from 'react-native-keychain';
 
 //splash comes in
 //# restore tokens
@@ -69,24 +68,18 @@ const App: () => React$Node = () => {
 
   const _handleAppStateChange = useCallback(
     async (nextAppState) => {
+      const lockState = store.getState().user.lockType;
       launchApp();
       if (nextAppState === 'active') {
-        console.log('navigationRef.current', navigationRef.current);
-        if (
-          navigationRef.current &&
-          store.getState().user.lockType === 'Passcode'
-        )
-          navigationRef.current.navigate('Passcode',{screenName:navigationRef.current.getCurrentRoute().name});
-        if (
-          store.getState().user.lockType === 'Fingerprint' ||
-          store.getState().user.lockType === 'Face' ||
-          store.getState().user.lockType === 'Iris'
-        )
-          lock();
+        if (navigationRef.current && lockState === 'Passcode')
+          navigationRef.current.navigate('Passcode', {
+            screenName: navigationRef.current.getCurrentRoute().name,
+          });
+        if (lockState !== 'Passcode' || lockState !== 'None') lock();
       }
       appState.current = nextAppState;
     },
-    [store, launchApp],
+    [launchApp, store],
   );
 
   return (

@@ -1,53 +1,52 @@
-import React, { useCallback, useEffect, useState, useRef } from 'react';
+import { CommonActions } from '@react-navigation/native';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
-  CommonActions,
-  NavigationActions,
-  StackActions,
-} from '@react-navigation/native';
-import {
+  AppState,
   BackHandler,
-  Button,
+  ImageBackground,
+  Keyboard,
   SafeAreaView,
   Text,
-  TextInput,
   ToastAndroid,
   View,
-  ImageBackground,
-  AppState,
-  Keyboard
 } from 'react-native';
-import * as Keychain from 'react-native-keychain';
 import {
   CodeField,
   Cursor,
   useBlurOnFulfill,
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
+import { Button, Icon } from 'react-native-elements';
+import * as Keychain from 'react-native-keychain';
+
+//redux
 import { useSelector } from 'react-redux';
+
 //assets
 import MainBg from '../../../assets/images/main/home.png';
+import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
-import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 import styles from './styles';
 
 const Passcode = ({ navigation, route }) => {
-  const [input, setInput] = useState('');
   const passcode = useSelector((state) => state.user.passcode);
   const template = useSelector((state) => state.user.template);
   const cycle = useSelector((state) => state.cycle);
   const appState = useRef(AppState.currentState);
   console.log('route', route);
-  //  const{screenName}=route.params;
   const [value, setValue] = useState('');
-  const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
-  const CELL_COUNT = 4;
-  const [props, getCellOnLayoutHandler] = useClearByFocusCell({ value,
+  const ref = useBlurOnFulfill({ value, cellCount: 4 });
+  const [props, getCellOnLayoutHandler] = useClearByFocusCell({
+    value,
     setValue,
   });
 
   useEffect(() => {
-    setInput('');
+    setValue('');
+  }, []);
+
+  useEffect(() => {
     BackHandler.addEventListener('hardwareBackPress', _handleBackButtonClick);
     return () => {
       BackHandler.removeEventListener(
@@ -64,43 +63,17 @@ const Passcode = ({ navigation, route }) => {
       console.log('navigation', navigation);
       console.log('NavigationActions', CommonActions);
       console.log('appstate', appState);
-      // const navigateAction = NavigationActions.navigate({
-      //   routeName: 'Profile',
-
-      //   params: { previous_screen: 'Passcode' }, // current screen
-
-      //   action: NavigationActions.navigate({ routeName: 'Profile' }), // screen you want to navigate to
-      // });
-
-      const CanGoBack = CommonActions.goBack();
-      //navigation.dispatch(CommonActions.goBack());
-
-      console.log('CanGoBack', CanGoBack);
-      if (input === credential.password) {
+      if (value === credential.password) {
+        setValue('');
         // if (route.params && route.params.screenName) {
         //   console.log(
         //     'navigation.state.params.previous_screen',
         //     route.params.screenName,
         //   );
-        //   // navigation.navigate(route.params.screenName);
-        //   // const navigateAction = CommonActions.navigate({
-        //   //   routeName: route.params.screenName,
-
-        //   //   params: { previous_screen: 'Passcode' }, // current screen
-
-        //   //   action: NavigationActions.navigate({
-        //   //     routeName: route.params.screenName,
-        //   //   }), // screen you want to navigate to
-        //   // });
-        //   // navigation.dispatch(navigateAction);
-        //   // CommonActions.navigate(route.params.screenName);
-        //   //navigation.dispatch(CommonActions.goBack());
-        //   // navigation.dispatch(navigateAction)
-        //   navigation.dispatch(StackActions.replace(route.params.screenName));
+        //   navigation.navigate(route.params.screenName);
         // } else navigation.navigate('Tabs');
         navigation.navigate('Tabs');
-        // setInput('');
-      } else if (input.length === 4) {
+      } else if (value.length === 4) {
         ToastAndroid.show(
           'کد ورود اشتباه است؛ لطفا دوباره تلاش کنید.',
           ToastAndroid.LONG,
@@ -108,7 +81,7 @@ const Passcode = ({ navigation, route }) => {
       }
     };
     getpass();
-  }, [input, navigation, route.params]);
+  }, [value, navigation, route.params]);
 
   const _handleBackButtonClick = useCallback(() => {
     BackHandler.exitApp();
@@ -118,7 +91,7 @@ const Passcode = ({ navigation, route }) => {
   console.log('passcode', passcode);
 
   return (
-    <SafeAreaView>
+    <SafeAreaView style={styles.container}>
       <ImageBackground
         source={
           template === 'Teenager'
@@ -130,39 +103,29 @@ const Passcode = ({ navigation, route }) => {
             : MainBg
         }
         style={styles.sky}
-        blurRadius={2}>
+        blurRadius={3}>
         <View style={styles.field}>
-          <Text style={styles.label}>Pass</Text>
-          <TextInput
-            style={styles.input}
-            password={true}
-            autoCapitalize="none"
-            onChangeText={(txt) => setInput(txt)}
-            //onChangeText={_handleBtnPress}
-            // value={input}
-            underlineColorAndroid="transparent"
+          <Icon
+            raised
+            containerStyle={styles.icon}
+            type="parto"
+            name="lock"
+            color="black"
+            size={17}
           />
-          {/* <CodeInput
-      ref="codeInputRef1"
-      secureTextEntry
-      className={'border-b'}
-      space={5}
-      size={30}
-      inputPosition='left'
-      onFulfill={(code) => this._onFulfill(code)}
-    /> */}
-          {/* <CodeField
+          <Text style={styles.title}>کد ورود را وارد کنید:</Text>
+          <CodeField
             ref={ref}
             {...props}
             value={value}
             autoFocus
             onChangeText={(text) => {
               setValue(text);
-              if (value.length === 4) {
+              if (value.length === 3) {
                 Keyboard.dismiss();
               }
             }}
-            cellCount={5}
+            cellCount={4}
             rootStyle={styles.codeFieldRoot}
             keyboardType="number-pad"
             textContentType="oneTimeCode"
@@ -171,12 +134,20 @@ const Passcode = ({ navigation, route }) => {
                 key={index}
                 style={[styles.cell, isFocused && styles.focusCell]}
                 onLayout={getCellOnLayoutHandler(index)}>
-                {symbol || (isFocused ? <Cursor /> : null)}
+                {(symbol ? '⚪' : null) || (isFocused ? <Cursor /> : null)}
               </Text>
             )}
-          /> */}
+          />
         </View>
-        <Button title="انصراف" onPress={() => BackHandler.exitApp()} />
+        <View style={styles.btnWrapper}>
+          <Button
+            title="انصراف"
+            containerStyle={styles.btnContainer}
+            buttonStyle={styles.button}
+            titleStyle={styles.btnTitle}
+            onPress={() => BackHandler.exitApp()}
+          />
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );

@@ -231,15 +231,16 @@ import {
   TextInput,
   ToastAndroid,
   View,
-  BackHandler,
 } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import * as Keychain from 'react-native-keychain';
 import { RadioButton } from 'react-native-paper';
+
+//redux
 import { useSelector, useDispatch } from 'react-redux';
 
 //store
-import { handleLockType, handlePasscode } from '../../store/actions/user';
+import { handleLockType } from '../../store/actions/user';
 
 //components
 import Card from '../../components/Card';
@@ -259,10 +260,8 @@ const Lock = ({ navigation }) => {
   const [credentials, setCredentials] = useState(false);
   const { isVisible, toggle } = useModal();
   const passwordTextRef = useRef();
-  const userId = useSelector((state) => state.user.id);
   const lockType = useSelector((state) => state.user.lockType);
   const dispatch = useDispatch();
-  let username = '';
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -278,19 +277,18 @@ const Lock = ({ navigation }) => {
           type="parto"
           color={COLOR.pink}
           onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
+          containerStyle={styles.headerIcon}
         />
       ),
     });
   }, [navigation]);
 
-  useEffect(() => {
-    const determineLockStatus = async () => {
-      // setCredentials(await Keychain.getGenericPassword());
-      const status = await lockStatus();
-    };
-    determineLockStatus();
-  }, []);
+  // useEffect(() => {
+  //   const determineLockStatus = async () => {
+  //     const status = await lockStatus();
+  //   };
+  //   determineLockStatus();
+  // }, []);
 
   useEffect(() => {
     Keychain.getSupportedBiometryType({}).then((bioType) => {
@@ -303,7 +301,6 @@ const Lock = ({ navigation }) => {
       await Keychain.resetGenericPassword();
       setCredentials(await Keychain.getGenericPassword());
       console.log('888888888888', await Keychain.getGenericPassword());
-      username = '';
       setPassword('');
       console.log('Could reset credentials');
     } catch (err) {
@@ -313,11 +310,9 @@ const Lock = ({ navigation }) => {
 
   const _handleSelectedPass = async () => {
     await Keychain.resetGenericPassword();
-    username = userId.toString() ?? 'guestUser';
     setCredentials(await Keychain.getGenericPassword());
     console.log('save press');
-    await Keychain.setGenericPassword(username, password);
-
+    await Keychain.setGenericPassword('username', password);
     try {
       // Retrieve the credentials
       const credential = await Keychain.getGenericPassword();
@@ -325,7 +320,7 @@ const Lock = ({ navigation }) => {
         console.log('Credentials successfully loaded for user ');
         toggle();
         ToastAndroid.show(
-          credentials ? 'رمز ورود با موفقیت تغییر کرد' : '.رمز ورود فعال شد.',
+          credentials ? 'کد ورود با موفقیت تغییر کرد' : '.کد ورود فعال شد.',
           ToastAndroid.LONG,
         );
         setCredentials(await Keychain.getGenericPassword());
@@ -339,39 +334,7 @@ const Lock = ({ navigation }) => {
 
   const _handelSelectedBiometryType = async () => {
     await Keychain.resetGenericPassword();
-    username = userId.toString() ?? 'guestUser';
-    try {
-      const options = {
-        authenticationPrompt: {
-          title: 'نیاز به احراز هویت',
-          subtitle: 'Subtitle',
-          description: 'Some descriptive text',
-          cancel: 'انصراف',
-        },
-      };
-      await Keychain.setGenericPassword(username, 'without password', {
-        accessControl: Keychain.ACCESS_CONTROL.BIOMETRY_ANY,
-        accessible: Keychain.ACCESSIBLE.WHEN_PASSCODE_SET_THIS_DEVICE_ONLY,
-      });
-      const credentials = await Keychain.getGenericPassword(options);
-      console.log(
-        ' Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET',
-        Keychain.ACCESS_CONTROL.BIOMETRY_CURRENT_SET,
-      );
-      if (credentials) {
-        // this.setState({ ...credentials, status: 'Credentials loaded!' });
-        console.log('yesssssssssssssss', credentials);
-      }
-    } catch (err) {
-      console.log('err, ', err.toString());
-      console.log('Could not load credentials. ' + err);
-      // if (err.code.toString() === '13') BackHandler.exitApp();
-      if (
-        err.toString() === 'Error: code: 13, msg: انصراف' ||
-        'Error: code: 10, msg: Fingerprint operation canceled by user.'
-      )
-        BackHandler.exitApp();
-    }
+    ToastAndroid.show('فعال شد.', ToastAndroid.LONG);
   };
 
   return (
@@ -400,7 +363,7 @@ const Lock = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
         <ListItem
-          title="رمز ورود"
+          title="کد ورود"
           onPress={() => {
             dispatch(handleLockType('Passcode'));
             toggle();
@@ -493,9 +456,11 @@ const Lock = ({ navigation }) => {
       <DialogBox
         isVisible={isVisible}
         hide={toggle}
-        // icon={<Icon type="ionicon" name="key-outline" color="#aaa" size={50} />}
-        icon={<Icon type="ionicon" name="key-outline" color="#aaa" size={50} />}
-        text={credentials ? 'تغییر رمز ورود' : 'انتخاب رمز ورود'}
+        onRequestClose={() => {
+          return;
+        }}
+        icon={<Icon type="parto" name="lock" color="#aaa" size={50} />}
+        text={credentials ? 'تغییر کد ورود' : 'انتخاب کد ورود'}
         firstBtnTitle="ذخیره"
         firstBtnPress={() => _handleSelectedPass()}>
         <View style={styles.field}>
