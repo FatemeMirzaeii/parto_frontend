@@ -38,6 +38,7 @@ const Menu = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
+  const { isVisible: signOutVisible, toggle: signOutToggle } = useModal();
 
   useEffect(() => {
     determineLockStatus();
@@ -287,7 +288,7 @@ const Menu = ({ navigation }) => {
               color: COLOR.icon,
               size: 10,
             }}
-            onPress={exit}
+            onPress={signOutToggle}
             titleStyle={styles.listItemText}
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
@@ -306,6 +307,21 @@ const Menu = ({ navigation }) => {
           await resetDatabase();
           dispatch(fetchInitialCycleData());
           toggle();
+          setIsLoading(false);
+        }}
+        secondBtnPress={toggle}
+      />
+      <DialogBox
+        isVisible={signOutVisible}
+        isLoading={isLoading}
+        hide={signOutToggle}
+        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
+        text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
+        twoButtons
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          await exit();
+          signOutToggle();
           setIsLoading(false);
         }}
         secondBtnPress={toggle}
