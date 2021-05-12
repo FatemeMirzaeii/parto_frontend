@@ -18,6 +18,7 @@ import { signOut } from '../../store/actions/auth';
 
 // styles
 import styles from './styles';
+import globalStyles from '../../styles';
 import { COLOR } from '../../styles/static';
 
 const Profile = ({ navigation }) => {
@@ -122,11 +123,11 @@ const Profile = ({ navigation }) => {
           <ListItem
             title="َشماره تلفن"
             // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
             rightTitle={user.phone ? `0${user.phone}` : '09XXXXXXXXX'}
-            rightTitleStyle={styles.listItemText}
+            rightTitleStyle={globalStyles.listItemTitle}
             bottomDivider
           />
           <PickerListItem
@@ -182,9 +183,9 @@ const Profile = ({ navigation }) => {
             <ListItem
               title="َحذف حساب کاربری"
               // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
               onPress={toggle}
               chevron={{
                 type: 'parto',

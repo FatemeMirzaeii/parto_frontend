@@ -39,17 +39,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     width: '100%',
   },
-  listItemText: {
-    color: COLOR.listItemTxt,
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
-  },
-  listItem: {
-    flexDirection: 'row-reverse',
-  },
-  listItemContent: {
-    alignItems: 'flex-end',
-  },
   avatar: {
     backgroundColor: '#f1f1f1',
     alignSelf: 'center',

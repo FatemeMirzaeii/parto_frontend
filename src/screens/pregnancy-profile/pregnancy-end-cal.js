@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { ImageBackground, Text, View } from 'react-native';
 import { Button } from 'react-native-elements';
-import Calendar from '../../components/Calendar';
 import { useDispatch } from 'react-redux';
 import moment from 'moment';
-import styles from './styles';
+
+// components and utils
+import Calendar from '../../components/Calendar';
 import PregnancyModule from '../../util/pregnancy';
 import CycleModule from '../../util/cycle';
 import { endPregnancy, updateUserStatus } from '../../util/database/query';
@@ -13,7 +14,11 @@ import {
   setGoal,
   setPregnancyMode,
 } from '../../store/actions/cycle';
+
+// styles and constants
+import styles from './styles';
 import { FORMAT } from '../../constants/cycle';
+
 const today = moment();
 
 const PregnancyEndCalendar = ({ route, navigation }) => {

@@ -37,7 +37,7 @@ import pregnancyAvatar from '../../../assets/images/pregAvatar.png';
 //styles
 import styles from './styles';
 import { COLOR } from '../../styles/static';
-import commonStyles from '../../styles/index';
+import globalStyles from '../../styles';
 
 const PregnancyProfile = ({ navigation, route }) => {
   const [dueDate, setDueDate] = useState();
@@ -100,7 +100,7 @@ const PregnancyProfile = ({ navigation, route }) => {
         <Avatar.Image
           size={170}
           source={pregnancyAvatar}
-          style={commonStyles.avatar}
+          style={globalStyles.avatar}
         />
         <ListItem
           title="سن بارداری"
@@ -113,12 +113,12 @@ const PregnancyProfile = ({ navigation, route }) => {
           }
           // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="سن بارداری شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          subtitleStyle={styles.subTitle}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
+          subtitleStyle={globalStyles.subTitle}
           rightTitleStyle={[
-            styles.listItemText,
+            globalStyles.listItemTitle,
             {
               maxWidth: 90,
               textAlign: 'right',
@@ -138,12 +138,12 @@ const PregnancyProfile = ({ navigation, route }) => {
           rightTitle={dueDate && jalaali(dueDate).format('jYYYY / jM / jD')}
           // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
           // subtitle="تاریخ زایمان شما بر اساس تاریخ آخرین پریود شما محاسبه شده است."
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          subtitleStyle={styles.subTitle}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
+          subtitleStyle={globalStyles.subTitle}
           rightTitleStyle={[
-            styles.listItemText,
+            globalStyles.listItemTitle,
             {
               maxWidth: 90,
               textAlign: 'right',
@@ -181,9 +181,9 @@ const PregnancyProfile = ({ navigation, route }) => {
         />
         <ListItem
           subtitle="سن بارداری و تاریخ زایمان شما بر اساس اولین روز از آخرین پریود شما محاسبه شده است."
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
-          subtitleStyle={styles.subTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
+          subtitleStyle={globalStyles.subTitle}
         />
       </Card>
       {template === 'Main' && (

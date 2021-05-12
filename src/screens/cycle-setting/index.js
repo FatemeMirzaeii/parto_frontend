@@ -20,6 +20,7 @@ import Tour from '../../util/tourGuide/Tour';
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 
 const CycleSetting = ({ navigation }) => {
   const [periodLength, setPeriodLength] = useState();
@@ -86,10 +87,10 @@ const CycleSetting = ({ navigation }) => {
             title="تاریخ آخرین پریود"
             // leftIcon={{ name: 'restore', color: COLOR.tiffany }}
             rightTitle={lastPeriod ?? '---- / ---- / ----'}
-            titleStyle={styles.listItemText}
-            rightTitleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            rightTitleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
         </Card>
         <Card>
@@ -130,10 +131,10 @@ const CycleSetting = ({ navigation }) => {
               thumbColor: pregnancyPrediction ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با خاموش کردن این بخش فقط روزهای تخمک گذاری برای شما نمایش داده میشود."
-            titleStyle={styles.listItemText}
-            subtitleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            subtitleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
           <ListItem
             title="پیش بینی هوشمند"
@@ -146,10 +147,10 @@ const CycleSetting = ({ navigation }) => {
               thumbColor: forcast ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با فعال کردن این گزینه در شرایطی که قاعدگی نامنظم دارید، از اطلاعات شرح حال برای پیش بینی دوره های شما استفاده میشود."
-            titleStyle={styles.listItemText}
-            subtitleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            subtitleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
           <ListItem
             title="نمایش شمارش روزهای قرمز"
@@ -161,10 +162,10 @@ const CycleSetting = ({ navigation }) => {
               thumbColor: periodCount ? COLOR.btn : '#f4f3f4',
             }}
             subtitle="با فعال کردن این گزینه بالای تقویم تعداد روزهای قرمز شما شمارش میشوند."
-            titleStyle={styles.listItemText}
-            subtitleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            subtitleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           /> */}
         </Card>
       </ScrollView>

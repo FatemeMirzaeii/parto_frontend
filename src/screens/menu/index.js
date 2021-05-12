@@ -29,6 +29,7 @@ import { fetchInitialCycleData } from '../../store/actions/cycle';
 // styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
@@ -113,7 +114,13 @@ const Menu = ({ navigation }) => {
                 onPress={() => navigateTo('PartnerVerificationCode')}>
                 <View style={styles.BtnItem}>
                   <Icon type="parto" name="man" color={COLOR.icon} />
-                  <Text style={styles.listItemText}>کد همسر</Text>
+                  <Text
+                    style={[
+                      globalStyles.listItemTitle,
+                      { textAlign: 'center' },
+                    ]}>
+                    کد همسر
+                  </Text>
                 </View>
               </TouchableOpacity>
             </Card>
@@ -122,7 +129,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('Treatise')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="ahkam" color={COLOR.icon} />
-                <Text style={styles.listItemText}>احکام</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  احکام
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
@@ -130,7 +140,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="settings" color={COLOR.icon} />
-                <Text style={styles.listItemText}>تنظیمات دوره‌ها</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  تنظیمات دوره‌ها
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
@@ -143,9 +156,9 @@ const Menu = ({ navigation }) => {
             leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.icon }}
             chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
             onPress={() => navigateTo('Treatise')}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
         </Card>
       )}
@@ -161,9 +174,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('Reminders')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="دستیار"
@@ -189,27 +202,27 @@ const Menu = ({ navigation }) => {
             trackColor: { true: COLOR.lightPink, false: '#aaa' },
             thumbColor: isLock ? COLOR.pink : '#f4f3f4',
           }}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon ,size: 10,}}
           onPress={() => sync()}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
         {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
       </Card>
       <Card>
@@ -219,9 +232,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('Rating')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
         <ListItem
           title="معرفی به دوستان"
@@ -238,9 +251,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={share}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="ارتباط با پرتو"
@@ -253,9 +266,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('ContactUs')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="درباره‌ی پرتو"
@@ -267,9 +280,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('AboutUs')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
           bottomDivider
         />
         {template !== 'Partner' && (
@@ -287,9 +300,9 @@ const Menu = ({ navigation }) => {
               size: 10,
             }}
             onPress={toggle}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
             bottomDivider={!(isLoggedIn === 'dummyToken')}
           />
         )}
@@ -304,9 +317,9 @@ const Menu = ({ navigation }) => {
               size: 10,
             }}
             onPress={signOutToggle}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
         )}
       </Card>

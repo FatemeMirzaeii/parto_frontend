@@ -17,6 +17,7 @@ import PickerListItem from '../../components/PickerListItem';
 //styles and constants
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 import { FORMAT } from '../../constants/cycle';
 import { BREAST_EXAM } from '../../constants/reminders';
 
@@ -150,9 +151,9 @@ const ReminderSetting = ({ navigation, route }) => {
               thumbColor: isActive ? COLOR.pink : '#f4f3f4',
             }}
             bottomDivider={isActive}
-            titleStyle={styles.listItemTitle}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
           {isActive ? (
             <>
