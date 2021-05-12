@@ -8,7 +8,7 @@ import Card from '../../components/Card';
 import { getReminders } from '../../util/database/query';
 
 // styles
-import styles from './styles';
+import globalStyles from '../../styles';
 import { COLOR } from '../../styles/static';
 
 const Reminders = ({ navigation }) => {
@@ -58,10 +58,10 @@ const Reminders = ({ navigation }) => {
                   ? true
                   : false
               }
-              leftIcon={{ name: 'alarm' }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
+              leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
             />
           );
         })}

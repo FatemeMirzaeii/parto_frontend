@@ -2,9 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
-import { setPickerRange } from '../util/func';
-import { COLOR, FONT, SIZE } from '../styles/static';
+
+// components and utils
 import PersianDatePicker from './PersianDatePicker';
+import { setPickerRange } from '../util/func';
+
+// styles
+import { COLOR, FONT } from '../styles/static';
+import globalStyles from '../styles';
+
 //todo: should add pregnancy picker same as datepicker and remove timepicker
 
 const PickerListItem = (props) => {
@@ -56,12 +62,12 @@ const PickerListItem = (props) => {
             : null
         }
         subtitle={props.subtitle}
-        titleStyle={styles.listItemText}
-        containerStyle={styles.listItem}
-        contentContainerStyle={styles.listItemContent}
-        subtitleStyle={styles.subTitle}
+        titleStyle={globalStyles.listItemTitle}
+        containerStyle={globalStyles.listItem}
+        contentContainerStyle={globalStyles.listItemContentContainer}
+        subtitleStyle={globalStyles.subTitle}
         rightTitleStyle={[
-          styles.listItemText,
+          globalStyles.listItemTitle,
           {
             maxWidth: 90,
             textAlign: 'right',
@@ -108,22 +114,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
-  },
-  listItemText: {
-    color: COLOR.listItemTxt,
-    fontFamily: FONT.regular,
-    fontSize: 12,
-    maxWidth: 200,
-  },
-  listItem: {
-    flexDirection: 'row-reverse',
-  },
-  listItemContent: {
-    alignItems: 'flex-end',
-  },
-  subTitle: {
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
   },
 });
 export default PickerListItem;
