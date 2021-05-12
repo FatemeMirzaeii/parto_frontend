@@ -114,7 +114,13 @@ const Menu = ({ navigation }) => {
                 onPress={() => navigateTo('PartnerVerificationCode')}>
                 <View style={styles.BtnItem}>
                   <Icon type="parto" name="man" color={COLOR.icon} />
-                  <Text style={globalStyles.listItemTitle}>کد همسر</Text>
+                  <Text
+                    style={[
+                      globalStyles.listItemTitle,
+                      { textAlign: 'center' },
+                    ]}>
+                    کد همسر
+                  </Text>
                 </View>
               </TouchableOpacity>
             </Card>
@@ -123,7 +129,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('Treatise')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="ahkam" color={COLOR.icon} />
-                <Text style={globalStyles.listItemTitle}>احکام</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  احکام
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
@@ -131,7 +140,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="settings" color={COLOR.icon} />
-                <Text style={globalStyles.listItemTitle}>تنظیمات دوره‌ها</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  تنظیمات دوره‌ها
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
