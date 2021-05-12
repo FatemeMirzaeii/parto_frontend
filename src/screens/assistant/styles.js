@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { WIDTH, FONT, SIZE, COLOR, HEIGHT } from '../../styles/static';
+import { FONT, SIZE, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -16,4 +16,10 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
   },
+  newQuestionCont: (hasEnaughCredit) => ({
+    marginTop: hasEnaughCredit ? 0 : -100,
+    flex: hasEnaughCredit ? 0 : 1,
+    height: hasEnaughCredit ? 0 : 10,
+  }),
+  newQuestion: { flex: 1, backgroundColor: '#ffc9dc' },
 });
