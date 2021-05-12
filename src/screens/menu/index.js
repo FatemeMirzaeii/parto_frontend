@@ -189,9 +189,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('Assistant')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="قفل نرم افزار"

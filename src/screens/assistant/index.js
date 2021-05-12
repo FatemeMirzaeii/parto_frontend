@@ -16,6 +16,7 @@ import Card from '../../components/Card';
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 
 const Assistant = ({ navigation }) => {
   const categories = [
@@ -61,10 +62,10 @@ const Assistant = ({ navigation }) => {
                 navigation.navigate('Chat', { uri: category.uri });
               }}
               bottomDivider
-              leftIcon={{ type: 'parto', name: 'health' }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
+              leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
             />
           );
         })}
