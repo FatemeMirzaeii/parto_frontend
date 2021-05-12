@@ -42,7 +42,7 @@ const App: () => React$Node = () => {
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
-    launchApp();
+    // launchApp();
     AppState.addEventListener('change', _handleAppStateChange);
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
@@ -52,15 +52,16 @@ const App: () => React$Node = () => {
   const launchApp = async () => {
     store.dispatch(restoreToken());
     await migration();
-    NetInfo.addEventListener((state) => {
+    NetInfo.fetch().then(async (state) => {
       const token = store.getState().auth.userToken;
-      console.log('state.isConnected', state.isConnected); //todo
-      if (state.isConnected && token && token !== 'dummyToken') sync();
-      else
+      if (state.isInternetReachable && token && token !== 'dummyToken') {
+        await sync();
+      } else {
         console.log(
           '%c No Internet Connection Or UserId Is Available To Sync With Server.',
           'background: yellow',
         );
+      }
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();

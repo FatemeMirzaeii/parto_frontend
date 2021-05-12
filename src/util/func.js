@@ -13,6 +13,14 @@ export async function getData(key) {
     console.error(e);
   }
 }
+export async function multiGetData(keys) {
+  try {
+    const value = await AsyncStorage.multiGet(keys);
+    return value;
+  } catch (e) {
+    console.error(e);
+  }
+}
 export async function storeData(key, value) {
   try {
     await AsyncStorage.setItem(key, value);
