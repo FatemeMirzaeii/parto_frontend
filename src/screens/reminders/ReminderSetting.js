@@ -17,6 +17,7 @@ import PickerListItem from '../../components/PickerListItem';
 //styles and constants
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 import { FORMAT } from '../../constants/cycle';
 import { BREAST_EXAM } from '../../constants/reminders';
 
@@ -63,10 +64,11 @@ const ReminderSetting = ({ navigation, route }) => {
     const save = () => {
       let cusTime;
       reminder.id === BREAST_EXAM
-        ? (cusTime = `${moment(today)
-            .add(daysAgo, 'days')
-            .format(FORMAT)}_${hours}:${minutes}`)
+        ? (cusTime = `${moment(today).format(FORMAT)}_${hours}:${minutes}`)
         : (cusTime = `${hours}:${minutes}`);
+
+      // .add(daysAgo, 'days')
+
       saveReminder(
         userId,
         reminder.id,
@@ -149,9 +151,9 @@ const ReminderSetting = ({ navigation, route }) => {
               thumbColor: isActive ? COLOR.pink : '#f4f3f4',
             }}
             bottomDivider={isActive}
-            titleStyle={styles.listItemTitle}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
           {isActive ? (
             <>

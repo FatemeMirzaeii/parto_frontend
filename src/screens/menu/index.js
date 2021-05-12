@@ -7,7 +7,6 @@ import DeviceInfo from 'react-native-device-info';
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
-import Loader from '../../components/Loader';
 import Card from '../../components/Card';
 import DialogBox from '../../components/DialogBox';
 
@@ -23,6 +22,7 @@ import { fetchInitialCycleData } from '../../store/actions/cycle';
 // styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import globalStyles from '../../styles';
 
 const Menu = ({ navigation }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -31,6 +31,7 @@ const Menu = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
+  const { isVisible: signOutVisible, toggle: signOutToggle } = useModal();
 
   const navigateTo = (screen) => {
     navigation.navigate(screen);
@@ -79,7 +80,13 @@ const Menu = ({ navigation }) => {
                 onPress={() => navigateTo('PartnerVerificationCode')}>
                 <View style={styles.BtnItem}>
                   <Icon type="parto" name="man" color={COLOR.icon} />
-                  <Text style={styles.listItemText}>کد همسر</Text>
+                  <Text
+                    style={[
+                      globalStyles.listItemTitle,
+                      { textAlign: 'center' },
+                    ]}>
+                    کد همسر
+                  </Text>
                 </View>
               </TouchableOpacity>
             </Card>
@@ -88,7 +95,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('Treatise')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="ahkam" color={COLOR.icon} />
-                <Text style={styles.listItemText}>احکام</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  احکام
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
@@ -96,7 +106,10 @@ const Menu = ({ navigation }) => {
             <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
               <View style={styles.BtnItem}>
                 <Icon type="parto" name="settings" color={COLOR.icon} />
-                <Text style={styles.listItemText}>تنظیمات دوره‌ها</Text>
+                <Text
+                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+                  تنظیمات دوره‌ها
+                </Text>
               </View>
             </TouchableOpacity>
           </Card>
@@ -109,9 +122,9 @@ const Menu = ({ navigation }) => {
             leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.icon }}
             chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
             onPress={() => navigateTo('Treatise')}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
         </Card>
       )}
@@ -127,9 +140,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('Reminders')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="قفل"
@@ -141,27 +154,27 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('Lock')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon ,size: 10,}}
           onPress={() => sync()}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
         {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
       </Card>
       <Card>
@@ -171,9 +184,9 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('Rating')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
 
         <ListItem
@@ -191,9 +204,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={share}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="ارتباط با پرتو"
@@ -206,9 +219,9 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('ContactUs')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
           title="درباره‌ی پرتو"
@@ -220,35 +233,31 @@ const Menu = ({ navigation }) => {
             size: 10,
           }}
           onPress={() => navigateTo('AboutUs')}
-          titleStyle={styles.listItemText}
-          containerStyle={styles.listItem}
-          contentContainerStyle={styles.listItemContent}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
           bottomDivider
         />
-        {isLoading ? (
-          <Loader />
-        ) : (
-          template !== 'Partner' && (
-            <ListItem
-              title="پاک کردن داده‌ها"
-              leftIcon={{
-                type: 'parto',
-                name: 'trash',
-                color: COLOR.icon,
-              }}
-              chevron={{
-                type: 'parto',
-                name: 'back-arrow',
-                color: COLOR.icon,
-                size: 10,
-              }}
-              onPress={toggle}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
-              bottomDivider={!(isLoggedIn === 'dummyToken')}
-            />
-          )
+        {template !== 'Partner' && (
+          <ListItem
+            title="پاک کردن داده‌ها"
+            leftIcon={{
+              type: 'parto',
+              name: 'trash',
+              color: COLOR.icon,
+            }}
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+            onPress={toggle}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
+            bottomDivider={!(isLoggedIn === 'dummyToken')}
+          />
         )}
         {!(isLoggedIn === 'dummyToken') && (
           <ListItem
@@ -260,24 +269,40 @@ const Menu = ({ navigation }) => {
               color: COLOR.icon,
               size: 10,
             }}
-            onPress={exit}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            onPress={signOutToggle}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
           />
         )}
       </Card>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
           setIsLoading(true);
-          toggle();
           await resetDatabase();
           dispatch(fetchInitialCycleData());
+          toggle();
+          setIsLoading(false);
+        }}
+        secondBtnPress={toggle}
+      />
+      <DialogBox
+        isVisible={signOutVisible}
+        isLoading={isLoading}
+        hide={signOutToggle}
+        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
+        text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
+        twoButtons
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          await exit();
+          signOutToggle();
           setIsLoading(false);
         }}
         secondBtnPress={toggle}

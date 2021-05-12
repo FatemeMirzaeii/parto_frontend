@@ -22,6 +22,7 @@ const PartnerCode = ({ route, navigation }) => {
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
   const verifyCode = async () => {
+    setIsLoading(true);
     const res = await api({
       method: 'POST',
       url: `/user/partnerVerificationCode/${userId}/fa`,
@@ -38,54 +39,48 @@ const PartnerCode = ({ route, navigation }) => {
         data: { type: 'Partner' },
       });
       if (resul) {
-        setIsLoading(true);
         await sync();
-        setIsLoading(false);
         dispatch(interview());
         dispatch(handleTemplate('Partner'));
         dispatch(fetchInitialCycleData());
       }
     }
+    setIsLoading(false);
   };
 
   return (
     <ImageBackground source={Partner} style={styles.bg}>
       <View style={{ flex: 2 }} />
       <SafeAreaView style={styles.safeAreaView}>
-        {isLoading ? (
-          <Loader />
-        ) : (
-          <View style={styles.textContainer}>
-            <View>
-              <Text style={styles.question}>
-                لطفا کد فعالسازی را وارد کنید.
-              </Text>
-              <Text style={styles.subtext}>
-                این کد در نسخه همسر شما قرار گرفته است.
-              </Text>
-            </View>
-            <View style={styles.codeInpute}>
-              <Input
-                value={code}
-                onChangeText={setCode}
-                placeholder="PRT-XXXX"
-                containerStyle={{ width: WIDTH / 2 }}
-                inputStyle={{ fontFamily: FONT.medium }}
-              />
-            </View>
-            <Button
-              title="تایید"
-              containerStyle={styles.btnContainer}
-              buttonStyle={[
-                styles.nextButton,
-                { backgroundColor: COLOR.partner },
-              ]}
-              titleStyle={styles.btnTitle}
-              type="solid"
-              onPress={verifyCode}
+        <View style={styles.textContainer}>
+          <View>
+            <Text style={styles.question}>لطفا کد فعالسازی را وارد کنید.</Text>
+            <Text style={styles.subtext}>
+              این کد در نسخه همسر شما قرار گرفته است.
+            </Text>
+          </View>
+          <View style={styles.codeInpute}>
+            <Input
+              value={code}
+              onChangeText={setCode}
+              placeholder="PRT-XXXX"
+              containerStyle={{ width: WIDTH / 2 }}
+              inputStyle={{ fontFamily: FONT.medium }}
             />
           </View>
-        )}
+          <Button
+            title="تایید"
+            containerStyle={styles.btnContainer}
+            buttonStyle={[
+              styles.nextButton,
+              { backgroundColor: COLOR.partner },
+            ]}
+            titleStyle={styles.btnTitle}
+            type="solid"
+            onPress={verifyCode}
+            loading={isLoading}
+          />
+        </View>
       </SafeAreaView>
     </ImageBackground>
   );

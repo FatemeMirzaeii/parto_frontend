@@ -2,17 +2,25 @@ import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
 import { ListItem, Icon } from 'react-native-elements';
 import { useSelector } from 'react-redux';
+
+// components and utils
 import Card from '../../components/Card';
-import { COLOR } from '../../styles/static';
 import { getReminders } from '../../util/database/query';
-import styles from './styles';
+
+// styles
+import globalStyles from '../../styles';
+import { COLOR } from '../../styles/static';
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   const cycle = useSelector((state) => state.cycle);
+  const template = useSelector((state) => state.user.template);
 
   useEffect(() => {
-    getReminders().then(setReminders);
+    getReminders().then((r) => {
+      if (template === 'Teenager') r.splice(1, 1);
+      setReminders(r);
+    });
   }, []);
 
   useLayoutEffect(() => {
@@ -50,10 +58,10 @@ const Reminders = ({ navigation }) => {
                   ? true
                   : false
               }
-              leftIcon={{ name: 'alarm' }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
+              leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
             />
           );
         })}

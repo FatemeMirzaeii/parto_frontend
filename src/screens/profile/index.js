@@ -18,6 +18,7 @@ import { signOut } from '../../store/actions/auth';
 
 // styles
 import styles from './styles';
+import globalStyles from '../../styles';
 import { COLOR } from '../../styles/static';
 
 const Profile = ({ navigation }) => {
@@ -28,6 +29,7 @@ const Profile = ({ navigation }) => {
   const [height, setHeight] = useState();
   const [avgSleepingHours, setAvgSleepingHours] = useState();
   const [loading, setLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.user);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const dispatch = useDispatch();
@@ -121,11 +123,11 @@ const Profile = ({ navigation }) => {
           <ListItem
             title="َشماره تلفن"
             // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-            titleStyle={styles.listItemText}
-            containerStyle={styles.listItem}
-            contentContainerStyle={styles.listItemContent}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
             rightTitle={user.phone ? `0${user.phone}` : '09XXXXXXXXX'}
-            rightTitleStyle={styles.listItemText}
+            rightTitleStyle={globalStyles.listItemTitle}
             bottomDivider
           />
           <PickerListItem
@@ -181,9 +183,9 @@ const Profile = ({ navigation }) => {
             <ListItem
               title="َحذف حساب کاربری"
               // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-              titleStyle={styles.listItemText}
-              containerStyle={styles.listItem}
-              contentContainerStyle={styles.listItemContent}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
               onPress={toggle}
               chevron={{
                 type: 'parto',
@@ -197,13 +199,16 @@ const Profile = ({ navigation }) => {
       </ScrollView>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
         text="با تایید این پیام حساب کاربری و تمام اطلاعات شما حذف خواهد شد؛ آیا مطمئن هستی؟"
         twoButtons
         firstBtnPress={async () => {
-          toggle();
+          setIsLoading(true);
           await deleteAccount();
+          toggle();
+          setIsLoading(false);
         }}
         secondBtnPress={toggle}
       />

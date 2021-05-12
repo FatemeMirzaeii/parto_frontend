@@ -28,6 +28,7 @@ import styles from './styles';
 let counter = 0;
 
 const Q5 = ({ route, navigation }) => {
+  const [isLoading, setIsLoading] = useState(false);
   const [birthdate, setBirthdate] = useState();
   const { isVisible, toggle } = useModal();
   const {
@@ -71,15 +72,18 @@ const Q5 = ({ route, navigation }) => {
       // dev: true,
       data: { type: modeState },
     });
-    if (res) {
-      dispatch(interview());
-    }
+    if (res) return true;
   };
 
   const onNextPress = async (bd) => {
     //todo: need to check if save function was successfull or
+    setIsLoading(true);
     if (userIdState) {
-      setVersionType();
+      const successfull = await setVersionType();
+      if (!successfull) {
+        setIsLoading(false);
+        return;
+      }
     }
     const res = await saveProfileData({
       pregnant: mode.pregnant,
@@ -105,7 +109,6 @@ const Q5 = ({ route, navigation }) => {
     }
   };
 
-  console.log('userIdState', userIdState);
   return (
     <>
       <ImageBackground
@@ -141,6 +144,7 @@ const Q5 = ({ route, navigation }) => {
                 titleStyle={styles.btnTitle}
                 type="solid"
                 onPress={() => onNextPress(birthdate)}
+                loading={isLoading}
               />
               <Button
                 title="قبلی"

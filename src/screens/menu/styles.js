@@ -23,18 +23,6 @@ export default StyleSheet.create({
   },
   avatar: {},
   avatarContainer: { flexDirection: 'row-reverse' },
-  listItemText: {
-    color: COLOR.listItemTxt,
-    fontFamily: FONT.regular,
-    fontSize: 12,
-    textAlign: 'center',
-  },
-  listItem: {
-    flexDirection: 'row-reverse',
-  },
-  listItemContent: {
-    alignItems: 'flex-end',
-  },
   goals: {
     alignSelf: 'center',
     justifyContent: 'center',
