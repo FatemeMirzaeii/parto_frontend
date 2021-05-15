@@ -10,6 +10,10 @@ export const fetchInitialCycleData = () => async (dispatch, getState) => {
   // console.log('stateBefore', stateBefore);
   const c = await CycleModule();
   const past = await c.pastBleedingDays();
+  console.log(
+    '22march',
+    past.map((d) => d.date.format(FORMAT)),
+  );
   const goal = await getUserStatus();
   const ovulationPerdictions =
     stateBefore.user.template === 'Teenager'
