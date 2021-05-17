@@ -26,6 +26,7 @@ export default StyleSheet.create({
     height: 170,
   },
   listItem: {
+    //todo: should make components for regular list items. same as PickerListItem
     flexDirection: 'row-reverse',
   },
   listItemTitle: {

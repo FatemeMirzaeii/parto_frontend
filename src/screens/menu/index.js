@@ -352,7 +352,7 @@ const Menu = ({ navigation }) => {
           signOutToggle();
           setIsLoading(false);
         }}
-        secondBtnPress={toggle}
+        secondBtnPress={signOutToggle}
       />
     </ScrollView>
   );

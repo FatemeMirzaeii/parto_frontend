@@ -42,7 +42,7 @@ const App: () => React$Node = () => {
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
-    // launchApp();
+    launchApp();
     AppState.addEventListener('change', _handleAppStateChange);
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
