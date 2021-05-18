@@ -137,13 +137,11 @@ const ReminderSetting = ({ navigation, route }) => {
         <Card>
           <ListItem
             title="یادآور"
-            leftIcon={
-              <Icon
-                type="material"
-                name={isActive ? 'notifications-active' : 'notifications-off'}
-                color={isActive ? COLOR.pink : COLOR.textColorDark}
-              />
-            }
+            leftIcon={{
+              type: 'material',
+              name: isActive ? 'notifications-active' : 'notifications-off',
+              color: isActive ? COLOR.pink : COLOR.textColorDark,
+            }}
             switch={{
               value: isActive,
               onValueChange: setIsActive,
@@ -160,9 +158,11 @@ const ReminderSetting = ({ navigation, route }) => {
               <PickerListItem
                 title="عنوان"
                 bottomDivider
-                leftIcon={
-                  <Icon type="entypo" name="new-message" color="#aaa" />
-                }
+                leftIcon={{
+                  type: 'entypo',
+                  name: 'new-message',
+                  color: '#aaa',
+                }}
                 customComponent={
                   <TextInput
                     multiline
@@ -181,13 +181,11 @@ const ReminderSetting = ({ navigation, route }) => {
                     ? `هر ${daysAgo} روز ساعت ${hours}:${minutes}`
                     : `${daysAgo} روز قبل ساعت ${hours}:${minutes}`
                 }
-                leftIcon={
-                  <Icon
-                    type="font-awesome"
-                    name="calendar-check-o"
-                    color="#aaa"
-                  />
-                }
+                leftIcon={{
+                  type: 'font-awesome',
+                  name: 'calendar-check-o',
+                  color: '#aaa',
+                }}
                 customComponent={
                   <DateTimePicker
                     isFrequent={reminder.id === BREAST_EXAM}

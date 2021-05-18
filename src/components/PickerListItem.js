@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, View } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { ListItem, Icon } from 'react-native-elements';
 import { WheelPicker } from 'react-native-wheel-picker-android';
 
 // components and utils
@@ -51,29 +51,38 @@ const PickerListItem = (props) => {
   return (
     <View>
       <ListItem
-        title={props.title}
-        leftIcon={props.leftIcon}
         bottomDivider={props.bottomDivider}
-        chevron={chooseChevron(isVisible)}
         onPress={() => setVisible(!isVisible)}
-        rightTitle={
-          props.rightTitle
-            ? renderRightTitle(props.rightTitle.title, props.rightTitle.suffix)
-            : null
-        }
-        subtitle={props.subtitle}
-        titleStyle={globalStyles.listItemTitle}
-        containerStyle={globalStyles.listItem}
-        contentContainerStyle={globalStyles.listItemContentContainer}
-        subtitleStyle={globalStyles.subTitle}
-        rightTitleStyle={[
-          globalStyles.listItemTitle,
-          {
-            maxWidth: 90,
-            textAlign: 'right',
-          },
-        ]}
-      />
+        containerStyle={globalStyles.listItem}>
+        <Icon {...props.leftIcon} />
+        <ListItem.Content style={globalStyles.listItemContentContainer}>
+          <ListItem.Title style={globalStyles.listItemTitle}>
+            {props.title}
+          </ListItem.Title>
+          <ListItem.Subtitle style={globalStyles.subTitle}>
+            {props.subtitle}
+          </ListItem.Subtitle>
+        </ListItem.Content>
+        <ListItem.Content right>
+          <ListItem.Title
+            right
+            style={[
+              globalStyles.listItemTitle,
+              {
+                maxWidth: 90,
+                textAlign: 'right',
+              },
+            ]}>
+            {props.rightTitle
+              ? renderRightTitle(
+                  props.rightTitle.title,
+                  props.rightTitle.suffix,
+                )
+              : null}
+          </ListItem.Title>
+        </ListItem.Content>
+        <ListItem.Chevron {...chooseChevron(isVisible)} />
+      </ListItem>
       {isVisible ? (
         props.customComponent ? (
           props.customComponent
