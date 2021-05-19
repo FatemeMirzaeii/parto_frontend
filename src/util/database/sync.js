@@ -6,20 +6,21 @@ import {
   findUnsyncedProfileData,
   findUnsyncedPregnancyInfo,
   updateLastSyncTime,
-  getUser,
   addProfileData,
   addSynedPregnancyData,
   addTrackingOption,
 } from './query';
+import configureStore from '../../store';
 import api from '../../services/api';
 
 export default async (isSigningout) => {
+  const { store } = configureStore();
   const lastSyncTime = await getLastSyncTime();
   const profile = await findUnsyncedProfileData(lastSyncTime);
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
   const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
   console.log('datas to send for server', profile, pregnancy, trackingOptions);
-  const user = await getUser();
+  const user = store.getState().user;
   let profileData;
   let pregnancyInfo;
   let userInfo;
@@ -97,13 +98,21 @@ export default async (isSigningout) => {
       data: { data: trackingOptions },
     });
   }
+  const setVersionType = await api({
+    method: 'POST',
+    url: `/user/versionType/${user.id}/fa`,
+    // dev: true,
+    data: { type: user.template },
+  });
+
   if (
     sentProfileData &&
     profileData &&
     sentPregnancyInfo &&
     pregnancyInfo &&
     sentUserInfo &&
-    userInfo
+    userInfo &&
+    setVersionType
   ) {
     await updateLastSyncTime(moment().format(DATETIME_FORMAT));
   }
