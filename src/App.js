@@ -82,12 +82,13 @@ const App: () => React$Node = () => {
           ref={navigationRef}
           onReady={() => {
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-            setupNotifications(store.getState().user.id);
+            const user = store.getState().user;
+            setupNotifications(user.id, user.template === 'Partner');
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;
-            const currentRouteName = navigationRef.current.getCurrentRoute()
-              .name;
+            const currentRouteName =
+              navigationRef.current.getCurrentRoute().name;
 
             if (previousRouteName !== currentRouteName) {
               await analytics().logScreenView({
