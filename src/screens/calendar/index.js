@@ -1,35 +1,39 @@
+import jalaali from 'moment-jalaali';
 import React, { useRef, useState } from 'react';
 import {
-  View,
+  ImageBackground,
   Text,
   ToastAndroid,
-  ImageBackground,
   TouchableOpacity,
+  View,
 } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
-import jalaali from 'moment-jalaali';
+import { useDispatch, useSelector } from 'react-redux';
+import BottomSheet from 'reanimated-bottom-sheet';
 
 // components
 import SaveBleendingButton from '../../components/BleendingdaysSave';
 import CancelButton from '../../components/CancelButton';
+import DialogBox from '../../components/DialogBox';
 import Ptxt from '../../components/Ptxt';
 import SubmitButton from '../../components/SubmitButton';
+import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 
-// utils and constants and store
-import { FORMAT } from '../../constants/cycle';
+//assets
+import MainBg from '../../../assets/images/main/calendarScreen.png';
+import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
+import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
+
+//util
 import CycleModule from '../../util/cycle';
 import { setBleedingDays } from '../../util/database/query';
-import Tour from '../../util/tourGuide/Tour';
-import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 import { calendarMarkedDatesObject } from '../../util/func';
+import useModal from '../../util/hooks/useModal';
+import Tour from '../../util/tourGuide/Tour';
 
-// styles and images
+//styles
 import { COLOR, FONT } from '../../styles/static';
-import MainBg from '../../../assets/images/main/calendarScreen.png';
-import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
-import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
 import styles from './styles';
 
 const Calendar = ({ navigation }) => {
@@ -37,12 +41,26 @@ const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
-
   const [editMode, setEditMode] = useState(false);
+  const [selectedDate, setSelectedDate] = useState(today.format('YYYY-MM-DD'));
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
-
   const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
+  const bottomSheetRef = useRef(null);
+  const { isVisible, toggle } = useModal();
+  const noteState = useSelector((state) => state.user.note);
+  const [arrofNotes, setArrofNotes] = useState([]);
+  const infoArray =
+    template !== 'Teenager'
+      ? [
+          { txt: 'پریود', color: COLOR.bleeding },
+          { txt: 'پیش‌بینی پریود', color: COLOR.periodPerdiction },
+          { txt: 'تخمک‌گذاری', color: COLOR.ovulationPerdictions },
+        ]
+      : [
+          { txt: 'پریود', color: COLOR.bleeding },
+          { txt: 'پیش‌بینی پریود', color: COLOR.periodPerdiction },
+        ];
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
 
@@ -50,9 +68,17 @@ const Calendar = ({ navigation }) => {
     if (editMode) {
       edit(day.dateString);
     } else {
-      navigation.navigate('TrackingOptions', { day: day.dateString });
+      setSelectedDate(day.dateString);
+      console.log('day.dateString*********', day.dateString);
+      const noteOfDay = Object.keys(noteState).filter(
+        (key) => noteState[key] && noteState[key].day === day.dateString,
+      );
+      setArrofNotes(noteOfDay);
+      console.log('day.noteOfDay*********', noteOfDay);
+      console.log('today', day.dateString);
     }
   };
+
   const edit = (dateString) => {
     if (dateString in cycle.periodDays) {
       const {
@@ -69,11 +95,13 @@ const Calendar = ({ navigation }) => {
       );
     }
   };
+
   const onEditPress = () => {
     setMarkedDatesBeforeEdit(cycle.periodDays);
     dispatch(updatePerdictions(true));
     setEditMode(true);
   };
+
   const onSubmitEditing = async () => {
     if (cycle.isPregnant && Object.keys(cycle.periodDays).length === 0) {
       ToastAndroid.show(
@@ -99,11 +127,89 @@ const Calendar = ({ navigation }) => {
     dispatch(updatePerdictions());
     setEditMode(false);
   };
+
   const onCancelEditing = () => {
     dispatch(updatePeriodDays(markedDatesBeforeEdit));
     dispatch(updatePerdictions());
     setEditMode(false);
   };
+
+  const renderContent = () => (
+    <View
+      style={{
+        backgroundColor: 'white',
+        padding: 16,
+        height: 450,
+      }}>
+      <View
+        style={{
+          backgroundColor: '#d1d1d1',
+          width: 35,
+          height: 3,
+          borderRadius: 5,
+          alignItems: 'center',
+          justifyContent: 'center',
+          alignSelf: 'center',
+          marginBottom: 10,
+        }}
+      />
+      <Text
+        style={{
+          textAlign: 'center',
+          fontFamily: FONT.medium,
+          fontSize: 16,
+        }}>
+        {jalaali(selectedDate).format('jYYYY/jM/jD')}
+      </Text>
+      <Icon
+        raised
+        size={25}
+        name="lady"
+        type="parto"
+        color={COLOR.pink}
+        onPress={() =>
+          jalaali(selectedDate).isBefore(today)
+            ? navigation.navigate('TrackingOptions', { day: selectedDate })
+            : ToastAndroid.show(
+                'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
+                ToastAndroid.LONG,
+              )
+        }
+      />
+      <Icon
+        raised
+        size={25}
+        name="new-message"
+        type="entypo"
+        color={COLOR.pink}
+        onPress={() => navigation.navigate('Note', { day: selectedDate })}
+      />
+      <Text
+        style={{
+          textAlign: 'center',
+          fontFamily: FONT.medium,
+          fontSize: 12,
+          backgroundColor: 'pink',
+        }}>
+        یادداشت
+      </Text>
+      {arrofNotes.map((item, index) => {
+        return (
+          <Text
+            key={index.toString()}
+            style={{
+              textAlign: 'center',
+              fontFamily: FONT.medium,
+              fontSize: 12,
+              backgroundColor: 'pink',
+            }}>
+            {noteState[item].note}
+          </Text>
+        );
+      })}
+    </View>
+  );
+
   return (
     <ImageBackground
       source={
@@ -123,7 +229,6 @@ const Calendar = ({ navigation }) => {
         }}>
         <View
           style={{
-            // flexDirection: 'row',
             marginTop: 30,
             alignItems: 'flex-end',
             justifyContent: 'space-between',
@@ -138,92 +243,20 @@ const Calendar = ({ navigation }) => {
             onPress={() => calendar.current.scrollToDay(new Date())}
             containerStyle={{ right: 0 }}
           /> */}
-          <View
-            style={{
-              flexDirection: 'row',
-            }}>
-            {template !== 'Teenager' && (
-              <View
-                style={{
-                  flexDirection: 'row',
-                  justifyContent: 'space-around',
-                  width: 90,
-                  alignItems: 'center',
-                }}>
-                <Text
-                  style={{
-                    textAlign: 'center',
-                    fontFamily: FONT.medium,
-                    fontSize: 11,
-                  }}>
-                  تخمک‌گذاری
-                </Text>
-                <View
-                  style={{
-                    width: 14,
-                    height: 14,
-                    borderRadius: 7,
-                    backgroundColor: COLOR.ovulationPerdictions,
-                  }}
-                />
-              </View>
-            )}
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                width: 100,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: FONT.medium,
-                  fontSize: 11,
-                }}>
-                پیش‌بینی پریود
-              </Text>
-              <View
-                style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: 7,
-                  backgroundColor: COLOR.periodPerdiction,
-                }}
-              />
-            </View>
-            <View
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'space-around',
-                width: 60,
-                alignItems: 'center',
-              }}>
-              <Text
-                style={{
-                  textAlign: 'center',
-                  fontFamily: FONT.medium,
-                  fontSize: 11,
-                }}>
-                پریود
-              </Text>
-              <View
-                style={{
-                  width: 14,
-                  height: 14,
-                  borderRadius: 7,
-                  backgroundColor: COLOR.bleeding,
-                }}
-              />
-            </View>
-          </View>
+          <Icon
+            size={25}
+            name="info"
+            type="parto"
+            color="white"
+            onPress={() => toggle()}
+            containerStyle={{ right: 20 }}
+          />
         </View>
         <CalendarList
           ref={calendar}
           jalali
           firstDay={6}
           showSixWeeks
-          maxDate={editMode ? null : today.format(FORMAT)}
           pastScrollRange={12}
           futureScrollRange={12}
           markedDates={{
@@ -291,15 +324,10 @@ const Calendar = ({ navigation }) => {
             },
             'stylesheet.calendar.main': {
               container: {
-                // borderBottomWidth: 0.2,
                 backgroundColor: 'transparent',
               },
               monthView: {
                 backgroundColor: 'transparent',
-                // backgroundColor: 'rgba(255,255,255, 0.9)',
-                // borderRadius: 15,
-                // elevation: 2,
-                // padding: 10,
               },
             },
             'stylesheet.calendar.header': {
@@ -313,12 +341,9 @@ const Calendar = ({ navigation }) => {
               },
               rtlHeader: {
                 alignItems: 'center',
-                //borderBottomWidth: 0.2,
                 backgroundColor: 'rgba(255,255,255, 0.1)',
                 justifyContent: 'center',
                 alignSelf: 'center',
-                //padding: 5,
-                // paddingHorizontal: 20,
                 margin: 10,
                 borderRadius: 30,
                 elevation: 1,
@@ -342,38 +367,12 @@ const Calendar = ({ navigation }) => {
           />
         ) : (
           <>
-            {/* <Button
-            title="ثبت"
-            type="outline"
-            onPress={onSubmitEditing}
-            titleStyle={styles.buttonTitle}
-            containerStyle={[
-              styles.bottomButton,
-              {
-                alignSelf: 'flex-start',
-                left: 10,
-              },
-            ]}
-          /> */}
             <SubmitButton
               addAppTourTarget={(appTourTarget) => {
                 appTourTargets.push(appTourTarget);
               }}
               onPress={() => onSubmitEditing()}
             />
-            {/* <Button
-            title="انصراف"
-            type="outline"
-            onPress={onCancelEditing}
-            titleStyle={styles.buttonTitle}
-            containerStyle={[
-              styles.bottomButton,
-              {
-                alignSelf: 'flex-end',
-                right: 10,
-              },
-            ]}
-          /> */}
             <CancelButton
               addAppTourTarget={(appTourTarget) => {
                 appTourTargets.push(appTourTarget);
@@ -383,6 +382,56 @@ const Calendar = ({ navigation }) => {
           </>
         )}
       </View>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={[450, 300, 55]}
+        borderRadius={50}
+        renderContent={renderContent}
+        initialSnap={2}
+      />
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        onRequestClose={() => {
+          return;
+        }}
+        text="راهنمای تقویم"
+        icon={<Icon type="parto" name="info" color="#aaa" size={50} />}
+        firstBtnTitle="بستن"
+        firstBtnPress={toggle}>
+        <View style={{ padding: 40 }}>
+          {infoArray &&
+            infoArray.map((item, index) => {
+              return (
+                <View
+                  key={index.toString()}
+                  style={{
+                    marginHorizontal: 10,
+                    marginVertical: 5,
+                    flexDirection: 'row-reverse',
+                    justifyContent: 'space-between',
+                  }}>
+                  <Text
+                    style={{
+                      textAlign: 'center',
+                      fontFamily: FONT.medium,
+                      fontSize: 12,
+                    }}>
+                    {item.txt}
+                  </Text>
+                  <View
+                    style={{
+                      width: 30,
+                      height: 14,
+                      borderRadius: 7,
+                      backgroundColor: item.color,
+                    }}
+                  />
+                </View>
+              );
+            })}
+        </View>
+      </DialogBox>
     </ImageBackground>
   );
 };

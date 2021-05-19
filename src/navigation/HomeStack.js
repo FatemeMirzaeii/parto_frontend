@@ -7,6 +7,7 @@ import PregnancyProfile from '../screens/pregnancy-profile';
 import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 import Chat from '../screens/assistant/chat';
+import Note from '../screens/note';
 import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
@@ -51,6 +52,10 @@ const HomeStackScreen = () => {
         name="Chat"
         component={Chat}
         options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="Note"
+        component={Note}
       />
     </HomeStack.Navigator>
   );
