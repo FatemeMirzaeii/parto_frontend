@@ -22,15 +22,15 @@ const Assistant = ({ navigation }) => {
   const categories = [
     {
       title: 'مامایی',
-      uri: 'https://www.goftino.com/c/BdaydR',
+      uri: 'https://test.parto.app/chat/midwifery',
     },
     {
       title: 'احکام',
-      uri: 'https://www.goftino.com/c/BdaydR',
+      uri: 'https://test.parto.app/chat/midwifery',
     },
     {
       title: 'تغذیه',
-      uri: 'https://www.goftino.com/c/BdaydR',
+      uri: 'https://test.parto.app/chat/midwifery',
     },
   ];
   useLayoutEffect(() => {

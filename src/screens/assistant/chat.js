@@ -1,34 +1,61 @@
 import React, { useState } from 'react';
 import { Button } from 'react-native-elements';
-import { SafeAreaView } from 'react-native';
+import { KeyboardAvoidingView } from 'react-native';
 import { WebView } from 'react-native-webview';
+
+// components and utils
+import Loader from '../../components/Loader';
+import api from '../../services/api';
 
 //styles
 import styles from './styles';
 
 const Chat = ({ navigation, route }) => {
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const js = `
+      window.addEventListener("goftino_ready", function () {
+        window.ReactNativeWebView.postMessage('ready')
+        });
+      true; // note: this is required, or you'll sometimes get silent failures
+    `;
+
+  const checkCredit = () => {
+    //calling api to get credit
+    const credit = 0;
+    if (credit > 0) {
+      setHasEnaughCredit(true);
+      // reduce credit.
+    }
+  };
   return (
-    <SafeAreaView style={styles.container}>
+    <KeyboardAvoidingView style={styles.container}>
       <WebView
         containerStyle={{ flex: 12 }}
         source={{ uri: route.params.uri }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
         onMessage={(event) => {
-          alert(event.nativeEvent.data);
+          if (event.nativeEvent.data === 'ready') setIsLoading(false);
+        }}
+        injectedJavaScript={js}
+        startInLoadingState
+        renderLoading={() => {
+          return <Loader />;
         }}
       />
-      <Button
-        containerStyle={styles.newQuestionCont(hasEnaughCredit)}
-        buttonStyle={styles.newQuestion}
-        titleStyle={styles.listItemText}
-        title="برای پرسیدن سوال جدید اینجا کلیک کنید"
-        onPress={() => {
-          setHasEnaughCredit(true);
-        }}
-      />
-    </SafeAreaView>
+      {isLoading ? null : (
+        <Button
+          containerStyle={styles.newQuestionCont(hasEnaughCredit)}
+          buttonStyle={styles.newQuestion}
+          titleStyle={styles.text}
+          title="برای پرسیدن سوال جدید اینجا کلیک کنید"
+          onPress={() => {
+            checkCredit();
+          }}
+        />
+      )}
+    </KeyboardAvoidingView>
   );
 };
 
