@@ -53,10 +53,7 @@ const HomeStackScreen = () => {
         component={Chat}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="Note"
-        component={Note}
-      />
+      <HomeStack.Screen name="Note" component={Note} />
     </HomeStack.Navigator>
   );
 };

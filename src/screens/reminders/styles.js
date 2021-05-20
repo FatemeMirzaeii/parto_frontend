@@ -36,4 +36,9 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
   },
+  infoBox: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    backgroundColor: COLOR.lightPink,
+  },
 });

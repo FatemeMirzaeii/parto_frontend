@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
-import { ScrollView, TextInput } from 'react-native';
+import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -62,7 +62,7 @@ const ReminderSetting = ({ navigation, route }) => {
       ),
     });
 
-    const save = () => {
+    const save = ({ navigation }) => {
       let cusTime;
       reminder.id === BREAST_EXAM
         ? (cusTime = `${moment(today).format(FORMAT)}_${hours}:${minutes}`)
@@ -143,7 +143,7 @@ const ReminderSetting = ({ navigation, route }) => {
               <Icon
                 type="material"
                 name={isActive ? 'notifications-active' : 'notifications-off'}
-                color={isActive ? COLOR.pink : COLOR.textColorDark}
+                color={isActive ? COLOR.pink : COLOR.icon}
               />
             }
             switch={{
@@ -208,6 +208,23 @@ const ReminderSetting = ({ navigation, route }) => {
                   />
                 }
               />
+              {reminder.id === BREAST_EXAM && (
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('BreastExamHelp')}
+                  style={styles.infoBox}>
+                  <Icon
+                    onPress={() => navigation.navigate('BreastExamHelp')}
+                    raised
+                    type="parto"
+                    name="info"
+                    color={COLOR.pink}
+                    size={17}
+                  />
+                  <Text style={globalStyles.listItemTitle}>
+                    راهنمای روش‌های خودآزمایی سینه
+                  </Text>
+                </TouchableOpacity>
+              )}
             </>
           ) : null}
         </Card>
