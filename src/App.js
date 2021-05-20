@@ -75,7 +75,10 @@ const App: () => React$Node = () => {
           navigationRef.current.navigate('Passcode', {
             screenName: navigationRef.current.getCurrentRoute().name,
           });
-        if (lockState !== 'Passcode' || lockState !== 'None') lock();
+        // if (lockState !== 'Passcode' || lockState !== 'None') lock();
+        if (store.getState().user.lockType === 'Fingerprint') lock();
+        if (store.getState().user.lockType === 'Iris') lock();
+        if (store.getState().user.lockType === 'Face') lock();
       }
       appState.current = nextAppState;
     },

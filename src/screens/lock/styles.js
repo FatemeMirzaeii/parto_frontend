@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR, FONT, WIDTH, SIZE } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -22,25 +22,54 @@ export default StyleSheet.create({
   field: {
     padding: 20,
   },
-  label: {
-    fontWeight: '500',
-    fontSize: 15,
-    marginBottom: 5,
-  },
-  input: {
-    color: '#000',
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: '#ccc',
-    backgroundColor: 'white',
-    height: 32,
-    fontSize: 14,
-    padding: 8,
-  },
   text: {
     alignSelf: 'center',
     textAlign: 'center',
     fontFamily: FONT.medium,
     color: '#666666',
     fontSize: 12,
+  },
+  btnContainer: {
+    elevation: 3,
+    width: 150,
+    height: 40,
+    borderRadius: 40,
+    alignSelf: 'center',
+    margin: 30,
+  },
+  button: {
+    height: 40,
+    backgroundColor: COLOR.purple,
+  },
+  btnTitle: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[14],
+  },
+  title: {
+    fontSize: SIZE[15],
+    color: COLOR.listItemTxt,
+    alignSelf: 'center',
+    fontFamily: FONT.medium,
+    marginTop: '7%',
+  },
+  codeFieldRoot: {
+    marginVertical: 30,
+    justifyContent: 'space-evenly',
+    width: WIDTH * 0.6,
+    alignSelf: 'center',
+  },
+  cell: {
+    fontFamily: FONT.regular,
+    width: 40,
+    height: 40,
+    lineHeight: 38,
+    fontSize: 15,
+    borderWidth: 2,
+    borderColor: '#00000030',
+    textAlign: 'center',
+    elevation: 2,
+  },
+  focusCell: {
+    borderColor: COLOR.purple,
   },
 });
