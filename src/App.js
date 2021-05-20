@@ -50,7 +50,6 @@ const App: () => React$Node = () => {
   }, []);
 
   const launchApp = async () => {
-    store.dispatch(restoreToken());
     await migration();
     NetInfo.fetch().then(async (state) => {
       const token = store.getState().auth.userToken;
@@ -81,13 +80,15 @@ const App: () => React$Node = () => {
         <NavigationContainer
           ref={navigationRef}
           onReady={() => {
+            store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
-            setupNotifications(store.getState().user.id);
+            const user = store.getState().user;
+            setupNotifications(user.id, user.template === 'Partner');
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;
-            const currentRouteName = navigationRef.current.getCurrentRoute()
-              .name;
+            const currentRouteName =
+              navigationRef.current.getCurrentRoute().name;
 
             if (previousRouteName !== currentRouteName) {
               await analytics().logScreenView({

@@ -172,7 +172,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
@@ -205,7 +208,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
@@ -234,11 +240,13 @@ const SignUp = ({ navigation }) => {
       .then(async (res) => {
         const id = res.data.data.id;
         const type = res.data.data.type;
-        storeData('@token', res.headers['x-auth-token']);
+        dispatch(setUser(id, phoneNumber));
+        await storeData('@token', res.headers['x-auth-token']);
         db.exec(
           `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
           'user',
         );
+        let syncResult = 'NotSet';
         if (type || template) {
           let versionTypeRes;
           if (!template) dispatch(handleTemplate(type));
@@ -249,11 +257,12 @@ const SignUp = ({ navigation }) => {
           // todo: should ask for changing app template or not?
           if (!type && !versionTypeRes) return;
           dispatch(interview());
-          await sync();
+          syncResult = await sync(false, id);
           dispatch(fetchInitialCycleData());
         }
-        dispatch(setUser(id, phoneNumber));
-        dispatch(signUp());
+        if (syncResult) {
+          dispatch(signUp());
+        }
       })
       .catch((err) => {
         if (err.toString() === 'Error: Network Error') {
@@ -264,7 +273,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };

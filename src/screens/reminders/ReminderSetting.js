@@ -34,6 +34,7 @@ const ReminderSetting = ({ navigation, route }) => {
   const [daysAgo, setDaysAgo] = useState(1);
   const [repeatType, setRepeatType] = useState();
   const userId = useSelector((state) => state.user.id);
+  const template = useSelector((state) => state.user.template);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -77,7 +78,7 @@ const ReminderSetting = ({ navigation, route }) => {
         cusTime,
         daysAgo,
       ).then(() => {
-        setupNotifications(userId);
+        setupNotifications(userId, template === 'Partner');
         navigation.pop();
       });
     };
@@ -89,6 +90,7 @@ const ReminderSetting = ({ navigation, route }) => {
     minutes,
     navigation,
     reminder,
+    template,
     today,
     userId,
   ]);
