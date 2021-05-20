@@ -27,7 +27,7 @@ import heyzImg from '../../../assets/images/treatise/heyz.png';
 import nefasImg from '../../../assets/images/treatise/nefas.png';
 
 //styles
-import { COLOR, WIDTH } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const Treatise = ({ navigation }) => {
@@ -57,7 +57,7 @@ const Treatise = ({ navigation }) => {
           type="parto"
           color={COLOR.pink}
           onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
+          containerStyle={styles.icon}
         />
       ),
     });
@@ -108,19 +108,8 @@ const Treatise = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <ImageBackground
-                style={{
-                  flex: 1,
-                  //resizeMode: 'cover',
-                  width: '100%',
-                  height: '69%',
-                  width: WIDTH - 15,
-                  marginVertical: -80,
-                  marginTop: 37,
-                }}
-                imageStyle={{
-                  borderBottomRightRadius: 15,
-                  borderTopRightRadius: 15,
-                }}
+                style={styles.imageContainer}
+                imageStyle={styles.image}
                 source={imageList[index]}>
                 <CategoryList
                   treatise

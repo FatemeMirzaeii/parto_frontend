@@ -1,54 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: {
     flex: 1,
     paddingBottom: 53,
   },
-  headerCotainer: {
-    flex: 1,
-    paddingHorizontal: 5,
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-  },
-  headerWrapper: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    marginTop: 20,
-    width: '95%',
-  },
-  headerText: {
-    alignSelf: 'flex-end',
-    color: 'black',
-    fontSize: 17,
-    fontFamily: FONT.medium,
-  },
-  titleStyle: {
-    flex: 1,
-    color: 'white',
-    padding: 10,
-    margin: 20,
-    fontSize: 20,
-    backgroundColor: 'rgba(0,0,0,0.6)',
-    textAlign: 'right',
-    fontFamily: FONT.medium,
-  },
   icon: { fontSize: 18, color: 'black', padding: 10 },
-  imageHeader: {
-    marginTop: 75,
-    resizeMode: 'cover',
-    flex: 1,
-  },
-  headerTitleWrapper: {
-    backgroundColor: 'transparent',
-    flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
-    flexDirection: 'row',
-  },
   logosWrapper: {
     width: '80%',
     flexDirection: 'row',
@@ -127,5 +85,16 @@ export default StyleSheet.create({
     margin: 7,
     fontSize: 16,
     lineHeight: 35,
+  },
+  imageContainer: {
+    flex: 1,
+    height: '69%',
+    width: WIDTH - 15,
+    marginVertical: -80,
+    marginTop: 37,
+  },
+  image: {
+    borderBottomRightRadius: 15,
+    borderTopRightRadius: 15,
   },
 });
