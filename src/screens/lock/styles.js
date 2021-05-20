@@ -39,6 +39,7 @@ export default StyleSheet.create({
   },
   button: {
     height: 40,
+    //backgroundColor: '#4c569c',
     backgroundColor: COLOR.purple,
   },
   btnTitle: {
