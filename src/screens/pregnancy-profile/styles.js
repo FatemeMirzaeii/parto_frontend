@@ -100,20 +100,4 @@ export default StyleSheet.create({
     color: COLOR.pink,
     textDecorationLine: 'underline',
   },
-  listItem: {
-    flexDirection: 'row-reverse',
-  },
-  listItemContent: {
-    alignItems: 'flex-end',
-  },
-  listItemText: {
-    color: COLOR.listItemTxt,
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
-    maxWidth: 200,
-  },
-  subTitle: {
-    fontFamily: FONT.regular,
-    fontSize: SIZE[14],
-  },
 });

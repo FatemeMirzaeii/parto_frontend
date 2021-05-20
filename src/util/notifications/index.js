@@ -15,6 +15,7 @@ const notification = new NotificationService();
 let c;
 
 export const setupNotifications = async (userId) => {
+  notification.removeAllDeliveredNotifications();
   const reminders = await getUserReminders(userId);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
@@ -68,6 +69,7 @@ async function breastExam(reminder) {
   const d = moment(date).toDate();
   d.setHours(hours);
   d.setMinutes(minutes);
+  if (moment(d).isBefore(moment())) return;
   notification.scheduled(BREAST_EXAM, d, reminder.custom_message, repeatType);
   console.log('breast exam reminder set for', d);
 }
@@ -111,7 +113,7 @@ async function pmsInACoupleOfDays(reminder) {
   console.log('PMS reminder set for', date);
 }
 
-export async function periodLate() {
+async function periodLate() {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
   if (nextPeriodDate === '') return;
@@ -126,7 +128,7 @@ export async function periodLate() {
   );
 }
 
-export async function userAppChecking() {
+async function userAppChecking() {
   notification.cancel(CHECK_THE_APP);
   const date = moment().add(90, 'days').toDate();
   date.setHours(10);

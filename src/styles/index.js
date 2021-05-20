@@ -25,4 +25,20 @@ export default StyleSheet.create({
     width: 170,
     height: 170,
   },
+  listItem: {
+    flexDirection: 'row-reverse',
+  },
+  listItemTitle: {
+    color: COLOR.listItemTxt,
+    fontFamily: FONT.regular,
+    fontSize: 12,
+    maxWidth: 200,
+  },
+  listItemContentContainer: {
+    alignItems: 'flex-end',
+  },
+  subTitle: {
+    fontFamily: FONT.regular,
+    fontSize: SIZE[14],
+  },
 });
