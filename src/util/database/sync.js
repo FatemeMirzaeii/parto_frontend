@@ -13,7 +13,7 @@ import {
 import configureStore from '../../store';
 import api from '../../services/api';
 
-export default async (isSigningout) => {
+export default async (isSigningout, userId) => {
   const { store } = configureStore();
   const lastSyncTime = await getLastSyncTime();
   const profile = await findUnsyncedProfileData(lastSyncTime);
@@ -21,13 +21,14 @@ export default async (isSigningout) => {
   const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
   console.log('datas to send for server', profile, pregnancy, trackingOptions);
   const user = store.getState().user;
+  const _userId = userId ?? user.id;
   let profileData;
   let pregnancyInfo;
   let userInfo;
   if (!isSigningout) {
     // first will get data from server, if exists!
     profileData = await api({
-      url: `/profile/syncProfile/${user.id}/${lastSyncTime ?? null}/fa`,
+      url: `/profile/syncProfile/${_userId}/${lastSyncTime ?? null}/fa`,
       // dev: true,
     });
     if (
@@ -36,11 +37,11 @@ export default async (isSigningout) => {
       profileData.data.data &&
       profileData.data.data.length !== 0
     ) {
-      console.log('herereeeeeeee', profileData.data.data);
+      console.log('Profile data received from server', profileData.data.data);
       addProfileData(profileData.data.data[0]);
     }
     pregnancyInfo = await api({
-      url: `/pregnancy/syncPregnancyInfo/${user.id}/${lastSyncTime ?? null}/fa`,
+      url: `/pregnancy/syncPregnancyInfo/${_userId}/${lastSyncTime ?? null}/fa`,
       // dev: true,
     });
     if (
@@ -54,7 +55,7 @@ export default async (isSigningout) => {
       });
     }
     userInfo = await api({
-      url: `/healthTracking/syncUserInfo/${user.id}/${lastSyncTime ?? null}/fa`,
+      url: `/healthTracking/syncUserInfo/${_userId}/${lastSyncTime ?? null}/fa`,
       // dev: true,
     });
     if (
@@ -73,7 +74,7 @@ export default async (isSigningout) => {
   if (profile.length !== 0) {
     sentProfileData = await api({
       method: 'POST',
-      url: `/profile/syncProfile/${user.id}/fa`,
+      url: `/profile/syncProfile/${_userId}/fa`,
       // dev: true,
       data: { data: profile },
     });
@@ -83,7 +84,7 @@ export default async (isSigningout) => {
   if (pregnancy.length !== 0) {
     sentPregnancyInfo = await api({
       method: 'POST',
-      url: `/pregnancy/syncPregnancyInfo/${user.id}/fa`,
+      url: `/pregnancy/syncPregnancyInfo/${_userId}/fa`,
       // dev: true,
       data: { data: pregnancy },
     });
@@ -93,17 +94,20 @@ export default async (isSigningout) => {
   if (trackingOptions.length !== 0) {
     sentUserInfo = await api({
       method: 'POST',
-      url: `/healthTracking/syncUserInfo/${user.id}/fa`,
+      url: `/healthTracking/syncUserInfo/${_userId}/fa`,
       // dev: true,
       data: { data: trackingOptions },
     });
   }
-  const setVersionType = await api({
-    method: 'POST',
-    url: `/user/versionType/${user.id}/fa`,
-    // dev: true,
-    data: { type: user.template },
-  });
+  let setVersionType = [];
+  if (user.template) {
+    setVersionType = await api({
+      method: 'POST',
+      url: `/user/versionType/${_userId}/fa`,
+      // dev: true,
+      data: { type: user.template },
+    });
+  }
 
   if (
     sentProfileData &&
@@ -115,5 +119,6 @@ export default async (isSigningout) => {
     setVersionType
   ) {
     await updateLastSyncTime(moment().format(DATETIME_FORMAT));
-  }
+    return true;
+  } else return false;
 };

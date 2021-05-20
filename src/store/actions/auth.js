@@ -29,14 +29,13 @@ export const interview = () => async (dispatch, getState) => {
 };
 export const restoreToken = () => async (dispatch, getState) => {
   try {
-    const tokens = getState().auth;
+    const tokens = await getState().auth;
     let userToken = tokens.userToken;
     let interviewToken = tokens.interviewToken;
-
-    if (userToken === null) {
+    if (!userToken) {
       userToken = await getData('@token');
     }
-    if (interviewToken === null) {
+    if (!interviewToken) {
       interviewToken = await getData('@startPages');
     }
     // in order to correct former users template, I have set default template to 'Main'.
