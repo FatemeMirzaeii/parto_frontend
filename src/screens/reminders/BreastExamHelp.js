@@ -1,6 +1,9 @@
 import React, { useLayoutEffect } from 'react';
-import { SafeAreaView, ScrollView, Text } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 import { Icon } from 'react-native-elements';
+
+//components
+import HTMLRender from '../../components/HTMLRender';
 
 //constants
 import { MORE_ABOUT_BREAST_EXAM } from '../../constants/reminders';
@@ -21,7 +24,7 @@ const BreastExamHelp = ({ navigation }) => {
           type="parto"
           color={COLOR.pink}
           onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
+          containerStyle={styles.headerIcon}
         />
       ),
     });
@@ -30,7 +33,7 @@ const BreastExamHelp = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.safeAreaView}>
       <ScrollView style={styles.contentContiner}>
-        <Text style={styles.helpTxt}>{MORE_ABOUT_BREAST_EXAM}</Text>
+        <HTMLRender html={MORE_ABOUT_BREAST_EXAM} />
       </ScrollView>
     </SafeAreaView>
   );

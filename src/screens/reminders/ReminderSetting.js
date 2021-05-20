@@ -157,6 +157,23 @@ const ReminderSetting = ({ navigation, route }) => {
             containerStyle={globalStyles.listItem}
             contentContainerStyle={globalStyles.listItemContentContainer}
           />
+          {reminder.id === BREAST_EXAM && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('BreastExamHelp')}
+              style={styles.infoBox}>
+              <Icon
+                onPress={() => navigation.navigate('BreastExamHelp')}
+                raised
+                type="parto"
+                name="info"
+                color={COLOR.pink}
+                size={17}
+              />
+              <Text style={globalStyles.listItemTitle}>
+                راهنمای خودآزمایی سینه
+              </Text>
+            </TouchableOpacity>
+          )}
           {isActive ? (
             <>
               <PickerListItem
@@ -208,23 +225,6 @@ const ReminderSetting = ({ navigation, route }) => {
                   />
                 }
               />
-              {reminder.id === BREAST_EXAM && (
-                <TouchableOpacity
-                  onPress={() => navigation.navigate('BreastExamHelp')}
-                  style={styles.infoBox}>
-                  <Icon
-                    onPress={() => navigation.navigate('BreastExamHelp')}
-                    raised
-                    type="parto"
-                    name="info"
-                    color={COLOR.pink}
-                    size={17}
-                  />
-                  <Text style={globalStyles.listItemTitle}>
-                    راهنمای روش‌های خودآزمایی سینه
-                  </Text>
-                </TouchableOpacity>
-              )}
             </>
           ) : null}
         </Card>

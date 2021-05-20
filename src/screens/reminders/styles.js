@@ -7,6 +7,9 @@ export default StyleSheet.create({
   //   alignSelf: 'center',
   //   fontFamily: Theme.fonts.regular,
   // },
+  headerIcon: {
+    marginRight: 40,
+  },
   btnContainer: {
     elevation: 3,
     width: 100,
