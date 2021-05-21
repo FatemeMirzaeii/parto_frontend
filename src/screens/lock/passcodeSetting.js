@@ -53,28 +53,34 @@ const PasscodeSetting = ({ navigation }) => {
   }, [navigation]);
 
   const _handleSelectedPass = async () => {
-    await Keychain.resetGenericPassword();
-    await Keychain.setGenericPassword('username', value);
-    try {
-      // Retrieve the credentials
-      const credential = await Keychain.getGenericPassword();
-      if (credential) {
-        console.log('Credentials successfully loaded for user ');
-        ToastAndroid.show(
-          lockType === 'Passcode'
-            ? 'کد ورود با موفقیت تغییر کرد.'
-            : 'کد ورود با موفقیت ذخیره شد.',
+    if (value.length === 4) {
+      await Keychain.resetGenericPassword();
+      await Keychain.setGenericPassword('username', value);
+      try {
+        // Retrieve the credentials
+        const credential = await Keychain.getGenericPassword();
+        if (credential) {
+          console.log('Credentials successfully loaded for user ');
+          ToastAndroid.show(
+            lockType === 'Passcode'
+              ? 'کد ورود با موفقیت تغییر کرد.'
+              : 'کد ورود با موفقیت ذخیره شد.',
 
-          ToastAndroid.LONG,
-        );
-        dispatch(handleLockType('Passcode'));
-        navigation.pop();
-      } else {
-        console.log('No credentials stored');
+            ToastAndroid.LONG,
+          );
+          dispatch(handleLockType('Passcode'));
+          navigation.pop();
+        } else {
+          console.log('No credentials stored');
+        }
+      } catch (error) {
+        console.log("Keychain couldn't be accessed!", error);
       }
-    } catch (error) {
-      console.log("Keychain couldn't be accessed!", error);
-    }
+    } else
+      ToastAndroid.show(
+        'کد ورود انتخابی چهارررقمی نیست؛ تعدادارقام باید چهاررقمی باشد.',
+        ToastAndroid.LONG,
+      );
   };
 
   return (
