@@ -109,15 +109,7 @@ export default async (isSigningout, userId) => {
     });
   }
 
-  if (
-    sentProfileData &&
-    profileData &&
-    sentPregnancyInfo &&
-    pregnancyInfo &&
-    sentUserInfo &&
-    userInfo &&
-    setVersionType
-  ) {
+  if (sentProfileData && sentPregnancyInfo && sentUserInfo && setVersionType) {
     await updateLastSyncTime(moment().format(DATETIME_FORMAT));
     return true;
   } else return false;
