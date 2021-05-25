@@ -240,13 +240,8 @@ const SignUp = ({ navigation }) => {
       .then(async (res) => {
         const id = res.data.data.id;
         const type = res.data.data.type;
-        dispatch(setUser(id, phoneNumber));
         await storeData('@token', res.headers['x-auth-token']);
-        db.exec(
-          `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
-          'user',
-        );
-        let syncResult = 'NotSet';
+        let syncResult = 'NoNeed';
         if (type || template) {
           let versionTypeRes;
           if (!template) dispatch(handleTemplate(type));
@@ -261,6 +256,11 @@ const SignUp = ({ navigation }) => {
           dispatch(fetchInitialCycleData());
         }
         if (syncResult) {
+          db.exec(
+            `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
+            'user',
+          );
+          dispatch(setUser(id, phoneNumber));
           dispatch(signUp());
         }
       })
@@ -383,9 +383,17 @@ const SignUp = ({ navigation }) => {
         )}
         <DialogBox
           isVisible={isVisible}
-          hide={toggle}
+          hide={async () => {
+            await storeData('@token', 'dummyToken');
+            setIsLoading(false);
+            toggle();
+          }}
           text="پرتویی عزیز! پیش از این، با این شماره در نسخه‌ی دیگری از پرتو ثبت‌نام کرده‌ای."
-          firstBtnPress={toggle}
+          firstBtnPress={async () => {
+            await storeData('@token', 'dummyToken');
+            setIsLoading(false);
+            toggle();
+          }}
           firstBtnTitle="متوجه شدم"
         />
       </SafeAreaView>
