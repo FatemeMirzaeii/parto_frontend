@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
-
+import NetInfo from '@react-native-community/netinfo';
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
@@ -95,8 +95,8 @@ const Menu = ({ navigation }) => {
     });
   };
   const exit = async () => {
-    await sync(true);
-    dispatch(signOut());
+    const res = await sync(true);
+    if (res) dispatch(signOut());
   };
   return (
     <ScrollView style={styles.container}>
