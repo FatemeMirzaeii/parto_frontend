@@ -19,6 +19,7 @@ import {
 // import PregnancyPicker from '../../components/PregnancyPicker';
 import Card from '../../components/Card';
 import DialogBox from '../../components/DialogBox';
+import BackButton from '../../components/BackButton';
 import PickerListItem from '../../components/PickerListItem';
 
 //util
@@ -62,16 +63,7 @@ const PregnancyProfile = ({ navigation, route }) => {
       //     containerStyle={globalStyles.smallHeaderBtn}
       //   />
       // ),
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
     const save = () => {
       updatePregnancyData(dueDate);

@@ -1,12 +1,11 @@
 import React, { useLayoutEffect } from 'react';
 import { SafeAreaView, ScrollView, Text, View, Image } from 'react-native';
-import { Icon } from 'react-native-elements';
 
 //constants
+import BackButton from '../../components/BackButton';
 import { HELP_TEXT } from '../../constants/treatise';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const TreatiseHelp = ({ navigation }) => {
@@ -14,16 +13,7 @@ const TreatiseHelp = ({ navigation }) => {
     navigation.setOptions({
       title: 'راهنما',
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 
