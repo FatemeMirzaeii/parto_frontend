@@ -164,7 +164,7 @@ const Menu = ({ navigation }) => {
       )}
       <Card>
         <ListItem
-          title="یادآوری‌ها"
+          title="یادآورها"
           leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
           bottomDivider
           chevron={{

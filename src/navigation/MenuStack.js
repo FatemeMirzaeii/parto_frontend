@@ -5,6 +5,7 @@ import Profile from '../screens/profile';
 import CycleSetting from '../screens/cycle-setting';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
+import BreastExamHelp from '../screens/reminders/BreastExamHelp';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
@@ -37,6 +38,7 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
+      <MenuStack.Screen name="BreastExamHelp" component={BreastExamHelp} />
       <MenuStack.Screen name="Treatise" component={Treatise} />
       <MenuStack.Screen name="TreatiseList" component={TreatiseList} />
       <MenuStack.Screen name="TreatiseDetails" component={TreatiseDetails} />
