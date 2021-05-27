@@ -178,6 +178,22 @@ const Profile = ({ navigation }) => {
             rightTitle={{ title: avgSleepingHours, suffix: 'ساعت' }}
           />
         </Card>
+        <Card>
+          <ListItem
+            title="کیف پول"
+            // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
+            // onPress={toggle}
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+          />
+        </Card>
         {!(isLoggedIn === 'dummyToken') && (
           <Card>
             <ListItem

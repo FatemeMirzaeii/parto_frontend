@@ -31,7 +31,7 @@ const Chat = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <WebView
-        containerStyle={{ flex: 12 }}
+        // containerStyle={{ flex: 12 }}
         source={{ uri: route.params.uri }}
         javaScriptEnabled={true}
         domStorageEnabled={true}
@@ -44,7 +44,7 @@ const Chat = ({ navigation, route }) => {
           return <Loader />;
         }}
       />
-      {isLoading ? null : (
+      {/* {isLoading ? null : (
         <Button
           containerStyle={styles.newQuestionCont(hasEnaughCredit)}
           buttonStyle={styles.newQuestion}
@@ -54,7 +54,7 @@ const Chat = ({ navigation, route }) => {
             checkCredit();
           }}
         />
-      )}
+      )} */}
     </KeyboardAvoidingView>
   );
 };
