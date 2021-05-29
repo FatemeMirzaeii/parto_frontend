@@ -13,10 +13,9 @@ import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const Note = ({ navigation, route }) => {
-  const { day } = route.params;
+  const { day, indexOf } = route.params;
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [arrNote, setArrNote] = useState('');
   const dispatch = useDispatch();
   const noteState = useSelector((state) => state.user.note);
   const index = Object.keys(noteState).length;
@@ -48,13 +47,6 @@ const Note = ({ navigation, route }) => {
     });
   });
 
-  useEffect(() => {
-    const noteOfDay = Object.keys(noteState).filter(
-      (key) => noteState[key] && noteState[key].day === day,
-    );
-    setArrNote(noteOfDay);
-    console.log('day.noteOfDay*********', noteOfDay);
-  }, [setArrNote, day, noteState]);
 
   const _save = () => {
     dispatch(
@@ -87,13 +79,6 @@ const Note = ({ navigation, route }) => {
           }}>
           <View style={{ flexDirection: 'row' }}>
             <Text style={styles.dayText}>{noteState[item].title}</Text>
-            {/* <TextInput
-              placeholder="عنوان"
-              selectionColor={COLOR.pink}
-              style={styles.dayText}
-              value={noteState[item].title}
-              // onChangeText={setTitle}
-            /> */}
             <Icon
               containerStyle={{ marginLeft: 10 }}
               type="entypo"
@@ -105,19 +90,6 @@ const Note = ({ navigation, route }) => {
             {jalaali(day).format('jYYYY/jM/jD')}
           </Text>
         </View>
-        {/* <TextInput
-          multiline
-          placeholder="یادداشت"
-          selectionColor={COLOR.pink}
-          style={{
-            backgroundColor: '#F3F4F9',
-            height: 200,
-            fontFamily: FONT.regular,
-            fontSize: 14,
-          }}
-          value={noteState[item].note}
-          //onChangeText={setText}
-        /> */}
         <Text style={styles.dayText}>{noteState[item].note}</Text>
       </Card>
     );
@@ -166,14 +138,20 @@ const Note = ({ navigation, route }) => {
           onChangeText={setText}
         />
       </Card>
-      {/* {noteState && arrNote && (
-        // <FlatList
-        //   data={arrNote}
-        //   renderItem={_renderItems}
-        //   keyExtractor={(item, index) => index.toString()}
-        // />
-        <Text>yessssssssss</Text>
-      )} */}
+      {indexOf.map((item, index) => {
+        return (
+          <Text
+            key={index.toString()}
+            style={{
+              textAlign: 'center',
+              fontFamily: FONT.medium,
+              fontSize: 12,
+              backgroundColor: 'pink',
+            }}>
+            {noteState[item].note}
+          </Text>
+        );
+      })}
     </SafeAreaView>
   );
 };
