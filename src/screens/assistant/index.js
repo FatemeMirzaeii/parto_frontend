@@ -22,15 +22,15 @@ const Assistant = ({ navigation }) => {
   const categories = [
     {
       title: 'مامایی',
-      uri: 'https://test.parto.app/chat/midwifery',
+      uri: 'https://test.parto.app/chat/nutrition',
     },
     {
       title: 'احکام',
-      uri: 'https://test.parto.app/chat/midwifery',
+      uri: 'https://test.parto.app/chat/nutrition',
     },
     {
       title: 'تغذیه',
-      uri: 'https://test.parto.app/chat/midwifery',
+      uri: 'https://test.parto.app/chat/nutrition',
     },
   ];
   useLayoutEffect(() => {
