@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
-import NetInfo from '@react-native-community/netinfo';
+import { Snackbar } from 'react-native-paper';
+
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
@@ -34,6 +35,8 @@ import globalStyles from '../../styles';
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [visible, setVisible] = useState(false);
+
   // const isLoggedIn = useSelector((state) => state.user.id);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
@@ -65,10 +68,11 @@ const Menu = ({ navigation }) => {
         setIsLock(!isLock);
       })
       .catch((error) => {
-        ToastAndroid.show(
-          'قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند.',
-          ToastAndroid.LONG,
-        );
+        setVisible(true);
+        // ToastAndroid.show(
+        //   'قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند.',
+        //   ToastAndroid.LONG,
+        // );
       });
   };
   const share = () => {
@@ -339,6 +343,17 @@ const Menu = ({ navigation }) => {
         }}
         secondBtnPress={signOutToggle}
       />
+      <Snackbar
+        visible={visible}
+        // onDismiss={onDismissSnackBar}
+        action={{
+          // label: 'Undo',
+          onPress: () => {
+            // Do something
+          },
+        }}>
+        Hey there! I'm a Snackbar.
+      </Snackbar>
     </ScrollView>
   );
 };
