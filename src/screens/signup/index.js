@@ -172,7 +172,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
@@ -205,7 +208,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
@@ -234,11 +240,8 @@ const SignUp = ({ navigation }) => {
       .then(async (res) => {
         const id = res.data.data.id;
         const type = res.data.data.type;
-        storeData('@token', res.headers['x-auth-token']);
-        db.exec(
-          `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
-          'user',
-        );
+        await storeData('@token', res.headers['x-auth-token']);
+        let syncResult = 'NoNeed';
         if (type || template) {
           let versionTypeRes;
           if (!template) dispatch(handleTemplate(type));
@@ -249,11 +252,17 @@ const SignUp = ({ navigation }) => {
           // todo: should ask for changing app template or not?
           if (!type && !versionTypeRes) return;
           dispatch(interview());
-          await sync();
+          syncResult = await sync(false, id);
           dispatch(fetchInitialCycleData());
         }
-        dispatch(setUser(id, phoneNumber));
-        dispatch(signUp());
+        if (syncResult) {
+          db.exec(
+            `INSERT INTO user (id) VALUES (${id}) ON CONFLICT DO NOTHING`,
+            'user',
+          );
+          dispatch(setUser(id, phoneNumber));
+          dispatch(signUp());
+        }
       })
       .catch((err) => {
         if (err.toString() === 'Error: Network Error') {
@@ -264,7 +273,10 @@ const SignUp = ({ navigation }) => {
             err.response.status === 502 ||
             (err.response.data && !err.response.data.message))
         )
-          return;
+          ToastAndroid.show(
+            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+            ToastAndroid.SHORT,
+          );
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
@@ -371,9 +383,17 @@ const SignUp = ({ navigation }) => {
         )}
         <DialogBox
           isVisible={isVisible}
-          hide={toggle}
+          hide={async () => {
+            await storeData('@token', 'dummyToken');
+            setIsLoading(false);
+            toggle();
+          }}
           text="پرتویی عزیز! پیش از این، با این شماره در نسخه‌ی دیگری از پرتو ثبت‌نام کرده‌ای."
-          firstBtnPress={toggle}
+          firstBtnPress={async () => {
+            await storeData('@token', 'dummyToken');
+            setIsLoading(false);
+            toggle();
+          }}
           firstBtnTitle="متوجه شدم"
         />
       </SafeAreaView>

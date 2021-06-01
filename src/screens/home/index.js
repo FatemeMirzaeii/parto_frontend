@@ -101,7 +101,7 @@ const Home = ({ navigation }) => {
 
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
-    const pregnancyEndDate = await getPregnancyEndDate();
+    const pregnancyEndDate = await getPregnancyEndDate(); //todo: should move inside if(preg) block.
     dispatch(setPregnancyMode(preg));
     const momentDate = moment(date);
     if (preg) {
@@ -152,7 +152,7 @@ const Home = ({ navigation }) => {
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
-  }, [template, date, dispatch]);
+  }, [date, dispatch]);
 
   Tour(appTourTargets, 'calendarIcon', 'Home');
 

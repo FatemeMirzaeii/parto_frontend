@@ -13,6 +13,7 @@ import { DateContext } from '../../contexts';
 import Card from '../../components/Card';
 import DateTimePicker from '../../components/DateTimePicker';
 import PickerListItem from '../../components/PickerListItem';
+import BackButton from '../../components/BackButton';
 
 //styles and constants
 import { COLOR } from '../../styles/static';
@@ -34,6 +35,7 @@ const ReminderSetting = ({ navigation, route }) => {
   const [daysAgo, setDaysAgo] = useState(1);
   const [repeatType, setRepeatType] = useState();
   const userId = useSelector((state) => state.user.id);
+  const template = useSelector((state) => state.user.template);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -49,16 +51,7 @@ const ReminderSetting = ({ navigation, route }) => {
           loadingStyle={{ color: COLOR.pink }}
         />
       ),
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
 
     const save = () => {
@@ -77,7 +70,7 @@ const ReminderSetting = ({ navigation, route }) => {
         cusTime,
         daysAgo,
       ).then(() => {
-        setupNotifications(userId);
+        setupNotifications(userId, template === 'Partner');
         navigation.pop();
       });
     };
@@ -89,6 +82,7 @@ const ReminderSetting = ({ navigation, route }) => {
     minutes,
     navigation,
     reminder,
+    template,
     today,
     userId,
   ]);

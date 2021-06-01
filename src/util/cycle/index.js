@@ -18,6 +18,7 @@ import {
   getUserAllBleedingDays,
   getCycleSpottingDays,
 } from '../database/query';
+import { correct2farvardin } from '../func';
 const today = moment();
 // momentjs won't perform verywell and sometimes retruns inconsistant data!
 // so I had to use many transform from string to moment object or vice versa
@@ -222,15 +223,6 @@ export default async function CycleModule() {
     }
     const corrected = correct2farvardin(days);
     return corrected;
-  }
-  function correct2farvardin(days) {
-    const duplicate = days.filter((item, index) => {
-      return days.indexOf(item) !== index;
-    });
-    if (duplicate.length === 1 && duplicate[0] === '2021-03-21') {
-      days.push('2021-03-22');
-    }
-    return days;
   }
   function nextPmsDate() {
     if (!lastPeriodDate) {

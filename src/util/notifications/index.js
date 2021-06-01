@@ -14,15 +14,15 @@ import {
 const notification = new NotificationService();
 let c;
 
-export const setupNotifications = async (userId) => {
+export const setupNotifications = async (userId, isPartner) => {
   notification.removeAllDeliveredNotifications();
   const reminders = await getUserReminders(userId);
   c = await CycleModule();
   notification.getScheduledLocalNotifications((res) =>
     console.log('scheduled notifs', res),
   );
-  userAppChecking();
-  periodLate();
+  userAppChecking(isPartner);
+  periodLate(isPartner);
   console.log('reminders', reminders);
   reminders.forEach((reminder) => {
     if (reminder.active === 1) {
@@ -113,7 +113,7 @@ async function pmsInACoupleOfDays(reminder) {
   console.log('PMS reminder set for', date);
 }
 
-async function periodLate() {
+async function periodLate(isPartner) {
   notification.cancel(PERIOD_LATE);
   const nextPeriodDate = c.nextPeriodDate();
   if (nextPeriodDate === '') return;
@@ -121,23 +121,22 @@ async function periodLate() {
   date.setHours(10);
   date.setMinutes(0);
   if (moment(date).isBefore(moment())) return;
-  notification.scheduled(
-    PERIOD_LATE,
-    date,
-    'بیشتر از 10 روز از زمانی که انتظار داشتیم پریود بشی گذشته.هنوز تاریخ جدید وارد نکردی؟',
-  );
+  const message = isPartner
+    ? 'بیشتر از ۱۰ روز از زمانی که انتظار داشتیم همسر شما پریود بشه گذشته. '
+    : 'بیشتر از ۱۰ روز از زمانی که انتظار داشتیم پریود بشی گذشته. هنوز تاریخ جدید وارد نکردی؟';
+  notification.scheduled(PERIOD_LATE, date, message);
 }
 
-async function userAppChecking() {
+async function userAppChecking(isPartner) {
   notification.cancel(CHECK_THE_APP);
   const date = moment().add(90, 'days').toDate();
   date.setHours(10);
   date.setMinutes(0);
-  notification.scheduled(
-    CHECK_THE_APP,
-    date,
-    'چندوقتی هست که حال و احوالت رو ثبت نکردی! دلمون برات تنگ شده.',
-  );
+  if (moment(date).isBefore(moment())) return;
+  const message = isPartner
+    ? 'برای یک زندگی زناشویی گرم‌تر، مقالات زناشویی پرتو را بخوانید.'
+    : 'چندوقتی هست که حال و احوالت رو ثبت نکردی! دلمون برات تنگ شده.';
+  notification.scheduled(CHECK_THE_APP, date, message);
 }
 
 function getReminderDateTime(targetDate, time, daysAgo) {

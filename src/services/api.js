@@ -22,7 +22,7 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
     console.log(`{${url}} result`, res);
     if (res.status === 200) {
       return res;
-    }
+    } else return res.status;
   } catch (err) {
     console.error(url, err);
     // console.error(err.response, '--------', err.response.data.message);
@@ -33,8 +33,14 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
       (err.response.status === 500 ||
         err.response.status === 502 ||
         (err.response.data && !err.response.data.message))
-    )
-      return;
-    else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
+    ) {
+      ToastAndroid.show(
+        'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
+        ToastAndroid.SHORT,
+      );
+    } else {
+      ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
+    }
+    return false;
   }
 };

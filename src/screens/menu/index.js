@@ -3,7 +3,7 @@ import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import DeviceInfo from 'react-native-device-info';
-
+import NetInfo from '@react-native-community/netinfo';
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
@@ -61,8 +61,8 @@ const Menu = ({ navigation }) => {
     });
   };
   const exit = async () => {
-    await sync(true);
-    dispatch(signOut());
+    const res = await sync(true);
+    if (res) dispatch(signOut());
   };
   return (
     <ScrollView style={styles.container}>
@@ -305,7 +305,7 @@ const Menu = ({ navigation }) => {
           signOutToggle();
           setIsLoading(false);
         }}
-        secondBtnPress={toggle}
+        secondBtnPress={signOutToggle}
       />
     </ScrollView>
   );

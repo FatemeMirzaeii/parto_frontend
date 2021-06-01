@@ -2,7 +2,7 @@ import * as actions from './types';
 import CycleModule from '../../util/cycle';
 import { FORMAT } from '../../constants/cycle';
 import { COLOR } from '../../styles/static';
-import { calendarMarkedDatesObject } from '../../util/func';
+import { calendarMarkedDatesObject, correct2farvardin } from '../../util/func';
 import { getUserStatus } from '../../util/database/query';
 
 export const fetchInitialCycleData = () => async (dispatch, getState) => {
@@ -16,14 +16,15 @@ export const fetchInitialCycleData = () => async (dispatch, getState) => {
       ? []
       : c.perdictedOvulationDaysInCurrentYear();
   const periodPerdictions = c.perdictedPeriodDaysInCurrentYear();
-  let periodDays = [];
+  let corrected = [];
   if (past) {
-    periodDays = past.map((day) => day.date.format(FORMAT));
+    const periodDays = past.map((day) => day.date.format(FORMAT));
+    corrected = correct2farvardin(periodDays);
   }
   dispatch({
     type: actions.INITIAL_CYCLE_DATA,
     payload: {
-      periodDays: makeMarkedDateObj(periodDays, COLOR.bleeding, false),
+      periodDays: makeMarkedDateObj(corrected, COLOR.bleeding, false),
       periodPerdictions: makeMarkedDateObj(
         periodPerdictions,
         COLOR.periodPerdiction,

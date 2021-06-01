@@ -12,18 +12,23 @@ import {
   Animated,
 } from 'react-native';
 import axios from 'axios';
-import { Icon, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import { Rating } from 'react-native-ratings';
 import Modal from 'react-native-modal';
 //import { getUniqueId, getManufacturer } from 'react-native-device-info';
 import DeviceInfo from 'react-native-device-info';
-import { COLOR, FONT, HEIGHT } from '../../styles/static';
-import styles from './styles';
-import HeartShape from '../../../assets/images/heartShape.png';
 import neg from './neg';
 import pos from './pos';
 import md5 from 'md5';
+
+// components
+import BackButton from '../../components/BackButton';
+
+// styles and assets
+import { COLOR, FONT, HEIGHT } from '../../styles/static';
+import styles from './styles';
+import HeartShape from '../../../assets/images/heartShape.png';
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
@@ -45,16 +50,7 @@ const Ratings = ({ navigation }) => {
     navigation.setOptions({
       title: 'امتیازدهی به پرتو',
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          reverse
-          size={15}
-          name="arrow-right"
-          type="font-awesome"
-          color={COLOR.btn}
-          onPress={() => navigation.pop()}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 
