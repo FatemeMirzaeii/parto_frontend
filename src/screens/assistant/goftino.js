@@ -36,5 +36,28 @@ window.addEventListener('goftino_openWidget', function () {
 window.addEventListener('goftino_closeWidget', function () {
     window.ReactNativeWebView.postMessage('goftino_close');
 });
+window.addEventListener('goftino_sendMessage', function (d) {
+
+  var message_type = d.detail.type;
+  // "text" , "file" , "voice" , "startForm" , "delayForm" , "offlineForm"
+   
+  var message_content = d.detail.content;
+  // If message_type is text,file,voice :
+  // "hi, I have question..."
+
+  // If message_type is form :
+  // [
+  //    { label : "label1", value : "value1" },
+  //    ...
+  // ]
+});
+window.addEventListener('goftino_getMessage', function (d) {
+
+  var message_type = d.detail.type;
+  // "text" , "file" , "voice"
+   
+  var message_content = d.detail.content;
+  // "hi, thanks for joining chat..."
+});
 true; // note: this is required, or you'll sometimes get silent failures
 `;
