@@ -53,7 +53,7 @@ const Assistant = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <Card>
-        {categories.map((category) => {
+        {categories.map((category, i) => {
           return (
             <ListItem
               key={category.title}
@@ -61,7 +61,7 @@ const Assistant = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate('Chat', { uri: category.uri });
               }}
-              bottomDivider
+              bottomDivider={categories.length - 1 !== i}
               leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
               titleStyle={globalStyles.listItemTitle}
               containerStyle={globalStyles.listItem}
