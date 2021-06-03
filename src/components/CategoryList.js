@@ -134,7 +134,10 @@ const CategoryList = (props) => {
   return (
     <>
       {isLoading ? (
-        <Loader leftTxt={treatise ? false : true} />
+        treatise ? null : (
+          <Loader leftTxt={true} />
+          //  اگر tratise رو دید و لودرش رو بدون اون خط مشاهده همه نشون داد حالا بیا لودر بک  گراند رو نشون بده
+        )
       ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
