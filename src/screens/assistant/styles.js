@@ -10,6 +10,7 @@ export default StyleSheet.create({
     marginTop: hasEnaughCredit ? 0 : -100,
     flex: hasEnaughCredit ? 0 : 1,
     height: hasEnaughCredit ? 0 : 10,
+    zIndex: 2000000005,
   }),
   newQuestion: { flex: 1, backgroundColor: '#ffc9dc' },
   text: { fontFamily: FONT.regular },

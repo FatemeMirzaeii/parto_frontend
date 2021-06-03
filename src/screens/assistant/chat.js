@@ -6,6 +6,7 @@ import { WebView } from 'react-native-webview';
 // components and utils
 import Loader from '../../components/Loader';
 import api from '../../services/api';
+import { goftino } from './goftino';
 
 //styles
 import styles from './styles';
@@ -13,17 +14,30 @@ import styles from './styles';
 const Chat = ({ navigation, route }) => {
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const js = `
-      window.addEventListener("goftino_ready", function () {
-        window.ReactNativeWebView.postMessage('ready')
-        });
-      true; // note: this is required, or you'll sometimes get silent failures
-    `;
 
+  const onMessage = (event) => {
+    switch (event.nativeEvent.data) {
+      case 'goftino_ready':
+        break;
+      case 'goftino_open':
+        setIsLoading(false);
+        break;
+      case 'goftino_close':
+        setIsLoading(true); // todo: should find a better way for this
+        break;
+      // case value:
+      //   break;
+
+      default:
+        alert(event.nativeEvent.data);
+        break;
+    }
+  };
   const checkCredit = () => {
-    //calling api to get credit
-    const credit = 0;
+    //calling api to get credit and service price.
+    const credit = 20;
     if (credit > 0) {
+      // if credit>=service price
       setHasEnaughCredit(true);
       // reduce credit.
     }
@@ -31,20 +45,18 @@ const Chat = ({ navigation, route }) => {
   return (
     <KeyboardAvoidingView style={styles.container}>
       <WebView
-        // containerStyle={{ flex: 12 }}
-        source={{ uri: route.params.uri }}
-        javaScriptEnabled={true}
-        domStorageEnabled={true}
-        onMessage={(event) => {
-          if (event.nativeEvent.data === 'ready') setIsLoading(false);
-        }}
-        injectedJavaScript={js}
+        containerStyle={{ flex: 12 }}
+        source={{ uri: 'https://test.parto.app' }}
+        javaScriptEnabled
+        domStorageEnabled
+        onMessage={onMessage}
+        injectedJavaScript={goftino}
         startInLoadingState
         renderLoading={() => {
           return <Loader />;
         }}
       />
-      {/* {isLoading ? null : (
+      {isLoading ? null : (
         <Button
           containerStyle={styles.newQuestionCont(hasEnaughCredit)}
           buttonStyle={styles.newQuestion}
@@ -54,7 +66,7 @@ const Chat = ({ navigation, route }) => {
             checkCredit();
           }}
         />
-      )} */}
+      )}
     </KeyboardAvoidingView>
   );
 };
