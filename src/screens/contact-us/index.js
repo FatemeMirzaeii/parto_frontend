@@ -1,6 +1,11 @@
 import React, { useLayoutEffect } from 'react';
 import { View, Image, Linking } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
+
+// components
+import BackButton from '../../components/BackButton';
+
+// styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 
@@ -12,16 +17,7 @@ const ContactUs = ({ navigation }) => {
         elevation: 0,
       },
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 

@@ -7,12 +7,12 @@ import {
   Linking,
   ImageBackground,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 
 //components
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/CatListLoader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
+import BackButton from '../../components/BackButton';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -27,7 +27,6 @@ import heyzImg from '../../../assets/images/treatise/heyz.png';
 import nefasImg from '../../../assets/images/treatise/nefas.png';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const Treatise = ({ navigation }) => {
@@ -50,16 +49,7 @@ const Treatise = ({ navigation }) => {
           smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
         />
       ),
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={styles.icon}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 

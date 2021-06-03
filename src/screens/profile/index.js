@@ -3,15 +3,18 @@ import { SafeAreaView, ScrollView } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Button, Icon } from 'react-native-elements';
 
-// components and utils
+// components
 import PickerListItem from '../../components/PickerListItem';
 import Card from '../../components/Card';
+import BackButton from '../../components/BackButton';
 import UserAvatar from './UserAvatar';
+import DialogBox from '../../components/DialogBox';
+
+// utils
 import {
   getProfileData,
   saveProfileHealthData,
 } from '../../util/database/query';
-import DialogBox from '../../components/DialogBox';
 import useModal from '../../util/hooks/useModal';
 import api from '../../services/api';
 import { signOut } from '../../store/actions/auth';
@@ -38,16 +41,7 @@ const Profile = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'حساب کاربری',
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
       headerLeft: () => {
         return (
           user.template !== 'Partner' && (
