@@ -1,5 +1,5 @@
 import jalaali from 'moment-jalaali';
-import React, { useRef, useState } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
   ImageBackground,
   Text,
@@ -31,6 +31,29 @@ import { setBleedingDays } from '../../util/database/query';
 import { calendarMarkedDatesObject } from '../../util/func';
 import useModal from '../../util/hooks/useModal';
 import Tour from '../../util/tourGuide/Tour';
+import {
+  addTrackingOption,
+  deselectTrackingOption,
+  getTrackingOptionData,
+  replaceTrackingOption,
+} from '../../util/database/query';
+import {
+  BLEEDING,
+  EXCERSICE,
+  SPOTTING,
+  VAGINAL,
+  PAIN,
+  MOOD,
+  SLEEP,
+  SEX,
+  MORE_ABOUT_VAGINAL,
+  MORE_ABOUT_BLEEDING,
+  MORE_ABOUT_PAIN,
+  MORE_ABOUT_MOOD,
+  MORE_ABOUT_SLEEP,
+  MORE_ABOUT_EXCERSICE,
+  MORE_ABOUT_SEX,
+} from '../../constants/health-tracking-info';
 
 //styles
 import { COLOR, FONT } from '../../styles/static';
@@ -49,6 +72,8 @@ const Calendar = ({ navigation }) => {
   const bottomSheetRef = useRef(null);
   const { isVisible, toggle } = useModal();
   const noteState = useSelector((state) => state.user.note);
+  const [trackedOptions, setTrackedOptions] = useState([]);
+
   const [arrofNotes, setArrofNotes] = useState([]);
   const infoArray =
     template !== 'Teenager'
@@ -63,6 +88,28 @@ const Calendar = ({ navigation }) => {
         ];
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
+
+  const getInitialData = useCallback(async () => {
+    const td = await getTrackingOptionData(selectedDate);
+    const temp = td && td.options.filter((item) => item.selected.length > 0);
+    setTrackedOptions(temp);
+    // await deselectTrackingOption(option.id, date);
+    console.log('td*********', td);
+    console.log('temp*********', temp);
+  }, [selectedDate]);
+
+  useEffect(() => {
+    getInitialData();
+  }, [getInitialData]);
+
+  useEffect(() => {
+    const noteOfDay = Object.keys(noteState).filter(
+      (key) => noteState[key].day === selectedDate,
+      console.log('day'),
+    );
+    setArrofNotes(noteOfDay);
+    console.log('day.noteOfDay*********', noteOfDay);
+  }, [selectedDate, noteState]);
 
   const onDayPress = (day) => {
     if (editMode) {
@@ -169,7 +216,9 @@ const Calendar = ({ navigation }) => {
         color={COLOR.pink}
         onPress={() =>
           jalaali(selectedDate).isBefore(today)
-            ? navigation.navigate('TrackingOptions', { day: selectedDate })
+            ? navigation.navigate('TrackingOptions', {
+                day: selectedDate,
+              })
             : ToastAndroid.show(
                 'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
                 ToastAndroid.LONG,
@@ -182,7 +231,12 @@ const Calendar = ({ navigation }) => {
         name="new-message"
         type="entypo"
         color={COLOR.pink}
-        onPress={() => navigation.navigate('Note', { day: selectedDate })}
+        onPress={() =>
+          navigation.navigate('Note', {
+            day: selectedDate,
+            indexOf: arrofNotes,
+          })
+        }
       />
       <Text
         style={{
@@ -209,7 +263,7 @@ const Calendar = ({ navigation }) => {
       })}
     </View>
   );
-
+  console.log('noteState,  ', noteState);
   return (
     <ImageBackground
       source={
