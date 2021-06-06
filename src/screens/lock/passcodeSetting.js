@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, Text, ToastAndroid, View, Keyboard } from 'react-native';
 import { Icon, Button } from 'react-native-elements';
 import {
@@ -13,7 +13,7 @@ import * as Keychain from 'react-native-keychain';
 import { useSelector, useDispatch } from 'react-redux';
 
 //store
-import { handleLockType } from '../../store/actions/user';
+import { handleLockType, handlePasscode } from '../../store/actions/user';
 
 //components
 import Card from '../../components/Card';
@@ -21,11 +21,14 @@ import Card from '../../components/Card';
 //styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
+import lock from '../../util/lock';
 
 const PasscodeSetting = ({ navigation }) => {
   const lockType = useSelector((state) => state.user.lockType);
-  const dispatch = useDispatch();
+  const passcode = useSelector((state) => state.user.passcode);
+  const [isVisible, setIsVisible] = useState(false);
   const [value, setValue] = useState('');
+  const dispatch = useDispatch();
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -52,6 +55,12 @@ const PasscodeSetting = ({ navigation }) => {
     });
   }, [navigation]);
 
+  useEffect(() => {
+    // if (lockType === 'Passcode') return;
+    console.log('pass*********', passcode);
+    if (lockType === 'Fingerprint') lock(false);
+  }, [lockType, passcode]);
+
   const _handleSelectedPass = async () => {
     if (value.length === 4) {
       await Keychain.resetGenericPassword();
@@ -59,8 +68,11 @@ const PasscodeSetting = ({ navigation }) => {
       try {
         // Retrieve the credentials
         const credential = await Keychain.getGenericPassword();
+        console.log('crede', credential);
         if (credential) {
           console.log('Credentials successfully loaded for user ');
+          // dispatch(handlePasscode(credential.password));
+          dispatch(handlePasscode('1234'));
           ToastAndroid.show(
             lockType === 'Passcode'
               ? 'کد ورود با موفقیت تغییر کرد.'
@@ -69,6 +81,8 @@ const PasscodeSetting = ({ navigation }) => {
             ToastAndroid.LONG,
           );
           dispatch(handleLockType('Passcode'));
+          // dispatch(handlePasscode(credential.password));
+          console.log('crede', credential.password);
           navigation.pop();
         } else {
           console.log('No credentials stored');
@@ -83,6 +97,17 @@ const PasscodeSetting = ({ navigation }) => {
       );
   };
 
+  const _handleBtnPress = () => {
+    if (lockType === 'Passcode') {
+      if (passcode === value) setIsVisible(true);
+      else
+        ToastAndroid.show(
+          'کد ورود اشتباه است، برای تغییر کد ورود ابتدا باید کد ورود خود را به درستی وارد کنید.',
+          ToastAndroid.LONG,
+        );
+    } else _handleSelectedPass();
+  };
+  console.log('pass', passcode);
   return (
     <SafeAreaView style={styles.container}>
       <Card
@@ -91,7 +116,12 @@ const PasscodeSetting = ({ navigation }) => {
           lockType === 'Passcode' ? 'تغییر کد ورود' : 'انتخاب کد ورود'
         }>
         <View style={styles.field}>
-          <Text style={styles.title}>کد ورود چهاررقمی برای ورود به پرتو:</Text>
+          {/* <Text style={styles.title}>کد ورود چهاررقمی برای ورود به پرتو:</Text> */}
+          <Text style={styles.title}>
+            {lockType === 'Passcode'
+              ? 'لطفا کد ورود خود را وارد کنید:'
+              : 'کد ورود چهاررقمی برای ورود به پرتو:'}
+          </Text>
           <CodeField
             ref={ref}
             {...props}
@@ -116,14 +146,53 @@ const PasscodeSetting = ({ navigation }) => {
             )}
           />
           <Button
-            title="ذخیره"
+            title={lockType === 'Passcode' ? 'ادامه' : 'ذخیره'}
             containerStyle={styles.btnContainer}
             buttonStyle={styles.button}
             titleStyle={styles.btnTitle}
-            onPress={_handleSelectedPass}
+            onPress={_handleBtnPress}
           />
         </View>
       </Card>
+      {isVisible && (
+        <Card hasHeader headerTitle="تغییر کد ورود">
+          <View style={styles.field}>
+            <Text style={styles.title}>
+              کد ورود چهاررقمی برای ورود به پرتو:
+            </Text>
+            <CodeField
+              ref={ref}
+              {...props}
+              value={value}
+              autoFocus
+              onChangeText={(text) => {
+                setValue(text);
+                if (value.length === 4) {
+                  Keyboard.dismiss();
+                }
+              }}
+              rootStyle={styles.codeFieldRoot}
+              keyboardType="number-pad"
+              textContentType="oneTimeCode"
+              renderCell={({ index, symbol, isFocused }) => (
+                <Text
+                  key={index}
+                  style={[styles.cell, isFocused && styles.focusCell]}
+                  onLayout={getCellOnLayoutHandler(index)}>
+                  {symbol || (isFocused ? <Cursor /> : null)}
+                </Text>
+              )}
+            />
+            <Button
+              title="ذخیره"
+              containerStyle={styles.btnContainer}
+              buttonStyle={styles.button}
+              titleStyle={styles.btnTitle}
+              onPress={_handleSelectedPass}
+            />
+          </View>
+        </Card>
+      )}
     </SafeAreaView>
   );
 };

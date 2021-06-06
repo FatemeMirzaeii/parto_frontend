@@ -65,7 +65,7 @@ const App: () => React$Node = () => {
     });
     store.dispatch(fetchInitialCycleData());
     SplashScreen.hide();
-  }, [store]);
+  };
 
   const _handleAppStateChange = useCallback(
     async (nextAppState) => {
