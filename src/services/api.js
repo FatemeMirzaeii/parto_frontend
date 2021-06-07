@@ -15,6 +15,7 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
     method: method.toUpperCase(),
     credentials: 'include',
     headers: headers,
+    timeout: 1000,
   };
   if (data) config.data = data;
   try {

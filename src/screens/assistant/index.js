@@ -1,17 +1,13 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from 'react';
-import { View, Text, SafeAreaView } from 'react-native';
-import { ListItem, Icon } from 'react-native-elements';
+import React, { useLayoutEffect } from 'react';
+import { SafeAreaView } from 'react-native';
+import { ListItem } from 'react-native-elements';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 
 //components
 import Card from '../../components/Card';
+import BackButton from '../../components/BackButton';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -22,31 +18,22 @@ const Assistant = ({ navigation }) => {
   const categories = [
     {
       title: 'مامایی',
-      uri: 'https://test.parto.app/chat/nutrition',
+      uri: 'https://test.parto.app/chat/midwifery-dummy',
     },
     {
       title: 'احکام',
-      uri: 'https://test.parto.app/chat/nutrition',
+      uri: 'https://test.parto.app/chat/dummy',
     },
     {
       title: 'تغذیه',
-      uri: 'https://test.parto.app/chat/nutrition',
+      uri: 'https://test.parto.app/chat/nutrition-dummy',
     },
   ];
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'دستیار',
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.listItemTxt}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 
