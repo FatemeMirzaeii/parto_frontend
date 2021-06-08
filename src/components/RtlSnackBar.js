@@ -1,18 +1,23 @@
 import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 import { Snackbar } from 'react-native-paper';
-import { COLOR, WIDTH } from '../styles/static';
+import { COLOR, FONT, WIDTH } from '../styles/static';
 
 const RtlSnackBar = (props) => {
   return (
     <Snackbar
       visible={props.visible}
       onDismiss={props.onDismiss}
+      duration={Snackbar.DURATION_SHORT}
       action={{
         label: 'باشه',
         onPress: () => {
           // Do something
         },
+      }}
+      theme={{
+        colors: { accent: 'red' },
+        fonts: { regular: { fontFamily: FONT.regular } },
       }}
       style={styles.container}>
       <View style={styles.messageContainer}>
@@ -27,6 +32,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row-reverse',
   },
   messageContainer: { width: WIDTH / 1.4 },
-  message: { color: COLOR.white },
+  message: { color: COLOR.white, fontFamily: FONT.regular },
 });
 export default RtlSnackBar;
