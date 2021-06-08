@@ -12,7 +12,7 @@ import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 //components
-import Loader from './CatListLoader';
+import Loader from './Loader';
 
 //services
 import { authCode } from '../services/authCode';
@@ -134,10 +134,9 @@ const CategoryList = (props) => {
   return (
     <>
       {isLoading ? (
-        treatise ? null : (
-          <Loader leftTxt={true} />
-          //  اگر tratise رو دید و لودرش رو بدون اون خط مشاهده همه نشون داد حالا بیا لودر بک  گراند رو نشون بده
-        )
+        treatise ? (
+          <Loader type="treatiseLoader" />
+        ) : null
       ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
