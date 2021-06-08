@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
+import ContentLoader, { Rect } from 'react-content-loader/native';
 import {
   FlatList,
   SafeAreaView,
@@ -8,10 +9,11 @@ import {
   ImageBackground,
 } from 'react-native';
 import { Icon } from 'react-native-elements';
+import PropTypes from 'prop-types';
 
 //components
 import CategoryList from '../../components/CategoryList';
-import Loader from '../../components/CatListLoader';
+import Loader from '../../components/Loader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
 
 //services
@@ -95,11 +97,12 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   Tour(appTourTargets, 'goCalls', 'TreatiseTour');
-
   return (
     <>
       {isLoading ? (
-        counter.map((item) => <Loader key={item.toString()}>{item}</Loader>)
+        counter.map((item) => (
+          <Loader key={item.toString()} type="bgtreatiseLoader" />
+        ))
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList
