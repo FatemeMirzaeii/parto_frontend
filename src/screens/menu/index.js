@@ -1,22 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ScrollView,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import { ScrollView, TouchableOpacity, View, Text } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
-import { Snackbar } from 'react-native-paper';
 
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
 import Card from '../../components/Card';
 import DialogBox from '../../components/DialogBox';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 // utils and store
 import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
@@ -69,10 +63,6 @@ const Menu = ({ navigation }) => {
       })
       .catch((error) => {
         setVisible(true);
-        // ToastAndroid.show(
-        //   'قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند.',
-        //   ToastAndroid.LONG,
-        // );
       });
   };
   const share = () => {
@@ -103,99 +93,106 @@ const Menu = ({ navigation }) => {
     if (res) dispatch(signOut());
   };
   return (
-    <ScrollView style={styles.container}>
-      <UserProfile onPress={() => navigateTo('Profile')} />
-      {template !== 'Teenager' && (
-        <Card>
-          <UserGoal navigation={navigation} />
-        </Card>
-      )}
-      {template !== 'Partner' && (
-        <View style={styles.containerBtnItems}>
-          {template === 'Main' && (
+    <>
+      <ScrollView style={styles.container}>
+        <UserProfile onPress={() => navigateTo('Profile')} />
+        {template !== 'Teenager' && (
+          <Card>
+            <UserGoal navigation={navigation} />
+          </Card>
+        )}
+        {template !== 'Partner' && (
+          <View style={styles.containerBtnItems}>
+            {template === 'Main' && (
+              <Card>
+                <TouchableOpacity
+                  onPress={() => navigateTo('PartnerVerificationCode')}>
+                  <View style={styles.BtnItem}>
+                    <Icon type="parto" name="man" color={COLOR.icon} />
+                    <Text
+                      style={[
+                        globalStyles.listItemTitle,
+                        { textAlign: 'center' },
+                      ]}>
+                      کد همسر
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              </Card>
+            )}
             <Card>
-              <TouchableOpacity
-                onPress={() => navigateTo('PartnerVerificationCode')}>
+              <TouchableOpacity onPress={() => navigateTo('Treatise')}>
                 <View style={styles.BtnItem}>
-                  <Icon type="parto" name="man" color={COLOR.icon} />
+                  <Icon type="parto" name="ahkam" color={COLOR.icon} />
                   <Text
                     style={[
                       globalStyles.listItemTitle,
                       { textAlign: 'center' },
                     ]}>
-                    کد همسر
+                    احکام
                   </Text>
                 </View>
               </TouchableOpacity>
             </Card>
-          )}
+            <Card>
+              <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
+                <View style={styles.BtnItem}>
+                  <Icon type="parto" name="settings" color={COLOR.icon} />
+                  <Text
+                    style={[
+                      globalStyles.listItemTitle,
+                      { textAlign: 'center' },
+                    ]}>
+                    تنظیمات دوره‌ها
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </Card>
+          </View>
+        )}
+        {template === 'Partner' && (
           <Card>
-            <TouchableOpacity onPress={() => navigateTo('Treatise')}>
-              <View style={styles.BtnItem}>
-                <Icon type="parto" name="ahkam" color={COLOR.icon} />
-                <Text
-                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
-                  احکام
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <ListItem
+              title="احکام"
+              leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.icon }}
+              chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
+              onPress={() => navigateTo('Treatise')}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
+            />
           </Card>
-          <Card>
-            <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
-              <View style={styles.BtnItem}>
-                <Icon type="parto" name="settings" color={COLOR.icon} />
-                <Text
-                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
-                  تنظیمات دوره‌ها
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Card>
-        </View>
-      )}
-      {template === 'Partner' && (
+        )}
         <Card>
           <ListItem
-            title="احکام"
-            leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.icon }}
-            chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
-            onPress={() => navigateTo('Treatise')}
+            title="یادآوری‌ها"
+            leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+            bottomDivider
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+            onPress={() => navigateTo('Reminders')}
             titleStyle={globalStyles.listItemTitle}
             containerStyle={globalStyles.listItem}
             contentContainerStyle={globalStyles.listItemContentContainer}
           />
-        </Card>
-      )}
-      <Card>
-        <ListItem
-          title="یادآوری‌ها"
-          leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
-          bottomDivider
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
-          onPress={() => navigateTo('Reminders')}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
-        />
-        <ListItem
-          title="قفل نرم افزار"
-          leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
-          switch={{
-            value: isLock,
-            onValueChange: lock,
-            trackColor: { true: COLOR.lightPink, false: '#aaa' },
-            thumbColor: isLock ? COLOR.pink : '#f4f3f4',
-          }}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
-        />
-        {/* <ListItem
+          <ListItem
+            title="قفل نرم افزار"
+            leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
+            switch={{
+              value: isLock,
+              onValueChange: lock,
+              trackColor: { true: COLOR.lightPink, false: '#aaa' },
+              thumbColor: isLock ? COLOR.pink : '#f4f3f4',
+            }}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
+          />
+          {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon ,size: 10,}}
@@ -204,7 +201,7 @@ const Menu = ({ navigation }) => {
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
-        {/* <ListItem
+          {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
           chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
@@ -213,9 +210,9 @@ const Menu = ({ navigation }) => {
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
-      </Card>
-      <Card>
-        {/* <ListItem
+        </Card>
+        <Card>
+          {/* <ListItem
           title="نظرسنجی"
           leftIcon={{ name: 'dashboard', color: COLOR.icon }}
           bottomDivider
@@ -225,136 +222,131 @@ const Menu = ({ navigation }) => {
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
-        <ListItem
-          title="معرفی به دوستان"
-          leftIcon={{
-            type: 'parto',
-            name: 'tell-a-friend',
-            color: COLOR.icon,
-          }}
-          bottomDivider
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
-          onPress={share}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
-        />
-        <ListItem
-          title="ارتباط با پرتو"
-          leftIcon={{ type: 'parto', name: 'contact-us', color: COLOR.icon }}
-          bottomDivider
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
-          onPress={() => navigateTo('ContactUs')}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
-        />
-        <ListItem
-          title="درباره‌ی پرتو"
-          leftIcon={{ type: 'parto', name: 'info', color: COLOR.icon }}
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
-          onPress={() => navigateTo('AboutUs')}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
-          bottomDivider
-        />
-        {template !== 'Partner' && (
           <ListItem
-            title="پاک کردن داده‌ها"
+            title="معرفی به دوستان"
             leftIcon={{
               type: 'parto',
-              name: 'trash',
+              name: 'tell-a-friend',
               color: COLOR.icon,
             }}
+            bottomDivider
             chevron={{
               type: 'parto',
               name: 'back-arrow',
               color: COLOR.icon,
               size: 10,
             }}
-            onPress={toggle}
+            onPress={share}
             titleStyle={globalStyles.listItemTitle}
             containerStyle={globalStyles.listItem}
             contentContainerStyle={globalStyles.listItemContentContainer}
-            bottomDivider={!(isLoggedIn === 'dummyToken')}
           />
-        )}
-        {!(isLoggedIn === 'dummyToken') && (
           <ListItem
-            title="خروج"
-            leftIcon={{ type: 'parto', name: 'exit', color: COLOR.icon }}
+            title="ارتباط با پرتو"
+            leftIcon={{ type: 'parto', name: 'contact-us', color: COLOR.icon }}
+            bottomDivider
             chevron={{
               type: 'parto',
               name: 'back-arrow',
               color: COLOR.icon,
               size: 10,
             }}
-            onPress={signOutToggle}
+            onPress={() => navigateTo('ContactUs')}
             titleStyle={globalStyles.listItemTitle}
             containerStyle={globalStyles.listItem}
             contentContainerStyle={globalStyles.listItemContentContainer}
           />
-        )}
-      </Card>
-      <DialogBox
-        isVisible={isVisible}
-        isLoading={isLoading}
-        hide={toggle}
-        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
-        text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
-        twoButtons
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          await resetDatabase();
-          dispatch(fetchInitialCycleData());
-          toggle();
-          setIsLoading(false);
-        }}
-        secondBtnPress={toggle}
-      />
-      <DialogBox
-        isVisible={signOutVisible}
-        isLoading={isLoading}
-        hide={signOutToggle}
-        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
-        text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
-        twoButtons
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          await exit();
-          signOutToggle();
-          setIsLoading(false);
-        }}
-        secondBtnPress={signOutToggle}
-      />
-      <Snackbar
+          <ListItem
+            title="درباره‌ی پرتو"
+            leftIcon={{ type: 'parto', name: 'info', color: COLOR.icon }}
+            chevron={{
+              type: 'parto',
+              name: 'back-arrow',
+              color: COLOR.icon,
+              size: 10,
+            }}
+            onPress={() => navigateTo('AboutUs')}
+            titleStyle={globalStyles.listItemTitle}
+            containerStyle={globalStyles.listItem}
+            contentContainerStyle={globalStyles.listItemContentContainer}
+            bottomDivider
+          />
+          {template !== 'Partner' && (
+            <ListItem
+              title="پاک کردن داده‌ها"
+              leftIcon={{
+                type: 'parto',
+                name: 'trash',
+                color: COLOR.icon,
+              }}
+              chevron={{
+                type: 'parto',
+                name: 'back-arrow',
+                color: COLOR.icon,
+                size: 10,
+              }}
+              onPress={toggle}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
+              bottomDivider={!(isLoggedIn === 'dummyToken')}
+            />
+          )}
+          {!(isLoggedIn === 'dummyToken') && (
+            <ListItem
+              title="خروج"
+              leftIcon={{ type: 'parto', name: 'exit', color: COLOR.icon }}
+              chevron={{
+                type: 'parto',
+                name: 'back-arrow',
+                color: COLOR.icon,
+                size: 10,
+              }}
+              onPress={signOutToggle}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
+            />
+          )}
+        </Card>
+        <DialogBox
+          isVisible={isVisible}
+          isLoading={isLoading}
+          hide={toggle}
+          icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
+          text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
+          twoButtons
+          firstBtnPress={async () => {
+            setIsLoading(true);
+            await resetDatabase();
+            dispatch(fetchInitialCycleData());
+            toggle();
+            setIsLoading(false);
+          }}
+          secondBtnPress={toggle}
+        />
+        <DialogBox
+          isVisible={signOutVisible}
+          isLoading={isLoading}
+          hide={signOutToggle}
+          icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
+          text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
+          twoButtons
+          firstBtnPress={async () => {
+            setIsLoading(true);
+            await exit();
+            signOutToggle();
+            setIsLoading(false);
+          }}
+          secondBtnPress={signOutToggle}
+        />
+      </ScrollView>
+      <RtlSnackBar
         visible={visible}
-        // onDismiss={onDismissSnackBar}
-        action={{
-          // label: 'Undo',
-          onPress: () => {
-            // Do something
-          },
-        }}>
-        Hey there! I'm a Snackbar.
-      </Snackbar>
-    </ScrollView>
+        message="قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند."
+        onDismiss={() => setVisible(false)}
+      />
+    </>
   );
 };
 export default Menu;
