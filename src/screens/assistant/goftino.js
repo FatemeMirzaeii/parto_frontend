@@ -4,7 +4,7 @@ export const goftino = `
     d = document;
   function g() {
     var g = d.createElement('script'),
-      i = 'BbNXwx',
+      i = 'ftPW4s',
       s = 'https://www.goftino.com/widget/' + i,
       l = localStorage.getItem('goftino_' + i);
     (g.type = 'text/javascript'),
