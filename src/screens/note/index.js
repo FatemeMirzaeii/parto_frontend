@@ -1,9 +1,15 @@
-import React, { useEffect, useState, useLayoutEffect, useRef } from 'react';
-import { SafeAreaView, View, TextInput, Text, FlatList } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
-import { useSelector, useDispatch } from 'react-redux';
-import { setNote } from '../../store/actions/user';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
+import { SafeAreaView, View, Text, FlatList, ToastAndroid } from 'react-native';
+import { Icon } from 'react-native-elements';
+import { FAB } from 'react-native-paper';
+import Clipboard from '@react-native-clipboard/clipboard';
 import jalaali from 'moment-jalaali';
+
+//redux
+import { useSelector, useDispatch } from 'react-redux';
+
+//store
+import { setNote } from '../../store/actions/user';
 
 // components
 import Card from '../../components/Card';
@@ -13,12 +19,10 @@ import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const Note = ({ navigation, route }) => {
-  const { day, indexOf } = route.params;
-  const [text, setText] = useState('');
-  const [title, setTitle] = useState('');
+  const { day } = route.params;
+  const [notes, setNotes] = useState([]);
   const dispatch = useDispatch();
   const noteState = useSelector((state) => state.user.note);
-  const index = Object.keys(noteState).length;
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,52 +37,57 @@ const Note = ({ navigation, route }) => {
           containerStyle={{ right: 40 }}
         />
       ),
-      headerLeft: () => (
-        <Button
-          title="ثبت"
-          type="outline"
-          onPress={_save}
-          containerStyle={[styles.btnContainer, { width: 50, height: 30 }]}
-          buttonStyle={styles.button}
-          titleStyle={styles.btnTitle}
-          loadingStyle={{ color: COLOR.pink }}
-        />
-      ),
+      headerLeft: null,
     });
   });
 
+  useEffect(() => {
+    const getNotes = () => {
+      const temp = [];
+      const noteOfDay = Object.keys(noteState).filter(
+        (key) => noteState[key].day === day,
+        console.log('day'),
+      );
+      noteOfDay.map((item) => {
+        temp.push(noteState[item]);
+      });
+      setNotes(temp);
+      console.log('day.noteOfDay*********', noteOfDay);
+      return notes;
+    };
+    getNotes();
+  }, [noteState, day]);
 
-  const _save = () => {
-    dispatch(
-      setNote({
-        ...noteState,
-        [index]: {
-          id: index,
-          day: day,
-          title: title,
-          note: text,
-        },
-      }),
+  const _handleDelete = (item) => {
+    const t = [];
+    const keys = Object.keys(noteState).filter(
+      (key) => noteState[key].key !== item.key,
     );
-    navigation.pop();
-    // dispatch(
-    //   setNote({
-
-    //   }),
-    // );
+    keys.map((ele) => {
+      dispatch(
+        setNote({
+          [noteState[ele].key]: {
+            key: noteState[ele].key,
+            day: noteState[ele].day,
+            title: noteState[ele].title,
+            note: noteState[ele].note,
+          },
+        }),
+      );
+    });
   };
 
-  const _renderItems = (item) => {
+  const _renderItem = ({ item }) => {
     return (
       <Card>
         <View
           style={{
             flexDirection: 'row-reverse',
             justifyContent: 'space-between',
-            padding: 10,
+            // padding: 10,
           }}>
           <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.dayText}>{noteState[item].title}</Text>
+            <Text style={styles.dayText}>{item.title}</Text>
             <Icon
               containerStyle={{ marginLeft: 10 }}
               type="entypo"
@@ -90,68 +99,81 @@ const Note = ({ navigation, route }) => {
             {jalaali(day).format('jYYYY/jM/jD')}
           </Text>
         </View>
-        <Text style={styles.dayText}>{noteState[item].note}</Text>
-      </Card>
-    );
-  };
-  console.log('noteState', noteState);
-  return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <Card>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            {/* <Text style={styles.dayText}>عنوان</Text> */}
-            <TextInput
-              placeholder="عنوان"
-              selectionColor={COLOR.pink}
-              style={styles.dayText}
-              value={title}
-              onChangeText={setTitle}
-            />
-            <Icon
-              containerStyle={{ marginLeft: 10 }}
-              type="entypo"
-              name="new-message"
-              color={COLOR.icon}
-            />
-          </View>
-          <Text style={styles.dayText}>
-            {jalaali(day).format('jYYYY/jM/jD')}
-          </Text>
-        </View>
-        <TextInput
-          multiline
-          placeholder="یادداشت"
-          selectionColor={COLOR.pink}
+        <Text
           style={{
             backgroundColor: '#F3F4F9',
             height: 200,
             fontFamily: FONT.regular,
             fontSize: 14,
-          }}
-          value={text}
-          onChangeText={setText}
-        />
+          }}>
+          {item.note}
+        </Text>
+        <View
+          style={{
+            flexDirection: 'row-reverse',
+            justifyContent: 'space-between',
+            padding: 10,
+            //backgroundColor: 'red',
+          }}>
+          <Icon
+            containerStyle={{ marginLeft: 10 }}
+            type="parto"
+            name="trash"
+            color={COLOR.icon}
+            onPress={() => _handleDelete(item)}
+          />
+          <Icon
+            type="materialicons"
+            name="content-copy"
+            color={COLOR.icon}
+            onPress={() => {
+              Clipboard.setString(item.note);
+              ToastAndroid.show('متن یادداشت کپی شد.', ToastAndroid.LONG);
+            }}
+          />
+          <Icon
+            name="new-message"
+            type="entypo"
+            color={COLOR.icon}
+            onPress={() =>
+              navigation.navigate('NoteEdit', {
+                day: day,
+                note: item,
+              })
+            }
+          />
+        </View>
       </Card>
-      {indexOf.map((item, index) => {
-        return (
-          <Text
-            key={index.toString()}
-            style={{
-              textAlign: 'center',
-              fontFamily: FONT.medium,
-              fontSize: 12,
-              backgroundColor: 'pink',
-            }}>
-            {noteState[item].note}
-          </Text>
-        );
-      })}
+    );
+  };
+
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <FlatList
+        data={notes.reverse()}
+        renderItem={_renderItem}
+        keyExtractor={(item, index) => index.toString()}
+        ListEmptyComponent={() => {
+          return (
+            <Text style={styles.txt}>
+              یادداشتی برای روز {jalaali(day).format('jYYYY/jM/jD')} ثبت نشده
+              است.
+            </Text>
+          );
+        }}
+        showsVerticalScrollIndicator={false}
+      />
+      <FAB
+        style={styles.fab}
+        icon="plus"
+        color={COLOR.white}
+        onPress={() =>
+          navigation.navigate('NoteEdit', {
+            day: day,
+            note: null,
+          })
+        }
+      />
     </SafeAreaView>
   );
 };
