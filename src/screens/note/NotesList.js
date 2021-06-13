@@ -54,24 +54,26 @@ const NotesList = ({ navigation, route }) => {
     //   //     },
     //   //   });
     //   // });
-    
+
     // };
     // getData;
     // const entries = Object.entries(noteState);
 
     //console.log('entries############', entries);
-          const keys = Object.keys(noteState);
-      keys.map((ele) => {
-        setNotes({
-          [noteState[ele].key]: {
-            key: noteState[ele].key,
-            day: noteState[ele].day,
-            title: noteState[ele].title,
-            note: noteState[ele].note,
-          },
-        });
+    const keys = Object.keys(noteState);
+    const t = [];
+    keys.map((ele) => {
+      t.push({
+        [noteState[ele].key]: {
+          key: noteState[ele].key,
+          day: noteState[ele].day,
+          title: noteState[ele].title,
+          note: noteState[ele].note,
+        },
       });
-  }, []);
+    });
+    setNotes(t);
+  }, [notes]);
 
   const _handleDelete = (item) => {
     const keys = Object.keys(noteState).filter(
