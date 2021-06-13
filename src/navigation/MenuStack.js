@@ -15,6 +15,7 @@ import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 import Assistant from '../screens/assistant';
 import PartnerVerificationCode from '../screens/partner-verification-code';
+import Note from '../screens/note/NotesList';
 import { FONT } from '../styles/static';
 
 const MenuStack = createStackNavigator();
@@ -47,6 +48,7 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
       <MenuStack.Screen name="Assistant" component={Assistant} />
+      <MenuStack.Screen name="Note" component={Note} />
       <MenuStack.Screen
         name="PartnerVerificationCode"
         component={PartnerVerificationCode}
