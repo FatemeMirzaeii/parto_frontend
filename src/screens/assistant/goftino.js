@@ -20,14 +20,10 @@ export const goftino = `
 })();
 window.addEventListener('goftino_ready', function () {
   window.ReactNativeWebView.postMessage('goftino_ready');
-  //   Goftino.setWidget({
-  //     icon: false,
-  //     counter: '#unread_counter'
-  // });
-
-  // document.getElementById("new_widget_button").addEventListener("click", function () {
-  //     Goftino.toggle();
-  // });
+    Goftino.setWidget({
+      icon: false,
+      counter: '#unread_counter'
+  });
 });
 
 window.addEventListener('goftino_openWidget', function () {
