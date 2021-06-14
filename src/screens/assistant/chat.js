@@ -12,9 +12,11 @@ import BackButton from '../../components/BackButton';
 
 //styles
 import styles from './styles';
+import LocalScreen from './LocalScreen';
 
 const Chat = ({ navigation, route }) => {
   const [goftinoReady, setGoftinoReady] = useState(false);
+  const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(false);
@@ -39,9 +41,11 @@ const Chat = ({ navigation, route }) => {
         setGoftinoReady(true);
         break;
       case 'goftino_open':
+        setGoftinoOpen(true);
         setShowCreditBox(true); //todo: check if user has open question or not
         break;
       case 'goftino_close':
+        setGoftinoOpen(false);
         setShowCreditBox(false);
         break;
       // case value:
@@ -90,24 +94,11 @@ const Chat = ({ navigation, route }) => {
       },
     });
     if (!success) return false;
-    // console.log('remaining', credit.data.data.remaining);
     return true;
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
-      {httpError && (
-        <View
-          style={{
-            flex: 1,
-            backgroundColor: 'red',
-            width: '100%',
-            height: '100%',
-            position: 'absolute',
-            // zIndex: 10,
-          }}>
-          <Text>yohhhoooooooooo</Text>
-        </View>
-      )}
+      {httpError && <LocalScreen goftinoOpen={goftinoOpen} />}
       <WebView
         ref={ref}
         containerStyle={{ flex: 12 }}
@@ -152,7 +143,7 @@ const Chat = ({ navigation, route }) => {
       ) : null}
       {goftinoReady && (
         <Button
-          // containerStyle={styles.newQuestionCont}
+          containerStyle={{ zIndex: 15 }}
           // buttonStyle={styles.newQuestion}
           titleStyle={styles.text}
           title="چت"

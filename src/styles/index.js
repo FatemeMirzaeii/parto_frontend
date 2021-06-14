@@ -42,4 +42,10 @@ export default StyleSheet.create({
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
   },
+  regularTxt: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    textAlign: 'center',
+    color: COLOR.listItemTxt,
+  },
 });
