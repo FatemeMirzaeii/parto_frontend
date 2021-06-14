@@ -100,16 +100,18 @@ const Calendar = ({ navigation }) => {
 
   useEffect(() => {
     const temp = [];
-    const noteOfDay = Object.keys(noteState).filter(
-      (key) => noteState[key].day === selectedDate,
-      console.log('day'),
-    );
-    // setArrofNotes(noteOfDay);
-    noteOfDay.map((item) => {
-      temp.push(noteState[item]);
-    });
-    setNotes(temp);
-    console.log('day.noteOfDay*********', noteOfDay);
+    if (noteState) {
+      const noteOfDay = Object.keys(noteState).filter(
+        (key) => noteState[key].day === selectedDate,
+        console.log('day'),
+      );
+      // setArrofNotes(noteOfDay);
+      noteOfDay.map((item) => {
+        temp.push(noteState[item]);
+      });
+      setNotes(temp);
+      console.log('day.noteOfDay*********', noteOfDay);
+    }
   }, [selectedDate, noteState]);
 
   const _getNotes = () => {
@@ -137,7 +139,7 @@ const Calendar = ({ navigation }) => {
     }
     console.log('today', day.dateString);
     setCurrentIndex(0);
-    setActiveIndex(0)
+    setActiveIndex(0);
   };
 
   const edit = (dateString) => {

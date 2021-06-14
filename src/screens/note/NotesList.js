@@ -1,4 +1,9 @@
-import React, { useEffect, useState, useLayoutEffect } from 'react';
+import React, {
+  useEffect,
+  useState,
+  useLayoutEffect,
+  useCallback,
+} from 'react';
 import { SafeAreaView, View, Text, FlatList, ToastAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
@@ -23,6 +28,15 @@ const NotesList = ({ navigation, route }) => {
   const [notes, setNotes] = useState([]);
   const dispatch = useDispatch();
   const noteState = useSelector((state) => state.user.note);
+  const keys = Object.keys(noteState);
+  const n=keys.map((ele)=>[{
+        [noteState[ele].key]: {
+          key: noteState[ele].key,
+          day: noteState[ele].day,
+          title: noteState[ele].title,
+          note: noteState[ele].note,
+        },
+      }])
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -41,6 +55,31 @@ const NotesList = ({ navigation, route }) => {
     });
   });
 
+  const getData = useCallback(() => {
+    const keys = Object.keys(noteState);
+    const t = [];
+    // keys.map((ele) => {
+    //   setNotes({
+    //     [noteState[ele].key]: {
+    //       key: noteState[ele].key,
+    //       day: noteState[ele].day,
+    //       title: noteState[ele].title,
+    //       note: noteState[ele].note,
+    //     },
+    //   });
+    // });
+    keys.map((ele) => {
+        t.push({
+          [noteState[ele].key]: {
+            key: noteState[ele].key,
+            day: noteState[ele].day,
+            title: noteState[ele].title,
+            note: noteState[ele].note,
+          },
+        });
+      });
+      setNotes(t)
+  }, []);
   useEffect(() => {
     // const getData = () => {
     //   // const keys = Object.keys(noteState);
@@ -60,20 +99,37 @@ const NotesList = ({ navigation, route }) => {
     // const entries = Object.entries(noteState);
 
     //console.log('entries############', entries);
-    const keys = Object.keys(noteState);
-    const t = [];
-    keys.map((ele) => {
-      t.push({
-        [noteState[ele].key]: {
-          key: noteState[ele].key,
-          day: noteState[ele].day,
-          title: noteState[ele].title,
-          note: noteState[ele].note,
-        },
-      });
-    });
-    setNotes(t);
-  }, [notes]);
+
+    // if (noteState) {
+    //   const keys = Object.keys(noteState);
+    //   const t = [];
+    // keys.map((ele) => {
+    //   t.push({
+    //     [noteState[ele].key]: {
+    //       key: noteState[ele].key,
+    //       day: noteState[ele].day,
+    //       title: noteState[ele].title,
+    //       note: noteState[ele].note,
+    //     },
+    //   });
+    // });
+    // for(let i=0;i<keys.length;i++)
+    // {
+    //       t.push({
+    //     [noteState[i].key]: {
+    //       key: noteState[i].key,
+    //       day: noteState[i].day,
+    //       title: noteState[i].title,
+    //       note: noteState[i].note,
+    //     },
+    //   });
+    // }
+    // setNotes(t);
+    // }
+    if (noteState) {
+      getData;
+    }
+  }, [notes,getData,noteState]);
 
   const _handleDelete = (item) => {
     const keys = Object.keys(noteState).filter(
@@ -94,8 +150,7 @@ const NotesList = ({ navigation, route }) => {
   };
 
   // console.log('+++++++', Object.keys(noteState));
-  console.log('+++++++', noteState);
-  console.log('==================', notes);
+ 
   const _renderItem = ({ item }) => {
     return (
       <Card>
@@ -166,18 +221,20 @@ const NotesList = ({ navigation, route }) => {
     );
   };
 
-  // console.log('_getData() **', _getData);
+ console.log('_getData() **', notes);
+  console.log('+++++++', noteState);
+  console.log('==================', n);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      {/* <FlatList
-        data={notes}
+    <FlatList
+        data={getData}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => {
           return <Text style={styles.txt}>هنوز یادداشتی ثبت نکرده‌اید.</Text>;
         }}
         showsVerticalScrollIndicator={false}
-      /> */}
+      />
       {/* <FAB
         style={styles.fab}
         icon="plus"

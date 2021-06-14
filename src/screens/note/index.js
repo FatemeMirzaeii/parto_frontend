@@ -43,17 +43,19 @@ const Note = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNotes = () => {
-      const temp = [];
-      const noteOfDay = Object.keys(noteState).filter(
-        (key) => noteState[key].day === day,
-        console.log('day'),
-      );
-      noteOfDay.map((item) => {
-        temp.push(noteState[item]);
-      });
-      setNotes(temp);
-      console.log('day.noteOfDay*********', noteOfDay);
-      return notes;
+      if (noteState) {
+        const temp = [];
+        const noteOfDay = Object.keys(noteState).filter(
+          (key) => noteState[key].day === day,
+          console.log('day'),
+        );
+        noteOfDay.map((item) => {
+          temp.push(noteState[item]);
+        });
+        setNotes(temp);
+        console.log('day.noteOfDay*********', noteOfDay);
+        return notes;
+      }
     };
     getNotes();
   }, [noteState, day]);
