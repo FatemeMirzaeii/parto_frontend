@@ -6,7 +6,6 @@ import {
   Text,
   View,
   BackHandler,
-  ToastAndroid,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
@@ -23,6 +22,7 @@ import WeekCalendar from '../../components/WeekCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import HomeCalendar from '../../components/HomeCalendar';
 import PlusButton from '../../components/PlusButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
@@ -51,6 +51,8 @@ const Home = ({ navigation }) => {
   const [thirdSentence, setThirdSentence] = useState('');
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
@@ -72,10 +74,7 @@ const Home = ({ navigation }) => {
           backPressed = 0;
         } else {
           backPressed++;
-          ToastAndroid.show(
-            'برای خروج دوباره کلید بازگشت را لمس کنید.',
-            ToastAndroid.SHORT,
-          );
+          setSnackVisible(true);
           setTimeout(() => {
             backPressed = 0;
           }, 2000);
@@ -261,6 +260,11 @@ const Home = ({ navigation }) => {
           }}
         />
       </ImageBackground>
+      <RtlSnackBar
+        visible={snackVisible}
+        message="برای خروج دوباره کلید بازگشت را لمس کنید."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </SafeAreaView>
   );
 };

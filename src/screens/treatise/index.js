@@ -1,18 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import {
-  FlatList,
-  SafeAreaView,
-  ToastAndroid,
-  Linking,
-  ImageBackground,
-} from 'react-native';
+import { FlatList, SafeAreaView, Linking, ImageBackground } from 'react-native';
 
 //components
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/CatListLoader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
 import BackButton from '../../components/BackButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -33,6 +28,7 @@ import styles from './styles';
 const Treatise = ({ navigation }) => {
   const [categoryList, setCategoryList] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [snackVisible, setSnackVisible] = useState(false);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const imageList = [heyzImg, estehazeImg, nefasImg];
   const counter = [1, 2, 3];
@@ -73,7 +69,7 @@ const Treatise = ({ navigation }) => {
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         }
       }
       setIsLoading(false);
@@ -119,6 +115,11 @@ const Treatise = ({ navigation }) => {
                 />
               </ImageBackground>
             )}
+          />
+          <RtlSnackBar
+            visible={snackVisible}
+            message="لطفا اتصال اینترنت رو چک کن."
+            onDismiss={() => setSnackVisible(false)}
           />
         </SafeAreaView>
       )}

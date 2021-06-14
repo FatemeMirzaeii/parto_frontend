@@ -28,6 +28,7 @@ import { fetchInitialCycleData } from '../../store/actions/cycle';
 //components
 import Ptxt from '../../components/Ptxt';
 import DialogBox from '../../components/DialogBox';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //store
 import { handleTemplate, setUser } from '../../store/actions/user';
@@ -58,6 +59,8 @@ const SignUp = ({ navigation }) => {
   const [timerId, setTimerId] = useState(1);
   const [phoneNumber, setPhoneNumber] = useState('');
   const [value, setValue] = useState('');
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const { isVisible, toggle } = useModal();
   const ref = useBlurOnFulfill({ value, cellCount: CELL_COUNT });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -165,7 +168,7 @@ const SignUp = ({ navigation }) => {
       .catch((err) => {
         setIsLoading(false);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         } else if (
           err.response &&
           (err.response.status === 500 ||
@@ -201,7 +204,7 @@ const SignUp = ({ navigation }) => {
       .catch((err) => {
         setIsLoading(false);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         } else if (
           err.response &&
           (err.response.status === 500 ||
@@ -266,7 +269,7 @@ const SignUp = ({ navigation }) => {
       })
       .catch((err) => {
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         } else if (
           err.response &&
           (err.response.status === 500 ||
@@ -397,6 +400,11 @@ const SignUp = ({ navigation }) => {
           firstBtnTitle="متوجه شدم"
         />
       </SafeAreaView>
+      <RtlSnackBar
+        visible={snackVisible}
+        message="لطفا اتصال اینترنت رو چک کن."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </ImageBackground>
   );
 };

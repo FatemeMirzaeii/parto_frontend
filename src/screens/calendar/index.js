@@ -1,11 +1,5 @@
 import React, { useRef, useState } from 'react';
-import {
-  View,
-  Text,
-  ToastAndroid,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
+import { View, Text, ImageBackground, TouchableOpacity } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
@@ -16,6 +10,7 @@ import SaveBleendingButton from '../../components/BleendingdaysSave';
 import CancelButton from '../../components/CancelButton';
 import Ptxt from '../../components/Ptxt';
 import SubmitButton from '../../components/SubmitButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 // utils and constants and store
 import { FORMAT } from '../../constants/cycle';
@@ -42,6 +37,9 @@ const Calendar = ({ navigation }) => {
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
 
   const [appTourTargets, setAppTourTargets] = useState([]);
+
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const calendar = useRef();
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
@@ -76,10 +74,7 @@ const Calendar = ({ navigation }) => {
   };
   const onSubmitEditing = async () => {
     if (cycle.isPregnant && Object.keys(cycle.periodDays).length === 0) {
-      ToastAndroid.show(
-        'سن بارداری و تاریخ زایمان شما براساس تاریخ آخرین پریود شما محاسبه می‌شود. لطفا تاریخ آخرین پریود خود را وارد نموده و یا از حالت بارداری خارج شوید.',
-        ToastAndroid.LONG,
-      );
+      setSnackVisible(true);
       return;
     }
     const c = await CycleModule();
@@ -383,6 +378,12 @@ const Calendar = ({ navigation }) => {
           </>
         )}
       </View>
+      <RtlSnackBar
+        visible={snackVisible}
+        message="سن بارداری و تاریخ زایمان شما براساس تاریخ آخرین پریود شما محاسبه می‌شود. لطفا تاریخ آخرین پریود خود را وارد نموده و یا از حالت بارداری خارج شوید."
+        // todo: long message
+        onDismiss={() => setSnackVisible(false)}
+      />
     </ImageBackground>
   );
 };

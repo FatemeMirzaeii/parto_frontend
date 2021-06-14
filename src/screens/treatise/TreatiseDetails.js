@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { SafeAreaView, ScrollView, ToastAndroid } from 'react-native';
+import { SafeAreaView, ScrollView } from 'react-native';
 
 //components
 import HTMLRender from '../../components/HTMLRender';
 import Loader from '../../components/Loader';
 import BackButton from '../../components/BackButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -17,6 +18,8 @@ import styles from './styles';
 const TreatiseDetails = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [articleBody, setArticleBody] = useState([]);
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const { treatiseContent } = route.params;
 
   useLayoutEffect(() => {
@@ -47,7 +50,7 @@ const TreatiseDetails = ({ route, navigation }) => {
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         }
       }
       setIsLoading(false);
@@ -67,6 +70,11 @@ const TreatiseDetails = ({ route, navigation }) => {
           <HTMLRender html={articleBody.toString()} />
         </ScrollView>
       )}
+      <RtlSnackBar
+        visible={snackVisible}
+        message="لطفا اتصال اینترنت رو چک کن."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </SafeAreaView>
   );
 };

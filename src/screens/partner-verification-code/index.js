@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { View, Text, SafeAreaView, ToastAndroid, Image } from 'react-native';
+import { View, Text, SafeAreaView, Image } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Button, Icon } from 'react-native-elements';
 
@@ -13,6 +13,7 @@ import { signUp } from '../../store/actions/auth';
 import Loader from '../../components/Loader';
 import Card from '../../components/Card';
 import BackButton from '../../components/BackButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import api from '../../services/api';
@@ -30,6 +31,7 @@ import commonStyles from '../../styles/index';
 const PartnerVerificationCode = ({ navigation }) => {
   const [code, setCode] = useState('');
   const [isLoading, setIsLoading] = useState(true);
+  const [snackVisible, setSnackVisible] = useState(false);
   const dispatch = useDispatch();
   const userId = useSelector((state) => state.user.id);
   useLayoutEffect(() => {
@@ -93,13 +95,18 @@ const PartnerVerificationCode = ({ navigation }) => {
                 size={35}
                 onPress={() => {
                   Clipboard.setString(code);
-                  ToastAndroid.show('کد کپی شد.', ToastAndroid.LONG);
+                  setSnackVisible(true);
                 }}
               />
             </View>
           </>
         )}
       </Card>
+      <RtlSnackBar
+        visible={snackVisible}
+        message="کد کپی شد."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </SafeAreaView>
   );
 };

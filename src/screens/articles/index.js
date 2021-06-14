@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 import Carousel, { Pagination } from 'react-native-snap-carousel';
 
 //redux
@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/CatListLoader';
 import NewestArticles from '../../components/NewestArticles';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -27,6 +28,8 @@ const Articles = ({ navigation }) => {
   const [newestIsLoading, setNewestIsLoading] = useState(true);
   const [activeSlide, setActiveSlide] = useState(4);
   const [spaceKey, setSpaceKey] = useState('');
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const modeState = useSelector((state) => state.user.template);
   const counter = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
@@ -63,7 +66,7 @@ const Articles = ({ navigation }) => {
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         }
       }
       setIsLoading(false);
@@ -110,10 +113,7 @@ const Articles = ({ navigation }) => {
           } catch (err) {
             console.error(err, err.response);
             if (err.toString() === 'Error: Network Error') {
-              ToastAndroid.show(
-                'لطفا اتصال اینترنت رو چک کن.',
-                ToastAndroid.LONG,
-              );
+              setSnackVisible(true);
             }
           }
           try {
@@ -152,10 +152,7 @@ const Articles = ({ navigation }) => {
           } catch (err) {
             console.error(err, err.response);
             if (err.toString() === 'Error: Network Error') {
-              ToastAndroid.show(
-                'لطفا اتصال اینترنت رو چک کن.',
-                ToastAndroid.LONG,
-              );
+              setSnackVisible(true);
             }
           }
         }
@@ -236,6 +233,11 @@ const Articles = ({ navigation }) => {
             )}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
+          />
+          <RtlSnackBar
+            visible={snackVisible}
+            message="لطفا اتصال اینترنت رو چک کن."
+            onDismiss={() => setSnackVisible(false)}
           />
         </SafeAreaView>
       )}

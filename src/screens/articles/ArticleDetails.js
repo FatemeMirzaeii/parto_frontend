@@ -6,7 +6,6 @@ import {
   SafeAreaView,
   StatusBar,
   Text,
-  ToastAndroid,
   TouchableOpacity,
   View,
 } from 'react-native';
@@ -17,6 +16,7 @@ import TextTicker from 'react-native-text-ticker';
 //components
 import HTMLRender from '../../components/HTMLRender';
 import Loader from '../../components/Loader';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -33,6 +33,7 @@ const ArticleDetails = ({ route, navigation }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [articleBody, setArticleBody] = useState([]);
   const { articleContent, catName } = route.params;
+  const [snackVisible, setSnackVisible] = useState(false);
 
   useEffect(() => {
     let isCancelled = false;
@@ -53,7 +54,7 @@ const ArticleDetails = ({ route, navigation }) => {
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         }
       }
       setIsLoading(false);
@@ -154,6 +155,11 @@ const ArticleDetails = ({ route, navigation }) => {
         snapValue={167}
       />
       <StatusBar barStyle="dark-content" backgroundColor="transparent" />
+      <RtlSnackBar
+        visible={snackVisible}
+        message="لطفا اتصال اینترنت رو چک کن."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </SafeAreaView>
   );
 };

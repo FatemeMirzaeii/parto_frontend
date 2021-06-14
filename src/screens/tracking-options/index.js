@@ -12,7 +12,6 @@ import {
   ScrollView,
   View,
   Text,
-  ToastAndroid,
   FlatList,
   ImageBackground,
 } from 'react-native';
@@ -33,6 +32,7 @@ import WeekCalendar from '../../components/WeekCalendar';
 import CalendarPointer from '../../components/CalendarPointer';
 import Loader from '../../components/Loader';
 import HTMLRender from '../../components/HTMLRender';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //constants
 import {
@@ -84,6 +84,8 @@ const TrackingOptions = ({ route }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [detailPageId, setDetailPageId] = useState(null);
   const [visible, setVisible] = useState(false);
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const [overlayText, setOverlayText] = useState('');
   const [categories, setCategories] = useState([]);
@@ -260,10 +262,7 @@ const TrackingOptions = ({ route }) => {
     if (moment(d).isSameOrBefore(today)) {
       setDate(d);
     } else {
-      ToastAndroid.show(
-        'امکان ثبت شرح‌حال برای روزهای آتی وجود ندارد.',
-        ToastAndroid.LONG,
-      );
+      setSnackVisible(true);
     }
   };
 
@@ -420,6 +419,11 @@ const TrackingOptions = ({ route }) => {
           <View style={styles.detailPage}>{renderDetailPage()}</View>
         </ActionSheet>
       </ImageBackground>
+      <RtlSnackBar
+        visible={snackVisible}
+        message="امکان ثبت شرح‌حال برای روزهای آتی وجود ندارد."
+        onDismiss={() => setSnackVisible(false)}
+      />
     </SafeAreaView>
   );
 };

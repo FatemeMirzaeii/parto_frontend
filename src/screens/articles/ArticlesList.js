@@ -1,12 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { FlatList, SafeAreaView, ToastAndroid } from 'react-native';
+import { FlatList, SafeAreaView } from 'react-native';
 
 //components
 import ArticleCard from '../../components/ArticleCard';
 import EmptyList from '../../components/EmptyList';
 import Loader from '../../components/Loader';
 import SearchBar from '../../components/SearchBar';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -26,6 +27,7 @@ const ArticlesList = ({ route, navigation }) => {
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [page, setPage] = useState(0);
+  const [snackVisible, setSnackVisible] = useState(false);
   const perPage = 25;
 
   useEffect(() => {
@@ -82,10 +84,7 @@ const ArticlesList = ({ route, navigation }) => {
           } catch (err) {
             console.error(err, err.response);
             if (err.toString() === 'Error: Network Error') {
-              ToastAndroid.show(
-                'لطفا اتصال اینترنت رو چک کن.',
-                ToastAndroid.LONG,
-              );
+              setSnackVisible(true);
             }
           }
           setArticle([...article, ...arts]);
@@ -95,7 +94,7 @@ const ArticlesList = ({ route, navigation }) => {
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+          setSnackVisible(true);
         }
       }
       setLoading(false);
@@ -154,6 +153,11 @@ const ArticlesList = ({ route, navigation }) => {
             ListEmptyComponent={() => {
               return <EmptyList />;
             }}
+          />
+          <RtlSnackBar
+            visible={snackVisible}
+            message="لطفا اتصال اینترنت رو چک کن."
+            onDismiss={() => setSnackVisible(false)}
           />
         </SafeAreaView>
       )}

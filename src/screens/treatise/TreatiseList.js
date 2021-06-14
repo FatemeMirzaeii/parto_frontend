@@ -6,7 +6,6 @@ import {
   Text,
   TouchableOpacity,
   View,
-  ToastAndroid,
 } from 'react-native';
 
 //components
@@ -14,6 +13,7 @@ import EmptyList from '../../components/EmptyList';
 import Loader from '../../components/Loader';
 import SearchBar from '../../components/SearchBar';
 import BackButton from '../../components/BackButton';
+import RtlSnackBar from '../../components/RtlSnackBar';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -30,6 +30,8 @@ const TreatiseList = ({ route, navigation }) => {
   const [data, setData] = useState([]);
   const [rule, setRule] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [snackVisible, setSnackVisible] = useState(false);
+
   const { catId, catTitle } = route.params;
 
   useLayoutEffect(() => {
@@ -95,11 +97,7 @@ const TreatiseList = ({ route, navigation }) => {
         })
         .catch((err) => {
           console.error(err, err.response);
-          if (err.toString() === 'Error: Network Error')
-            ToastAndroid.show(
-              'لطفا اتصال اینترنت رو چک کن.',
-              ToastAndroid.LONG,
-            );
+          if (err.toString() === 'Error: Network Error') setSnackVisible(true);
         });
     };
     getCategoryContent();
@@ -150,6 +148,11 @@ const TreatiseList = ({ route, navigation }) => {
               )}
             />
           </View>
+          <RtlSnackBar
+            visible={snackVisible}
+            message="لطفا اتصال اینترنت رو چک کن."
+            onDismiss={() => setSnackVisible(false)}
+          />
         </SafeAreaView>
       )}
     </>
