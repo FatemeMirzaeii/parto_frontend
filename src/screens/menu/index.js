@@ -194,6 +194,21 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
+          title="یادداشت‌ها"
+          leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
+          bottomDivider
+          chevron={{
+            type: 'parto',
+            name: 'back-arrow',
+            color: COLOR.icon,
+            size: 10,
+          }}
+          onPress={() => navigateTo('Note')}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
+        />
+        <ListItem
           title="قفل نرم افزار"
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
           switch={{

@@ -18,11 +18,23 @@ export default StyleSheet.create({
   btnTitle: {
     color: COLOR.white,
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
   },
   dayText: {
     textAlign: 'center',
     fontFamily: FONT.medium,
     fontSize: 16,
+  },
+  txt: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    padding: 20,
+  },
+  fab: {
+    position: 'absolute',
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: COLOR.pink,
   },
 });

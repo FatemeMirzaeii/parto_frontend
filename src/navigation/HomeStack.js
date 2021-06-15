@@ -8,6 +8,7 @@ import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 import Chat from '../screens/assistant/chat';
 import Note from '../screens/note';
+import NoteEdit from '../screens/note/NoteEdit';
 import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
@@ -54,6 +55,7 @@ const HomeStackScreen = () => {
         options={{ headerShown: false }}
       />
       <HomeStack.Screen name="Note" component={Note} />
+      <HomeStack.Screen name="NoteEdit" component={NoteEdit} />
     </HomeStack.Navigator>
   );
 };

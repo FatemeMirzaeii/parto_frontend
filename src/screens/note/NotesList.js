@@ -18,15 +18,15 @@ import Card from '../../components/Card';
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
-const Note = ({ navigation, route }) => {
-  const { day } = route.params;
+const NotesList = ({ navigation, route }) => {
+  // const { day } = route.params;
   const [notes, setNotes] = useState([]);
   const dispatch = useDispatch();
   const noteState = useSelector((state) => state.user.note);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'یادداشت',
+      title: 'یادداشت‌ها',
       headerRight: () => (
         <Icon
           size={16}
@@ -42,21 +42,38 @@ const Note = ({ navigation, route }) => {
   });
 
   useEffect(() => {
-    const getNotes = () => {
-      const temp = [];
-      const noteOfDay = Object.keys(noteState).filter(
-        (key) => noteState[key].day === day,
-        console.log('day'),
-      );
-      noteOfDay.map((item) => {
-        temp.push(noteState[item]);
+    // const getData = () => {
+    //   // const keys = Object.keys(noteState);
+    //   // keys.map((ele) => {
+    //   //   setNotes({
+    //   //     [noteState[ele].key]: {
+    //   //       key: noteState[ele].key,
+    //   //       day: noteState[ele].day,
+    //   //       title: noteState[ele].title,
+    //   //       note: noteState[ele].note,
+    //   //     },
+    //   //   });
+    //   // });
+
+    // };
+    // getData;
+    // const entries = Object.entries(noteState);
+
+    //console.log('entries############', entries);
+    const keys = Object.keys(noteState);
+    const t = [];
+    keys.map((ele) => {
+      t.push({
+        [noteState[ele].key]: {
+          key: noteState[ele].key,
+          day: noteState[ele].day,
+          title: noteState[ele].title,
+          note: noteState[ele].note,
+        },
       });
-      setNotes(temp);
-      console.log('day.noteOfDay*********', noteOfDay);
-      return notes;
-    };
-    getNotes();
-  }, [noteState, day]);
+    });
+    setNotes(t);
+  }, [notes]);
 
   const _handleDelete = (item) => {
     const keys = Object.keys(noteState).filter(
@@ -76,6 +93,9 @@ const Note = ({ navigation, route }) => {
     });
   };
 
+  // console.log('+++++++', Object.keys(noteState));
+  console.log('+++++++', noteState);
+  console.log('==================', notes);
   const _renderItem = ({ item }) => {
     return (
       <Card>
@@ -95,7 +115,7 @@ const Note = ({ navigation, route }) => {
             />
           </View>
           <Text style={styles.dayText}>
-            {jalaali(day).format('jYYYY/jM/jD')}
+            {jalaali(item.day).format('jYYYY/jM/jD')}
           </Text>
         </View>
         <Text
@@ -136,7 +156,7 @@ const Note = ({ navigation, route }) => {
             color={COLOR.icon}
             onPress={() =>
               navigation.navigate('NoteEdit', {
-                day: day,
+                day: item.day,
                 note: item,
               })
             }
@@ -146,23 +166,19 @@ const Note = ({ navigation, route }) => {
     );
   };
 
+  // console.log('_getData() **', _getData);
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      <FlatList
-        data={notes.reverse()}
+      {/* <FlatList
+        data={notes}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => {
-          return (
-            <Text style={styles.txt}>
-              یادداشتی برای روز {jalaali(day).format('jYYYY/jM/jD')} ثبت نشده
-              است.
-            </Text>
-          );
+          return <Text style={styles.txt}>هنوز یادداشتی ثبت نکرده‌اید.</Text>;
         }}
         showsVerticalScrollIndicator={false}
-      />
-      <FAB
+      /> */}
+      {/* <FAB
         style={styles.fab}
         icon="plus"
         color={COLOR.white}
@@ -172,8 +188,8 @@ const Note = ({ navigation, route }) => {
             note: null,
           })
         }
-      />
+      /> */}
     </SafeAreaView>
   );
 };
-export default Note;
+export default NotesList;

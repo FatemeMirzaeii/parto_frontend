@@ -7,10 +7,12 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { Icon, Divider } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
+import { SvgCss } from 'react-native-svg';
+import Carousel from 'react-native-snap-carousel';
 
 // components
 import SaveBleendingButton from '../../components/BleendingdaysSave';
@@ -31,32 +33,10 @@ import { setBleedingDays } from '../../util/database/query';
 import { calendarMarkedDatesObject } from '../../util/func';
 import useModal from '../../util/hooks/useModal';
 import Tour from '../../util/tourGuide/Tour';
-import {
-  addTrackingOption,
-  deselectTrackingOption,
-  getTrackingOptionData,
-  replaceTrackingOption,
-} from '../../util/database/query';
-import {
-  BLEEDING,
-  EXCERSICE,
-  SPOTTING,
-  VAGINAL,
-  PAIN,
-  MOOD,
-  SLEEP,
-  SEX,
-  MORE_ABOUT_VAGINAL,
-  MORE_ABOUT_BLEEDING,
-  MORE_ABOUT_PAIN,
-  MORE_ABOUT_MOOD,
-  MORE_ABOUT_SLEEP,
-  MORE_ABOUT_EXCERSICE,
-  MORE_ABOUT_SEX,
-} from '../../constants/health-tracking-info';
+import { getTrackingOptionData } from '../../util/database/query';
 
 //styles
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
 import styles from './styles';
 
 const Calendar = ({ navigation }) => {
@@ -68,13 +48,16 @@ const Calendar = ({ navigation }) => {
   const [selectedDate, setSelectedDate] = useState(today.format('YYYY-MM-DD'));
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
   const [appTourTargets, setAppTourTargets] = useState([]);
+  const [trackedOptions, setTrackedOptions] = useState([]);
+  const [notes, setNotes] = useState([]);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [currentIndex, setCurrentIndex] = useState(0);
   const calendar = useRef();
+  const notesFlatlist = useRef(null);
+  const trackedFlatlist = useRef(null);
   const bottomSheetRef = useRef(null);
   const { isVisible, toggle } = useModal();
   const noteState = useSelector((state) => state.user.note);
-  const [trackedOptions, setTrackedOptions] = useState([]);
-
-  const [arrofNotes, setArrofNotes] = useState([]);
   const infoArray =
     template !== 'Teenager'
       ? [
@@ -90,12 +73,25 @@ const Calendar = ({ navigation }) => {
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
 
   const getInitialData = useCallback(async () => {
+    let y = [];
     const td = await getTrackingOptionData(selectedDate);
-    const temp = td && td.options.filter((item) => item.selected.length > 0);
-    setTrackedOptions(temp);
-    // await deselectTrackingOption(option.id, date);
     console.log('td*********', td);
-    console.log('temp*********', temp);
+    for (let i = 0; i < td.length; i++) {
+      const opt = td[i].options;
+      console.log('opt*********', opt);
+      for (let j = 0; j < td.length; j++) {
+        if (opt[j] && opt[j].selected.length > 0)
+          y.push({
+            catName: td[i].title,
+            catIcon: td[i].icon,
+            color: td[i].color,
+            id: opt[j].id,
+            title: opt[j].title,
+            icon: opt[j].icon,
+          });
+      }
+    }
+    setTrackedOptions(y);
   }, [selectedDate]);
 
   useEffect(() => {
@@ -103,27 +99,45 @@ const Calendar = ({ navigation }) => {
   }, [getInitialData]);
 
   useEffect(() => {
+    const temp = [];
     const noteOfDay = Object.keys(noteState).filter(
       (key) => noteState[key].day === selectedDate,
       console.log('day'),
     );
-    setArrofNotes(noteOfDay);
+    // setArrofNotes(noteOfDay);
+    noteOfDay.map((item) => {
+      temp.push(noteState[item]);
+    });
+    setNotes(temp);
     console.log('day.noteOfDay*********', noteOfDay);
   }, [selectedDate, noteState]);
 
+  const _getNotes = () => {
+    const temp = [];
+    const noteOfDay = Object.keys(noteState).filter(
+      (key) => noteState[key].day === selectedDate,
+      console.log('day'),
+    );
+    noteOfDay.map((item) => {
+      temp.push(noteState[item]);
+    });
+    setNotes(temp);
+    console.log('day.noteOfDay*********', noteOfDay);
+    return notes;
+  };
+
   const onDayPress = (day) => {
+    console.log('day*', day);
     if (editMode) {
       edit(day.dateString);
     } else {
       setSelectedDate(day.dateString);
       console.log('day.dateString*********', day.dateString);
-      const noteOfDay = Object.keys(noteState).filter(
-        (key) => noteState[key] && noteState[key].day === day.dateString,
-      );
-      setArrofNotes(noteOfDay);
-      console.log('day.noteOfDay*********', noteOfDay);
-      console.log('today', day.dateString);
+      _getNotes;
     }
+    console.log('today', day.dateString);
+    setCurrentIndex(0);
+    setActiveIndex(0)
   };
 
   const edit = (dateString) => {
@@ -181,6 +195,53 @@ const Calendar = ({ navigation }) => {
     setEditMode(false);
   };
 
+  const _handleOnNext = (ref) => {
+    ref.current.snapToNext();
+  };
+
+  const _handleOnPrevious = (ref) => {
+    ref.current.snapToPrev();
+  };
+
+  const notesRenderItem = ({ item }) => {
+    return (
+      <View
+        style={{
+          width: WIDTH - 30,
+          backgroundColor: '#F3F4F9',
+          marginTop: 10,
+          borderRadius: 10,
+        }}>
+        <View
+          style={{
+            flexDirection: 'row-reverse',
+            justifyContent: 'space-between',
+            padding: 10,
+          }}>
+          <View style={{ flexDirection: 'row' }}>
+            <Text style={styles.noteTitle}>{item.title}</Text>
+            <Icon
+              containerStyle={{ marginLeft: 10 }}
+              type="entypo"
+              name="new-message"
+              color={COLOR.icon}
+            />
+          </View>
+        </View>
+        <Text
+          style={{
+            // backgroundColor: 'red',
+            height: 100,
+            fontFamily: FONT.regular,
+            fontSize: 12,
+            width: WIDTH * 0.82,
+          }}>
+          {item.note}
+        </Text>
+      </View>
+    );
+  };
+
   const renderContent = () => (
     <View
       style={{
@@ -197,7 +258,7 @@ const Calendar = ({ navigation }) => {
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
-          marginBottom: 10,
+          marginBottom: 5,
         }}
       />
       <Text
@@ -208,62 +269,239 @@ const Calendar = ({ navigation }) => {
         }}>
         {jalaali(selectedDate).format('jYYYY/jM/jD')}
       </Text>
-      <Icon
-        raised
-        size={25}
-        name="lady"
-        type="parto"
-        color={COLOR.pink}
-        onPress={() =>
-          jalaali(selectedDate).isBefore(today)
-            ? navigation.navigate('TrackingOptions', {
-                day: selectedDate,
-              })
-            : ToastAndroid.show(
-                'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
-                ToastAndroid.LONG,
-              )
-        }
-      />
-      <Icon
-        raised
-        size={25}
-        name="new-message"
-        type="entypo"
-        color={COLOR.pink}
-        onPress={() =>
-          navigation.navigate('Note', {
-            day: selectedDate,
-            indexOf: arrofNotes,
-          })
-        }
-      />
+      <View style={{ flexDirection: 'row' }}>
+        <Icon
+          raised
+          size={25}
+          name="lady"
+          type="parto"
+          color={COLOR.pink}
+          onPress={() =>
+            jalaali(selectedDate).isBefore(today)
+              ? navigation.navigate('TrackingOptions', {
+                  day: selectedDate,
+                })
+              : ToastAndroid.show(
+                  'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
+                  ToastAndroid.LONG,
+                )
+          }
+        />
+        <Icon
+          raised
+          size={25}
+          name="new-message"
+          type="entypo"
+          color={COLOR.pink}
+          onPress={() =>
+            navigation.navigate('Note', {
+              day: selectedDate,
+            })
+          }
+        />
+      </View>
+
       <Text
         style={{
           textAlign: 'center',
           fontFamily: FONT.medium,
-          fontSize: 12,
-          backgroundColor: 'pink',
+          fontSize: 14,
+          marginTop: 20,
+          color: COLOR.listItemTxt,
+          // backgroundColor: 'lightblue',
+        }}>
+        شرح‌حال
+      </Text>
+      <Divider />
+      {trackedOptions.length > 0 ? (
+        <>
+          <View style={{ marginTop: 5, height: 110 }}>
+            <Carousel
+              ref={trackedFlatlist}
+              inverted
+              autoplay
+              // loop
+              inactiveSlideScale={1}
+              inactiveSlideOpacity={1}
+              data={trackedOptions}
+              setCurrentIndex
+              onSnapToItem={(index) => setCurrentIndex(index)}
+              renderItem={({ item, index }) => (
+                <View
+                  style={{
+                    backgroundColor: 'white',
+                    height: 80,
+                    borderRadius: 50,
+                  }}>
+                  <SvgCss
+                    key={`icon${index.toString()}`}
+                    width="100%"
+                    height="100%"
+                    // fill={item.color}
+                    fill={COLOR.icon}
+                    xml={item.icon}
+                  />
+                </View>
+              )}
+              sliderWidth={WIDTH}
+              //sliderHeight={100}
+              itemWidth={70}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: FONT.medium,
+                color: COLOR.listItemTxt,
+                fontSize: 12,
+                // backgroundColor: 'lightgreen',
+              }}>
+              {trackedOptions[currentIndex].catName} :{' '}
+              {trackedOptions[currentIndex].title}
+            </Text>
+          </View>
+        </>
+      ) : (
+        <Text
+          style={{
+            //textAlign: 'center',
+            fontFamily: FONT.medium,
+            color: COLOR.listItemTxt,
+            fontSize: 12,
+            padding: 20,
+            // backgroundColor: 'lightgreen',
+          }}>
+          هنوز شرح‌حالی ثبت نشده است.
+        </Text>
+      )}
+      <View
+        style={{
+          // backgroundColor:'red',
+          flexDirection: 'row',
+          //alignItems: 'center',
+          // justifyContent:'center',
+          alignSelf: 'center',
+          // bottom: 30,
+        }}>
+        <Icon
+          raised
+          size={10}
+          name="back-arrow"
+          type="parto"
+          color={COLOR.icon}
+          onPress={() => _handleOnNext(trackedFlatlist)}
+        />
+        <Icon
+          raised
+          size={10}
+          name="right"
+          type="parto"
+          color={COLOR.icon}
+          onPress={() => _handleOnPrevious(trackedFlatlist)}
+          // containerStyle={{ right: 0 }}
+        />
+      </View>
+      {/* {trackedOptions &&
+        trackedOptions.map((item, index) => {
+          return (
+            <View
+              key={`view${index.toString()}`}
+              style={{ flexDirection: 'row', justifyContent: 'space-around' ,marginTop:10}}>
+              <Text
+                key={index.toString()}
+                style={{
+                  textAlign: 'center',
+                  fontFamily: FONT.medium,
+                  color:COLOR.listItemTxt,
+                  fontSize: 12,
+                 // backgroundColor: 'lightgreen',
+                }}>
+                {item.catName} : {item.title}
+              </Text>
+              <SvgCss
+                key={`icon${index.toString()}`}
+                width="60%"
+                height="60%"
+                color="red"
+                xml={item.icon}
+              />
+            </View>
+          );
+        })} */}
+      <Text
+        style={{
+          textAlign: 'center',
+          fontFamily: FONT.medium,
+          fontSize: 14,
+          marginTop: 20,
+          color: COLOR.listItemTxt,
+          //backgroundColor: 'pink',
         }}>
         یادداشت
       </Text>
-      {arrofNotes.map((item, index) => {
-        return (
-          <Text
-            key={index.toString()}
+      <Divider />
+      {notes.length > 0 ? (
+        <>
+          <Carousel
+            ref={notesFlatlist}
+            inverted
+            data={notes}
+            renderItem={notesRenderItem}
+            sliderWidth={WIDTH}
+            itemWidth={WIDTH}
+            onSnapToItem={(index) => setActiveIndex(index)}
+          />
+          <View
             style={{
-              textAlign: 'center',
-              fontFamily: FONT.medium,
-              fontSize: 12,
-              backgroundColor: 'pink',
+              // backgroundColor:'red',
+              flexDirection: 'row',
+              alignItems: 'center',
+              alignSelf: 'center',
+              bottom: 30,
             }}>
-            {noteState[item].note}
-          </Text>
-        );
-      })}
+            <Icon
+              raised
+              size={10}
+              name="back-arrow"
+              type="parto"
+              color={COLOR.icon}
+              onPress={() => _handleOnNext(notesFlatlist)}
+            />
+            <Text
+              style={{
+                textAlign: 'center',
+                fontFamily: FONT.medium,
+                fontSize: 12,
+              }}>{`${activeIndex + 1}/${notes.length}`}</Text>
+            <Icon
+              raised
+              size={10}
+              name="right"
+              type="parto"
+              color={COLOR.icon}
+              onPress={() => _handleOnPrevious(notesFlatlist)}
+              // containerStyle={{ right: 0 }}
+            />
+          </View>
+        </>
+      ) : (
+        <Text
+          style={{
+            //textAlign: 'center',
+            fontFamily: FONT.medium,
+            color: COLOR.listItemTxt,
+            fontSize: 12,
+            padding: 20,
+            // backgroundColor: 'lightgreen',
+          }}>
+          هنوز یادداشتی ثبت نشده است.
+        </Text>
+      )}
     </View>
   );
   console.log('noteState,  ', noteState);
+
+  console.log('tracked', trackedOptions);
+  // console.log('arrofNotes', arrofNotes);
   return (
     <ImageBackground
       source={
@@ -438,7 +676,7 @@ const Calendar = ({ navigation }) => {
       </View>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[450, 300, 55]}
+        snapPoints={[450, 280, 55]}
         borderRadius={50}
         renderContent={renderContent}
         initialSnap={2}
