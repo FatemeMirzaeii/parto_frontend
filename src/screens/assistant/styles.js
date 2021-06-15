@@ -6,11 +6,18 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: COLOR.white,
   },
-  newQuestionCont: (hasEnaughCredit) => ({
-    marginTop: hasEnaughCredit ? 0 : -100,
-    flex: hasEnaughCredit ? 0 : 1,
-    height: hasEnaughCredit ? 0 : 10,
-  }),
+  newQuestionCont: {
+    marginTop: -100,
+    flex: 1,
+    height: 10,
+    zIndex: 2000000005,
+  },
   newQuestion: { flex: 1, backgroundColor: '#ffc9dc' },
   text: { fontFamily: FONT.regular },
+  error: {
+    height: '100%',
+    width: '100%',
+    flex: 1,
+    backgroundColor: 'white',
+  },
 });

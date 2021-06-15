@@ -1,13 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ScrollView } from 'react-native';
 import { useSelector } from 'react-redux';
-import { Icon, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 
 //components
 import Card from '../../components/Card';
 import CycleSettingbtn from '../../components/CycleSettingbtn';
 import PickerListItem from '../../components/PickerListItem';
+import BackButton from '../../components/BackButton';
 
 //utils
 import {
@@ -18,7 +19,6 @@ import {
 import Tour from '../../util/tourGuide/Tour';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
 
@@ -45,16 +45,7 @@ const CycleSetting = ({ navigation }) => {
             onPress={save}
           />
         ),
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
     const save = () => {
       updateProfileData({ periodLength, cycleLength, pmsLength });

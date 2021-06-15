@@ -1,10 +1,11 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { ScrollView } from 'react-native';
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 
 // components and utils
 import Card from '../../components/Card';
+import BackButton from '../../components/BackButton';
 import { getReminders } from '../../util/database/query';
 
 // styles
@@ -27,16 +28,7 @@ const Reminders = ({ navigation }) => {
     navigation.setOptions({
       title: 'یادآور‌ها',
       headerLeft: null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 

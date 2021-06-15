@@ -8,12 +8,12 @@ import {
   View,
   ToastAndroid,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
 
 //components
 import EmptyList from '../../components/EmptyList';
 import Loader from '../../components/Loader';
 import SearchBar from '../../components/SearchBar';
+import BackButton from '../../components/BackButton';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -36,16 +36,7 @@ const TreatiseList = ({ route, navigation }) => {
     navigation.setOptions({
       title: catTitle,
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          reverse
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.purple}
-          onPress={() => navigation.pop()}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 

@@ -12,6 +12,7 @@ import { signUp } from '../../store/actions/auth';
 //components
 import Loader from '../../components/Loader';
 import Card from '../../components/Card';
+import BackButton from '../../components/BackButton';
 
 //services
 import api from '../../services/api';
@@ -23,7 +24,6 @@ import { removeData } from '../../util/func';
 import PartnerAvatar from './../../../assets/images/partner/avatar.png';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 import commonStyles from '../../styles/index';
 
@@ -36,16 +36,7 @@ const PartnerVerificationCode = ({ navigation }) => {
     navigation.setOptions({
       title: 'کد همسر',
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.purple}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
   useEffect(() => {

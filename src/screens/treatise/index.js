@@ -15,6 +15,7 @@ import PropTypes from 'prop-types';
 import CategoryList from '../../components/CategoryList';
 import Loader from '../../components/Loader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
+import BackButton from '../../components/BackButton';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -52,16 +53,7 @@ const Treatise = ({ navigation }) => {
           smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
         />
       ),
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={styles.icon}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 

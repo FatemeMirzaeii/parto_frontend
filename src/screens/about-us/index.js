@@ -1,8 +1,11 @@
 import React, { useLayoutEffect } from 'react';
 import { Text, ImageBackground, ScrollView } from 'react-native';
-import { Icon } from 'react-native-elements';
+
+// components
+import BackButton from '../../components/BackButton';
 import Ptxt from '../../components/Ptxt';
-import { COLOR } from '../../styles/static';
+
+// styles
 import styles from './styles';
 
 const AboutUs = ({ navigation }) => {
@@ -13,16 +16,7 @@ const AboutUs = ({ navigation }) => {
         elevation: 0,
       },
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 

@@ -1,18 +1,17 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, ToastAndroid } from 'react-native';
-import { Icon } from 'react-native-elements';
 
 //components
 import HTMLRender from '../../components/HTMLRender';
 import Loader from '../../components/Loader';
+import BackButton from '../../components/BackButton';
 
 //services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const TreatiseDetails = ({ route, navigation }) => {
@@ -24,16 +23,7 @@ const TreatiseDetails = ({ route, navigation }) => {
     navigation.setOptions({
       title: treatiseContent.title,
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   });
 
