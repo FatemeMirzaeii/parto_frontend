@@ -1,0 +1,30 @@
+import React from 'react';
+import { View, Text } from 'react-native';
+import { Button, Icon } from 'react-native-elements';
+
+//components
+import Card from '../../components/Card';
+
+//styles
+import styles from './styles';
+import commonStyles from '../../styles/index';
+
+const LocalScreen = ({ navigation, goftinoOpen }) => {
+  return (
+    <View style={styles.localScreen(goftinoOpen)}>
+      <Card>
+        <Text style={commonStyles.regularTxt}>
+          پرتویی عزیز
+          {'\n'}
+          برای پرسیدن سوال جدید لازمه که کیف پولت رو شارژ کرده باشی. هر سوال می
+          تونه شامل چندین پرسش و پاسخ از طرف شما و کارشناس پرتو باشه. هر زمانیکه
+          کارشناس تشخیص داد، سوال شما به پایان می رسه
+          {'\n'}
+          از همین جا می‌تونی پرسش و پاسخ‌های قبلی رو بدون پرداخت هزینه، ببینی.
+        </Text>
+      </Card>
+    </View>
+  );
+};
+
+export default LocalScreen;

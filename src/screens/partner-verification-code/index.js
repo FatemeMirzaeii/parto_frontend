@@ -63,7 +63,7 @@ const PartnerVerificationCode = ({ navigation }) => {
         />
         {!userId ? (
           <>
-            <Text style={styles.title}>
+            <Text style={commonStyles.regularTxt}>
               برای استفاده از نسخه همسر ابتدا باید ثبت‌نام کنید.
             </Text>
             <Button
@@ -81,7 +81,7 @@ const PartnerVerificationCode = ({ navigation }) => {
           <Loader />
         ) : (
           <>
-            <Text style={styles.title}>
+            <Text style={commonStyles.regularTxt}>
               جهت فعال شدن نسخه همسر خود، از کد زیر استفاده کنید:
             </Text>
             <View style={styles.codeWrapper}>

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-
+import { Icon } from 'react-native-elements';
+import Share from 'react-native-share';
 //styles
 import { FONT } from '../styles/static';
 
@@ -22,11 +23,27 @@ const ArticleCard = (props) => {
               }
             />
           </View>
+          <Icon name="rocket" size={30} type="AntDesign" />
         </TouchableOpacity>
       </View>
     </View>
   );
 };
+// const shareContent = async (url) => {
+//   const shareOptions = {
+//     title: 'Share file',
+//     url: url,
+//     failOnCancel: false,
+//   };
+
+//   try {
+//     const ShareResponse = await Share.open(shareOptions);
+//     shareTxt = JSON.strinygif(ShareResponse, null, 2);
+//   } catch (error) {
+//     console.log('Error =>', error);
+//     shareTxt = 'error: '.concat(getErrorString(error));
+//   }
+// };
 
 export default ArticleCard;
 

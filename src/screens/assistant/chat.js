@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
 import { KeyboardAvoidingView, View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
@@ -12,14 +12,20 @@ import BackButton from '../../components/BackButton';
 
 //styles
 import styles from './styles';
+import LocalScreen from './LocalScreen';
 
 const Chat = ({ navigation, route }) => {
+  const [goftinoReady, setGoftinoReady] = useState(false);
+  const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [httpError, setHttpError] = useState(false);
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
+  const ref = useRef();
   useEffect(() => {
-    const res = checkCredit();
+    const price = getServicePrice();
+    const res = checkCredit(price);
     // if(!res) khob chi?
     setIsLoading(false);
   }, []);
@@ -32,11 +38,14 @@ const Chat = ({ navigation, route }) => {
   const onMessage = (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
+        setGoftinoReady(true);
         break;
       case 'goftino_open':
-        setShowCreditBox(!hasEnaughCredit);
+        setGoftinoOpen(true);
+        setShowCreditBox(true); //todo: check if user has open question or not
         break;
       case 'goftino_close':
+        setGoftinoOpen(false);
         setShowCreditBox(false);
         break;
       // case value:
@@ -46,7 +55,18 @@ const Chat = ({ navigation, route }) => {
         break;
     }
   };
-  const checkCredit = async () => {
+
+  const getServicePrice = async () => {
+    const res = await api({
+      method: 'GET',
+      url: `/payment/v1/${userId}/services/1/amount/fa`,
+      dev: true,
+    });
+    if (!res) return false;
+    return res.data.data.amount;
+  };
+
+  const checkCredit = async (price) => {
     //calling api to get credit and service price.
     const credit = await api({
       method: 'GET',
@@ -55,35 +75,57 @@ const Chat = ({ navigation, route }) => {
     });
     if (!credit) return false;
     console.log('remaining', credit.data.data.remaining);
-    if (credit.data.data.remaining > 0) {
-      // todo: check with service price
+    if (credit.data.data.remaining > price) {
       setHasEnaughCredit(true);
     }
     return true;
   };
 
-  const creditDeduction = () => {
+  const creditDeduction = async () => {
     //reduce credit
+    const success = await api({
+      method: 'POST',
+      url: `/payment/v1/purchase/${userId}/fa`,
+      dev: true,
+      data: {
+        serviceId: 1,
+        method: 'wallet',
+        discount: '0',
+      },
+    });
+    if (!success) return false;
+    return true;
   };
   return (
     <KeyboardAvoidingView style={styles.container}>
+      {httpError && <LocalScreen goftinoOpen={goftinoOpen} />}
       <WebView
+        ref={ref}
         containerStyle={{ flex: 12 }}
         source={{ uri: route.params.uri }}
         javaScriptEnabled
         domStorageEnabled
         onMessage={onMessage}
         injectedJavaScript={goftino}
+        scalesPageToFit
         startInLoadingState
         renderLoading={() => {
           return <Loader />;
         }}
-        // onError={() => navigation.pop()}
-        renderError={() => (
-          <View style={styles.error}>
-            <Text>no internet connection</Text>
-          </View>
-        )}
+        onHttpError={(syntheticEvent) => {
+          setHttpError(true);
+          const { nativeEvent } = syntheticEvent;
+          console.log('WebView received error status code: ', nativeEvent);
+        }}
+        onError={(e) => console.log(e)}
+        renderError={(d, c, des) => {
+          alert(c);
+          return (
+            <View style={styles.error}>
+              <Text>no internet connection</Text>
+            </View>
+          );
+        }}
       />
       {showCreditBox ? (
         <Button
@@ -92,11 +134,24 @@ const Chat = ({ navigation, route }) => {
           titleStyle={styles.text}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
-            if (hasEnaughCredit) creditDeduction();
+            let success;
+            if (hasEnaughCredit) success = creditDeduction();
             else navigation.navigate('Wallet');
+            if (success) setShowCreditBox(false);
           }}
         />
       ) : null}
+      {goftinoReady && (
+        <Button
+          containerStyle={{ zIndex: 15 }}
+          // buttonStyle={styles.newQuestion}
+          titleStyle={styles.text}
+          title="چت"
+          onPress={() => {
+            ref.current.injectJavaScript('Goftino.toggle();');
+          }}
+        />
+      )}
     </KeyboardAvoidingView>
   );
 };

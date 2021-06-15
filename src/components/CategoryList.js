@@ -12,7 +12,7 @@ import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 //components
-import Loader from './CatListLoader';
+import Loader from './Loader';
 
 //services
 import { authCode } from '../services/authCode';
@@ -134,7 +134,9 @@ const CategoryList = (props) => {
   return (
     <>
       {isLoading ? (
-        <Loader leftTxt={treatise ? false : true} />
+        treatise ? (
+          <Loader type="treatiseLoader" />
+        ) : null
       ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
