@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Icon, Divider } from 'react-native-elements';
+import { Icon, Divider, Tooltip } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -56,6 +56,7 @@ const Calendar = ({ navigation }) => {
   const notesFlatlist = useRef(null);
   const trackedFlatlist = useRef(null);
   const bottomSheetRef = useRef(null);
+  const tooltipRef = useRef(null);
   const { isVisible, toggle } = useModal();
   const noteState = useSelector((state) => state.user.note);
   const infoArray =
@@ -249,7 +250,7 @@ const Calendar = ({ navigation }) => {
       style={{
         backgroundColor: 'white',
         padding: 16,
-        height: 450,
+        height: 510,
       }}>
       <View
         style={{
@@ -271,10 +272,23 @@ const Calendar = ({ navigation }) => {
         }}>
         {jalaali(selectedDate).format('jYYYY/jM/jD')}
       </Text>
-      <View style={{ flexDirection: 'row' }}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
+          justifyContent: 'space-between',
+        }}>
+        {/* <Text
+        style={{
+         // textAlign: 'center',
+          fontFamily: FONT.medium,
+          fontSize: 16,
+        }}>
+        {jalaali(selectedDate).format('jYYYY/jM/jD')}
+      </Text> */}
         <Icon
           raised
-          size={25}
+          size={20}
           name="lady"
           type="parto"
           color={COLOR.pink}
@@ -291,7 +305,7 @@ const Calendar = ({ navigation }) => {
         />
         <Icon
           raised
-          size={25}
+          size={20}
           name="new-message"
           type="entypo"
           color={COLOR.pink}
@@ -302,13 +316,51 @@ const Calendar = ({ navigation }) => {
           }
         />
       </View>
-
+      {/* <Tooltip
+        ref={tooltipRef}
+        height={50}
+        containerStyle={{ backgroundColor: 'White' }}
+        pointerColor="white"
+        popover={
+          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
+            <Icon
+              size={25}
+              name="lady"
+              type="parto"
+              color={COLOR.pink}
+              onPress={() =>
+                jalaali(selectedDate).isBefore(today)
+                  ? navigation.navigate('TrackingOptions', {
+                      day: selectedDate,
+                    })
+                  : ToastAndroid.show(
+                      'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
+                      ToastAndroid.LONG,
+                    )
+              }
+            />
+            <Icon
+              size={25}
+              name="new-message"
+              type="entypo"
+              color={COLOR.pink}
+              onPress={() =>
+                navigation.navigate('Note', {
+                  day: selectedDate,
+                })
+              }
+            />
+          </View>
+        }>
+        <Text>Press me</Text>
+      </Tooltip> */}
       <Text
         style={{
           textAlign: 'center',
           fontFamily: FONT.medium,
           fontSize: 14,
-          marginTop: 20,
+          marginTop: 10,
+          marginBottom: 5,
           color: COLOR.listItemTxt,
           // backgroundColor: 'lightblue',
         }}>
@@ -339,8 +391,8 @@ const Calendar = ({ navigation }) => {
                     key={`icon${index.toString()}`}
                     width="100%"
                     height="100%"
-                    // fill={item.color}
-                    fill={COLOR.icon}
+                    fill={item.color}
+                    // fill={COLOR.icon}
                     xml={item.icon}
                   />
                 </View>
@@ -349,17 +401,46 @@ const Calendar = ({ navigation }) => {
               //sliderHeight={100}
               itemWidth={70}
             />
-            <Text
+            <View
               style={{
-                textAlign: 'center',
-                fontFamily: FONT.medium,
-                color: COLOR.listItemTxt,
-                fontSize: 12,
-                // backgroundColor: 'lightgreen',
+                // backgroundColor:'red',
+                flexDirection: 'row',
+                //alignItems: 'center',
+                // justifyContent:'center',
+                alignSelf: 'center',
+                // bottom: 30,
               }}>
-              {trackedOptions[currentIndex].catName} :{' '}
-              {trackedOptions[currentIndex].title}
-            </Text>
+              <Icon
+                raised
+                size={10}
+                name="back-arrow"
+                type="parto"
+                color={COLOR.icon}
+                onPress={() => _handleOnNext(trackedFlatlist)}
+              />
+              <Text
+                style={{
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  fontFamily: FONT.medium,
+                  color: COLOR.listItemTxt,
+                  fontSize: 12,
+                  marginHorizontal: 5,
+                  //backgroundColor: 'lightgreen',
+                }}>
+                {trackedOptions[currentIndex].catName}:{' '}
+                {trackedOptions[currentIndex].title}
+              </Text>
+              <Icon
+                raised
+                size={10}
+                name="right"
+                type="parto"
+                color={COLOR.icon}
+                onPress={() => _handleOnPrevious(trackedFlatlist)}
+                // containerStyle={{ right: 0 }}
+              />
+            </View>
           </View>
         </>
       ) : (
@@ -375,60 +456,7 @@ const Calendar = ({ navigation }) => {
           هنوز شرح‌حالی ثبت نشده است.
         </Text>
       )}
-      <View
-        style={{
-          // backgroundColor:'red',
-          flexDirection: 'row',
-          //alignItems: 'center',
-          // justifyContent:'center',
-          alignSelf: 'center',
-          // bottom: 30,
-        }}>
-        <Icon
-          raised
-          size={10}
-          name="back-arrow"
-          type="parto"
-          color={COLOR.icon}
-          onPress={() => _handleOnNext(trackedFlatlist)}
-        />
-        <Icon
-          raised
-          size={10}
-          name="right"
-          type="parto"
-          color={COLOR.icon}
-          onPress={() => _handleOnPrevious(trackedFlatlist)}
-          // containerStyle={{ right: 0 }}
-        />
-      </View>
-      {/* {trackedOptions &&
-        trackedOptions.map((item, index) => {
-          return (
-            <View
-              key={`view${index.toString()}`}
-              style={{ flexDirection: 'row', justifyContent: 'space-around' ,marginTop:10}}>
-              <Text
-                key={index.toString()}
-                style={{
-                  textAlign: 'center',
-                  fontFamily: FONT.medium,
-                  color:COLOR.listItemTxt,
-                  fontSize: 12,
-                 // backgroundColor: 'lightgreen',
-                }}>
-                {item.catName} : {item.title}
-              </Text>
-              <SvgCss
-                key={`icon${index.toString()}`}
-                width="60%"
-                height="60%"
-                color="red"
-                xml={item.icon}
-              />
-            </View>
-          );
-        })} */}
+
       <Text
         style={{
           textAlign: 'center',
@@ -443,15 +471,17 @@ const Calendar = ({ navigation }) => {
       <Divider />
       {notes.length > 0 ? (
         <>
-          <Carousel
-            ref={notesFlatlist}
-            inverted
-            data={notes}
-            renderItem={notesRenderItem}
-            sliderWidth={WIDTH}
-            itemWidth={WIDTH}
-            onSnapToItem={(index) => setActiveIndex(index)}
-          />
+          <View style={{ marginTop: 5, height: 180 }}>
+            <Carousel
+              ref={notesFlatlist}
+              inverted
+              data={notes}
+              renderItem={notesRenderItem}
+              sliderWidth={WIDTH}
+              itemWidth={WIDTH}
+              onSnapToItem={(index) => setActiveIndex(index)}
+            />
+          </View>
           <View
             style={{
               // backgroundColor:'red',
@@ -560,7 +590,10 @@ const Calendar = ({ navigation }) => {
           }}
           markingType="custom"
           onDayPress={onDayPress}
-          onDayLongPress={(day) => console.log('day long press', day)}
+          onDayLongPress={(day) => {
+            tooltipRef.current.toggleTooltip();
+            console.log('day long press', day);
+          }}
           calendarHeight={430}
           dayComponent={
             editMode
@@ -678,7 +711,7 @@ const Calendar = ({ navigation }) => {
       </View>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[450, 280, 55]}
+        snapPoints={[510, 280, 55]}
         borderRadius={50}
         renderContent={renderContent}
         initialSnap={2}
