@@ -13,6 +13,8 @@ import {
 import { Icon } from 'react-native-elements';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import TextTicker from 'react-native-text-ticker';
+import { shareContent } from '../../util/func';
+import { blogUrl } from '../../services/urls';
 
 //components
 import HTMLRender from '../../components/HTMLRender';
@@ -87,12 +89,23 @@ const ArticleDetails = ({ route, navigation }) => {
                 {articleContent.title}
               </TextTicker>
             </Animated.View>
+
             <Icon
               size={16}
               name="right-arrow"
               type="parto"
               color={COLOR.pink}
               onPress={() => navigation.pop()}
+            />
+
+            <Icon
+              name="sharealt"
+              size={20}
+              type="antdesign"
+              onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
+              containerStyle={{
+                right: 345,
+              }}
             />
           </View>
         </SafeAreaView>
