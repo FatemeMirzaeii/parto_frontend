@@ -12,7 +12,7 @@ export default StyleSheet.create({
     height: 10,
     zIndex: 2000000005,
   },
-  newQuestion: { flex: 1, backgroundColor: '#ffc9dc' },
+  newQuestion: { flex: 1, backgroundColor: 'rgba(173, 173, 173, 0.8)' },
   text: { fontFamily: FONT.regular },
   error: {
     height: '100%',

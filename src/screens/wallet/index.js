@@ -20,6 +20,7 @@ import styles from './styles';
 import globalStyles from '../../styles';
 import WalletImg from '../../../assets/images/wallet/wallet.png';
 import Coin from '../../../assets/images/wallet/coin.png';
+import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
   const categories = [
@@ -30,6 +31,7 @@ const Wallet = ({ navigation }) => {
   ];
   const [credit, setCredit] = useState('');
   const { isVisible, toggle } = useModal();
+  const { isVisible: paySuccess, toggle: togglePaySuccess } = useModal();
   const [isLoading, setIsLoading] = useState(false);
   const [showGateway, setShowGateway] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
@@ -38,7 +40,7 @@ const Wallet = ({ navigation }) => {
 
   useEffect(() => {
     getUserCredit();
-  }, []);
+  }, [showGateway]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -61,35 +63,55 @@ const Wallet = ({ navigation }) => {
     }
     return true;
   };
+
   const sendToBank = async () => {
     const success = await api({
       method: 'POST',
       url: `/payment/v1/purchase/${userId}/fa`,
       dev: true,
       data: {
-        serviceId: 3, //todo
+        serviceId: 2, //todo
         method: 'gateway',
         discount: '0',
       },
     });
     if (!success) return false;
-    setShowGateway(true);
     setBankUrl(success.data.data.link);
+    setShowGateway(true);
     return true;
   };
-  const onMessage = (e) => {
-    let data = e.nativeEvent.data;
-    setShowGateway(false);
-    console.log(data);
-    let payment = JSON.parse(data);
-    // alert(payment.status);
-    // if (payment.status === 'COMPLETED') {
-    //   alert('PAYMENT MADE SUCCESSFULLY!');
-    // } else {
-    //   alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
-    // }
-  };
 
+  const verifyPurchase = async (body) => {
+    const res = await api({
+      method: 'POST',
+      url: `/payment/v1/verifyPurchase/${userId}/fa`,
+      dev: true,
+      data: body,
+    });
+    if (!res) return false;
+    // show modals to user
+    console.log('verifyPurchase', res.data);
+    if (res.status === 200) togglePaySuccess();
+    return true;
+  };
+  const onMessage = async (e) => {
+    let data = e.nativeEvent.data;
+    let paymentResult = JSON.parse(data);
+    const res = {
+      status: paymentResult.status,
+      authority: paymentResult.id,
+      orderId: paymentResult.order_id,
+    };
+    await verifyPurchase(res);
+    setShowGateway(false);
+  };
+  const onBackdropPress = () => {
+    isLoading
+      ? () => {
+          return;
+        }
+      : toggle();
+  };
   return (
     <ScrollView style={styles.container}>
       <Card>
@@ -120,8 +142,8 @@ const Wallet = ({ navigation }) => {
             <Card
               key={category.amount}
               hasHeader
-              //   headerTitle={`اعتبار: ${credit} ریال`}
-              headerTitle={'بسته شماره ۱'}
+              headerTitle={`اعتبار: ${credit} ریال`}
+              // headerTitle={'بسته شماره ۱'}
               headerColor={COLOR.btn}
               headerTxtStyle={{ color: 'white', fontSize: 13 }}
               onPress={() => {
@@ -141,6 +163,7 @@ const Wallet = ({ navigation }) => {
         isVisible={isVisible}
         isLoading={isLoading}
         hide={toggle}
+        onBackdropPress={onBackdropPress}
         icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
@@ -157,7 +180,24 @@ const Wallet = ({ navigation }) => {
           <Image style={styles.coin} resizeMode="center" source={Coin} />
         </View>
       </DialogBox>
-      {showGateway ? (
+      <DialogBox
+        isVisible={paySuccess}
+        hide={togglePaySuccess}
+        icon={<Image source={Pay} resizeMode="center" />}
+        text="پرداخت با موفقیت انجام شد."
+        firstBtnTitle="باشه"
+        firstBtnPress={() => {
+          togglePaySuccess();
+        }}
+        firstBtnColor="green">
+        <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
+        <View style={styles.creditBox}>
+          <Text style={globalStyles.regularTxt}>ریال</Text>
+          <Text style={globalStyles.regularTxt}>{credit}</Text>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
+        </View>
+      </DialogBox>
+      {showGateway && (
         <Modal
           visible={showGateway}
           onDismiss={() => setShowGateway(false)}
@@ -174,9 +214,8 @@ const Wallet = ({ navigation }) => {
             )}
             onMessage={onMessage}
           />
-          {/* </View> */}
         </Modal>
-      ) : null}
+      )}
     </ScrollView>
   );
 };
