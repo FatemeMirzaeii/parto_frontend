@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   },
   darkBtnTitle: {
     fontFamily: FONT.medium,
-    fontSize: 15,
+    fontSize: 13,
     color: COLOR.textColor,
   },
   btnSubtitle: {
