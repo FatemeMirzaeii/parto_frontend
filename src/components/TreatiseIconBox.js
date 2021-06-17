@@ -33,7 +33,7 @@ const TreatiseIconBox = ({
         }}
         reverse
         size={16}
-        type="feather"
+        name="phone"
         name="info"
         type="parto"
         color={COLOR.pink}
@@ -62,7 +62,7 @@ const TreatiseIconBox = ({
         reverse
         size={16}
         name="phone"
-        type="feather"
+        type="antdesign"
         color={COLOR.pink}
         onPress={callPress}
       />
