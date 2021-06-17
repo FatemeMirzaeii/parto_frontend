@@ -1,15 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import {
-  Image,
-  Text,
-  View,
-  ScrollView,
-  Modal,
-  TouchableOpacity,
-  ActivityIndicator,
-} from 'react-native';
+import { Image, Text, View, ScrollView, Modal } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { WebView } from 'react-native-webview';
+
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -17,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Card from '../../components/Card';
 import BackButton from '../../components/BackButton';
 import DialogBox from '../../components/DialogBox';
+import Loader from '../../components/Loader';
 import useModal from '../../util/hooks/useModal';
 import api from '../../services/api';
 
@@ -36,6 +30,7 @@ const Wallet = ({ navigation }) => {
   ];
   const [credit, setCredit] = useState('');
   const { isVisible, toggle } = useModal();
+  const [isLoading, setIsLoading] = useState(false);
   const [showGateway, setShowGateway] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
   const [bankUrl, setBankUrl] = useState();
@@ -94,6 +89,7 @@ const Wallet = ({ navigation }) => {
     //   alert('PAYMENT FAILED. PLEASE TRY AGAIN.');
     // }
   };
+
   return (
     <ScrollView style={styles.container}>
       <Card>
@@ -143,12 +139,15 @@ const Wallet = ({ navigation }) => {
       </View>
       <DialogBox
         isVisible={isVisible}
+        isLoading={isLoading}
         hide={toggle}
         icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
         firstBtnPress={async () => {
-          sendToBank();
+          setIsLoading(true);
+          await sendToBank();
+          setIsLoading(false);
           toggle();
         }}>
         <Text style={globalStyles.regularTxt}>مبلغ انتخاب شده:</Text>
@@ -163,42 +162,16 @@ const Wallet = ({ navigation }) => {
           visible={showGateway}
           onDismiss={() => setShowGateway(false)}
           onRequestClose={() => setShowGateway(false)}
-          animationType={'fade'}>
-          {/* <View style={styles.webViewCon}>
-            <View style={styles.wbHead}>
-              <TouchableOpacity
-                style={{ padding: 13 }}
-                onPress={() => setShowGateway(false)}>
-                <Icon type="parto" name="exit" color="#aaa" size={50} />
-              </TouchableOpacity>
-              <Text
-                style={{
-                  flex: 1,
-                  textAlign: 'center',
-                  fontSize: 16,
-                  fontWeight: 'bold',
-                  color: '#00457C',
-                }}>
-                PayPal GateWay
-              </Text>
-            </View> */}
+          animationType={'slide'}>
           <WebView
             source={{ uri: bankUrl }}
             style={{ flex: 1 }}
-            // onLoadStart={() => {
-            //   setProg(true);
-            //   setProgClr('#000');
-            // }}
-            // onLoadProgress={() => {
-            //   setProg(true);
-            //   setProgClr('#00457C');
-            // }}
-            // onLoadEnd={() => {
-            //   setProg(false);
-            // }}
-            // onLoad={() => {
-            //   setProg(false);
-            // }}
+            startInLoadingState
+            renderLoading={() => (
+              <View style={styles.loader}>
+                <Loader type="ActivityIndicator" />
+              </View>
+            )}
             onMessage={onMessage}
           />
           {/* </View> */}

@@ -34,4 +34,9 @@ export default StyleSheet.create({
     justifyContent: 'space-between',
     paddingHorizontal: 15,
   },
+  loader: {
+    position: 'absolute',
+    height: '100%',
+    width: '100%',
+  },
 });

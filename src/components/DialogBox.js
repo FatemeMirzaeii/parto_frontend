@@ -61,6 +61,7 @@ const DialogBox = ({
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
+              loading={isLoading}
             />
           </View>
         )}
