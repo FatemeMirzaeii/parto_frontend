@@ -77,7 +77,7 @@ export default class NotificationService {
       ticker: 'My Notification Ticker', // (optional)
       autoCancel: true, // (optional) default: true
       largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
-      smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher"
+      smallIcon: 'ic_logo', // (optional) default: "ic_notification" with fallback for "ic_launcher"
       bigText: 'My big text that will be shown when notification is expanded', // (optional) default: "message" prop
       subText: 'This is a subText', // (optional) default: none
       color: 'red', // (optional) default: system default
@@ -113,15 +113,15 @@ export default class NotificationService {
     //todo: set 'when' for showing time in banner
     // this.lastId++;
     PushNotification.localNotificationSchedule({
-      date: date,
-      // new Date(Date.now() + 30 * 1000), // in 30 secs
+      // date: date,
+      date: new Date(Date.now() + 30 * 1000), // in 30 secs
 
       /* Android Only Properties */
       channelId: soundName ? 'sound-channel-id' : 'default-channel-id',
       ticker: 'My Notification Ticker', // (optional)
       autoCancel: true, // (optional) default: true
-      largeIcon: 'ic_launcher', // (optional) default: "ic_launcher"
-      smallIcon: 'ic_notification', // (optional) default: "ic_notification" with fallback for "ic_launcher"
+      largeIcon: 'ic_no', // (optional) default: "ic_launcher"
+      smallIcon: 'ic_logo', // (optional) default: "ic_notification" with fallback for "ic_launcher"
       bigText: message, // (optional) default: "message" prop
       //subText: '', // (optional) default: none
       color: COLOR.purple, // (optional) default: system default
