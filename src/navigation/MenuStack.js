@@ -14,6 +14,7 @@ import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 import Assistant from '../screens/assistant';
+import Wallet from '../screens/wallet';
 import PartnerVerificationCode from '../screens/partner-verification-code';
 import { FONT } from '../styles/static';
 
@@ -47,6 +48,7 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
       <MenuStack.Screen name="Assistant" component={Assistant} />
+      <MenuStack.Screen name="Wallet" component={Wallet} />
       <MenuStack.Screen
         name="PartnerVerificationCode"
         component={PartnerVerificationCode}

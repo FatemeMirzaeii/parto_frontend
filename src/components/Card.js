@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
+import { StyleSheet, View, Text, TouchableWithoutFeedback } from 'react-native';
 import { COLOR, FONT } from '../styles/static';
 
 const Card = (props) => {
@@ -8,10 +8,12 @@ const Card = (props) => {
     <View style={styles.container}>
       {props.hasHeader ? (
         <View style={styles.headerBox(props)}>
-          <Text style={styles.headerTxt}> {props.headerTitle}</Text>
+          <Text style={styles.headerTxt(props)}> {props.headerTitle}</Text>
         </View>
       ) : null}
-      <View style={styles.card(props)}>{props.children}</View>
+      <TouchableWithoutFeedback onPress={props.onPress}>
+        <View style={styles.card(props)}>{props.children}</View>
+      </TouchableWithoutFeedback>
     </View>
   );
 };
@@ -33,7 +35,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   headerBox: (props) => ({
-    backgroundColor: props.color,
+    backgroundColor: props.headerColor ?? props.color,
     top: 7,
     padding: 10,
     borderTopLeftRadius: 10,
@@ -60,12 +62,13 @@ const styles = StyleSheet.create({
     shadowRadius: 4.65,
     elevation: 3,
   }),
-  headerTxt: {
-    color: '#666666',
+  headerTxt: (props) => ({
+    color: COLOR.listItemTxt,
     fontSize: 15,
     fontFamily: FONT.medium,
     textAlign: 'right',
-  },
+    ...props.headerTxtStyle,
+  }),
 });
 
 export default Card;

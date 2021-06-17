@@ -11,6 +11,7 @@ import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 import NetInfo from '@react-native-community/netinfo';
+
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';

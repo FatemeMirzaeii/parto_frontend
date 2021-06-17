@@ -47,11 +47,7 @@ const HomeStackScreen = () => {
         component={PregnancyEndCalendar}
         options={{ headerShown: false }}
       />
-      <HomeStack.Screen
-        name="Chat"
-        component={Chat}
-        options={{ headerShown: false }}
-      />
+      <HomeStack.Screen name="Chat" component={Chat} />
     </HomeStack.Navigator>
   );
 };
