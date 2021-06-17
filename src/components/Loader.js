@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 import { COLOR, WIDTH } from '../styles/static';
 
 const Loader = (props) => {
-  console.log('Loader Prop', props.type);
   return props.type === 'ActivityIndicator' ? (
     <View style={styles.container}>
       <ActivityIndicator size="large" color={COLOR.pink} />
