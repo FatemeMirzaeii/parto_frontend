@@ -35,6 +35,9 @@ export default StyleSheet.create({
     fontSize: 12,
     maxWidth: 200,
   },
+  disabledListItemTitle: {
+    color: '#bfbfbf',
+  },
   listItemContentContainer: {
     alignItems: 'flex-end',
   },

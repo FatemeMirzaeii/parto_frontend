@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { ScrollView } from 'react-native';
+import { ScrollView, ToastAndroid } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { useSelector } from 'react-redux';
 
@@ -10,20 +10,12 @@ import { getReminders } from '../../util/database/query';
 
 // styles
 import globalStyles from '../../styles';
-import { COLOR } from '../../styles/static';
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
+  const [disabled, setDisabled] = useState([]);
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
-
-  useEffect(() => {
-    getReminders().then((r) => {
-      if (template === 'Teenager') r.splice(1, 1);
-      // todo: do we need to remove breast exam for partner?
-      setReminders(r);
-    });
-  }, []);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -33,6 +25,25 @@ const Reminders = ({ navigation }) => {
     });
   });
 
+  useEffect(() => {
+    getReminders().then((r) => {
+      if (template === 'Teenager') r.splice(1, 1);
+      if (template === 'Partner') r.splice(0, 1);
+      setReminders(r);
+    });
+  }, []);
+
+  useEffect(() => {
+    let r = [];
+    reminders.map((i, index) => {
+      i.id !== 1 && (!cycle.lastPeriodDate || cycle.isPregnant !== 0)
+        ? (r[index] = true)
+        : (r[index] = false);
+    });
+    setDisabled(r);
+    console.log('t', r);
+  }, [reminders, cycle.lastPeriodDate, cycle.isPregnant]);
+
   return (
     <ScrollView>
       <Card>
@@ -41,18 +52,26 @@ const Reminders = ({ navigation }) => {
             <ListItem
               key={r.id}
               title={r.title}
+              Subtitle={r.title}
               onPress={() =>
-                navigation.navigate('ReminderSetting', { reminder: r })
+                !disabled[index]
+                  ? navigation.navigate('ReminderSetting', { reminder: r })
+                  : ToastAndroid.show(
+                      cycle.isPregnant !== 0
+                        ? 'فعال‌سازی این یادآور در حالت بارداری امکان‌پذیر نمی‌باشد.'
+                        : 'لطفا پیش از فعال‌سازی این یادآور، تاریخ آخرین پریود خود را وارد کنید.',
+                      ToastAndroid.LONG,
+                    )
               }
               bottomDivider={index === reminders.length - 1 ? false : true}
-              disabled={
-                r.id !== 1 &&
-                (cycle.lastPeriodDate !== '' || cycle.isPregnant !== 0)
-                  ? true
-                  : false
+              titleStyle={
+                !disabled[index]
+                  ? globalStyles.listItemTitle
+                  : [
+                      globalStyles.listItemTitle,
+                      globalStyles.disabledListItemTitle,
+                    ]
               }
-              leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
-              titleStyle={globalStyles.listItemTitle}
               containerStyle={globalStyles.listItem}
               contentContainerStyle={globalStyles.listItemContentContainer}
             />
