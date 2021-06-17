@@ -31,7 +31,7 @@ const Reminders = ({ navigation }) => {
       if (template === 'Partner') r.splice(0, 1);
       setReminders(r);
     });
-  }, []);
+  }, [template]);
 
   useEffect(() => {
     let r = [];

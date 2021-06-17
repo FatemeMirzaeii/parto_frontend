@@ -113,7 +113,7 @@ export default class NotificationService {
     //todo: set 'when' for showing time in banner
     // this.lastId++;
     PushNotification.localNotificationSchedule({
-       date: date,
+      date: date,
       // date: new Date(Date.now() + 30 * 1000), // in 30 secs
 
       /* Android Only Properties */
