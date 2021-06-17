@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 
 //components
 import Card from '../../components/Card';
@@ -9,7 +9,7 @@ import Card from '../../components/Card';
 import styles from './styles';
 import commonStyles from '../../styles/index';
 
-const LocalScreen = ({ navigation, goftinoOpen }) => {
+const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
   return (
     <View style={styles.localScreen(goftinoOpen)}>
       <Card>
@@ -22,6 +22,14 @@ const LocalScreen = ({ navigation, goftinoOpen }) => {
           {'\n'}
           از همین جا می‌تونی پرسش و پاسخ‌های قبلی رو بدون پرداخت هزینه، ببینی.
         </Text>
+        <Button
+          containerStyle={styles.btnContainer}
+          loading={!goftinoReady}
+          buttonStyle={styles.button}
+          titleStyle={styles.text}
+          title="شروع گفتگو"
+          onPress={onPress}
+        />
       </Card>
     </View>
   );

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, COLOR } from '../../styles/static';
+import { FONT, COLOR, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -30,4 +30,16 @@ export default StyleSheet.create({
     position: 'absolute',
     zIndex: goftinoOpen ? 0 : 10,
   }),
+  btnContainer: {
+    elevation: 5,
+    width: WIDTH / 3,
+    height: 40,
+    borderRadius: 40,
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  button: {
+    height: 40,
+    backgroundColor: COLOR.btn,
+  },
 });

@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
-import { KeyboardAvoidingView, View, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector } from 'react-redux';
 
@@ -19,22 +19,27 @@ const Chat = ({ navigation, route }) => {
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const [httpError, setHttpError] = useState(false);
+  const [httpError, setHttpError] = useState(true);
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
   const ref = useRef();
+
   useEffect(() => {
     const price = getServicePrice();
     const res = checkCredit(price);
     // if(!res) khob chi?
     setIsLoading(false);
   }, []);
+
   useLayoutEffect(() => {
     navigation.setOptions({
+      headerShown: !goftinoOpen,
+      title: '',
       headerLeft: () => null,
       headerRight: () => <BackButton navigation={navigation} />,
     });
-  }, [navigation]);
+  }, [navigation, goftinoOpen]);
+
   const onMessage = (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
@@ -59,7 +64,7 @@ const Chat = ({ navigation, route }) => {
   const getServicePrice = async () => {
     const res = await api({
       method: 'GET',
-      url: `/payment/v1/${userId}/services/1/amount/fa`,
+      url: '/payment/services/1/price/fa',
       dev: true,
     });
     if (!res) return false;
@@ -97,8 +102,14 @@ const Chat = ({ navigation, route }) => {
     return true;
   };
   return (
-    <KeyboardAvoidingView style={styles.container}>
-      {httpError && <LocalScreen goftinoOpen={goftinoOpen} />}
+    <View style={styles.container}>
+      {httpError && (
+        <LocalScreen
+          goftinoOpen={goftinoOpen}
+          goftinoReady={goftinoReady}
+          onPress={() => ref.current.injectJavaScript('Goftino.toggle();')}
+        />
+      )}
       <WebView
         ref={ref}
         containerStyle={{ flex: 12 }}
@@ -141,18 +152,7 @@ const Chat = ({ navigation, route }) => {
           }}
         />
       ) : null}
-      {goftinoReady && (
-        <Button
-          containerStyle={{ zIndex: 15 }}
-          // buttonStyle={styles.newQuestion}
-          titleStyle={styles.text}
-          title="چت"
-          onPress={() => {
-            ref.current.injectJavaScript('Goftino.toggle();');
-          }}
-        />
-      )}
-    </KeyboardAvoidingView>
+    </View>
   );
 };
 

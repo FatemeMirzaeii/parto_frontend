@@ -31,7 +31,7 @@ const DialogBox = ({
       <View style={styles.modal}>
         {icon}
         <Text style={styles.modalTxt}>{text}</Text>
-        {children}
+        <View style={styles.children}>{children}</View>
         {twoButtons ? (
           <View style={styles.modalBtnWrapper}>
             <Button
@@ -61,6 +61,7 @@ const DialogBox = ({
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
+              loading={isLoading}
             />
           </View>
         )}
@@ -148,6 +149,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: COLOR.textColor,
   },
+  children: { padding: 10 },
 });
 
 export default DialogBox;
