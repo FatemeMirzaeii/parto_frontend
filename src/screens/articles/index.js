@@ -176,7 +176,7 @@ const Articles = ({ navigation }) => {
     <>
       {isLoading && newestIsLoading ? (
         counter.map((item) => (
-          <Loader key={item.toString()} type="articleLoader" />
+          <Loader key={item.toString()} type="ArticleLoader" />
         ))
       ) : (
         <SafeAreaView style={styles.main}>

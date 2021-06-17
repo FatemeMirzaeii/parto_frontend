@@ -1,6 +1,5 @@
 import axios from 'axios';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import ContentLoader, { Rect } from 'react-content-loader/native';
 import {
   FlatList,
   SafeAreaView,
@@ -8,8 +7,6 @@ import {
   Linking,
   ImageBackground,
 } from 'react-native';
-import { Icon } from 'react-native-elements';
-import PropTypes from 'prop-types';
 
 //components
 import CategoryList from '../../components/CategoryList';
@@ -30,7 +27,6 @@ import heyzImg from '../../../assets/images/treatise/heyz.png';
 import nefasImg from '../../../assets/images/treatise/nefas.png';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const Treatise = ({ navigation }) => {
@@ -93,7 +89,7 @@ const Treatise = ({ navigation }) => {
     <>
       {isLoading ? (
         counter.map((item) => (
-          <Loader key={item.toString()} type="bgtreatiseLoader" />
+          <Loader key={item.toString()} type="BgTreatiseLoader" />
         ))
       ) : (
         <SafeAreaView style={styles.main}>
