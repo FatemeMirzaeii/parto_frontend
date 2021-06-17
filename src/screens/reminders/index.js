@@ -20,6 +20,7 @@ const Reminders = ({ navigation }) => {
   useEffect(() => {
     getReminders().then((r) => {
       if (template === 'Teenager') r.splice(1, 1);
+      // todo: do we need to remove breast exam for partner?
       setReminders(r);
     });
   }, [template]);
