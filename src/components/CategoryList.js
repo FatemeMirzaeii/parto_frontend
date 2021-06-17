@@ -135,7 +135,7 @@ const CategoryList = (props) => {
     <>
       {isLoading ? (
         treatise ? (
-          <Loader type="treatiseLoader" />
+          <Loader type="TreatiseLoader" />
         ) : null
       ) : (
         <View style={styles.main}>
@@ -196,7 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   moreButtonIcon: {
-    //paddingVertical: '2%',//for responsive
     paddingVertical: 5,
     paddingRight: 5,
   },
@@ -212,7 +211,6 @@ const styles = StyleSheet.create({
   treatiseCategoryText: {
     marginRight: 100,
     paddingBottom: 20,
-    //marginTop: 20,
     color: 'white',
   },
   cardButton: {
