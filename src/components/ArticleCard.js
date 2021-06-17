@@ -1,12 +1,15 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements';
-import { shareContent } from '../util/func';
+
+//services
 import { blogUrl } from '../services/urls';
+
+//util
+import { shareContent } from '../util/func';
 
 //styles
 import { FONT } from '../styles/static';
-import { COLOR } from '../styles/static';
 
 const ArticleCard = (props) => {
   return (

@@ -13,8 +13,6 @@ import {
 import { Icon } from 'react-native-elements';
 import StickyParallaxHeader from 'react-native-sticky-parallax-header';
 import TextTicker from 'react-native-text-ticker';
-import { shareContent } from '../../util/func';
-import { blogUrl } from '../../services/urls';
 
 //components
 import HTMLRender from '../../components/HTMLRender';
@@ -23,6 +21,10 @@ import Loader from '../../components/Loader';
 //services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
+import { blogUrl } from '../../services/urls';
+
+//util
+import { shareContent } from '../../util/func';
 
 //styles
 import { COLOR } from '../../styles/static';
