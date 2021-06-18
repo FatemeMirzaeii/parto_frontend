@@ -118,7 +118,7 @@ const Passcode = ({ navigation, route }) => {
             'Content-Type': 'application/json',
           },
           data: {
-            phone: '98' + '9124720868',
+            phone: phoneState ? `98${phoneState}` : `98${phoneNumber}`,
             type: 'lock',
             code: value,
           },
@@ -235,13 +235,11 @@ const Passcode = ({ navigation, route }) => {
           <Text style={styles.title}>کد ورود را وارد کنید:</Text>
           <View
             style={{
-              // flex: 1,
-              // backgroundColor: 'red',
               marginleft: 100,
               flexDirection: 'row',
               justifyContent: 'space-between',
               width: 250,
-              marginBottom: '12%',
+              marginBottom: '10%',
             }}>
             <CodeField
               ref={ref}
