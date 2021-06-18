@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, SIZE, WIDTH } from '../../styles/static';
+import { COLOR, FONT, WIDTH } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
@@ -9,9 +9,8 @@ export default StyleSheet.create({
     height: '100%',
   },
   codeFieldRoot: {
-    marginVertical: 30,
     justifyContent: 'space-evenly',
-    width: WIDTH * 0.4,
+    width: WIDTH * 0.5,
     alignSelf: 'center',
   },
   cell: {
@@ -20,7 +19,7 @@ export default StyleSheet.create({
     width: 30,
     height: 30,
     lineHeight: 45,
-    fontSize: 13,
+    fontSize: 18,
     borderColor: 'transparent',
     textAlign: 'center',
     alignSelf: 'center',
@@ -52,14 +51,18 @@ export default StyleSheet.create({
     marginTop: 40,
   },
   title: {
-    fontSize: 15,
+    fontSize: 16,
     color: 'white',
     alignSelf: 'center',
     marginTop: 20,
     fontFamily: FONT.medium,
+    marginBottom: 20,
   },
   btnWrapper: {
     backgroundColor: 'rgba(0,0,0,0.4)',
+    justifyContent: 'space-between',
+    flexDirection: 'row',
+    alignSelf: 'center',
   },
   btnContainer: {
     elevation: 3,
@@ -75,6 +78,43 @@ export default StyleSheet.create({
   },
   btnTitle: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
+  },
+  buttonNext: {
+    height: 40,
+    backgroundColor: 'white',
+  },
+  btnTitleNext: {
+    fontFamily: FONT.medium,
+    fontSize: 14,
+    color: COLOR.purple,
+  },
+
+  phoneContainer: {
+    backgroundColor: 'red',
+    width: '90%',
+    alignSelf: 'center',
+    paddingBottom: 30,
+  },
+  description: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    color: '#969696',
+    textAlign: 'center',
+  },
+
+  phoneInputwrapper: {
+    width: WIDTH * 0.7,
+    borderRadius: 10,
+    alignSelf: 'center',
+    margin: 30,
+  },
+  phoneInputTxtwrapper: {
+    borderTopRightRadius: 10,
+    borderBottomRightRadius: 10,
+    marginLeft: -10,
+  },
+  phoneInputTxt: {
+    fontFamily: FONT.regular,
   },
 });
