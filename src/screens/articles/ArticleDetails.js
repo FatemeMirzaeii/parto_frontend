@@ -21,6 +21,10 @@ import Loader from '../../components/Loader';
 //services
 import { authCode } from '../../services/authCode';
 import { articlesBaseUrl } from '../../services/urls';
+import { blogUrl } from '../../services/urls';
+
+//util
+import { shareContent } from '../../util/func';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -87,12 +91,23 @@ const ArticleDetails = ({ route, navigation }) => {
                 {articleContent.title}
               </TextTicker>
             </Animated.View>
+
             <Icon
               size={16}
               name="right-arrow"
               type="parto"
               color={COLOR.pink}
               onPress={() => navigation.pop()}
+            />
+
+            <Icon
+              name="sharealt"
+              size={20}
+              type="antdesign"
+              onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
+              containerStyle={{
+                right: 345,
+              }}
             />
           </View>
         </SafeAreaView>
