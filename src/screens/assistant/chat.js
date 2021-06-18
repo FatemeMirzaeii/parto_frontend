@@ -1,27 +1,33 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector } from 'react-redux';
 
 // components and utils
+import LocalScreen from './LocalScreen';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
 import { goftino } from './goftino';
 import BackButton from '../../components/BackButton';
+import DialogBox from '../../components/DialogBox';
+import useModal from '../../util/hooks/useModal';
 
 //styles
+import globalStyles from '../../styles';
 import styles from './styles';
-import LocalScreen from './LocalScreen';
+import Coin from '../../../assets/images/wallet/coin.png';
 
 const Chat = ({ navigation, route }) => {
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
+  const [credit, setCredit] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
+  const { isVisible, toggle } = useModal();
   const ref = useRef();
 
   useEffect(() => {
@@ -73,14 +79,15 @@ const Chat = ({ navigation, route }) => {
 
   const checkCredit = async (price) => {
     //calling api to get credit and service price.
-    const credit = await api({
+    const cre = await api({
       method: 'GET',
       url: `/payment/v1/credit/${userId}/fa`,
       dev: true,
     });
-    if (!credit) return false;
-    console.log('remaining', credit.data.data.remaining);
-    if (credit.data.data.remaining > price) {
+    if (!cre) return false;
+    console.log('remaining', cre.data.data.remaining);
+    setCredit(cre.data.data.remaining);
+    if (cre.data.data.remaining > price) {
       setHasEnaughCredit(true);
     }
     return true;
@@ -147,11 +154,29 @@ const Chat = ({ navigation, route }) => {
           onPress={() => {
             let success;
             if (hasEnaughCredit) success = creditDeduction();
-            else navigation.navigate('Wallet');
+            else toggle();
             if (success) setShowCreditBox(false);
           }}
         />
       ) : null}
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        // icon={<Image source={Pay} resizeMode="center" />}
+        text="اعتبار شما کافی نیست."
+        firstBtnTitle="افزایش موجودی"
+        firstBtnPress={() => {
+          navigation.navigate('Wallet');
+          toggle();
+        }}
+        firstBtnColor="orange">
+        <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
+        <View style={styles.creditBox}>
+          <Text style={globalStyles.regularTxt}>ریال</Text>
+          <Text style={globalStyles.regularTxt}>{credit}</Text>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
+        </View>
+      </DialogBox>
     </View>
   );
 };
