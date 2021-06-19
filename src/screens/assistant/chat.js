@@ -1,34 +1,41 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector } from 'react-redux';
 
 // components and utils
+import LocalScreen from './LocalScreen';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
 import { goftino } from './goftino';
 import BackButton from '../../components/BackButton';
+import DialogBox from '../../components/DialogBox';
+import useModal from '../../util/hooks/useModal';
 
 //styles
+import globalStyles from '../../styles';
 import styles from './styles';
-import LocalScreen from './LocalScreen';
+import Coin from '../../../assets/images/wallet/coin.png';
 
 const Chat = ({ navigation, route }) => {
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
+  const [credit, setCredit] = useState(0);
+  const [servicePrice, setServicePrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
+  const { isVisible, toggle } = useModal();
+  const { isVisible: approveIsVisible, toggle: toggleApprove } = useModal();
+  const { isVisible: successIsVisible, toggle: toggleSuccess } = useModal();
   const ref = useRef();
 
   useEffect(() => {
-    const price = getServicePrice();
-    const res = checkCredit(price);
+    const res = checkCredit();
     // if(!res) khob chi?
-    setIsLoading(false);
   }, []);
 
   useLayoutEffect(() => {
@@ -64,25 +71,29 @@ const Chat = ({ navigation, route }) => {
   const getServicePrice = async () => {
     const res = await api({
       method: 'GET',
-      url: '/payment/services/1/price/fa',
+      url: '/payment/services/1/price/fa', //todo
       dev: true,
     });
     if (!res) return false;
-    return res.data.data.amount;
+    setServicePrice(res.data.data.price);
+    return res.data.data.price;
   };
 
-  const checkCredit = async (price) => {
+  const checkCredit = async () => {
     //calling api to get credit and service price.
-    const credit = await api({
+    const price = await getServicePrice();
+    const cre = await api({
       method: 'GET',
       url: `/payment/v1/credit/${userId}/fa`,
       dev: true,
     });
-    if (!credit) return false;
-    console.log('remaining', credit.data.data.remaining);
-    if (credit.data.data.remaining > price) {
+    if (!cre) return false;
+    console.log('remaining', cre.data.data.remaining);
+    setCredit(cre.data.data.remaining);
+    if (cre.data.data.remaining >= price) {
       setHasEnaughCredit(true);
     }
+    setIsLoading(false);
     return true;
   };
 
@@ -121,16 +132,16 @@ const Chat = ({ navigation, route }) => {
         scalesPageToFit
         startInLoadingState
         renderLoading={() => {
-          return <Loader />;
+          return <Loader type="ActivityIndicator" />;
         }}
         onHttpError={(syntheticEvent) => {
           setHttpError(true);
           const { nativeEvent } = syntheticEvent;
-          console.log('WebView received error status code: ', nativeEvent);
+          console.log('WebView received http error status code: ', nativeEvent);
         }}
         onError={(e) => console.log(e)}
         renderError={(d, c, des) => {
-          alert(c);
+          // alert(c);
           return (
             <View style={styles.error}>
               <Text>no internet connection</Text>
@@ -145,13 +156,70 @@ const Chat = ({ navigation, route }) => {
           titleStyle={styles.text}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
-            let success;
-            if (hasEnaughCredit) success = creditDeduction();
-            else navigation.navigate('Wallet');
-            if (success) setShowCreditBox(false);
+            if (hasEnaughCredit) toggleApprove();
+            else toggle();
           }}
         />
       ) : null}
+      <DialogBox
+        isVisible={isVisible}
+        hide={toggle}
+        // icon={<Image source={Pay} resizeMode="center" />}
+        text="اعتبار شما کافی نیست."
+        firstBtnTitle="افزایش موجودی"
+        firstBtnPress={() => {
+          navigation.navigate('Wallet');
+          toggle();
+        }}
+        firstBtnColor="orange">
+        <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
+        <View style={styles.creditBox}>
+          <Text style={globalStyles.regularTxt}>ریال</Text>
+          <Text style={globalStyles.regularTxt}>{credit}</Text>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
+        </View>
+      </DialogBox>
+      <DialogBox
+        isVisible={approveIsVisible}
+        hide={toggleApprove}
+        isLoading={isLoading}
+        // icon={<Image source={Pay} resizeMode="center" />}
+        text=""
+        firstBtnTitle="پرداخت از کیف پول"
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          const success = await creditDeduction();
+          if (success) {
+            await checkCredit();
+            setIsLoading(false);
+            toggleSuccess();
+            toggleApprove();
+          }
+        }}>
+        <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text>
+        <View style={styles.creditBox}>
+          <Text style={globalStyles.regularTxt}>ریال</Text>
+          <Text style={globalStyles.regularTxt}>{servicePrice}</Text>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
+        </View>
+      </DialogBox>
+      <DialogBox
+        isVisible={successIsVisible}
+        hide={toggleSuccess}
+        // icon={<Image source={Pay} resizeMode="center" />}
+        text="پرداخت با موفقیت انجام شد."
+        firstBtnTitle="باشه"
+        firstBtnPress={() => {
+          toggleSuccess();
+          setShowCreditBox(false);
+        }}>
+        <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
+        <View style={styles.creditBox}>
+          <Text style={globalStyles.regularTxt}>ریال</Text>
+          <Text style={globalStyles.regularTxt}>{credit}</Text>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
+        </View>
+      </DialogBox>
     </View>
   );
 };

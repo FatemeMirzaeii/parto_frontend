@@ -25,7 +25,7 @@ const DialogBox = ({
 }) => {
   return (
     <Modal
-      animationType="fade"
+      animationType="slide"
       isVisible={isVisible}
       onRequestClose={hide}
       onBackdropPress={onBackdropPress ?? hide}>
