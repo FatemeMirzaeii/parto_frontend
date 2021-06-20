@@ -1,9 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useLayoutEffect,
-  useCallback,
-} from 'react';
+import React, { useEffect, useState, useLayoutEffect } from 'react';
 import { SafeAreaView, View, Text, FlatList, ToastAndroid } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
@@ -18,25 +13,20 @@ import { setNote } from '../../store/actions/user';
 
 // components
 import Card from '../../components/Card';
+import SearchBar from '../../components/SearchBar';
+
+//util
+import { e2p, a2p } from '../../util/func';
 
 // styles
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
-const NotesList = ({ navigation, route }) => {
-  // const { day } = route.params;
+const NotesList = ({ navigation }) => {
   const [notes, setNotes] = useState([]);
-  const dispatch = useDispatch();
+  const [searchInput, setSearchInput] = useState([]);
   const noteState = useSelector((state) => state.user.note);
-  const keys = Object.keys(noteState);
-  const n=keys.map((ele)=>[{
-        [noteState[ele].key]: {
-          key: noteState[ele].key,
-          day: noteState[ele].day,
-          title: noteState[ele].title,
-          note: noteState[ele].note,
-        },
-      }])
+  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -51,106 +41,73 @@ const NotesList = ({ navigation, route }) => {
           containerStyle={{ right: 40 }}
         />
       ),
-      headerLeft: null,
+      headerLeft: () =>
+        // <SearchBar
+        //   undertxt="جستجو"
+        //   onChangeText={_handleSearch}
+        //   iconColor={COLOR.pink}
+        // />
+        null,
     });
   });
 
-  const getData = useCallback(() => {
-    const keys = Object.keys(noteState);
-    const t = [];
-    // keys.map((ele) => {
-    //   setNotes({
-    //     [noteState[ele].key]: {
-    //       key: noteState[ele].key,
-    //       day: noteState[ele].day,
-    //       title: noteState[ele].title,
-    //       note: noteState[ele].note,
-    //     },
-    //   });
-    // });
-    keys.map((ele) => {
-        t.push({
-          [noteState[ele].key]: {
-            key: noteState[ele].key,
-            day: noteState[ele].day,
-            title: noteState[ele].title,
-            note: noteState[ele].note,
-          },
-        });
-      });
-      setNotes(t)
-  }, []);
   useEffect(() => {
-    // const getData = () => {
-    //   // const keys = Object.keys(noteState);
-    //   // keys.map((ele) => {
-    //   //   setNotes({
-    //   //     [noteState[ele].key]: {
-    //   //       key: noteState[ele].key,
-    //   //       day: noteState[ele].day,
-    //   //       title: noteState[ele].title,
-    //   //       note: noteState[ele].note,
-    //   //     },
-    //   //   });
-    //   // });
+    if (noteState) setNotes(Object.values(noteState));
+  }, [noteState]);
 
-    // };
-    // getData;
-    // const entries = Object.entries(noteState);
+  // useEffect(() => {
+  //   const result = notes.filter((i) => {
+  //     return (
+  //       i.title.includes(searchInput) ||
+  //       i.title.includes(e2p(searchInput)) ||
+  //       i.title.includes(a2p(searchInput)) ||
+  //       i.note.includes(searchInput) ||
+  //       i.note.includes(e2p(searchInput)) ||
+  //       i.note.includes(a2p(searchInput))
+  //     );
+  //   });
+  //   setNotes(result);
+  // }, [searchInput]);
 
-    //console.log('entries############', entries);
+  const _handleSearch = (text) => {
+    // setData(article);
 
-    // if (noteState) {
-    //   const keys = Object.keys(noteState);
-    //   const t = [];
-    // keys.map((ele) => {
-    //   t.push({
-    //     [noteState[ele].key]: {
-    //       key: noteState[ele].key,
-    //       day: noteState[ele].day,
-    //       title: noteState[ele].title,
-    //       note: noteState[ele].note,
-    //     },
-    //   });
-    // });
-    // for(let i=0;i<keys.length;i++)
-    // {
-    //       t.push({
-    //     [noteState[i].key]: {
-    //       key: noteState[i].key,
-    //       day: noteState[i].day,
-    //       title: noteState[i].title,
-    //       note: noteState[i].note,
-    //     },
-    //   });
-    // }
-    // setNotes(t);
-    // }
-    if (noteState) {
-      getData;
-    }
-  }, [notes,getData,noteState]);
+    if (text) {
+      const result = notes.filter((i) => {
+        return (
+          i.title.includes(text) ||
+          i.title.includes(e2p(text)) ||
+          i.title.includes(a2p(text)) ||
+          i.note.includes(text) ||
+          i.note.includes(e2p(text)) ||
+          i.note.includes(a2p(text))
+        );
+      });
+      setNotes(result);
+      console.log('result', result);
+    } else setNotes(Object.values(noteState));
+  };
 
   const _handleDelete = (item) => {
     const keys = Object.keys(noteState).filter(
       (key) => noteState[key].key !== item.key,
     );
-    keys.map((ele) => {
-      dispatch(
-        setNote({
-          [noteState[ele].key]: {
-            key: noteState[ele].key,
-            day: noteState[ele].day,
-            title: noteState[ele].title,
-            note: noteState[ele].note,
-          },
-        }),
-      );
-    });
+    if (keys.length > 0)
+      keys.map((ele) => {
+        dispatch(
+          setNote({
+            [noteState[ele].key]: {
+              key: noteState[ele].key,
+              day: noteState[ele].day,
+              title: noteState[ele].title,
+              note: noteState[ele].note,
+            },
+          }),
+        );
+      });
+    else dispatch(setNote([]));
   };
 
-  // console.log('+++++++', Object.keys(noteState));
- 
   const _renderItem = ({ item }) => {
     return (
       <Card>
@@ -221,13 +178,18 @@ const NotesList = ({ navigation, route }) => {
     );
   };
 
- console.log('_getData() **', notes);
-  console.log('+++++++', noteState);
-  console.log('==================', n);
+  console.log('noteState', Object.values(noteState));
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
-    <FlatList
-        data={getData}
+      <SearchBar
+        undertxt="جستجو"
+        onChangeText={_handleSearch}
+        // onChangeText={(text)=>{setSearchInput(text)}}
+        iconColor={COLOR.pink}
+      />
+      <FlatList
+        data={notes}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => {
@@ -239,12 +201,12 @@ const NotesList = ({ navigation, route }) => {
         style={styles.fab}
         icon="plus"
         color={COLOR.white}
-        onPress={() =>
-          navigation.navigate('NoteEdit', {
-            day: day,
-            note: null,
-          })
-        }
+        // onPress={() =>
+        //   navigation.navigate('NoteEdit', {
+        //     day: day,
+        //     note: null,
+        //   })
+        // }
       /> */}
     </SafeAreaView>
   );
