@@ -91,7 +91,7 @@ export default StyleSheet.create({
   },
 
   phoneContainer: {
-    backgroundColor: 'red',
+    //backgroundColor: 'red',
     width: '90%',
     alignSelf: 'center',
     paddingBottom: 30,

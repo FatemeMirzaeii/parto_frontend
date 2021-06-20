@@ -25,7 +25,10 @@ import * as Keychain from 'react-native-keychain';
 import PhoneInput from 'react-native-phone-number-input';
 
 //redux
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+//store
+import { handlePasscode } from '../../store/actions/user';
 
 //components
 import DialogBox from '../../components/DialogBox';
@@ -62,6 +65,7 @@ const Passcode = ({ navigation, route }) => {
     value,
     setValue,
   });
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setValue('');
@@ -125,6 +129,7 @@ const Passcode = ({ navigation, route }) => {
         })
           .then(async (res) => {
             console.log('res', res);
+            _createNewPass();
             setValue('');
             navigation.navigate('Tabs');
           })
@@ -151,12 +156,27 @@ const Passcode = ({ navigation, route }) => {
     };
 
     if (tempCodeNedded) checkTempCode();
-  }, [value, navigation, tempCodeNedded]);
+  }, [
+    value,
+    navigation,
+    tempCodeNedded,
+    phoneState,
+    phoneNumber,
+    _createNewPass,
+  ]);
 
   const _handleBackButtonClick = useCallback(() => {
     BackHandler.exitApp();
     return true;
   }, []);
+
+  const _handleForgetPress = () => {
+    if (phoneState) {
+      _getTempCode(phoneState);
+    } else {
+      toggle();
+    }
+  };
 
   const _handlePhoneInput = (text) => {
     setPhoneNumber(text);
@@ -198,14 +218,28 @@ const Passcode = ({ navigation, route }) => {
         else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
       });
   };
-  const _handleForgetPress = () => {
-    if (phoneState) {
-      _getTempCode(phoneState);
-    } else {
-      toggle();
-    }
-  };
 
+  const _createNewPass = useCallback(async () => {
+    await Keychain.resetGenericPassword();
+    await Keychain.setGenericPassword('username', value);
+    try {
+      // Retrieve the credentials
+      const credential = await Keychain.getGenericPassword();
+      if (credential) {
+        console.log('Credentials successfully loaded for user ');
+        dispatch(handlePasscode(value));
+        ToastAndroid.show(
+          'کد ورود با موفقیت تغییر کرد. لطفا در اولین فرصت کد ورودت  را تغییر بده.',
+          ToastAndroid.LONG,
+        );
+      } else {
+        console.log('No credentials stored');
+      }
+    } catch (error) {
+      console.log("Keychain couldn't be accessed!", error);
+    }
+  }, [dispatch, value]);
+  
   console.log('passcode', passcode);
   console.log('phone', phoneState);
 
@@ -267,7 +301,6 @@ const Passcode = ({ navigation, route }) => {
               )}
             />
             <Icon
-              // raised
               containerStyle={{ alignSelf: 'center', marginTop: 10 }}
               type="ionicon"
               name="md-backspace-sharp"
