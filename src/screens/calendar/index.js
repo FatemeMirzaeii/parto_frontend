@@ -1,3 +1,4 @@
+import { NavigationContainer, useIsFocused } from '@react-navigation/native';
 import jalaali from 'moment-jalaali';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
@@ -7,7 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import { Icon, Divider, Tooltip } from 'react-native-elements';
+import { Icon, Divider } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import { useDispatch, useSelector } from 'react-redux';
 import BottomSheet from 'reanimated-bottom-sheet';
@@ -56,7 +57,7 @@ const Calendar = ({ navigation }) => {
   const notesFlatlist = useRef(null);
   const trackedFlatlist = useRef(null);
   const bottomSheetRef = useRef(null);
-  const tooltipRef = useRef(null);
+  const isFocused = useIsFocused();
   const { isVisible, toggle } = useModal();
   const noteState = useSelector((state) => state.user.note);
   const infoArray =
@@ -97,7 +98,7 @@ const Calendar = ({ navigation }) => {
 
   useEffect(() => {
     getInitialData();
-  }, [getInitialData]);
+  }, [getInitialData, isFocused]);
 
   useEffect(() => {
     const temp = [];
@@ -278,21 +279,13 @@ const Calendar = ({ navigation }) => {
           alignSelf: 'center',
           justifyContent: 'space-between',
         }}>
-        {/* <Text
-        style={{
-         // textAlign: 'center',
-          fontFamily: FONT.medium,
-          fontSize: 16,
-        }}>
-        {jalaali(selectedDate).format('jYYYY/jM/jD')}
-      </Text> */}
         <Icon
           raised
           size={20}
           name="lady"
           type="parto"
           color={COLOR.pink}
-          onPress={() =>
+          onPress={() => {
             jalaali(selectedDate).isBefore(today)
               ? navigation.navigate('TrackingOptions', {
                   day: selectedDate,
@@ -300,8 +293,8 @@ const Calendar = ({ navigation }) => {
               : ToastAndroid.show(
                   'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
                   ToastAndroid.LONG,
-                )
-          }
+                );
+          }}
         />
         <Icon
           raised
@@ -316,44 +309,6 @@ const Calendar = ({ navigation }) => {
           }
         />
       </View>
-      {/* <Tooltip
-        ref={tooltipRef}
-        height={50}
-        containerStyle={{ backgroundColor: 'White' }}
-        pointerColor="white"
-        popover={
-          <View style={{ flexDirection: 'row', alignSelf: 'center' }}>
-            <Icon
-              size={25}
-              name="lady"
-              type="parto"
-              color={COLOR.pink}
-              onPress={() =>
-                jalaali(selectedDate).isBefore(today)
-                  ? navigation.navigate('TrackingOptions', {
-                      day: selectedDate,
-                    })
-                  : ToastAndroid.show(
-                      'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
-                      ToastAndroid.LONG,
-                    )
-              }
-            />
-            <Icon
-              size={25}
-              name="new-message"
-              type="entypo"
-              color={COLOR.pink}
-              onPress={() =>
-                navigation.navigate('Note', {
-                  day: selectedDate,
-                })
-              }
-            />
-          </View>
-        }>
-        <Text>Press me</Text>
-      </Tooltip> */}
       <Text
         style={{
           textAlign: 'center',
@@ -591,7 +546,6 @@ const Calendar = ({ navigation }) => {
           markingType="custom"
           onDayPress={onDayPress}
           onDayLongPress={(day) => {
-            tooltipRef.current.toggleTooltip();
             console.log('day long press', day);
           }}
           calendarHeight={430}
