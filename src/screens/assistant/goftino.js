@@ -24,6 +24,11 @@ window.addEventListener('goftino_ready', function () {
       icon: false,
       counter: '#unread_counter'
   });
+  // Goftino.getUser(function(userData) {
+  //   if (userData.status === "success"){
+  //     window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
+  //   }
+  // });
 });
 
 window.addEventListener('goftino_openWidget', function () {

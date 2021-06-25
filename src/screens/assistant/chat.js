@@ -2,7 +2,7 @@ import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
 import { View, Text, Image } from 'react-native';
 import { WebView } from 'react-native-webview';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 // components and utils
 import LocalScreen from './LocalScreen';
@@ -17,27 +17,41 @@ import useModal from '../../util/hooks/useModal';
 import globalStyles from '../../styles';
 import styles from './styles';
 import Coin from '../../../assets/images/wallet/coin.png';
+import {
+  midwiferyAssistantId,
+  nutritionAssistantId,
+  treatiseAssistantId,
+} from '../../store/actions/goftino';
 
 const Chat = ({ navigation, route }) => {
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
+  const [hasOpenChat, setHasOpenChat] = useState(false);
   const [credit, setCredit] = useState(0);
   const [servicePrice, setServicePrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
+  const [goftinoId, setGoftinoId] = useState();
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
+  const userPhoneNo = useSelector((state) => state.user.phone);
+  const goftinoIds = useSelector((state) => state.goftino);
   const { isVisible, toggle } = useModal();
   const { isVisible: approveIsVisible, toggle: toggleApprove } = useModal();
   const { isVisible: successIsVisible, toggle: toggleSuccess } = useModal();
   const ref = useRef();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const res = checkCredit();
     // if(!res) khob chi?
+    onScreenLoad();
   }, []);
-
+  const getUserIdScript = `
+  var userId = Goftino.getUserId();
+  window.ReactNativeWebView.postMessage(userId);
+  `;
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: !goftinoOpen,
@@ -47,31 +61,93 @@ const Chat = ({ navigation, route }) => {
     });
   }, [navigation, goftinoOpen]);
 
+  const onScreenLoad = async () => {
+    switch (route.params.id) {
+      case 'nutrition':
+        await determineGoftinoId(goftinoIds.nutritionAssistantId, 1); //todo
+        dispatch(nutritionAssistantId(goftinoId));
+        break;
+      case 'midwifery':
+        await determineGoftinoId(goftinoIds.midwiferyAssistantId, 2); //todo
+        dispatch(midwiferyAssistantId(goftinoId));
+        break;
+      case 'treatise':
+        await determineGoftinoId(goftinoIds.treatiseAssistantId, 3); //todo
+        dispatch(treatiseAssistantId(goftinoId));
+        break;
+      default:
+        break;
+    }
+  };
+  const determineGoftinoId = async (currentReduxId, categoryId) => {
+    if (!currentReduxId) {
+      const id = await getGoftinoId(categoryId);
+      if (!id) {
+        ref.current.injectJavaScript(getUserIdScript);
+        await sendGoftinoId(categoryId, goftinoId);
+      } else {
+        ref.current.injectJavaScript(`Goftino.setUserId(${id});`);
+        await setGoftinoId(id);
+      }
+    }
+  };
   const onMessage = (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
         setGoftinoReady(true);
+        // ref.current.injectJavaScript(`Goftino.setUser({
+        //   name : ${userPhoneNo},
+        //   about : 'update sho',
+        //   phone : ${userPhoneNo},
+        //   forceUpdate : true
+        // });`);
         break;
       case 'goftino_open':
         setGoftinoOpen(true);
-        setShowCreditBox(true); //todo: check if user has open question or not
+        setShowCreditBox(!hasOpenChat);
         break;
       case 'goftino_close':
         setGoftinoOpen(false);
         setShowCreditBox(false);
         break;
+      case 'closed':
+        setHasOpenChat(false);
+        break;
+      case 'open':
+        setHasOpenChat(true);
+        break;
       // case value:
       //   break;
       default:
-        alert(event.nativeEvent.data);
+        const data = JSON.parse(event.nativeEvent.data);
+        setGoftinoId(data);
+        alert(data.toString());
         break;
     }
   };
-
+  const getGoftinoId = async () => {
+    const res = await api({
+      method: 'GET',
+      url: `/message/v1/goftinoId/${userId}/fa`, //todo
+      dev: true,
+    });
+    if (!res) return false;
+    return res.data.data.goftinoId;
+  };
+  const sendGoftinoId = async (categoryId, gId) => {
+    const res = await api({
+      method: 'POST',
+      url: `/message/v1/goftinoId/${userId}/fa`, //todo
+      dev: true,
+      data: { categoryId, goftinoId: gId },
+    });
+    if (!res) return false;
+    return true;
+  };
   const getServicePrice = async () => {
     const res = await api({
       method: 'GET',
-      url: '/payment/services/1/price/fa', //todo
+      url: '/payment/services/1/price/fa', //todo: should set serviceId dynamically
       dev: true,
     });
     if (!res) return false;

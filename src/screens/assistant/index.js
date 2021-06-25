@@ -17,14 +17,17 @@ import globalStyles from '../../styles';
 const Assistant = ({ navigation }) => {
   const categories = [
     {
+      id: 'midwifery',
       title: 'مامایی',
       uri: 'https://test.parto.app/chat/midwifery-dummy',
     },
     {
+      id: 'treatise',
       title: 'احکام',
       uri: 'https://test.parto.app/chat/dummy',
     },
     {
+      id: 'nutrition',
       title: 'تغذیه',
       uri: 'https://test.parto.app/chat/nutrition-dummy',
     },
@@ -46,7 +49,10 @@ const Assistant = ({ navigation }) => {
               key={category.title}
               title={category.title}
               onPress={() => {
-                navigation.navigate('Chat', { uri: category.uri });
+                navigation.navigate('Chat', {
+                  id: category.id,
+                  uri: category.uri,
+                });
               }}
               bottomDivider={categories.length - 1 !== i}
               leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
