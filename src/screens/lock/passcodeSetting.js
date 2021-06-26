@@ -57,7 +57,7 @@ const PasscodeSetting = ({ navigation }) => {
 
   useEffect(() => {
     // if (lockType === 'Passcode') return;
-    console.log('pass*********', passcode);
+    console.log('passcode*********', passcode);
     if (lockType === 'Fingerprint') lock(false);
   }, [lockType, passcode]);
 

@@ -1,7 +1,7 @@
 import {
   SET_TEMPLATE,
   SET_LOCK_TYPE,
-  SET_PASSSCODE,
+  SET_PASSCODE,
   SET_USER,
   RESET,
 } from './types';
@@ -15,7 +15,7 @@ export const handleLockType = (lockType) => {
 };
 
 export const handlePasscode = (passcode) => {
-  return { type: SET_PASSSCODE, passcode };
+  return { type: SET_PASSCODE, passcode };
 };
 
 export const setUser = (id, phone) => {
