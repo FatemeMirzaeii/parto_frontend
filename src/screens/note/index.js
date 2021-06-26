@@ -34,7 +34,7 @@ const Note = ({ navigation, route }) => {
           type="parto"
           color={COLOR.pink}
           onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
+          containerStyle={styles.icon}
         />
       ),
       headerLeft: null,
@@ -149,7 +149,7 @@ const Note = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
+    <SafeAreaView style={styles.container}>
       <FlatList
         data={notes.reverse()}
         renderItem={_renderItem}

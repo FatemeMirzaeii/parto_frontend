@@ -1,4 +1,4 @@
-import { NavigationContainer, useIsFocused } from '@react-navigation/native';
+import { useIsFocused } from '@react-navigation/native';
 import jalaali from 'moment-jalaali';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
@@ -54,8 +54,8 @@ const Calendar = ({ navigation }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
   const calendar = useRef();
-  const notesFlatlist = useRef(null);
-  const trackedFlatlist = useRef(null);
+  const noteslistRef = useRef(null);
+  const trackedlistRef = useRef(null);
   const bottomSheetRef = useRef(null);
   const isFocused = useIsFocused();
   const { isVisible, toggle } = useModal();
@@ -77,10 +77,10 @@ const Calendar = ({ navigation }) => {
   const getInitialData = useCallback(async () => {
     let y = [];
     const td = await getTrackingOptionData(selectedDate);
-    console.log('td*********', td);
+    // console.log('td*********', td);
     for (let i = 0; i < td.length; i++) {
       const opt = td[i].options;
-      console.log('opt*********', opt);
+      // console.log('opt*********', opt);
       for (let j = 0; j < td.length; j++) {
         if (opt[j] && opt[j].selected.length > 0)
           y.push({
@@ -105,14 +105,11 @@ const Calendar = ({ navigation }) => {
     if (noteState) {
       const noteOfDay = Object.keys(noteState).filter(
         (key) => noteState[key].day === selectedDate,
-        console.log('day'),
       );
-      // setArrofNotes(noteOfDay);
       noteOfDay.map((item) => {
         temp.push(noteState[item]);
       });
       setNotes(temp);
-      console.log('day.noteOfDay*********', noteOfDay);
     }
   }, [selectedDate, noteState]);
 
@@ -126,7 +123,6 @@ const Calendar = ({ navigation }) => {
       temp.push(noteState[item]);
     });
     setNotes(temp);
-    console.log('day.noteOfDay*********', noteOfDay);
     return notes;
   };
 
@@ -139,7 +135,6 @@ const Calendar = ({ navigation }) => {
       console.log('day.dateString*********', day.dateString);
       _getNotes;
     }
-    console.log('today', day.dateString);
     setCurrentIndex(0);
     setActiveIndex(0);
   };
@@ -207,78 +202,32 @@ const Calendar = ({ navigation }) => {
     ref.current.snapToPrev();
   };
 
-  const notesRenderItem = ({ item }) => {
+  const _notesRenderItem = ({ item }) => {
     return (
-      <View
-        style={{
-          width: WIDTH - 30,
-          backgroundColor: '#F3F4F9',
-          marginTop: 10,
-          borderRadius: 10,
-        }}>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-            padding: 10,
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.noteTitle}>{item.title}</Text>
+      <View style={styles.noteListWrapper}>
+        <View style={styles.noteTitleBox}>
+          <View style={styles.row}>
+            <Text style={styles.dialogBoxTxt}>{item.title}</Text>
             <Icon
-              containerStyle={{ marginLeft: 10 }}
+              containerStyle={styles.icon}
               type="entypo"
               name="new-message"
               color={COLOR.icon}
             />
           </View>
         </View>
-        <Text
-          style={{
-            // backgroundColor: 'red',
-            height: 100,
-            fontFamily: FONT.regular,
-            fontSize: 12,
-            width: WIDTH * 0.82,
-          }}>
-          {item.note}
-        </Text>
+        <Text style={styles.noteBox}>{item.note}</Text>
       </View>
     );
   };
 
-  const renderContent = () => (
-    <View
-      style={{
-        backgroundColor: 'white',
-        padding: 16,
-        height: 510,
-      }}>
-      <View
-        style={{
-          backgroundColor: '#d1d1d1',
-          width: 35,
-          height: 3,
-          borderRadius: 5,
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-          marginBottom: 5,
-        }}
-      />
-      <Text
-        style={{
-          textAlign: 'center',
-          fontFamily: FONT.medium,
-          fontSize: 16,
-        }}>
+  const _renderContent = () => (
+    <View style={styles.btnSheetContainer}>
+      <View style={styles.btnSheetHeader} />
+      <Text style={styles.btnSheetTitle}>
         {jalaali(selectedDate).format('jYYYY/jM/jD')}
       </Text>
-      <View
-        style={{
-          flexDirection: 'row',
-          alignSelf: 'center',
-          justifyContent: 'space-between',
-        }}>
+      <View style={styles.btnSheetbuttonsBox}>
         <Icon
           raised
           size={20}
@@ -309,24 +258,13 @@ const Calendar = ({ navigation }) => {
           }
         />
       </View>
-      <Text
-        style={{
-          textAlign: 'center',
-          fontFamily: FONT.medium,
-          fontSize: 14,
-          marginTop: 10,
-          marginBottom: 5,
-          color: COLOR.listItemTxt,
-          // backgroundColor: 'lightblue',
-        }}>
-        شرح‌حال
-      </Text>
+      <Text style={styles.btnSheetCategory}>شرح‌حال</Text>
       <Divider />
       {trackedOptions.length > 0 ? (
         <>
-          <View style={{ marginTop: 5, height: 110 }}>
+          <View style={styles.trackedlist}>
             <Carousel
-              ref={trackedFlatlist}
+              ref={trackedlistRef}
               inverted
               autoplay
               // loop
@@ -336,53 +274,29 @@ const Calendar = ({ navigation }) => {
               setCurrentIndex
               onSnapToItem={(index) => setCurrentIndex(index)}
               renderItem={({ item, index }) => (
-                <View
-                  style={{
-                    backgroundColor: 'white',
-                    height: 80,
-                    borderRadius: 50,
-                  }}>
+                <View style={styles.SvgContainer}>
                   <SvgCss
                     key={`icon${index.toString()}`}
                     width="100%"
                     height="100%"
                     fill={item.color}
-                    // fill={COLOR.icon}
                     xml={item.icon}
                   />
                 </View>
               )}
               sliderWidth={WIDTH}
-              //sliderHeight={100}
               itemWidth={70}
             />
-            <View
-              style={{
-                // backgroundColor:'red',
-                flexDirection: 'row',
-                //alignItems: 'center',
-                // justifyContent:'center',
-                alignSelf: 'center',
-                // bottom: 30,
-              }}>
+            <View style={styles.indexBox}>
               <Icon
                 raised
                 size={10}
                 name="back-arrow"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnNext(trackedFlatlist)}
+                onPress={() => _handleOnNext(trackedlistRef)}
               />
-              <Text
-                style={{
-                  textAlign: 'center',
-                  alignSelf: 'center',
-                  fontFamily: FONT.medium,
-                  color: COLOR.listItemTxt,
-                  fontSize: 12,
-                  marginHorizontal: 5,
-                  //backgroundColor: 'lightgreen',
-                }}>
+              <Text style={styles.indexTitle}>
                 {trackedOptions[currentIndex].catName}:{' '}
                 {trackedOptions[currentIndex].title}
               </Text>
@@ -392,103 +306,58 @@ const Calendar = ({ navigation }) => {
                 name="right"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnPrevious(trackedFlatlist)}
-                // containerStyle={{ right: 0 }}
+                onPress={() => _handleOnPrevious(trackedlistRef)}
               />
             </View>
           </View>
         </>
       ) : (
-        <Text
-          style={{
-            //textAlign: 'center',
-            fontFamily: FONT.medium,
-            color: COLOR.listItemTxt,
-            fontSize: 12,
-            padding: 20,
-            // backgroundColor: 'lightgreen',
-          }}>
-          هنوز شرح‌حالی ثبت نشده است.
-        </Text>
+        <Text style={styles.emptyTxt}>هنوز شرح‌حالی ثبت نشده است.</Text>
       )}
 
-      <Text
-        style={{
-          textAlign: 'center',
-          fontFamily: FONT.medium,
-          fontSize: 14,
-          marginTop: 20,
-          color: COLOR.listItemTxt,
-          //backgroundColor: 'pink',
-        }}>
-        یادداشت
-      </Text>
+      <Text style={styles.btnSheetCategory}>یادداشت</Text>
       <Divider />
       {notes.length > 0 ? (
         <>
-          <View style={{ marginTop: 5, height: 180 }}>
+          <View style={styles.noteslist}>
             <Carousel
-              ref={notesFlatlist}
+              ref={noteslistRef}
               inverted
               data={notes}
-              renderItem={notesRenderItem}
+              renderItem={_notesRenderItem}
               sliderWidth={WIDTH}
               itemWidth={WIDTH}
               onSnapToItem={(index) => setActiveIndex(index)}
             />
           </View>
-          <View
-            style={{
-              // backgroundColor:'red',
-              flexDirection: 'row',
-              alignItems: 'center',
-              alignSelf: 'center',
-              bottom: 30,
-            }}>
+          <View style={styles.index}>
             <Icon
               raised
               size={10}
               name="back-arrow"
               type="parto"
               color={COLOR.icon}
-              onPress={() => _handleOnNext(notesFlatlist)}
+              onPress={() => _handleOnNext(noteslistRef)}
             />
-            <Text
-              style={{
-                textAlign: 'center',
-                fontFamily: FONT.medium,
-                fontSize: 12,
-              }}>{`${activeIndex + 1}/${notes.length}`}</Text>
+            <Text style={styles.indexTitle}>{`${activeIndex + 1}/${
+              notes.length
+            }`}</Text>
             <Icon
               raised
               size={10}
               name="right"
               type="parto"
               color={COLOR.icon}
-              onPress={() => _handleOnPrevious(notesFlatlist)}
-              // containerStyle={{ right: 0 }}
+              onPress={() => _handleOnPrevious(noteslistRef)}
             />
           </View>
         </>
       ) : (
-        <Text
-          style={{
-            //textAlign: 'center',
-            fontFamily: FONT.medium,
-            color: COLOR.listItemTxt,
-            fontSize: 12,
-            padding: 20,
-            // backgroundColor: 'lightgreen',
-          }}>
-          هنوز یادداشتی ثبت نشده است.
-        </Text>
+        <Text style={styles.emptyTxt}>هنوز یادداشتی ثبت نشده است.</Text>
       )}
     </View>
   );
-  console.log('noteState,  ', noteState);
 
-  console.log('tracked', trackedOptions);
-  // console.log('arrofNotes', arrofNotes);
   return (
     <ImageBackground
       source={
@@ -547,6 +416,7 @@ const Calendar = ({ navigation }) => {
           onDayPress={onDayPress}
           onDayLongPress={(day) => {
             console.log('day long press', day);
+            bottomSheetRef.current.snapTo(0);
           }}
           calendarHeight={430}
           dayComponent={
@@ -667,7 +537,7 @@ const Calendar = ({ navigation }) => {
         ref={bottomSheetRef}
         snapPoints={[510, 280, 55]}
         borderRadius={50}
-        renderContent={renderContent}
+        renderContent={_renderContent}
         initialSnap={2}
       />
       <DialogBox
@@ -680,37 +550,39 @@ const Calendar = ({ navigation }) => {
         icon={<Icon type="parto" name="info" color="#aaa" size={50} />}
         firstBtnTitle="بستن"
         firstBtnPress={toggle}>
-        <View style={{ padding: 40 }}>
+        <View style={styles.dialogBoxWrapper}>
           {infoArray &&
             infoArray.map((item, index) => {
               return (
                 <View
                   key={index.toString()}
-                  style={{
-                    marginHorizontal: 10,
-                    marginVertical: 5,
-                    flexDirection: 'row-reverse',
-                    justifyContent: 'space-between',
-                  }}>
-                  <Text
-                    style={{
-                      textAlign: 'center',
-                      fontFamily: FONT.medium,
-                      fontSize: 12,
-                    }}>
-                    {item.txt}
-                  </Text>
-                  <View
-                    style={{
-                      width: 30,
-                      height: 14,
-                      borderRadius: 7,
-                      backgroundColor: item.color,
-                    }}
-                  />
+                  style={styles.dialogBoxDescription}>
+                  <Text style={styles.dialogBoxTxt}>{item.txt}</Text>
+                  <View style={styles.dialogBoxLine(item.color)} />
                 </View>
               );
             })}
+          <Divider />
+          <View style={styles.dialogBoxDescription}>
+            <Text style={styles.dialogBoxTxt}>افزودن/ ویرایش یادداشت</Text>
+            <Icon
+              containerStyle={styles.dialogBoxIcon}
+              size={24}
+              name="new-message"
+              type="entypo"
+              color={COLOR.pink}
+            />
+          </View>
+          <View style={styles.dialogBoxDescription}>
+            <Text style={styles.dialogBoxTxt}>افزودن/ ویرایش شرح‌حال</Text>
+            <Icon
+              containerStyle={styles.dialogBoxIcon}
+              size={24}
+              name="lady"
+              type="parto"
+              color={COLOR.pink}
+            />
+          </View>
         </View>
       </DialogBox>
     </ImageBackground>

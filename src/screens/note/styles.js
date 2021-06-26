@@ -2,6 +2,12 @@ import { StyleSheet } from 'react-native';
 import { FONT, SIZE, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
+  container: {
+    flex: 1,
+  },
+  icon: {
+    right: 40,
+  },
   btnContainer: {
     elevation: 3,
     width: 100,

@@ -109,6 +109,16 @@ export default async (isSigningout, userId) => {
     });
   }
 
+  let setNotes = [];
+  if (user.notes) {
+    setNotes = await api({
+      method: 'POST',
+      url: `notes/syncNote/${_userId}/fa`,
+      dev: true,
+      data: { data: user.note },
+    });
+  }
+
   if (sentProfileData && sentPregnancyInfo && sentUserInfo && setVersionType) {
     await updateLastSyncTime(moment().format(DATETIME_FORMAT));
     return true;
