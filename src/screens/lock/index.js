@@ -34,7 +34,7 @@ const Lock = ({ navigation }) => {
           size={16}
           name="right-arrow"
           type="parto"
-          color={COLOR.pink}
+          color={COLOR.icon}
           onPress={() => navigation.pop()}
           containerStyle={styles.headerIcon}
         />

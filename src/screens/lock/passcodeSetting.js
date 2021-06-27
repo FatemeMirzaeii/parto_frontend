@@ -47,7 +47,7 @@ const PasscodeSetting = ({ navigation }) => {
           size={16}
           name="right-arrow"
           type="parto"
-          color={COLOR.pink}
+          color={COLOR.icon}
           onPress={() => navigation.pop()}
           containerStyle={styles.headerIcon}
         />
@@ -71,8 +71,8 @@ const PasscodeSetting = ({ navigation }) => {
         console.log('crede', credential);
         if (credential) {
           console.log('Credentials successfully loaded for user ');
-          // dispatch(handlePasscode(credential.password));
-          dispatch(handlePasscode('1234'));
+           dispatch(handlePasscode(credential.password));
+          // dispatch(handlePasscode('1234'));
           ToastAndroid.show(
             lockType === 'Passcode'
               ? 'کد ورود با موفقیت تغییر کرد.'
