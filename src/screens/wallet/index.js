@@ -23,13 +23,8 @@ import Coin from '../../../assets/images/wallet/coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
-  const categories = [
-    { amount: 5000 },
-    { amount: 10000 },
-    { amount: 15000 },
-    { amount: 20000 },
-  ];
   const [credit, setCredit] = useState('');
+  const [services, setServices] = useState([]);
   const { isVisible, toggle } = useModal();
   const { isVisible: paySuccess, toggle: togglePaySuccess } = useModal();
   const [isLoading, setIsLoading] = useState(false);
@@ -39,6 +34,7 @@ const Wallet = ({ navigation }) => {
   const userId = useSelector((state) => state.user.id);
 
   useEffect(() => {
+    getServices();
     getUserCredit();
   }, [showGateway]);
 
@@ -60,6 +56,18 @@ const Wallet = ({ navigation }) => {
     console.log('remaining', cre.data.data.remaining);
     if (cre.data.data.remaining) {
       setCredit(cre.data.data.remaining);
+    }
+    return true;
+  };
+  const getServices = async () => {
+    const cre = await api({
+      method: 'GET',
+      url: '/payment/v1/services/fa',
+      dev: true,
+    });
+    if (!cre) return false;
+    if (cre.data.data.services) {
+      setServices(cre.data.data.services);
     }
     return true;
   };
@@ -137,22 +145,21 @@ const Wallet = ({ navigation }) => {
         افزایش اعتبار:
       </Text>
       <View style={styles.credits}>
-        {categories.map((category, i) => {
+        {services.map((service, i) => {
           return (
             <Card
-              key={category.amount}
+              key={service.price}
               hasHeader
-              headerTitle={`اعتبار: ${credit} ریال`}
-              // headerTitle={'بسته شماره ۱'}
+              headerTitle={service.name}
               headerColor={COLOR.btn}
               headerTxtStyle={{ color: 'white', fontSize: 13 }}
               onPress={() => {
-                setSelectedPackage(category.amount);
+                setSelectedPackage(service.price);
                 toggle();
               }}>
               <View style={styles.packages}>
                 <Text style={globalStyles.regularTxt}> ریال</Text>
-                <Text style={globalStyles.regularTxt}>{category.amount}</Text>
+                <Text style={globalStyles.regularTxt}>{service.price}</Text>
                 <Image style={styles.coin} resizeMode="center" source={Coin} />
               </View>
             </Card>
