@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 
 //components
@@ -13,6 +13,7 @@ const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
   return (
     <View style={styles.localScreen(goftinoOpen)}>
       <Card>
+        {/* <Image style={styles.coin} resizeMode="center" source={} /> */}
         <Text style={commonStyles.regularTxt}>
           پرتویی عزیز
           {'\n'}
