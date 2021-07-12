@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import LocalScreen from './LocalScreen';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
-import AxAPI from '../../services/AxAPI';
 import { goftino } from './goftino';
 import BackButton from '../../components/BackButton';
 import DialogBox from '../../components/DialogBox';
@@ -57,17 +56,10 @@ const Chat = ({ navigation, route }) => {
     navigation.setOptions({
       headerShown: !goftinoOpen,
       title: '',
-      headerLeft: () => (
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}> ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Text style={globalStyles.regularTxt}>اعتبار: </Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
-      ),
+      headerLeft: () => null,
       headerRight: () => <BackButton navigation={navigation} />,
     });
-  }, [navigation, goftinoOpen, credit]);
+  }, [navigation, goftinoOpen]);
 
   const onScreenLoad = async () => {
     switch (route.params.id) {
@@ -90,7 +82,6 @@ const Chat = ({ navigation, route }) => {
   const determineGoftinoId = async (currentReduxId, categoryId) => {
     if (!currentReduxId) {
       const id = await getGoftinoId(categoryId);
-      console.log('goftinoId', id);
       if (!id) {
         ref.current.injectJavaScript(getUserIdScript);
         await sendGoftinoId(categoryId, goftinoId);
@@ -134,29 +125,22 @@ const Chat = ({ navigation, route }) => {
         break;
     }
   };
-  const getGoftinoId = async (categoryId) => {
-    try {
-      const ax = await AxAPI(true);
-      const res = await ax.get(
-        `/message/messageInfo/${userId}/${categoryId}/goftinoId/fa`, //todo
-      );
-      if (!res) return false;
-      return res.data.data.goftinoId;
-    } catch (err) {
-      switch (err.response.status) {
-        case 404:
-          return false;
-        default:
-          break;
-      }
-    }
+  const getGoftinoId = async () => {
+    const res = await api({
+      method: 'GET',
+      url: `/message/v1/goftinoId/${userId}/fa`, //todo
+      dev: true,
+    });
+    if (!res) return false;
+    return res.data.data.goftinoId;
   };
   const sendGoftinoId = async (categoryId, gId) => {
-    const ax = await AxAPI(true);
-    const res = await ax.post(
-      `/message/v1/goftinoId/${userId}/fa`, //todo
-      { categoryId, goftinoId: gId },
-    );
+    const res = await api({
+      method: 'POST',
+      url: `/message/v1/goftinoId/${userId}/fa`, //todo
+      dev: true,
+      data: { categoryId, goftinoId: gId },
+    });
     if (!res) return false;
     return true;
   };
