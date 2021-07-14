@@ -24,11 +24,12 @@ window.addEventListener('goftino_ready', function () {
       icon: false,
       counter: '#unread_counter'
   });
-  // Goftino.getUser(function(userData) {
-  //   if (userData.status === "success"){
-  //     window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
-  //   }
-  // });
+  Goftino.getUser(function(userData) {
+    if (userData.status === "success"){
+      // window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
+      window.ReactNativeWebView.postMessage(userData.tags);
+    }
+  });
 });
 
 window.addEventListener('goftino_openWidget', function () {
@@ -36,8 +37,9 @@ window.addEventListener('goftino_openWidget', function () {
 });
 window.addEventListener('goftino_closeWidget', function () {
     window.ReactNativeWebView.postMessage('goftino_close');
-});
+  });
 window.addEventListener('goftino_sendMessage', function (d) {
+    window.ReactNativeWebView.postMessage('send_message');
 
   var message_type = d.detail.type;
   // "text" , "file" , "voice" , "startForm" , "delayForm" , "offlineForm"

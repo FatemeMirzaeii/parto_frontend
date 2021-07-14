@@ -103,13 +103,18 @@ const Chat = ({ navigation, route }) => {
   const onMessage = (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
+        ref.current.injectJavaScript(`Goftino.setUser({
+          name : '${userPhoneNo}',
+          phone : '${userPhoneNo}',
+          forceUpdate : true,
+        });`);
+        if (hasOpenChat)
+          ref.current.injectJavaScript(`Goftino.open();
+          Goftino.setUser({
+          forceUpdate : true,
+          tags: 'open'
+        });`);
         setGoftinoReady(true);
-        // ref.current.injectJavaScript(`Goftino.setUser({
-        //   name : ${userPhoneNo},
-        //   about : 'update sho',
-        //   phone : ${userPhoneNo},
-        //   forceUpdate : true
-        // });`);
         break;
       case 'goftino_open':
         setGoftinoOpen(true);
@@ -124,6 +129,8 @@ const Chat = ({ navigation, route }) => {
         break;
       case 'open':
         setHasOpenChat(true);
+        break;
+      case 'send_message':
         break;
       // case value:
       //   break;
@@ -190,7 +197,6 @@ const Chat = ({ navigation, route }) => {
   };
 
   const creditDeduction = async () => {
-    //reduce credit
     const success = await api({
       method: 'POST',
       url: `/payment/v1/purchase/${userId}/fa`,
@@ -286,6 +292,8 @@ const Chat = ({ navigation, route }) => {
             setIsLoading(false);
             toggleSuccess();
             toggleApprove();
+          } else {
+            toggleApprove();
           }
         }}>
         <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text>
@@ -302,8 +310,10 @@ const Chat = ({ navigation, route }) => {
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
         firstBtnPress={() => {
-          toggleSuccess();
+          ref.current.reload(); // todo: not so good.
+          setHasOpenChat(true);
           setShowCreditBox(false);
+          toggleSuccess();
         }}>
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
         <View style={styles.creditBox}>
