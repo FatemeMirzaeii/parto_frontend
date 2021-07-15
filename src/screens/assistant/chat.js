@@ -248,7 +248,7 @@ const Chat = ({ navigation, route }) => {
           );
         }}
       />
-      {showCreditBox ? (
+      {showCreditBox && goftinoOpen ? (
         <Button
           containerStyle={styles.newQuestionCont}
           buttonStyle={styles.newQuestion}
