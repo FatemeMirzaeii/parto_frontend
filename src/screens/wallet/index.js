@@ -13,6 +13,7 @@ import DialogBox from '../../components/DialogBox';
 import Loader from '../../components/Loader';
 import useModal from '../../util/hooks/useModal';
 import api from '../../services/api';
+import CreditBox from '../../components/CreditBox';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -71,7 +72,6 @@ const Wallet = ({ navigation }) => {
     }
     return true;
   };
-
   const sendToBank = async () => {
     const success = await api({
       method: 'POST',
@@ -88,7 +88,6 @@ const Wallet = ({ navigation }) => {
     setShowGateway(true);
     return true;
   };
-
   const verifyPurchase = async (body) => {
     const res = await api({
       method: 'POST',
@@ -120,9 +119,10 @@ const Wallet = ({ navigation }) => {
         }
       : toggle();
   };
+
   return (
     <ScrollView style={styles.container}>
-      <Card>
+      <Card style={styles.wallet}>
         <Image style={styles.img} source={WalletImg} resizeMode="contain" />
         <Text
           style={[
@@ -131,11 +131,7 @@ const Wallet = ({ navigation }) => {
           ]}>
           اعتبار شما:
         </Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={credit} />
       </Card>
       <Text
         style={[
@@ -152,15 +148,22 @@ const Wallet = ({ navigation }) => {
               hasHeader
               headerTitle={service.name}
               headerColor={COLOR.btn}
-              headerTxtStyle={{ color: 'white', fontSize: 13 }}
+              headerTxtStyle={styles.headerTxt}
               onPress={() => {
                 setSelectedPackage(service.price);
                 toggle();
               }}>
               <View style={styles.packages}>
                 <Text style={globalStyles.regularTxt}> ریال</Text>
-                <Text style={globalStyles.regularTxt}>{service.price}</Text>
-                <Image style={styles.coin} resizeMode="center" source={Coin} />
+                <Text style={globalStyles.regularTxt}>
+                  {service.price}
+                  {'   '}
+                </Text>
+                <Image
+                  style={globalStyles.coin}
+                  resizeMode="center"
+                  source={Coin}
+                />
               </View>
             </Card>
           );
@@ -171,7 +174,7 @@ const Wallet = ({ navigation }) => {
         isLoading={isLoading}
         hide={toggle}
         onBackdropPress={onBackdropPress}
-        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
+        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />} //todo: icon
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
         firstBtnPress={async () => {
@@ -181,11 +184,7 @@ const Wallet = ({ navigation }) => {
           toggle();
         }}>
         <Text style={globalStyles.regularTxt}>مبلغ انتخاب شده:</Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{selectedPackage}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={selectedPackage} />
       </DialogBox>
       <DialogBox
         isVisible={paySuccess}
@@ -198,11 +197,7 @@ const Wallet = ({ navigation }) => {
         }}
         firstBtnColor="green">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={credit} />
       </DialogBox>
       {showGateway && (
         <Modal

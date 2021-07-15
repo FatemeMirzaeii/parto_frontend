@@ -42,14 +42,4 @@ export default StyleSheet.create({
     height: 40,
     backgroundColor: COLOR.btn,
   },
-  creditBox: {
-    borderRadius: 100,
-    elevation: 1,
-    backgroundColor: 'rgba(246, 246, 246, 0.8)',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 15,
-  },
-  coin: { width: 45, height: 45 },
 });

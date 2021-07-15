@@ -13,6 +13,7 @@ import { goftino } from './goftino';
 import BackButton from '../../components/BackButton';
 import DialogBox from '../../components/DialogBox';
 import useModal from '../../util/hooks/useModal';
+import CreditBox from '../../components/CreditBox';
 
 //styles
 import globalStyles from '../../styles';
@@ -61,8 +62,8 @@ const Chat = ({ navigation, route }) => {
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
-          style={styles.creditBox}>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
+          style={globalStyles.creditBox}>
+          <Image style={globalStyles.coin} resizeMode="center" source={Coin} />
           <Text style={globalStyles.regularTxt}> ریال</Text>
           <Text style={globalStyles.regularTxt}>{credit}</Text>
           <Text style={globalStyles.regularTxt}>اعتبار: </Text>
@@ -275,11 +276,7 @@ const Chat = ({ navigation, route }) => {
         }}
         firstBtnColor="orange">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={credit} />
       </DialogBox>
       <DialogBox
         isVisible={approveIsVisible}
@@ -301,11 +298,7 @@ const Chat = ({ navigation, route }) => {
           }
         }}>
         <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{servicePrice}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={servicePrice} />
       </DialogBox>
       <DialogBox
         isVisible={successIsVisible}
@@ -320,11 +313,7 @@ const Chat = ({ navigation, route }) => {
           toggleSuccess();
         }}>
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <View style={styles.creditBox}>
-          <Text style={globalStyles.regularTxt}>ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        <CreditBox value={credit} />
       </DialogBox>
     </View>
   );
