@@ -5,7 +5,7 @@ import { COLOR, FONT } from '../styles/static';
 
 const Card = (props) => {
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, props.style]}>
       {props.hasHeader ? (
         <View style={styles.headerBox(props)}>
           <Text style={styles.headerTxt(props)}> {props.headerTitle}</Text>
