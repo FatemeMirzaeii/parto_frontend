@@ -126,6 +126,7 @@ const Chat = ({ navigation, route }) => {
         break;
       case 'closed':
         setHasOpenChat(false);
+        setShowCreditBox(true);
         break;
       case 'open':
         setHasOpenChat(true);

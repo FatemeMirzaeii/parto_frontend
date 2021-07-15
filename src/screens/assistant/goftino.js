@@ -55,7 +55,12 @@ window.addEventListener('goftino_sendMessage', function (d) {
   // ]
 });
 window.addEventListener('goftino_getMessage', function (d) {
-
+  Goftino.getUser(function(userData) {
+    if (userData.status === "success"){
+      // window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
+      window.ReactNativeWebView.postMessage(userData.tags);
+    }
+  });
   var message_type = d.detail.type;
   // "text" , "file" , "voice"
    
