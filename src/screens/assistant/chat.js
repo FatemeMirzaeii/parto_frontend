@@ -1,6 +1,6 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button } from 'react-native-elements';
-import { View, Text, Image } from 'react-native';
+import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -18,6 +18,7 @@ import useModal from '../../util/hooks/useModal';
 import globalStyles from '../../styles';
 import styles from './styles';
 import Coin from '../../../assets/images/wallet/coin.png';
+import Pay from '../../../assets/images/wallet/pay.png';
 import {
   midwiferyAssistantId,
   nutritionAssistantId,
@@ -58,12 +59,14 @@ const Chat = ({ navigation, route }) => {
       headerShown: !goftinoOpen,
       title: '',
       headerLeft: () => (
-        <View style={styles.creditBox}>
+        <TouchableOpacity
+          onPress={() => navigation.navigate('Wallet')}
+          style={styles.creditBox}>
+          <Image style={styles.coin} resizeMode="center" source={Coin} />
           <Text style={globalStyles.regularTxt}> ریال</Text>
           <Text style={globalStyles.regularTxt}>{credit}</Text>
           <Text style={globalStyles.regularTxt}>اعتبار: </Text>
-          <Image style={styles.coin} resizeMode="center" source={Coin} />
-        </View>
+        </TouchableOpacity>
       ),
       headerRight: () => <BackButton navigation={navigation} />,
     });
@@ -307,7 +310,7 @@ const Chat = ({ navigation, route }) => {
       <DialogBox
         isVisible={successIsVisible}
         hide={toggleSuccess}
-        // icon={<Image source={Pay} resizeMode="center" />}
+        icon={<Image source={Pay} resizeMode="center" />}
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
         firstBtnPress={() => {
