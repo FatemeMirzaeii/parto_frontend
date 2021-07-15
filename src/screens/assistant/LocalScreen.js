@@ -7,14 +7,14 @@ import Card from '../../components/Card';
 
 //styles
 import styles from './styles';
-import commonStyles from '../../styles/index';
+import globalStyles from '../../styles/';
 
 const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
   return (
     <View style={styles.localScreen(goftinoOpen)}>
       <Card>
         {/* <Image style={styles.coin} resizeMode="center" source={} /> */}
-        <Text style={commonStyles.regularTxt}>
+        <Text style={globalStyles.regularTxt}>
           پرتویی عزیز
           {'\n'}
           برای پرسیدن سوال جدید لازمه که کیف پولت رو شارژ کرده باشی. هر سوال می
