@@ -76,7 +76,7 @@ const Loader = (props) => {
     default:
       return (
         <View style={styles.container}>
-          <ActivityIndicator size="large" color={COLOR.pink} />
+          <ActivityIndicator size={props.size} color={COLOR.pink} />
         </View>
       );
   }
