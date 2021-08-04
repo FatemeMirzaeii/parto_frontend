@@ -1,4 +1,5 @@
 import moment from 'moment';
+import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ImageBackground,
@@ -7,11 +8,11 @@ import {
   View,
   BackHandler,
   ToastAndroid,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
-
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -26,6 +27,7 @@ import PlusButton from '../../components/PlusButton';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
+import WeekId from '../../constants/WeekId';
 
 //util
 import CycleModule from '../../util/cycle';
@@ -40,8 +42,12 @@ import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
+import { COLOR } from '../../styles/static';
+
+//services
+import { authCode } from '../../services/authCode';
+import { articlesBaseUrl } from '../../services/urls';
 
 const today = moment().format(FORMAT);
 
@@ -49,12 +55,16 @@ const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
   const [thirdSentence, setThirdSentence] = useState('');
+  const [pregnancyWeek, setPregnancyWeek] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
+  const [data, setData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -62,6 +72,75 @@ const Home = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation, determineMode]);
+
+  const getArticle = async () => {
+    try {
+      let arts = [];
+      const res = await axios({
+        method: 'get',
+        url: `${articlesBaseUrl}/rest/api/content/${WeekId(pregnancyWeek + 1)}`,
+        headers: {
+          Authorization: 'Basic ' + authCode,
+          'X-Atlassian-Token': 'no-check',
+        },
+      });
+      let con = [];
+      //console.log('myres', res);
+      //console.log('categoryContent', res.data);
+      con = res.data;
+      if (con.length === 0) {
+        setVisible(false);
+      }
+
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/content/${con.id}/child/attachment`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache',
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+
+        //console.log('dataSource', response.data);
+        const dataSource = response.data.results;
+        const imgUrl = [];
+        for (let j = 0; j < dataSource.length; j++) {
+          imgUrl.push(
+            `${articlesBaseUrl}${
+              dataSource[j]._links.download.split('?')[0]
+            }?os_authType=basic`,
+          );
+        }
+
+        arts.push({
+          ...con,
+          cover: imgUrl[0],
+          images: imgUrl,
+          catId: '10813837',
+        });
+
+        //console.log('imgUrl', imgUrl);
+      } catch (err) {
+        console.error(err, err.response);
+        if (err.toString() === 'Error: Network Error') {
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        }
+      }
+
+      setData(arts);
+      setVisible(true);
+    } catch (err) {
+      console.error(err, err.response);
+      if (err.toString() === 'Error: Network Error') {
+        ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      }
+    }
+    setLoading(false);
+    //console.log('data', data);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -101,7 +180,7 @@ const Home = ({ navigation }) => {
 
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
-    const pregnancyEndDate = await getPregnancyEndDate(); //todo: should move inside if(preg) block.
+    const pregnancyEndDate = await getPregnancyEndDate();
     dispatch(setPregnancyMode(preg));
     const momentDate = moment(date);
     if (preg) {
@@ -114,6 +193,8 @@ const Home = ({ navigation }) => {
         setSubSentence('');
         setThirdSentence('');
       } else if (pregnancyAge.week >= 0) {
+        setPregnancyWeek(pregnancyAge.week);
+
         setMainSentence(
           pregnancyAge.days
             ? `در حال سپری کردن هفته ${pregnancyAge.week + 1} بارداری `
@@ -168,13 +249,28 @@ const Home = ({ navigation }) => {
               <Text style={{ ...styles.thirdSentence, ...styles.mainTxt }}>
                 {subSentence}
               </Text>
+
               <View style={styles.mainSentenceContainer}>
-                <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
-                  {mainSentence}
-                </Text>
+                <TouchableWithoutFeedback
+                  onPress={async () => {
+                    cycle.isPregnant
+                      ? [
+                          getArticle(),
+                          navigation.navigate('ArticleDetails', {
+                            articleContent: data[0],
+                            catName: 'هفته های بارداری',
+                          }),
+                        ]
+                      : null;
+                  }}>
+                  <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
+                    {mainSentence}
+                  </Text>
+                </TouchableWithoutFeedback>
               </View>
             </View>
           );
+
         case 'Teenager':
           return <Text style={styles.teenagerText}>{mainSentence}</Text>;
         case 'Partner':
@@ -254,6 +350,7 @@ const Home = ({ navigation }) => {
         />
 
         <View style={styles.moonText}>{renderText()}</View>
+
         <PlusButton
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {
@@ -264,4 +361,5 @@ const Home = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 export default Home;
