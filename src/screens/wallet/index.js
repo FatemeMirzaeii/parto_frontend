@@ -124,13 +124,6 @@ const Wallet = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <Card style={styles.wallet}>
         <Image style={styles.img} source={WalletImg} resizeMode="contain" />
-        <Text
-          style={[
-            globalStyles.regularTxt,
-            { textAlign: 'right', padding: 10 },
-          ]}>
-          اعتبار شما:
-        </Text>
         <CreditBox value={credit} />
       </Card>
       <Text

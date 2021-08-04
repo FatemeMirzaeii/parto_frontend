@@ -1,7 +1,24 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, SIZE } from './static';
+import { COLOR, FONT, SIZE, WIDTH } from './static';
 
 export default StyleSheet.create({
+  btnContainer: {
+    elevation: 5,
+    width: WIDTH / 3,
+    height: 40,
+    borderRadius: 40,
+  },
+  prevButton: {
+    backgroundColor: COLOR.white,
+    width: WIDTH / 3,
+    height: 40,
+    borderRadius: 40,
+  },
+  btnDarkTitle: {
+    fontFamily: FONT.medium,
+    fontSize: 14,
+    color: COLOR.textColor,
+  },
   smallHeaderBtn: {
     borderWidth: 0,
     left: 20,
@@ -50,13 +67,12 @@ export default StyleSheet.create({
   },
   creditBox: {
     borderRadius: 100,
-    elevation: 1,
-    height: 35,
+    height: 40,
     backgroundColor: 'rgba(246, 246, 246, 0.8)',
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
   },
-  coin: { width: 20, height: 20 },
+  coin: { width: 20, height: 20, marginLeft: 5 },
 });

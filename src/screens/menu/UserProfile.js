@@ -37,7 +37,6 @@ const UserProfile = (props) => {
           <Text style={styles.text}>
             {isRegistered ? `0${user.phone}` : 'حساب کاربری بسازید!'}
             {'\n'}
-            {isRegistered ? 'اعتبار شما: ۰ تومان' : ''}
           </Text>
         </View>
       </Card>

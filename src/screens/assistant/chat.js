@@ -63,10 +63,7 @@ const Chat = ({ navigation, route }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
           style={globalStyles.creditBox}>
-          <Image style={globalStyles.coin} resizeMode="center" source={Coin} />
-          <Text style={globalStyles.regularTxt}> ریال</Text>
-          <Text style={globalStyles.regularTxt}>{credit}</Text>
-          <Text style={globalStyles.regularTxt}>اعتبار: </Text>
+          <CreditBox />
         </TouchableOpacity>
       ),
       headerRight: () => <BackButton navigation={navigation} />,
@@ -235,7 +232,7 @@ const Chat = ({ navigation, route }) => {
         scalesPageToFit
         startInLoadingState
         renderLoading={() => {
-          return <Loader type="ActivityIndicator" />;
+          return <Loader />;
         }}
         onHttpError={(syntheticEvent) => {
           setHttpError(true);

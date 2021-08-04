@@ -1,22 +1,17 @@
 import React, { useEffect, useState } from 'react';
-import {
-  ScrollView,
-  ToastAndroid,
-  TouchableOpacity,
-  View,
-  Text,
-} from 'react-native';
+import { ScrollView, ToastAndroid, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem, Icon } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
-import NetInfo from '@react-native-community/netinfo';
 
 // components
 import UserGoal from './UserGoal';
 import UserProfile from './UserProfile';
 import Card from '../../components/Card';
 import DialogBox from '../../components/DialogBox';
+import MenuSquareItem from '../../components/MenuSquareItem';
+import UserWallet from '../../components/UserWallet';
 
 // utils and store
 import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
@@ -107,93 +102,37 @@ const Menu = ({ navigation }) => {
           <UserGoal navigation={navigation} />
         </Card>
       )}
-      {template !== 'Partner' && (
-        <View style={styles.containerBtnItems}>
-          {template === 'Main' && (
-            <Card>
-              <TouchableOpacity
-                onPress={() => navigateTo('PartnerVerificationCode')}>
-                <View style={styles.BtnItem}>
-                  <Icon type="parto" name="man" color={COLOR.icon} />
-                  <Text
-                    style={[
-                      globalStyles.listItemTitle,
-                      { textAlign: 'center' },
-                    ]}>
-                    کد همسر
-                  </Text>
-                </View>
-              </TouchableOpacity>
-            </Card>
-          )}
-          <Card>
-            <TouchableOpacity onPress={() => navigateTo('Treatise')}>
-              <View style={styles.BtnItem}>
-                <Icon type="parto" name="ahkam" color={COLOR.icon} />
-                <Text
-                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
-                  احکام
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Card>
-          <Card>
-            <TouchableOpacity onPress={() => navigateTo('CycleSettings')}>
-              <View style={styles.BtnItem}>
-                <Icon type="parto" name="settings" color={COLOR.icon} />
-                <Text
-                  style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
-                  تنظیمات دوره‌ها
-                </Text>
-              </View>
-            </TouchableOpacity>
-          </Card>
-        </View>
-      )}
-      {template === 'Partner' && (
-        <Card>
-          <ListItem
-            title="احکام"
-            leftIcon={{ type: 'parto', name: 'ahkam', color: COLOR.icon }}
-            chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon }}
-            onPress={() => navigateTo('Treatise')}
-            titleStyle={globalStyles.listItemTitle}
-            containerStyle={globalStyles.listItem}
-            contentContainerStyle={globalStyles.listItemContentContainer}
+      <UserWallet navigation={navigation} />
+      <View style={styles.squareItemsContainer}>
+        {template === 'Main' && (
+          <MenuSquareItem
+            title="کد همسر"
+            onPress={() => navigateTo('PartnerVerificationCode')}
+            icon="man"
           />
-        </Card>
-      )}
-      <Card>
-        <ListItem
+        )}
+        <MenuSquareItem
+          title="احکام"
+          onPress={() => navigateTo('Treatise')}
+          icon="ahkam"
+        />
+        <MenuSquareItem
+          title="تنظیمات دوره‌ها"
+          onPress={() => navigateTo('CycleSettings')}
+          icon="settings"
+        />
+        <MenuSquareItem
           title="یادآورها"
-          leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
-          bottomDivider
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
           onPress={() => navigateTo('Reminders')}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
+          icon="bell"
         />
-        <ListItem
+        <MenuSquareItem
           title="دستیار"
-          leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
-          bottomDivider
-          chevron={{
-            type: 'parto',
-            name: 'back-arrow',
-            color: COLOR.icon,
-            size: 10,
-          }}
           onPress={() => navigateTo('Assistant')}
-          titleStyle={globalStyles.listItemTitle}
-          containerStyle={globalStyles.listItem}
-          contentContainerStyle={globalStyles.listItemContentContainer}
+          icon="health"
         />
+      </View>
+      <Card>
         <ListItem
           title="قفل نرم افزار"
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
@@ -203,6 +142,7 @@ const Menu = ({ navigation }) => {
             trackColor: { true: COLOR.lightPink, false: '#aaa' },
             thumbColor: isLock ? COLOR.pink : '#f4f3f4',
           }}
+          bottomDivider
           titleStyle={globalStyles.listItemTitle}
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
@@ -225,8 +165,6 @@ const Menu = ({ navigation }) => {
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
-      </Card>
-      <Card>
         {/* <ListItem
           title="نظرسنجی"
           leftIcon={{ name: 'dashboard', color: COLOR.icon }}
