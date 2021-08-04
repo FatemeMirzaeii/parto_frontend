@@ -11,7 +11,7 @@ const Loader = (props) => {
     case 'ActivityIndicator':
       return (
         <View style={styles.container}>
-          <ActivityIndicator size="large" color={COLOR.pink} />
+          <ActivityIndicator size={props.size} color={COLOR.pink} />
         </View>
       );
 
@@ -84,9 +84,11 @@ const Loader = (props) => {
 
 Loader.propTypes = {
   type: PropTypes.string,
+  size: PropTypes.string,
 };
 Loader.defaultProps = {
   type: 'ActivityIndicator',
+  size: 'large',
 };
 
 const styles = StyleSheet.create({
