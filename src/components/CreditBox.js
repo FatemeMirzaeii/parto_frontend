@@ -16,9 +16,7 @@ const CreditBox = (props) => {
   const userId = useSelector((state) => state.user.id);
 
   useEffect(() => {
-    if (!props.value) {
-      getUserCredit();
-    }
+    props.value ? setIsLoading(false) : getUserCredit();
   }, []);
 
   const getUserCredit = async () => {
@@ -41,7 +39,9 @@ const CreditBox = (props) => {
       <Text style={globalStyles.regularTxt}>
         {isLoading ? <Loader size="small" /> : props.value ?? credit}
       </Text>
-      <Text style={globalStyles.regularTxt}>اعتبار:{'     '}</Text>
+      {props.hasTitle ? (
+        <Text style={globalStyles.regularTxt}>اعتبار:{'     '}</Text>
+      ) : null}
       <Image style={globalStyles.coin} resizeMode="center" source={Coin} />
     </View>
   );

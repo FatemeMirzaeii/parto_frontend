@@ -19,7 +19,7 @@ const UserWallet = ({ navigation }) => {
         <Text style={styles.title}>کیف پول</Text>
       </View>
       <View style={styles.container}>
-        <CreditBox />
+        <CreditBox hasTitle />
         <Button
           title="افزایش اعتبار"
           type="solid"

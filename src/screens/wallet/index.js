@@ -124,7 +124,7 @@ const Wallet = ({ navigation }) => {
     <ScrollView style={styles.container}>
       <Card style={styles.wallet}>
         <Image style={styles.img} source={WalletImg} resizeMode="contain" />
-        <CreditBox value={credit} />
+        <CreditBox hasTitle />
       </Card>
       <Text
         style={[
@@ -190,7 +190,7 @@ const Wallet = ({ navigation }) => {
         }}
         firstBtnColor="green">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <CreditBox value={credit} />
+        <CreditBox />
       </DialogBox>
       {showGateway && (
         <Modal

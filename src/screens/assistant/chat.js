@@ -63,7 +63,7 @@ const Chat = ({ navigation, route }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
           style={globalStyles.creditBox}>
-          <CreditBox />
+          <CreditBox hasTitle />
         </TouchableOpacity>
       ),
       headerRight: () => <BackButton navigation={navigation} />,
@@ -273,7 +273,7 @@ const Chat = ({ navigation, route }) => {
         }}
         firstBtnColor="orange">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <CreditBox value={credit} />
+        <CreditBox />
       </DialogBox>
       <DialogBox
         isVisible={approveIsVisible}
@@ -310,7 +310,7 @@ const Chat = ({ navigation, route }) => {
           toggleSuccess();
         }}>
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
-        <CreditBox value={credit} />
+        <CreditBox />
       </DialogBox>
     </View>
   );
