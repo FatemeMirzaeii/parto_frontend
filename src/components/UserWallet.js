@@ -14,7 +14,7 @@ const UserWallet = ({ navigation }) => {
   return (
     <Card>
       <View style={styles.titleContainer}>
-        <Icon size={30} name="goal" type="parto" color={COLOR.icon} />
+        <Icon size={30} name="wallet" type="parto" color={COLOR.icon} />
         {/*todo*/}
         <Text style={styles.title}>کیف پول</Text>
       </View>

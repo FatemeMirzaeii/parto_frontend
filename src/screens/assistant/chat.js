@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
-import { Button } from 'react-native-elements';
+import { Button, Icon } from 'react-native-elements';
 import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector, useDispatch } from 'react-redux';
@@ -279,8 +279,8 @@ const Chat = ({ navigation, route }) => {
         isVisible={approveIsVisible}
         hide={toggleApprove}
         isLoading={isLoading}
-        // icon={<Image source={Pay} resizeMode="center" />}
-        text=""
+        icon={<Icon type="parto" name="wallet" color="#aaa" size={50} />}
+        text="مبلغ قابل پرداخت:"
         firstBtnTitle="پرداخت از کیف پول"
         firstBtnPress={async () => {
           setIsLoading(true);
@@ -294,13 +294,19 @@ const Chat = ({ navigation, route }) => {
             toggleApprove();
           }
         }}>
-        <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text>
+        {/* <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text> */}
         <CreditBox value={servicePrice} />
       </DialogBox>
       <DialogBox
         isVisible={successIsVisible}
         hide={toggleSuccess}
-        icon={<Image source={Pay} resizeMode="center" />}
+        icon={
+          <Image
+            source={Pay}
+            resizeMode="center"
+            style={{ width: 150, height: 150, alignSelf: 'center' }}
+          />
+        }
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
         firstBtnPress={() => {
@@ -309,7 +315,7 @@ const Chat = ({ navigation, route }) => {
           setShowCreditBox(false);
           toggleSuccess();
         }}>
-        <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
+        <Text style={globalStyles.regularRightTxt}>اعتبار شما:</Text>
         <CreditBox />
       </DialogBox>
     </View>

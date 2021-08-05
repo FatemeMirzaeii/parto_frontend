@@ -167,7 +167,7 @@ const Wallet = ({ navigation }) => {
         isLoading={isLoading}
         hide={toggle}
         onBackdropPress={onBackdropPress}
-        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />} //todo: icon
+        icon={<Icon type="parto" name="wallet" color="#aaa" size={50} />}
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
         firstBtnPress={async () => {

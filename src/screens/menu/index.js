@@ -129,7 +129,7 @@ const Menu = ({ navigation }) => {
         <MenuSquareItem
           title="دستیار"
           onPress={() => navigateTo('Assistant')}
-          icon="health"
+          icon="assistant"
         />
       </View>
       <Card>
@@ -150,7 +150,7 @@ const Menu = ({ navigation }) => {
         {/* <ListItem
           title="همگام‌سازی با سرور"
           leftIcon={{ name: 'sync', color: COLOR.tiffany }}
-          chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon ,size: 10,}}
+          chevron={{ type: 'parto', name: 'left', color: COLOR.icon ,size: 10,}}
           onPress={() => sync()}
           titleStyle={globalStyles.listItemTitle}
           containerStyle={globalStyles.listItem}
@@ -159,7 +159,7 @@ const Menu = ({ navigation }) => {
         {/* <ListItem
           title="تنظیمات"
           leftIcon={{ name: 'settings' }}
-          chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
+          chevron={{ type: 'parto', name: 'left', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('')}
           titleStyle={globalStyles.listItemTitle}
           containerStyle={globalStyles.listItem}
@@ -169,7 +169,7 @@ const Menu = ({ navigation }) => {
           title="نظرسنجی"
           leftIcon={{ name: 'dashboard', color: COLOR.icon }}
           bottomDivider
-          chevron={{ type: 'parto', name: 'back-arrow', color: COLOR.icon,size: 10, }}
+          chevron={{ type: 'parto', name: 'left', color: COLOR.icon,size: 10, }}
           onPress={() => navigateTo('Rating')}
           titleStyle={globalStyles.listItemTitle}
           containerStyle={globalStyles.listItem}
@@ -185,7 +185,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{
             type: 'parto',
-            name: 'back-arrow',
+            name: 'left',
             color: COLOR.icon,
             size: 10,
           }}
@@ -200,7 +200,7 @@ const Menu = ({ navigation }) => {
           bottomDivider
           chevron={{
             type: 'parto',
-            name: 'back-arrow',
+            name: 'left',
             color: COLOR.icon,
             size: 10,
           }}
@@ -214,7 +214,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ type: 'parto', name: 'info', color: COLOR.icon }}
           chevron={{
             type: 'parto',
-            name: 'back-arrow',
+            name: 'left',
             color: COLOR.icon,
             size: 10,
           }}
@@ -234,7 +234,7 @@ const Menu = ({ navigation }) => {
             }}
             chevron={{
               type: 'parto',
-              name: 'back-arrow',
+              name: 'left',
               color: COLOR.icon,
               size: 10,
             }}
@@ -251,7 +251,7 @@ const Menu = ({ navigation }) => {
             leftIcon={{ type: 'parto', name: 'exit', color: COLOR.icon }}
             chevron={{
               type: 'parto',
-              name: 'back-arrow',
+              name: 'left',
               color: COLOR.icon,
               size: 10,
             }}

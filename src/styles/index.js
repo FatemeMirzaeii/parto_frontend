@@ -65,6 +65,12 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: COLOR.listItemTxt,
   },
+  regularRightTxt: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    textAlign: 'right',
+    color: COLOR.listItemTxt,
+  },
   creditBox: {
     borderRadius: 100,
     height: 40,
