@@ -18,7 +18,6 @@ import CreditBox from '../../components/CreditBox';
 //styles
 import globalStyles from '../../styles';
 import styles from './styles';
-import Coin from '../../../assets/images/wallet/coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 import {
   midwiferyAssistantId,
@@ -31,13 +30,13 @@ const Chat = ({ navigation, route }) => {
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
   const [hasOpenChat, setHasOpenChat] = useState(false);
-  const [credit, setCredit] = useState(0);
   const [servicePrice, setServicePrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
   const [goftinoId, setGoftinoId] = useState();
   const [showCreditBox, setShowCreditBox] = useState();
   const userId = useSelector((state) => state.user.id);
+  const credit = useSelector((state) => state.user.credit);
   const userPhoneNo = useSelector((state) => state.user.phone);
   const goftinoIds = useSelector((state) => state.goftino);
   const { isVisible, toggle } = useModal();
@@ -68,16 +67,16 @@ const Chat = ({ navigation, route }) => {
       ),
       headerRight: () => <BackButton navigation={navigation} />,
     });
-  }, [navigation, goftinoOpen, credit]);
+  }, [navigation, goftinoOpen]);
 
   const onScreenLoad = async () => {
     switch (route.params.id) {
       case 'nutrition':
-        await determineGoftinoId(goftinoIds.nutritionAssistantId, 1); //todo
+        await determineGoftinoId(goftinoIds.nutritionAssistantId, 2); //todo
         dispatch(nutritionAssistantId(goftinoId));
         break;
       case 'midwifery':
-        await determineGoftinoId(goftinoIds.midwiferyAssistantId, 2); //todo
+        await determineGoftinoId(goftinoIds.midwiferyAssistantId, 1); //todo
         dispatch(midwiferyAssistantId(goftinoId));
         break;
       case 'treatise':
@@ -89,6 +88,7 @@ const Chat = ({ navigation, route }) => {
     }
   };
   const determineGoftinoId = async (currentReduxId, categoryId) => {
+    alert(currentReduxId);
     if (!currentReduxId) {
       const id = await getGoftinoId(categoryId);
       console.log('goftinoId', id);
@@ -137,6 +137,7 @@ const Chat = ({ navigation, route }) => {
       // case value:
       //   break;
       default:
+        alert(event.nativeEvent.data);
         const data = JSON.parse(event.nativeEvent.data);
         setGoftinoId(data);
         alert(data.toString());
@@ -183,15 +184,7 @@ const Chat = ({ navigation, route }) => {
   const checkCredit = async () => {
     //calling api to get credit and service price.
     const price = await getServicePrice();
-    const cre = await api({
-      method: 'GET',
-      url: `/payment/v1/credit/${userId}/fa`,
-      dev: true,
-    });
-    if (!cre) return false;
-    console.log('remaining', cre.data.data.remaining);
-    setCredit(cre.data.data.remaining);
-    if (cre.data.data.remaining >= price) {
+    if (credit >= price) {
       setHasEnaughCredit(true);
     }
     setIsLoading(false);

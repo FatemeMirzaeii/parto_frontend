@@ -24,7 +24,7 @@ import Coin from '../../../assets/images/wallet/coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
-  const [credit, setCredit] = useState(''); //todo: is it ok to remove api of recieving credit?
+  // const [credit, setCredit] = useState(''); //todo: is it ok to remove api of recieving credit?
   const [services, setServices] = useState([]);
   const { isVisible, toggle } = useModal();
   const { isVisible: paySuccess, toggle: togglePaySuccess } = useModal();
@@ -36,7 +36,7 @@ const Wallet = ({ navigation }) => {
 
   useEffect(() => {
     getServices();
-    getUserCredit();
+    // getUserCredit();
   }, [showGateway]);
 
   useLayoutEffect(() => {
@@ -47,19 +47,19 @@ const Wallet = ({ navigation }) => {
     });
   }, [navigation]);
 
-  const getUserCredit = async () => {
-    const cre = await api({
-      method: 'GET',
-      url: `/payment/v1/credit/${userId}/fa`,
-      dev: true,
-    });
-    if (!cre) return false;
-    console.log('remaining', cre.data.data.remaining);
-    if (cre.data.data.remaining) {
-      setCredit(cre.data.data.remaining);
-    }
-    return true;
-  };
+  // const getUserCredit = async () => {
+  //   const cre = await api({
+  //     method: 'GET',
+  //     url: `/payment/v1/credit/${userId}/fa`,
+  //     dev: true,
+  //   });
+  //   if (!cre) return false;
+  //   console.log('remaining', cre.data.data.remaining);
+  //   if (cre.data.data.remaining) {
+  //     setCredit(cre.data.data.remaining);
+  //   }
+  //   return true;
+  // };
   const getServices = async () => {
     const cre = await api({
       method: 'GET',
