@@ -2,9 +2,6 @@ import React, { useLayoutEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 
-//redux
-import { useDispatch, useSelector } from 'react-redux';
-
 //components
 import Card from '../../components/Card';
 import BackButton from '../../components/BackButton';

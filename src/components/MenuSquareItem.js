@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, TouchableOpacity, View, StyleSheet } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Icon } from 'react-native-elements';
 
 // styles
@@ -8,14 +8,12 @@ import globalStyles from '../styles';
 
 const MenuSquareItem = ({ onPress, title, icon }) => {
   return (
-    <View style={styles.container}>
-      <TouchableOpacity onPress={onPress}>
-        <Icon type="parto" name={icon} color={COLOR.icon} />
-        <Text style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
-          {title}
-        </Text>
-      </TouchableOpacity>
-    </View>
+    <TouchableOpacity onPress={onPress} style={styles.container}>
+      <Icon type="parto" name={icon} color={COLOR.icon} />
+      <Text style={[globalStyles.listItemTitle, { textAlign: 'center' }]}>
+        {title}
+      </Text>
+    </TouchableOpacity>
   );
 };
 const styles = StyleSheet.create({
