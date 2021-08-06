@@ -21,11 +21,11 @@ const Assistant = ({ navigation }) => {
       title: 'مامایی',
       uri: 'https://test.parto.app/chat/midwifery-dummy',
     },
-    {
-      id: 'treatise',
-      title: 'احکام',
-      uri: 'https://test.parto.app/chat/dummy',
-    },
+    // {
+    //   id: 'treatise',
+    //   title: 'احکام',
+    //   uri: 'https://test.parto.app/chat/dummy',
+    // },
     {
       id: 'nutrition',
       title: 'تغذیه',

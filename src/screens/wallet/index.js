@@ -24,7 +24,7 @@ import Coin from '../../../assets/images/wallet/coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
-  const [credit, setCredit] = useState('');
+  const [credit, setCredit] = useState(''); //todo: is it ok to remove api of recieving credit?
   const [services, setServices] = useState([]);
   const { isVisible, toggle } = useModal();
   const { isVisible: paySuccess, toggle: togglePaySuccess } = useModal();
