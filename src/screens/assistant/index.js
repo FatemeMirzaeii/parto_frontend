@@ -17,19 +17,24 @@ import globalStyles from '../../styles';
 const Assistant = ({ navigation }) => {
   const categories = [
     {
-      id: 'midwifery',
+      id: '1',
+      enName: 'midwifery',
       title: 'مامایی',
       uri: 'https://test.parto.app/chat/midwifery-dummy',
+      icon: 'stethoscope',
     },
     // {
-    //   id: 'treatise',
+    //    id: '3',
+    //   enName: 'treatise',
     //   title: 'احکام',
     //   uri: 'https://test.parto.app/chat/dummy',
     // },
     {
-      id: 'nutrition',
+      id: '2',
+      enName: 'nutrition',
       title: 'تغذیه',
       uri: 'https://test.parto.app/chat/nutrition-dummy',
+      icon: 'nutrition',
     },
   ];
   useLayoutEffect(() => {
@@ -51,11 +56,16 @@ const Assistant = ({ navigation }) => {
               onPress={() => {
                 navigation.navigate('Chat', {
                   id: category.id,
+                  enName: category.enName,
                   uri: category.uri,
                 });
               }}
               bottomDivider={categories.length - 1 !== i}
-              leftIcon={{ type: 'parto', name: 'health', color: COLOR.icon }}
+              leftIcon={{
+                type: 'parto',
+                name: category.icon,
+                color: COLOR.icon,
+              }}
               titleStyle={globalStyles.listItemTitle}
               containerStyle={globalStyles.listItem}
               contentContainerStyle={globalStyles.listItemContentContainer}

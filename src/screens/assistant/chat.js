@@ -70,17 +70,26 @@ const Chat = ({ navigation, route }) => {
   }, [navigation, goftinoOpen]);
 
   const onScreenLoad = async () => {
-    switch (route.params.id) {
+    switch (route.params.enName) {
       case 'nutrition':
-        await determineGoftinoId(goftinoIds.nutritionAssistantId, 2); //todo
+        await determineGoftinoId(
+          goftinoIds.nutritionAssistantId,
+          route.params.id,
+        );
         dispatch(nutritionAssistantId(goftinoId));
         break;
       case 'midwifery':
-        await determineGoftinoId(goftinoIds.midwiferyAssistantId, 1); //todo
+        await determineGoftinoId(
+          goftinoIds.midwiferyAssistantId,
+          route.params.id,
+        );
         dispatch(midwiferyAssistantId(goftinoId));
         break;
       case 'treatise':
-        await determineGoftinoId(goftinoIds.treatiseAssistantId, 3); //todo
+        await determineGoftinoId(
+          goftinoIds.treatiseAssistantId,
+          route.params.id,
+        );
         dispatch(treatiseAssistantId(goftinoId));
         break;
       default:
