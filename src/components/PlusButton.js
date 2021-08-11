@@ -1,15 +1,30 @@
-import React from 'react';
+import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
-import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
+import { SvgXml } from 'react-native-svg';
+
+//constants
+import {
+  MainTrackingButton,
+  PartnerTrackingButton,
+  TeenagerTrackingButton,
+} from '../constants/health-tracking-svg';
 
 const PlusButton = (props) => {
   const template = useSelector((state) => state.user.template);
-
   return (
     <>
-      <Icon
+      <SvgXml
+        xml={
+          template === 'Main'
+            ? MainTrackingButton
+            : template === 'Partner'
+            ? PartnerTrackingButton
+            : template === 'Teenager'
+            ? TeenagerTrackingButton
+            : null
+        }
         {...props}
         raised
         key={'plusIcon'}
@@ -32,16 +47,13 @@ const PlusButton = (props) => {
             props.addAppTourTarget(AppTourView.for(ref, { ...tprops }));
         }}
         onPress={() => props.navigation.navigate('TrackingOptions')}
-        name="lady"
-        type="parto"
-        color={COLOR.pink}
-        size={30}
-        containerStyle={{
-          borderRadius: 40,
-          bottom: 30,
+        style={{
+          width: 80,
+          height: 80,
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
+          bottom: 30,
         }}
       />
       {/* <Text>ثبت پریود</Text> */}
