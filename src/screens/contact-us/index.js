@@ -1,15 +1,18 @@
-import React, { useLayoutEffect } from 'react';
-import { View, Image, Linking } from 'react-native';
+import React, { useLayoutEffect, useState } from 'react';
+import { View, Image, Linking, Modal } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
+import { WebView } from 'react-native-webview';
 
 // components
 import BackButton from '../../components/BackButton';
+import Loader from '../../components/Loader';
 
 // styles
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const ContactUs = ({ navigation }) => {
+  const [showChat, setShowChat] = useState(false);
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'ارتباط با پرتو',
@@ -95,7 +98,33 @@ const ContactUs = ({ navigation }) => {
           titleStyle={styles.title}
           bottomDivider
         />
+        <ListItem
+          title="صحبت با پشتیبان"
+          onPress={() => setShowChat(true)}
+          leftIcon={{ name: 'envelope-open', type: 'font-awesome' }}
+          titleStyle={styles.title}
+          bottomDivider
+        />
       </View>
+      {showChat && (
+        <Modal
+          visible={showChat}
+          onDismiss={() => setShowChat(false)}
+          onRequestClose={() => setShowChat(false)}
+          animationType={'slide'}>
+          <WebView
+            source={{ uri: 'https://goftino.com/c/BdaydR' }}
+            style={{ flex: 1 }}
+            startInLoadingState
+            renderLoading={() => (
+              <View style={styles.loader}>
+                <Loader type="ActivityIndicator" />
+              </View>
+            )}
+            // onMessage={onMessage}
+          />
+        </Modal>
+      )}
     </View>
   );
 };
