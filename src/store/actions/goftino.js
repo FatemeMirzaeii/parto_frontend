@@ -15,3 +15,4 @@ export const midwiferyAssistantId = (id) => {
 export const treatiseAssistantId = (id) => {
   return { type: TREATISE_ASSISTANT_ID, id };
 };
+//todo: need a reset action?

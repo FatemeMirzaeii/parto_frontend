@@ -26,6 +26,14 @@ import {
 } from '../../store/actions/goftino';
 
 const Chat = ({ navigation, route }) => {
+  const ref = useRef();
+  const dispatch = useDispatch();
+  // redux states
+  const userId = useSelector((state) => state.user.id);
+  const credit = useSelector((state) => state.user.credit);
+  const userPhoneNo = useSelector((state) => state.user.phone);
+  const goftinoIds = useSelector((state) => state.goftino);
+  // local states
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
@@ -34,26 +42,14 @@ const Chat = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
   const [goftinoId, setGoftinoId] = useState();
-  const [showCreditBox, setShowCreditBox] = useState();
-  const userId = useSelector((state) => state.user.id);
-  const credit = useSelector((state) => state.user.credit);
-  const userPhoneNo = useSelector((state) => state.user.phone);
-  const goftinoIds = useSelector((state) => state.goftino);
-  const { isVisible, toggle } = useModal();
-  const { isVisible: approveIsVisible, toggle: toggleApprove } = useModal();
-  const { isVisible: successIsVisible, toggle: toggleSuccess } = useModal();
-  const ref = useRef();
-  const dispatch = useDispatch();
+  const [showPaymentBox, setShowPaymentBox] = useState();
 
-  useEffect(() => {
-    const res = checkCredit();
-    // if(!res) khob chi?
-    onScreenLoad();
-  }, []);
-  const getUserIdScript = `
-  var userId = Goftino.getUserId();
-  window.ReactNativeWebView.postMessage(userId);
-  `;
+  const { isVisible: insufficientCredit, toggle: toggleInsufficientCredit } =
+    useModal();
+  const { isVisible: walletPaymentIsVisible, toggle: toggleWalletPayment } =
+    useModal();
+  const { isVisible: successIsVisible, toggle: toggleSuccess } = useModal();
+
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: !goftinoOpen,
@@ -69,52 +65,63 @@ const Chat = ({ navigation, route }) => {
     });
   }, [navigation, goftinoOpen]);
 
+  useEffect(() => {
+    checkCredit();
+  }, []);
+
+  const unsetUserId = `
+  Goftino.unsetUserId();
+  window.ReactNativeWebView.postMessage('unsetUserId');
+`;
+
   const onScreenLoad = async () => {
     switch (route.params.enName) {
-      case 'nutrition':
-        await determineGoftinoId(
-          goftinoIds.nutritionAssistantId,
-          route.params.id,
-        );
-        dispatch(nutritionAssistantId(goftinoId));
-        break;
       case 'midwifery':
         await determineGoftinoId(
           goftinoIds.midwiferyAssistantId,
-          route.params.id,
+          midwiferyAssistantId,
         );
-        dispatch(midwiferyAssistantId(goftinoId));
+        break;
+      case 'nutrition':
+        await determineGoftinoId(
+          goftinoIds.nutritionAssistantId,
+          nutritionAssistantId,
+        );
         break;
       case 'treatise':
         await determineGoftinoId(
           goftinoIds.treatiseAssistantId,
-          route.params.id,
+          treatiseAssistantId,
         );
-        dispatch(treatiseAssistantId(goftinoId));
         break;
       default:
         break;
     }
   };
-  const determineGoftinoId = async (currentReduxId, categoryId) => {
-    alert(currentReduxId);
-    if (!currentReduxId) {
-      const id = await getGoftinoId(categoryId);
-      console.log('goftinoId', id);
-      if (!id) {
-        ref.current.injectJavaScript(getUserIdScript);
-        await sendGoftinoId(categoryId, goftinoId);
+  const determineGoftinoId = async (assistantReduxId, dispatchFunc) => {
+    if (assistantReduxId) {
+      ref.current.injectJavaScript(`Goftino.setUserId('${assistantReduxId}');`);
+    } else {
+      ref.current.injectJavaScript(unsetUserId);
+      const id = await getGoftinoId(route.params.id);
+      if (id) {
+        setGoftinoId(id);
+        ref.current.injectJavaScript(`Goftino.setUserId('${id}');`);
       } else {
-        ref.current.injectJavaScript(`Goftino.setUserId(${id});`);
-        await setGoftinoId(id);
+        if (goftinoId) {
+          await sendGoftinoId(route.params.id, goftinoId);
+          // return false;
+        }
       }
+      dispatch(dispatchFunc(goftinoId));
     }
+    return true;
   };
   const onMessage = (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
         ref.current.injectJavaScript(`Goftino.setUser({
-          name : '${userPhoneNo}',
+          name : '${userPhoneNo}-${route.params.id}',
           phone : '${userPhoneNo}',
           forceUpdate : true,
         });`);
@@ -128,15 +135,21 @@ const Chat = ({ navigation, route }) => {
         break;
       case 'goftino_open':
         setGoftinoOpen(true);
-        setShowCreditBox(!hasOpenChat);
+        setShowPaymentBox(!hasOpenChat);
         break;
       case 'goftino_close':
         setGoftinoOpen(false);
-        setShowCreditBox(false);
+        setShowPaymentBox(false);
+        break;
+      case 'unsetUserId':
+        console.log('unsetted');
+        break;
+      case 'setUserId':
+        console.log('new user Id setted');
         break;
       case 'closed':
         setHasOpenChat(false);
-        setShowCreditBox(true);
+        setShowPaymentBox(true);
         break;
       case 'open':
         setHasOpenChat(true);
@@ -146,10 +159,12 @@ const Chat = ({ navigation, route }) => {
       // case value:
       //   break;
       default:
-        alert(event.nativeEvent.data);
-        const data = JSON.parse(event.nativeEvent.data);
-        setGoftinoId(data);
-        alert(data.toString());
+        if (event.nativeEvent.data) {
+          const data = event.nativeEvent.data;
+          setGoftinoId(data);
+          console.log(`set goftinoId ${goftinoId}`);
+          onScreenLoad();
+        }
         break;
     }
   };
@@ -157,7 +172,7 @@ const Chat = ({ navigation, route }) => {
     try {
       const ax = await AxAPI(true);
       const res = await ax.get(
-        `/message/messageInfo/${userId}/${categoryId}/goftinoId/fa`, //todo
+        `/message/messageInfo/${userId}/${categoryId}/goftinoId/fa`,
       );
       if (!res) return false;
       return res.data.data.goftinoId;
@@ -171,48 +186,69 @@ const Chat = ({ navigation, route }) => {
     }
   };
   const sendGoftinoId = async (categoryId, gId) => {
-    const ax = await AxAPI(true);
-    const res = await ax.post(
-      `/message/v1/goftinoId/${userId}/fa`, //todo
-      { categoryId, goftinoId: gId },
-    );
+    const res = await api({
+      method: 'POST',
+      url: `/message/v1/goftinoId/${userId}/fa`,
+      dev: true,
+      data: { categoryId, goftinoId: gId },
+    });
     if (!res) return false;
     return true;
   };
-  const getServicePrice = async () => {
+  const getServicePrice = async (serviceId) => {
     const res = await api({
       method: 'GET',
-      url: '/payment/services/1/price/fa', //todo: should set serviceId dynamically
+      url: `/payment/services/${serviceId}/price/fa`,
       dev: true,
     });
     if (!res) return false;
     setServicePrice(res.data.data.price);
     return res.data.data.price;
   };
-
   const checkCredit = async () => {
     //calling api to get credit and service price.
-    const price = await getServicePrice();
+    const price = await getServicePrice(1); //todo: should set serviceId dynamically
     if (credit >= price) {
       setHasEnaughCredit(true);
     }
     setIsLoading(false);
     return true;
   };
-
-  const creditDeduction = async () => {
+  const walletPayment = async () => {
+    setIsLoading(true);
+    const success = await purchase();
+    if (success) {
+      // await checkCredit();
+      setIsLoading(false);
+      toggleSuccess();
+      toggleWalletPayment();
+    } else {
+      toggleWalletPayment();
+    }
+  };
+  const purchase = async () => {
     const success = await api({
       method: 'POST',
       url: `/payment/v1/purchase/${userId}/fa`,
       dev: true,
       data: {
-        serviceId: 1,
+        serviceId: 1, //todo: static serviceId?
         method: 'wallet',
         discount: '0',
       },
     });
     if (!success) return false;
     return true;
+  };
+  const onSuccess = () => {
+    setHasOpenChat(true);
+    setShowPaymentBox(false);
+    ref.current.reload(); // todo: not so good.
+    toggleSuccess();
+  };
+  const goToWallet = () => {
+    navigation.navigate('Wallet');
+    toggleInsufficientCredit();
   };
   return (
     <View style={styles.container}>
@@ -251,72 +287,48 @@ const Chat = ({ navigation, route }) => {
           );
         }}
       />
-      {showCreditBox && goftinoOpen ? (
+      {showPaymentBox && goftinoOpen ? (
         <Button
           containerStyle={styles.newQuestionCont}
           buttonStyle={styles.newQuestion}
           titleStyle={styles.text}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
-            if (hasEnaughCredit) toggleApprove();
-            else toggle();
+            if (hasEnaughCredit) toggleWalletPayment();
+            else toggleInsufficientCredit();
           }}
         />
       ) : null}
       <DialogBox
-        isVisible={isVisible}
-        hide={toggle}
+        isVisible={insufficientCredit}
+        hide={toggleInsufficientCredit}
         // icon={<Image source={Pay} resizeMode="center" />}
         text="اعتبار شما کافی نیست."
         firstBtnTitle="افزایش موجودی"
-        firstBtnPress={() => {
-          navigation.navigate('Wallet');
-          toggle();
-        }}
+        firstBtnPress={goToWallet}
         firstBtnColor="orange">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
         <CreditBox />
       </DialogBox>
       <DialogBox
-        isVisible={approveIsVisible}
-        hide={toggleApprove}
+        isVisible={walletPaymentIsVisible}
+        hide={toggleWalletPayment}
         isLoading={isLoading}
         icon={<Icon type="parto" name="wallet" color="#aaa" size={50} />}
         text="مبلغ قابل پرداخت:"
         firstBtnTitle="پرداخت از کیف پول"
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          const success = await creditDeduction();
-          if (success) {
-            await checkCredit();
-            setIsLoading(false);
-            toggleSuccess();
-            toggleApprove();
-          } else {
-            toggleApprove();
-          }
-        }}>
-        {/* <Text style={globalStyles.regularTxt}>مبلغ قابل پرداخت:</Text> */}
+        firstBtnPress={walletPayment}>
         <CreditBox value={servicePrice} />
       </DialogBox>
       <DialogBox
         isVisible={successIsVisible}
         hide={toggleSuccess}
         icon={
-          <Image
-            source={Pay}
-            resizeMode="center"
-            style={{ width: 150, height: 150, alignSelf: 'center' }}
-          />
+          <Image source={Pay} resizeMode="center" style={styles.dialogboxImg} />
         }
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
-        firstBtnPress={() => {
-          ref.current.reload(); // todo: not so good.
-          setHasOpenChat(true);
-          setShowCreditBox(false);
-          toggleSuccess();
-        }}>
+        firstBtnPress={onSuccess}>
         <Text style={globalStyles.regularRightTxt}>اعتبار شما:</Text>
         <CreditBox />
       </DialogBox>

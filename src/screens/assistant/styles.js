@@ -42,4 +42,5 @@ export default StyleSheet.create({
     height: 40,
     backgroundColor: COLOR.btn,
   },
+  dialogboxImg: { width: 150, height: 150, alignSelf: 'center' },
 });

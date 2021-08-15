@@ -1,10 +1,11 @@
 export const goftino = `
+// window.localStorage.clear();
 !(function () {
   var a = window,
     d = document;
   function g() {
     var g = d.createElement('script'),
-      i = 'ftPW4s',
+      i = 'BdaydR',
       s = 'https://www.goftino.com/widget/' + i,
       l = localStorage.getItem('goftino_' + i);
     (g.type = 'text/javascript'),
@@ -20,14 +21,19 @@ export const goftino = `
 })();
 window.addEventListener('goftino_ready', function () {
   window.ReactNativeWebView.postMessage('goftino_ready');
-    Goftino.setWidget({
-      icon: false,
-      counter: '#unread_counter'
+  // document.addEventListener('message', function (data) {
+  //  alert(data.data)
+  // });
+  Goftino.setWidget({
+    icon: false,
+    counter: '#unread_counter',
   });
-  Goftino.getUser(function(userData) {
-    if (userData.status === "success"){
-      // window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
-      window.ReactNativeWebView.postMessage(userData.tags);
+  var userId = Goftino.getUserId();
+  window.ReactNativeWebView.postMessage(userId);
+  Goftino.getUser(function (userData) {
+    if (userData.status === 'success') {
+      // window.ReactNativeWebView.postMessage(JSON.stringify({id: 'userId', detail: userData }));
+      window.ReactNativeWebView.postMessage(userData.tags); // will return 'open' or 'closed'
     }
   });
 });
@@ -36,14 +42,14 @@ window.addEventListener('goftino_openWidget', function () {
   window.ReactNativeWebView.postMessage('goftino_open');
 });
 window.addEventListener('goftino_closeWidget', function () {
-    window.ReactNativeWebView.postMessage('goftino_close');
-  });
+  window.ReactNativeWebView.postMessage('goftino_close');
+});
 window.addEventListener('goftino_sendMessage', function (d) {
-    window.ReactNativeWebView.postMessage('send_message');
+  window.ReactNativeWebView.postMessage('send_message');
 
   var message_type = d.detail.type;
   // "text" , "file" , "voice" , "startForm" , "delayForm" , "offlineForm"
-   
+
   var message_content = d.detail.content;
   // If message_type is text,file,voice :
   // "hi, I have question..."
@@ -55,15 +61,15 @@ window.addEventListener('goftino_sendMessage', function (d) {
   // ]
 });
 window.addEventListener('goftino_getMessage', function (d) {
-  Goftino.getUser(function(userData) {
-    if (userData.status === "success"){
+  Goftino.getUser(function (userData) {
+    if (userData.status === 'success') {
       // window.ReactNativeWebView.postMessage(JSON.stringify({id: userId, detail: userData }));
       window.ReactNativeWebView.postMessage(userData.tags);
     }
   });
   var message_type = d.detail.type;
   // "text" , "file" , "voice"
-   
+
   var message_content = d.detail.content;
   // "hi, thanks for joining chat..."
 });
