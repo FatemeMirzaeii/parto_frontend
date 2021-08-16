@@ -12,7 +12,7 @@ export default StyleSheet.create({
     height: 10,
     zIndex: 2000000005,
   },
-  newQuestion: { flex: 1, backgroundColor: 'rgba(173, 173, 173, 0.8)' },
+  newQuestion: { flex: 1, backgroundColor: '#9C98C9' },
   text: { fontFamily: FONT.regular },
   error: {
     height: '100%',
@@ -23,7 +23,7 @@ export default StyleSheet.create({
   localScreen: (goftinoOpen) => ({
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    // justifyContent: 'center',
     backgroundColor: COLOR.white,
     width: '100%',
     height: '100%',
@@ -43,4 +43,5 @@ export default StyleSheet.create({
     backgroundColor: COLOR.btn,
   },
   dialogboxImg: { width: 150, height: 150, alignSelf: 'center' },
+  pic: { width: 200, height: 200, alignSelf: 'center' },
 });
