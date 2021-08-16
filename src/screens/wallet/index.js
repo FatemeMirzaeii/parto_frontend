@@ -20,11 +20,14 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
 import WalletImg from '../../../assets/images/wallet/wallet.png';
+import PartnerWallet from '../../../assets/images/wallet/partner_wallet.png';
 import Coin from '../../../assets/images/wallet/coin.png';
+import DiscountCoin from '../../../assets/images/wallet/discount_coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
   const userId = useSelector((state) => state.user.id);
+  const template = useSelector((state) => state.user.template);
 
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -117,7 +120,11 @@ const Wallet = ({ navigation }) => {
   return (
     <ScrollView style={styles.container}>
       <Card style={styles.wallet}>
-        <Image style={styles.img} source={WalletImg} resizeMode="contain" />
+        <Image
+          style={styles.img}
+          source={template === 'Partner' ? PartnerWallet : WalletImg}
+          resizeMode="contain"
+        />
         <CreditBox hasTitle />
       </Card>
       <Text
@@ -140,16 +147,31 @@ const Wallet = ({ navigation }) => {
                 setSelectedPackage(service);
                 togglePayment();
               }}>
+              <View>
+                {!service.discount && ( //todo: condition
+                  <Text
+                    style={[
+                      globalStyles.regularTxt,
+                      {
+                        textDecorationLine: 'line-through',
+                      },
+                    ]}>
+                    {service.price} ریال
+                  </Text>
+                )}
+              </View>
               <View style={styles.packages}>
-                <Text style={globalStyles.regularTxt}> ریال</Text>
                 <Text style={globalStyles.regularTxt}>
-                  {service.price}
                   {'   '}
+                  {!service.discount ? 500000 : service.price}
+                  {/* todo:condition and discount value */}
+                  {'   '}
+                  ریال
                 </Text>
                 <Image
                   style={globalStyles.coin}
                   resizeMode="center"
-                  source={Coin}
+                  source={!service.discount ? DiscountCoin : Coin} //todo: condition
                 />
               </View>
             </Card>
