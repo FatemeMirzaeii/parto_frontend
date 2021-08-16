@@ -14,16 +14,16 @@ import BackButton from '../../components/BackButton';
 import DialogBox from '../../components/DialogBox';
 import useModal from '../../util/hooks/useModal';
 import CreditBox from '../../components/CreditBox';
-
-//styles
-import globalStyles from '../../styles';
-import styles from './styles';
-import Pay from '../../../assets/images/wallet/pay.png';
 import {
   midwiferyAssistantId,
   nutritionAssistantId,
   treatiseAssistantId,
 } from '../../store/actions/goftino';
+
+//styles
+import globalStyles from '../../styles';
+import styles from './styles';
+import Pay from '../../../assets/images/wallet/pay.png';
 
 const Chat = ({ navigation, route }) => {
   const ref = useRef();
@@ -32,12 +32,11 @@ const Chat = ({ navigation, route }) => {
   const userId = useSelector((state) => state.user.id);
   const credit = useSelector((state) => state.user.credit);
   const userPhoneNo = useSelector((state) => state.user.phone);
-  const goftinoIds = useSelector((state) => state.goftino);
   // local states
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
-  const [hasOpenChat, setHasOpenChat] = useState(false);
+  const [hasOpenChat, setHasOpenChat] = useState();
   const [servicePrice, setServicePrice] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
@@ -73,26 +72,19 @@ const Chat = ({ navigation, route }) => {
   Goftino.unsetUserId();
   window.ReactNativeWebView.postMessage('unsetUserId');
 `;
-
+  const localStorage = `
+  window.localStorage.setItem('goftino_BdaydR', '${route.params.goftinoId}');
+`;
   const onScreenLoad = async () => {
     switch (route.params.enName) {
       case 'midwifery':
-        await determineGoftinoId(
-          goftinoIds.midwiferyAssistantId,
-          midwiferyAssistantId,
-        );
+        await determineGoftinoId(route.params.goftinoId, midwiferyAssistantId);
         break;
       case 'nutrition':
-        await determineGoftinoId(
-          goftinoIds.nutritionAssistantId,
-          nutritionAssistantId,
-        );
+        await determineGoftinoId(route.params.goftinoId, nutritionAssistantId);
         break;
       case 'treatise':
-        await determineGoftinoId(
-          goftinoIds.treatiseAssistantId,
-          treatiseAssistantId,
-        );
+        await determineGoftinoId(route.params.goftinoId, treatiseAssistantId);
         break;
       default:
         break;
@@ -153,6 +145,7 @@ const Chat = ({ navigation, route }) => {
         break;
       case 'open':
         setHasOpenChat(true);
+        setShowPaymentBox(false);
         break;
       case 'send_message':
         break;
@@ -267,6 +260,7 @@ const Chat = ({ navigation, route }) => {
         domStorageEnabled
         onMessage={onMessage}
         injectedJavaScript={goftino}
+        injectedJavaScriptBeforeContentLoaded={localStorage}
         scalesPageToFit
         startInLoadingState
         renderLoading={() => {
@@ -282,7 +276,7 @@ const Chat = ({ navigation, route }) => {
           // alert(c);
           return (
             <View style={styles.error}>
-              <Text>no internet connection</Text>
+              <Text>No Internet Connection</Text>
             </View>
           );
         }}
@@ -292,6 +286,7 @@ const Chat = ({ navigation, route }) => {
           containerStyle={styles.newQuestionCont}
           buttonStyle={styles.newQuestion}
           titleStyle={styles.text}
+          loading={hasOpenChat === undefined ? true : false}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
             if (hasEnaughCredit) toggleWalletPayment();

@@ -1,6 +1,7 @@
 import React, { useLayoutEffect } from 'react';
 import { SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
+import { useSelector } from 'react-redux';
 
 //components
 import Card from '../../components/Card';
@@ -12,6 +13,8 @@ import styles from './styles';
 import globalStyles from '../../styles';
 
 const Assistant = ({ navigation }) => {
+  const goftinoIds = useSelector((state) => state.goftino);
+
   const categories = [
     {
       id: '1',
@@ -19,12 +22,14 @@ const Assistant = ({ navigation }) => {
       title: 'مامایی',
       uri: 'https://test.parto.app/chat/midwifery-dummy',
       icon: 'stethoscope',
+      goftinoId: goftinoIds.midwiferyAssistantId,
     },
     // {
     //    id: '3',
     //   enName: 'treatise',
     //   title: 'احکام',
     //   uri: 'https://test.parto.app/chat/dummy',
+    //  goftinoId: goftinoIds.treatiseAssistantId
     // },
     {
       id: '2',
@@ -32,6 +37,7 @@ const Assistant = ({ navigation }) => {
       title: 'تغذیه',
       uri: 'https://test.parto.app/chat/nutrition-dummy',
       icon: 'nutrition',
+      goftinoId: goftinoIds.nutritionAssistantId,
     },
   ];
   useLayoutEffect(() => {
@@ -55,6 +61,7 @@ const Assistant = ({ navigation }) => {
                   id: category.id,
                   enName: category.enName,
                   uri: category.uri,
+                  goftinoId: category.goftinoId,
                 });
               }}
               bottomDivider={categories.length - 1 !== i}

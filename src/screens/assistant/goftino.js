@@ -1,5 +1,4 @@
 export const goftino = `
-// window.localStorage.clear();
 !(function () {
   var a = window,
     d = document;
@@ -21,9 +20,6 @@ export const goftino = `
 })();
 window.addEventListener('goftino_ready', function () {
   window.ReactNativeWebView.postMessage('goftino_ready');
-  // document.addEventListener('message', function (data) {
-  //  alert(data.data)
-  // });
   Goftino.setWidget({
     icon: false,
     counter: '#unread_counter',
@@ -37,7 +33,9 @@ window.addEventListener('goftino_ready', function () {
     }
   });
 });
-
+// document.addEventListener('message', function (data) {
+//   alert('hey');
+// });
 window.addEventListener('goftino_openWidget', function () {
   window.ReactNativeWebView.postMessage('goftino_open');
 });
@@ -73,5 +71,4 @@ window.addEventListener('goftino_getMessage', function (d) {
   var message_content = d.detail.content;
   // "hi, thanks for joining chat..."
 });
-true; // note: this is required, or you'll sometimes get silent failures
-`;
+true; // note: this is required, or you'll sometimes get silent failures`;
