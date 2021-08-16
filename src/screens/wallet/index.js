@@ -24,20 +24,17 @@ import Coin from '../../../assets/images/wallet/coin.png';
 import Pay from '../../../assets/images/wallet/pay.png';
 
 const Wallet = ({ navigation }) => {
-  // const [credit, setCredit] = useState(''); //todo: is it ok to remove api of recieving credit?
+  const userId = useSelector((state) => state.user.id);
+
   const [services, setServices] = useState([]);
-  const { isVisible, toggle } = useModal();
-  const { isVisible: paySuccess, toggle: togglePaySuccess } = useModal();
   const [isLoading, setIsLoading] = useState(false);
   const [showGateway, setShowGateway] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
   const [bankUrl, setBankUrl] = useState();
-  const userId = useSelector((state) => state.user.id);
 
-  useEffect(() => {
-    getServices();
-    // getUserCredit();
-  }, [showGateway]);
+  const { isVisible: paymentIsVisibile, toggle: togglePayment } = useModal();
+  const { isVisible: paymentSuccess, toggle: togglePaymentSuccess } =
+    useModal();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -47,30 +44,27 @@ const Wallet = ({ navigation }) => {
     });
   }, [navigation]);
 
-  // const getUserCredit = async () => {
-  //   const cre = await api({
-  //     method: 'GET',
-  //     url: `/payment/v1/credit/${userId}/fa`,
-  //     dev: true,
-  //   });
-  //   if (!cre) return false;
-  //   console.log('remaining', cre.data.data.remaining);
-  //   if (cre.data.data.remaining) {
-  //     setCredit(cre.data.data.remaining);
-  //   }
-  //   return true;
-  // };
+  useEffect(() => {
+    getServices();
+  }, [showGateway]);
+
   const getServices = async () => {
-    const cre = await api({
+    const srv = await api({
       method: 'GET',
       url: '/payment/v1/services/fa',
       dev: true,
     });
-    if (!cre) return false;
-    if (cre.data.data.services) {
-      setServices(cre.data.data.services);
+    if (!srv) return false;
+    if (srv.data.data.services) {
+      setServices(srv.data.data.services);
     }
     return true;
+  };
+  const payment = async () => {
+    setIsLoading(true);
+    await sendToBank();
+    setIsLoading(false);
+    togglePayment();
   };
   const sendToBank = async () => {
     const success = await api({
@@ -78,7 +72,7 @@ const Wallet = ({ navigation }) => {
       url: `/payment/v1/purchase/${userId}/fa`,
       dev: true,
       data: {
-        serviceId: 2, //todo
+        serviceId: selectedPackage.id,
         method: 'gateway',
         discount: '0',
       },
@@ -98,26 +92,26 @@ const Wallet = ({ navigation }) => {
     if (!res) return false;
     // show modals to user
     console.log('verifyPurchase', res.data);
-    if (res.status === 200) togglePaySuccess();
+    if (res.status === 200) togglePaymentSuccess();
     return true;
   };
   const onMessage = async (e) => {
     let data = e.nativeEvent.data;
     let paymentResult = JSON.parse(data);
-    const res = {
+    const payment_res = {
       status: paymentResult.status,
       authority: paymentResult.id,
       orderId: paymentResult.order_id,
     };
-    await verifyPurchase(res);
-    setShowGateway(false);
+    const res = await verifyPurchase(payment_res);
+    if (res) setShowGateway(false);
   };
   const onBackdropPress = () => {
     isLoading
       ? () => {
           return;
         }
-      : toggle();
+      : togglePayment();
   };
 
   return (
@@ -143,8 +137,8 @@ const Wallet = ({ navigation }) => {
               headerColor={COLOR.btn}
               headerTxtStyle={styles.headerTxt}
               onPress={() => {
-                setSelectedPackage(service.price);
-                toggle();
+                setSelectedPackage(service);
+                togglePayment();
               }}>
               <View style={styles.packages}>
                 <Text style={globalStyles.regularTxt}> ریال</Text>
@@ -163,30 +157,25 @@ const Wallet = ({ navigation }) => {
         })}
       </View>
       <DialogBox
-        isVisible={isVisible}
+        isVisible={paymentIsVisibile}
         isLoading={isLoading}
-        hide={toggle}
-        onBackdropPress={onBackdropPress}
+        hide={togglePayment}
+        onBackdropPress={onBackdropPress} // todo: does we really need this?
         icon={<Icon type="parto" name="wallet" color="#aaa" size={50} />}
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          await sendToBank();
-          setIsLoading(false);
-          toggle();
-        }}>
+        firstBtnPress={payment}>
         <Text style={globalStyles.regularTxt}>مبلغ انتخاب شده:</Text>
-        <CreditBox value={selectedPackage} />
+        <CreditBox value={selectedPackage.price} />
       </DialogBox>
       <DialogBox
-        isVisible={paySuccess}
-        hide={togglePaySuccess}
+        isVisible={paymentSuccess}
+        hide={togglePaymentSuccess}
         icon={<Image source={Pay} resizeMode="center" />}
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
         firstBtnPress={() => {
-          togglePaySuccess();
+          togglePaymentSuccess();
         }}
         firstBtnColor="green">
         <Text style={globalStyles.regularTxt}>باقی‌مانده اعتبار:</Text>
@@ -204,10 +193,27 @@ const Wallet = ({ navigation }) => {
             startInLoadingState
             renderLoading={() => (
               <View style={styles.loader}>
-                <Loader type="ActivityIndicator" />
+                <Loader />
               </View>
             )}
             onMessage={onMessage}
+            onHttpError={(syntheticEvent) => {
+              // setHttpError(true);
+              const { nativeEvent } = syntheticEvent;
+              console.log(
+                'WebView received http error status code: ',
+                nativeEvent,
+              );
+            }}
+            onError={(e) => console.log(e)}
+            renderError={(d, c, des) => {
+              alert(c);
+              return (
+                <View style={styles.error}>
+                  <Text>No Internet Connection</Text>
+                </View>
+              );
+            }}
           />
         </Modal>
       )}
