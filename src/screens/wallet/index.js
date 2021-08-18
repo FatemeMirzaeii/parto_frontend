@@ -58,8 +58,8 @@ const Wallet = ({ navigation }) => {
       dev: true,
     });
     if (!srv) return false;
-    if (srv.data.data.services) {
-      setServices(srv.data.data.services);
+    if (srv.data.data) {
+      setServices(srv.data.data);
     }
     return true;
   };
@@ -116,7 +116,11 @@ const Wallet = ({ navigation }) => {
         }
       : togglePayment();
   };
-
+  const calculateDiscountedPrice = (price, discountValue, discountType) => {
+    if (discountType === 'Percent')
+      return price - (price * discountValue) / 100;
+    if (discountType === 'Rials') return price - discountValue;
+  };
   return (
     <ScrollView style={styles.container}>
       <Card style={styles.wallet}>
@@ -147,8 +151,8 @@ const Wallet = ({ navigation }) => {
                 setSelectedPackage(service);
                 togglePayment();
               }}>
-              <View>
-                {!service.discount && ( //todo: condition
+              <View style={styles.packages}>
+                {service.discountValue ? (
                   <Text
                     style={[
                       globalStyles.regularTxt,
@@ -158,21 +162,28 @@ const Wallet = ({ navigation }) => {
                     ]}>
                     {service.price} ریال
                   </Text>
+                ) : (
+                  <Text>{'\b'}</Text>
                 )}
-              </View>
-              <View style={styles.packages}>
-                <Text style={globalStyles.regularTxt}>
-                  {'   '}
-                  {!service.discount ? 500000 : service.price}
-                  {/* todo:condition and discount value */}
-                  {'   '}
-                  ریال
-                </Text>
-                <Image
-                  style={globalStyles.coin}
-                  resizeMode="center"
-                  source={!service.discount ? DiscountCoin : Coin} //todo: condition
-                />
+                <View style={styles.package}>
+                  <Text style={globalStyles.regularTxt}>
+                    {'   '}
+                    {service.discountValue
+                      ? calculateDiscountedPrice(
+                          service.price,
+                          service.discountValue,
+                          service.discountType,
+                        )
+                      : service.price}
+                    {'   '}
+                    ریال
+                  </Text>
+                  <Image
+                    style={globalStyles.coin}
+                    resizeMode="center"
+                    source={service.discountValue ? DiscountCoin : Coin}
+                  />
+                </View>
               </View>
             </Card>
           );

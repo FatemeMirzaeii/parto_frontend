@@ -19,12 +19,13 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  packages: {
+  package: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 15,
   },
+  packages: { height: 65, justifyContent: 'space-between' },
   loader: {
     position: 'absolute',
     height: '100%',
