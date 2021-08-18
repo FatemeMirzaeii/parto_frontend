@@ -1,5 +1,4 @@
-export const goftino = `
-!(function () {
+export const goftino = `!(function () {
   var a = window,
     d = document;
   function g() {
@@ -19,6 +18,9 @@ export const goftino = `
     : a.addEventListener('load', g, !1);
 })();
 window.addEventListener('goftino_ready', function () {
+  // document.addEventListener('message', function (data) {
+  //     alert(data.data);
+  // });
   window.ReactNativeWebView.postMessage('goftino_ready');
   Goftino.setWidget({
     icon: false,
@@ -29,13 +31,12 @@ window.addEventListener('goftino_ready', function () {
   Goftino.getUser(function (userData) {
     if (userData.status === 'success') {
       // window.ReactNativeWebView.postMessage(JSON.stringify({id: 'userId', detail: userData }));
-      window.ReactNativeWebView.postMessage(userData.tags); // will return 'open' or 'closed'
+      window.ReactNativeWebView.postMessage(
+        userData.tags ? userData.tags : 'noTag',
+      ); // will return 'open' or 'closed' or 'noTag'
     }
   });
 });
-// document.addEventListener('message', function (data) {
-//   alert('hey');
-// });
 window.addEventListener('goftino_openWidget', function () {
   window.ReactNativeWebView.postMessage('goftino_open');
 });
@@ -71,4 +72,5 @@ window.addEventListener('goftino_getMessage', function (d) {
   var message_content = d.detail.content;
   // "hi, thanks for joining chat..."
 });
-true; // note: this is required, or you'll sometimes get silent failures`;
+true; // note: this is required, or you'll sometimes get silent failures
+`;

@@ -8,7 +8,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import LocalScreen from './LocalScreen';
 import Loader from '../../components/Loader';
 import api from '../../services/api';
-import AxAPI from '../../services/AxAPI';
 import { goftino } from './goftino';
 import BackButton from '../../components/BackButton';
 import DialogBox from '../../components/DialogBox';
@@ -33,6 +32,7 @@ const Chat = ({ navigation, route }) => {
   const credit = useSelector((state) => state.user.credit);
   const userPhoneNo = useSelector((state) => state.user.phone);
   // local states
+  const [key, setKey] = useState(0);
   const [goftinoReady, setGoftinoReady] = useState(false);
   const [goftinoOpen, setGoftinoOpen] = useState(false);
   const [hasEnaughCredit, setHasEnaughCredit] = useState(false);
@@ -42,6 +42,7 @@ const Chat = ({ navigation, route }) => {
   const [httpError, setHttpError] = useState(true);
   const [goftinoId, setGoftinoId] = useState();
   const [showPaymentBox, setShowPaymentBox] = useState();
+  const [paymentBoxLoading, setPaymentBoxLoading] = useState(true);
 
   const { isVisible: insufficientCredit, toggle: toggleInsufficientCredit } =
     useModal();
@@ -72,9 +73,12 @@ const Chat = ({ navigation, route }) => {
   Goftino.unsetUserId();
   window.ReactNativeWebView.postMessage('unsetUserId');
 `;
+
+  // if route.params.goftinoId were null, this will add null value to goftino_ and will act as Goftino.unsetUserId.
   const localStorage = `
   window.localStorage.setItem('goftino_BdaydR', '${route.params.goftinoId}');
 `;
+
   const onScreenLoad = async () => {
     switch (route.params.enName) {
       case 'midwifery':
@@ -94,18 +98,16 @@ const Chat = ({ navigation, route }) => {
     if (assistantReduxId) {
       ref.current.injectJavaScript(`Goftino.setUserId('${assistantReduxId}');`);
     } else {
-      ref.current.injectJavaScript(unsetUserId);
-      const id = await getGoftinoId(route.params.id);
-      if (id) {
-        setGoftinoId(id);
-        ref.current.injectJavaScript(`Goftino.setUserId('${id}');`);
-      } else {
-        if (goftinoId) {
-          await sendGoftinoId(route.params.id, goftinoId);
-          // return false;
+      // ref.current.injectJavaScript(unsetUserId);
+      if (goftinoId) {
+        const res = await sendGoftinoId(route.params.id, goftinoId);
+        if (res) {
+          dispatch(dispatchFunc(goftinoId));
+          setHasOpenChat(false);
+          setShowPaymentBox(true);
+          setPaymentBoxLoading(false);
         }
       }
-      dispatch(dispatchFunc(goftinoId));
     }
     return true;
   };
@@ -118,11 +120,12 @@ const Chat = ({ navigation, route }) => {
           forceUpdate : true,
         });`);
         if (hasOpenChat)
-          ref.current.injectJavaScript(`Goftino.open();
+          ref.current.injectJavaScript(`
+          Goftino.open();
           Goftino.setUser({
-          forceUpdate : true,
-          tags: 'open'
-        });`);
+            tags: 'open',
+            forceUpdate: true,
+          });`);
         setGoftinoReady(true);
         break;
       case 'goftino_open':
@@ -133,19 +136,23 @@ const Chat = ({ navigation, route }) => {
         setGoftinoOpen(false);
         setShowPaymentBox(false);
         break;
-      case 'unsetUserId':
-        console.log('unsetted');
-        break;
-      case 'setUserId':
-        console.log('new user Id setted');
-        break;
       case 'closed':
+        // alert('closed');
         setHasOpenChat(false);
         setShowPaymentBox(true);
+        setPaymentBoxLoading(false);
+        break;
+      case 'noTag':
+        // alert('noTag');
+        setHasOpenChat(false);
+        setShowPaymentBox(true);
+        setPaymentBoxLoading(false);
         break;
       case 'open':
+        // alert('open');
         setHasOpenChat(true);
         setShowPaymentBox(false);
+        setPaymentBoxLoading(false);
         break;
       case 'send_message':
         break;
@@ -161,23 +168,7 @@ const Chat = ({ navigation, route }) => {
         break;
     }
   };
-  const getGoftinoId = async (categoryId) => {
-    try {
-      const ax = await AxAPI(true);
-      const res = await ax.get(
-        `/message/messageInfo/${userId}/${categoryId}/goftinoId/fa`,
-      );
-      if (!res) return false;
-      return res.data.data.goftinoId;
-    } catch (err) {
-      switch (err.response.status) {
-        case 404:
-          return false;
-        default:
-          break;
-      }
-    }
-  };
+
   const sendGoftinoId = async (categoryId, gId) => {
     const res = await api({
       method: 'POST',
@@ -209,14 +200,17 @@ const Chat = ({ navigation, route }) => {
   };
   const walletPayment = async () => {
     setIsLoading(true);
+    setPaymentBoxLoading(true);
     const success = await purchase();
     if (success) {
-      // await checkCredit();
+      setHasOpenChat(true);
+      setKey(key + 1);
       setIsLoading(false);
-      toggleSuccess();
       toggleWalletPayment();
+      toggleSuccess();
     } else {
       toggleWalletPayment();
+      setPaymentBoxLoading(false);
     }
   };
   const purchase = async () => {
@@ -234,9 +228,7 @@ const Chat = ({ navigation, route }) => {
     return true;
   };
   const onSuccess = () => {
-    setHasOpenChat(true);
-    setShowPaymentBox(false);
-    ref.current.reload(); // todo: not so good.
+    // setShowPaymentBox(false);
     toggleSuccess();
   };
   const goToWallet = () => {
@@ -253,6 +245,7 @@ const Chat = ({ navigation, route }) => {
         />
       )}
       <WebView
+        key={key}
         ref={ref}
         containerStyle={{ flex: 12 }}
         source={{ uri: route.params.uri }}
@@ -286,7 +279,7 @@ const Chat = ({ navigation, route }) => {
           containerStyle={styles.newQuestionCont}
           buttonStyle={styles.newQuestion}
           titleStyle={styles.text}
-          loading={hasOpenChat === undefined ? true : false}
+          loading={paymentBoxLoading}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
             if (hasEnaughCredit) toggleWalletPayment();
