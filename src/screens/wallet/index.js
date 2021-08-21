@@ -58,8 +58,8 @@ const Wallet = ({ navigation }) => {
       dev: true,
     });
     if (!srv) return false;
-    if (srv.data.data) {
-      setServices(srv.data.data);
+    if (srv.data.data.services) {
+      setServices(srv.data.data.services);
     }
     return true;
   };
@@ -77,7 +77,7 @@ const Wallet = ({ navigation }) => {
       data: {
         serviceId: selectedPackage.id,
         method: 'gateway',
-        discount: '0',
+        discount: selectedPackage.discountValue,
       },
     });
     if (!success) return false;
@@ -106,8 +106,8 @@ const Wallet = ({ navigation }) => {
       authority: paymentResult.id,
       orderId: paymentResult.order_id,
     };
-    const res = await verifyPurchase(payment_res);
-    if (res) setShowGateway(false);
+    await verifyPurchase(payment_res);
+    setShowGateway(false);
   };
   const onBackdropPress = () => {
     isLoading
@@ -197,14 +197,31 @@ const Wallet = ({ navigation }) => {
         icon={<Icon type="parto" name="wallet" color="#aaa" size={50} />}
         text="شارژ کیف پول"
         firstBtnTitle="پرداخت"
+        firstBtnColor={COLOR.btn}
         firstBtnPress={payment}>
         <Text style={globalStyles.regularTxt}>مبلغ انتخاب شده:</Text>
-        <CreditBox value={selectedPackage.price} />
+        <CreditBox
+          value={
+            selectedPackage.discountValue
+              ? calculateDiscountedPrice(
+                  selectedPackage.price,
+                  selectedPackage.discountValue,
+                  selectedPackage.discountType,
+                )
+              : selectedPackage.price
+          }
+        />
       </DialogBox>
       <DialogBox
         isVisible={paymentSuccess}
         hide={togglePaymentSuccess}
-        icon={<Image source={Pay} resizeMode="center" />}
+        icon={
+          <Image
+            source={Pay}
+            resizeMode="center"
+            style={{ width: 150, height: 150, alignSelf: 'center' }}
+          />
+        }
         text="پرداخت با موفقیت انجام شد."
         firstBtnTitle="باشه"
         firstBtnPress={() => {

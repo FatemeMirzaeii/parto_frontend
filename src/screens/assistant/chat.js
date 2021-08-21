@@ -219,7 +219,7 @@ const Chat = ({ navigation, route }) => {
       url: `/payment/v1/purchase/${userId}/fa`,
       dev: true,
       data: {
-        serviceId: 1, //todo: static serviceId?
+        serviceId: 1, //todo: static serviceId and discount?
         method: 'wallet',
         discount: '0',
       },

@@ -1,4 +1,4 @@
-import { SET_TEMPLATE, SET_USER, SET_CREDIT, RESET } from '../actions/types';
+import { SET_TEMPLATE, SET_USER, SET_CREDIT } from '../actions/types';
 
 const initialState = {
   id: null,
@@ -19,15 +19,6 @@ const userReducer = (state = initialState, action) => {
     case SET_CREDIT: {
       return { ...state, credit: action.credit };
     }
-    case RESET: {
-      return {
-        id: null,
-        phone: '',
-        template: '',
-        credit: null,
-      };
-    }
-
     default:
       return state;
   }

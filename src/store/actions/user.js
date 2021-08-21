@@ -10,5 +10,6 @@ export const setCredit = (credit) => {
   return { type: SET_CREDIT, credit };
 };
 export const reset = () => {
+  //todo: this is a root action, maybe we can find a better place for this.
   return { type: RESET };
 };
