@@ -18,7 +18,11 @@ const CreditBox = (props) => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    props.value ? setIsLoading(false) : getUserCredit();
+    if (userId) props.value ? setIsLoading(false) : getUserCredit();
+    else {
+      setIsLoading(false);
+      setVal('-----');
+    }
   }, []);
 
   const getUserCredit = async () => {

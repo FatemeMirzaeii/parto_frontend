@@ -15,11 +15,11 @@ import UserWallet from '../../components/UserWallet';
 
 // utils and store
 import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
-import { shareContent } from '../../util/func';
+import { removeData, shareContent } from '../../util/func';
 import sync from '../../util/database/sync';
 import useModal from '../../util/hooks/useModal';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
-import { signOut } from '../../store/actions/auth';
+import { signOut, signUp } from '../../store/actions/auth';
 import { fetchInitialCycleData } from '../../store/actions/cycle';
 
 // styles
@@ -30,12 +30,16 @@ import globalStyles from '../../styles';
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
   const [isLoading, setIsLoading] = useState(false);
-  // const isLoggedIn = useSelector((state) => state.user.id);
+  const userId = useSelector((state) => state.user.id);
   const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
   const { isVisible: signOutVisible, toggle: signOutToggle } = useModal();
+  const {
+    isVisible: registrationAlertVisible,
+    toggle: toggleRegistrationAlert,
+  } = useModal();
 
   useEffect(() => {
     determineLockStatus();
@@ -128,7 +132,10 @@ const Menu = ({ navigation }) => {
         />
         <MenuSquareItem
           title="دستیار"
-          onPress={() => navigateTo('Assistant')}
+          onPress={() => {
+            if (userId) navigateTo('Assistant');
+            else toggleRegistrationAlert();
+          }}
           icon="assistant"
         />
       </View>
@@ -292,6 +299,16 @@ const Menu = ({ navigation }) => {
           setIsLoading(false);
         }}
         secondBtnPress={signOutToggle}
+      />
+      <DialogBox
+        isVisible={registrationAlertVisible}
+        hide={toggleRegistrationAlert}
+        text="پرتویی عزیز برای کمک گرفتن از دستیارهای پرتو لازمه اول ثبت‌نام کنی."
+        firstBtnTitle="ثبت‌نام"
+        firstBtnPress={async () => {
+          await removeData('@token');
+          dispatch(signUp());
+        }}
       />
     </ScrollView>
   );
