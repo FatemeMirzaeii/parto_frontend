@@ -13,6 +13,7 @@ export const signIn = (dummyToken) => async (dispatch, getState) => {
 export const signOut = () => async (dispatch, getState) => {
   await cleanDatabase();
   await dispatch(reset());
+  await dispatch(handleTemplate(''));
   await AsyncStorage.clear();
   dispatch({
     type: actions.SIGN_OUT,
