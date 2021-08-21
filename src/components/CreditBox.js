@@ -29,11 +29,11 @@ const CreditBox = (props) => {
     const cre = await api({
       method: 'GET',
       url: `/payment/v1/credit/${userId}/fa`,
-      dev: true,
+      // dev: true,
     });
     if (!cre) return false;
     console.log('remaining', cre.data.data.remaining);
-    if (cre.data.data.remaining) {
+    if (cre.data.data.remaining || cre.data.data.remaining === 0) {
       setVal(cre.data.data.remaining);
       dispatch(setCredit(cre.data.data.remaining));
       setIsLoading(false);

@@ -55,7 +55,7 @@ const Wallet = ({ navigation }) => {
     const srv = await api({
       method: 'GET',
       url: '/payment/v1/services/fa',
-      dev: true,
+      // dev: true,
     });
     if (!srv) return false;
     if (srv.data.data.services) {
@@ -73,7 +73,7 @@ const Wallet = ({ navigation }) => {
     const success = await api({
       method: 'POST',
       url: `/payment/v1/purchase/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: {
         serviceId: selectedPackage.id,
         method: 'gateway',
@@ -89,7 +89,7 @@ const Wallet = ({ navigation }) => {
     const res = await api({
       method: 'POST',
       url: `/payment/v1/verifyPurchase/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: body,
     });
     if (!res) return false;

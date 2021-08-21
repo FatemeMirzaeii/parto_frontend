@@ -173,7 +173,7 @@ const Chat = ({ navigation, route }) => {
     const res = await api({
       method: 'POST',
       url: `/message/v1/goftinoId/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: { categoryId, goftinoId: gId },
     });
     if (!res) return false;
@@ -183,7 +183,7 @@ const Chat = ({ navigation, route }) => {
     const res = await api({
       method: 'GET',
       url: `/payment/services/${serviceId}/price/fa`,
-      dev: true,
+      // dev: true,
     });
     if (!res) return false;
     setServicePrice(res.data.data.price);
@@ -217,7 +217,7 @@ const Chat = ({ navigation, route }) => {
     const success = await api({
       method: 'POST',
       url: `/payment/v1/purchase/${userId}/fa`,
-      dev: true,
+      // dev: true,
       data: {
         serviceId: 1, //todo: static serviceId and discount?
         method: 'wallet',

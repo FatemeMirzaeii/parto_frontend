@@ -48,7 +48,7 @@ const Assistant = ({ navigation }) => {
 
   const getGoftinoId = async (categoryId) => {
     try {
-      const ax = await AxAPI(true);
+      const ax = await AxAPI();
       const res = await ax.get(
         `/message/messageInfo/${userId}/${categoryId}/goftinoId/fa`,
       );
