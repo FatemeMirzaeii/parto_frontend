@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { View, TouchableOpacity, Text, Image } from 'react-native';
-import { useDispatch, useSelector } from 'react-redux';
+import { View, Text, Image } from 'react-native';
+import { useSelector } from 'react-redux';
 import commonStyles from '../../styles/index';
 
 // components
@@ -14,33 +14,31 @@ import TeenagerAvatar from './../../../assets/images/teenager/avatar.png';
 
 const UserProfile = (props) => {
   const [isRegistered, setIsRegistered] = useState(true);
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
   const user = useSelector((state) => state.user);
   useEffect(() => {
     if (!user.id) setIsRegistered(false);
   }, []);
   return (
-    <TouchableOpacity onPress={props.onPress}>
-      <Card>
-        <View style={styles.avatarContainer}>
-          <Image
-            source={
-              user.template === 'Main'
-                ? MainAvatar
-                : user.template === 'Partner'
-                ? PartnerAvatar
-                : TeenagerAvatar
-            }
-            style={[commonStyles.avatar, { width: 75, height: 75, margin: 0 }]}
-            resizeMode="center"
-          />
-          <Text style={styles.text}>
-            {isRegistered ? `0${user.phone}` : 'حساب کاربری بسازید!'}
-            {'\n'}
-          </Text>
-        </View>
-      </Card>
-    </TouchableOpacity>
+    <Card onPress={props.onPress}>
+      <View style={styles.avatarContainer}>
+        <Image
+          source={
+            user.template === 'Main'
+              ? MainAvatar
+              : user.template === 'Partner'
+              ? PartnerAvatar
+              : TeenagerAvatar
+          }
+          style={[commonStyles.avatar, { width: 75, height: 75, margin: 0 }]}
+          resizeMode="center"
+        />
+        <Text style={styles.text}>
+          {isRegistered ? `0${user.phone}` : 'حساب کاربری بسازید!'}
+          {'\n'}
+        </Text>
+      </View>
+    </Card>
   );
 };
 export default UserProfile;
