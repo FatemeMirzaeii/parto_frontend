@@ -12,16 +12,16 @@ import globalStyles from '../styles';
 import Coin from '../../assets/images/wallet/coin.png';
 
 const CreditBox = (props) => {
-  const [val, setVal] = useState('');
   const [isLoading, setIsLoading] = useState(true);
   const userId = useSelector((state) => state.user.id);
+  const credit = useSelector((state) => state.user.credit);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (userId) props.value ? setIsLoading(false) : getUserCredit();
     else {
       setIsLoading(false);
-      setVal('-----');
+      dispatch(setCredit('-----'));
     }
   }, []);
 
@@ -34,7 +34,6 @@ const CreditBox = (props) => {
     if (!cre) return false;
     console.log('remaining', cre.data.data.remaining);
     if (cre.data.data.remaining || cre.data.data.remaining === 0) {
-      setVal(cre.data.data.remaining);
       dispatch(setCredit(cre.data.data.remaining));
       setIsLoading(false);
     }
@@ -44,7 +43,7 @@ const CreditBox = (props) => {
     <View style={globalStyles.creditBox}>
       <Text style={globalStyles.regularTxt}>{'   '}ریال</Text>
       <Text style={globalStyles.regularTxt}>
-        {isLoading ? <Loader size="small" /> : props.value ?? val}
+        {isLoading ? <Loader size="small" /> : props.value ?? credit}
       </Text>
       {props.hasTitle ? (
         <Text style={globalStyles.regularTxt}>اعتبار:{'     '}</Text>

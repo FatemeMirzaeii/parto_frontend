@@ -131,7 +131,7 @@ const Menu = ({ navigation }) => {
           icon="bell"
         />
         <MenuSquareItem
-          title="دستیار"
+          title="مشاوره"
           onPress={() => {
             if (userId) navigateTo('Assistant');
             else toggleRegistrationAlert();
