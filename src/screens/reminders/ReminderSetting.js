@@ -54,7 +54,7 @@ const ReminderSetting = ({ navigation, route }) => {
       headerRight: () => <BackButton navigation={navigation} />,
     });
 
-    const save = ({ navigation }) => {
+    const save = () => {
       let cusTime;
       reminder.id === BREAST_EXAM
         ? (cusTime = `${moment(today).format(FORMAT)}_${hours}:${minutes}`)
