@@ -1,6 +1,12 @@
 import React, { useState, useLayoutEffect, useEffect, useRef } from 'react';
 import { Button, Icon } from 'react-native-elements';
-import { View, Text, Image, TouchableOpacity } from 'react-native';
+import {
+  KeyboardAvoidingView,
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -244,36 +250,45 @@ const Chat = ({ navigation, route }) => {
           onPress={() => ref.current.injectJavaScript('Goftino.toggle();')}
         />
       )}
-      <WebView
-        key={key}
-        ref={ref}
-        containerStyle={{ flex: 12 }}
-        source={{ uri: route.params.uri }}
-        javaScriptEnabled
-        domStorageEnabled
-        onMessage={onMessage}
-        injectedJavaScript={goftino}
-        injectedJavaScriptBeforeContentLoaded={localStorage}
-        scalesPageToFit
-        startInLoadingState
-        renderLoading={() => {
-          return <Loader />;
-        }}
-        onHttpError={(syntheticEvent) => {
-          setHttpError(true);
-          const { nativeEvent } = syntheticEvent;
-          console.log('WebView received http error status code: ', nativeEvent);
-        }}
-        onError={(e) => console.log(e)}
-        renderError={(d, c, des) => {
-          // alert(c);
-          return (
-            <View style={styles.error}>
-              <Text>No Internet Connection</Text>
-            </View>
-          );
-        }}
-      />
+      <KeyboardAvoidingView
+        behavior={'padding'}
+        contentContainerStyle={{ flex: 1 }}
+        keyboardVerticalOffset={0}
+        style={{ flexGrow: 12 }}>
+        <WebView
+          key={key}
+          ref={ref}
+          containerStyle={{ flex: 12 }}
+          source={{ uri: route.params.uri }}
+          javaScriptEnabled
+          domStorageEnabled
+          onMessage={onMessage}
+          injectedJavaScript={goftino}
+          injectedJavaScriptBeforeContentLoaded={localStorage}
+          scalesPageToFit
+          startInLoadingState
+          renderLoading={() => {
+            return <Loader />;
+          }}
+          onHttpError={(syntheticEvent) => {
+            setHttpError(true);
+            const { nativeEvent } = syntheticEvent;
+            console.log(
+              'WebView received http error status code: ',
+              nativeEvent,
+            );
+          }}
+          onError={(e) => console.log(e)}
+          renderError={(d, c, des) => {
+            // alert(c);
+            return (
+              <View style={styles.error}>
+                <Text>No Internet Connection</Text>
+              </View>
+            );
+          }}
+        />
+      </KeyboardAvoidingView>
       {showPaymentBox && goftinoOpen ? (
         <Button
           containerStyle={styles.newQuestionCont}
