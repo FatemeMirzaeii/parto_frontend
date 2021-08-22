@@ -25,7 +25,7 @@ const Assistant = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'دستیار',
+      title: 'مشاوره',
       headerLeft: () => null,
       headerRight: () => <BackButton navigation={navigation} />,
     });
@@ -68,7 +68,7 @@ const Assistant = ({ navigation }) => {
     {
       id: '1',
       enName: 'midwifery',
-      title: 'مامایی',
+      title: 'دستیار مامایی',
       uri: 'https://test.parto.app/chat/midwifery-dummy',
       icon: 'stethoscope',
       goftinoId: goftinoIds.midwiferyAssistantId,
@@ -83,7 +83,7 @@ const Assistant = ({ navigation }) => {
     {
       id: '2',
       enName: 'nutrition',
-      title: 'تغذیه',
+      title: 'دستیار تغذیه',
       uri: 'https://test.parto.app/chat/nutrition-dummy',
       icon: 'nutrition',
       goftinoId: goftinoIds.nutritionAssistantId,
@@ -102,6 +102,7 @@ const Assistant = ({ navigation }) => {
                 navigation.navigate('Chat', {
                   id: category.id,
                   enName: category.enName,
+                  title: category.title,
                   uri: category.uri,
                   goftinoId: category.goftinoId,
                 });

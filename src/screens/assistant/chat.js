@@ -59,7 +59,7 @@ const Chat = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       headerShown: !goftinoOpen,
-      title: '',
+      title: route.params.title,
       headerLeft: () => (
         <TouchableOpacity
           onPress={() => navigation.navigate('Wallet')}
@@ -69,7 +69,7 @@ const Chat = ({ navigation, route }) => {
       ),
       headerRight: () => <BackButton navigation={navigation} />,
     });
-  }, [navigation, goftinoOpen]);
+  }, [navigation, goftinoOpen, route.params.title]);
 
   useEffect(() => {
     checkCredit();
