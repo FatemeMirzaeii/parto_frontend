@@ -73,7 +73,7 @@ const Chat = ({ navigation, route }) => {
 
   useEffect(() => {
     checkCredit();
-  }, []);
+  }, [credit]);
 
   const unsetUserId = `
   Goftino.unsetUserId();
@@ -127,7 +127,6 @@ const Chat = ({ navigation, route }) => {
         });`);
         if (hasOpenChat)
           ref.current.injectJavaScript(`
-          Goftino.open();
           Goftino.setUser({
             tags: 'open',
             forceUpdate: true,
@@ -143,19 +142,16 @@ const Chat = ({ navigation, route }) => {
         setShowPaymentBox(false);
         break;
       case 'closed':
-        // alert('closed');
         setHasOpenChat(false);
         setShowPaymentBox(true);
         setPaymentBoxLoading(false);
         break;
       case 'noTag':
-        // alert('noTag');
         setHasOpenChat(false);
         setShowPaymentBox(true);
         setPaymentBoxLoading(false);
         break;
       case 'open':
-        // alert('open');
         setHasOpenChat(true);
         setShowPaymentBox(false);
         setPaymentBoxLoading(false);
@@ -206,7 +202,6 @@ const Chat = ({ navigation, route }) => {
   };
   const walletPayment = async () => {
     setIsLoading(true);
-    setPaymentBoxLoading(true);
     const success = await purchase();
     if (success) {
       setHasOpenChat(true);
@@ -247,7 +242,10 @@ const Chat = ({ navigation, route }) => {
         <LocalScreen
           goftinoOpen={goftinoOpen}
           goftinoReady={goftinoReady}
-          onPress={() => ref.current.injectJavaScript('Goftino.toggle();')}
+          onPress={() => {
+            setPaymentBoxLoading(true);
+            ref.current.injectJavaScript('Goftino.toggle();');
+          }}
         />
       )}
       <KeyboardAvoidingView
@@ -297,6 +295,7 @@ const Chat = ({ navigation, route }) => {
           loading={paymentBoxLoading}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
+            ref.current.injectJavaScript('Goftino.toggle();');
             if (hasEnaughCredit) toggleWalletPayment();
             else toggleInsufficientCredit();
           }}
