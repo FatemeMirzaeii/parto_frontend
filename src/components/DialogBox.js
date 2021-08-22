@@ -26,6 +26,7 @@ const DialogBox = ({
   return (
     <Modal
       animationType="slide"
+      statusBarTranslucent
       isVisible={isVisible}
       onRequestClose={hide}
       onBackdropPress={onBackdropPress ?? hide}>
