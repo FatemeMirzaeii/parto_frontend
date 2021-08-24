@@ -62,7 +62,7 @@ const Home = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
+  const [article, setArticle] = useState();
   const [loading, setLoading] = useState(true);
   const [visible, setVisible] = useState(false);
 
@@ -72,10 +72,19 @@ const Home = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation, determineMode]);
-
+  const onMainSentencePress = () => {
+    cycle.isPregnant ? goToWeekArticle() : null;
+  };
+  const goToWeekArticle = async () => {
+    const ar = await getArticle();
+    console.log('article', article);
+    navigation.navigate('ArticleDetails', {
+      articleContent: ar,
+      catName: 'هفته های بارداری',
+    });
+  };
   const getArticle = async () => {
     try {
-      let arts = [];
       const res = await axios({
         method: 'get',
         url: `${articlesBaseUrl}/rest/api/content/${WeekId(pregnancyWeek + 1)}`,
@@ -85,13 +94,10 @@ const Home = ({ navigation }) => {
         },
       });
       let con = [];
-      //console.log('myres', res);
-      //console.log('categoryContent', res.data);
       con = res.data;
       if (con.length === 0) {
         setVisible(false);
       }
-
       try {
         const response = await axios({
           method: 'get',
@@ -103,8 +109,6 @@ const Home = ({ navigation }) => {
             'X-Atlassian-Token': 'no-check',
           },
         });
-
-        //console.log('dataSource', response.data);
         const dataSource = response.data.results;
         const imgUrl = [];
         for (let j = 0; j < dataSource.length; j++) {
@@ -114,24 +118,25 @@ const Home = ({ navigation }) => {
             }?os_authType=basic`,
           );
         }
-
-        arts.push({
+        setArticle({
           ...con,
           cover: imgUrl[0],
           images: imgUrl,
           catId: '10813837',
-        });
-
-        //console.log('imgUrl', imgUrl);
+        }); // todo: setArticle or return?
+        setVisible(true);
+        return {
+          ...con,
+          cover: imgUrl[0],
+          images: imgUrl,
+          catId: '10813837',
+        };
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         }
       }
-
-      setData(arts);
-      setVisible(true);
     } catch (err) {
       console.error(err, err.response);
       if (err.toString() === 'Error: Network Error') {
@@ -139,7 +144,6 @@ const Home = ({ navigation }) => {
       }
     }
     setLoading(false);
-    //console.log('data', data);
   };
 
   useFocusEffect(
@@ -251,18 +255,7 @@ const Home = ({ navigation }) => {
               </Text>
 
               <View style={styles.mainSentenceContainer}>
-                <TouchableWithoutFeedback
-                  onPress={async () => {
-                    cycle.isPregnant
-                      ? [
-                          getArticle(),
-                          navigation.navigate('ArticleDetails', {
-                            articleContent: data[0],
-                            catName: 'هفته های بارداری',
-                          }),
-                        ]
-                      : null;
-                  }}>
+                <TouchableWithoutFeedback onPress={onMainSentencePress}>
                   <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
                     {mainSentence}
                   </Text>
