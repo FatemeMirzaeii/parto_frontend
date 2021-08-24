@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { Icon } from 'react-native-elements';
 import { COLOR, FONT } from '../styles/static';
+import analytics from '@react-native-firebase/analytics';
 
 const PlusButton = (props) => {
   const template = useSelector((state) => state.user.template);
@@ -31,7 +32,12 @@ const PlusButton = (props) => {
           props.addAppTourTarget &&
             props.addAppTourTarget(AppTourView.for(ref, { ...tprops }));
         }}
-        onPress={() => props.navigation.navigate('TrackingOptions')}
+        onPress={async () => {
+          props.navigation.navigate('TrackingOptions');
+          await analytics().logEvent('tracking-option-button-pressed', {
+            template: template,
+          });
+        }}
         name="lady"
         type="parto"
         color={COLOR.pink}

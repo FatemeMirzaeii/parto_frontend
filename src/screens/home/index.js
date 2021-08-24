@@ -308,8 +308,12 @@ const Home = ({ navigation }) => {
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate('Calendar');
+            await analytics().logEvent('calendar-button-pressed', {
+              template: template,
+              userId: userId,
+            });
           }}
         />
         {cycle.isPregnant ? (
