@@ -78,6 +78,7 @@ const Wallet = ({ navigation }) => {
         serviceId: selectedPackage.id,
         method: 'gateway',
         discount: selectedPackage.discountValue,
+        appOS: 'android',
       },
     });
     if (!success) return false;
