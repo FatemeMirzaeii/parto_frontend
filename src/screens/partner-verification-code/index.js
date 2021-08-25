@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { View, Text, SafeAreaView, ToastAndroid, Image } from 'react-native';
 import Clipboard from '@react-native-clipboard/clipboard';
 import { Button, Icon } from 'react-native-elements';
+import analytics from '@react-native-firebase/analytics';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -91,8 +92,11 @@ const PartnerVerificationCode = ({ navigation }) => {
                 name="content-copy"
                 color="#aaa"
                 size={35}
-                onPress={() => {
+                onPress={async () => {
                   Clipboard.setString(code);
+                  await analytics().logEvent(
+                    'app_partner_verification_code_copied',
+                  );
                   ToastAndroid.show('کد کپی شد.', ToastAndroid.LONG);
                 }}
               />
