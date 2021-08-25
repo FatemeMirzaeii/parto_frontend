@@ -48,6 +48,7 @@ export default StyleSheet.create({
   },
   phoneInputTxt: {
     fontFamily: FONT.regular,
+    textAlign: 'left',
   },
   btnContainer: {
     elevation: 3,
