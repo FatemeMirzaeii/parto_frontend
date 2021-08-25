@@ -63,8 +63,8 @@ const Home = ({ navigation }) => {
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
   const [article, setArticle] = useState();
-  const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
+  // const [loading, setLoading] = useState(true);
+  // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -95,9 +95,9 @@ const Home = ({ navigation }) => {
       });
       let con = [];
       con = res.data;
-      if (con.length === 0) {
-        setVisible(false);
-      }
+      // if (con.length === 0) {
+      //   setVisible(false);
+      // }
       try {
         const response = await axios({
           method: 'get',
@@ -124,7 +124,7 @@ const Home = ({ navigation }) => {
           images: imgUrl,
           catId: '10813837',
         }); // todo: setArticle or return?
-        setVisible(true);
+        // setVisible(true);
         return {
           ...con,
           cover: imgUrl[0],
@@ -143,7 +143,7 @@ const Home = ({ navigation }) => {
         ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
       }
     }
-    setLoading(false);
+    // setLoading(false);
   };
 
   useFocusEffect(
@@ -237,7 +237,7 @@ const Home = ({ navigation }) => {
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
-  }, [date, dispatch]);
+  }, [date, dispatch, template]);
 
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
@@ -256,7 +256,20 @@ const Home = ({ navigation }) => {
 
               <View style={styles.mainSentenceContainer}>
                 <TouchableWithoutFeedback onPress={onMainSentencePress}>
-                  <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
+                  <Text
+                    style={
+                      !cycle.isPregnant
+                        ? { ...styles.mainSentence, ...styles.mainTxt }
+                        : [
+                            { ...styles.mainSentence, ...styles.mainTxt },
+                            {
+                              elevation: 0.001,
+                              borderRadius: 50,
+                              paddingHorizontal: 15,
+                              paddingVertical: 5,
+                            },
+                          ]
+                    }>
                     {mainSentence}
                   </Text>
                 </TouchableWithoutFeedback>
