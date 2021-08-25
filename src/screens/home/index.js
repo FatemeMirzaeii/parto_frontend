@@ -310,7 +310,7 @@ const Home = ({ navigation }) => {
           }}
           onPress={async () => {
             navigation.navigate('Calendar');
-            await analytics().logEvent('calendar-button-pressed', {
+            await analytics().logEvent('app_calendar_button_press', {
               template: template,
               userId: userId,
             });
@@ -325,7 +325,7 @@ const Home = ({ navigation }) => {
             size={20}
             onPress={async () => {
               navigation.navigate('PregnancyProfile');
-              await analytics().logEvent('PregnancyProfilePress', {
+              await analytics().logEvent('app_pregnancy_profile_press', {
                 template: template,
                 userId: userId,
               });

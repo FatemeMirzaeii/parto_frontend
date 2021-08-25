@@ -27,7 +27,6 @@ const PlusButton = (props) => {
             : null
         }
         {...props}
-        raised
         key={'plusIcon'}
         title={'plusIcon'}
         ref={(ref) => {
@@ -49,13 +48,13 @@ const PlusButton = (props) => {
         }}
         onPress={async () => {
           props.navigation.navigate('TrackingOptions');
-          await analytics().logEvent('tracking-option-button-pressed', {
+          await analytics().logEvent('app_tracking_option_button_press', {
             template: template,
           });
         }}
         style={{
-          width: 80,
-          height: 80,
+          width: 68,
+          height: 68,
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
