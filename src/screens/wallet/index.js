@@ -30,7 +30,7 @@ const Wallet = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
 
   const [services, setServices] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [showGateway, setShowGateway] = useState(false);
   const [selectedPackage, setSelectedPackage] = useState('');
   const [bankUrl, setBankUrl] = useState();
@@ -61,6 +61,7 @@ const Wallet = ({ navigation }) => {
     if (srv.data.data.services) {
       setServices(srv.data.data.services);
     }
+    setIsLoading(false);
     return true;
   };
   const payment = async () => {
@@ -140,55 +141,59 @@ const Wallet = ({ navigation }) => {
         افزایش اعتبار:
       </Text>
       <View style={styles.credits}>
-        {services.map((service, i) => {
-          return (
-            <Card
-              key={service.price}
-              hasHeader
-              headerTitle={service.name}
-              headerColor={COLOR.btn}
-              headerTxtStyle={styles.headerTxt}
-              onPress={() => {
-                setSelectedPackage(service);
-                togglePayment();
-              }}>
-              <View style={styles.packages}>
-                {service.discountValue ? (
-                  <Text
-                    style={[
-                      globalStyles.regularTxt,
-                      {
-                        textDecorationLine: 'line-through',
-                      },
-                    ]}>
-                    {service.price} ریال
-                  </Text>
-                ) : (
-                  <Text>{'\b'}</Text>
-                )}
-                <View style={styles.package}>
-                  <Text style={globalStyles.regularTxt}>
-                    {'   '}
-                    {service.discountValue
-                      ? calculateDiscountedPrice(
-                          service.price,
-                          service.discountValue,
-                          service.discountType,
-                        )
-                      : service.price}
-                    {'   '}
-                    ریال
-                  </Text>
-                  <Image
-                    style={globalStyles.coin}
-                    resizeMode="center"
-                    source={service.discountValue ? DiscountCoin : Coin}
-                  />
+        {isLoading ? (
+          <Loader />
+        ) : (
+          services.map((service, i) => {
+            return (
+              <Card
+                key={service.price}
+                hasHeader
+                headerTitle={service.name}
+                headerColor={COLOR.btn}
+                headerTxtStyle={styles.headerTxt}
+                onPress={() => {
+                  setSelectedPackage(service);
+                  togglePayment();
+                }}>
+                <View style={styles.packages}>
+                  {service.discountValue ? (
+                    <Text
+                      style={[
+                        globalStyles.regularTxt,
+                        {
+                          textDecorationLine: 'line-through',
+                        },
+                      ]}>
+                      {service.price} ریال
+                    </Text>
+                  ) : (
+                    <Text>{'\b'}</Text>
+                  )}
+                  <View style={styles.package}>
+                    <Text style={globalStyles.regularTxt}>
+                      {'   '}
+                      {service.discountValue
+                        ? calculateDiscountedPrice(
+                            service.price,
+                            service.discountValue,
+                            service.discountType,
+                          )
+                        : service.price}
+                      {'   '}
+                      ریال
+                    </Text>
+                    <Image
+                      style={globalStyles.coin}
+                      resizeMode="center"
+                      source={service.discountValue ? DiscountCoin : Coin}
+                    />
+                  </View>
                 </View>
-              </View>
-            </Card>
-          );
-        })}
+              </Card>
+            );
+          })
+        )}
       </View>
       <DialogBox
         isVisible={paymentIsVisibile}
