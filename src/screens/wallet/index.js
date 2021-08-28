@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { Image, Text, View, ScrollView, Modal } from 'react-native';
 import { Icon } from 'react-native-elements';
 import { WebView } from 'react-native-webview';
+import analytics from '@react-native-firebase/analytics';
 
 //redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -66,6 +67,11 @@ const Wallet = ({ navigation }) => {
   };
   const payment = async () => {
     setIsLoading(true);
+    await analytics().logEvent('app_payment', {
+      template: template,
+      userId: userId,
+      package: selectedPackage,
+    });
     await sendToBank();
     setIsLoading(false);
     togglePayment();
