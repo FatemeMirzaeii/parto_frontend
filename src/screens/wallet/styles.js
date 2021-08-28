@@ -24,7 +24,8 @@ export default StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 15,
-    width: 125,
+    width: WIDTH / 3,
+    minWidth: 85,
   },
   packages: { height: 65, justifyContent: 'space-between' },
   loader: {
