@@ -7,7 +7,7 @@ export default StyleSheet.create({
     backgroundColor: COLOR.white,
   },
   newQuestionCont: {
-    marginTop: -100,
+    marginTop: -60,
     flex: 1,
     height: 10,
     zIndex: 2000000005,

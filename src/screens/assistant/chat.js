@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector, useDispatch } from 'react-redux';
@@ -134,6 +135,7 @@ const Chat = ({ navigation, route }) => {
         setGoftinoReady(true);
         break;
       case 'goftino_open':
+        StatusBar.setTranslucent(false);
         setGoftinoOpen(true);
         setShowPaymentBox(!hasOpenChat);
         break;
