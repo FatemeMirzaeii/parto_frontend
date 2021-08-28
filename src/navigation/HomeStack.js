@@ -21,34 +21,26 @@ const HomeStackScreen = () => {
           fontSize: 17,
           fontFamily: FONT.medium,
         },
+        headerShown: false,
       }}>
+      <HomeStack.Screen name="Tabs" component={TabNavigator} />
+      <HomeStack.Screen name="Calendar" component={Calendar} />
+      <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
       <HomeStack.Screen
-        name="Tabs"
-        component={TabNavigator}
-        options={{ headerShown: false }}
+        name="PregnancyProfile"
+        component={PregnancyProfile}
+        options={{ headerShown: true }}
       />
-      <HomeStack.Screen
-        name="Calendar"
-        component={Calendar}
-        options={{ headerShown: false }}
-      />
-      <HomeStack.Screen
-        name="TrackingOptions"
-        component={TrackingOptions}
-        options={{ headerShown: false }}
-      />
-      <HomeStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
-      <HomeStack.Screen
-        name="PregnancyEnd"
-        component={PregnancyEnd}
-        options={{ headerShown: false }}
-      />
+      <HomeStack.Screen name="PregnancyEnd" component={PregnancyEnd} />
       <HomeStack.Screen
         name="PregnancyEndCalendar"
         component={PregnancyEndCalendar}
-        options={{ headerShown: false }}
       />
-      <HomeStack.Screen name="Chat" component={Chat} />
+      <HomeStack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerShown: true }}
+      />
       <HomeStack.Screen name="ArticleDetails" component={ArticleDetails} />
     </HomeStack.Navigator>
   );
