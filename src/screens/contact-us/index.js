@@ -84,23 +84,23 @@ const ContactUs = ({ navigation }) => {
         />
       </View>
       <View style={styles.items}>
-        <ListItem
+        {/* <ListItem
           title="09981070258"
           onPress={() => Linking.openURL('tel:09981070258')}
           leftIcon={{ name: 'phone', type: 'font-awesome' }}
           titleStyle={styles.title}
           bottomDivider
+        /> */}
+        <ListItem
+          title="با پشتیبان پرتو صحبت کن!"
+          onPress={() => setShowChat(true)}
+          rightIcon={{ name: 'assistant', type: 'parto' }}
+          titleStyle={[styles.title, { alignSelf: 'flex-end' }]}
+          bottomDivider
         />
         <ListItem
           title="info@parto.email"
           onPress={() => Linking.openURL('mailto:info@parto.email')}
-          leftIcon={{ name: 'envelope-open', type: 'font-awesome' }}
-          titleStyle={styles.title}
-          bottomDivider
-        />
-        <ListItem
-          title="صحبت با پشتیبان"
-          onPress={() => setShowChat(true)}
           leftIcon={{ name: 'envelope-open', type: 'font-awesome' }}
           titleStyle={styles.title}
           bottomDivider
@@ -116,11 +116,7 @@ const ContactUs = ({ navigation }) => {
             source={{ uri: 'https://goftino.com/c/BdaydR' }}
             style={{ flex: 1 }}
             startInLoadingState
-            renderLoading={() => (
-              <View style={styles.loader}>
-                <Loader type="ActivityIndicator" />
-              </View>
-            )}
+            // renderLoading={() => <Loader type="ActivityIndicator" />}
             // onMessage={onMessage}
           />
         </Modal>
