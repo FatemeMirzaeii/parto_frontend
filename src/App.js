@@ -84,6 +84,7 @@ const App: () => React$Node = () => {
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
             setupNotifications(user.id, user.template === 'Partner');
+            analytics().logEvent(`app_type_${user.template}`);
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;

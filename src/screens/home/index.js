@@ -196,6 +196,10 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
+      await analytics().logEvent('app_use_pregnancy_mode', {
+        template,
+        userId,
+      });
       if (!pregnancyAge) {
         setMainSentence(
           'لطفا تاریخ آخرین پریود خود را جهت محاسبه سن بارداری وارد کنید.',
