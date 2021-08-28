@@ -16,6 +16,12 @@ const ArticleCard = (props) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <TouchableOpacity onPress={props.onPress} style={styles.button}>
+          <Icon
+            name="sharealt"
+            size={20}
+            type="antdesign"
+            onPress={() => shareContent(`${blogUrl}${props.link}`)}
+          />
           <View style={styles.cardTitleWrapper}>
             <Text style={styles.cardTitle}>{props.name}</Text>
           </View>
@@ -30,14 +36,6 @@ const ArticleCard = (props) => {
             />
           </View>
         </TouchableOpacity>
-        <View style={styles.icon}>
-          <Icon
-            name="sharealt"
-            size={20}
-            type="antdesign"
-            onPress={() => shareContent(`${blogUrl}${props.link}`)}
-          />
-        </View>
       </View>
     </View>
   );
@@ -93,9 +91,5 @@ const styles = StyleSheet.create({
     height: 110,
     borderRadius: 15,
     borderColor: 'black',
-  },
-  icon: {
-    right: 160,
-    bottom: 10,
   },
 });
