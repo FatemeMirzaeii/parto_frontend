@@ -24,6 +24,7 @@ import WeekCalendar from '../../components/WeekCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import HomeCalendar from '../../components/HomeCalendar';
 import PlusButton from '../../components/PlusButton';
+import Loader from '../../components/Loader';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
@@ -63,7 +64,7 @@ const Home = ({ navigation }) => {
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
   const [article, setArticle] = useState();
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -72,12 +73,18 @@ const Home = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation, determineMode]);
+
   const onMainSentencePress = () => {
-    cycle.isPregnant ? goToWeekArticle() : null;
+    if (cycle.isPregnant) {
+      setLoading(true);
+      goToWeekArticle();
+    } else return;
   };
+
   const goToWeekArticle = async () => {
     const ar = await getArticle();
     console.log('article', article);
+    setLoading(false);
     navigation.navigate('ArticleDetails', {
       articleContent: ar,
       catName: 'هفته های بارداری',
@@ -143,7 +150,6 @@ const Home = ({ navigation }) => {
         ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
       }
     }
-    // setLoading(false);
   };
 
   useFocusEffect(
@@ -270,7 +276,7 @@ const Home = ({ navigation }) => {
                             },
                           ]
                     }>
-                    {mainSentence}
+                    {loading ? <Loader size={'small'} /> : mainSentence}
                   </Text>
                 </TouchableWithoutFeedback>
               </View>
