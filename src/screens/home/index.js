@@ -89,6 +89,10 @@ const Home = ({ navigation }) => {
       articleContent: ar,
       catName: 'هفته های بارداری',
     });
+    await analytics().logEvent('app_pregnancy_week_article_press', {
+      template: template,
+      userId: userId,
+    });
   };
   const getArticle = async () => {
     try {
