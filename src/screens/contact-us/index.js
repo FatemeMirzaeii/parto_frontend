@@ -38,7 +38,7 @@ const ContactUs = ({ navigation }) => {
           name="telegram"
           type="font-awesome"
           color={COLOR.pink}
-          onPress={() => Linking.openURL('https://t.me/Partobanoo ')}
+          onPress={() => Linking.openURL('https://t.me/Partobanoo')}
         />
         {/* <Icon
           reverse
