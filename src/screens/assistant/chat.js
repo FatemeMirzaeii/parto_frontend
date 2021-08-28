@@ -50,6 +50,7 @@ const Chat = ({ navigation, route }) => {
   const [goftinoId, setGoftinoId] = useState();
   const [showPaymentBox, setShowPaymentBox] = useState();
   const [paymentBoxLoading, setPaymentBoxLoading] = useState(true);
+  const [goftinoIdIsNew, setGoftinoIdIsNew] = useState(false);
 
   const { isVisible: insufficientCredit, toggle: toggleInsufficientCredit } =
     useModal();
@@ -120,6 +121,7 @@ const Chat = ({ navigation, route }) => {
           setHasOpenChat(false);
           setShowPaymentBox(true);
           setPaymentBoxLoading(false);
+          setGoftinoIdIsNew(true);
         }
       }
     }
@@ -252,7 +254,7 @@ const Chat = ({ navigation, route }) => {
           goftinoOpen={goftinoOpen}
           goftinoReady={goftinoReady}
           onPress={() => {
-            setPaymentBoxLoading(true);
+            if (!goftinoIdIsNew) setPaymentBoxLoading(true);
             ref.current.injectJavaScript('Goftino.toggle();');
           }}
         />
@@ -260,7 +262,7 @@ const Chat = ({ navigation, route }) => {
       <KeyboardAvoidingView
         behavior={'padding'}
         contentContainerStyle={{ flex: 1 }}
-        keyboardVerticalOffset={0}
+        keyboardVerticalOffset={25}
         style={{ flexGrow: 12 }}>
         <WebView
           key={key}
