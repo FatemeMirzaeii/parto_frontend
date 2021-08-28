@@ -33,23 +33,15 @@ export default StyleSheet.create({
   },
   headerCotainer: {
     flex: 1,
-    paddingHorizontal: 5,
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    backgroundColor: 'white',
-  },
-  headerWrapper: {
+    backgroundColor: COLOR.white,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginTop: 20,
-    width: '90%',
   },
   headerText: {
-    color: 'black',
+    color: COLOR.black,
     fontSize: 17,
     fontFamily: FONT.medium,
-    right: 30,
   },
   titleStyle: {
     flex: 1,
@@ -67,8 +59,7 @@ export default StyleSheet.create({
     resizeMode: 'cover',
     flex: 1,
   },
-  headerTitleWrapper: {
-    backgroundColor: 'transparent',
+  titleWrapper: {
     flex: 1,
     justifyContent: 'flex-end',
     alignItems: 'flex-end',

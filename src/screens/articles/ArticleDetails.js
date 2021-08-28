@@ -29,6 +29,7 @@ import { shareContent } from '../../util/func';
 
 //styles
 import styles from './styles';
+import { COLOR, WIDTH } from '../../styles/static';
 
 const { event, ValueXY } = Animated;
 const scrollY = new ValueXY();
@@ -76,31 +77,29 @@ const ArticleDetails = ({ route, navigation }) => {
     });
     //console.log('articleContent', articleContent);
     return (
-      <>
-        <SafeAreaView style={styles.headerCotainer}>
-          <View style={styles.headerWrapper}>
-            <Icon
-              name="sharealt"
-              size={20}
-              type="antdesign"
-              onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
-            />
-            <Animated.View style={{ opacity }}>
-              <TextTicker
-                style={styles.headerText}
-                isRTL
-                loop
-                bounce
-                duration={9000}
-                repeatSpacer={150}
-                marqueeDelay={3000}>
-                {articleContent.title}
-              </TextTicker>
-            </Animated.View>
-            <BackButton navigation={navigation} />
-          </View>
-        </SafeAreaView>
-      </>
+      <View style={styles.headerCotainer}>
+        <Icon
+          name="sharealt"
+          type="antdesign"
+          size={20}
+          color={COLOR.icon}
+          containerStyle={{ paddingLeft: 25 }}
+          onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
+        />
+        <Animated.View style={{ opacity, maxWidth: WIDTH / 1.4 }}>
+          <TextTicker
+            style={styles.headerText}
+            isRTL
+            loop
+            bounce
+            duration={9000}
+            repeatSpacer={150}
+            marqueeDelay={3000}>
+            {articleContent.title}
+          </TextTicker>
+        </Animated.View>
+        <BackButton navigation={navigation} />
+      </View>
     );
   };
 
@@ -112,7 +111,7 @@ const ArticleDetails = ({ route, navigation }) => {
           ? { uri: articleContent.cover }
           : require('../../../assets/images/NoPic.jpeg')
       }>
-      <View style={styles.headerTitleWrapper}>
+      <View style={styles.titleWrapper}>
         <Text style={styles.titleStyle}>{articleContent.title}</Text>
       </View>
       <View style={styles.btnWrapper}>
@@ -138,6 +137,7 @@ const ArticleDetails = ({ route, navigation }) => {
 
   return (
     <SafeAreaView style={styles.safeAreaView}>
+      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
       <StickyParallaxHeader
         headerType="AvatarHeader"
         hasBorderRadius={false}
@@ -148,7 +148,7 @@ const ArticleDetails = ({ route, navigation }) => {
             useNativeDriver: false,
           },
         )}
-        parallaxHeight={430}
+        parallaxHeight={400}
         transparentHeader={true}
         foreground={_renderForeground}
         renderBody={_renderBody}
@@ -157,7 +157,6 @@ const ArticleDetails = ({ route, navigation }) => {
         snapStopThreshold={250}
         snapValue={167}
       />
-      <StatusBar barStyle="dark-content" backgroundColor="transparent" />
     </SafeAreaView>
   );
 };
