@@ -17,6 +17,7 @@ import TextTicker from 'react-native-text-ticker';
 //components
 import HTMLRender from '../../components/HTMLRender';
 import Loader from '../../components/Loader';
+import BackButton from '../../components/BackButton';
 
 //services
 import { authCode } from '../../services/authCode';
@@ -27,7 +28,6 @@ import { blogUrl } from '../../services/urls';
 import { shareContent } from '../../util/func';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const { event, ValueXY } = Animated;
@@ -79,6 +79,12 @@ const ArticleDetails = ({ route, navigation }) => {
       <>
         <SafeAreaView style={styles.headerCotainer}>
           <View style={styles.headerWrapper}>
+            <Icon
+              name="sharealt"
+              size={20}
+              type="antdesign"
+              onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
+            />
             <Animated.View style={{ opacity }}>
               <TextTicker
                 style={styles.headerText}
@@ -91,24 +97,7 @@ const ArticleDetails = ({ route, navigation }) => {
                 {articleContent.title}
               </TextTicker>
             </Animated.View>
-
-            <Icon
-              size={16}
-              name="right-arrow"
-              type="parto"
-              color={COLOR.pink}
-              onPress={() => navigation.pop()}
-            />
-
-            <Icon
-              name="sharealt"
-              size={20}
-              type="antdesign"
-              onPress={() => shareContent(`${blogUrl}${articleContent.id}`)}
-              containerStyle={{
-                right: 345,
-              }}
-            />
+            <BackButton navigation={navigation} />
           </View>
         </SafeAreaView>
       </>

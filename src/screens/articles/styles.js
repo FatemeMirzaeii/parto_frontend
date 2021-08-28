@@ -41,16 +41,15 @@ export default StyleSheet.create({
   headerWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'space-between',
     marginTop: 20,
     width: '90%',
   },
   headerText: {
-    alignSelf: 'flex-end',
     color: 'black',
     fontSize: 17,
     fontFamily: FONT.medium,
-    marginRight: 10,
+    right: 30,
   },
   titleStyle: {
     flex: 1,
