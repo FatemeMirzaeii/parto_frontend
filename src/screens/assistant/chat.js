@@ -76,6 +76,13 @@ const Chat = ({ navigation, route }) => {
     checkCredit();
   }, [credit]);
 
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('blur', async () => {
+      StatusBar.setTranslucent(true);
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   const unsetUserId = `
   Goftino.unsetUserId();
   window.ReactNativeWebView.postMessage('unsetUserId');
