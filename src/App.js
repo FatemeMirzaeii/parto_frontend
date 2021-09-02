@@ -21,6 +21,7 @@ import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 import { setupNotifications } from './util/notifications';
 import PartoIcon from './util/customIcon';
+import Linking from './navigation/Linking';
 
 //splash comes in
 //# restore tokens
@@ -79,6 +80,7 @@ const App: () => React$Node = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer
           ref={navigationRef}
+          linking={Linking}
           onReady={() => {
             store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
