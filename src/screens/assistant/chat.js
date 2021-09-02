@@ -315,7 +315,6 @@ const Chat = ({ navigation, route }) => {
       <DialogBox
         isVisible={insufficientCredit}
         hide={toggleInsufficientCredit}
-        // icon={<Image source={Pay} resizeMode="center" />}
         text="اعتبار شما کافی نیست."
         firstBtnTitle="افزایش موجودی"
         firstBtnPress={goToWallet}
