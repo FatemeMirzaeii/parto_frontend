@@ -9,6 +9,7 @@ import BreastExamHelp from '../screens/reminders/BreastExamHelp';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
+import TermsOfUse from '../screens/terms-of-use';
 import Treatise from '../screens/treatise';
 import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
@@ -46,6 +47,7 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="ContactUs" component={ContactUs} />
       <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
+      <MenuStack.Screen name="TermsOfUse" component={TermsOfUse} />
       <MenuStack.Screen name="Assistant" component={Assistant} />
       <MenuStack.Screen
         name="PartnerVerificationCode"
