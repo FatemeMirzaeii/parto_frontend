@@ -23,7 +23,7 @@ const CreditBox = (props) => {
       setIsLoading(false);
       dispatch(setCredit('-----'));
     }
-  }, []);
+  }, [props.creditChanged]);
 
   const getUserCredit = async () => {
     const cre = await api({

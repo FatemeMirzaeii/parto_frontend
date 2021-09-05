@@ -31,6 +31,7 @@ const Wallet = ({ navigation }) => {
   const [services, setServices] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedPackage, setSelectedPackage] = useState('');
+  const [creditChanged, setCreditChanged] = useState(false);
 
   const { isVisible: paymentIsVisibile, toggle: togglePayment } = useModal();
 
@@ -44,6 +45,12 @@ const Wallet = ({ navigation }) => {
 
   useEffect(() => {
     getServices();
+  }, []);
+
+  useEffect(() => {
+    Linking.addEventListener('url', (url) => {
+      if (url.url) setCreditChanged(true);
+    });
   }, []);
 
   const getServices = async () => {
@@ -107,7 +114,7 @@ const Wallet = ({ navigation }) => {
           source={template === 'Partner' ? PartnerWallet : WalletImg}
           resizeMode="contain"
         />
-        <CreditBox hasTitle />
+        <CreditBox hasTitle creditChanged={creditChanged} />
       </Card>
       <Text
         style={[
