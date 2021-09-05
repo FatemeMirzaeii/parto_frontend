@@ -2,81 +2,118 @@ import { StyleSheet } from 'react-native';
 import { WIDTH, HEIGHT, FONT, SIZE, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
+  //دست نخوره
   container: {
     height: '100%',
     backgroundColor: 'white',
   },
+  container2: {
+    height: '100%',
+    backgroundColor: 'red',
+  },
+  //دست نخوره
   sky: {
     width: '100%',
     height: '100%',
     paddingTop: 25,
   },
+  //اندازه ها تغییر نکنه ولی باید اسلایدر نباشه
   sliderWrapper: {
     backgroundColor: 'white',
     height: '75%',
     borderTopLeftRadius: 50,
     borderTopRightRadius: 50,
-    marginTop: 5,
+    //marginTop: 15,
   },
+  partnerFlatList: {
+    backgroundColor: 'white',
+    height: '75%',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    //marginTop: 15,
+  },
+  //استایلی که تو ظراحی خانم اسلامی طوسی کمرنگ مایل به سفیده مستطیلیه پایین تر از حالت بوردر کشیده شده
   sliderItem: {
     //flex: 1,
     height: '100%',
     alignItems: 'center',
-    //
-    padding: 10,
+    //padding: 10,
     //paddingBottom: 50,
-    //backgroundColor:'lightgreen'
+    //backgroundColor: 'lightgreen',
   },
-  carousel: {
-    flexDirection: 'row',
-    // width: WIDTH / 1.6,
-    // width: WIDTH /2,
-    width: WIDTH * 0.95,
-    marginVertical: '3%',
-    height: HEIGHT / 5.7,
-    alignItems: 'center',
-    alignSelf: 'center',
-    justifyContent: 'center',
-    //backgroundColor: 'red',
-  },
+  // carousel: {
+  //   flexDirection: 'row',
+  //   // width: WIDTH / 1.6,
+  //   // width: WIDTH /2,
+  //   width: WIDTH * 0.95,
+  //   marginVertical: '3%',
+  //   height: HEIGHT / 5.7,
+  //   alignItems: 'center',
+  //   alignSelf: 'center',
+  //   justifyContent: 'center',
+  //   //backgroundColor: 'red',
+  // },
   detailPage: {
     height: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
-  category: {
-    //margin: '5%',
-    marginBottom: '5%',
-    //marginBottom: 13,
-    width: WIDTH / 4,
-    height: HEIGHT / 6.3,
-    justifyContent: 'center',
-    alignItems: 'center',
-    //backgroundColor: '#aaa',
-  },
-  options: {
-    justifyContent: 'center',
-    //alignItems: 'center',
-    alignSelf: 'center',
-    flex: 1,
-    flexDirection: 'row',
-    //marginTop: '5%',
-    //backgroundColor:'pink',
-    // margin:10,
-    width: '70%',
-    // height: HEIGHT /5,
-  },
-  option: {
-    width: WIDTH / 3,
-    height: HEIGHT / 6,
+  // category: {
+  //   //margin: '5%',
+  //   marginBottom: '5%',
+  //   //marginBottom: 13,
+  //   width: WIDTH / 4,
+  //   height: HEIGHT / 6.3,
+  //   justifyContent: 'center',
+  //   alignItems: 'center',
+  //   //backgroundColor: '#aaa',
+  //   backgroundColor: 'yellow',
+  // },
+
+  //large white
+  // options1: {
+  //   justifyContent: 'center',
+  //   //alignItems: 'center',
+  //   alignSelf: 'center',
+  //   flex: 1,
+  //   flexDirection: 'row',
+  //   //marginTop: '5%',
+  //   backgroundColor: 'pink',
+  //   // margin:10,
+  //   width: '100%',
+  //   // height: HEIGHT /5,
+  // },
+
+  // white box option
+  option1: {
+    width: WIDTH / 1.21,
+    height: HEIGHT / 7,
     flex: 1,
     margin: 5,
     alignSelf: 'center',
-    alignItems: 'center',
+    //alignItems: 'center',
+    //justifyContent: 'center',
+    //backgroundColor: 'yellow',
+    elevation: 2,
+    borderRadius: 14,
+  },
+  svgBox: {
+    display: 'flex',
     justifyContent: 'center',
-    //backgroundColor:'yellow',
-    elevation: 3,
-    borderRadius: 25,
+    //alignItems: 'center',
+  },
+  svgOption: {
+    //position: 'absolute',
+    top: 15,
+    left: 240,
+    width: WIDTH / 4,
+    height: HEIGHT / 10,
+    //display: 'flex',
+    //marginBottom: '5%',
+    //marginBottom: 13,
+
+    //width: '75%',
+    //height: '75%',
   },
   descriptionTxt: {
     fontFamily: FONT.medium,
@@ -85,34 +122,39 @@ export default StyleSheet.create({
     // margin: 5,
     // paddingVertical: 5,
   },
-  titleBox: {
-    //width: '25%',
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    //paddingHorizontal: 10,
-    alignItems: 'center',
-    //backgroundColor:'yellow',
-    alignSelf: 'center',
-    //marginLeft: '10%',
-    // backgroundColor: 'red',
-  },
+  // titleBox: {
+  //   //width: '25%',
+  //   flexDirection: 'row',
+  //   justifyContent: 'space-around',
+  //   //paddingHorizontal: 10,
+  //   alignItems: 'center',
+  //   //backgroundColor:'yellow',
+  //   alignSelf: 'center',
+  //   //marginLeft: '10%',
+  //   //backgroundColor: 'red',
+  // },
+
+  //استایل تایتل های کتگوری
   title: {
     fontFamily: FONT.medium,
     fontSize: SIZE[15],
-    textAlign: 'center',
-    paddingRight: 10,
+    //textAlign: 'center',
+    //paddingRight: 10,
+    color: 'red',
   },
+  //استایل نوشته هر option مثلا انواع خونریزی
   txt: {
-    fontFamily: FONT.medium,
-    fontSize: 11,
-    textAlign: 'center',
-    color: COLOR.black,
-    flex: 1,
-    paddingHorizontal: 5,
+    fontFamily: FONT.regular,
+    fontSize: 15,
+    right: 95,
+    bottom: 15,
+    color: 'gray',
+    //flex: 1,
+    paddingHorizontal: 15,
     //backgroundColor:'green',
     //  alignItems:'center',
     //  alignSelf:'center',
-    //  marginBottom:10
+    // marginBottom: 10,
   },
 
   more: {
