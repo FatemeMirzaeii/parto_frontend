@@ -94,8 +94,18 @@ const ContactUs = ({ navigation }) => {
         <ListItem
           title="با پشتیبان پرتو صحبت کن!"
           onPress={() => setShowChat(true)}
-          rightIcon={{ name: 'assistant', type: 'parto' }}
-          titleStyle={[styles.title, { alignSelf: 'flex-end' }]}
+          rightIcon={{ name: 'assistant', type: 'parto', color: COLOR.white }}
+          titleStyle={[
+            styles.title,
+            { alignSelf: 'center', color: COLOR.white },
+          ]}
+          containerStyle={{
+            borderRadius: 40,
+            borderWidth: 0,
+            elevation: 2,
+            backgroundColor: COLOR.pink,
+            height: 50,
+          }}
           bottomDivider
         />
         <ListItem
