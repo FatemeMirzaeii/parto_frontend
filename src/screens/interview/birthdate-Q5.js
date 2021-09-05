@@ -161,7 +161,7 @@ const Q5 = ({ route, navigation }) => {
       <DialogBox
         isVisible={isVisible}
         hide={toggle}
-        text=" پرتویی جان! مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
+        text="مایل هستی از نسخه نوجوان که به طور اختصاصی برای شما
         طراحی شده، استفاده کنی؟"
         twoButtons
         firstBtnPress={() => {

@@ -8,6 +8,7 @@ import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
 import Chat from '../screens/assistant/chat';
 import ArticleDetails from '../screens/articles/ArticleDetails';
+import Wallet from '../screens/wallet';
 import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
@@ -42,6 +43,11 @@ const HomeStackScreen = () => {
         options={{ headerShown: true }}
       />
       <HomeStack.Screen name="ArticleDetails" component={ArticleDetails} />
+      <HomeStack.Screen
+        name="Wallet"
+        component={Wallet}
+        options={{ headerShown: true }}
+      />
     </HomeStack.Navigator>
   );
 };

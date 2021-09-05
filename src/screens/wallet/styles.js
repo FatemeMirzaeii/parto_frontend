@@ -1,11 +1,10 @@
 import { StyleSheet } from 'react-native';
-import { FONT, COLOR, HEIGHT, WIDTH } from '../../styles/static';
+import { COLOR, HEIGHT, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: COLOR.white,
-    marginBottom: 53,
   },
   wallet: { width: WIDTH / 1.2, alignSelf: 'center' },
   img: {

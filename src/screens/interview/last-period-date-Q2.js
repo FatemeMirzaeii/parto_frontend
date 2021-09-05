@@ -29,8 +29,7 @@ const Q2 = ({ route, navigation }) => {
   const onForgotPress = () => {
     navigation.navigate('Notice', {
       ...route.params,
-      txt:
-        'نگران نباش!\nبا پرتو میتونی بعدا اطلاعات گذشته و دوره‌های جدیدت رو وارد تقویم کنی.',
+      txt: 'نگران نباش!\nبا پرتو میتونی بعدا اطلاعات گذشته و دوره‌های جدیدت رو وارد تقویم کنی.',
       nextPage: 'Q3',
       lastPeriodDate: null,
     });

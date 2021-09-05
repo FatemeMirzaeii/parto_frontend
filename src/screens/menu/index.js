@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, ToastAndroid, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { ListItem, Icon } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 
@@ -14,13 +14,11 @@ import MenuSquareItem from '../../components/MenuSquareItem';
 import UserWallet from '../../components/UserWallet';
 
 // utils and store
-import { resetDatabase, lockStatus, setLock } from '../../util/database/query';
+import { lockStatus, setLock } from '../../util/database/query';
 import { removeData, shareContent } from '../../util/func';
-import sync from '../../util/database/sync';
 import useModal from '../../util/hooks/useModal';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
-import { signOut, signUp } from '../../store/actions/auth';
-import { fetchInitialCycleData } from '../../store/actions/cycle';
+import { signUp } from '../../store/actions/auth';
 
 // styles
 import { COLOR } from '../../styles/static';
@@ -29,13 +27,10 @@ import globalStyles from '../../styles';
 
 const Menu = ({ navigation }) => {
   const [isLock, setIsLock] = useState();
-  const [isLoading, setIsLoading] = useState(false);
   const userId = useSelector((state) => state.user.id);
-  const isLoggedIn = useSelector((state) => state.auth.userToken);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
-  const { isVisible, toggle } = useModal();
-  const { isVisible: signOutVisible, toggle: signOutToggle } = useModal();
+
   const {
     isVisible: registrationAlertVisible,
     toggle: toggleRegistrationAlert,
@@ -93,10 +88,6 @@ const Menu = ({ navigation }) => {
         `لینک دانلود اپلیکیشن پرتو (دستیار هوشمند سلامت بانوان):\n${link}`,
       );
     });
-  };
-  const exit = async () => {
-    const res = await sync(true);
-    if (res) dispatch(signOut());
   };
   return (
     <ScrollView style={styles.container}>
@@ -202,7 +193,7 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={globalStyles.listItemContentContainer}
         />
         <ListItem
-          title="ارتباط با پرتو"
+          title="پشتیبانی"
           leftIcon={{ type: 'parto', name: 'contact-us', color: COLOR.icon }}
           bottomDivider
           chevron={{
@@ -231,75 +222,21 @@ const Menu = ({ navigation }) => {
           contentContainerStyle={globalStyles.listItemContentContainer}
           bottomDivider
         />
-        {template !== 'Partner' && (
-          <ListItem
-            title="پاک کردن داده‌ها"
-            leftIcon={{
-              type: 'parto',
-              name: 'trash',
-              color: COLOR.icon,
-            }}
-            chevron={{
-              type: 'parto',
-              name: 'left',
-              color: COLOR.icon,
-              size: 10,
-            }}
-            onPress={toggle}
-            titleStyle={globalStyles.listItemTitle}
-            containerStyle={globalStyles.listItem}
-            contentContainerStyle={globalStyles.listItemContentContainer}
-            bottomDivider={!(isLoggedIn === 'dummyToken')}
-          />
-        )}
-        {!(isLoggedIn === 'dummyToken') && (
-          <ListItem
-            title="خروج"
-            leftIcon={{ type: 'parto', name: 'exit', color: COLOR.icon }}
-            chevron={{
-              type: 'parto',
-              name: 'left',
-              color: COLOR.icon,
-              size: 10,
-            }}
-            onPress={signOutToggle}
-            titleStyle={globalStyles.listItemTitle}
-            containerStyle={globalStyles.listItem}
-            contentContainerStyle={globalStyles.listItemContentContainer}
-          />
-        )}
+        <ListItem
+          title="قوانین و مقررات"
+          leftIcon={{ type: 'antdesign', name: 'warning', color: COLOR.icon }}
+          chevron={{
+            type: 'parto',
+            name: 'left',
+            color: COLOR.icon,
+            size: 10,
+          }}
+          onPress={() => navigateTo('TermsOfUse')}
+          titleStyle={globalStyles.listItemTitle}
+          containerStyle={globalStyles.listItem}
+          contentContainerStyle={globalStyles.listItemContentContainer}
+        />
       </Card>
-      <DialogBox
-        isVisible={isVisible}
-        isLoading={isLoading}
-        hide={toggle}
-        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
-        text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
-        twoButtons
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          await resetDatabase();
-          dispatch(fetchInitialCycleData());
-          toggle();
-          setIsLoading(false);
-        }}
-        secondBtnPress={toggle}
-      />
-      <DialogBox
-        isVisible={signOutVisible}
-        isLoading={isLoading}
-        hide={signOutToggle}
-        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
-        text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
-        twoButtons
-        firstBtnPress={async () => {
-          setIsLoading(true);
-          await exit();
-          signOutToggle();
-          setIsLoading(false);
-        }}
-        secondBtnPress={signOutToggle}
-      />
       <DialogBox
         isVisible={registrationAlertVisible}
         hide={toggleRegistrationAlert}
