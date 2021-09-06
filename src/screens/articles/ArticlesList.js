@@ -139,6 +139,7 @@ const ArticlesList = ({ route, navigation }) => {
               <ArticleCard
                 name={item.title}
                 image={item.cover}
+                link={item.id}
                 onPress={() =>
                   navigation.navigate('ArticleDetails', {
                     articleContent: item,

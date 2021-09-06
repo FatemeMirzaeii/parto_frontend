@@ -24,6 +24,7 @@ import WeekCalendar from '../../components/WeekCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import HomeCalendar from '../../components/HomeCalendar';
 import PlusButton from '../../components/PlusButton';
+import Loader from '../../components/Loader';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
@@ -62,9 +63,9 @@ const Home = ({ navigation }) => {
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
-  const [data, setData] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [visible, setVisible] = useState(false);
+  const [article, setArticle] = useState();
+  const [loading, setLoading] = useState(false);
+  // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -73,9 +74,28 @@ const Home = ({ navigation }) => {
     return unsubscribe;
   }, [navigation, determineMode]);
 
+  const onMainSentencePress = () => {
+    if (cycle.isPregnant) {
+      setLoading(true);
+      goToWeekArticle();
+    } else return;
+  };
+
+  const goToWeekArticle = async () => {
+    const ar = await getArticle();
+    console.log('article', article);
+    setLoading(false);
+    navigation.navigate('ArticleDetails', {
+      articleContent: ar,
+      catName: 'هفته های بارداری',
+    });
+    await analytics().logEvent('app_pregnancy_week_article_press', {
+      template: template,
+      userId: userId,
+    });
+  };
   const getArticle = async () => {
     try {
-      let arts = [];
       const res = await axios({
         method: 'get',
         url: `${articlesBaseUrl}/rest/api/content/${WeekId(pregnancyWeek + 1)}`,
@@ -85,13 +105,10 @@ const Home = ({ navigation }) => {
         },
       });
       let con = [];
-      //console.log('myres', res);
-      //console.log('categoryContent', res.data);
       con = res.data;
-      if (con.length === 0) {
-        setVisible(false);
-      }
-
+      // if (con.length === 0) {
+      //   setVisible(false);
+      // }
       try {
         const response = await axios({
           method: 'get',
@@ -103,8 +120,6 @@ const Home = ({ navigation }) => {
             'X-Atlassian-Token': 'no-check',
           },
         });
-
-        //console.log('dataSource', response.data);
         const dataSource = response.data.results;
         const imgUrl = [];
         for (let j = 0; j < dataSource.length; j++) {
@@ -114,32 +129,31 @@ const Home = ({ navigation }) => {
             }?os_authType=basic`,
           );
         }
-
-        arts.push({
+        setArticle({
           ...con,
           cover: imgUrl[0],
           images: imgUrl,
           catId: '10813837',
-        });
-
-        //console.log('imgUrl', imgUrl);
+        }); // todo: setArticle or return?
+        // setVisible(true);
+        return {
+          ...con,
+          cover: imgUrl[0],
+          images: imgUrl,
+          catId: '10813837',
+        };
       } catch (err) {
         console.error(err, err.response);
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         }
       }
-
-      setData(arts);
-      setVisible(true);
     } catch (err) {
       console.error(err, err.response);
       if (err.toString() === 'Error: Network Error') {
         ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
       }
     }
-    setLoading(false);
-    //console.log('data', data);
   };
 
   useFocusEffect(
@@ -186,6 +200,10 @@ const Home = ({ navigation }) => {
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
+      await analytics().logEvent('app_use_pregnancy_mode', {
+        template,
+        userId,
+      });
       if (!pregnancyAge) {
         setMainSentence(
           'لطفا تاریخ آخرین پریود خود را جهت محاسبه سن بارداری وارد کنید.',
@@ -233,7 +251,7 @@ const Home = ({ navigation }) => {
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
-  }, [date, dispatch]);
+  }, [date, dispatch, template]);
 
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
@@ -251,20 +269,22 @@ const Home = ({ navigation }) => {
               </Text>
 
               <View style={styles.mainSentenceContainer}>
-                <TouchableWithoutFeedback
-                  onPress={async () => {
-                    cycle.isPregnant
-                      ? [
-                          getArticle(),
-                          navigation.navigate('ArticleDetails', {
-                            articleContent: data[0],
-                            catName: 'هفته های بارداری',
-                          }),
-                        ]
-                      : null;
-                  }}>
-                  <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
-                    {mainSentence}
+                <TouchableWithoutFeedback onPress={onMainSentencePress}>
+                  <Text
+                    style={
+                      !cycle.isPregnant
+                        ? { ...styles.mainSentence, ...styles.mainTxt }
+                        : [
+                            { ...styles.mainSentence, ...styles.mainTxt },
+                            {
+                              elevation: 0.001,
+                              borderRadius: 50,
+                              paddingHorizontal: 15,
+                              paddingVertical: 5,
+                            },
+                          ]
+                    }>
+                    {loading ? <Loader size={'small'} /> : mainSentence}
                   </Text>
                 </TouchableWithoutFeedback>
               </View>
@@ -315,8 +335,12 @@ const Home = ({ navigation }) => {
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate('Calendar');
+            await analytics().logEvent('app_calendar_button_press', {
+              template: template,
+              userId: userId,
+            });
           }}
         />
         {cycle.isPregnant ? (
@@ -328,7 +352,7 @@ const Home = ({ navigation }) => {
             size={20}
             onPress={async () => {
               navigation.navigate('PregnancyProfile');
-              await analytics().logEvent('PregnancyProfilePress', {
+              await analytics().logEvent('app_pregnancy_profile_press', {
                 template: template,
                 userId: userId,
               });

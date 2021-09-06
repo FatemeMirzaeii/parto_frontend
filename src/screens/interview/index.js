@@ -11,7 +11,7 @@ const Interview = ({ route, navigation }) => {
       style={styles.bg}>
       <View style={styles.cont}>
         <Text style={styles.question}>
-          پرتویی عزیز سلام!
+          سلام!
           {'\n'}
           پرتو چطور میتونه کمکت کنه؟
         </Text>

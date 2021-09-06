@@ -6,6 +6,9 @@ import TrackingOptions from '../screens/tracking-options';
 import PregnancyProfile from '../screens/pregnancy-profile';
 import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
+import Chat from '../screens/assistant/chat';
+import ArticleDetails from '../screens/articles/ArticleDetails';
+import Wallet from '../screens/wallet';
 import { FONT } from '../styles/static';
 
 const HomeStack = createStackNavigator();
@@ -19,32 +22,31 @@ const HomeStackScreen = () => {
           fontSize: 17,
           fontFamily: FONT.medium,
         },
+        headerShown: false,
       }}>
+      <HomeStack.Screen name="Tabs" component={TabNavigator} />
+      <HomeStack.Screen name="Calendar" component={Calendar} />
+      <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
       <HomeStack.Screen
-        name="Tabs"
-        component={TabNavigator}
-        options={{ headerShown: false }}
+        name="PregnancyProfile"
+        component={PregnancyProfile}
+        options={{ headerShown: true }}
       />
-      <HomeStack.Screen
-        name="Calendar"
-        component={Calendar}
-        options={{ headerShown: false }}
-      />
-      <HomeStack.Screen
-        name="TrackingOptions"
-        component={TrackingOptions}
-        options={{ headerShown: false }}
-      />
-      <HomeStack.Screen name="PregnancyProfile" component={PregnancyProfile} />
-      <HomeStack.Screen
-        name="PregnancyEnd"
-        component={PregnancyEnd}
-        options={{ headerShown: false }}
-      />
+      <HomeStack.Screen name="PregnancyEnd" component={PregnancyEnd} />
       <HomeStack.Screen
         name="PregnancyEndCalendar"
         component={PregnancyEndCalendar}
-        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name="Chat"
+        component={Chat}
+        options={{ headerShown: true }}
+      />
+      <HomeStack.Screen name="ArticleDetails" component={ArticleDetails} />
+      <HomeStack.Screen
+        name="Wallet"
+        component={Wallet}
+        options={{ headerShown: true }}
       />
     </HomeStack.Navigator>
   );

@@ -7,14 +7,12 @@ export default StyleSheet.create({
     marginTop: 25,
     marginBottom: 53,
   },
-  containerBtnItems: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  squareItemsContainer: {
+    flexDirection: 'row-reverse',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  BtnItem: {
-    height: 80,
-    justifyContent: 'space-around',
+    padding: 15,
   },
   divider: {
     height: 20,

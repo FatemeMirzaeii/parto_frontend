@@ -7,6 +7,9 @@ export default StyleSheet.create({
   //   alignSelf: 'center',
   //   fontFamily: Theme.fonts.regular,
   // },
+  headerIcon: {
+    marginRight: 40,
+  },
   btnContainer: {
     elevation: 3,
     width: 100,
@@ -35,5 +38,10 @@ export default StyleSheet.create({
     textAlignVertical: 'top',
     fontFamily: FONT.regular,
     fontSize: SIZE[14],
+  },
+  infoBox: {
+    flexDirection: 'row-reverse',
+    alignItems: 'center',
+    backgroundColor: COLOR.lightPink,
   },
 });

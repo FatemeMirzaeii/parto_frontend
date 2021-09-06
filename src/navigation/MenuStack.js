@@ -5,13 +5,16 @@ import Profile from '../screens/profile';
 import CycleSetting from '../screens/cycle-setting';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
+import BreastExamHelp from '../screens/reminders/BreastExamHelp';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
+import TermsOfUse from '../screens/terms-of-use';
 import Treatise from '../screens/treatise';
 import TreatiseList from '../screens/treatise/TreatiseList';
 import TreatiseDetails from '../screens/treatise/TreatiseDetails';
 import TreatiseHelp from '../screens/treatise/TreatiseHelp';
+import Assistant from '../screens/assistant';
 import PartnerVerificationCode from '../screens/partner-verification-code';
 import { FONT } from '../styles/static';
 
@@ -32,14 +35,11 @@ const MenuStackScreen = () => {
         component={Menu}
         options={{ headerShown: false }}
       />
-      <MenuStack.Screen
-        name="Profile"
-        component={Profile}
-        // options={{ headerShown: false }}
-      />
+      <MenuStack.Screen name="Profile" component={Profile} />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
+      <MenuStack.Screen name="BreastExamHelp" component={BreastExamHelp} />
       <MenuStack.Screen name="Treatise" component={Treatise} />
       <MenuStack.Screen name="TreatiseList" component={TreatiseList} />
       <MenuStack.Screen name="TreatiseDetails" component={TreatiseDetails} />
@@ -47,6 +47,8 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="ContactUs" component={ContactUs} />
       <MenuStack.Screen name="Rating" component={Rating} />
       <MenuStack.Screen name="AboutUs" component={AboutUs} />
+      <MenuStack.Screen name="TermsOfUse" component={TermsOfUse} />
+      <MenuStack.Screen name="Assistant" component={Assistant} />
       <MenuStack.Screen
         name="PartnerVerificationCode"
         component={PartnerVerificationCode}

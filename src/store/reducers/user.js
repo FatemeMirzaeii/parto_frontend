@@ -1,9 +1,10 @@
-import { SET_USER, SET_TEMPLATE, RESET } from '../actions/types';
+import { SET_TEMPLATE, SET_USER, SET_CREDIT } from '../actions/types';
 
 const initialState = {
   id: null,
   phone: '',
   template: 'Main',
+  credit: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -11,15 +12,12 @@ const userReducer = (state = initialState, action) => {
   switch (action.type) {
     case SET_TEMPLATE:
       return { ...state, template: action.template };
+
     case SET_USER: {
       return { ...state, id: action.id, phone: action.phone };
     }
-    case RESET: {
-      return {
-        id: null,
-        phone: '',
-        template: '',
-      };
+    case SET_CREDIT: {
+      return { ...state, credit: action.credit };
     }
     default:
       return state;

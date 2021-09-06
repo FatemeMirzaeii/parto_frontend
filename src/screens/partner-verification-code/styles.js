@@ -32,12 +32,6 @@ export default StyleSheet.create({
     alignSelf: 'center',
     margin: 10,
   },
-  title: {
-    fontFamily: FONT.regular,
-    fontSize: 14,
-    textAlign: 'center',
-    color: COLOR.listItemTxt,
-  },
   code: {
     fontFamily: FONT.bold,
     fontSize: 16,

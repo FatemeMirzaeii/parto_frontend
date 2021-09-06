@@ -1,8 +1,10 @@
 import * as React from 'react';
+import { View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { COLOR, FONT } from '../styles/static';
 import { SvgXml } from 'react-native-svg';
+import analytics from '@react-native-firebase/analytics';
 
 //constants
 import {
@@ -10,11 +12,31 @@ import {
   PartnerTrackingButton,
   TeenagerTrackingButton,
 } from '../constants/health-tracking-svg';
-
+//todo: not working why?
 const PlusButton = (props) => {
   const template = useSelector((state) => state.user.template);
   return (
-    <>
+    <View
+      {...props}
+      key={'plusIcon'}
+      title={'plusIcon'}
+      ref={(ref) => {
+        if (!ref) return;
+        let tprops = {
+          order: 11,
+          title: 'شرح حال',
+          description:
+            template === 'Partner'
+              ? 'اطلاعات تکمیلی از حال هر روز همسرت اینجا وارد میشه '
+              : 'اطلاعات  تکمیلی از حال هر روز رو اینجا در اختیار دستیارت قرار بده ',
+          descriptionTextSize: 15,
+          outerCircleColor: COLOR.purple,
+          outerCircleAlpha: 0.9,
+          fontFamily: FONT.regular,
+        };
+        props.addAppTourTarget &&
+          props.addAppTourTarget(AppTourView.for(ref, { ...tprops }));
+      }}>
       <SvgXml
         xml={
           template === 'Main'
@@ -25,31 +47,15 @@ const PlusButton = (props) => {
             ? TeenagerTrackingButton
             : null
         }
-        {...props}
-        raised
-        key={'plusIcon'}
-        title={'plusIcon'}
-        ref={(ref) => {
-          if (!ref) return;
-          let tprops = {
-            order: 11,
-            title: 'شرح حال',
-            description:
-              template === 'Partner'
-                ? 'اطلاعات تکمیلی از حال هر روز همسرت اینجا وارد میشه '
-                : 'اطلاعات  تکمیلی از حال هر روز رو اینجا در اختیار دستیارت قرار بده ',
-            descriptionTextSize: 15,
-            outerCircleColor: COLOR.purple,
-            outerCircleAlpha: 0.9,
-            fontFamily: FONT.regular,
-          };
-          props.addAppTourTarget &&
-            props.addAppTourTarget(AppTourView.for(ref, { ...tprops }));
+        onPress={async () => {
+          props.navigation.navigate('TrackingOptions');
+          await analytics().logEvent('app_tracking_option_button_press', {
+            template: template,
+          });
         }}
-        onPress={() => props.navigation.navigate('TrackingOptions')}
         style={{
-          width: 80,
-          height: 80,
+          width: 68,
+          height: 68,
           alignItems: 'center',
           justifyContent: 'center',
           alignSelf: 'center',
@@ -57,7 +63,7 @@ const PlusButton = (props) => {
         }}
       />
       {/* <Text>ثبت پریود</Text> */}
-    </>
+    </View>
   );
 };
 
