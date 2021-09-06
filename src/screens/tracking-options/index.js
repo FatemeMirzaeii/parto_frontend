@@ -54,7 +54,6 @@ import {
 
 const PartenerTrackingOptions = ({ route }) => {
   const [categories, setCategories] = useState([]);
-  console.log('categories', categories);
   const template = useSelector((state) => state.user.template);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const { today } = useContext(DateContext);
@@ -62,6 +61,10 @@ const PartenerTrackingOptions = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [visible, setVisible] = useState(false);
   const [overlayText, setOverlayText] = useState('');
+
+  useEffect(() => {
+    getInitialData();
+  }, [getInitialData]);
 
   const getInitialData = useCallback(async () => {
     const td = await getTrackingOptionData(date);
@@ -74,11 +77,17 @@ const PartenerTrackingOptions = ({ route }) => {
   }, [date, template]);
 
   useEffect(() => {
-    getInitialData();
-  }, [getInitialData]);
-
-  const selectedItems = categories.filter((item) => item.selected.length > 0);
-  console.log('selectedItems', selectedItems);
+    if (categories.length > 0) {
+      console.log('categories', categories);
+      const selectedItems = [];
+      categories.forEach((item) => {
+        const selected = item.options.filter((i) => i.selected.length > 0);
+        if (selected.length > 0)
+          selectedItems.push({ categoryTitle: item.title, selected });
+      });
+      console.log('selectedItems', selectedItems);
+    }
+  }, [categories]);
 
   const _renderItem = ({ item, color }) => {
     return (
@@ -86,7 +95,8 @@ const PartenerTrackingOptions = ({ route }) => {
         style={[
           styles.option1,
           {
-            backgroundColor: item.selected.length > 0 ? color : COLOR.white,
+            backgroundColor: 'white',
+            // item.options.selected.length > 0 ? color : COLOR.white,
           },
         ]}>
         <Text style={styles.title}>{item.title}</Text>
@@ -104,7 +114,7 @@ const PartenerTrackingOptions = ({ route }) => {
           width="75%"
           height="75%"
           xml={item.icon}
-          fill={item.selected.length > 0 ? COLOR.white : color}
+          // fill={item.selected.length > 0 ? COLOR.white : color}
         />
       </View>
     );
