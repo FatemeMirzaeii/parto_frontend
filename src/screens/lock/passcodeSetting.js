@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, Text, ToastAndroid, View, Keyboard } from 'react-native';
-import { Icon, Button } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import {
   CodeField,
   Cursor,
@@ -8,20 +8,16 @@ import {
   useClearByFocusCell,
 } from 'react-native-confirmation-code-field';
 import * as Keychain from 'react-native-keychain';
-
-//redux
 import { useSelector, useDispatch } from 'react-redux';
-
-//store
-import { handleLockType, handlePasscode } from '../../store/actions/user';
 
 //components
 import Card from '../../components/Card';
+import BackButton from '../../components/BackButton';
+import { handleLockType, handlePasscode } from '../../store/actions/user';
+import lock from '../../util/lock';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
-import lock from '../../util/lock';
 
 const PasscodeSetting = ({ navigation }) => {
   const lockType = useSelector((state) => state.user.lockType);
@@ -37,21 +33,9 @@ const PasscodeSetting = ({ navigation }) => {
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'کد ورود',
-      headerStyle: {
-        elevation: 0,
-      },
+      title: 'رمز عبور',
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.icon}
-          onPress={() => navigation.pop()}
-          containerStyle={styles.headerIcon}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 
@@ -71,12 +55,12 @@ const PasscodeSetting = ({ navigation }) => {
         console.log('crede', credential);
         if (credential) {
           console.log('Credentials successfully loaded for user ');
-           dispatch(handlePasscode(credential.password));
+          dispatch(handlePasscode(credential.password));
           // dispatch(handlePasscode('1234'));
           ToastAndroid.show(
             lockType === 'Passcode'
-              ? 'کد ورود با موفقیت تغییر کرد.'
-              : 'کد ورود با موفقیت ذخیره شد.',
+              ? 'رمز عبور با موفقیت تغییر کرد.'
+              : 'رمز عبور با موفقیت ذخیره شد.',
 
             ToastAndroid.LONG,
           );
@@ -92,7 +76,7 @@ const PasscodeSetting = ({ navigation }) => {
       }
     } else
       ToastAndroid.show(
-        'کد ورود انتخابی چهارررقمی نیست؛ تعدادارقام باید چهاررقمی باشد.',
+        'رمز عبور انتخابی چهارررقمی نیست؛ تعدادارقام باید چهاررقمی باشد.',
         ToastAndroid.LONG,
       );
   };
@@ -102,7 +86,7 @@ const PasscodeSetting = ({ navigation }) => {
       if (passcode === value) setIsVisible(true);
       else
         ToastAndroid.show(
-          'کد ورود اشتباه است، برای تغییر کد ورود ابتدا باید کد ورود خود را به درستی وارد کنید.',
+          'رمز عبور اشتباه است، برای تغییر رمز عبور ابتدا باید رمز عبور خود را به درستی وارد کنید.',
           ToastAndroid.LONG,
         );
     } else _handleSelectedPass();
@@ -113,14 +97,13 @@ const PasscodeSetting = ({ navigation }) => {
       <Card
         hasHeader
         headerTitle={
-          lockType === 'Passcode' ? 'تغییر کد ورود' : 'انتخاب کد ورود'
+          lockType === 'Passcode' ? 'تغییر رمز عبور' : 'انتخاب رمز عبور'
         }>
         <View style={styles.field}>
-          {/* <Text style={styles.title}>کد ورود چهاررقمی برای ورود به پرتو:</Text> */}
           <Text style={styles.title}>
             {lockType === 'Passcode'
-              ? 'لطفا کد ورود خود را وارد کنید:'
-              : 'کد ورود چهاررقمی برای ورود به پرتو:'}
+              ? 'لطفا رمز عبور خود را وارد کنید:'
+              : 'رمز عبور چهاررقمی برای ورود به پرتو:'}
           </Text>
           <CodeField
             ref={ref}
@@ -155,10 +138,10 @@ const PasscodeSetting = ({ navigation }) => {
         </View>
       </Card>
       {isVisible && (
-        <Card hasHeader headerTitle="تغییر کد ورود">
+        <Card hasHeader headerTitle="تغییر رمز عبور">
           <View style={styles.field}>
             <Text style={styles.title}>
-              کد ورود چهاررقمی برای ورود به پرتو:
+              رمز عبور چهاررقمی برای ورود به پرتو:
             </Text>
             <CodeField
               ref={ref}

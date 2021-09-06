@@ -1,17 +1,14 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { SafeAreaView, ToastAndroid } from 'react-native';
-import { Icon, ListItem } from 'react-native-elements';
+import { ListItem } from 'react-native-elements';
 import * as Keychain from 'react-native-keychain';
 import { RadioButton } from 'react-native-paper';
-
-//redux
 import { useSelector, useDispatch } from 'react-redux';
 
-//store
-import { handleLockType } from '../../store/actions/user';
-
-//components
+//components and store
 import Card from '../../components/Card';
+import { handleLockType } from '../../store/actions/user';
+import BackButton from '../../components/BackButton';
 
 //styles
 import { COLOR } from '../../styles/static';
@@ -25,20 +22,8 @@ const Lock = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'قفل',
-      headerStyle: {
-        elevation: 0,
-      },
       headerLeft: () => null,
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.icon}
-          onPress={() => navigation.pop()}
-          containerStyle={styles.headerIcon}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
 
@@ -58,7 +43,7 @@ const Lock = ({ navigation }) => {
     return txt;
   };
 
-  const _handelSelectedNone = async () => {
+  const _handleSelectedNone = async () => {
     try {
       await Keychain.resetGenericPassword();
       console.log('Could reset credentials');
@@ -88,15 +73,13 @@ const Lock = ({ navigation }) => {
       <Card hasHeader headerTitle="نوع احراز هویت">
         <ListItem
           title="بدون احراز هویت"
-          onPress={() => {
-            _handelSelectedNone();
-          }}
+          onPress={_handleSelectedNone}
           leftIcon={
             <RadioButton
               value="None"
               status={lockType === 'None' ? 'checked' : 'unchecked'}
               onPress={() => {
-                _handelSelectedNone();
+                _handleSelectedNone();
               }}
               color={COLOR.pink}
               uncheckedColor={COLOR.icon}
@@ -107,7 +90,7 @@ const Lock = ({ navigation }) => {
           contentContainerStyle={styles.listItemContent}
         />
         <ListItem
-          title="کد ورود"
+          title="رمز عبور"
           onPress={() => {
             _handleSelectedPasscode();
           }}

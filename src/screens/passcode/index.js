@@ -67,7 +67,7 @@ const Passcode = ({ navigation, route }) => {
       BackHandler.removeEventListener(
         'hardwareBackPress',
         _handleBackButtonClick,
-      );
+      ); //todo: removeListener wont work
     };
   }, [_handleBackButtonClick]);
 
@@ -90,7 +90,7 @@ const Passcode = ({ navigation, route }) => {
         navigation.navigate('Tabs');
       } else if (value.length === 4) {
         ToastAndroid.show(
-          'کد ورود اشتباه است؛ لطفا دوباره تلاش کنید.',
+          'رمز عبور اشتباه است؛ لطفا دوباره تلاش کنید.',
           ToastAndroid.LONG,
         );
       }
@@ -175,7 +175,7 @@ const Passcode = ({ navigation, route }) => {
         console.log('Credentials successfully loaded for user ');
         dispatch(handlePasscode(value));
         ToastAndroid.show(
-          'کد ورود با موفقیت تغییر کرد. لطفا در اولین فرصت کد ورودت  را تغییر بده.',
+          'رمز عبور با موفقیت تغییر کرد. لطفا در اولین فرصت رمز عبورت  را تغییر بده.',
           ToastAndroid.LONG,
         );
       } else {
@@ -213,7 +213,7 @@ const Passcode = ({ navigation, route }) => {
             size={20}
           />
           <Text style={styles.title}>رمز خود را وارد کنید:</Text>
-          <View style={styles.CodeInputeContainer}>
+          <View style={styles.codeInputeContainer}>
             <CodeField
               ref={ref}
               {...props}
