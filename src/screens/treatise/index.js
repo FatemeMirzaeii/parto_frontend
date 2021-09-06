@@ -10,7 +10,7 @@ import {
 
 //components
 import CategoryList from '../../components/CategoryList';
-import Loader from '../../components/CatListLoader';
+import Loader from '../../components/Loader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
 import BackButton from '../../components/BackButton';
 
@@ -27,7 +27,6 @@ import heyzImg from '../../../assets/images/treatise/heyz.png';
 import nefasImg from '../../../assets/images/treatise/nefas.png';
 
 //styles
-import { WIDTH } from '../../styles/static';
 import styles from './styles';
 
 const Treatise = ({ navigation }) => {
@@ -45,9 +44,9 @@ const Treatise = ({ navigation }) => {
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
+          helpPress={() => navigation.navigate('TreatiseHelp')}
           callPress={() => Linking.openURL(`tel:${'+985132020'}`)}
           smsPress={() => Linking.openURL(`sms:${'+'}${9830002020}?body=${''}`)}
-          helpPress={() => navigation.navigate('TreatiseHelp')}
         />
       ),
       headerRight: () => <BackButton navigation={navigation} />,
@@ -86,11 +85,12 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   Tour(appTourTargets, 'goCalls', 'TreatiseTour');
-
   return (
     <>
       {isLoading ? (
-        counter.map((item) => <Loader key={item.toString()}>{item}</Loader>)
+        counter.map((item) => (
+          <Loader key={item.toString()} type="BgTreatiseLoader" />
+        ))
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList
@@ -99,16 +99,8 @@ const Treatise = ({ navigation }) => {
             showsVerticalScrollIndicator={false}
             renderItem={({ item, index }) => (
               <ImageBackground
-                style={{
-                  flex: 1,
-                  resizeMode: 'cover',
-                  width: WIDTH - 10,
-                  marginVertical: 15,
-                }}
-                imageStyle={{
-                  borderBottomRightRadius: 15,
-                  borderTopRightRadius: 15,
-                }}
+                style={styles.imageContainer}
+                imageStyle={styles.image}
                 source={imageList[index]}>
                 <CategoryList
                   treatise

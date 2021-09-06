@@ -3,7 +3,7 @@ import {
   SET_LOCK_TYPE,
   SET_PASSCODE,
   SET_USER,
-  RESET,
+  SET_CREDIT,
 } from '../actions/types';
 
 const initialState = {
@@ -12,6 +12,7 @@ const initialState = {
   template: 'Main',
   passcode: null,
   lockType: 'None',
+  credit: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -27,14 +28,8 @@ const userReducer = (state = initialState, action) => {
     case SET_USER: {
       return { ...state, id: action.id, phone: action.phone };
     }
-    case RESET: {
-      return {
-        id: null,
-        phone: '',
-        template: '',
-        passcode: null,
-        lockType: 'None',
-      };
+    case SET_CREDIT: {
+      return { ...state, credit: action.credit };
     }
     default:
       return state;

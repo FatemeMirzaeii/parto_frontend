@@ -1,0 +1,180 @@
+export const MainTrackingButton = `
+  <svg xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 160.64 206.84">
+  <defs>
+  <style>.cls-1{fill:url(#radial-gradient);}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:#fff;}
+  </style>
+  <radialGradient
+  id="radial-gradient"
+  cx="81.11"
+  cy="155.55"
+  r="77.43"
+  gradientTransform="translate(0 62.82) scale(1 0.6)" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#ffb2e4" stop-opacity="0.8"/>
+  <stop offset="0.16" stop-color="#ffb0e2" stop-opacity="0.61"/>
+  <stop offset="0.38" stop-color="#ffade0" stop-opacity="0.4"/>
+  <stop offset="0.57" stop-color="#ffabdf" stop-opacity="0.22"/>
+  <stop offset="0.75" stop-color="#ffa9de" stop-opacity="0.1"/>
+  <stop offset="0.9" stop-color="#ffa8dd" stop-opacity="0.03"/>
+  <stop offset="1" stop-color="#ffa8dd" stop-opacity="0"/>
+  </radialGradient>
+  <linearGradient
+  id="linear-gradient" x1="19.93" y1="85.65" x2="166.84" y2="70.28" gradientUnits="userSpaceOnUse">
+  <stop offset="0" stop-color="#de5fa1"/>
+  <stop offset="1" stop-color="#ed93b9"/>
+  </linearGradient>
+  </defs>
+  <title>bano1mdpi</title>
+  <g id="Layer_2" data-name="Layer 2">
+  <g id="Layer_1-2" data-name="Layer 1">
+  <path
+  fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="url(#linear-gradient)"
+  class="cls-2"
+  d="M90.4,6.82,150,50.14a17.15,17.15,0,0,1,6.23,19.18l-22.77,70.09a17.15,17.15,0,0,1-16.31,11.85H43.47a17.14,17.14,0,0,1-16.31-11.85L4.38,69.32a17.17,17.17,0,0,1,6.23-19.18L70.23,6.82A17.19,17.19,0,0,1,90.4,6.82Z"/>
+  <path
+  fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#fff"
+  class="cls-3"
+  d="M117.17,154.8H43.47a20.65,20.65,0,0,1-19.68-14.3L1,70.41A20.63,20.63,0,0,1,8.54,47.28L68.16,4A20.65,20.65,0,0,1,92.48,4L152.1,47.28a20.64,20.64,0,0,1,7.51,23.13L136.84,140.5A20.64,20.64,0,0,1,117.17,154.8ZM80.32,7.07a13.61,13.61,0,0,0-8,2.61L12.69,53A13.6,13.6,0,0,0,7.74,68.23l22.78,70.09a13.58,13.58,0,0,0,13,9.41h73.7a13.59,13.59,0,0,0,13-9.41l22.77-70.09A13.59,13.59,0,0,0,147.94,53L88.32,9.68A13.58,13.58,0,0,0,80.32,7.07Z"/>
+  <path
+  fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#fff"
+  class="cls-4"
+  d="M116.4,110.83a2,2,0,1,1-4,0,21.53,21.53,0,0,0-21.5-21.5H77.4a21.53,21.53,0,0,0-21.5,21.5,2,2,0,0,1-4,0A25.53,25.53,0,0,1,76.24,85.36C69.81,82.69,65.33,76.8,65.33,70a2,2,0,0,1,4,0c0,7.14,6.57,13,14.64,13S98.62,77.1,98.62,70L98.89,51a2.71,2.71,0,0,0-2.43-2.47c-3.12,2.58-5.21,4.55-6.77,6-5.16,4.86-5.71,5-14.68,3.64l-3-.45a2,2,0,1,1,.57-4l3,.45c3.79.58,5.88.89,7.13.59,1.05-.25,1.9-1,4.21-3.18,1.7-1.6,4-3.79,7.6-6.72a2,2,0,0,1,1.26-.45,7.32,7.32,0,0,1,1,.07,20.86,20.86,0,0,0-14.49-5.78A20.45,20.45,0,0,0,63.52,50.52a9.38,9.38,0,0,1-4.94,4.69C54.6,56.92,53,63,54,67.39a9.44,9.44,0,0,1-3.45,9.75,6.1,6.1,0,0,0,2,10.64A2,2,0,0,1,52,91.69a2.32,2.32,0,0,1-.58-.08A10.1,10.1,0,0,1,48.14,74a5.48,5.48,0,0,0,2-5.66c-1.44-6,.77-14.17,6.86-16.79a5.35,5.35,0,0,0,2.86-2.66,24.47,24.47,0,0,1,22.4-14.09c13.45,0,24.39,10.5,24.39,23.4a2,2,0,0,1-3.88.64L102.62,70c0,6.81-4.48,12.69-10.9,15.36A25.53,25.53,0,0,1,116.4,110.83Zm-22.57-1.74H87V102.2a2,2,0,0,0-4,0v6.89H76.07a2,2,0,0,0,0,4H83V120a2,2,0,0,0,4,0v-6.88h6.88a2,2,0,1,0,0-4Z"/>
+  </g>
+  </g>
+  </svg>
+`;
+
+export const PartnerTrackingButton = `
+<svg
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+viewBox="0 0 160.64 209.14">
+<defs>
+  <style>.cls-1{fill:url(#radial-gradient);}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:#fff;}
+  </style>
+  <radialGradient
+    id="radial-gradient"
+    cx="83.48"
+    cy="152.31"
+    r="77.43"
+    gradientTransform="translate(0 62.83) scale(1 0.59)" gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#77e0ff" stop-opacity="0.8" />
+    <stop offset="0.16" stop-color="#77e6f9" stop-opacity="0.61" />
+    <stop offset="0.38" stop-color="#76ecf1" stop-opacity="0.4" />
+    <stop offset="0.57" stop-color="#76f1ec" stop-opacity="0.22" />
+    <stop offset="0.75" stop-color="#75f5e7" stop-opacity="0.1" />
+    <stop offset="0.9" stop-color="#75f7e5" stop-opacity="0.03" />
+    <stop offset="1" stop-color="#75f8e4" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient
+    id="linear-gradient"
+    x1="80.32"
+    y1="151.26"
+    x2="80.32"
+    y2="3.55"
+    gradientUnits="userSpaceOnUse">
+    <stop offset="0.01" stop-color="#5e58b5" />
+    <stop offset="0.49" stop-color="#38acdc" />
+    <stop offset="1" stop-color="#24d8e2" />
+  </linearGradient>
+</defs>
+<title>hamsar3mdpi</title>
+<g id="Layer_2" data-name="Layer 2">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="url(#linear-gradient)"
+    class="cls-2"
+    d="M90.4,6.82,150,50.14a17.15,17.15,0,0,1,6.23,19.18l-22.77,70.09a17.15,17.15,0,0,1-16.31,11.85H43.47a17.14,17.14,0,0,1-16.31-11.85L4.38,69.32a17.17,17.17,0,0,1,6.23-19.18L70.24,6.82A17.14,17.14,0,0,1,90.4,6.82Z" />
+    
+    <path
+    fill-rule="evenodd"
+  clip-rule="evenodd"
+  fill="#fff"
+      class="cls-3"
+      d="M117.17,154.8H43.47a20.65,20.65,0,0,1-19.68-14.3L1,70.41A20.63,20.63,0,0,1,8.54,47.28L68.16,4A20.65,20.65,0,0,1,92.48,4L152.1,47.28a20.66,20.66,0,0,1,7.52,23.13L136.84,140.5A20.64,20.64,0,0,1,117.17,154.8ZM80.32,7.07a13.61,13.61,0,0,0-8,2.61L12.69,53A13.6,13.6,0,0,0,7.74,68.23l22.78,70.09a13.59,13.59,0,0,0,13,9.41h73.7a13.6,13.6,0,0,0,13-9.41l22.77-70.09A13.59,13.59,0,0,0,147.94,53L88.32,9.68A13.58,13.58,0,0,0,80.32,7.07Z" />
+    
+      <path
+    fill-rule="evenodd"
+  clip-rule="evenodd"
+  fill="#fff"
+      class="cls-3"
+      d="M116.4,110.83a2,2,0,1,1-4,0,21.53,21.53,0,0,0-21.5-21.5H77.4a21.53,21.53,0,0,0-21.5,21.5,2,2,0,0,1-4,0A25.53,25.53,0,0,1,76.24,85.36C69.81,82.69,65.33,76.8,65.33,70a2,2,0,0,1,4,0c0,7.14,6.57,13,14.64,13S98.62,77.1,98.62,70L98.89,51a2.71,2.71,0,0,0-2.43-2.47c-3.12,2.58-5.21,4.55-6.77,6-5.16,4.86-5.71,5-14.68,3.64l-3-.45a2,2,0,1,1,.57-4l3,.45c3.79.58,5.88.89,7.13.59,1.05-.25,1.9-1,4.21-3.18,1.7-1.6,4-3.79,7.6-6.72a2,2,0,0,1,1.26-.45,7.32,7.32,0,0,1,1,.07,20.82,20.82,0,0,0-14.49-5.78A20.45,20.45,0,0,0,63.52,50.52a9.4,9.4,0,0,1-4.93,4.69C54.61,56.92,53,63,54,67.39a9.43,9.43,0,0,1-3.45,9.75,6.1,6.1,0,0,0,2,10.64A2,2,0,0,1,52,91.69a2,2,0,0,1-.59-.09A10.09,10.09,0,0,1,48.14,74a5.49,5.49,0,0,0,2-5.67c-1.44-6,.77-14.16,6.86-16.78a5.35,5.35,0,0,0,2.86-2.66,24.47,24.47,0,0,1,22.4-14.09c13.45,0,24.39,10.5,24.39,23.4a2,2,0,0,1-3.88.64L102.62,70c0,6.81-4.48,12.69-10.9,15.36A25.53,25.53,0,0,1,116.4,110.83Zm-22.57-1.74H87V102.2a2,2,0,0,0-4,0v6.89H76.07a2,2,0,0,0,0,4H83V120a2,2,0,0,0,4,0v-6.88h6.88a2,2,0,1,0,0-4Z" />
+  </g>
+</g>
+</svg>
+      `;
+
+export const TeenagerTrackingButton = `
+<svg
+xmlns="http://www.w3.org/2000/svg"
+xmlns:xlink="http://www.w3.org/1999/xlink"
+viewBox="0 0 160.64 206.14">
+<defs>
+  <style>.cls-1{fill:url(#radial-gradient);}.cls-2{fill:url(#linear-gradient);}.cls-3{fill:#fff;}
+  </style>
+  <radialGradient
+    id="radial-gradient"
+    cx="79.85"
+    cy="153.58"
+    r="66.85"
+    gradientUnits="userSpaceOnUse">
+    <stop offset="0" stop-color="#ffc7d4" stop-opacity="0.8" />
+    <stop offset="0.16" stop-color="#ffc7d9" stop-opacity="0.61" />
+    <stop offset="0.38" stop-color="#ffc8df" stop-opacity="0.4" />
+    <stop offset="0.57" stop-color="#ffc8e4" stop-opacity="0.22" />
+    <stop offset="0.75" stop-color="#ffc9e7" stop-opacity="0.1" />
+    <stop offset="0.9" stop-color="#ffc9e9" stop-opacity="0.03" />
+    <stop offset="1" stop-color="#ffc9ea" stop-opacity="0" />
+  </radialGradient>
+  <linearGradient
+    id="linear-gradient"
+    x1="80.32"
+    y1="156.53"
+    x2="80.32"
+    y2="6.55"
+    gradientUnits="userSpaceOnUse">
+    <stop offset="0"
+      stop-color="#a24999" />
+    <stop offset="0.03" stop-color="#a74c9a" />
+    <stop offset="0.33" stop-color="#d16aa6" />
+    <stop offset="0.48" stop-color="#e176aa" />
+    <stop offset="0.6" stop-color="#e279ac" />
+    <stop offset="0.69" stop-color="#e584b0" />
+    <stop offset="0.78" stop-color="#ea95b9" />
+    <stop offset="0.84" stop-color="#efa4c0" />
+  </linearGradient>
+</defs>
+<title>nojavan1mdpi</title>
+<g id="Layer_2" data-name="Layer 2">
+  <g id="Layer_1-2" data-name="Layer 1">
+    <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="url(#linear-gradient)"
+    class="cls-2"
+    d="M90.4,6.82,150,50.14a17.15,17.15,0,0,1,6.23,19.18l-22.77,70.09a17.15,17.15,0,0,1-16.31,11.85H43.47a17.14,17.14,0,0,1-16.31-11.85L4.38,69.32a17.17,17.17,0,0,1,6.23-19.18L70.23,6.82A17.19,17.19,0,0,1,90.4,6.82Z" />
+    <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#fff"
+      class="cls-3"
+      d="M117.17,154.8H43.47a20.65,20.65,0,0,1-19.68-14.3L1,70.41A20.63,20.63,0,0,1,8.54,47.28L68.16,4A20.65,20.65,0,0,1,92.48,4L152.1,47.28a20.64,20.64,0,0,1,7.51,23.13L136.84,140.5A20.64,20.64,0,0,1,117.17,154.8ZM80.32,7.07a13.61,13.61,0,0,0-8,2.61L12.69,53A13.6,13.6,0,0,0,7.74,68.23l22.78,70.09a13.58,13.58,0,0,0,13,9.41h73.7a13.59,13.59,0,0,0,13-9.41l22.77-70.09A13.59,13.59,0,0,0,147.94,53L88.32,9.68A13.58,13.58,0,0,0,80.32,7.07Z" />
+    <path
+    fill-rule="evenodd"
+    clip-rule="evenodd"
+    fill="#fff"
+      class="cls-3"
+      d="M116.12,110.83a2,2,0,0,1-4,0,21.52,21.52,0,0,0-21.5-21.5H77.13a21.52,21.52,0,0,0-21.5,21.5,2,2,0,0,1-4,0A25.53,25.53,0,0,1,76,85.36C69.54,82.69,65.05,76.8,65.05,70a2,2,0,0,1,4,0c0,7.14,6.57,13,14.65,13S98.34,77.1,98.34,70L98.62,51a2.71,2.71,0,0,0-2.43-2.47c-3.12,2.58-5.22,4.55-6.77,6-5.16,4.86-5.71,5-14.68,3.64l-3-.45a2,2,0,0,1,.58-4l3,.45c3.79.58,5.88.89,7.13.59,1-.25,1.9-1,4.21-3.18,1.69-1.6,4-3.79,7.59-6.72a2,2,0,0,1,1.27-.45,7.45,7.45,0,0,1,.95.07A20.87,20.87,0,0,0,82,38.78,20.43,20.43,0,0,0,63.25,50.52a9.38,9.38,0,0,1-4.94,4.69c-4,1.71-5.58,7.79-4.54,12.18a9.43,9.43,0,0,1-3.45,9.75,5.94,5.94,0,0,0-2.08,3,6.09,6.09,0,0,0,4,7.61,2,2,0,0,1-.59,3.91,2.32,2.32,0,0,1-.58-.08A10.1,10.1,0,0,1,47.86,74a5.48,5.48,0,0,0,2-5.67c-1.44-6,.77-14.16,6.85-16.78a5.36,5.36,0,0,0,2.87-2.65A24.44,24.44,0,0,1,82,34.78c13.46,0,24.4,10.5,24.4,23.4a2,2,0,0,1-3.88.64L102.34,70c0,6.81-4.47,12.69-10.89,15.36A25.53,25.53,0,0,1,116.12,110.83Zm-22.56-1.74H86.68V102.2a2,2,0,1,0-4,0v6.89H75.8a2,2,0,1,0,0,4h6.88V120a2,2,0,0,0,4,0v-6.88h6.88a2,2,0,0,0,0-4Z" />
+  </g>
+</g>
+</svg>
+      `;

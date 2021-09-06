@@ -1,4 +1,5 @@
 import moment from 'moment';
+import axios from 'axios';
 import React, { useCallback, useEffect, useState } from 'react';
 import {
   ImageBackground,
@@ -7,11 +8,11 @@ import {
   View,
   BackHandler,
   ToastAndroid,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
-
 //redux
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -23,9 +24,11 @@ import WeekCalendar from '../../components/WeekCalendar';
 import CalendarButton from '../../components/CalendarButton';
 import HomeCalendar from '../../components/HomeCalendar';
 import PlusButton from '../../components/PlusButton';
+import Loader from '../../components/Loader';
 
 //constants
 import { FORMAT } from '../../constants/cycle';
+import WeekId from '../../constants/WeekId';
 
 //util
 import CycleModule from '../../util/cycle';
@@ -40,8 +43,12 @@ import TeenagerBg from '../../../assets/images/teenager/home.png';
 import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 
 //styles
-import { COLOR } from '../../styles/static';
 import styles from './styles';
+import { COLOR } from '../../styles/static';
+
+//services
+import { authCode } from '../../services/authCode';
+import { articlesBaseUrl } from '../../services/urls';
 
 const today = moment().format(FORMAT);
 
@@ -49,12 +56,16 @@ const Home = ({ navigation }) => {
   const [mainSentence, setMainSentence] = useState('');
   const [subSentence, setSubSentence] = useState('');
   const [thirdSentence, setThirdSentence] = useState('');
+  const [pregnancyWeek, setPregnancyWeek] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
+  const [article, setArticle] = useState();
+  const [loading, setLoading] = useState(false);
+  // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -62,6 +73,88 @@ const Home = ({ navigation }) => {
     });
     return unsubscribe;
   }, [navigation, determineMode]);
+
+  const onMainSentencePress = () => {
+    if (cycle.isPregnant) {
+      setLoading(true);
+      goToWeekArticle();
+    } else return;
+  };
+
+  const goToWeekArticle = async () => {
+    const ar = await getArticle();
+    console.log('article', article);
+    setLoading(false);
+    navigation.navigate('ArticleDetails', {
+      articleContent: ar,
+      catName: 'هفته های بارداری',
+    });
+    await analytics().logEvent('app_pregnancy_week_article_press', {
+      template: template,
+      userId: userId,
+    });
+  };
+  const getArticle = async () => {
+    try {
+      const res = await axios({
+        method: 'get',
+        url: `${articlesBaseUrl}/rest/api/content/${WeekId(pregnancyWeek + 1)}`,
+        headers: {
+          Authorization: 'Basic ' + authCode,
+          'X-Atlassian-Token': 'no-check',
+        },
+      });
+      let con = [];
+      con = res.data;
+      // if (con.length === 0) {
+      //   setVisible(false);
+      // }
+      try {
+        const response = await axios({
+          method: 'get',
+          url: `${articlesBaseUrl}/rest/api/content/${con.id}/child/attachment`,
+          headers: {
+            Authorization: 'Basic ' + authCode,
+            'Content-Type': 'application/json',
+            'cache-control': 'no-cache',
+            'X-Atlassian-Token': 'no-check',
+          },
+        });
+        const dataSource = response.data.results;
+        const imgUrl = [];
+        for (let j = 0; j < dataSource.length; j++) {
+          imgUrl.push(
+            `${articlesBaseUrl}${
+              dataSource[j]._links.download.split('?')[0]
+            }?os_authType=basic`,
+          );
+        }
+        setArticle({
+          ...con,
+          cover: imgUrl[0],
+          images: imgUrl,
+          catId: '10813837',
+        }); // todo: setArticle or return?
+        // setVisible(true);
+        return {
+          ...con,
+          cover: imgUrl[0],
+          images: imgUrl,
+          catId: '10813837',
+        };
+      } catch (err) {
+        console.error(err, err.response);
+        if (err.toString() === 'Error: Network Error') {
+          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+        }
+      }
+    } catch (err) {
+      console.error(err, err.response);
+      if (err.toString() === 'Error: Network Error') {
+        ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
+      }
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -101,12 +194,16 @@ const Home = ({ navigation }) => {
 
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
-    const pregnancyEndDate = await getPregnancyEndDate(); //todo: should move inside if(preg) block.
+    const pregnancyEndDate = await getPregnancyEndDate();
     dispatch(setPregnancyMode(preg));
     const momentDate = moment(date);
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
+      await analytics().logEvent('app_use_pregnancy_mode', {
+        template,
+        userId,
+      });
       if (!pregnancyAge) {
         setMainSentence(
           'لطفا تاریخ آخرین پریود خود را جهت محاسبه سن بارداری وارد کنید.',
@@ -114,6 +211,8 @@ const Home = ({ navigation }) => {
         setSubSentence('');
         setThirdSentence('');
       } else if (pregnancyAge.week >= 0) {
+        setPregnancyWeek(pregnancyAge.week);
+
         setMainSentence(
           pregnancyAge.days
             ? `در حال سپری کردن هفته ${pregnancyAge.week + 1} بارداری `
@@ -152,7 +251,7 @@ const Home = ({ navigation }) => {
       setSubSentence(s.subSentence);
       setThirdSentence(s.thirdSentence);
     }
-  }, [date, dispatch]);
+  }, [date, dispatch, template]);
 
   Tour(appTourTargets, 'calendarIcon', 'Home');
 
@@ -168,13 +267,30 @@ const Home = ({ navigation }) => {
               <Text style={{ ...styles.thirdSentence, ...styles.mainTxt }}>
                 {subSentence}
               </Text>
+
               <View style={styles.mainSentenceContainer}>
-                <Text style={{ ...styles.mainSentence, ...styles.mainTxt }}>
-                  {mainSentence}
-                </Text>
+                <TouchableWithoutFeedback onPress={onMainSentencePress}>
+                  <Text
+                    style={
+                      !cycle.isPregnant
+                        ? { ...styles.mainSentence, ...styles.mainTxt }
+                        : [
+                            { ...styles.mainSentence, ...styles.mainTxt },
+                            {
+                              elevation: 0.001,
+                              borderRadius: 50,
+                              paddingHorizontal: 15,
+                              paddingVertical: 5,
+                            },
+                          ]
+                    }>
+                    {loading ? <Loader size={'small'} /> : mainSentence}
+                  </Text>
+                </TouchableWithoutFeedback>
               </View>
             </View>
           );
+
         case 'Teenager':
           return <Text style={styles.teenagerText}>{mainSentence}</Text>;
         case 'Partner':
@@ -219,8 +335,12 @@ const Home = ({ navigation }) => {
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
           }}
-          onPress={() => {
+          onPress={async () => {
             navigation.navigate('Calendar');
+            await analytics().logEvent('app_calendar_button_press', {
+              template: template,
+              userId: userId,
+            });
           }}
         />
         {cycle.isPregnant ? (
@@ -232,7 +352,7 @@ const Home = ({ navigation }) => {
             size={20}
             onPress={async () => {
               navigation.navigate('PregnancyProfile');
-              await analytics().logEvent('PregnancyProfilePress', {
+              await analytics().logEvent('app_pregnancy_profile_press', {
                 template: template,
                 userId: userId,
               });
@@ -254,6 +374,7 @@ const Home = ({ navigation }) => {
         />
 
         <View style={styles.moonText}>{renderText()}</View>
+
         <PlusButton
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {
@@ -264,4 +385,5 @@ const Home = ({ navigation }) => {
     </SafeAreaView>
   );
 };
+
 export default Home;

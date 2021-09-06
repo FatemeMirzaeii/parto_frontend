@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect, useState, useContext } from 'react';
-import { ScrollView, TextInput } from 'react-native';
+import { ScrollView, TextInput, Text, TouchableOpacity } from 'react-native';
 import { Button, ListItem, Icon } from 'react-native-elements';
 import moment from 'moment';
 import { useSelector } from 'react-redux';
@@ -135,7 +135,7 @@ const ReminderSetting = ({ navigation, route }) => {
               <Icon
                 type="material"
                 name={isActive ? 'notifications-active' : 'notifications-off'}
-                color={isActive ? COLOR.pink : COLOR.textColorDark}
+                color={isActive ? COLOR.pink : COLOR.icon}
               />
             }
             switch={{
@@ -149,6 +149,23 @@ const ReminderSetting = ({ navigation, route }) => {
             containerStyle={globalStyles.listItem}
             contentContainerStyle={globalStyles.listItemContentContainer}
           />
+          {reminder.id === BREAST_EXAM && (
+            <TouchableOpacity
+              onPress={() => navigation.navigate('BreastExamHelp')}
+              style={styles.infoBox}>
+              <Icon
+                onPress={() => navigation.navigate('BreastExamHelp')}
+                raised
+                type="parto"
+                name="info"
+                color={COLOR.pink}
+                size={17}
+              />
+              <Text style={globalStyles.listItemTitle}>
+                راهنمای خودآزمایی سینه
+              </Text>
+            </TouchableOpacity>
+          )}
           {isActive ? (
             <>
               <PickerListItem

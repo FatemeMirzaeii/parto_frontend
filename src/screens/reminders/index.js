@@ -20,9 +20,10 @@ const Reminders = ({ navigation }) => {
   useEffect(() => {
     getReminders().then((r) => {
       if (template === 'Teenager') r.splice(1, 1);
+      // todo: do we need to remove breast exam for partner?
       setReminders(r);
     });
-  }, []);
+  }, [template]);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -50,7 +51,7 @@ const Reminders = ({ navigation }) => {
                   ? true
                   : false
               }
-              leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
+              // leftIcon={{ type: 'parto', name: 'bell', color: COLOR.icon }}
               titleStyle={globalStyles.listItemTitle}
               containerStyle={globalStyles.listItem}
               contentContainerStyle={globalStyles.listItemContentContainer}
