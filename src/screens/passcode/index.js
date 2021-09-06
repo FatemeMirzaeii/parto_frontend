@@ -1,6 +1,5 @@
 import { CommonActions } from '@react-navigation/native';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import axios from 'axios';
 import {
   AppState,
   BackHandler,
@@ -11,8 +10,6 @@ import {
   ToastAndroid,
   View,
   KeyboardAvoidingView,
-  FlatList,
-  TouchableOpacity,
 } from 'react-native';
 import {
   CodeField,
@@ -23,42 +20,33 @@ import {
 import { Button, Icon } from 'react-native-elements';
 import * as Keychain from 'react-native-keychain';
 import PhoneInput from 'react-native-phone-number-input';
-
-//redux
 import { useSelector, useDispatch } from 'react-redux';
 
-//store
+//components and utils
 import { handlePasscode } from '../../store/actions/user';
-
-//components
 import DialogBox from '../../components/DialogBox';
+import useModal from '../../util/hooks/useModal';
+import api from '../../services/api';
 
-//assets
+//assets and styles
 import MainBg from '../../../assets/images/main/home.png';
 import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
-
-//util
-import useModal from '../../util/hooks/useModal';
-
-//services
-import { baseUrl } from '../../services/urls';
-import api from '../../services/api';
-
-//styles
 import styles from './styles';
-import { FONT } from '../../styles/static';
+import { COLOR, WIDTH } from '../../styles/static';
 
 const Passcode = ({ navigation, route }) => {
   const [value, setValue] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const [tempCodeNedded, setTempCodeNedded] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
   const passcode = useSelector((state) => state.user.passcode);
   const template = useSelector((state) => state.user.template);
-  const phoneState = useSelector((state) => state.user.phone);
+  const phoneNoState = useSelector((state) => state.user.phone);
   const cycle = useSelector((state) => state.cycle);
-  const { isVisible, toggle } = useModal();
+  const { isVisible: PhoneNoInputeVisible, toggle: togglePhoneNoInpute } =
+    useModal();
   const appState = useRef(AppState.currentState);
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -84,7 +72,7 @@ const Passcode = ({ navigation, route }) => {
   }, [_handleBackButtonClick]);
 
   useEffect(() => {
-    const getpass = async () => {
+    const getPassword = async () => {
       const credential = await Keychain.getGenericPassword();
       console.log('credential', credential);
       console.log('navigation', navigation);
@@ -108,50 +96,26 @@ const Passcode = ({ navigation, route }) => {
       }
     };
 
-    if (!tempCodeNedded) getpass();
+    if (!tempCodeNedded) getPassword();
   }, [value, navigation, route.params, tempCodeNedded]);
 
   useEffect(() => {
     const checkTempCode = async () => {
       if (value.length === 4) {
-        await axios({
-          method: 'post',
-          url: `https://dev.parto.app/auth/checkVerificationCode/fa`,
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
+        const res = await api({
+          method: 'POST',
+          url: '/auth/checkVerificationCode/fa',
+          dev: true,
           data: {
-            phone: phoneState ? `98${phoneState}` : `98${phoneNumber}`,
+            phone: phoneNoState ? `98${phoneNoState}` : `98${phoneNumber}`,
             type: 'lock',
             code: value,
           },
-        })
-          .then(async (res) => {
-            console.log('res', res);
-            _createNewPass();
-            setValue('');
-            navigation.navigate('Tabs');
-          })
-          .catch((err) => {
-            if (err.toString() === 'Error: Network Error') {
-              ToastAndroid.show(
-                'لطفا اتصال اینترنت رو چک کن.',
-                ToastAndroid.LONG,
-              );
-            } else if (
-              err.response &&
-              (err.response.status === 500 ||
-                err.response.status === 502 ||
-                (err.response.data && !err.response.data.message))
-            )
-              ToastAndroid.show(
-                'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
-                ToastAndroid.SHORT,
-              );
-            else
-              ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
-          });
+        });
+        console.log('res', res);
+        _createNewPass();
+        setValue('');
+        navigation.navigate('Tabs');
       }
     };
 
@@ -160,7 +124,7 @@ const Passcode = ({ navigation, route }) => {
     value,
     navigation,
     tempCodeNedded,
-    phoneState,
+    phoneNoState,
     phoneNumber,
     _createNewPass,
   ]);
@@ -170,12 +134,14 @@ const Passcode = ({ navigation, route }) => {
     return true;
   }, []);
 
-  const _handleForgetPress = () => {
-    if (phoneState) {
-      _getTempCode(phoneState);
+  const _handleForgetPress = async () => {
+    setIsLoading(true);
+    if (phoneNoState) {
+      await _getTempCode(phoneNoState);
     } else {
-      toggle();
+      togglePhoneNoInpute();
     }
+    setIsLoading(false);
   };
 
   const _handlePhoneInput = (text) => {
@@ -185,38 +151,18 @@ const Passcode = ({ navigation, route }) => {
     }
   };
 
-  const _getTempCode = async (phone) => {
+  const _getTempCode = async (phoneNo) => {
     setTempCodeNedded(true);
-    axios({
-      method: 'post',
-      url: `https://dev.parto.app/auth/verificationCode`,
-      credentials: 'include',
-      headers: {
-        'Content-Type': 'application/json',
-      },
+    const res = await api({
+      method: 'POST',
+      url: '/auth/verificationCode',
+      dev: true,
       data: {
-        phone: `98${phone}`,
+        phone: `98${phoneNo}`,
         type: 'lock',
       },
-    })
-      .then((res) => {
-        console.log('res', res);
-      })
-      .catch((err) => {
-        if (err.toString() === 'Error: Network Error') {
-          ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
-        } else if (
-          err.response &&
-          (err.response.status === 500 ||
-            err.response.status === 502 ||
-            (err.response.data && !err.response.data.message))
-        )
-          ToastAndroid.show(
-            'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
-            ToastAndroid.SHORT,
-          );
-        else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
-      });
+    });
+    console.log('res', res);
   };
 
   const _createNewPass = useCallback(async () => {
@@ -241,7 +187,7 @@ const Passcode = ({ navigation, route }) => {
   }, [dispatch, value]);
 
   console.log('passcode', passcode);
-  console.log('phone', phoneState);
+  console.log('phone', phoneNoState);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -266,14 +212,15 @@ const Passcode = ({ navigation, route }) => {
             color="black"
             size={20}
           />
-          <Text style={styles.title}>کد ورود را وارد کنید:</Text>
+          <Text style={styles.title}>رمز خود را وارد کنید:</Text>
           <View
             style={{
-              marginleft: 100,
               flexDirection: 'row',
               justifyContent: 'space-between',
-              width: 250,
-              marginBottom: '10%',
+              width: WIDTH / 1.3,
+              elevation: 2,
+              paddingHorizontal: 15,
+              borderRadius: 40,
             }}>
             <CodeField
               ref={ref}
@@ -286,7 +233,6 @@ const Passcode = ({ navigation, route }) => {
                   Keyboard.dismiss();
                 }
               }}
-              showSoftInputOnFocus={false}
               cellCount={4}
               rootStyle={styles.codeFieldRoot}
               keyboardType="number-pad"
@@ -301,7 +247,7 @@ const Passcode = ({ navigation, route }) => {
               )}
             />
             <Icon
-              containerStyle={{ alignSelf: 'center', marginTop: 10 }}
+              containerStyle={{ alignSelf: 'center' }}
               type="ionicon"
               name="md-backspace-sharp"
               color="white"
@@ -314,43 +260,6 @@ const Passcode = ({ navigation, route }) => {
               }}
             />
           </View>
-          <FlatList
-            columnWrapperStyle={{
-              flex: 1,
-              justifyContent: 'space-evenly',
-            }}
-            data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 0]}
-            numColumns={3}
-            keyExtractor={(item, index) => index.toString()}
-            renderItem={({ item }) => (
-              <TouchableOpacity
-                style={{
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: 50,
-                  height: 50,
-                  borderRadius: 25,
-                  borderColor: 'white',
-                  borderWidth: 2,
-                  margin: 20,
-                }}
-                onPress={() => {
-                  let t = item.toString();
-                  t = value.concat(t);
-                  console.log('***', value);
-                  setValue(t);
-                }}>
-                <Text
-                  style={{
-                    fontSize: 18,
-                    fontFamily: FONT.black,
-                    color: 'white',
-                  }}>
-                  {item}
-                </Text>
-              </TouchableOpacity>
-            )}
-          />
         </View>
         <View style={styles.btnWrapper}>
           <Button
@@ -366,21 +275,25 @@ const Passcode = ({ navigation, route }) => {
             buttonStyle={styles.buttonNext}
             titleStyle={styles.btnTitleNext}
             onPress={_handleForgetPress}
-            // loading={isLoading}
+            loading={isLoading}
+            loadingProps={{ color: COLOR.purple }}
           />
         </View>
       </ImageBackground>
       <DialogBox
-        isVisible={isVisible}
-        hide={toggle}
+        isVisible={PhoneNoInputeVisible}
+        isLoading={isLoading}
+        hide={togglePhoneNoInpute}
         icon={<Icon type="parto" name="lock" color="#aaa" size={50} />}
-        text="کد ورود موقت"
-        firstBtnPress={() => {
+        text="رمز عبور موقت"
+        firstBtnPress={async () => {
+          setIsLoading(true);
           setValue('');
-          toggle();
-          _getTempCode(phoneNumber);
+          togglePhoneNoInpute();
+          await _getTempCode(phoneNumber);
+          setIsLoading(false);
         }}
-        firstBtnTitle="دریافت کد">
+        firstBtnTitle="دریافت رمز">
         <KeyboardAvoidingView style={styles.phoneContainer}>
           {/* todo: limit for phone number input. */}
           <PhoneInput
@@ -397,7 +310,7 @@ const Passcode = ({ navigation, route }) => {
             maxLength={9}
           />
           <Text style={styles.description}>
-            بعد از وارد کردن شماره تماس، کد ورود موقت برای شما ارسال خواهد شد.
+            بعد از وارد کردن شماره تماس، رمز عبور موقت برای شما ارسال خواهد شد.
           </Text>
         </KeyboardAvoidingView>
       </DialogBox>

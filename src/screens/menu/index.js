@@ -13,7 +13,6 @@ import MenuSquareItem from '../../components/MenuSquareItem';
 import UserWallet from '../../components/UserWallet';
 
 // utils and store
-import { lockStatus, setLock } from '../../util/database/query';
 import { removeData, shareContent } from '../../util/func';
 import useModal from '../../util/hooks/useModal';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
@@ -108,7 +107,7 @@ const Menu = ({ navigation }) => {
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
           chevron={{
             type: 'parto',
-            name: 'back-arrow',
+            name: 'left',
             color: COLOR.icon,
             size: 10,
           }}
