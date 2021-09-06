@@ -8,6 +8,14 @@ export default StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  codeInputeContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: WIDTH / 1.3,
+    elevation: 2,
+    paddingHorizontal: 15,
+    borderRadius: 40,
+  },
   codeFieldRoot: {
     justifyContent: 'space-evenly',
     alignContent: 'center',

@@ -34,7 +34,7 @@ import PregnancyModeBg from '../../../assets/images/main/pregnancyMode.png';
 import PartnerBg from '../../../assets/images/partner/home.png';
 import TeenagerBg from '../../../assets/images/teenager/home.png';
 import styles from './styles';
-import { COLOR, WIDTH } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 
 const Passcode = ({ navigation, route }) => {
   const [value, setValue] = useState('');
@@ -213,15 +213,7 @@ const Passcode = ({ navigation, route }) => {
             size={20}
           />
           <Text style={styles.title}>رمز خود را وارد کنید:</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: WIDTH / 1.3,
-              elevation: 2,
-              paddingHorizontal: 15,
-              borderRadius: 40,
-            }}>
+          <View style={styles.CodeInputeContainer}>
             <CodeField
               ref={ref}
               {...props}
