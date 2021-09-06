@@ -23,6 +23,7 @@ const PasscodeSetting = ({ navigation }) => {
   const lockType = useSelector((state) => state.user.lockType);
   const passcode = useSelector((state) => state.user.passcode);
   const [isVisible, setIsVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [value, setValue] = useState('');
   const dispatch = useDispatch();
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
@@ -46,6 +47,7 @@ const PasscodeSetting = ({ navigation }) => {
   }, [lockType, passcode]);
 
   const _handleSelectedPass = async () => {
+    setIsLoading(true);
     if (value.length === 4) {
       await Keychain.resetGenericPassword();
       await Keychain.setGenericPassword('username', value);
@@ -76,9 +78,10 @@ const PasscodeSetting = ({ navigation }) => {
       }
     } else
       ToastAndroid.show(
-        'رمز عبور انتخابی چهارررقمی نیست؛ تعدادارقام باید چهاررقمی باشد.',
+        'رمز عبور انتخابی کمتر از چهار رقم می‌باشد.',
         ToastAndroid.LONG,
       );
+    setIsLoading(false);
   };
 
   const _handleBtnPress = () => {
@@ -168,6 +171,7 @@ const PasscodeSetting = ({ navigation }) => {
             />
             <Button
               title="ذخیره"
+              loading={isLoading}
               containerStyle={styles.btnContainer}
               buttonStyle={styles.button}
               titleStyle={styles.btnTitle}

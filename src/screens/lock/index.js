@@ -72,15 +72,15 @@ const Lock = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <Card hasHeader headerTitle="نوع احراز هویت">
         <ListItem
-          title="بدون احراز هویت"
+          title="غیرفعال"
           onPress={_handleSelectedNone}
           leftIcon={
             <RadioButton
               value="None"
-              status={lockType === 'None' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                _handleSelectedNone();
-              }}
+              status={
+                !lockType || lockType === 'None' ? 'checked' : 'unchecked'
+              }
+              onPress={_handleSelectedNone}
               color={COLOR.pink}
               uncheckedColor={COLOR.icon}
             />
@@ -91,16 +91,12 @@ const Lock = ({ navigation }) => {
         />
         <ListItem
           title="رمز عبور"
-          onPress={() => {
-            _handleSelectedPasscode();
-          }}
+          onPress={_handleSelectedPasscode}
           leftIcon={
             <RadioButton
               value="Passcode"
               status={lockType === 'Passcode' ? 'checked' : 'unchecked'}
-              onPress={() => {
-                _handleSelectedPasscode();
-              }}
+              onPress={_handleSelectedPasscode}
               color={COLOR.pink}
               uncheckedColor={COLOR.icon}
             />
@@ -112,16 +108,12 @@ const Lock = ({ navigation }) => {
         {biometryType ? (
           <ListItem
             title={_renderBiometryText()}
-            onPress={() => {
-              _handelSelectedBiometryType();
-            }}
+            onPress={_handelSelectedBiometryType}
             leftIcon={
               <RadioButton
                 value={biometryType}
                 status={lockType === biometryType ? 'checked' : 'unchecked'}
-                onPress={() => {
-                  _handelSelectedBiometryType();
-                }}
+                onPress={_handelSelectedBiometryType}
                 color={COLOR.pink}
                 uncheckedColor={COLOR.icon}
               />
