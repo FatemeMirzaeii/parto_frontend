@@ -54,6 +54,7 @@ import {
 
 const PartenerTrackingOptions = ({ route }) => {
   const [categories, setCategories] = useState([]);
+  const [sele, setSele] = useState([]);
   const template = useSelector((state) => state.user.template);
   const [appTourTargets, setAppTourTargets] = useState([]);
   const { today } = useContext(DateContext);
@@ -83,23 +84,23 @@ const PartenerTrackingOptions = ({ route }) => {
       categories.forEach((item) => {
         const selected = item.options.filter((i) => i.selected.length > 0);
         if (selected.length > 0)
-          selectedItems.push({ categoryTitle: item.title, selected });
+          selectedItems.push({
+            id: item.id,
+            categoryTitle: item.title,
+            color: item.color,
+            selected: selected[0],
+          });
       });
+      setSele(selectedItems);
       console.log('selectedItems', selectedItems);
     }
   }, [categories]);
 
   const _renderItem = ({ item, color }) => {
+    console.log('iiiii', item);
     return (
-      <View
-        style={[
-          styles.option1,
-          {
-            backgroundColor: 'white',
-            // item.options.selected.length > 0 ? color : COLOR.white,
-          },
-        ]}>
-        <Text style={styles.title}>{item.title}</Text>
+      <View style={styles.option1}>
+        <Text style={styles.title}>{item.categoryTitle}</Text>
         <Icon
           raised
           name="info"
@@ -109,18 +110,19 @@ const PartenerTrackingOptions = ({ route }) => {
             toggleOverlay(item.id);
           }}
         />
-        <Text style={styles.txt}>{item.title}</Text>
+        <Text style={styles.txt}>{item.selected.title}</Text>
         <SvgCss
           width="75%"
           height="75%"
-          xml={item.icon}
-          // fill={item.selected.length > 0 ? COLOR.white : color}
+          xml={item.selected.icon}
+          fill={item.color}
         />
       </View>
     );
   };
 
   const toggleOverlay = (itemId) => {
+    console.log('id', itemId);
     setVisible(!visible);
     if (!itemId) return;
     switch (itemId) {
@@ -181,7 +183,7 @@ const PartenerTrackingOptions = ({ route }) => {
 
         <View style={styles.partnerFlatList}>
           <FlatList
-            data={categories}
+            data={sele}
             numColumns={1}
             showsVerticalScrollIndicator={true}
             keyExtractor={(item, index) => index.toString()}
