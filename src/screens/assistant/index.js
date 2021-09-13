@@ -10,6 +10,7 @@ import AxAPI from '../../services/AxAPI';
 import {
   midwiferyAssistantId,
   nutritionAssistantId,
+  treatiseAssistantId,
 } from '../../store/actions/goftino';
 
 //styles
@@ -21,7 +22,7 @@ const Assistant = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const userId = useSelector((state) => state.user.id);
-  const goftinoIds = useSelector((state) => state.goftino);
+  const goftino = useSelector((state) => state.goftino);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,11 +37,11 @@ const Assistant = ({ navigation }) => {
   }, []);
 
   const searchForGoftinoIds = async () => {
-    if (!goftinoIds.midwiferyAssistantId) {
+    if (!goftino.midwiferyAssistantId) {
       const id = await getGoftinoId(1);
       if (id) dispatch(midwiferyAssistantId(id));
     }
-    if (!goftinoIds.nutritionAssistantId) {
+    if (!goftino.nutritionAssistantId) {
       const id = await getGoftinoId(2);
       if (id) dispatch(nutritionAssistantId(id));
     }
@@ -69,24 +70,27 @@ const Assistant = ({ navigation }) => {
       id: '1',
       enName: 'midwifery',
       title: 'دستیار مامایی',
-      uri: 'https://test.parto.app/chat/midwifery-dummy',
+      uri: 'https://my.parto.app/chat/midwifery-dummy',
       icon: 'stethoscope',
-      goftinoId: goftinoIds.midwiferyAssistantId,
+      goftinoId: goftino.midwiferyAssistantId,
+      // dispatchFunc: () => midwiferyAssistantId(),
     },
     // {
     //   id: '3',
     //   enName: 'treatise',
     //   title: 'احکام',
-    //   uri: 'https://test.parto.app/chat/dummy',
+    //   uri: 'https://my.parto.app/chat/dummy',
     //   goftinoId: goftinoIds.treatiseAssistantId,
+    // dispatchFunc: () => treatiseAssistantId,
     // },
     {
       id: '2',
       enName: 'nutrition',
       title: 'دستیار تغذیه',
-      uri: 'https://test.parto.app/chat/nutrition-dummy',
+      uri: 'https://my.parto.app/chat/nutrition-dummy',
       icon: 'nutrition',
-      goftinoId: goftinoIds.nutritionAssistantId,
+      goftinoId: goftino.nutritionAssistantId,
+      // dispatchFunc: () => nutritionAssistantId(),
     },
   ];
 
@@ -105,6 +109,7 @@ const Assistant = ({ navigation }) => {
                   title: category.title,
                   uri: category.uri,
                   goftinoId: category.goftinoId,
+                  // dispatchFunc: () => category.dispatchFunc(),
                 });
               }}
               bottomDivider={categories.length - 1 !== i}

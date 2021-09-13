@@ -52,9 +52,9 @@ const App: () => React$Node = () => {
 
   const launchApp = async () => {
     await migration();
-    NetInfo.fetch().then(async (state) => {
+    NetInfo.fetch().then(async (netState) => {
       const token = store.getState().auth.userToken;
-      if (state.isInternetReachable && token && token !== 'dummyToken') {
+      if (netState.isInternetReachable && token && token !== 'dummyToken') {
         await sync();
       } else {
         console.log(
