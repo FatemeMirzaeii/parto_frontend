@@ -38,6 +38,8 @@ const Chat = ({ navigation, route }) => {
   const userId = useSelector((state) => state.user.id);
   const credit = useSelector((state) => state.user.credit);
   const userPhoneNo = useSelector((state) => state.user.phone);
+  const goftinoIds = useSelector((state) => state.goftino);
+
   // local states
   const [key, setKey] = useState(0);
   const [goftinoReady, setGoftinoReady] = useState(false);
@@ -48,9 +50,9 @@ const Chat = ({ navigation, route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [httpError, setHttpError] = useState(true);
   const [goftinoId, setGoftinoId] = useState();
-  const [showPaymentBox, setShowPaymentBox] = useState();
-  const [paymentBoxLoading, setPaymentBoxLoading] = useState(true);
-  const [goftinoIdIsNew, setGoftinoIdIsNew] = useState(false);
+  // const [openChat, setOpenChat] = useState();
+  const [status, setStatus] = useState();
+  const [hasNewPayment, setHasNewPayment] = useState();
 
   const { isVisible: insufficientCredit, toggle: toggleInsufficientCredit } =
     useModal();
@@ -78,6 +80,10 @@ const Chat = ({ navigation, route }) => {
   }, [credit]);
 
   useEffect(() => {
+    if (route.params.goftinoId) getMessageStatus();
+  }, []); //maybe need to add goftinoId as dependency.
+
+  useEffect(() => {
     const unsubscribe = navigation.addListener('blur', async () => {
       StatusBar.setTranslucent(true);
     });
@@ -90,20 +96,29 @@ const Chat = ({ navigation, route }) => {
 `;
 
   // if route.params.goftinoId were null, this will add null value to goftino_ and will act as Goftino.unsetUserId.
-  const localStorage = `
+  const localStorageGoftinoId = `
   window.localStorage.setItem('goftino_BdaydR', '${route.params.goftinoId}');
 `;
 
   const onScreenLoad = async () => {
     switch (route.params.enName) {
       case 'midwifery':
-        await determineGoftinoId(route.params.goftinoId, midwiferyAssistantId);
+        await determineGoftinoId(
+          goftinoIds.midwiferyAssistantId,
+          midwiferyAssistantId,
+        );
         break;
       case 'nutrition':
-        await determineGoftinoId(route.params.goftinoId, nutritionAssistantId);
+        await determineGoftinoId(
+          goftinoIds.nutritionAssistantId,
+          nutritionAssistantId,
+        );
         break;
       case 'treatise':
-        await determineGoftinoId(route.params.goftinoId, treatiseAssistantId);
+        await determineGoftinoId(
+          goftinoIds.treatiseAssistantId,
+          treatiseAssistantId,
+        );
         break;
       default:
         break;
@@ -118,16 +133,19 @@ const Chat = ({ navigation, route }) => {
         const res = await sendGoftinoId(route.params.id, goftinoId);
         if (res) {
           dispatch(dispatchFunc(goftinoId));
-          setHasOpenChat(false);
-          setShowPaymentBox(true);
-          setPaymentBoxLoading(false);
-          setGoftinoIdIsNew(true);
+          const r = await setMessageStatus(false);
+          console.log('setMessageStatus after sending goftino Id false');
+          if (r) {
+            setStatus(false);
+            setHasOpenChat(false);
+            console.log('inja 3');
+          }
         }
       }
     }
     return true;
   };
-  const onMessage = (event) => {
+  const onMessage = async (event) => {
     switch (event.nativeEvent.data) {
       case 'goftino_ready':
         ref.current.injectJavaScript(`Goftino.setUser({
@@ -135,48 +153,61 @@ const Chat = ({ navigation, route }) => {
           phone : '${userPhoneNo}',
           forceUpdate : true,
         });`);
-        if (hasOpenChat)
+        if (hasOpenChat) {
           ref.current.injectJavaScript(`
           Goftino.setUser({
             tags: 'open',
             forceUpdate: true,
           });`);
+        }
         setGoftinoReady(true);
         break;
       case 'goftino_open':
         StatusBar.setTranslucent(false);
         setGoftinoOpen(true);
-        setShowPaymentBox(!hasOpenChat);
+        console.log('inja 1');
         break;
       case 'goftino_close':
         setGoftinoOpen(false);
-        setShowPaymentBox(false);
         break;
       case 'closed':
+        console.log('closed');
+        if (hasNewPayment) return;
+        const res = await setMessageStatus(false);
+        console.log('setMessageStatus after closed tag false');
+        if (res) {
+          setStatus(false);
+        }
         setHasOpenChat(false);
-        setShowPaymentBox(true);
-        setPaymentBoxLoading(false);
+        console.log('inja 4');
         break;
-      case 'noTag':
-        setHasOpenChat(false);
-        setShowPaymentBox(true);
-        setPaymentBoxLoading(false);
-        break;
-      case 'open':
-        setHasOpenChat(true);
-        setShowPaymentBox(false);
-        setPaymentBoxLoading(false);
-        break;
+      // case 'noTag':
+      //   setHasOpenChat(false);
+      //   console.log('inja 2');
+      //   console.log('noTag');
+      //   break;
+      // case 'open':
+      //   setHasOpenChat(true);
+      //   console.log('open');
+      //   break;
       case 'send_message':
+        setHasNewPayment(false);
         break;
       // case value:
       //   break;
       default:
         if (event.nativeEvent.data) {
-          const data = event.nativeEvent.data;
-          setGoftinoId(data);
-          console.log(`set goftinoId ${goftinoId}`);
-          onScreenLoad();
+          try {
+            const r = JSON.parse(event.nativeEvent.data);
+            if (r.type === 'userId') {
+              setGoftinoId(r.data);
+              console.log(`set goftinoId ${goftinoId}`);
+              // determineGoftinoId(route.params.goftinoId); //todo: its good if I can pass dispatchFunc with params
+              onScreenLoad();
+            }
+          } catch {
+            return false;
+          }
         }
         break;
     }
@@ -211,18 +242,42 @@ const Chat = ({ navigation, route }) => {
     setIsLoading(false);
     return true;
   };
+  const setMessageStatus = async (statuss) => {
+    const res = await api({
+      method: 'POST',
+      url: `/message/status/${userId}/fa`,
+      data: { categoryId: route.params.id, status: statuss },
+    });
+    if (!res) return false;
+    return true;
+  };
+  const getMessageStatus = async () => {
+    const res = await api({
+      method: 'GET',
+      url: `/message/status/${userId}/${route.params.id}/fa`,
+    });
+    if (!res) return false;
+    console.log('sssstat', res.data.data.status);
+    setStatus(res.data.data.status);
+    return res.data.data.status;
+  };
   const walletPayment = async () => {
     setIsLoading(true);
     const success = await purchase();
     if (success) {
-      setHasOpenChat(true);
-      setKey(key + 1);
-      setIsLoading(false);
-      toggleWalletPayment();
-      toggleSuccess();
+      const r = await setMessageStatus(true);
+      console.log('setMessageStatus after payment true');
+      if (r) {
+        setStatus(true);
+        setHasOpenChat(true);
+        setKey(key + 1);
+        setHasNewPayment(true);
+        setIsLoading(false);
+        toggleWalletPayment();
+        toggleSuccess();
+      }
     } else {
       toggleWalletPayment();
-      setPaymentBoxLoading(false);
     }
   };
   const purchase = async () => {
@@ -240,7 +295,6 @@ const Chat = ({ navigation, route }) => {
     return true;
   };
   const onSuccess = () => {
-    // setShowPaymentBox(false);
     toggleSuccess();
   };
   const goToWallet = () => {
@@ -254,12 +308,12 @@ const Chat = ({ navigation, route }) => {
           goftinoOpen={goftinoOpen}
           goftinoReady={goftinoReady}
           onPress={() => {
-            if (!goftinoIdIsNew) setPaymentBoxLoading(true);
             ref.current.injectJavaScript('Goftino.toggle();');
           }}
         />
       )}
       <KeyboardAvoidingView
+        enabled={status}
         behavior={'padding'}
         contentContainerStyle={{ flex: 1 }}
         keyboardVerticalOffset={25}
@@ -273,7 +327,7 @@ const Chat = ({ navigation, route }) => {
           domStorageEnabled
           onMessage={onMessage}
           injectedJavaScript={goftino}
-          injectedJavaScriptBeforeContentLoaded={localStorage}
+          injectedJavaScriptBeforeContentLoaded={localStorageGoftinoId}
           scalesPageToFit
           startInLoadingState
           renderLoading={() => {
@@ -298,12 +352,11 @@ const Chat = ({ navigation, route }) => {
           }}
         />
       </KeyboardAvoidingView>
-      {showPaymentBox && goftinoOpen ? (
+      {!status && goftinoOpen && (
         <Button
           containerStyle={styles.newQuestionCont}
           buttonStyle={styles.newQuestion}
           titleStyle={styles.text}
-          loading={paymentBoxLoading}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
             ref.current.injectJavaScript('Goftino.toggle();');
@@ -311,7 +364,7 @@ const Chat = ({ navigation, route }) => {
             else toggleInsufficientCredit();
           }}
         />
-      ) : null}
+      )}
       <DialogBox
         isVisible={insufficientCredit}
         hide={toggleInsufficientCredit}

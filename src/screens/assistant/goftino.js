@@ -27,10 +27,10 @@ window.addEventListener('goftino_ready', function () {
     counter: '#unread_counter',
   });
   var userId = Goftino.getUserId();
-  window.ReactNativeWebView.postMessage(userId);
+  window.ReactNativeWebView.postMessage(JSON.stringify({type: 'userId', data: userId }));
   Goftino.getUser(function (userData) {
     if (userData.status === 'success') {
-      // window.ReactNativeWebView.postMessage(JSON.stringify({id: 'userId', detail: userData }));
+      // window.ReactNativeWebView.postMessage(JSON.stringify({type: 'userData', data: userData }));
       window.ReactNativeWebView.postMessage(
         userData.tags ? userData.tags : 'noTag',
       ); // will return 'open' or 'closed' or 'noTag'
