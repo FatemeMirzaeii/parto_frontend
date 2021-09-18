@@ -35,11 +35,19 @@ const Lock = ({ navigation }) => {
 
   const _renderBiometryText = () => {
     let txt = '';
-    biometryType === 'Fingerprint'
-      ? (txt = 'حس‌گر اثر انگشت')
-      : biometryType === 'Face'
-      ? (txt = 'پردازش چهره')
-      : (txt = 'پردازش عنبیه چشم');
+    switch (biometryType) {
+      case 'Fingerprint':
+        txt = 'حس‌گر اثر انگشت';
+        break;
+      case 'Face':
+        txt = 'پردازش چهره';
+        break;
+      case 'Iris':
+        txt = 'پردازش عنبیه چشم';
+        break;
+      default:
+        break;
+    }
     return txt;
   };
 
@@ -64,7 +72,7 @@ const Lock = ({ navigation }) => {
       ? dispatch(handleLockType('Fingerprint'))
       : biometryType === 'Face'
       ? dispatch(handleLockType('Face'))
-      : dispatch(handleLockType('Iris'));
+      : dispatch(handleLockType('Iris')); //todo: it is better to change this to a switch case statement
     ToastAndroid.show(`${_renderBiometryText()} فعال شد.`, ToastAndroid.LONG);
   };
 
@@ -105,6 +113,7 @@ const Lock = ({ navigation }) => {
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />
+
         {biometryType ? (
           <ListItem
             title={_renderBiometryText()}
@@ -122,7 +131,16 @@ const Lock = ({ navigation }) => {
             containerStyle={styles.listItem}
             contentContainerStyle={styles.listItemContent}
           />
-        ) : null}
+        ) : (
+          <ListItem
+            title={
+              'در صورت فعال بودن حس‌گر اثر انگشت گوشی خود، می‌توانید از این قابلیت در پرتو نیز استفاده کنید.'
+            }
+            titleStyle={styles.listItemText}
+            containerStyle={styles.listItem}
+            contentContainerStyle={styles.listItemContent}
+          />
+        )}
       </Card>
     </SafeAreaView>
   );
