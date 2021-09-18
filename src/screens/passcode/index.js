@@ -47,6 +47,8 @@ const Passcode = ({ navigation, route }) => {
   const cycle = useSelector((state) => state.cycle);
   const { isVisible: PhoneNoInputeVisible, toggle: togglePhoneNoInpute } =
     useModal();
+  const { isVisible: forgatPasswordIsVisible, toggle: toggleForgotPassword } =
+    useModal();
   const appState = useRef(AppState.currentState);
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
@@ -137,6 +139,7 @@ const Passcode = ({ navigation, route }) => {
   const _handleForgetPress = async () => {
     setIsLoading(true);
     if (phoneNoState) {
+      toggleForgotPassword();
       await _getTempCode(phoneNoState);
     } else {
       togglePhoneNoInpute();
@@ -306,6 +309,14 @@ const Passcode = ({ navigation, route }) => {
           </Text>
         </KeyboardAvoidingView>
       </DialogBox>
+      <DialogBox
+        isVisible={forgatPasswordIsVisible}
+        hide={toggleForgotPassword}
+        icon={<Icon type="parto" name="lock" color="#aaa" size={50} />}
+        text="رمز عبور موقت برای شماره شما ارسال شد. با استفاده از آن وارد شده و از صفحه تنظیمات قفل رمز عبور خود را تغییر دهید."
+        firstBtnPress={toggleForgotPassword}
+        firstBtnTitle="باشه"
+      />
     </SafeAreaView>
   );
 };
