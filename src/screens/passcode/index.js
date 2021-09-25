@@ -82,13 +82,6 @@ const Passcode = ({ navigation, route }) => {
       console.log('appstate', appState);
       if (value === credential.password) {
         setValue('');
-        // if (route.params && route.params.screenName) {
-        //   console.log(
-        //     'navigation.state.params.previous_screen',
-        //     route.params.screenName,
-        //   );
-        //   navigation.navigate(route.params.screenName);
-        // } else navigation.navigate('Tabs');
         navigation.navigate('Tabs');
       } else if (value.length === 4) {
         ToastAndroid.show(
@@ -178,7 +171,7 @@ const Passcode = ({ navigation, route }) => {
         console.log('Credentials successfully loaded for user ');
         dispatch(handlePasscode(value));
         ToastAndroid.show(
-          'رمز عبور با موفقیت تغییر کرد. لطفا در اولین فرصت رمز عبورت  را تغییر بده.',
+          'رمز عبور با موفقیت تغییر کرد. لطفا در اولین فرصت رمز عبور خود را تغییر دهید.',
           ToastAndroid.LONG,
         );
       } else {
@@ -290,7 +283,6 @@ const Passcode = ({ navigation, route }) => {
         }}
         firstBtnTitle="دریافت رمز">
         <KeyboardAvoidingView style={styles.phoneContainer}>
-          {/* todo: limit for phone number input. */}
           <PhoneInput
             containerStyle={styles.phoneInputwrapper}
             textContainerStyle={styles.phoneInputTxtwrapper}

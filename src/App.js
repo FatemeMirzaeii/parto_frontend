@@ -33,8 +33,6 @@ import Linking from './navigation/Linking';
 //# fetchinitialdata
 //splash goes away
 
-// console.disableYellowBox = true;
-
 const App: () => React$Node = () => {
   const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
@@ -49,7 +47,7 @@ const App: () => React$Node = () => {
     return () => {
       AppState.removeEventListener('change', _handleAppStateChange);
     };
-  }, [_handleAppStateChange, launchApp]);
+  }, []);
 
   const launchApp = async () => {
     await migration();
@@ -68,24 +66,12 @@ const App: () => React$Node = () => {
     SplashScreen.hide();
   };
 
-  const _handleAppStateChange = useCallback(
-    async (nextAppState) => {
-      const lockState = store.getState().user.lockType;
-      launchApp();
-      if (nextAppState === 'active') {
-        if (navigationRef.current && lockState === 'Passcode')
-          navigationRef.current.navigate('Passcode', {
-            screenName: navigationRef.current.getCurrentRoute().name,
-          });
-        // if (lockState !== 'Passcode' || lockState !== 'None') lock();
-        if (store.getState().user.lockType === 'Fingerprint') lock();
-        if (store.getState().user.lockType === 'Iris') lock();
-        if (store.getState().user.lockType === 'Face') lock();
-      }
-      appState.current = nextAppState;
-    },
-    [launchApp, store],
-  );
+  const _handleAppStateChange = async (nextAppState) => {
+    launchApp();
+    if (nextAppState === 'active') {
+    }
+    appState.current = nextAppState;
+  };
 
   return (
     <Provider store={store}>
@@ -98,6 +84,7 @@ const App: () => React$Node = () => {
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
             setupNotifications(user.id, user.template === 'Partner');
+            lock(user.lockType, navigationRef.current);
             analytics().logEvent(`app_type_${user.template}`);
           }}
           onStateChange={async () => {
