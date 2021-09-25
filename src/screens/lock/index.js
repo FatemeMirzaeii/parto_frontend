@@ -30,6 +30,9 @@ const Lock = ({ navigation }) => {
   useEffect(() => {
     Keychain.getSupportedBiometryType({}).then((bioType) => {
       setBiometryType(bioType);
+      if (!bioType && lockType === 'Fingerprint')
+        //if user turns off device fingerprint without turning it of in parto, we will do it for her.
+        dispatch(handleLockType('None'));
     });
   }, []);
 
