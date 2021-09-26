@@ -113,6 +113,8 @@ const Lock = ({ navigation }) => {
             />
           }
           titleStyle={styles.listItemText}
+          rightTitle={lockType === 'Passcode' ? 'تغییر' : ''}
+          rightTitleStyle={[styles.listItemText, { color: COLOR.pink }]}
           containerStyle={styles.listItem}
           contentContainerStyle={styles.listItemContent}
         />

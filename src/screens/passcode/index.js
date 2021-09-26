@@ -1,7 +1,5 @@
-import { CommonActions } from '@react-navigation/native';
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
-  AppState,
   BackHandler,
   ImageBackground,
   Keyboard,
@@ -39,9 +37,9 @@ import { COLOR } from '../../styles/static';
 const Passcode = ({ navigation, route }) => {
   const [value, setValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [tempCodeNedded, setTempCodeNedded] = useState(false);
+  const [tempCodeNeeded, setTempCodeNeeded] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState('');
-  const passcode = useSelector((state) => state.user.passcode);
+  // const passcode = useSelector((state) => state.user.passcode);
   const template = useSelector((state) => state.user.template);
   const phoneNoState = useSelector((state) => state.user.phone);
   const cycle = useSelector((state) => state.cycle);
@@ -49,7 +47,6 @@ const Passcode = ({ navigation, route }) => {
     useModal();
   const { isVisible: forgatPasswordIsVisible, toggle: toggleForgotPassword } =
     useModal();
-  const appState = useRef(AppState.currentState);
   const ref = useBlurOnFulfill({ value, cellCount: 4 });
   const [props, getCellOnLayoutHandler] = useClearByFocusCell({
     value,
@@ -60,7 +57,7 @@ const Passcode = ({ navigation, route }) => {
   useEffect(() => {
     setValue('');
     setPhoneNumber('');
-    setTempCodeNedded(false);
+    setTempCodeNeeded(false);
   }, []);
 
   useEffect(() => {
@@ -76,10 +73,6 @@ const Passcode = ({ navigation, route }) => {
   useEffect(() => {
     const getPassword = async () => {
       const credential = await Keychain.getGenericPassword();
-      console.log('credential', credential);
-      console.log('navigation', navigation);
-      console.log('NavigationActions', CommonActions);
-      console.log('appstate', appState);
       if (value === credential.password) {
         setValue('');
         navigation.navigate('Tabs');
@@ -91,8 +84,8 @@ const Passcode = ({ navigation, route }) => {
       }
     };
 
-    if (!tempCodeNedded) getPassword();
-  }, [value, navigation, route.params, tempCodeNedded]);
+    if (!tempCodeNeeded) getPassword();
+  }, [value, navigation, route.params, tempCodeNeeded]);
 
   useEffect(() => {
     const checkTempCode = async () => {
@@ -114,11 +107,11 @@ const Passcode = ({ navigation, route }) => {
       }
     };
 
-    if (tempCodeNedded) checkTempCode();
+    if (tempCodeNeeded) checkTempCode();
   }, [
     value,
     navigation,
-    tempCodeNedded,
+    tempCodeNeeded,
     phoneNoState,
     phoneNumber,
     _createNewPass,
@@ -148,7 +141,7 @@ const Passcode = ({ navigation, route }) => {
   };
 
   const _getTempCode = async (phoneNo) => {
-    setTempCodeNedded(true);
+    setTempCodeNeeded(true);
     const res = await api({
       method: 'POST',
       url: '/auth/verificationCode',
@@ -181,9 +174,6 @@ const Passcode = ({ navigation, route }) => {
       console.log("Keychain couldn't be accessed!", error);
     }
   }, [dispatch, value]);
-
-  console.log('passcode', passcode);
-  console.log('phone', phoneNoState);
 
   return (
     <SafeAreaView style={styles.container}>
