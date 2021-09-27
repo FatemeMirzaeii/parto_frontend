@@ -131,7 +131,7 @@ const Menu = ({ navigation }) => {
         />
         <MenuSquareItem
           title="یادداشت‌ها"
-          onPress={() => navigateTo('Note')}
+          onPress={() => navigateTo('NoteList')}
           icon="note"
         />
       </View>

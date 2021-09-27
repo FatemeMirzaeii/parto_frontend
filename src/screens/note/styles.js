@@ -30,6 +30,7 @@ export default StyleSheet.create({
     textAlign: 'center',
     fontFamily: FONT.medium,
     fontSize: 16,
+    minWidth: 100,
   },
   txt: {
     fontFamily: FONT.regular,
@@ -40,7 +41,7 @@ export default StyleSheet.create({
     position: 'absolute',
     margin: 16,
     right: 0,
-    bottom: 0,
+    bottom: 50,
     backgroundColor: COLOR.pink,
   },
 });

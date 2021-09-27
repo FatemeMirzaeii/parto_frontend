@@ -1,5 +1,12 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { SafeAreaView, View, Text, FlatList, ToastAndroid } from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TextInput,
+  FlatList,
+  ToastAndroid,
+} from 'react-native';
 import { Icon } from 'react-native-elements';
 import { FAB } from 'react-native-paper';
 import Clipboard from '@react-native-clipboard/clipboard';
@@ -13,6 +20,8 @@ import { setNote } from '../../store/actions/user';
 
 // components
 import Card from '../../components/Card';
+import PickerListItem from '../../components/PickerListItem';
+import BackButton from '../../components/BackButton';
 
 // styles
 import { COLOR, FONT } from '../../styles/static';
@@ -27,16 +36,7 @@ const Note = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'یادداشت',
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={styles.icon}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
       headerLeft: null,
     });
   });
@@ -53,7 +53,6 @@ const Note = ({ navigation, route }) => {
           temp.push(noteState[item]);
         });
         setNotes(temp);
-        console.log('day.noteOfDay*********', noteOfDay);
         return notes;
       }
     };
@@ -81,7 +80,7 @@ const Note = ({ navigation, route }) => {
   const _renderItem = ({ item }) => {
     return (
       <Card>
-        <View
+        {/* <View
           style={{
             flexDirection: 'row-reverse',
             justifyContent: 'space-between',
@@ -99,8 +98,8 @@ const Note = ({ navigation, route }) => {
           <Text style={styles.dayText}>
             {jalaali(day).format('jYYYY/jM/jD')}
           </Text>
-        </View>
-        <Text
+        </View> */}
+        {/* <Text
           style={{
             backgroundColor: '#F3F4F9',
             height: 200,
@@ -108,42 +107,64 @@ const Note = ({ navigation, route }) => {
             fontSize: 14,
           }}>
           {item.note}
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-            padding: 10,
-            //backgroundColor: 'red',
-          }}>
-          <Icon
-            containerStyle={{ marginLeft: 10 }}
-            type="parto"
-            name="trash"
-            color={COLOR.icon}
-            onPress={() => _handleDelete(item)}
-          />
-          <Icon
-            type="materialicons"
-            name="content-copy"
-            color={COLOR.icon}
-            onPress={() => {
-              Clipboard.setString(item.note);
-              ToastAndroid.show('متن یادداشت کپی شد.', ToastAndroid.LONG);
-            }}
-          />
-          <Icon
-            name="new-message"
-            type="entypo"
-            color={COLOR.icon}
-            onPress={() =>
-              navigation.navigate('NoteEdit', {
-                day: day,
-                note: item,
-              })
-            }
-          />
-        </View>
+        </Text> */}
+        <PickerListItem
+          title={item.title ? item.title : 'عنوان'}
+          leftIcon={<Icon type="entypo" name="new-message" color="#aaa" />}
+          customComponent={
+            <>
+              <TextInput
+                multiline
+                editable={false}
+                selectionColor={COLOR.pink}
+                style={{
+                  // backgroundColor: '#F3F4F9',
+                  fontFamily: FONT.regular,
+                  fontSize: 14,
+                  color: 'black',
+                }}
+                value={item.note}
+                // onChangeText={setMessage}
+              />
+              <View
+                style={{
+                  flexDirection: 'row-reverse',
+                  justifyContent: 'space-between',
+                  padding: 10,
+                  //backgroundColor: 'red',
+                }}>
+                <Icon
+                  containerStyle={{ marginLeft: 10 }}
+                  type="parto"
+                  name="trash"
+                  color={COLOR.icon}
+                  onPress={() => _handleDelete(item)}
+                />
+                <Icon
+                  name="new-message"
+                  type="entypo"
+                  color={COLOR.icon}
+                  onPress={() =>
+                    navigation.navigate('NoteEdit', {
+                      day: day,
+                      note: item,
+                    })
+                  }
+                />
+                <Icon
+                  type="materialicons"
+                  name="content-copy"
+                  color={COLOR.icon}
+                  onPress={() => {
+                    Clipboard.setString(item.note);
+                    ToastAndroid.show('متن یادداشت کپی شد.', ToastAndroid.LONG);
+                  }}
+                />
+              </View>
+            </>
+          }
+          subtitle={jalaali(day).format('jYYYY/jM/jD')}
+        />
       </Card>
     );
   };
@@ -157,8 +178,7 @@ const Note = ({ navigation, route }) => {
         ListEmptyComponent={() => {
           return (
             <Text style={styles.txt}>
-              یادداشتی برای روز {jalaali(day).format('jYYYY/jM/jD')} ثبت نشده
-              است.
+              یادداشتی برای {jalaali(day).format('jYYYY/jM/jD')} ثبت نشده است.
             </Text>
           );
         }}

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { useIsFocused } from '@react-navigation/native';
+import React, { useState, useRef } from 'react';
 import {
   View,
   ToastAndroid,
@@ -27,7 +26,6 @@ import { setBleedingDays } from '../../util/database/query';
 import { calendarMarkedDatesObject } from '../../util/func';
 import useModal from '../../util/hooks/useModal';
 import Tour from '../../util/tourGuide/Tour';
-import { getTrackingOptionData } from '../../util/database/query';
 
 //styles
 import { COLOR, FONT } from '../../styles/static';
@@ -49,81 +47,21 @@ const Calendar = ({ navigation }) => {
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
 
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const [trackedOptions, setTrackedOptions] = useState([]);
-  const [notes, setNotes] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const calendar = useRef();
 
   const bottomSheetRef = useRef(null);
-  const isFocused = useIsFocused();
   const { isVisible: guideIsVisible, toggle: toggleGuide } = useModal();
-  const noteState = useSelector((state) => state.user.note);
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
-
-  const getInitialData = useCallback(async () => {
-    let y = [];
-    const td = await getTrackingOptionData(selectedDate);
-    // console.log('td*********', td);
-    for (let i = 0; i < td.length; i++) {
-      const opt = td[i].options;
-      // console.log('opt*********', opt);
-      for (let j = 0; j < td.length; j++) {
-        if (opt[j] && opt[j].selected.length > 0)
-          y.push({
-            catName: td[i].title,
-            catIcon: td[i].icon,
-            color: td[i].color,
-            id: opt[j].id,
-            title: opt[j].title,
-            icon: opt[j].icon,
-          });
-      }
-    }
-    setTrackedOptions(y);
-  }, [selectedDate]);
-
-  useEffect(() => {
-    getInitialData();
-  }, [getInitialData, isFocused]);
-
-  useEffect(() => {
-    const temp = [];
-    if (noteState) {
-      const noteOfDay = Object.keys(noteState).filter(
-        (key) => noteState[key].day === selectedDate,
-      );
-      noteOfDay.map((item) => {
-        temp.push(noteState[item]);
-      });
-      setNotes(temp);
-    }
-  }, [selectedDate, noteState]);
-
-  const _getNotes = () => {
-    const temp = [];
-    const noteOfDay = Object.keys(noteState).filter(
-      (key) => noteState[key].day === selectedDate,
-      console.log('day'),
-    );
-    noteOfDay.map((item) => {
-      temp.push(noteState[item]);
-    });
-    setNotes(temp);
-    return notes;
-  };
 
   const onDayPress = (day) => {
     if (editMode) {
       edit(day.dateString);
     } else {
       setSelectedDate(day.dateString);
-      console.log('day.dateString*********', day.dateString);
-      _getNotes;
     }
-    setCurrentIndex(0);
-    setActiveIndex(0);
+    // setCurrentIndex(0);
+    // setActiveIndex(0);
   };
   const edit = (dateString) => {
     if (dateString in cycle.periodDays) {
@@ -176,7 +114,6 @@ const Calendar = ({ navigation }) => {
     dispatch(updatePerdictions());
     setEditMode(false);
   };
-
   const _renderContent = () => (
     <CalendarBottomSheet navigation={navigation} selectedDate={selectedDate} />
   );

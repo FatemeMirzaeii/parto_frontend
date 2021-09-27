@@ -1,21 +1,78 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ToastAndroid, TouchableOpacity } from 'react-native';
+import { useIsFocused } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Divider } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 import { SvgCss } from 'react-native-svg';
 import Carousel from 'react-native-snap-carousel';
+import { getTrackingOptionData } from '../../util/database/query';
 import { COLOR, WIDTH } from '../../styles/static';
 import styles from './styles';
 
 const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   const today = jalaali();
+  const isFocused = useIsFocused();
   const noteslistRef = useRef(null);
   const trackedlistRef = useRef(null);
   const [trackedOptions, setTrackedOptions] = useState([]);
   const [notes, setNotes] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const noteState = useSelector((state) => state.user.note);
+
+  const getInitialData = useCallback(async () => {
+    let y = [];
+    const td = await getTrackingOptionData(selectedDate);
+    // console.log('td*********', td);
+    for (let i = 0; i < td.length; i++) {
+      const opt = td[i].options;
+      // console.log('opt*********', opt);
+      for (let j = 0; j < td.length; j++) {
+        if (opt[j] && opt[j].selected.length > 0)
+          y.push({
+            catName: td[i].title,
+            catIcon: td[i].icon,
+            color: td[i].color,
+            id: opt[j].id,
+            title: opt[j].title,
+            icon: opt[j].icon,
+          });
+      }
+    }
+    setTrackedOptions(y);
+  }, [selectedDate]);
+
+  useEffect(() => {
+    getInitialData();
+  }, [getInitialData, isFocused]);
+
+  useEffect(() => {
+    const temp = [];
+    if (noteState) {
+      const noteOfDay = Object.keys(noteState).filter(
+        (key) => noteState[key].day === selectedDate,
+      );
+      noteOfDay.map((item) => {
+        temp.push(noteState[item]);
+      });
+      setNotes(temp);
+    }
+  }, [selectedDate, noteState]);
+
+  const _getNotes = () => {
+    const temp = [];
+    const noteOfDay = Object.keys(noteState).filter(
+      (key) => noteState[key].day === selectedDate,
+      console.log('day'),
+    );
+    noteOfDay.map((item) => {
+      temp.push(noteState[item]);
+    });
+    setNotes(temp);
+    return notes;
+  };
+
   const _handleOnNext = (ref) => {
     ref.current.snapToNext();
   };
@@ -42,7 +99,20 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
       </View>
     );
   };
-
+  const onHealthTrackingPress = () => {
+    jalaali(selectedDate).isBefore(today)
+      ? navigation.navigate('TrackingOptions', {
+          day: selectedDate,
+        })
+      : ToastAndroid.show(
+          'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
+          ToastAndroid.LONG,
+        );
+  };
+  const onNotePress = () =>
+    navigation.navigate('Note', {
+      day: selectedDate,
+    });
   return (
     <View style={styles.btnSheetContainer}>
       <View style={styles.btnSheetHeader} />
@@ -56,16 +126,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
           name="lady"
           type="parto"
           color={COLOR.pink}
-          onPress={() => {
-            jalaali(selectedDate).isBefore(today)
-              ? navigation.navigate('TrackingOptions', {
-                  day: selectedDate,
-                })
-              : ToastAndroid.show(
-                  'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
-                  ToastAndroid.LONG,
-                );
-          }}
+          onPress={onHealthTrackingPress}
         />
         <Icon
           raised
@@ -73,11 +134,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
           name="new-message"
           type="entypo"
           color={COLOR.pink}
-          onPress={() =>
-            navigation.navigate('Note', {
-              day: selectedDate,
-            })
-          }
+          onPress={onNotePress}
         />
       </View>
       <Text style={styles.btnSheetCategory}>شرح‌حال</Text>
@@ -113,10 +170,10 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
               <Icon
                 raised
                 size={10}
-                name="back-arrow"
+                name="left"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnNext(trackedlistRef)}
+                onPress={() => _handleOnPrevious(trackedlistRef)}
               />
               <Text style={styles.indexTitle}>
                 {trackedOptions[currentIndex].catName}:{' '}
@@ -128,7 +185,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
                 name="right"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnPrevious(trackedlistRef)}
+                onPress={() => _handleOnNext(trackedlistRef)}
               />
             </View>
           </View>
@@ -156,10 +213,10 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
             <Icon
               raised
               size={10}
-              name="back-arrow"
+              name="left"
               type="parto"
               color={COLOR.icon}
-              onPress={() => _handleOnNext(noteslistRef)}
+              onPress={() => _handleOnPrevious(noteslistRef)}
             />
             <Text style={styles.indexTitle}>{`${activeIndex + 1}/${
               notes.length
@@ -170,7 +227,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
               name="right"
               type="parto"
               color={COLOR.icon}
-              onPress={() => _handleOnPrevious(noteslistRef)}
+              onPress={() => _handleOnNext(noteslistRef)}
             />
           </View>
         </>

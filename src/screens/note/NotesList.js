@@ -14,6 +14,7 @@ import { setNote } from '../../store/actions/user';
 // components
 import Card from '../../components/Card';
 import SearchBar from '../../components/SearchBar';
+import BackButton from '../../components/BackButton';
 
 //util
 import { e2p, a2p } from '../../util/func';
@@ -23,6 +24,7 @@ import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const NotesList = ({ navigation }) => {
+  const today = jalaali();
   const [notes, setNotes] = useState([]);
   const [searchInput, setSearchInput] = useState([]);
   const noteState = useSelector((state) => state.user.note);
@@ -31,16 +33,7 @@ const NotesList = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'یادداشت‌ها',
-      headerRight: () => (
-        <Icon
-          size={16}
-          name="right-arrow"
-          type="parto"
-          color={COLOR.pink}
-          onPress={() => navigation.pop()}
-          containerStyle={{ right: 40 }}
-        />
-      ),
+      headerRight: () => <BackButton navigation={navigation} />,
       headerLeft: () =>
         // <SearchBar
         //   undertxt="جستجو"
@@ -178,7 +171,7 @@ const NotesList = ({ navigation }) => {
     );
   };
 
-  console.log('noteState', Object.values(noteState));
+  // console.log('noteState', Object.values(noteState));
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -197,17 +190,17 @@ const NotesList = ({ navigation }) => {
         }}
         showsVerticalScrollIndicator={false}
       />
-      {/* <FAB
+      <FAB
         style={styles.fab}
         icon="plus"
         color={COLOR.white}
-        // onPress={() =>
-        //   navigation.navigate('NoteEdit', {
-        //     day: day,
-        //     note: null,
-        //   })
-        // }
-      /> */}
+        onPress={() =>
+          navigation.navigate('NoteEdit', {
+            day: today,
+            note: null,
+          })
+        }
+      />
     </SafeAreaView>
   );
 };
