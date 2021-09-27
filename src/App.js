@@ -21,6 +21,7 @@ import { migration } from './util/database/migration';
 import sync from './util/database/sync';
 import { setupNotifications } from './util/notifications';
 import PartoIcon from './util/customIcon';
+import Linking from './navigation/Linking';
 
 //splash comes in
 //# restore tokens
@@ -51,9 +52,9 @@ const App: () => React$Node = () => {
 
   const launchApp = async () => {
     await migration();
-    NetInfo.fetch().then(async (state) => {
+    NetInfo.fetch().then(async (netState) => {
       const token = store.getState().auth.userToken;
-      if (state.isInternetReachable && token && token !== 'dummyToken') {
+      if (netState.isInternetReachable && token && token !== 'dummyToken') {
         await sync();
       } else {
         console.log(
@@ -79,11 +80,13 @@ const App: () => React$Node = () => {
       <PersistGate loading={null} persistor={persistor}>
         <NavigationContainer
           ref={navigationRef}
+          linking={Linking}
           onReady={() => {
             store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
             setupNotifications(user.id, user.template === 'Partner');
+            analytics().logEvent(`app_type_${user.template}`);
           }}
           onStateChange={async () => {
             const previousRouteName = routeNameRef.current;

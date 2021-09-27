@@ -12,7 +12,7 @@ import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 //components
-import Loader from './CatListLoader';
+import Loader from './Loader';
 
 //services
 import { authCode } from '../services/authCode';
@@ -134,7 +134,9 @@ const CategoryList = (props) => {
   return (
     <>
       {isLoading ? (
-        <Loader leftTxt={treatise ? false : true} />
+        treatise ? (
+          <Loader type="TreatiseLoader" />
+        ) : null
       ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
@@ -194,7 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   moreButtonIcon: {
-    //paddingVertical: '2%',//for responsive
     paddingVertical: 5,
     paddingRight: 5,
   },
@@ -210,7 +211,6 @@ const styles = StyleSheet.create({
   treatiseCategoryText: {
     marginRight: 100,
     paddingBottom: 20,
-    //marginTop: 20,
     color: 'white',
   },
   cardButton: {

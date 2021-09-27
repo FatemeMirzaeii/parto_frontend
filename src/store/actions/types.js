@@ -12,15 +12,17 @@ export const SET_GOAL = 'SET_GOAL';
 export const SET_MODE = 'SET_MODE';
 
 export const SET_TEMPLATE = 'SET_TEMPLATE';
-export const SET_LOCK_TYPE = 'SET_LOCK_TYPE';
-export const SET_PASSSCODE = 'SET_PASSSCODE';
 export const SET_USER = 'SET_USER';
-export const SET_NOTE = 'SET_NOTE';
+export const SET_CREDIT = 'SET_CREDIT';
 export const SET_MAIN_SENTENCE = 'SET_MAIN_SENTENCE';
 
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const INTERVIEW = 'INTERVIEW';
 export const RESTORE_TOKEN = 'RESTORE_TOKEN';
+
+export const NUTRITION_ASSISTANT_ID = 'NUTRITION_ASSISTANT_ID';
+export const MIDWIFERY_ASSISTANT_ID = 'MIDWIFERY_ASSISTANT_ID';
+export const TREATISE_ASSISTANT_ID = 'TREATISE_ASSISTANT_ID';
 
 export const RESET = 'RESET';

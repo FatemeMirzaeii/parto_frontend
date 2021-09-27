@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, COLOR } from '../../styles/static';
+import { FONT, COLOR, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -12,7 +12,7 @@ export default StyleSheet.create({
     height: 10,
     zIndex: 2000000005,
   },
-  newQuestion: { flex: 1, backgroundColor: '#ffc9dc' },
+  newQuestion: { flex: 1, backgroundColor: '#9C98C9' },
   text: { fontFamily: FONT.regular },
   error: {
     height: '100%',
@@ -20,4 +20,28 @@ export default StyleSheet.create({
     flex: 1,
     backgroundColor: 'white',
   },
+  localScreen: (goftinoOpen) => ({
+    flex: 1,
+    alignItems: 'center',
+    // justifyContent: 'center',
+    backgroundColor: COLOR.white,
+    width: '100%',
+    height: '100%',
+    position: 'absolute',
+    zIndex: goftinoOpen ? 0 : 10,
+  }),
+  btnContainer: {
+    elevation: 5,
+    width: WIDTH / 3,
+    height: 40,
+    borderRadius: 40,
+    marginTop: 10,
+    alignSelf: 'center',
+  },
+  button: {
+    height: 40,
+    backgroundColor: COLOR.btn,
+  },
+  dialogboxImg: { width: 150, height: 150, alignSelf: 'center' },
+  pic: { width: 200, height: 200, alignSelf: 'center' },
 });

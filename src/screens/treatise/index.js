@@ -10,7 +10,7 @@ import {
 
 //components
 import CategoryList from '../../components/CategoryList';
-import Loader from '../../components/CatListLoader';
+import Loader from '../../components/Loader';
 import TreatiseIconBox from '../../components/TreatiseIconBox';
 import BackButton from '../../components/BackButton';
 
@@ -85,11 +85,12 @@ const Treatise = ({ navigation }) => {
   }, []);
 
   Tour(appTourTargets, 'goCalls', 'TreatiseTour');
-
   return (
     <>
       {isLoading ? (
-        counter.map((item) => <Loader key={item.toString()}>{item}</Loader>)
+        counter.map((item) => (
+          <Loader key={item.toString()} type="BgTreatiseLoader" />
+        ))
       ) : (
         <SafeAreaView style={styles.main}>
           <FlatList

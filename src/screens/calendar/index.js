@@ -1,16 +1,16 @@
-import { useIsFocused } from '@react-navigation/native';
-import jalaali from 'moment-jalaali';
 import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { useIsFocused } from '@react-navigation/native';
 import {
-  ImageBackground,
+  View,
   Text,
   ToastAndroid,
+  ImageBackground,
   TouchableOpacity,
-  View,
 } from 'react-native';
+import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Divider } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
-import { useDispatch, useSelector } from 'react-redux';
+import jalaali from 'moment-jalaali';
 import BottomSheet from 'reanimated-bottom-sheet';
 import { SvgCss } from 'react-native-svg';
 import Carousel from 'react-native-snap-carousel';
@@ -23,11 +23,6 @@ import Ptxt from '../../components/Ptxt';
 import SubmitButton from '../../components/SubmitButton';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
 
-//assets
-import MainBg from '../../../assets/images/main/calendarScreen.png';
-import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
-import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
-
 //util
 import CycleModule from '../../util/cycle';
 import { setBleedingDays } from '../../util/database/query';
@@ -38,6 +33,11 @@ import { getTrackingOptionData } from '../../util/database/query';
 
 //styles
 import { COLOR, FONT, WIDTH } from '../../styles/static';
+
+//assets
+import MainBg from '../../../assets/images/main/calendarScreen.png';
+import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
+import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
 import styles from './styles';
 
 const Calendar = ({ navigation }) => {
@@ -45,9 +45,11 @@ const Calendar = ({ navigation }) => {
   const cycle = useSelector((state) => state.cycle);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
+
   const [editMode, setEditMode] = useState(false);
   const [selectedDate, setSelectedDate] = useState(today.format('YYYY-MM-DD'));
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+
   const [appTourTargets, setAppTourTargets] = useState([]);
   const [trackedOptions, setTrackedOptions] = useState([]);
   const [notes, setNotes] = useState([]);
@@ -127,7 +129,6 @@ const Calendar = ({ navigation }) => {
   };
 
   const onDayPress = (day) => {
-    console.log('day*', day);
     if (editMode) {
       edit(day.dateString);
     } else {
@@ -138,7 +139,6 @@ const Calendar = ({ navigation }) => {
     setCurrentIndex(0);
     setActiveIndex(0);
   };
-
   const edit = (dateString) => {
     if (dateString in cycle.periodDays) {
       const {
@@ -155,13 +155,11 @@ const Calendar = ({ navigation }) => {
       );
     }
   };
-
   const onEditPress = () => {
     setMarkedDatesBeforeEdit(cycle.periodDays);
     dispatch(updatePerdictions(true));
     setEditMode(true);
   };
-
   const onSubmitEditing = async () => {
     if (cycle.isPregnant && Object.keys(cycle.periodDays).length === 0) {
       ToastAndroid.show(
@@ -187,7 +185,6 @@ const Calendar = ({ navigation }) => {
     dispatch(updatePerdictions());
     setEditMode(false);
   };
-
   const onCancelEditing = () => {
     dispatch(updatePeriodDays(markedDatesBeforeEdit));
     dispatch(updatePerdictions());

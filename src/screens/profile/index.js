@@ -14,10 +14,13 @@ import DialogBox from '../../components/DialogBox';
 import {
   getProfileData,
   saveProfileHealthData,
+  resetDatabase,
 } from '../../util/database/query';
 import useModal from '../../util/hooks/useModal';
 import api from '../../services/api';
 import { signOut } from '../../store/actions/auth';
+import { fetchInitialCycleData } from '../../store/actions/cycle';
+import sync from '../../util/database/sync';
 
 // styles
 import styles from './styles';
@@ -38,6 +41,8 @@ const Profile = ({ navigation }) => {
   const dispatch = useDispatch();
 
   const { isVisible, toggle } = useModal();
+  const { isVisible: clearDataVisible, toggle: toggleClearData } = useModal();
+  const { isVisible: signOutVisible, toggle: signOutToggle } = useModal();
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'حساب کاربری',
@@ -97,6 +102,10 @@ const Profile = ({ navigation }) => {
   const onBirthdateSelected = (date, persianDate) => {
     setBirthdate(date);
     setPersianDateString(persianDate);
+  };
+  const exit = async () => {
+    const res = await sync(true);
+    if (res) dispatch(signOut());
   };
 
   const deleteAccount = async () => {
@@ -173,40 +182,94 @@ const Profile = ({ navigation }) => {
           />
         </Card>
         <Card>
-          <ListItem
-            title="کیف پول"
-            // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-            titleStyle={globalStyles.listItemTitle}
-            containerStyle={globalStyles.listItem}
-            contentContainerStyle={globalStyles.listItemContentContainer}
-            // onPress={toggle}
-            chevron={{
-              type: 'parto',
-              name: 'back-arrow',
-              color: COLOR.icon,
-              size: 10,
-            }}
-          />
+          {user.template !== 'Partner' && (
+            <ListItem
+              title="پاک کردن داده‌ها"
+              leftIcon={{
+                type: 'parto',
+                name: 'trash',
+                color: COLOR.icon,
+              }}
+              chevron={{
+                type: 'parto',
+                name: 'left',
+                color: COLOR.icon,
+                size: 10,
+              }}
+              onPress={toggleClearData}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
+              bottomDivider={!(isLoggedIn === 'dummyToken')}
+            />
+          )}
+          {!(isLoggedIn === 'dummyToken') && (
+            <ListItem
+              title="خروج"
+              leftIcon={{ type: 'parto', name: 'exit', color: COLOR.icon }}
+              chevron={{
+                type: 'parto',
+                name: 'left',
+                color: COLOR.icon,
+                size: 10,
+              }}
+              onPress={signOutToggle}
+              titleStyle={globalStyles.listItemTitle}
+              containerStyle={globalStyles.listItem}
+              contentContainerStyle={globalStyles.listItemContentContainer}
+            />
+          )}
         </Card>
         {!(isLoggedIn === 'dummyToken') && (
           <Card>
             <ListItem
               title="َحذف حساب کاربری"
-              // leftIcon={{ type: 'parto', name: 'health', color: COLOR.tiffany }}
-              titleStyle={globalStyles.listItemTitle}
+              titleStyle={[globalStyles.listItemTitle, { color: 'red' }]}
               containerStyle={globalStyles.listItem}
               contentContainerStyle={globalStyles.listItemContentContainer}
               onPress={toggle}
               chevron={{
                 type: 'parto',
-                name: 'back-arrow',
-                color: COLOR.icon,
+                name: 'left',
+                color: 'red',
                 size: 10,
               }}
             />
           </Card>
         )}
       </ScrollView>
+      <DialogBox
+        isVisible={clearDataVisible}
+        isLoading={isLoading}
+        hide={toggleClearData}
+        icon={<Icon type="parto" name="trash" color="#aaa" size={50} />}
+        text="با تایید این پیام تمام داده‌های شما حذف و به حالت پیش‌فرض بازخواهد گشت؛ از پاک کردن داده‌ها مطمئن هستی؟"
+        twoButtons
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          await resetDatabase();
+          dispatch(fetchInitialCycleData());
+          toggleClearData();
+          setIsLoading(false);
+        }}
+        secondBtnPress={toggle}
+      />
+      <DialogBox
+        isVisible={signOutVisible}
+        isLoading={isLoading}
+        hide={signOutToggle}
+        icon={<Icon type="parto" name="exit" color="#aaa" size={50} />}
+        text="آیا می‌خواهید از حساب کاربری خود خارج شوید؟"
+        twoButtons
+        firstBtnPress={async () => {
+          setIsLoading(true);
+          await exit();
+          signOutToggle();
+          setIsLoading(false);
+        }}
+        secondBtnPress={signOutToggle}
+      />
+
       <DialogBox
         isVisible={isVisible}
         isLoading={isLoading}

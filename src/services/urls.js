@@ -1,5 +1,6 @@
 export const baseUrl = 'https://api.parto.app';
 export const devUrl = 'https://dev.parto.app';
+export const blogUrl = 'https://parto.app/blog/';
 export const articlesBaseUrl = 'https://ketab.parto.app';
 export const survayAnswer = 'survay/userSurveyAnswer/fa';
 export const survayQuestion = 'survay/surveyQuestion/fa';
