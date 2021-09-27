@@ -9,7 +9,7 @@ import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal
 import Chat from '../screens/assistant/chat';
 import ArticleDetails from '../screens/articles/ArticleDetails';
 import Note from '../screens/note';
-import NoteList from '../screens/note/NotesList';
+import NoteEdit from '../screens/note/NoteEdit';
 import Wallet from '../screens/wallet';
 import { FONT } from '../styles/static';
 
@@ -50,8 +50,16 @@ const HomeStackScreen = () => {
         component={Wallet}
         options={{ headerShown: true }}
       />
-      <HomeStack.Screen name="Note" component={Note} />
-      <HomeStack.Screen name="NoteList" component={NoteList} />
+      <HomeStack.Screen
+        name="Note"
+        component={Note}
+        options={{ headerShown: true }}
+      />
+      <HomeStack.Screen
+        name="NoteEdit"
+        component={NoteEdit}
+        options={{ headerShown: true }}
+      />
     </HomeStack.Navigator>
   );
 };

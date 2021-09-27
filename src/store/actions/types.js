@@ -14,6 +14,7 @@ export const SET_MODE = 'SET_MODE';
 export const SET_TEMPLATE = 'SET_TEMPLATE';
 export const SET_USER = 'SET_USER';
 export const SET_CREDIT = 'SET_CREDIT';
+export const SET_NOTE = 'SET_NOTE';
 export const SET_MAIN_SENTENCE = 'SET_MAIN_SENTENCE';
 
 export const SIGN_IN = 'SIGN_IN';
