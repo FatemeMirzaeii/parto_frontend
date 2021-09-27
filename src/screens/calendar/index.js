@@ -18,10 +18,10 @@ import Carousel from 'react-native-snap-carousel';
 // components
 import SaveBleendingButton from '../../components/BleendingdaysSave';
 import CancelButton from '../../components/CancelButton';
-import DialogBox from '../../components/DialogBox';
 import Ptxt from '../../components/Ptxt';
 import SubmitButton from '../../components/SubmitButton';
 import { updatePerdictions, updatePeriodDays } from '../../store/actions/cycle';
+import CalendarGuide from './CalendarGuide';
 
 //util
 import CycleModule from '../../util/cycle';
@@ -60,19 +60,8 @@ const Calendar = ({ navigation }) => {
   const trackedlistRef = useRef(null);
   const bottomSheetRef = useRef(null);
   const isFocused = useIsFocused();
-  const { isVisible, toggle } = useModal();
+  const { isVisible: guideIsVisible, toggle: toggleGuide } = useModal();
   const noteState = useSelector((state) => state.user.note);
-  const infoArray =
-    template !== 'Teenager'
-      ? [
-          { txt: 'پریود', color: COLOR.bleeding },
-          { txt: 'پیش‌بینی پریود', color: COLOR.periodPerdiction },
-          { txt: 'تخمک‌گذاری', color: COLOR.ovulationPerdictions },
-        ]
-      : [
-          { txt: 'پریود', color: COLOR.bleeding },
-          { txt: 'پیش‌بینی پریود', color: COLOR.periodPerdiction },
-        ];
 
   Tour(appTourTargets, 'redDaysSave', 'CalendarTour');
 
@@ -393,7 +382,7 @@ const Calendar = ({ navigation }) => {
             name="info"
             type="parto"
             color="white"
-            onPress={() => toggle()}
+            onPress={() => toggleGuide()}
             containerStyle={{ right: 20 }}
           />
         </View>
@@ -537,51 +526,7 @@ const Calendar = ({ navigation }) => {
         renderContent={_renderContent}
         initialSnap={2}
       />
-      <DialogBox
-        isVisible={isVisible}
-        hide={toggle}
-        onRequestClose={() => {
-          return;
-        }}
-        text="راهنمای تقویم"
-        icon={<Icon type="parto" name="info" color="#aaa" size={50} />}
-        firstBtnTitle="بستن"
-        firstBtnPress={toggle}>
-        <View style={styles.dialogBoxWrapper}>
-          {infoArray &&
-            infoArray.map((item, index) => {
-              return (
-                <View
-                  key={index.toString()}
-                  style={styles.dialogBoxDescription}>
-                  <Text style={styles.dialogBoxTxt}>{item.txt}</Text>
-                  <View style={styles.dialogBoxLine(item.color)} />
-                </View>
-              );
-            })}
-          <Divider />
-          <View style={styles.dialogBoxDescription}>
-            <Text style={styles.dialogBoxTxt}>افزودن/ ویرایش یادداشت</Text>
-            <Icon
-              containerStyle={styles.dialogBoxIcon}
-              size={24}
-              name="new-message"
-              type="entypo"
-              color={COLOR.pink}
-            />
-          </View>
-          <View style={styles.dialogBoxDescription}>
-            <Text style={styles.dialogBoxTxt}>افزودن/ ویرایش شرح‌حال</Text>
-            <Icon
-              containerStyle={styles.dialogBoxIcon}
-              size={24}
-              name="lady"
-              type="parto"
-              color={COLOR.pink}
-            />
-          </View>
-        </View>
-      </DialogBox>
+      <CalendarGuide isVisible={guideIsVisible} toggle={toggleGuide} />
     </ImageBackground>
   );
 };
