@@ -129,6 +129,11 @@ const Menu = ({ navigation }) => {
           }}
           icon="assistant"
         />
+        <MenuSquareItem
+          title="یادداشت‌ها"
+          onPress={() => navigateTo('Note')}
+          icon="note"
+        />
       </View>
       <Card>
         <ListItem
