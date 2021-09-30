@@ -41,6 +41,7 @@ const PersianDatePicker = (props) => {
   });
   const setInitialDate = () => {
     if (props.initialDate) {
+      // date should be persian date in these formats: '1400-07-8' or '1399-12-29'
       const dateArr = props.initialDate.split(/-|\//);
       // if (dateArr.length === 3) {
       setDayIndex(parseInt(dateArr[2]) - 1);

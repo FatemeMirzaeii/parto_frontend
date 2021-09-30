@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
-import { View, Text, ToastAndroid, TouchableOpacity } from 'react-native';
+import { View, Text, ToastAndroid } from 'react-native';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
 import { Icon, Divider } from 'react-native-elements';
@@ -83,7 +84,11 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
 
   const _notesRenderItem = ({ item }) => {
     return (
-      <View style={styles.noteListWrapper}>
+      <TouchableWithoutFeedback
+        style={styles.noteListWrapper}
+        onPress={() =>
+          navigation.navigate('NoteEdit', { day: selectedDate, note: item })
+        }>
         <View style={styles.noteTitleBox}>
           <View style={styles.row}>
             <Text style={styles.dialogBoxTxt}>{item.title}</Text>
@@ -96,7 +101,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
           </View>
         </View>
         <Text style={styles.noteBox}>{item.note}</Text>
-      </View>
+      </TouchableWithoutFeedback>
     );
   };
   const onHealthTrackingPress = () => {

@@ -59,6 +59,7 @@ const Calendar = ({ navigation }) => {
       edit(day.dateString);
     } else {
       setSelectedDate(day.dateString);
+      bottomSheetRef.current.snapTo(1);
     }
     // setCurrentIndex(0);
     // setActiveIndex(0);
@@ -171,6 +172,7 @@ const Calendar = ({ navigation }) => {
             ...cycle.periodPerdictions,
             ...cycle.ovulationPerdictions,
             ...cycle.periodDays,
+            [selectedDate]: { selected: true, selectedColor: 'red' },
           }}
           markingType="custom"
           onDayPress={onDayPress}
@@ -223,7 +225,6 @@ const Calendar = ({ navigation }) => {
             textSectionTitleColor: COLOR.black,
             todayTextColor: COLOR.black,
             todayBackgroundColor: COLOR.today,
-            selectedDayTextColor: COLOR.white,
             textDisabledColor:
               template === 'Partner' ? COLOR.white : COLOR.textColorDark,
             textDayFontFamily: FONT.medium,
@@ -266,6 +267,11 @@ const Calendar = ({ navigation }) => {
                 borderRadius: 50,
                 elevation: 2,
               },
+              selected: {
+                backgroundColor: COLOR.pink,
+                borderRadius: 50,
+                elevation: 2,
+              },
             },
           }}
         />
@@ -295,7 +301,7 @@ const Calendar = ({ navigation }) => {
       </View>
       <BottomSheet
         ref={bottomSheetRef}
-        snapPoints={[510, 280, 55]}
+        snapPoints={[510, 300, 55]}
         borderRadius={50}
         renderContent={_renderContent}
         initialSnap={2}

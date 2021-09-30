@@ -187,11 +187,12 @@ const NoteEdit = ({ navigation, route }) => {
         <PersianDatePicker
           onDateSelected={(date) => {
             const j = jalaali(date, 'jYYYY/jM/jD');
-            console.log('newDate', j.format('YYYY-MM-DD'));
+            // console.log('newDate', j.format('YYYY-MM-DD'));
             setNewDate(j.format('YYYY-MM-DD'));
           }}
           startOfRange={1390}
           endOfRange={1400}
+          initialDate={jalaali(day).format('jYYYY-jM-jD')}
         />
       </DialogBox>
     </SafeAreaView>

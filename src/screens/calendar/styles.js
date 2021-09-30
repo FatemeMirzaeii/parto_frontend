@@ -65,7 +65,6 @@ export default StyleSheet.create({
   },
   noteListWrapper: {
     width: WIDTH - 30,
-    backgroundColor: '#F3F4F9',
     marginTop: 10,
     borderRadius: 10,
   },
