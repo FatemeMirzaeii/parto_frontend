@@ -53,6 +53,7 @@ const NoteEdit = ({ navigation, route }) => {
   }, [note]);
 
   const _save = () => {
+    //todo: should review function
     note !== null
       ? dispatch(
           setNote({
@@ -81,6 +82,7 @@ const NoteEdit = ({ navigation, route }) => {
   };
 
   const _editDateOfNote = () => {
+    //todo: should review function
     note !== null
       ? dispatch(
           setNote({

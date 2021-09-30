@@ -17,6 +17,7 @@ const NoteListItem = ({ item, navigation }) => {
   const noteState = useSelector((state) => state.user.note);
 
   const _handleDelete = (i) => {
+    //todo: should review delete code
     const keys = Object.keys(noteState).filter(
       (key) => noteState[key].key !== i.key,
     );

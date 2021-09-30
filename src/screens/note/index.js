@@ -27,6 +27,7 @@ const Note = ({ navigation, route }) => {
 
   useEffect(() => {
     const getNotes = () => {
+      //todo: should review get code
       if (noteState) {
         const temp = [];
         const noteOfDay = Object.keys(noteState).filter(

@@ -23,12 +23,11 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   const noteState = useSelector((state) => state.user.note);
 
   const getInitialData = useCallback(async () => {
+    //todo: should review function
     let y = [];
     const td = await getTrackingOptionData(selectedDate);
-    // console.log('td*********', td);
     for (let i = 0; i < td.length; i++) {
       const opt = td[i].options;
-      // console.log('opt*********', opt);
       for (let j = 0; j < td.length; j++) {
         if (opt[j] && opt[j].selected.length > 0)
           y.push({
@@ -61,18 +60,18 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
     }
   }, [selectedDate, noteState]);
 
-  const _getNotes = () => {
-    const temp = [];
-    const noteOfDay = Object.keys(noteState).filter(
-      (key) => noteState[key].day === selectedDate,
-      console.log('day'),
-    );
-    noteOfDay.map((item) => {
-      temp.push(noteState[item]);
-    });
-    setNotes(temp);
-    return notes;
-  };
+  // const _getNotes = () => {
+  //   const temp = [];
+  //   const noteOfDay = Object.keys(noteState).filter(
+  //     (key) => noteState[key].day === selectedDate,
+  //     console.log('day'),
+  //   );
+  //   noteOfDay.map((item) => {
+  //     temp.push(noteState[item]);
+  //   });
+  //   setNotes(temp);
+  //   return notes;
+  // };
 
   const _handleOnNext = (ref) => {
     ref.current.snapToNext();

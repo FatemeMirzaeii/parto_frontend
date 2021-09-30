@@ -11,6 +11,7 @@ import {
   addTrackingOption,
 } from './query';
 import configureStore from '../../store';
+import { setNote } from '../../store/actions/user';
 import api from '../../services/api';
 
 export default async (isSigningout, userId) => {
@@ -25,6 +26,7 @@ export default async (isSigningout, userId) => {
   let profileData;
   let pregnancyInfo;
   let userInfo;
+  let notes;
   if (!isSigningout) {
     // first will get data from server, if exists!
     profileData = await api({
@@ -68,6 +70,31 @@ export default async (isSigningout, userId) => {
         addTrackingOption(i.tracking_option_id, i.date);
       });
     }
+    notes = await api({
+      url: `/notes/syncNote/${_userId}/${lastSyncTime ?? null}/fa`,
+      // dev: true,
+    });
+    if (
+      notes &&
+      notes.data &&
+      notes.data.data &&
+      notes.data.data.length !== 0
+    ) {
+      notes.data.data.forEach((i) => {
+        //todo: should test api
+        store.dispatch(
+          setNote({
+            ...notes,
+            [i.key]: {
+              key: i.key,
+              day: i.day,
+              title: i.title,
+              note: i.text,
+            },
+          }),
+        );
+      });
+    }
   }
 
   let sentProfileData = [];
@@ -109,17 +136,24 @@ export default async (isSigningout, userId) => {
     });
   }
 
-  let setNotes = [];
+  let sentNotes = [];
   if (user.notes) {
-    setNotes = await api({
+    //todo: should test api
+    sentNotes = await api({
       method: 'POST',
-      url: `notes/syncNote/${_userId}/fa`,
+      url: `/notes/syncNote/${_userId}/fa`,
       dev: true,
       data: { data: user.note },
     });
   }
 
-  if (sentProfileData && sentPregnancyInfo && sentUserInfo && setVersionType) {
+  if (
+    sentProfileData &&
+    sentPregnancyInfo &&
+    sentUserInfo &&
+    setVersionType &&
+    sentNotes
+  ) {
     await updateLastSyncTime(moment().format(DATETIME_FORMAT));
     return true;
   } else return false;
