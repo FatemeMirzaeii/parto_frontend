@@ -105,8 +105,8 @@ const NoteEdit = ({ navigation, route }) => {
     //       },
     //     }),
     //   );
-
-    navigation.goBack();
+    toggle();
+    // navigation.goBack();
   };
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -130,7 +130,6 @@ const NoteEdit = ({ navigation, route }) => {
         </View>
         <Button
           title="تغییر تاریخ"
-          type="outline"
           onPress={toggle}
           containerStyle={[styles.btnContainer, { width: 100, height: 40 }]}
           buttonStyle={styles.button}
@@ -162,14 +161,15 @@ const NoteEdit = ({ navigation, route }) => {
         </View>
         <TextInput
           multiline
-          placeholder="یادداشت"
+          placeholder="متن یادداشت"
           selectionColor={COLOR.pink}
           style={{
             minHeight: 200,
             fontFamily: FONT.regular,
-            borderTopWidth: 1,
+            borderTopWidth: 0.9,
             borderTopColor: COLOR.icon,
             fontSize: 14,
+            paddingHorizontal: 10,
           }}
           value={text}
           onChangeText={setText}

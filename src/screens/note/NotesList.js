@@ -1,26 +1,21 @@
 import React, { useEffect, useState, useLayoutEffect } from 'react';
-import { SafeAreaView, View, Text, FlatList, ToastAndroid } from 'react-native';
-import { Icon } from 'react-native-elements';
+import { SafeAreaView, Text, FlatList } from 'react-native';
 import { FAB } from 'react-native-paper';
-import Clipboard from '@react-native-clipboard/clipboard';
 import jalaali from 'moment-jalaali';
 
 //redux
-import { useSelector, useDispatch } from 'react-redux';
-
-//store
-import { setNote } from '../../store/actions/user';
+import { useSelector } from 'react-redux';
 
 // components
-import Card from '../../components/Card';
 import SearchBar from '../../components/SearchBar';
 import BackButton from '../../components/BackButton';
+import NoteListItem from './NoteListItem';
 
 //util
 import { e2p, a2p } from '../../util/func';
 
 // styles
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const NotesList = ({ navigation }) => {
@@ -28,7 +23,6 @@ const NotesList = ({ navigation }) => {
   const [notes, setNotes] = useState([]);
   const [searchInput, setSearchInput] = useState([]);
   const noteState = useSelector((state) => state.user.note);
-  const dispatch = useDispatch();
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -81,94 +75,8 @@ const NotesList = ({ navigation }) => {
     } else setNotes(Object.values(noteState));
   };
 
-  const _handleDelete = (item) => {
-    const keys = Object.keys(noteState).filter(
-      (key) => noteState[key].key !== item.key,
-    );
-    if (keys.length > 0)
-      keys.map((ele) => {
-        dispatch(
-          setNote({
-            [noteState[ele].key]: {
-              key: noteState[ele].key,
-              day: noteState[ele].day,
-              title: noteState[ele].title,
-              note: noteState[ele].note,
-            },
-          }),
-        );
-      });
-    else dispatch(setNote([]));
-  };
-
   const _renderItem = ({ item }) => {
-    return (
-      <Card>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-            // padding: 10,
-          }}>
-          <View style={{ flexDirection: 'row' }}>
-            <Text style={styles.dayText}>{item.title}</Text>
-            <Icon
-              containerStyle={{ marginLeft: 10 }}
-              type="entypo"
-              name="new-message"
-              color={COLOR.icon}
-            />
-          </View>
-          <Text style={styles.dayText}>
-            {jalaali(item.day).format('jYYYY/jM/jD')}
-          </Text>
-        </View>
-        <Text
-          style={{
-            backgroundColor: '#F3F4F9',
-            height: 200,
-            fontFamily: FONT.regular,
-            fontSize: 14,
-          }}>
-          {item.note}
-        </Text>
-        <View
-          style={{
-            flexDirection: 'row-reverse',
-            justifyContent: 'space-between',
-            padding: 10,
-            //backgroundColor: 'red',
-          }}>
-          <Icon
-            containerStyle={{ marginLeft: 10 }}
-            type="parto"
-            name="trash"
-            color={COLOR.icon}
-            onPress={() => _handleDelete(item)}
-          />
-          <Icon
-            type="materialicons"
-            name="content-copy"
-            color={COLOR.icon}
-            onPress={() => {
-              Clipboard.setString(item.note);
-              ToastAndroid.show('متن یادداشت کپی شد.', ToastAndroid.LONG);
-            }}
-          />
-          <Icon
-            name="new-message"
-            type="entypo"
-            color={COLOR.icon}
-            onPress={() =>
-              navigation.navigate('NoteEdit', {
-                day: item.day,
-                note: item,
-              })
-            }
-          />
-        </View>
-      </Card>
-    );
+    return <NoteListItem item={item} navigation={navigation} />;
   };
 
   // console.log('noteState', Object.values(noteState));
