@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import analytics from '@react-native-firebase/analytics';
 import { NavigationContainer } from '@react-navigation/native';
-import React, { useRef, useEffect, useCallback } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { StatusBar, AppState } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
