@@ -1,5 +1,5 @@
 import React, { useEffect, useLayoutEffect } from 'react';
-import { SafeAreaView } from 'react-native';
+import { ImageBackground, SafeAreaView } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -17,6 +17,8 @@ import {
 import { COLOR } from '../../styles/static';
 import styles from './styles';
 import globalStyles from '../../styles';
+import MidwiferyBanner from '../../../assets/images/assistant/midwifery-banner.png';
+import NutritionBanner from '../../../assets/images/assistant/nutrition-banner.png';
 
 const Assistant = ({ navigation }) => {
   const dispatch = useDispatch();
@@ -73,6 +75,7 @@ const Assistant = ({ navigation }) => {
       uri: 'https://my.parto.app/chat/midwifery-dummy',
       icon: 'stethoscope',
       goftinoId: goftino.midwiferyAssistantId,
+      bannerUri: MidwiferyBanner,
       // dispatchFunc: () => midwiferyAssistantId(),
     },
     // {
@@ -90,15 +93,16 @@ const Assistant = ({ navigation }) => {
       uri: 'https://my.parto.app/chat/nutrition-dummy',
       icon: 'nutrition',
       goftinoId: goftino.nutritionAssistantId,
+      bannerUri: NutritionBanner,
       // dispatchFunc: () => nutritionAssistantId(),
     },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
-      <Card>
-        {categories.map((category, i) => {
-          return (
+      {categories.map((category, i) => {
+        return (
+          <Card>
             <ListItem
               key={category.title}
               title={category.title}
@@ -118,13 +122,20 @@ const Assistant = ({ navigation }) => {
                 name: category.icon,
                 color: COLOR.icon,
               }}
+              ViewComponent={() => (
+                <ImageBackground
+                  source={category.bannerUri}
+                  style={{ width: '100%', height: 200 }}
+                  resizeMode="stretch"
+                />
+              )}
               titleStyle={globalStyles.listItemTitle}
               containerStyle={globalStyles.listItem}
               contentContainerStyle={globalStyles.listItemContentContainer}
             />
-          );
-        })}
-      </Card>
+          </Card>
+        );
+      })}
     </SafeAreaView>
   );
 };
