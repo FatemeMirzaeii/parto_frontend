@@ -4,6 +4,7 @@ import { ListItem } from 'react-native-elements';
 import * as Keychain from 'react-native-keychain';
 import { RadioButton } from 'react-native-paper';
 import { useSelector, useDispatch } from 'react-redux';
+import TouchID from 'react-native-touch-id';
 
 //components and store
 import Card from '../../components/Card';
@@ -28,12 +29,31 @@ const Lock = ({ navigation }) => {
   }, [navigation]);
 
   useEffect(() => {
-    Keychain.getSupportedBiometryType({}).then((bioType) => {
-      setBiometryType(bioType);
-      if (!bioType && lockType === 'Fingerprint')
-        //if user turns off device fingerprint without turning it of in parto, we will do it for her.
-        dispatch(handleLockType('None'));
-    });
+    // Keychain.getSupportedBiometryType().then((bioType) => {
+    //   console.log('bioMetryType0', bioType);
+    //   setBiometryType(bioType);
+    //   if (!bioType && lockType === 'Fingerprint') {
+    //     //if user turns off device fingerprint without turning it of in parto, we will do it for her.
+    //     dispatch(handleLockType('None'));
+    //   }
+    // });
+    TouchID.isSupported()
+      .then((biometrType) => {
+        setBiometryType('Fingerprint');
+        if (biometrType === 'FaceID') {
+          console.log('FaceID is supported.');
+        } else {
+          console.log('TouchID is supported.');
+        }
+      })
+      .catch((error) => {
+        // Failure code
+        if (lockType === 'Fingerprint') {
+          //if user turns off device fingerprint without turning it of in parto, we will do it for her.
+          dispatch(handleLockType('None'));
+        }
+        console.log(error);
+      });
   }, []);
 
   const _renderBiometryText = () => {
