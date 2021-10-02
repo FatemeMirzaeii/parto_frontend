@@ -33,7 +33,6 @@ const TreatiseIconBox = ({
         }}
         reverse
         size={16}
-        name="phone"
         name="info"
         type="parto"
         color={COLOR.pink}

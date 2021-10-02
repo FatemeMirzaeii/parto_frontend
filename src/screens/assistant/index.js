@@ -1,6 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { ImageBackground, SafeAreaView } from 'react-native';
-import { ListItem } from 'react-native-elements';
+import { Icon, ListItem } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
 
 //components
@@ -29,7 +29,16 @@ const Assistant = ({ navigation }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: 'مشاوره',
-      headerLeft: () => null,
+      headerLeft: () => (
+        <Icon
+          reverse
+          type="parto"
+          name="info"
+          color={COLOR.pink}
+          size={16}
+          onPress={() => navigation.navigate('ContactUs')}
+        />
+      ),
       headerRight: () => <BackButton navigation={navigation} />,
     });
   }, [navigation]);
