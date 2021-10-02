@@ -123,7 +123,7 @@ const ContactUs = ({ navigation }) => {
           onRequestClose={() => setShowChat(false)}
           animationType={'slide'}>
           <WebView
-            source={{ uri: 'https://goftino.com/c/BdaydR' }}
+            source={{ uri: 'https://goftino.com/c/07qDmG' }}
             style={{ flex: 1 }}
             startInLoadingState
             // renderLoading={() => <Loader type="ActivityIndicator" />}
