@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   SafeAreaView,
   ImageBackground,
@@ -8,7 +8,7 @@ import {
   Text,
   FlatList,
 } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
+// import { Button } from 'react-native-elements';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -24,7 +24,7 @@ import useModal from '../../util/hooks/useModal';
 
 //styles and images
 import styles from './styles';
-import { COLOR, WIDTH } from '../../styles/static';
+// import { COLOR } from '../../styles/static';
 import Background from '../../../assets/images/00.png';
 import Main from '../../../assets/images/main/avatar2.png';
 import Teenager from '../../../assets/images/teenager/avatar2.png';
@@ -35,16 +35,16 @@ const Template = ({ navigation }) => {
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
 
-  const carousel = [
+  const listdata = [
+    {
+      title: 'پرتو',
+      desc: 'ثبت و تحلیل پریود برای دختران و بانوان \nپروفایل بارداری',
+      icon: Main,
+    },
     {
       title: 'پرنو',
       desc: 'ثبت و پیگیری پریود \nمحتوای مخصوص نوجوانان',
       icon: Teenager,
-    },
-    {
-      title: 'پرتوبانو',
-      desc: 'ثبت و تحلیل پریود برای دختران و بانوان \nپروفایل بارداری',
-      icon: Main,
     },
     {
       title: 'هم‌پر',
@@ -55,10 +55,10 @@ const Template = ({ navigation }) => {
   const onItemPress = (index) => {
     switch (index) {
       case 0:
-        _handleTeenagerSelected();
+        _handleMainSelected();
         break;
       case 1:
-        _handleMainSelected();
+        _handleTeenagerSelected();
         break;
       case 2:
         _handlePartnerSelected();
@@ -101,14 +101,14 @@ const Template = ({ navigation }) => {
 
   return (
     <ImageBackground source={Background} style={styles.bg}>
-      <Button
+      {/* <Button
         title="خروج"
         type="clear"
         onPress={() => dispatch(signOut())}
         icon={{ type: 'parto', name: 'exit', color: COLOR.textColor }}
         buttonStyle={styles.button}
         titleStyle={styles.title}
-      />
+      /> */}
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.title}>به پرتو خوش‌آمدی</Text>
@@ -116,7 +116,7 @@ const Template = ({ navigation }) => {
         </View>
 
         <FlatList
-          data={carousel}
+          data={listdata}
           numColumns={1}
           keyExtractor={(item, index) => index.toString()}
           renderItem={_renderItem}

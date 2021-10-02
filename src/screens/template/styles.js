@@ -4,7 +4,7 @@ import { WIDTH, COLOR, FONT, HEIGHT } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: HEIGHT / 5.5,
+    marginTop: HEIGHT / 3.7,
     justifyContent: 'center',
     alignItems: 'center',
   },
