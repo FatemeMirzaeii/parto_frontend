@@ -35,7 +35,7 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         name="calendar"
         type="parto"
         size={30}
-        color={COLOR.white}
+        color={COLOR.pink}
         containerStyle={styles.calendarIcon}
         onPress={onPress}
       />
@@ -45,12 +45,14 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
 
 const styles = StyleSheet.create({
   calendarIcon: {
-    top: 40,
+    top: 45,
     zIndex: 10,
-    alignItems: 'flex-start',
-    paddingLeft: 10,
-    width: 55,
-    marginHorizontal: 10,
+    alignItems: 'center',
+    padding: 5,
+    width: 45,
+    marginHorizontal: 15,
+    borderRadius: 10,
+    backgroundColor: COLOR.white,
   },
 });
 
