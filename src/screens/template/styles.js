@@ -1,11 +1,12 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, HEIGHT } from '../../styles/static';
+import { WIDTH, COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: HEIGHT / 4.5,
-    justifyContent: 'space-around',
+    marginTop: HEIGHT / 3.7,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   bg: {
     width: '100%',
@@ -24,40 +25,40 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: COLOR.textColor,
     lineHeight: 30,
+    marginBottom: 20,
+  },
+  whiteBox: {
+    width: WIDTH / 1.08,
+    margin: 5,
+    backgroundColor: COLOR.white,
+    alignItems: 'center',
+    elevation: 2.5,
+    borderRadius: 74,
+    flexDirection: 'row-reverse',
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginTop: 10,
+    marginRight: 10,
+  },
+  textContainer: {
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    marginTop: 10,
+  },
+
+  templatetTitle: {
+    fontFamily: FONT.bold,
+    fontSize: 15,
+    lineHeight: 40,
   },
   desc: {
     fontFamily: FONT.regular,
-    fontSize: 15,
-    textAlign: 'center',
+    fontSize: 13,
     color: COLOR.textColor,
-    lineHeight: 30,
-    padding: 15,
   },
-  carousel: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  item: {
-    width: 150,
-    height: 180,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'center',
-  },
-  textContainer: {
-    flexDirection: 'row-reverse',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginTop: 20,
-    width: 200,
-  },
-  textbox: {
-    elevation: 1,
-    borderRadius: 30,
-    width: 130,
-  },
+
   button: {
     flexDirection: 'row-reverse',
     width: 100,

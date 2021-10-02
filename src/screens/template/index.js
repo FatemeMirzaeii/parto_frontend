@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback } from 'react';
 import {
   SafeAreaView,
   ImageBackground,
@@ -6,9 +6,10 @@ import {
   Image,
   View,
   Text,
+  FlatList,
 } from 'react-native';
-import { Button, Icon } from 'react-native-elements';
-import Carousel from 'react-native-snap-carousel';
+// import { Button } from 'react-native-elements';
+
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
@@ -23,37 +24,41 @@ import useModal from '../../util/hooks/useModal';
 
 //styles and images
 import styles from './styles';
-import { COLOR, WIDTH } from '../../styles/static';
+// import { COLOR } from '../../styles/static';
 import Background from '../../../assets/images/00.png';
-import Main from '../../../assets/images/main/avatar.png';
-import Teenager from '../../../assets/images/teenager/avatar.png';
-import Partner from '../../../assets/images/partner/avatar.png';
+import Main from '../../../assets/images/main/avatar2.png';
+import Teenager from '../../../assets/images/teenager/avatar2.png';
+import Partner from '../../../assets/images/partner/avatar2.png';
 
 const Template = ({ navigation }) => {
-  const [activeSlide, setActiveSlide] = useState(1);
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const { isVisible, toggle } = useModal();
-  const carousel = [
+
+  const listdata = [
     {
-      title: 'نوجوان',
-      desc: 'ثبت و تحلیل دوره‌های قاعدگی',
+      title: 'پرتو',
+      desc: 'ثبت و تحلیل پریود برای دختران و بانوان \nپروفایل بارداری',
+      icon: Main,
+    },
+    {
+      title: 'پرنو',
+      desc: 'ثبت و پیگیری پریود \nمحتوای مخصوص نوجوانان',
       icon: Teenager,
     },
-    { title: 'پرتو', desc: 'ثبت و تحلیل دوره‌ها و باروری', icon: Main },
     {
       title: 'هم‌پر',
-      desc: 'مشاهده اطلاعات همسر',
+      desc: ' مشاهده اطلاعات ثبت شده در پرتوبانو \n محتوای مناسب برای همسر و تنظیم یادآور',
       icon: Partner,
     },
   ];
   const onItemPress = (index) => {
     switch (index) {
       case 0:
-        _handleTeenagerSelected();
+        _handleMainSelected();
         break;
       case 1:
-        _handleMainSelected();
+        _handleTeenagerSelected();
         break;
       case 2:
         _handlePartnerSelected();
@@ -82,64 +87,41 @@ const Template = ({ navigation }) => {
 
   const _renderItem = ({ item, index }) => {
     return (
-      <TouchableOpacity style={styles.item} onPress={() => onItemPress(index)}>
-        <Image source={item.icon} style={styles.image} />
+      <TouchableOpacity onPress={() => onItemPress(index)}>
+        <View style={styles.whiteBox}>
+          <Image source={item.icon} style={styles.image} />
+          <View style={styles.textContainer}>
+            <Text style={styles.templatetTitle}>{item.title}</Text>
+            <Text style={styles.desc}>{item.desc}</Text>
+          </View>
+        </View>
       </TouchableOpacity>
     );
   };
+
   return (
     <ImageBackground source={Background} style={styles.bg}>
-      <Button
+      {/* <Button
         title="خروج"
         type="clear"
         onPress={() => dispatch(signOut())}
         icon={{ type: 'parto', name: 'exit', color: COLOR.textColor }}
         buttonStyle={styles.button}
         titleStyle={styles.title}
-      />
+      /> */}
       <SafeAreaView style={styles.container}>
         <View>
           <Text style={styles.title}>به پرتو خوش‌آمدی</Text>
           <Text style={styles.header}>نسخه اختصاصیت رو انتخاب کن</Text>
         </View>
-        <View style={styles.carousel}>
-          <Carousel
-            data={carousel}
-            inactiveSlideScale={0.7}
-            inactiveSlideOpacity={1}
-            renderItem={_renderItem}
-            sliderWidth={WIDTH - 40}
-            itemWidth={120}
-            firstItem={1}
-            onSnapToItem={setActiveSlide}
-            useScrollView
-            slideStyle={styles.carousel}
-          />
-          <View style={styles.textContainer}>
-            <Icon
-              name="chevron-circle-right"
-              type="font-awesome"
-              color={COLOR.pink}
-              size={20}
-            />
-            <TouchableOpacity
-              style={styles.textbox}
-              onPress={() => onItemPress(activeSlide)}>
-              <Text style={styles.title}>
-                {carousel.map((c) => c.title)[activeSlide]}
-              </Text>
-            </TouchableOpacity>
-            <Icon
-              name="chevron-circle-left"
-              type="font-awesome"
-              color={COLOR.pink}
-              size={20}
-            />
-          </View>
-          <Text style={styles.desc}>
-            {carousel.map((c) => c.desc)[activeSlide]}
-          </Text>
-        </View>
+
+        <FlatList
+          data={listdata}
+          numColumns={1}
+          keyExtractor={(item, index) => index.toString()}
+          renderItem={_renderItem}
+        />
+
         <DialogBox
           isVisible={isVisible}
           hide={toggle}
