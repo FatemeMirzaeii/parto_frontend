@@ -32,10 +32,10 @@ const Assistant = ({ navigation }) => {
       headerLeft: () => (
         <Icon
           reverse
-          type="parto"
-          name="info"
+          type="materialIcons"
+          name="support-agent"
           color={COLOR.pink}
-          size={16}
+          size={20}
           onPress={() => navigation.navigate('ContactUs')}
         />
       ),

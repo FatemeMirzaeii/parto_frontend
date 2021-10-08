@@ -4,7 +4,7 @@ import { WIDTH, COLOR, FONT, HEIGHT } from '../../styles/static';
 export default StyleSheet.create({
   container: {
     flex: 1,
-    marginTop: HEIGHT / 3.7,
+    marginTop: HEIGHT / 3.5,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -55,7 +55,7 @@ export default StyleSheet.create({
   },
   desc: {
     fontFamily: FONT.regular,
-    fontSize: 13,
+    fontSize: 12.5,
     color: COLOR.textColor,
   },
 

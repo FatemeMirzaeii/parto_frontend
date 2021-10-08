@@ -35,7 +35,7 @@ const CalendarButton = ({ addAppTourTarget, onPress }) => {
         name="calendar"
         type="parto"
         size={30}
-        color={COLOR.pink}
+        color={template === 'Partner' ? COLOR.purple : COLOR.pink}
         containerStyle={styles.calendarIcon}
         onPress={onPress}
       />
