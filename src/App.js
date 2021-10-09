@@ -83,8 +83,8 @@ const App: () => React$Node = () => {
             store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
-            setupNotifications(user.id, user.template === 'Partner');
             lock(user.lockType, navigationRef.current);
+            setupNotifications(user.id, user.template === 'Partner');
             analytics().logEvent(`app_type_${user.template}`);
           }}
           onStateChange={async () => {
