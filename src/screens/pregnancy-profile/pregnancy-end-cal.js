@@ -9,11 +9,8 @@ import Calendar from '../../components/Calendar';
 import PregnancyModule from '../../util/pregnancy';
 import CycleModule from '../../util/cycle';
 import { endPregnancy, updateUserStatus } from '../../util/database/query';
-import {
-  fetchInitialCycleData,
-  setGoal,
-  setPregnancyMode,
-} from '../../store/actions/cycle';
+import { fetchInitialCycleData, setGoal } from '../../store/actions/cycle';
+import { setPregnancyMode2 } from '../../store/actions/pregnancy';
 
 // styles and constants
 import styles from './styles';
@@ -42,7 +39,7 @@ const PregnancyEndCalendar = ({ route, navigation }) => {
     }
     await p.determineNefasDays(selectedDate);
     await c.determineLastPeriodDate();
-    dispatch(setPregnancyMode(0));
+    dispatch(setPregnancyMode2(0));
     dispatch(fetchInitialCycleData());
     navigation.popToTop();
   };

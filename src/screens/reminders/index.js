@@ -10,11 +10,11 @@ import { getReminders } from '../../util/database/query';
 
 // styles
 import globalStyles from '../../styles';
-import { COLOR } from '../../styles/static';
 
 const Reminders = ({ navigation }) => {
   const [reminders, setReminders] = useState([]);
   const cycle = useSelector((state) => state.cycle);
+  const pregnancy = useSelector((state) => state.pregnancy);
   const template = useSelector((state) => state.user.template);
 
   useEffect(() => {
@@ -47,7 +47,7 @@ const Reminders = ({ navigation }) => {
               bottomDivider={index === reminders.length - 1 ? false : true}
               disabled={
                 r.id !== 1 &&
-                (cycle.lastPeriodDate !== '' || cycle.isPregnant !== 0)
+                (cycle.lastPeriodDate !== '' || pregnancy.isPregnant !== 0)
                   ? true
                   : false
               }

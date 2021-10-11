@@ -42,7 +42,7 @@ const Passcode = ({ navigation, route }) => {
   // const passcode = useSelector((state) => state.user.passcode);
   const template = useSelector((state) => state.user.template);
   const phoneNoState = useSelector((state) => state.user.phone);
-  const cycle = useSelector((state) => state.cycle);
+  const pregnancy = useSelector((state) => state.pregnancy);
   const { isVisible: PhoneNoInputeVisible, toggle: togglePhoneNoInpute } =
     useModal();
   const { isVisible: forgatPasswordIsVisible, toggle: toggleForgotPassword } =
@@ -183,7 +183,7 @@ const Passcode = ({ navigation, route }) => {
             ? TeenagerBg
             : template === 'Partner'
             ? PartnerBg
-            : cycle.isPregnant
+            : pregnancy.isPregnant
             ? PregnancyModeBg
             : MainBg
         }

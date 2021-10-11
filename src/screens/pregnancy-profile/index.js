@@ -9,11 +9,8 @@ import moment from 'moment';
 import { useSelector, useDispatch } from 'react-redux';
 
 //store
-import {
-  fetchInitialCycleData,
-  setGoal,
-  setPregnancyMode,
-} from '../../store/actions/cycle';
+import { fetchInitialCycleData, setGoal } from '../../store/actions/cycle';
+import { setPregnancyMode2 } from '../../store/actions/pregnancy';
 
 //components
 // import PregnancyPicker from '../../components/PregnancyPicker';
@@ -237,7 +234,7 @@ const PregnancyProfile = ({ navigation, route }) => {
             updateUserStatus(0, 0);
             dispatch(setGoal(0));
           }
-          dispatch(setPregnancyMode(0));
+          dispatch(setPregnancyMode2(0));
           dispatch(fetchInitialCycleData());
           navigation.pop();
         }}

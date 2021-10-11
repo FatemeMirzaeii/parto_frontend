@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
-import { Icon } from 'react-native-elements';
 import { CalendarList } from 'react-native-jalali-calendars';
 import jalaali from 'moment-jalaali';
 
@@ -35,6 +34,7 @@ import styles from './styles';
 const Calendar = ({ navigation }) => {
   const today = jalaali();
   const cycle = useSelector((state) => state.cycle);
+  const pregnancy = useSelector((state) => state.pregnancy);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
 
@@ -75,7 +75,7 @@ const Calendar = ({ navigation }) => {
     setEditMode(true);
   };
   const onSubmitEditing = async () => {
-    if (cycle.isPregnant && Object.keys(cycle.periodDays).length === 0) {
+    if (pregnancy.isPregnant && Object.keys(cycle.periodDays).length === 0) {
       ToastAndroid.show(
         'سن بارداری و تاریخ زایمان شما براساس تاریخ آخرین پریود شما محاسبه می‌شود. لطفا تاریخ آخرین پریود خود را وارد نموده و یا از حالت بارداری خارج شوید.',
         ToastAndroid.LONG,
@@ -387,4 +387,3 @@ const Calendar = ({ navigation }) => {
   );
 };
 export default Calendar;
-
