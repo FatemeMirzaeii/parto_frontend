@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import cycle from './cycle';
+import pregnancy from './pregnancy';
 import user from './user';
 import auth from './auth';
 import goftino from './goftino';
@@ -9,6 +10,9 @@ const rootReducer = (state, action) => {
   if (action.type === RESET) {
     state = undefined;
   }
-  return combineReducers({ auth, user, cycle, goftino })(state, action);
+  return combineReducers({ auth, user, cycle, pregnancy, goftino })(
+    state,
+    action,
+  );
 };
 export default rootReducer;

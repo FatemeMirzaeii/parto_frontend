@@ -1,6 +1,7 @@
 export const POSITIVE_OFFER = 'POSITIVE_OFFER';
 export const NEGATIVE_OFFER = 'NEGATIVE_OFFER';
 
+// cycle reducer
 export const INITIAL_CYCLE_DATA = 'INITIAL_CYCLE_DATA';
 export const UPDATE_PERIOD_DAYS = 'UPDATE_PERIOD_DAYS';
 export const UPDATE_PERDICTIONS = 'UPDATE_PERDICTIONS';
@@ -9,8 +10,14 @@ export const SET_LAST_PERIOD_DATE = 'SET_LAST_PERIOD_DATE';
 export const SET_PREGNANT_MODE = 'SET_PREGNANT_MODE';
 export const SET_GOAL = 'SET_GOAL';
 
-export const SET_MODE = 'SET_MODE';
+// export const SET_MODE = 'SET_MODE';
 
+// pregnancy reducer
+export const SET_PREGNANCY_MODE = 'SET_PREGNANCY_MODE';
+export const SET_PREGNANCY_AGE = 'SET_PREGNANCY_AGE';
+export const SET_DUE_DATE = 'SET_DUE_DATE';
+
+// user reducer
 export const SET_TEMPLATE = 'SET_TEMPLATE';
 export const SET_LOCK_TYPE = 'SET_LOCK_TYPE';
 export const SET_PASSCODE = 'SET_PASSCODE';
@@ -18,11 +25,13 @@ export const SET_USER = 'SET_USER';
 export const SET_CREDIT = 'SET_CREDIT';
 export const SET_MAIN_SENTENCE = 'SET_MAIN_SENTENCE';
 
+// auth reducer
 export const SIGN_IN = 'SIGN_IN';
 export const SIGN_OUT = 'SIGN_OUT';
 export const INTERVIEW = 'INTERVIEW';
 export const RESTORE_TOKEN = 'RESTORE_TOKEN';
 
+// assistant reducer
 export const NUTRITION_ASSISTANT_ID = 'NUTRITION_ASSISTANT_ID';
 export const MIDWIFERY_ASSISTANT_ID = 'MIDWIFERY_ASSISTANT_ID';
 export const TREATISE_ASSISTANT_ID = 'TREATISE_ASSISTANT_ID';

@@ -8,7 +8,7 @@ import rootReducer from './reducers';
 const persistConfig = {
   key: 'root',
   storage: AsyncStorage,
-  whitelist: ['user', 'auth', 'goftino'],
+  whitelist: ['user', 'auth', 'goftino', 'pregnancy'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 export default () => {
