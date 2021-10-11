@@ -157,12 +157,13 @@ async function pregnancyWeeks(isPartner, pregnancyData) {
       pregnancyData.pregnancyAge.days,
     );
     for (let i = pregnancyData.pregnancyAge.week; i < 43; i++) {
+      const WEEK_ID = `WEEK_${i}`;
+      notification.cancel(WEEK_ID);
       const date = moment(lpd).add(i, 'weeks').toDate();
       date.setHours(10);
       date.setMinutes(0);
-      const WEEK_ID = `WEEK_${i}`;
       const message = getPregnancyWeekProperMessage(WEEK_ID, isPartner);
-      console.log('scheduled!', WEEK_ID, date, message);
+      // console.log('scheduled!', WEEK_ID, date, message);
       notification.scheduled(WEEK_ID, date, message);
     }
   }
