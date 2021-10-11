@@ -83,8 +83,9 @@ const App: () => React$Node = () => {
             store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
+            const pregnancy = store.getState().pregnancy;
             lock(user.lockType, navigationRef.current);
-            setupNotifications(user.id, user.template === 'Partner');
+            setupNotifications(user.id, user.template === 'Partner', pregnancy);
             analytics().logEvent(`app_type_${user.template}`);
           }}
           onStateChange={async () => {

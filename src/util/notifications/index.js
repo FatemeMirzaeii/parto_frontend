@@ -10,19 +10,29 @@ import {
   PERIOD_LATE,
   CHECK_THE_APP,
 } from '../../constants/reminders';
+import PregnancyModule from '../pregnancy';
+import {
+  main_notifications,
+  partner_notifications,
+} from '../../constants/pregnancy-notifications';
 
 const notification = new NotificationService();
 let c;
+let p;
 
-export const setupNotifications = async (userId, isPartner) => {
+export const setupNotifications = async (userId, isPartner, pregnancyData) => {
   notification.removeAllDeliveredNotifications();
   const reminders = await getUserReminders(userId);
   c = await CycleModule();
+  p = await PregnancyModule();
+
   notification.getScheduledLocalNotifications((res) =>
     console.log('scheduled notifs', res),
   );
   userAppChecking(isPartner);
   periodLate(isPartner);
+  pregnancyWeeks(isPartner, pregnancyData);
+
   console.log('reminders', reminders);
   reminders.forEach((reminder) => {
     if (reminder.active === 1) {
@@ -139,10 +149,33 @@ async function userAppChecking(isPartner) {
   notification.scheduled(CHECK_THE_APP, date, message);
 }
 
+async function pregnancyWeeks(isPartner, pregnancyData) {
+  if (pregnancyData.isPregnant) {
+    console.log('scheduled!');
+    const lpd = p.determineLastPeriodDateBasedOnPregnancyWeek(
+      pregnancyData.pregnancyAge.week,
+      pregnancyData.pregnancyAge.days,
+    );
+    for (let i = pregnancyData.pregnancyAge.week; i < 43; i++) {
+      const date = moment(lpd).add(i, 'weeks').toDate();
+      date.setHours(10);
+      date.setMinutes(0);
+      const WEEK_ID = `WEEK_${i}`;
+      const message = getPregnancyWeekProperMessage(WEEK_ID, isPartner);
+      console.log('scheduled!', WEEK_ID, date, message);
+      notification.scheduled(WEEK_ID, date, message);
+    }
+  }
+}
+
 function getReminderDateTime(targetDate, time, daysAgo) {
   const date = moment(targetDate).subtract(daysAgo, 'days').toDate();
   const [hours, minutes] = time.split(':');
   date.setHours(hours);
   date.setMinutes(minutes);
   return date;
+}
+
+function getPregnancyWeekProperMessage(weekId, isPartner) {
+  return isPartner ? partner_notifications[weekId] : main_notifications[weekId];
 }

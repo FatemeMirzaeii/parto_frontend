@@ -17,7 +17,10 @@ import analytics from '@react-native-firebase/analytics';
 import { useDispatch, useSelector } from 'react-redux';
 
 //store
-import { setPregnancyMode } from '../../store/actions/cycle';
+import {
+  setPregnancyAge,
+  setPregnancyMode2,
+} from '../../store/actions/pregnancy';
 
 //components
 import WeekCalendar from '../../components/WeekCalendar';
@@ -59,13 +62,12 @@ const Home = ({ navigation }) => {
   const [pregnancyWeek, setPregnancyWeek] = useState();
   const [date, setDate] = useState(today);
   const [appTourTargets, setAppTourTargets] = useState([]);
-  const cycle = useSelector((state) => state.cycle);
+  const pregnancy = useSelector((state) => state.pregnancy);
   const template = useSelector((state) => state.user.template);
   const userId = useSelector((state) => state.user.id);
   const dispatch = useDispatch();
   const [article, setArticle] = useState();
   const [loading, setLoading] = useState(false);
-  // const [visible, setVisible] = useState(false);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -75,7 +77,7 @@ const Home = ({ navigation }) => {
   }, [navigation, determineMode]);
 
   const onMainSentencePress = () => {
-    if (cycle.isPregnant) {
+    if (pregnancy.isPregnant) {
       setLoading(true);
       goToWeekArticle();
     } else return;
@@ -195,11 +197,12 @@ const Home = ({ navigation }) => {
   const determineMode = useCallback(async () => {
     const preg = await pregnancyMode();
     const pregnancyEndDate = await getPregnancyEndDate();
-    dispatch(setPregnancyMode(preg));
+    dispatch(setPregnancyMode2(preg));
     const momentDate = moment(date);
     if (preg) {
       const p = await PregnancyModule();
       const pregnancyAge = p.determinePregnancyWeek(momentDate);
+      dispatch(setPregnancyAge(pregnancyAge));
       await analytics().logEvent('app_use_pregnancy_mode', {
         template,
         userId,
@@ -272,7 +275,7 @@ const Home = ({ navigation }) => {
                 <TouchableWithoutFeedback onPress={onMainSentencePress}>
                   <Text
                     style={
-                      !cycle.isPregnant
+                      !pregnancy.isPregnant
                         ? { ...styles.mainSentence, ...styles.mainTxt }
                         : [
                             { ...styles.mainSentence, ...styles.mainTxt },
@@ -321,7 +324,7 @@ const Home = ({ navigation }) => {
             ? TeenagerBg
             : template === 'Partner'
             ? PartnerBg
-            : cycle.isPregnant
+            : pregnancy.isPregnant
             ? PregnancyModeBg
             : MainBg
         }
@@ -343,7 +346,7 @@ const Home = ({ navigation }) => {
             });
           }}
         />
-        {cycle.isPregnant ? (
+        {pregnancy.isPregnant ? (
           <Icon
             reverse
             type="parto"
