@@ -18,7 +18,6 @@ export default StyleSheet.create({
     textAlign: 'center',
     color: COLOR.textColor,
     lineHeight: 30,
-    marginTop: 20,
   },
   header: {
     fontFamily: FONT.bold,
@@ -46,18 +45,19 @@ export default StyleSheet.create({
   textContainer: {
     flexDirection: 'column',
     alignItems: 'flex-end',
+    marginTop: 10,
   },
 
   templatetTitle: {
     fontFamily: FONT.bold,
     fontSize: 15,
-    lineHeight: 25,
+    lineHeight: 20,
   },
   desc: {
     fontFamily: FONT.regular,
     fontSize: 12.5,
     color: COLOR.textColor,
-    lineHeight: 24,
+    lineHeight: 23,
   },
 
   button: {
