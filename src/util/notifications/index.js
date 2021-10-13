@@ -166,6 +166,11 @@ async function pregnancyWeeks(isPartner, pregnancyData) {
       // console.log('scheduled!', WEEK_ID, date, message);
       notification.scheduled(WEEK_ID, date, message);
     }
+  } else {
+    for (let i = 5; i < 43; i++) {
+      const WEEK_ID = `WEEK_${i}`;
+      notification.cancel(WEEK_ID);
+    }
   }
 }
 
