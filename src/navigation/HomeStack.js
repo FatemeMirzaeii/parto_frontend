@@ -10,6 +10,7 @@ import Passcode from '../screens/passcode';
 import Chat from '../screens/assistant/chat';
 import ArticleDetails from '../screens/articles/ArticleDetails';
 import Wallet from '../screens/wallet';
+import Assistant from '../screens/assistant';
 import { FONT } from '../styles/static';
 //redux
 import { useSelector } from 'react-redux';
@@ -57,6 +58,11 @@ const HomeStackScreen = () => {
       <HomeStack.Screen
         name="Wallet"
         component={Wallet}
+        options={{ headerShown: true }}
+      />
+      <HomeStack.Screen
+        name="Assistant"
+        component={Assistant}
         options={{ headerShown: true }}
       />
     </HomeStack.Navigator>
