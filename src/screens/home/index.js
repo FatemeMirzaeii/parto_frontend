@@ -9,7 +9,9 @@ import {
   BackHandler,
   ToastAndroid,
   TouchableWithoutFeedback,
+  Image,
 } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { useFocusEffect } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import analytics from '@react-native-firebase/analytics';
@@ -260,7 +262,7 @@ const Home = ({ navigation }) => {
       switch (template) {
         case 'Main':
           return (
-            <View style={styles.sentenceContainer}>
+            <>
               <Text style={{ ...styles.subSentence, ...styles.mainTxt }}>
                 {thirdSentence}
               </Text>
@@ -277,25 +279,48 @@ const Home = ({ navigation }) => {
                         : [
                             { ...styles.mainSentence, ...styles.mainTxt },
                             {
-                              elevation: 0.001,
+                              elevation: 0.1,
                               borderRadius: 50,
-                              paddingHorizontal: 15,
-                              paddingVertical: 5,
+                              padding: 5,
                             },
                           ]
                     }>
                     {loading ? <Loader size={'small'} /> : mainSentence}
                   </Text>
                 </TouchableWithoutFeedback>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Assistant')}
+                  containerStyle={styles.assistantContainer}
+                  style={styles.assistant}>
+                  <Image
+                    source={require('../../../assets/images/assistant/icon.png')}
+                    style={styles.assistantPic}
+                  />
+                  <Text style={styles.thirdSentence}>مشاوره</Text>
+                </TouchableOpacity>
               </View>
-            </View>
+            </>
           );
 
         case 'Teenager':
-          return <Text style={styles.teenagerText}>{mainSentence}</Text>;
+          return (
+            <View style={styles.mainSentenceContainer}>
+              <Text style={styles.teenagerText}>{mainSentence}</Text>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Assistant')}
+                containerStyle={styles.assistantContainer}
+                style={styles.assistant}>
+                <Image
+                  source={require('../../../assets/images/assistant/icon.png')}
+                  style={styles.assistantPic}
+                />
+                <Text style={styles.thirdSentence}>مشاوره</Text>
+              </TouchableOpacity>
+            </View>
+          );
         case 'Partner':
           return (
-            <View style={styles.sentenceContainer}>
+            <>
               <Text style={{ ...styles.subSentence, ...styles.partnerTxt }}>
                 {subSentence}
               </Text>
@@ -307,7 +332,17 @@ const Home = ({ navigation }) => {
                   {mainSentence}
                 </Text>
               </View>
-            </View>
+              <TouchableOpacity
+                onPress={() => navigation.navigate('Assistant')}
+                containerStyle={styles.assistantContainer}
+                style={styles.assistant}>
+                <Image
+                  source={require('../../../assets/images/assistant/icon.png')}
+                  style={styles.assistantPic}
+                />
+                <Text style={styles.thirdSentence}>مشاوره</Text>
+              </TouchableOpacity>
+            </>
           );
       }
     }
@@ -326,55 +361,58 @@ const Home = ({ navigation }) => {
             : MainBg
         }
         style={styles.sky}>
-        <HomeCalendar
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
-          }}
-        />
-        <CalendarButton
-          addAppTourTarget={(appTourTarget) => {
-            appTourTargets.push(appTourTarget);
-          }}
-          onPress={async () => {
-            navigation.navigate('Calendar');
-            await analytics().logEvent('app_calendar_button_press', {
-              template: template,
-              userId: userId,
-            });
-          }}
-        />
-        {cycle.isPregnant ? (
-          <Icon
-            reverse
-            type="parto"
-            name="baby"
-            color={COLOR.purple}
-            size={20}
+        <View style={styles.topRow}>
+          <CalendarButton
+            addAppTourTarget={(appTourTarget) => {
+              appTourTargets.push(appTourTarget);
+            }}
             onPress={async () => {
-              navigation.navigate('PregnancyProfile');
-              await analytics().logEvent('app_pregnancy_profile_press', {
+              navigation.navigate('Calendar');
+              await analytics().logEvent('app_calendar_button_press', {
                 template: template,
                 userId: userId,
               });
             }}
-            containerStyle={styles.pregnancyIcon}
           />
-        ) : null}
-
-        <WeekCalendar
-          current={date}
-          onDateChanged={(d) => setDate(d)}
-          onDayPress={(d) => setDate(d.dateString)}
-          theme={{
-            calendarBackground: 'transparent',
-            headerColor: template === 'Partner' ? COLOR.white : COLOR.black,
-            dayHeaderColor: template === 'Partner' ? COLOR.white : COLOR.black,
-            dayTextColor: template === 'Partner' ? COLOR.white : COLOR.black,
-          }}
-        />
-
+          <View>
+            <HomeCalendar
+              addAppTourTarget={(appTourTarget) => {
+                appTourTargets.push(appTourTarget);
+              }}
+            />
+            <WeekCalendar
+              current={date}
+              onDateChanged={(d) => setDate(d)}
+              onDayPress={(d) => setDate(d.dateString)}
+              theme={{
+                calendarBackground: 'transparent',
+                headerColor: template === 'Partner' ? COLOR.white : COLOR.black,
+                dayHeaderColor:
+                  template === 'Partner' ? COLOR.white : COLOR.black,
+                dayTextColor:
+                  template === 'Partner' ? COLOR.white : COLOR.black,
+              }}
+            />
+          </View>
+          {cycle.isPregnant ? (
+            <Icon
+              type="parto"
+              name="baby"
+              color={template === 'Partner' ? COLOR.purple : COLOR.pink}
+              size={30}
+              onPress={async () => {
+                navigation.navigate('PregnancyProfile');
+                await analytics().logEvent('app_pregnancy_profile_press', {
+                  template: template,
+                  userId: userId,
+                });
+              }}
+              containerStyle={styles.pregnancyIcon}
+            />
+          ) : null}
+        </View>
+        <View style={styles.emptyArea} />
         <View style={styles.moonText}>{renderText()}</View>
-
         <PlusButton
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {

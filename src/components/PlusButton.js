@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { COLOR, FONT } from '../styles/static';
@@ -53,18 +53,23 @@ const PlusButton = (props) => {
             template: template,
           });
         }}
-        style={{
-          width: 68,
-          height: 68,
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-          bottom: 30,
-        }}
+        style={styles.plusButton}
       />
       {/* <Text>ثبت پریود</Text> */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  plusButton: {
+    width: 68,
+    height: 68,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    bottom: 15,
+    // backgroundColor: 'green',
+  },
+});
 
 export default PlusButton;
