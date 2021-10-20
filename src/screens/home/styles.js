@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { COLOR, FONT, HEIGHT, SIZE } from '../../styles/static';
+import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
   container: {
@@ -40,7 +40,7 @@ export default StyleSheet.create({
 
   teenagerText: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[16],
+    fontSize: 16,
     color: COLOR.teenagerFirstText,
     justifyContent: 'center',
     alignItems: 'center',
@@ -58,19 +58,19 @@ export default StyleSheet.create({
 
   mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[16],
+    fontSize: 16,
     textAlign: 'center',
   },
   subSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[16],
+    fontSize: 16,
     padding: 5,
     //backgroundColor: 'green',
     textAlign: 'center',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
     textAlign: 'center',
   },
   mainTxt: {

@@ -93,7 +93,7 @@ const Passcode = ({ navigation, route }) => {
         const res = await api({
           method: 'POST',
           url: '/auth/checkVerificationCode/fa',
-          dev: true,
+          // dev: true,
           data: {
             phone: phoneNoState ? `98${phoneNoState}` : `98${phoneNumber}`,
             type: 'lock',
@@ -145,7 +145,7 @@ const Passcode = ({ navigation, route }) => {
     const res = await api({
       method: 'POST',
       url: '/auth/verificationCode',
-      dev: true,
+      // dev: true,
       data: {
         phone: `98${phoneNo}`,
         type: 'lock',

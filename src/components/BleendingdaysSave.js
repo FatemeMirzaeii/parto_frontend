@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet } from 'react-native';
 import { AppTourView } from 'react-native-app-tour';
 import { TouchableOpacity, Text } from 'react-native';
-import { COLOR, FONT, SIZE } from '../styles/static';
+import { COLOR, FONT } from '../styles/static';
 
 const BleendingdaysSave = ({ addAppTourTarget, onPress }) => {
   return (
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
   buttonTitle: {
     color: COLOR.white,
     fontFamily: FONT.bold,
-    fontSize: SIZE[14],
+    fontSize: 14,
     textAlign: 'center',
     // padding:10
   },
