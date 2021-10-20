@@ -252,7 +252,7 @@ const Profile = ({ navigation }) => {
           toggleClearData();
           setIsLoading(false);
         }}
-        secondBtnPress={toggle}
+        secondBtnPress={toggleClearData}
       />
       <DialogBox
         isVisible={signOutVisible}
