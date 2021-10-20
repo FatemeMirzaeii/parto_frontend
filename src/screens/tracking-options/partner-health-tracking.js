@@ -55,7 +55,7 @@ import {
   MORE_ABOUT_SEX,
 } from '../../constants/health-tracking-info';
 
-const PartenerTrackingOptions = ({ route }) => {
+const PartnerTrackingOptions = ({ route }) => {
   const [categories, setCategories] = useState([]);
   const [sele, setSele] = useState([]);
   const template = useSelector((state) => state.user.template);
@@ -364,4 +364,4 @@ const PartenerTrackingOptions = ({ route }) => {
   );
 };
 
-export default PartenerTrackingOptions;
+export default PartnerTrackingOptions;
