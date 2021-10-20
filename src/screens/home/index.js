@@ -331,17 +331,17 @@ const Home = ({ navigation }) => {
                 <Text style={{ ...styles.mainSentence, ...styles.partnerTxt }}>
                   {mainSentence}
                 </Text>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate('Assistant')}
+                  containerStyle={styles.assistantContainer}
+                  style={styles.assistant}>
+                  <Image
+                    source={require('../../../assets/images/assistant/icon.png')}
+                    style={styles.assistantPic}
+                  />
+                  <Text style={styles.thirdSentence}>مشاوره</Text>
+                </TouchableOpacity>
               </View>
-              <TouchableOpacity
-                onPress={() => navigation.navigate('Assistant')}
-                containerStyle={styles.assistantContainer}
-                style={styles.assistant}>
-                <Image
-                  source={require('../../../assets/images/assistant/icon.png')}
-                  style={styles.assistantPic}
-                />
-                <Text style={styles.thirdSentence}>مشاوره</Text>
-              </TouchableOpacity>
             </>
           );
       }
