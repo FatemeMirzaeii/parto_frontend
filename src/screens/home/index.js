@@ -414,6 +414,7 @@ const Home = ({ navigation }) => {
         <View style={styles.emptyArea} />
         <View style={styles.moonText}>{renderText()}</View>
         <PlusButton
+          date={date}
           navigation={navigation}
           addAppTourTarget={(appTourTarget) => {
             appTourTargets.push(appTourTarget);
