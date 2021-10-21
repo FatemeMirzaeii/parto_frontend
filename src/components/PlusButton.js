@@ -67,7 +67,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     alignSelf: 'center',
-    bottom: 15,
+    bottom: 20,
     // backgroundColor: 'green',
   },
 });
