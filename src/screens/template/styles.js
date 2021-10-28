@@ -51,12 +51,13 @@ export default StyleSheet.create({
   templatetTitle: {
     fontFamily: FONT.bold,
     fontSize: 15,
-    lineHeight: 40,
+    lineHeight: 20,
   },
   desc: {
     fontFamily: FONT.regular,
     fontSize: 12.5,
     color: COLOR.textColor,
+    lineHeight: 23,
   },
 
   button: {

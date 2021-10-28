@@ -113,7 +113,7 @@ const Assistant = ({ navigation }) => {
         return (
           <Card>
             <ListItem
-              key={category.title}
+              key={category.id}
               title={category.title}
               onPress={() => {
                 navigation.navigate('Chat', {
