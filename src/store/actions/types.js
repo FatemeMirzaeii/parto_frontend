@@ -12,6 +12,8 @@ export const SET_GOAL = 'SET_GOAL';
 export const SET_MODE = 'SET_MODE';
 
 export const SET_TEMPLATE = 'SET_TEMPLATE';
+export const SET_LOCK_TYPE = 'SET_LOCK_TYPE';
+export const SET_PASSCODE = 'SET_PASSCODE';
 export const SET_USER = 'SET_USER';
 export const SET_CREDIT = 'SET_CREDIT';
 export const SET_NOTE = 'SET_NOTE';

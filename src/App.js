@@ -33,13 +33,12 @@ import Linking from './navigation/Linking';
 //# fetchinitialdata
 //splash goes away
 
-// console.disableYellowBox = true;
-
 const App: () => React$Node = () => {
   const { store, persistor } = configureStore();
   const appState = useRef(AppState.currentState);
   const navigationRef = useRef();
   const routeNameRef = useRef();
+
   registerCustomIconType('parto', PartoIcon);
 
   useEffect(() => {
@@ -67,10 +66,9 @@ const App: () => React$Node = () => {
     SplashScreen.hide();
   };
 
-  const _handleAppStateChange = (nextAppState) => {
+  const _handleAppStateChange = async (nextAppState) => {
     launchApp();
     if (nextAppState === 'active') {
-      lock();
     }
     appState.current = nextAppState;
   };
@@ -85,6 +83,7 @@ const App: () => React$Node = () => {
             store.dispatch(restoreToken());
             routeNameRef.current = navigationRef.current.getCurrentRoute().name;
             const user = store.getState().user;
+            lock(user.lockType, navigationRef.current);
             setupNotifications(user.id, user.template === 'Partner');
             analytics().logEvent(`app_type_${user.template}`);
           }}

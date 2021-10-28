@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
 import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { COLOR, FONT } from '../styles/static';
@@ -48,23 +48,28 @@ const PlusButton = (props) => {
             : null
         }
         onPress={async () => {
-          props.navigation.navigate('TrackingOptions');
+          props.navigation.navigate('TrackingOptions', { day: props.date });
           await analytics().logEvent('app_tracking_option_button_press', {
             template: template,
           });
         }}
-        style={{
-          width: 68,
-          height: 68,
-          alignItems: 'center',
-          justifyContent: 'center',
-          alignSelf: 'center',
-          bottom: 30,
-        }}
+        style={styles.plusButton}
       />
       {/* <Text>ثبت پریود</Text> */}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  plusButton: {
+    width: 68,
+    height: 68,
+    alignItems: 'center',
+    justifyContent: 'center',
+    alignSelf: 'center',
+    bottom: 20,
+    // backgroundColor: 'green',
+  },
+});
 
 export default PlusButton;

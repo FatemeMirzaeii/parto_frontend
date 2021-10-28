@@ -6,6 +6,8 @@ import CycleSetting from '../screens/cycle-setting';
 import Reminders from '../screens/reminders';
 import ReminderSetting from '../screens/reminders/ReminderSetting';
 import BreastExamHelp from '../screens/reminders/BreastExamHelp';
+import Lock from '../screens/lock';
+import PasscodeSetting from '../screens/lock/passcodeSetting';
 import ContactUs from '../screens/contact-us';
 import Rating from '../screens/rating';
 import AboutUs from '../screens/about-us';
@@ -39,6 +41,8 @@ const MenuStackScreen = () => {
       />
       <MenuStack.Screen name="Profile" component={Profile} />
       <MenuStack.Screen name="CycleSettings" component={CycleSetting} />
+      <MenuStack.Screen name="Lock" component={Lock} />
+      <MenuStack.Screen name="PasscodeSetting" component={PasscodeSetting} />
       <MenuStack.Screen name="Reminders" component={Reminders} />
       <MenuStack.Screen name="ReminderSetting" component={ReminderSetting} />
       <MenuStack.Screen name="BreastExamHelp" component={BreastExamHelp} />

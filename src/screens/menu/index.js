@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { ScrollView, ToastAndroid, View } from 'react-native';
+import React from 'react';
+import { ScrollView, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { ListItem } from 'react-native-elements';
-import TouchID from 'react-native-touch-id';
 import DeviceInfo from 'react-native-device-info';
 
 // components
@@ -14,7 +13,6 @@ import MenuSquareItem from '../../components/MenuSquareItem';
 import UserWallet from '../../components/UserWallet';
 
 // utils and store
-import { lockStatus, setLock } from '../../util/database/query';
 import { removeData, shareContent } from '../../util/func';
 import useModal from '../../util/hooks/useModal';
 import { CafeBazaarLink, PlayStoreLink, MyketLink } from '../../services/urls';
@@ -26,7 +24,6 @@ import styles from './styles';
 import globalStyles from '../../styles';
 
 const Menu = ({ navigation }) => {
-  const [isLock, setIsLock] = useState();
   const userId = useSelector((state) => state.user.id);
   const template = useSelector((state) => state.user.template);
   const dispatch = useDispatch();
@@ -36,36 +33,10 @@ const Menu = ({ navigation }) => {
     toggle: toggleRegistrationAlert,
   } = useModal();
 
-  useEffect(() => {
-    determineLockStatus();
-  }, []);
-
-  const determineLockStatus = async () => {
-    const status = await lockStatus();
-    setIsLock(status ? true : false);
-  };
-
   const navigateTo = (screen) => {
     navigation.navigate(screen);
   };
 
-  const lock = () => {
-    TouchID.isSupported()
-      .then((biometryType) => {
-        console.log('biometryType', biometryType);
-        if (biometryType === 'FaceID') {
-          console.log('FaceID is supported.');
-        }
-        setLock(!isLock);
-        setIsLock(!isLock);
-      })
-      .catch((error) => {
-        ToastAndroid.show(
-          'قفل دستگاه شما خاموش است و یا اثر انگشت را پشتیبانی نمیکند.',
-          ToastAndroid.LONG,
-        );
-      });
-  };
   const share = () => {
     DeviceInfo.getInstallerPackageName().then((installerPackageName) => {
       let link = '';
@@ -137,14 +108,15 @@ const Menu = ({ navigation }) => {
       </View>
       <Card>
         <ListItem
-          title="قفل نرم افزار"
+          title="قفل"
           leftIcon={{ type: 'parto', name: 'lock', color: COLOR.icon }}
-          switch={{
-            value: isLock,
-            onValueChange: lock,
-            trackColor: { true: COLOR.lightPink, false: '#aaa' },
-            thumbColor: isLock ? COLOR.pink : '#f4f3f4',
+          chevron={{
+            type: 'parto',
+            name: 'left',
+            color: COLOR.icon,
+            size: 10,
           }}
+          onPress={() => navigateTo('Lock')}
           bottomDivider
           titleStyle={globalStyles.listItemTitle}
           containerStyle={globalStyles.listItem}
@@ -178,6 +150,7 @@ const Menu = ({ navigation }) => {
           containerStyle={globalStyles.listItem}
           contentContainerStyle={globalStyles.listItemContentContainer}
         /> */}
+
         <ListItem
           title="معرفی به دوستان"
           leftIcon={{

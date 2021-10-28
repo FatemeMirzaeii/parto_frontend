@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE, COLOR, WIDTH } from '../../styles/static';
+import { FONT, COLOR, WIDTH } from '../../styles/static';
 
 export default StyleSheet.create({
   // text: {
@@ -16,7 +16,7 @@ export default StyleSheet.create({
   },
   question: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[14],
+    fontSize: 14,
     textAlign: 'center',
     color: COLOR.textColor,
     lineHeight: 20,
@@ -48,11 +48,11 @@ export default StyleSheet.create({
   },
   btnTitle: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
   },
   deleteBtnTitle: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
     color: COLOR.pink,
   },
   // btnContainer: {
@@ -80,7 +80,7 @@ export default StyleSheet.create({
   },
   saveTitle: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[14],
+    fontSize: 14,
     color: COLOR.white,
   },
   deleteButton: {
@@ -96,7 +96,7 @@ export default StyleSheet.create({
   },
   deleteTitle: {
     fontFamily: FONT.regular,
-    fontSize: SIZE[14],
+    fontSize: 14,
     color: COLOR.pink,
     textDecorationLine: 'underline',
   },

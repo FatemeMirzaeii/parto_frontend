@@ -22,13 +22,14 @@ const DialogBox = ({
   secondBtnPress,
   secondBtnColor,
   onBackdropPress,
+  onRequestClose,
 }) => {
   return (
     <Modal
       animationType="slide"
       statusBarTranslucent
       isVisible={isVisible}
-      onRequestClose={hide}
+      onRequestClose={onRequestClose ? onRequestClose : hide}
       onBackdropPress={onBackdropPress ?? hide}>
       <View style={styles.modal}>
         {icon}
@@ -85,6 +86,7 @@ DialogBox.propTypes = {
   secondBtnPress: PropTypes.func,
   secondBtnColor: PropTypes.string,
   onBackdropPress: PropTypes.func,
+  onRequestClose: PropTypes.func,
 };
 DialogBox.defaultProps = {
   children: <View />,
