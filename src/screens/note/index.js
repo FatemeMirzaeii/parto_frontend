@@ -34,7 +34,11 @@ const Note = ({ navigation, route }) => {
       if (day) {
         setNotes(Object.values(noteStore).filter((item) => item.day === day));
       } else {
-        setNotes(Object.values(noteStore));
+        setNotes(
+          Object.values(noteStore).sort(
+            (a, b) => jalaali(b.key) - jalaali(a.key),
+          ),
+        );
       }
     }
   }, [day, noteStore]);
