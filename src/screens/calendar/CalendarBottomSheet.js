@@ -50,23 +50,10 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   useEffect(() => {
     if (noteStore) {
       setNotes(
-        Object.values(noteStore).filter((item) => item.day === selectedDate),
+        Object.values(noteStore).filter((item) => item.date === selectedDate),
       );
     }
   }, [selectedDate, noteStore]);
-
-  // const _getNotes = () => {
-  //   const temp = [];
-  //   const noteOfDay = Object.keys(noteState).filter(
-  //     (key) => noteState[key].day === selectedDate,
-  //     console.log('day'),
-  //   );
-  //   noteOfDay.map((item) => {
-  //     temp.push(noteState[item]);
-  //   });
-  //   setNotes(temp);
-  //   return notes;
-  // };
 
   const _handleOnNext = (ref) => {
     ref.current.snapToNext();
@@ -81,7 +68,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
       <TouchableWithoutFeedback
         style={styles.noteListWrapper}
         onPress={() =>
-          navigation.navigate('NoteEdit', { day: selectedDate, note: item })
+          navigation.navigate('NoteEdit', { date: selectedDate, note: item })
         }>
         <View style={styles.noteTitleBox}>
           <View style={styles.row}>
@@ -94,7 +81,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
             />
           </View>
         </View>
-        <Text style={styles.noteBox}>{item.note}</Text>
+        <Text style={styles.noteBox}>{item.content}</Text>
       </TouchableWithoutFeedback>
     );
   };
@@ -110,7 +97,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   };
   const onNotePress = () =>
     navigation.navigate('Note', {
-      day: selectedDate,
+      date: selectedDate,
     });
   return (
     <View style={styles.btnSheetContainer}>

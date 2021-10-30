@@ -15,14 +15,14 @@ import { COLOR } from '../../styles/static';
 import styles from './styles';
 
 const Note = ({ navigation, route }) => {
-  const { day } = route.params;
+  const { date } = route.params;
   const [notes, setNotes] = useState([]);
   const noteStore = useSelector((state) => state.user.note);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: day
-        ? `یادداشت‌های ${jalaali(day).format('jDD jMMMM jYYYY')}`
+      title: date
+        ? `یادداشت‌های ${jalaali(date).format('jDD jMMMM jYYYY')}`
         : 'یادداشت‌ها',
       headerRight: () => <BackButton navigation={navigation} />,
       headerLeft: null,
@@ -31,8 +31,8 @@ const Note = ({ navigation, route }) => {
 
   useEffect(() => {
     if (noteStore) {
-      if (day) {
-        setNotes(Object.values(noteStore).filter((item) => item.day === day));
+      if (date) {
+        setNotes(Object.values(noteStore).filter((item) => item.date === date));
       } else {
         setNotes(
           Object.values(noteStore).sort(
@@ -41,7 +41,7 @@ const Note = ({ navigation, route }) => {
         );
       }
     }
-  }, [day, noteStore]);
+  }, [date, noteStore]);
 
   const _handleSearch = (text) => {
     if (text) {
@@ -78,7 +78,7 @@ const Note = ({ navigation, route }) => {
           return (
             <Text style={styles.txt}>
               یادداشتی
-              {day ? ` برای ${jalaali(day).format('jYYYY/jM/jD')} ` : ' '}
+              {date ? ` برای ${jalaali(date).format('jYYYY/jM/jD')} ` : ' '}
               ثبت نشده است.
             </Text>
           );
@@ -92,7 +92,7 @@ const Note = ({ navigation, route }) => {
         color={COLOR.white}
         onPress={() =>
           navigation.navigate('NoteEdit', {
-            day: day ?? jalaali(),
+            date: date ?? jalaali(),
             note: null,
           })
         }

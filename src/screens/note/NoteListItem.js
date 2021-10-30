@@ -39,7 +39,7 @@ const NoteListItem = ({ item, navigation }) => {
                 fontSize: 14,
                 color: 'black',
               }}
-              value={item.note}
+              value={item.content}
               // onChangeText={setMessage}
             />
             <View
@@ -62,7 +62,7 @@ const NoteListItem = ({ item, navigation }) => {
                 color={COLOR.icon}
                 onPress={() =>
                   navigation.navigate('NoteEdit', {
-                    day: item.day,
+                    date: item.date,
                     note: item,
                   })
                 }
@@ -72,14 +72,14 @@ const NoteListItem = ({ item, navigation }) => {
                 name="content-copy"
                 color={COLOR.icon}
                 onPress={() => {
-                  Clipboard.setString(item.note);
+                  Clipboard.setString(item.content);
                   ToastAndroid.show('متن یادداشت کپی شد.', ToastAndroid.LONG);
                 }}
               />
             </View>
           </>
         }
-        subtitle={jalaali(item.day).format('jYYYY/jM/jD')}
+        subtitle={jalaali(item.date).format('jYYYY/jM/jD')}
       />
     </Card>
   );

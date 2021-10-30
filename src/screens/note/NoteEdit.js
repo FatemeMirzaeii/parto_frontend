@@ -19,8 +19,8 @@ import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
 
 const NoteEdit = ({ navigation, route }) => {
-  const { day, note } = route.params;
-  const [text, setText] = useState('');
+  const { date, note } = route.params;
+  const [content, setContent] = useState('');
   const [title, setTitle] = useState('');
   const [noteDate, setNoteDate] = useState('');
   const dispatch = useDispatch();
@@ -48,10 +48,10 @@ const NoteEdit = ({ navigation, route }) => {
   useEffect(() => {
     if (note !== null) {
       setTitle(note.title);
-      setText(note.note);
-      setNoteDate(note.day);
-    } else setNoteDate(day);
-  }, [day, note]);
+      setContent(note.content);
+      setNoteDate(note.date);
+    } else setNoteDate(date);
+  }, [date, note]);
 
   const _save = () => {
     if (note) {
@@ -62,9 +62,9 @@ const NoteEdit = ({ navigation, route }) => {
         ...noteStore,
         [jalaali(noteDate).format()]: {
           key: jalaali(noteDate).format(),
-          day: jalaali(noteDate).format('YYYY-MM-DD'),
+          date: jalaali(noteDate).format('YYYY-MM-DD'),
           title: title,
-          note: text,
+          content: content,
         },
       }),
     );
@@ -134,8 +134,8 @@ const NoteEdit = ({ navigation, route }) => {
             fontSize: 14,
             paddingHorizontal: 10,
           }}
-          value={text}
-          onChangeText={setText}
+          value={content}
+          onChangeText={setContent}
         />
       </Card>
 
@@ -148,8 +148,8 @@ const NoteEdit = ({ navigation, route }) => {
         firstBtnPress={toggle}>
         <PersianDatePicker
           initialDate={jalaali(noteDate).format('jYYYY-jM-jD')}
-          onDateSelected={(date) => {
-            const j = jalaali(date, 'jYYYY/jM/jD');
+          onDateSelected={(d) => {
+            const j = jalaali(d, 'jYYYY/jM/jD');
             setNoteDate(j.format('YYYY-MM-DD'));
           }}
           startOfRange={1390}
