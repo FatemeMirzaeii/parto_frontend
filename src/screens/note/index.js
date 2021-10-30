@@ -5,8 +5,10 @@ import jalaali from 'moment-jalaali';
 import { useSelector } from 'react-redux';
 
 // components
+import SearchBar from '../../components/SearchBar';
 import BackButton from '../../components/BackButton';
 import NoteListItem from './NoteListItem';
+import { e2p, a2p } from '../../util/func';
 
 // styles
 import { COLOR } from '../../styles/static';
@@ -15,34 +17,43 @@ import styles from './styles';
 const Note = ({ navigation, route }) => {
   const { day } = route.params;
   const [notes, setNotes] = useState([]);
-  const noteState = useSelector((state) => state.user.note);
+  const noteStore = useSelector((state) => state.user.note);
 
   useLayoutEffect(() => {
     navigation.setOptions({
-      title: 'یادداشت',
+      title: day
+        ? `یادداشت‌های ${jalaali(day).format('jDD jMMMM jYYYY')}`
+        : 'یادداشت‌ها',
       headerRight: () => <BackButton navigation={navigation} />,
       headerLeft: null,
     });
   });
 
   useEffect(() => {
-    const getNotes = () => {
-      //todo: should review get code
-      if (noteState) {
-        const temp = [];
-        const noteOfDay = Object.keys(noteState).filter(
-          (key) => noteState[key].day === day,
-          console.log('day'),
-        );
-        noteOfDay.map((item) => {
-          temp.push(noteState[item]);
-        });
-        setNotes(temp);
-        return notes;
+    if (noteStore) {
+      if (day) {
+        setNotes(Object.values(noteStore).filter((item) => item.day === day));
+      } else {
+        setNotes(Object.values(noteStore));
       }
-    };
-    getNotes();
-  }, [noteState, day]);
+    }
+  }, [day, noteStore]);
+
+  const _handleSearch = (text) => {
+    if (text) {
+      const result = notes.filter((i) => {
+        return (
+          i.title.includes(text) ||
+          i.title.includes(e2p(text)) ||
+          i.title.includes(a2p(text)) ||
+          i.note.includes(text) ||
+          i.note.includes(e2p(text)) ||
+          i.note.includes(a2p(text))
+        );
+      });
+      setNotes(result);
+    } else setNotes(Object.values(noteStore));
+  };
 
   const _renderItem = ({ item }) => {
     return <NoteListItem item={item} navigation={navigation} />;
@@ -50,18 +61,26 @@ const Note = ({ navigation, route }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      <SearchBar
+        undertxt="جستجو"
+        onChangeText={_handleSearch}
+        iconColor={COLOR.pink}
+      />
       <FlatList
-        data={notes.reverse()}
+        data={notes}
         renderItem={_renderItem}
         keyExtractor={(item, index) => index.toString()}
         ListEmptyComponent={() => {
           return (
             <Text style={styles.txt}>
-              یادداشتی برای {jalaali(day).format('jYYYY/jM/jD')} ثبت نشده است.
+              یادداشتی
+              {day ? ` برای ${jalaali(day).format('jYYYY/jM/jD')} ` : ' '}
+              ثبت نشده است.
             </Text>
           );
         }}
         showsVerticalScrollIndicator={false}
+        style={{ marginBottom: 50 }}
       />
       <FAB
         style={styles.fab}
@@ -69,7 +88,7 @@ const Note = ({ navigation, route }) => {
         color={COLOR.white}
         onPress={() =>
           navigation.navigate('NoteEdit', {
-            day: day,
+            day: day ?? jalaali(),
             note: null,
           })
         }

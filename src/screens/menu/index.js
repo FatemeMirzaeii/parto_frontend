@@ -33,8 +33,8 @@ const Menu = ({ navigation }) => {
     toggle: toggleRegistrationAlert,
   } = useModal();
 
-  const navigateTo = (screen) => {
-    navigation.navigate(screen);
+  const navigateTo = (screen, params) => {
+    navigation.navigate(screen, params);
   };
 
   const share = () => {
@@ -102,7 +102,7 @@ const Menu = ({ navigation }) => {
         />
         <MenuSquareItem
           title="یادداشت‌ها"
-          onPress={() => navigateTo('NoteList')}
+          onPress={() => navigateTo('Note', { day: null })}
           icon="note"
         />
       </View>
