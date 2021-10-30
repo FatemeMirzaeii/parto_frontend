@@ -14,27 +14,13 @@ import { COLOR, FONT } from '../../styles/static';
 
 const NoteListItem = ({ item, navigation }) => {
   const dispatch = useDispatch();
-  const noteState = useSelector((state) => state.user.note);
+  const noteStore = useSelector((state) => state.user.note);
 
   const _handleDelete = (i) => {
-    //todo: should review delete code
-    const keys = Object.keys(noteState).filter(
-      (key) => noteState[key].key !== i.key,
-    );
-    if (keys.length > 0)
-      keys.map((ele) => {
-        dispatch(
-          setNote({
-            [noteState[ele].key]: {
-              key: noteState[ele].key,
-              day: noteState[ele].day,
-              title: noteState[ele].title,
-              note: noteState[ele].note,
-            },
-          }),
-        );
-      });
-    else dispatch(setNote([]));
+    if (noteStore && Object.keys(noteStore).length > 1) {
+      let { [i.key]: omitted, ...res } = noteStore;
+      dispatch(setNote(res));
+    } else dispatch(setNote([]));
   };
   return (
     <Card>

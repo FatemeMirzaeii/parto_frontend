@@ -20,7 +20,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   const [notes, setNotes] = useState([]);
   const [activeIndex, setActiveIndex] = useState(0);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const noteState = useSelector((state) => state.user.note);
+  const noteStore = useSelector((state) => state.user.note);
 
   const getInitialData = useCallback(async () => {
     //todo: should review function
@@ -48,17 +48,12 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   }, [getInitialData, isFocused]);
 
   useEffect(() => {
-    const temp = [];
-    if (noteState) {
-      const noteOfDay = Object.keys(noteState).filter(
-        (key) => noteState[key].day === selectedDate,
+    if (noteStore) {
+      setNotes(
+        Object.values(noteStore).filter((item) => item.day === selectedDate),
       );
-      noteOfDay.map((item) => {
-        temp.push(noteState[item]);
-      });
-      setNotes(temp);
     }
-  }, [selectedDate, noteState]);
+  }, [selectedDate, noteStore]);
 
   // const _getNotes = () => {
   //   const temp = [];
@@ -200,7 +195,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
 
       <Text style={styles.btnSheetCategory}>یادداشت</Text>
       <Divider />
-      {notes.length > 0 ? (
+      {Object.keys(notes).length > 0 ? (
         <>
           <View style={styles.noteslist}>
             <Carousel
@@ -223,7 +218,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
               onPress={() => _handleOnPrevious(noteslistRef)}
             />
             <Text style={styles.indexTitle}>{`${activeIndex + 1}/${
-              notes.length
+              Object.keys(notes).length
             }`}</Text>
             <Icon
               raised

@@ -22,9 +22,9 @@ const NoteEdit = ({ navigation, route }) => {
   const { day, note } = route.params;
   const [text, setText] = useState('');
   const [title, setTitle] = useState('');
-  const [newDate, setNewDate] = useState('');
+  const [noteDate, setNoteDate] = useState('');
   const dispatch = useDispatch();
-  const noteState = useSelector((state) => state.user.note);
+  const noteStore = useSelector((state) => state.user.note);
   const { isVisible, toggle } = useModal();
 
   useLayoutEffect(() => {
@@ -49,67 +49,28 @@ const NoteEdit = ({ navigation, route }) => {
     if (note !== null) {
       setTitle(note.title);
       setText(note.note);
-    }
-  }, [note]);
+      setNoteDate(note.day);
+    } else setNoteDate(day);
+  }, [day, note]);
 
   const _save = () => {
-    //todo: should review function
-    note !== null
-      ? dispatch(
-          setNote({
-            ...noteState,
-            [note.key]: {
-              key: note.key,
-              day: day,
-              title: title,
-              note: text,
-            },
-          }),
-        )
-      : dispatch(
-          setNote({
-            ...noteState,
-            [jalaali().format()]: {
-              key: jalaali().format(),
-              day: day,
-              title: title,
-              note: text,
-            },
-          }),
-        );
-    // dispatch(setNote({}))
+    if (note) {
+      delete noteStore[note.key];
+    }
+    dispatch(
+      setNote({
+        ...noteStore,
+        [jalaali(noteDate).format()]: {
+          key: jalaali(noteDate).format(),
+          day: jalaali(noteDate).format('YYYY-MM-DD'),
+          title: title,
+          note: text,
+        },
+      }),
+    );
     navigation.goBack();
   };
 
-  const _editDateOfNote = () => {
-    //todo: should review function
-    note !== null
-      ? dispatch(
-          setNote({
-            ...noteState,
-            [note.key]: {
-              key: note.key,
-              day: newDate,
-              title: title,
-              note: text,
-            },
-          }),
-        )
-      : null;
-    // dispatch(
-    //     setNote({
-    //       ...noteState,
-    //       [jalaali().format()]: {
-    //         key: jalaali().format(),
-    //         day: day,
-    //         title: title,
-    //         note: text,
-    //       },
-    //     }),
-    //   );
-    toggle();
-    // navigation.goBack();
-  };
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <View style={{ flexDirection: 'row-reverse', justifyContent: 'center' }}>
@@ -127,7 +88,7 @@ const NoteEdit = ({ navigation, route }) => {
             width: 150,
           }}>
           <Text style={styles.dayText}>
-            {jalaali(day).format('jYYYY/jM/jD')}
+            {jalaali(noteDate).format('jYYYY/jM/jD')}
           </Text>
         </View>
         <Button
@@ -183,18 +144,16 @@ const NoteEdit = ({ navigation, route }) => {
         hide={toggle}
         icon={<Icon type="parto" name="calendar" color="#aaa" size={50} />}
         text="ویرایش تاریخ یادداشت"
-        twoButtons
-        firstBtnPress={_editDateOfNote}
-        secondBtnPress={toggle}>
+        firstBtnTitle="تایید"
+        firstBtnPress={toggle}>
         <PersianDatePicker
+          initialDate={jalaali(noteDate).format('jYYYY-jM-jD')}
           onDateSelected={(date) => {
             const j = jalaali(date, 'jYYYY/jM/jD');
-            // console.log('newDate', j.format('YYYY-MM-DD'));
-            setNewDate(j.format('YYYY-MM-DD'));
+            setNoteDate(j.format('YYYY-MM-DD'));
           }}
           startOfRange={1390}
           endOfRange={1400}
-          initialDate={jalaali(day).format('jYYYY-jM-jD')}
         />
       </DialogBox>
     </SafeAreaView>
