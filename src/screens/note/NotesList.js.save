@@ -22,7 +22,7 @@ const NotesList = ({ navigation }) => {
   const today = jalaali();
   const [notes, setNotes] = useState([]);
   const [searchInput, setSearchInput] = useState([]);
-  const noteState = useSelector((state) => state.user.note);
+  const noteStore = useSelector((state) => state.user.note);
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -39,8 +39,8 @@ const NotesList = ({ navigation }) => {
   });
 
   useEffect(() => {
-    if (noteState) setNotes(Object.values(noteState));
-  }, [noteState]);
+    if (noteStore) setNotes(Object.values(noteStore));
+  }, [noteStore]);
 
   // useEffect(() => {
   //   const result = notes.filter((i) => {
@@ -57,8 +57,6 @@ const NotesList = ({ navigation }) => {
   // }, [searchInput]);
 
   const _handleSearch = (text) => {
-    // setData(article);
-
     if (text) {
       const result = notes.filter((i) => {
         return (
@@ -72,7 +70,7 @@ const NotesList = ({ navigation }) => {
       });
       setNotes(result);
       console.log('result', result);
-    } else setNotes(Object.values(noteState));
+    } else setNotes(Object.values(noteStore));
   };
 
   const _renderItem = ({ item }) => {

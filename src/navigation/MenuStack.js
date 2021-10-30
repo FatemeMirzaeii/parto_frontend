@@ -19,7 +19,6 @@ import TreatiseHelp from '../screens/treatise/TreatiseHelp';
 import Assistant from '../screens/assistant';
 import PartnerVerificationCode from '../screens/partner-verification-code';
 import Note from '../screens/note';
-import NoteList from '../screens/note/NotesList';
 import { FONT } from '../styles/static';
 
 const MenuStack = createStackNavigator();
@@ -56,8 +55,6 @@ const MenuStackScreen = () => {
       <MenuStack.Screen name="TermsOfUse" component={TermsOfUse} />
       <MenuStack.Screen name="Assistant" component={Assistant} />
       <MenuStack.Screen name="Note" component={Note} />
-      <MenuStack.Screen name="NoteList" component={NoteList} />
-
       <MenuStack.Screen
         name="PartnerVerificationCode"
         component={PartnerVerificationCode}
