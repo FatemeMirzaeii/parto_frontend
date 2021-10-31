@@ -32,12 +32,16 @@ const Note = ({ navigation, route }) => {
   useEffect(() => {
     if (noteStore) {
       if (date) {
-        setNotes(Object.values(noteStore).filter((item) => item.date === date));
+        setNotes(
+          Object.values(noteStore).filter(
+            (item) => item.date === date && item.state === 1,
+          ),
+        );
       } else {
         setNotes(
-          Object.values(noteStore).sort(
-            (a, b) => jalaali(b.key) - jalaali(a.key),
-          ),
+          Object.values(noteStore)
+            .filter((i) => i.state === 1)
+            .sort((a, b) => jalaali(b.key) - jalaali(a.key)),
         );
       }
     }

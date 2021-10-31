@@ -17,6 +17,7 @@ import useModal from '../../util/hooks/useModal';
 // styles
 import { COLOR, FONT } from '../../styles/static';
 import styles from './styles';
+import { DATETIME_FORMAT } from '../../constants/cycle';
 
 const NoteEdit = ({ navigation, route }) => {
   const { date, note } = route.params;
@@ -65,6 +66,8 @@ const NoteEdit = ({ navigation, route }) => {
           date: jalaali(noteDate).format('YYYY-MM-DD'),
           title: title,
           content: content,
+          lastUpdateTime: jalaali().format(DATETIME_FORMAT),
+          state: 1, // active
         },
       }),
     );

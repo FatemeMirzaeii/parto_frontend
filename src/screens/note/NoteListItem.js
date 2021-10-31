@@ -11,16 +11,27 @@ import PickerListItem from '../../components/PickerListItem';
 import { setNote } from '../../store/actions/user';
 
 import { COLOR, FONT } from '../../styles/static';
+import { DATETIME_FORMAT } from '../../constants/cycle';
 
 const NoteListItem = ({ item, navigation }) => {
   const dispatch = useDispatch();
   const noteStore = useSelector((state) => state.user.note);
 
   const _handleDelete = (i) => {
-    if (noteStore && Object.keys(noteStore).length > 1) {
-      let { [i.key]: omitted, ...res } = noteStore;
-      dispatch(setNote(res));
-    } else dispatch(setNote([]));
+    // let { [i.key]: omitted, ...res } = noteStore; a good way to remove item from object immutable
+    dispatch(
+      setNote({
+        ...noteStore,
+        [i.key]: {
+          // key: i.key,
+          date: i.date,
+          title: i.title,
+          content: i.content,
+          lastUpdateTime: jalaali().format(DATETIME_FORMAT),
+          state: 2, //deleted
+        },
+      }),
+    );
   };
   return (
     <Card>

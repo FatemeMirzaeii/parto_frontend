@@ -16,12 +16,21 @@ import api from '../../services/api';
 
 export default async (isSigningout, userId) => {
   const { store } = configureStore();
+  const user = store.getState().user;
   const lastSyncTime = await getLastSyncTime();
   const profile = await findUnsyncedProfileData(lastSyncTime);
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
   const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
-  console.log('datas to send for server', profile, pregnancy, trackingOptions);
-  const user = store.getState().user;
+  const userNotes = user.note.filter((i) => i.lastUpdateTime > lastSyncTime);
+
+  console.log(
+    'datas to send for server',
+    profile,
+    pregnancy,
+    trackingOptions,
+    userNotes,
+  );
+
   const _userId = userId ?? user.id;
   let profileData;
   let pregnancyInfo;
@@ -80,20 +89,23 @@ export default async (isSigningout, userId) => {
       notes.data.data &&
       notes.data.data.length !== 0
     ) {
+      let n = {};
       notes.data.data.forEach((i) => {
         //todo: should test api
-        store.dispatch(
-          setNote({
-            ...notes,
-            [i.key]: {
-              key: i.key,
-              day: i.day,
-              title: i.title,
-              note: i.text,
-            },
-          }),
-        );
+        n = {
+          ...n,
+          [moment(i.noteDate).format()]: {
+            key: moment(i.noteDate).format(),
+            date: i.noteDate,
+            title: i.title,
+            content: i.content,
+            lastUpdateTime: i.updatedAt,
+            state: 1,
+          },
+        };
       });
+      console.log('nnnnn', n);
+      store.dispatch(setNote(n));
     }
   }
 
@@ -136,25 +148,26 @@ export default async (isSigningout, userId) => {
     });
   }
 
-  let sentNotes = [];
-  if (user.notes) {
-    //todo: should test api
-    sentNotes = await api({
-      method: 'POST',
-      url: `/notes/syncNote/${_userId}/fa`,
-      dev: true,
-      data: { data: user.note },
-    });
-  }
+  // let sentNotes = [];
+  // if (user.note) {
+  //   //todo: should test api
+  //   sentNotes = await api({
+  //     method: 'POST',
+  //     url: `/notes/syncNote/${_userId}/fa`,
+  //     // dev: true,`
+  //     data: { data: userNotes },
+  //   });
+  //   // if(sentNotes) remove extras
+  // }
 
   if (
     sentProfileData &&
     sentPregnancyInfo &&
     sentUserInfo &&
-    setVersionType &&
-    sentNotes
+    setVersionType
+    // sentNotes
   ) {
-    await updateLastSyncTime(moment().format(DATETIME_FORMAT));
+    // await updateLastSyncTime(moment().format(DATETIME_FORMAT));
     return true;
   } else return false;
 };
