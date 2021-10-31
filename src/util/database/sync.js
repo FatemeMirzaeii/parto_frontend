@@ -16,22 +16,18 @@ import api from '../../services/api';
 
 export default async (isSigningout, userId) => {
   const { store } = configureStore();
-  const user = store.getState().user;
   const lastSyncTime = await getLastSyncTime();
   const profile = await findUnsyncedProfileData(lastSyncTime);
   const pregnancy = await findUnsyncedPregnancyInfo(lastSyncTime);
   const trackingOptions = await findUnsyncedTrackingOptions(lastSyncTime);
-  const userNotes = user.note.filter((i) => i.lastUpdateTime > lastSyncTime);
 
-  console.log(
-    'datas to send for server',
-    profile,
-    pregnancy,
-    trackingOptions,
-    userNotes,
+  console.log('datas to send for server', profile, pregnancy, trackingOptions);
+  const user = store.getState().user;
+  const _userId = userId ?? user.id;
+  const userNotes = Object.values(user.note).filter(
+    (i) => moment(i.lastUpdateTime) > lastSyncTime,
   );
 
-  const _userId = userId ?? user.id;
   let profileData;
   let pregnancyInfo;
   let userInfo;
@@ -91,7 +87,6 @@ export default async (isSigningout, userId) => {
     ) {
       let n = {};
       notes.data.data.forEach((i) => {
-        //todo: should test api
         n = {
           ...n,
           [moment(i.noteDate).format()]: {
@@ -148,26 +143,25 @@ export default async (isSigningout, userId) => {
     });
   }
 
-  // let sentNotes = [];
-  // if (user.note) {
-  //   //todo: should test api
-  //   sentNotes = await api({
-  //     method: 'POST',
-  //     url: `/notes/syncNote/${_userId}/fa`,
-  //     // dev: true,`
-  //     data: { data: userNotes },
-  //   });
-  //   // if(sentNotes) remove extras
-  // }
+  let sentNotes = [];
+  if (user.note) {
+    sentNotes = await api({
+      method: 'POST',
+      url: `/notes/syncNote/${_userId}/fa`,
+      // dev: true,`
+      data: { data: userNotes },
+    });
+    // if(sentNotes) remove extras
+  }
 
   if (
     sentProfileData &&
     sentPregnancyInfo &&
     sentUserInfo &&
-    setVersionType
-    // sentNotes
+    setVersionType &&
+    sentNotes
   ) {
-    // await updateLastSyncTime(moment().format(DATETIME_FORMAT));
+    await updateLastSyncTime(moment().format(DATETIME_FORMAT));
     return true;
   } else return false;
 };

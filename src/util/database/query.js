@@ -218,7 +218,7 @@ export async function addSynedPregnancyData(pregnancySchema) {
       pregnancySchema.abortion
     }, ${pregnancySchema.children_number}, ${pregnancySchema.kick_count}, ${
       pregnancySchema.state
-    }, '${moment().format(DATETIME_FORMAT)}')`,
+    }, '${moment().format(DATETIME_FORMAT)}')`, //todo: should check for duplicates
     PREGNANCY,
   );
   return res ?? 0;
