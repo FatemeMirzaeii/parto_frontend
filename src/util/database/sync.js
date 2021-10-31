@@ -99,7 +99,6 @@ export default async (isSigningout, userId) => {
           },
         };
       });
-      console.log('nnnnn', n);
       store.dispatch(setNote(n));
     }
   }
