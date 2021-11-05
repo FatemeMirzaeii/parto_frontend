@@ -35,6 +35,7 @@ import MainBg from '../../../assets/images/main/calendarScreen.png';
 import PartnerBg from '../../../assets/images/partner/calendarScreen.png';
 import TeenagerBg from '../../../assets/images/teenager/calendarScreen.png';
 import styles from './styles';
+import { FORMAT } from '../../constants/cycle';
 
 const Calendar = ({ navigation }) => {
   const today = jalaali();
@@ -45,6 +46,7 @@ const Calendar = ({ navigation }) => {
   const [editMode, setEditMode] = useState(false);
   const [selectedDate, setSelectedDate] = useState(today.format('YYYY-MM-DD'));
   const [markedDatesBeforeEdit, setMarkedDatesBeforeEdit] = useState({});
+  const [editableDays, setEditableDays] = useState([]);
 
   const [appTourTargets, setAppTourTargets] = useState([]);
   const calendar = useRef();
@@ -61,10 +63,8 @@ const Calendar = ({ navigation }) => {
       setSelectedDate(day.dateString);
       bottomSheetRef.current.snapTo(1);
     }
-    // setCurrentIndex(0);
-    // setActiveIndex(0);
   };
-  const edit = (dateString) => {
+  const edit = async (dateString) => {
     if (dateString in cycle.periodDays) {
       const {
         [dateString]: {},
@@ -78,6 +78,11 @@ const Calendar = ({ navigation }) => {
           [dateString]: calendarMarkedDatesObject(COLOR.bleeding, false),
         }),
       );
+    }
+    if (dateString === today.format(FORMAT)) {
+      const c = await CycleModule();
+      const days = c.determineFutureEditableDays();
+      setEditableDays(days);
     }
   };
   const onEditPress = () => {
@@ -113,6 +118,7 @@ const Calendar = ({ navigation }) => {
   const onCancelEditing = () => {
     dispatch(updatePeriodDays(markedDatesBeforeEdit));
     dispatch(updatePerdictions());
+    setEditableDays([]);
     setEditMode(false);
   };
   const _renderContent = () => (
@@ -186,7 +192,8 @@ const Calendar = ({ navigation }) => {
               ? ({ date, state, marking, onPress, onLongPress }) => {
                   const dateString = date.dateString;
                   return jalaali(dateString).isAfter(today) &&
-                    !(dateString in markedDatesBeforeEdit) ? (
+                    !(dateString in markedDatesBeforeEdit) &&
+                    editableDays.indexOf(dateString) === -1 ? (
                     <Ptxt>
                       {dateString === '2021-03-22'
                         ? '2'
