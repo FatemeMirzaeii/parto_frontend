@@ -19,6 +19,7 @@ const SearchBar = (props) => {
         placeholder={props.undertxt}
         underlineColorAndroid="transparent"
         onChangeText={props.onChangeText}
+        onKeyPress={({ nativeEvent }) => props.onKeyPress(nativeEvent)}
       />
     </View>
   );
