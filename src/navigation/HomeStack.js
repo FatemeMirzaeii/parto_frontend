@@ -78,7 +78,11 @@ const HomeStackScreen = () => {
         component={Assistant}
         options={{ headerShown: true }}
       />
-      <HomeStack.Screen name="ContactUs" component={ContactUs} />
+      <HomeStack.Screen
+        name="ContactUs"
+        component={ContactUs}
+        options={{ headerShown: true }}
+      />
     </HomeStack.Navigator>
   );
 };
