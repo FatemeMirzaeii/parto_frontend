@@ -41,7 +41,7 @@ const Note = ({ navigation, route }) => {
         setNotes(
           Object.values(noteStore)
             .filter((i) => i.state === 1)
-            .sort((a, b) => jalaali(b.key) - jalaali(a.key)),
+            .sort((a, b) => jalaali(b.date) - jalaali(a.date)),
         );
       }
     }
@@ -54,9 +54,9 @@ const Note = ({ navigation, route }) => {
           i.title.includes(text) ||
           i.title.includes(e2p(text)) ||
           i.title.includes(a2p(text)) ||
-          i.note.includes(text) ||
-          i.note.includes(e2p(text)) ||
-          i.note.includes(a2p(text))
+          i.content.includes(text) ||
+          i.content.includes(e2p(text)) ||
+          i.content.includes(a2p(text))
         );
       });
       setNotes(result);
@@ -72,6 +72,11 @@ const Note = ({ navigation, route }) => {
       <SearchBar
         undertxt="جستجو"
         onChangeText={_handleSearch}
+        onKeyPress={(nativeEvent) => {
+          if (nativeEvent.key === 'Backspace') {
+            setNotes(Object.values(noteStore));
+          }
+        }}
         iconColor={COLOR.pink}
       />
       <FlatList
@@ -96,7 +101,7 @@ const Note = ({ navigation, route }) => {
         color={COLOR.white}
         onPress={() =>
           navigation.navigate('NoteEdit', {
-            date: date ?? jalaali(),
+            date: date ?? jalaali().format('YYYY-MM-DD'),
             note: null,
           })
         }
