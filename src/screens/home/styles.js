@@ -16,7 +16,7 @@ export default StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     top: 30,
-    height: 45,
+    height: 50,
     // backgroundColor: 'blue',
   },
   emptyArea: {
