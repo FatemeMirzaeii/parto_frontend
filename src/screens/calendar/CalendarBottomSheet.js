@@ -2,7 +2,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { View, Text, ToastAndroid } from 'react-native';
 import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { useIsFocused } from '@react-navigation/native';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Icon, Divider } from 'react-native-elements';
 import jalaali from 'moment-jalaali';
 import { SvgCss } from 'react-native-svg';

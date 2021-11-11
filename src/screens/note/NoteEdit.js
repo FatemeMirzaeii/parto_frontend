@@ -15,7 +15,7 @@ import BackButton from '../../components/BackButton';
 import useModal from '../../util/hooks/useModal';
 
 // styles
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import styles from './styles';
 import { DATETIME_FORMAT } from '../../constants/cycle';
 
@@ -73,21 +73,9 @@ const NoteEdit = ({ navigation, route }) => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1 }}>
-      <View style={{ flexDirection: 'row-reverse', justifyContent: 'center' }}>
-        <View
-          style={{
-            borderRadius: 100,
-            height: 40,
-            backgroundColor: 'rgba(246, 246, 246, 0.8)',
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingHorizontal: 10,
-            elevation: 2,
-            alignSelf: 'center',
-            width: 150,
-          }}>
+    <SafeAreaView style={styles.container}>
+      <View style={styles.centeredRow}>
+        <View style={styles.dateCont}>
           <Text style={styles.dayText}>
             {jalaali(noteDate).format('jYYYY/jM/jD')}
           </Text>
@@ -102,13 +90,7 @@ const NoteEdit = ({ navigation, route }) => {
         />
       </View>
       <Card hasHeader headerTitle="">
-        <View
-          style={{
-            flexDirection: 'row',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            paddingHorizontal: 10,
-          }}>
+        <View style={styles.titleCont}>
           <TextInput
             placeholder="عنوان"
             selectionColor={COLOR.pink}
@@ -116,25 +98,13 @@ const NoteEdit = ({ navigation, route }) => {
             value={title}
             onChangeText={setTitle}
           />
-          <Icon
-            containerStyle={{ marginLeft: 10 }}
-            type="entypo"
-            name="new-message"
-            color={COLOR.icon}
-          />
+          <Icon type="entypo" name="new-message" color={COLOR.icon} />
         </View>
         <TextInput
           multiline
           placeholder="متن یادداشت"
           selectionColor={COLOR.pink}
-          style={{
-            minHeight: 200,
-            fontFamily: FONT.regular,
-            borderTopWidth: 0.9,
-            borderTopColor: COLOR.icon,
-            fontSize: 14,
-            paddingHorizontal: 10,
-          }}
+          style={styles.contentCont}
           value={content}
           onChangeText={setContent}
         />

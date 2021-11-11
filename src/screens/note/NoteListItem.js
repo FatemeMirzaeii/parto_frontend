@@ -10,8 +10,9 @@ import Card from '../../components/Card';
 import PickerListItem from '../../components/PickerListItem';
 import { setNote } from '../../store/actions/user';
 
-import { COLOR, FONT } from '../../styles/static';
+import { COLOR } from '../../styles/static';
 import { DATETIME_FORMAT } from '../../constants/cycle';
+import styles from './styles';
 
 const NoteListItem = ({ item, navigation }) => {
   const dispatch = useDispatch();
@@ -45,24 +46,11 @@ const NoteListItem = ({ item, navigation }) => {
               multiline
               editable={false}
               selectionColor={COLOR.pink}
-              style={{
-                // backgroundColor: '#F3F4F9',
-                fontFamily: FONT.regular,
-                fontSize: 14,
-                color: 'black',
-              }}
+              style={styles.content}
               value={item.content}
-              // onChangeText={setMessage}
             />
-            <View
-              style={{
-                flexDirection: 'row-reverse',
-                justifyContent: 'space-between',
-                padding: 10,
-                //backgroundColor: 'red',
-              }}>
+            <View style={styles.row}>
               <Icon
-                containerStyle={{ marginLeft: 10 }}
                 type="parto"
                 name="trash"
                 color={COLOR.icon}
