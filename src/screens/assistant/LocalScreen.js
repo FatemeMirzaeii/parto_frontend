@@ -20,9 +20,9 @@ const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
           {'\n'}
           {'\n'}ـ هر سوال می‌تونه شامل چندین پرسش و پاسخ از طرف شما و کارشناس
           پرتو باشه. زمانی‌که کارشناس تشخیص داد، سوال شما به پایان می رسه و
-          گفتگوی شما بسته می‌شه.
+          مشاوره بسته می‌شه.
           {'\n'}ـ برای پرسیدن سوال جدید لازمه که کیف پولت رو شارژ کرده باشی و
-          بعد از پرداخت طریق همین صفحه شروع گفتگو رو بزنی.
+          بعد از پرداخت طریق همین صفحه شروع مشاوره رو بزنی.
           {'\n'}ـ از همین جا می‌تونی پرسش و پاسخ‌های قبلی رو بدون پرداخت هزینه،
           ببینی.
         </Text>
@@ -31,7 +31,7 @@ const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
           loading={!goftinoReady}
           buttonStyle={styles.button}
           titleStyle={styles.text}
-          title="شروع گفتگو"
+          title="شروع مشاوره"
           onPress={onPress}
         />
       </Card>
