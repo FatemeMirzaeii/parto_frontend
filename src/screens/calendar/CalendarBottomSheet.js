@@ -50,7 +50,9 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   useEffect(() => {
     if (noteStore) {
       setNotes(
-        Object.values(noteStore).filter((item) => item.date === selectedDate),
+        Object.values(noteStore).filter(
+          (item) => item.date === selectedDate && item.state === 1,
+        ),
       );
     }
   }, [selectedDate, noteStore]);

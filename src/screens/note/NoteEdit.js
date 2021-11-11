@@ -55,14 +55,12 @@ const NoteEdit = ({ navigation, route }) => {
   }, [date, note]);
 
   const _save = () => {
-    if (note) {
-      delete noteStore[note.key];
-    }
     dispatch(
       setNote({
         ...noteStore,
-        [jalaali(noteDate).format()]: {
-          key: jalaali(noteDate).format(),
+        [note ? note.key : noteDate + 'T' + jalaali().format('HH:mm:ss')]: {
+          id: note ? note.id : null,
+          key: note ? note.key : noteDate + 'T' + jalaali().format('HH:mm:ss'),
           date: jalaali(noteDate).format('YYYY-MM-DD'),
           title: title,
           content: content,

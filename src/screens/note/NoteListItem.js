@@ -23,6 +23,8 @@ const NoteListItem = ({ item, navigation }) => {
       setNote({
         ...noteStore,
         [i.key]: {
+          id: i.id,
+          key: i.key,
           date: i.date,
           title: i.title,
           content: i.content,
