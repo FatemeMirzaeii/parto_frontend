@@ -14,7 +14,7 @@ import configureStore from '../../store';
 import { setNote } from '../../store/actions/user';
 import api from '../../services/api';
 
-export default async (isSigningout, userId) => {
+export default async (isSigningout, userId, noteCallback) => {
   const { store, persistor } = configureStore();
   const lastSyncTime = await getLastSyncTime();
   const profile = await findUnsyncedProfileData(lastSyncTime);
@@ -89,6 +89,7 @@ export default async (isSigningout, userId) => {
       let n = {};
       notes.data.data.forEach((i) => {
         n = {
+          ...user.note,
           ...n,
           [i.id]: {
             id: i.id,
@@ -101,7 +102,7 @@ export default async (isSigningout, userId) => {
           },
         };
       });
-      store.dispatch(setNote(n));
+      noteCallback(n);
     }
   }
 
