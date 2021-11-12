@@ -2,7 +2,8 @@ import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import TabNavigator from './TabNavigator';
 import Calendar from '../screens/calendar';
-import TrackingOptions from '../screens/tracking-options';
+import TrackingOptions from '../screens/tracking-options/index';
+import PartnerTrackingOptions from '../screens/tracking-options/partner-health-tracking';
 import PregnancyProfile from '../screens/pregnancy-profile';
 import PregnancyEnd from '../screens/pregnancy-profile/pregnancy-end';
 import PregnancyEndCalendar from '../screens/pregnancy-profile/pregnancy-end-cal';
@@ -42,6 +43,10 @@ const HomeStackScreen = () => {
       <HomeStack.Screen name="Tabs" component={TabNavigator} />
       <HomeStack.Screen name="Calendar" component={Calendar} />
       <HomeStack.Screen name="TrackingOptions" component={TrackingOptions} />
+      <HomeStack.Screen
+        name="PartnerTrackingOptions"
+        component={PartnerTrackingOptions}
+      />
       <HomeStack.Screen
         name="PregnancyProfile"
         component={PregnancyProfile}
