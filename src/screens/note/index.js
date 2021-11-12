@@ -17,6 +17,7 @@ import styles from './styles';
 const Note = ({ navigation, route }) => {
   const { date } = route.params;
   const [notes, setNotes] = useState([]);
+  const [notesBeforSearch, setNotesBeforSearch] = useState([]);
   const noteStore = useSelector((state) => state.user.note);
 
   useLayoutEffect(() => {
@@ -49,6 +50,7 @@ const Note = ({ navigation, route }) => {
 
   const _handleSearch = (text) => {
     if (text) {
+      setNotesBeforSearch(notes);
       const result = notes.filter((i) => {
         return (
           i.title.includes(text) ||
@@ -60,7 +62,7 @@ const Note = ({ navigation, route }) => {
         );
       });
       setNotes(result);
-    } else setNotes(Object.values(noteStore));
+    } else setNotes(Object.values(notesBeforSearch));
   };
 
   const _renderItem = ({ item }) => {
@@ -74,7 +76,7 @@ const Note = ({ navigation, route }) => {
         onChangeText={_handleSearch}
         onKeyPress={(nativeEvent) => {
           if (nativeEvent.key === 'Backspace') {
-            setNotes(Object.values(noteStore));
+            setNotes(Object.values(notesBeforSearch));
           }
         }}
         iconColor={COLOR.pink}
