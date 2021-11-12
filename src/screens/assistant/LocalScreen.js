@@ -8,7 +8,7 @@ import Card from '../../components/Card';
 //styles
 import styles from './styles';
 import globalStyles from '../../styles/';
-import Assistant from '../../../assets/images/assistant.jpg';
+import Assistant from '../../../assets/images/assistant/assistant.jpg';
 
 const LocalScreen = ({ onPress, goftinoOpen, goftinoReady }) => {
   return (
