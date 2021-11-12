@@ -48,13 +48,11 @@ const PlusButton = (props) => {
             : null
         }
         onPress={async () => {
-          template === 'Main'
-            ? props.navigation.navigate('TrackingOptions', { day: props.date })
-            : template === 'Partner'
+          template === 'Partner'
             ? props.navigation.navigate('PartnerTrackingOptions', {
                 day: props.date,
               })
-            : null;
+            : props.navigation.navigate('TrackingOptions', { day: props.date });
           await analytics().logEvent('app_tracking_option_button_press', {
             template: template,
           });
