@@ -102,7 +102,8 @@ export default async (isSigningout, userId, noteCallback) => {
           },
         };
       });
-      noteCallback(n);
+
+      noteCallback ? noteCallback(n) : store.dispatch(setNote(n));
     }
   }
 

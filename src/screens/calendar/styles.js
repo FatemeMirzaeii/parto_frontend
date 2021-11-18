@@ -121,11 +121,11 @@ export default StyleSheet.create({
   trackedlist: {
     marginTop: 5,
     height: 110,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   SvgContainer: {
-    backgroundColor: 'white',
     height: 80,
-    borderRadius: 50,
   },
   indexBox: {
     flexDirection: 'row',

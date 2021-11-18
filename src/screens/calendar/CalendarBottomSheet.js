@@ -18,8 +18,9 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   const trackedlistRef = useRef(null);
   const [trackedOptions, setTrackedOptions] = useState([]);
   const [notes, setNotes] = useState([]);
-  const [activeIndex, setActiveIndex] = useState(0);
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [notesActiveIndex, setNotesActiveIndex] = useState(0);
+  const [trackingOptionsActiveIndex, setTrackingOptionsActiveIndex] =
+    useState(0);
   const noteStore = useSelector((state) => state.user.note);
 
   const getInitialData = useCallback(async () => {
@@ -48,6 +49,8 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   }, [getInitialData, isFocused]);
 
   useEffect(() => {
+    setNotesActiveIndex(0);
+    setTrackingOptionsActiveIndex(0);
     if (noteStore) {
       setNotes(
         Object.values(noteStore).filter(
@@ -58,11 +61,11 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
   }, [selectedDate, noteStore]);
 
   const _handleOnNext = (ref) => {
-    ref.current.snapToNext();
+    ref.current.snapToNext(true);
   };
 
   const _handleOnPrevious = (ref) => {
-    ref.current.snapToPrev();
+    ref.current.snapToPrev(true);
   };
 
   const _notesRenderItem = ({ item }) => {
@@ -133,13 +136,10 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
             <Carousel
               ref={trackedlistRef}
               inverted
-              autoplay
-              // loop
-              inactiveSlideScale={1}
-              inactiveSlideOpacity={1}
+              inactiveSlideScale={0.7}
+              inactiveSlideOpacity={0.7}
               data={trackedOptions}
-              setCurrentIndex
-              onSnapToItem={(index) => setCurrentIndex(index)}
+              onSnapToItem={(index) => setTrackingOptionsActiveIndex(index)}
               renderItem={({ item, index }) => (
                 <View style={styles.SvgContainer}>
                   <SvgCss
@@ -161,11 +161,11 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
                 name="left"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnPrevious(trackedlistRef)}
+                onPress={() => _handleOnNext(trackedlistRef)}
               />
               <Text style={styles.indexTitle}>
-                {trackedOptions[currentIndex].catName}:{' '}
-                {trackedOptions[currentIndex].title}
+                {trackedOptions[trackingOptionsActiveIndex].catName}:{' '}
+                {trackedOptions[trackingOptionsActiveIndex].title}
               </Text>
               <Icon
                 raised
@@ -173,7 +173,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
                 name="right"
                 type="parto"
                 color={COLOR.icon}
-                onPress={() => _handleOnNext(trackedlistRef)}
+                onPress={() => _handleOnPrevious(trackedlistRef)}
               />
             </View>
           </View>
@@ -194,7 +194,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
               renderItem={_notesRenderItem}
               sliderWidth={WIDTH}
               itemWidth={WIDTH}
-              onSnapToItem={(index) => setActiveIndex(index)}
+              onSnapToItem={(index) => setNotesActiveIndex(index)}
             />
           </View>
           <View style={styles.index}>
@@ -206,7 +206,7 @@ const CalendarBottomSheet = ({ navigation, selectedDate }) => {
               color={COLOR.icon}
               onPress={() => _handleOnPrevious(noteslistRef)}
             />
-            <Text style={styles.indexTitle}>{`${activeIndex + 1}/${
+            <Text style={styles.indexTitle}>{`${notesActiveIndex + 1}/${
               Object.keys(notes).length
             }`}</Text>
             <Icon

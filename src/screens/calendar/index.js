@@ -312,6 +312,7 @@ const Calendar = ({ navigation }) => {
         borderRadius={50}
         renderContent={_renderContent}
         initialSnap={2}
+        enabledBottomInitialAnimation
       />
       <CalendarGuide isVisible={guideIsVisible} toggle={toggleGuide} />
     </ImageBackground>
