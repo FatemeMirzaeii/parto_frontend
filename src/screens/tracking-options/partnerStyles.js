@@ -18,12 +18,12 @@ export default StyleSheet.create({
     borderTopRightRadius: 50,
     paddingTop: 30,
   },
-
   parterOptions: {
     width: WIDTH / 1.21,
     height: HEIGHT / 7,
     margin: 12,
-    elevation: 2,
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
     borderRadius: 14,
     alignSelf: 'center',
   },
@@ -57,7 +57,8 @@ export default StyleSheet.create({
     height: HEIGHT / 5,
     margin: 12,
     alignSelf: 'center',
-    elevation: 2,
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
     borderRadius: 14,
   },
   titleMultipleChoice2: {
@@ -91,7 +92,8 @@ export default StyleSheet.create({
     height: HEIGHT / 4.1,
     margin: 12,
     alignSelf: 'center',
-    elevation: 2,
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
     borderRadius: 14,
   },
   titleMultipleChoice3: {
@@ -117,7 +119,7 @@ export default StyleSheet.create({
     margin: -10,
   },
   icon3: {
-    marginTop: 70,
+    marginTop: 75,
   },
 
   parterOptionsMultipleChoice4: {
@@ -125,7 +127,8 @@ export default StyleSheet.create({
     height: HEIGHT / 3.6,
     margin: 12,
     alignSelf: 'center',
-    elevation: 2,
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
     borderRadius: 14,
   },
   titleMultipleChoice4: {
@@ -150,7 +153,7 @@ export default StyleSheet.create({
     bottom: 193,
   },
   icon4: {
-    marginTop: 80,
+    marginTop: 86,
   },
   img: {
     width: '98%',
