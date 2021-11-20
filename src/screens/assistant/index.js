@@ -2,6 +2,7 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { ImageBackground, SafeAreaView } from 'react-native';
 import { Icon, ListItem } from 'react-native-elements';
 import { useSelector, useDispatch } from 'react-redux';
+import analytics from '@react-native-firebase/analytics';
 
 //components
 import Card from '../../components/Card';
@@ -116,6 +117,12 @@ const Assistant = ({ navigation }) => {
               key={category.id}
               title={category.title}
               onPress={() => {
+                analytics().logEvent(
+                  `app_${category.enName}_assistance_press`,
+                  {
+                    userId: userId,
+                  },
+                );
                 navigation.navigate('Chat', {
                   id: category.id,
                   enName: category.enName,

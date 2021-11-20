@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { WebView } from 'react-native-webview';
 import { useSelector, useDispatch } from 'react-redux';
+import analytics from '@react-native-firebase/analytics';
 
 // components and utils
 import LocalScreen from './LocalScreen';
@@ -309,6 +310,9 @@ const Chat = ({ navigation, route }) => {
           goftinoReady={goftinoReady}
           onPress={() => {
             ref.current.injectJavaScript('Goftino.toggle();');
+            analytics().logEvent('app_start_conversation_press', {
+              userId: userId,
+            });
           }}
         />
       )}
@@ -359,6 +363,9 @@ const Chat = ({ navigation, route }) => {
           titleStyle={styles.text}
           title="برای پرسیدن سوال جدید اینجا کلیک کنید."
           onPress={() => {
+            analytics().logEvent('app_start_new_conversation', {
+              userId: userId,
+            });
             ref.current.injectJavaScript('Goftino.toggle();');
             if (hasEnaughCredit) toggleWalletPayment();
             else toggleInsufficientCredit();

@@ -1,10 +1,11 @@
 import * as React from 'react';
-import { View, StyleSheet } from 'react-native';
+import { View, StyleSheet, ToastAndroid } from 'react-native';
 import { useSelector } from 'react-redux';
 import { AppTourView } from 'react-native-app-tour';
 import { COLOR, FONT } from '../styles/static';
 import { SvgXml } from 'react-native-svg';
 import analytics from '@react-native-firebase/analytics';
+import jalaali from 'moment-jalaali';
 
 //constants
 import {
@@ -13,8 +14,29 @@ import {
   TeenagerTrackingButton,
 } from '../constants/health-tracking-svg';
 //todo: not working why?
+
 const PlusButton = (props) => {
   const template = useSelector((state) => state.user.template);
+  const today = jalaali();
+
+  const onPress = async () => {
+    if (jalaali(props.date).isBefore(today)) {
+      template === 'Partner'
+        ? props.navigation.navigate('PartnerTrackingOptions', {
+            day: props.date,
+          })
+        : props.navigation.navigate('TrackingOptions', { day: props.date });
+      await analytics().logEvent('app_tracking_option_button_press', {
+        template: template,
+      });
+    } else {
+      ToastAndroid.show(
+        'امکان ثبت شرح حال برای روزهای آتی وجود ندارد.',
+        ToastAndroid.LONG,
+      );
+    }
+  };
+
   return (
     <View
       {...props}
@@ -47,16 +69,7 @@ const PlusButton = (props) => {
             ? TeenagerTrackingButton
             : null
         }
-        onPress={async () => {
-          template === 'Partner'
-            ? props.navigation.navigate('PartnerTrackingOptions', {
-                day: props.date,
-              })
-            : props.navigation.navigate('TrackingOptions', { day: props.date });
-          await analytics().logEvent('app_tracking_option_button_press', {
-            template: template,
-          });
-        }}
+        onPress={onPress}
         style={styles.plusButton}
       />
       {/* <Text>ثبت پریود</Text> */}

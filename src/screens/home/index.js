@@ -289,7 +289,13 @@ const Home = ({ navigation }) => {
                   </Text>
                 </TouchableWithoutFeedback>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Assistant')}
+                  onPress={() => {
+                    navigation.navigate('Assistant');
+                    analytics().logEvent('app_assistant_press', {
+                      template,
+                      userId,
+                    });
+                  }}
                   containerStyle={styles.assistantContainer}
                   style={styles.assistant}>
                   <Image
@@ -307,7 +313,13 @@ const Home = ({ navigation }) => {
             <View style={styles.mainSentenceContainer}>
               <Text style={styles.teenagerText}>{mainSentence}</Text>
               <TouchableOpacity
-                onPress={() => navigation.navigate('Assistant')}
+                onPress={() => {
+                  navigation.navigate('Assistant');
+                  analytics().logEvent('app_assistant_press', {
+                    template,
+                    userId,
+                  });
+                }}
                 containerStyle={styles.assistantContainer}
                 style={styles.assistant}>
                 <Image
@@ -332,7 +344,13 @@ const Home = ({ navigation }) => {
                   {mainSentence}
                 </Text>
                 <TouchableOpacity
-                  onPress={() => navigation.navigate('Assistant')}
+                  onPress={() => {
+                    navigation.navigate('Assistant');
+                    analytics().logEvent('app_assistant_press', {
+                      template,
+                      userId,
+                    });
+                  }}
                   containerStyle={styles.assistantContainer}
                   style={styles.assistant}>
                   <Image
