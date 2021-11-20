@@ -43,10 +43,11 @@ export default StyleSheet.create({
     bottom: 5,
   },
   svg: {
-    width: '100%',
-    height: '100%',
+    width: '80%',
+    height: '80%',
     position: 'absolute',
-    marginLeft: '50%',
+    marginLeft: '60%',
+    marginTop: '5%',
   },
   icon: {
     marginTop: 32,
@@ -77,11 +78,12 @@ export default StyleSheet.create({
     marginBottom: 20,
   },
   svg2: {
-    width: '60%',
-    height: '60%',
+    width: '50%',
+    height: '50%',
     marginHorizontal: 195,
-    bottom: 130,
-    margin: -10,
+    bottom: 132,
+    margin: -5,
+    marginLeft: 215,
   },
   icon2: {
     marginTop: 50,
@@ -112,10 +114,10 @@ export default StyleSheet.create({
     marginBottom: 15,
   },
   svg3: {
-    width: 80,
-    height: 80,
+    width: 73,
+    height: 73,
     marginHorizontal: 258,
-    bottom: 172,
+    bottom: 165,
     margin: -10,
   },
   icon3: {
