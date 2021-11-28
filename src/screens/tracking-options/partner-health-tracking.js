@@ -150,7 +150,7 @@ const PartnerTrackingOptions = ({ route }) => {
               ? styles.titleMultipleChoice4
               : null
           }>
-          {item.categoryTitle}
+          {item.categoryTitle}:
         </Text>
 
         {item.selected.map((Item) => {
