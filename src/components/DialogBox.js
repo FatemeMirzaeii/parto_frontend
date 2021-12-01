@@ -21,17 +21,20 @@ const DialogBox = ({
   secondBtnTitle,
   secondBtnPress,
   secondBtnColor,
+  onBackdropPress,
+  onRequestClose,
 }) => {
   return (
     <Modal
-      animationType="fade"
+      animationType="slide"
+      statusBarTranslucent
       isVisible={isVisible}
-      onRequestClose={hide}
-      onBackdropPress={hide}>
+      onRequestClose={onRequestClose ? onRequestClose : hide}
+      onBackdropPress={onBackdropPress ?? hide}>
       <View style={styles.modal}>
         {icon}
         <Text style={styles.modalTxt}>{text}</Text>
-        {children}
+        <View style={styles.children}>{children}</View>
         {twoButtons ? (
           <View style={styles.modalBtnWrapper}>
             <Button
@@ -61,6 +64,7 @@ const DialogBox = ({
               titleStyle={styles.btnTitle}
               type="solid"
               onPress={firstBtnPress}
+              loading={isLoading}
             />
           </View>
         )}
@@ -81,6 +85,8 @@ DialogBox.propTypes = {
   secondBtnTitle: PropTypes.string,
   secondBtnPress: PropTypes.func,
   secondBtnColor: PropTypes.string,
+  onBackdropPress: PropTypes.func,
+  onRequestClose: PropTypes.func,
 };
 DialogBox.defaultProps = {
   children: <View />,
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
   },
   darkBtnTitle: {
     fontFamily: FONT.medium,
-    fontSize: 15,
+    fontSize: 13,
     color: COLOR.textColor,
   },
   btnSubtitle: {
@@ -148,6 +154,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: COLOR.textColor,
   },
+  children: { padding: 10 },
 });
 
 export default DialogBox;

@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native';
-import { FONT, SIZE, WIDTH, COLOR } from '../../styles/static';
+import { FONT, WIDTH, COLOR } from '../../styles/static';
 
 export default StyleSheet.create({
   safeAreaView: { flex: 1, paddingBottom: 53 },
@@ -31,7 +31,7 @@ export default StyleSheet.create({
   btnTitle: {
     color: COLOR.white,
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
+    fontSize: 14,
   },
   nextButton: {
     backgroundColor: COLOR.pink,
@@ -75,7 +75,7 @@ export default StyleSheet.create({
   saveTitle: {
     color: COLOR.pink,
     fontFamily: FONT.bold,
-    fontSize: SIZE[18],
+    fontSize: 18,
   },
   text: {
     fontFamily: FONT.regular,

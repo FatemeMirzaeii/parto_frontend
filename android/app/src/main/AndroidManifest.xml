@@ -1,14 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
   package="ir.parto.parto">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <!-- <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/> -->
 
-    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
-    <uses-permission android:name="android.permission.USE_FINGERPRINT" />
-    <!-- <uses-permission android:name="com.farsitel.bazaar.permission.PAY_THROUGH_BAZAAR"></uses-permission> -->
+    <uses-permission android:name="android.permission.USE_FINGERPRINT"/>
     <application
       android:name=".MainApplication"
       android:label="@string/app_name"
@@ -20,23 +19,30 @@
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
+        android:resizeableActivity="false"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
         android:launchMode="singleTask"
         android:screenOrientation="portrait"
-        android:windowSoftInputMode="adjustPan" >
+        android:windowSoftInputMode="adjustPan">
         <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
+            <action android:name="android.intent.action.MAIN"/>
+            <category android:name="android.intent.category.LAUNCHER"/>
+        </intent-filter>
+        <intent-filter>
+            <action android:name="android.intent.action.VIEW"/>
+            <category android:name="android.intent.category.DEFAULT"/>
+            <category android:name="android.intent.category.BROWSABLE"/>
+            <data android:scheme="parto"/>
         </intent-filter>
       </activity>
-      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+      <activity android:name="com.facebook.react.devsupport.DevSettingsActivity"/>
       
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions" />
-      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher" />
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationActions"/>
+      <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationPublisher"/>
       <receiver android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationBootEventReceiver">
           <intent-filter>
-              <action android:name="android.intent.action.BOOT_COMPLETED" />
-              <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+              <action android:name="android.intent.action.BOOT_COMPLETED"/>
+              <action android:name="android.intent.action.QUICKBOOT_POWERON"/>
               <action android:name="com.htc.intent.action.QUICKBOOT_POWERON"/>
           </intent-filter>
       </receiver>
@@ -44,9 +50,9 @@
       <!-- <service android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationRegistrationService"/> -->
       <service
           android:name="com.dieam.reactnativepushnotification.modules.RNPushNotificationListenerService"
-          android:exported="false" >
+          android:exported="false">
           <intent-filter>
-              <action android:name="com.google.firebase.MESSAGING_EVENT" />
+              <action android:name="com.google.firebase.MESSAGING_EVENT"/>
           </intent-filter>
       </service>
      <meta-data

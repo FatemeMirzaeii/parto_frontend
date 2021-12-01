@@ -1,5 +1,12 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Icon } from 'react-native-elements';
+
+//services
+import { blogUrl } from '../services/urls';
+
+//util
+import { shareContent } from '../util/func';
 
 //styles
 import { FONT } from '../styles/static';
@@ -9,6 +16,12 @@ const ArticleCard = (props) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <TouchableOpacity onPress={props.onPress} style={styles.button}>
+          <Icon
+            name="sharealt"
+            size={20}
+            type="antdesign"
+            onPress={() => shareContent(`${blogUrl}${props.link}`)}
+          />
           <View style={styles.cardTitleWrapper}>
             <Text style={styles.cardTitle}>{props.name}</Text>
           </View>

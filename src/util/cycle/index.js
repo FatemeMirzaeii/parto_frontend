@@ -391,6 +391,15 @@ export default async function CycleModule() {
     }
     return allDays;
   }
+
+  function determineFutureEditableDays() {
+    let days = [];
+    for (let i = 0; i < avgPeriodLength; i++) {
+      days.push(moment(today).add(i, 'days').format(FORMAT));
+    }
+    return days;
+  }
+
   return {
     cycleDayNumber,
     nextPeriodDate,
@@ -405,5 +414,6 @@ export default async function CycleModule() {
     determineCyclesStartDate,
     determineCyclesDetail,
     determineEachCycleDayType,
+    determineFutureEditableDays,
   };
 }

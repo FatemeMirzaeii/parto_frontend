@@ -28,7 +28,7 @@ const ArticlesList = ({ route, navigation }) => {
   const [visible, setVisible] = useState(false);
   const [page, setPage] = useState(0);
   const [snackVisible, setSnackVisible] = useState(false);
-  const perPage = 25;
+  const perPage = 42;
 
   useEffect(() => {
     let isCancelled = false;

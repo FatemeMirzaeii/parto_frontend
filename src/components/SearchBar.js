@@ -19,6 +19,7 @@ const SearchBar = (props) => {
         placeholder={props.undertxt}
         underlineColorAndroid="transparent"
         onChangeText={props.onChangeText}
+        onKeyPress={({ nativeEvent }) => props.onKeyPress(nativeEvent)}
       />
     </View>
   );
@@ -38,8 +39,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    borderWidth: 0.5,
-    borderColor: '#000',
+    // borderWidth: 0.5,
+    // borderColor: '#000',
     height: 45,
     borderRadius: 50,
     marginHorizontal: 10,

@@ -12,7 +12,7 @@ import { Icon } from 'react-native-elements';
 import LinearGradient from 'react-native-linear-gradient';
 
 //components
-import Loader from './CatListLoader';
+import Loader from './Loader';
 
 //services
 import { authCode } from '../services/authCode';
@@ -134,7 +134,9 @@ const CategoryList = (props) => {
   return (
     <>
       {isLoading ? (
-        <Loader leftTxt={treatise ? false : true} />
+        treatise ? (
+          <Loader type="TreatiseLoader" />
+        ) : null
       ) : (
         <View style={styles.main}>
           <View style={styles.moreButtonWrapper}>
@@ -167,7 +169,7 @@ const CategoryList = (props) => {
             renderItem={_renderItem}
             keyExtractor={(item, index) => index.toString()}
             ListHeaderComponent={
-              treatise ? <View style={{ width: 150, height: 150 }} /> : null
+              treatise ? <View style={{ width: 115, height: 180 }} /> : null
             }
             showsHorizontalScrollIndicator={false}
             initialNumToRender={10}
@@ -194,7 +196,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   moreButtonIcon: {
-    //paddingVertical: '2%',//for responsive
     paddingVertical: 5,
     paddingRight: 5,
   },
@@ -208,8 +209,8 @@ const styles = StyleSheet.create({
     fontSize: SIZE[16],
   },
   treatiseCategoryText: {
-    marginRight: 120,
-    marginTop: 20,
+    marginRight: 100,
+    paddingBottom: 20,
     color: 'white',
   },
   cardButton: {
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     elevation: 3,
-    marginTop: 20,
+    marginTop: 0,
   },
   imageWrapper: {
     width: 140,

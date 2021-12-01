@@ -211,6 +211,8 @@ const TrackingOptions = ({ route }) => {
   const onOptionPress = async (category, option) => {
     if (template === 'Partner') return;
     const c = await CycleModule();
+    console.log('option.id', option);
+    console.log('category', category);
     if (option.selected.length > 0) {
       await deselectTrackingOption(option.id, date);
       getInitialData();

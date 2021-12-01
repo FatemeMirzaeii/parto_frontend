@@ -8,7 +8,7 @@ import { useSelector } from 'react-redux';
 
 //components
 import CategoryList from '../../components/CategoryList';
-import Loader from '../../components/CatListLoader';
+import Loader from '../../components/Loader';
 import NewestArticles from '../../components/NewestArticles';
 import RtlSnackBar from '../../components/RtlSnackBar';
 
@@ -173,9 +173,7 @@ const Articles = ({ navigation }) => {
     <>
       {isLoading && newestIsLoading ? (
         counter.map((item) => (
-          <Loader key={item.toString()} leftTxt>
-            {item}
-          </Loader>
+          <Loader key={item.toString()} type="ArticleLoader" />
         ))
       ) : (
         <SafeAreaView style={styles.main}>

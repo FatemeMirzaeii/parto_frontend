@@ -1,0 +1,187 @@
+import { StyleSheet } from 'react-native';
+import { WIDTH, HEIGHT, FONT, SIZE } from '../../styles/static';
+
+export default StyleSheet.create({
+  container: {
+    height: '100%',
+    backgroundColor: 'white',
+  },
+  sky: {
+    width: '100%',
+    height: '100%',
+    paddingTop: 25,
+  },
+  partnerFlatList: {
+    backgroundColor: 'white',
+    height: '75%',
+    borderTopLeftRadius: 50,
+    borderTopRightRadius: 50,
+    paddingTop: 30,
+  },
+  parterOptions: {
+    width: WIDTH / 1.21,
+    height: HEIGHT / 7,
+    margin: 12,
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
+    borderRadius: 14,
+    alignSelf: 'center',
+  },
+  title: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[115],
+    color: 'black',
+    marginTop: -55,
+    marginBottom: 20,
+    marginRight: 105,
+  },
+  txt: {
+    fontFamily: FONT.regular,
+    fontSize: 15,
+    color: 'gray',
+    marginRight: 105,
+    bottom: '10%',
+  },
+  svg: {
+    width: '80%',
+    height: '80%',
+    bottom: '93%',
+    marginLeft: '49%',
+    marginTop: '5%',
+  },
+  icon: {
+    marginTop: 32,
+  },
+
+  parterOptionsMultipleChoice2: {
+    width: WIDTH / 1.21,
+    height: HEIGHT / 5,
+    margin: 12,
+    alignSelf: 'center',
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
+    borderRadius: 14,
+  },
+  titleMultipleChoice2: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[115],
+    color: 'black',
+    marginTop: -80,
+    marginBottom: 15,
+    marginRight: 105,
+  },
+  txtMultipleChoice2: {
+    fontFamily: FONT.regular,
+    fontSize: 15,
+    color: 'gray',
+    marginRight: 105,
+    marginBottom: '2%',
+  },
+  svg2: {
+    width: '50%',
+    height: '50%',
+    bottom: '90%',
+    margin: -30,
+    marginLeft: '63%',
+    marginTop: '6%',
+  },
+  icon2: {
+    marginTop: 50,
+  },
+
+  parterOptionsMultipleChoice3: {
+    width: WIDTH / 1.21,
+    height: HEIGHT / 4.1,
+    margin: 12,
+    alignSelf: 'center',
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
+    borderRadius: 14,
+  },
+  titleMultipleChoice3: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[115],
+    color: 'black',
+    marginTop: -100,
+    marginBottom: 10,
+    marginRight: 105,
+  },
+  txtMultipleChoice3: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    color: 'gray',
+    marginRight: 105,
+    marginBottom: '3%',
+  },
+  svg3: {
+    width: '37%',
+    height: '37%',
+    margin: -7,
+    bottom: '83%',
+    marginLeft: '69%',
+  },
+  icon3: {
+    marginTop: 75,
+  },
+
+  parterOptionsMultipleChoice4: {
+    width: WIDTH / 1.21,
+    height: HEIGHT / 3.6,
+    margin: 12,
+    alignSelf: 'center',
+    borderColor: '#d3d3d3',
+    borderWidth: 1.5,
+    borderRadius: 14,
+  },
+  titleMultipleChoice4: {
+    fontFamily: FONT.medium,
+    fontSize: SIZE[115],
+    color: 'black',
+    marginTop: -110,
+    marginRight: 105,
+    marginBottom: 7,
+  },
+  txtMultipleChoice4: {
+    fontFamily: FONT.regular,
+    fontSize: 14,
+    color: 'gray',
+    marginRight: 105,
+    marginBottom: '2%',
+  },
+  svg4: {
+    width: '28%',
+    height: '28%',
+    margin: -7,
+    bottom: '79%',
+    marginLeft: '75%',
+  },
+  icon4: {
+    marginTop: 86,
+  },
+  img: {
+    width: '98%',
+    height: '100%',
+    alignSelf: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  redIcon: {
+    alignItems: 'flex-start',
+  },
+  htmlWrapper: {
+    margin: 5,
+  },
+});
+
+// line: {
+//   // fontSize: 23,
+//   // color: 'gray',
+//   //transform:'' ,
+//   // flexDirection: 'column',
+//   flex: 1,
+//   alignSelf: 'flex-end',
+//   height: '100%',
+//   width: 1.5,
+//   backgroundColor: 'gray',
+//   //width: '2%',
+// },

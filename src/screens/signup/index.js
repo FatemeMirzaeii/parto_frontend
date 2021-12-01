@@ -31,7 +31,7 @@ import DialogBox from '../../components/DialogBox';
 import RtlSnackBar from '../../components/RtlSnackBar';
 
 //store
-import { handleTemplate, setUser } from '../../store/actions/user';
+import { handleTemplate, setNote, setUser } from '../../store/actions/user';
 import { interview, signUp } from '../../store/actions/auth';
 
 //util
@@ -228,6 +228,9 @@ const SignUp = ({ navigation }) => {
     });
     if (res) return true;
   };
+  const noteCallback = (n) => {
+    dispatch(setNote(n));
+  };
   const _handleLogin = async () => {
     axios({
       method: 'POST',
@@ -255,7 +258,7 @@ const SignUp = ({ navigation }) => {
           // todo: should ask for changing app template or not?
           if (!type && !versionTypeRes) return;
           dispatch(interview());
-          syncResult = await sync(false, id);
+          syncResult = await sync(false, id, noteCallback);
           dispatch(fetchInitialCycleData());
         }
         if (syncResult) {

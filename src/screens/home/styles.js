@@ -1,46 +1,52 @@
 import { StyleSheet } from 'react-native';
-
-//styles
-import { COLOR, FONT, HEIGHT, SIZE } from '../../styles/static';
+import { COLOR, FONT, HEIGHT } from '../../styles/static';
 
 export default StyleSheet.create({
-  container: { justifyContent: 'center', alignItems: 'center' },
+  container: {
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
   sky: {
     width: '100%',
     height: '100%',
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+  },
+  topRow: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: 30,
+    height: 50,
+    // backgroundColor: 'blue',
+  },
+  emptyArea: {
+    flex: 2,
+    // backgroundColor: 'cyan',
   },
   pregnancyIcon: {
     position: 'absolute',
-    alignSelf: 'flex-end',
-    top: 32,
+    padding: 5,
+    width: 45,
+    borderRadius: 10,
+    backgroundColor: COLOR.white,
     right: 20,
-    elevation: 3,
   },
   pregnancyImage: { width: 33, height: 33 },
   moonText: {
-    flexDirection: 'row-reverse',
-    //top: '-30%',
-    marginBottom: '7%',
-    //top: -HEIGHT / 5.6,
-    justifyContent: 'center',
-    //backgroundColor: 'red',
+    flex: 1,
+    marginBottom: 15,
+    // backgroundColor: 'red',
   },
-  sentenceContainer: {
-    // marginTop: '20%',
-    //alignSelf: 'flex-end',
-    //backgroundColor: 'yellow',
-  },
+
   teenagerText: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[16],
+    fontSize: 16,
     color: COLOR.teenagerFirstText,
     justifyContent: 'center',
     alignItems: 'center',
     alignSelf: 'center',
     // backgroundColor: 'red',
     marginBottom: HEIGHT * 0.1,
-    // marginBottom: '30%',
   },
   mainSentenceContainer: {
     justifyContent: 'center',
@@ -52,28 +58,44 @@ export default StyleSheet.create({
 
   mainSentence: {
     fontFamily: FONT.bold,
-    fontSize: SIZE[16],
+    fontSize: 16,
     textAlign: 'center',
-    // padding: 5,
   },
   subSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[16],
-    //lineHeight: 50,
-    padding: '10%',
+    fontSize: 16,
+    padding: 5,
     //backgroundColor: 'green',
     textAlign: 'center',
   },
   thirdSentence: {
     fontFamily: FONT.medium,
-    fontSize: SIZE[14],
-    ///lineHeight: 45,
+    fontSize: 14,
     textAlign: 'center',
   },
   mainTxt: {
     color: COLOR.sentence,
   },
   partnerTxt: { color: COLOR.white },
+  assistantContainer: {
+    // position: 'absolute',
+    backgroundColor: COLOR.white,
+    borderRadius: 25,
+    width: 85,
+    height: 38,
+    // right: 15,
+    paddingHorizontal: 10,
+    margin: 15,
+    justifyContent: 'center',
+  },
+  assistant: {
+    flexDirection: 'row-reverse',
+    justifyContent: 'space-around',
+  },
+  assistantPic: {
+    width: 20,
+    height: 20,
+  },
   calendarIcon: {
     top: 40,
     padding: 5,
