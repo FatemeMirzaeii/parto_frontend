@@ -268,19 +268,23 @@ const SignUp = ({ navigation }) => {
         }
       })
       .catch((err) => {
+        setIsLoading(false);
         if (err.toString() === 'Error: Network Error') {
           ToastAndroid.show('لطفا اتصال اینترنت رو چک کن.', ToastAndroid.LONG);
         } else if (
           err.response &&
           (err.response.status === 500 ||
             err.response.status === 502 ||
-            (err.response.data && !err.response.data.message))
+            (err.response.data && err.response.data.message))
         )
+          ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
+        else {
+          console.log(err);
           ToastAndroid.show(
             'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
             ToastAndroid.SHORT,
           );
-        else ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
+        }
       });
   };
   const getVerificationCodeAgain = () => {

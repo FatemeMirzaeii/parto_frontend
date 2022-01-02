@@ -33,14 +33,14 @@ export default async ({ url, data = null, method = 'GET', dev = false }) => {
       err.response &&
       (err.response.status === 500 ||
         err.response.status === 502 ||
-        (err.response.data && !err.response.data.message))
+        (err.response.data && err.response.data.message))
     ) {
+      ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
+    } else {
       ToastAndroid.show(
         'متاسفانه مشکلی رخ داده است، لطفا بعدا امتحان کنید.',
         ToastAndroid.SHORT,
       );
-    } else {
-      ToastAndroid.show(err.response.data.message, ToastAndroid.SHORT);
     }
     return false;
   }

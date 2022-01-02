@@ -23,7 +23,7 @@ export default async (isSigningout, userId, noteCallback) => {
   console.log('datas to send for server', profile, pregnancy, trackingOptions);
   const user = store.getState().user;
   const _userId = userId ?? user.id;
-  const userNotes = Object.values(user.note).filter(
+  const userNotes = Object?.values(user.note ?? []).filter(
     (i) => moment(i.lastUpdateTime) > moment(lastSyncTime),
   );
   console.log('last sync time', lastSyncTime);
@@ -102,7 +102,6 @@ export default async (isSigningout, userId, noteCallback) => {
           },
         };
       });
-
       noteCallback ? noteCallback(n) : store.dispatch(setNote(n));
     }
   }
